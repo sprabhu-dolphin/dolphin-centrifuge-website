@@ -1,0 +1,223 @@
+---
+// Header / Navigation — shared across every page
+// Sticky, slim-on-scroll, mobile hamburger
+
+const navItems = [
+  {
+    label: 'Applications',
+    href: '/applications/',
+    children: [
+      { label: 'Oil & Gas', href: '/applications/oil-gas/' },
+      { label: 'Metalworking', href: '/applications/metalworking/' },
+      { label: 'Biofuels & Bio', href: '/applications/biofuels/' },
+      { label: 'Food & Beverage', href: '/applications/food-beverage/' },
+      { label: 'Cannabis / Hemp', href: '/applications/cannabis/' },
+      { label: 'Water Treatment', href: '/applications/water-treatment/' },
+      { label: 'All Applications A-Z', href: '/applications/all/' },
+    ],
+  },
+  {
+    label: 'Centrifuges',
+    href: '/centrifuges/',
+    children: [
+      { label: 'Disc Stack Centrifuges', href: '/centrifuges/disc-stack/' },
+      { label: 'Decanter Centrifuges', href: '/centrifuges/decanter/' },
+      { label: 'Explosion Proof', href: '/centrifuges/explosion-proof/' },
+      { label: 'Spare Parts', href: '/centrifuges/parts/' },
+      { label: 'Control Systems', href: '/centrifuges/controls/' },
+      { label: 'Accessories', href: '/centrifuges/accessories/' },
+    ],
+  },
+  {
+    label: 'Services',
+    href: '/services/',
+    children: [
+      { label: 'Repair & Rebuild', href: '/services/repair/' },
+      { label: 'Rental', href: '/services/rental/' },
+      { label: 'Pilot Testing', href: '/services/testing/' },
+      { label: 'System Engineering', href: '/services/engineering/' },
+      { label: 'Training', href: '/services/training/' },
+      { label: 'Buyback', href: '/services/buyback/' },
+    ],
+  },
+  {
+    label: 'Knowledge',
+    href: '/knowledge/',
+    children: [
+      { label: 'Technical Guides', href: '/knowledge/guides/' },
+      { label: 'Troubleshooting', href: '/knowledge/troubleshooting/' },
+      { label: 'Case Studies', href: '/knowledge/case-studies/' },
+      { label: 'Comparisons', href: '/knowledge/comparisons/' },
+      { label: 'FAQ', href: '/knowledge/faq/' },
+    ],
+  },
+  { label: 'About', href: '/about/' },
+];
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 bg-navy text-white transition-all duration-300"
+>
+  {/* Top utility bar */}
+  <div class="bg-navy-dark text-xs hidden md:block">
+    <div class="container-dolphin flex items-center justify-between py-1.5">
+      <div class="flex items-center gap-4 text-gray-300">
+        <a href="tel:2485222573" class="flex items-center gap-1.5 hover:text-gold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          (248) 522-2573
+        </a>
+        <a href="mailto:sales@dolphincentrifuge.com" class="flex items-center gap-1.5 hover:text-gold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          sales@dolphincentrifuge.com
+        </a>
+      </div>
+      <span class="text-gray-400">Warren, MI &mdash; Serving Industry for 40+ Years</span>
+    </div>
+  </div>
+
+  {/* Main nav bar */}
+  <nav class="container-dolphin flex items-center justify-between h-16 md:h-[72px]">
+    {/* Logo */}
+    <a href="/" class="flex items-center gap-3 shrink-0" aria-label="Dolphin Centrifuge Home">
+      <div class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-gold flex items-center justify-center">
+        <svg viewBox="0 0 32 32" class="w-6 h-6 md:w-7 md:h-7 text-navy" fill="currentColor">
+          <path d="M16 4c-1.5 0-3 1-4 3-1.5 3-1 6 0 8l3 4c1 1.3 2 1 2-.5 0-2-1-5-1-7s1-4 3-4c1.5 0 2.5 1 3 2.5.3.8.5 2 .3 3-.5 2-2 4-4 5l-3 2c-2 1.3-3.5 3-3.5 5.5 0 1.5.5 3 2 4 1 .7 2.5 1 4 .5s3-2 3.5-3.5c.3-1 .2-2-.3-3-.5-.8-1.5-1.5-2.5-1.5" />
+        </svg>
+      </div>
+      <div class="hidden sm:block">
+        <span class="block text-lg font-bold leading-tight tracking-tight">Dolphin Centrifuge</span>
+        <span class="block text-[10px] font-medium text-gold tracking-[0.15em] uppercase">Industrial Centrifuge Systems</span>
+      </div>
+    </a>
+
+    {/* Desktop nav links */}
+    <div class="hidden lg:flex items-center gap-1">
+      {navItems.map((item) => (
+        <div class="relative group">
+          <a
+            href={item.href}
+            class="flex items-center gap-1 px-3 py-2 text-sm font-semibold text-gray-200 hover:text-white rounded-md hover:bg-white/10 transition-all"
+          >
+            {item.label}
+            {item.children && (
+              <svg class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            )}
+          </a>
+          {/* Dropdown */}
+          {item.children && (
+            <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[220px]">
+                {item.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-light-bg hover:text-navy font-medium transition-colors"
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    {/* CTA + Mobile toggle */}
+    <div class="flex items-center gap-3">
+      <a
+        href="/contact/"
+        class="hidden md:inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-5 py-2.5 rounded-lg transition-colors shadow-md shadow-gold/20"
+      >
+        Contact Us
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+
+      {/* Hamburger (mobile) */}
+      <button
+        id="mobile-menu-btn"
+        class="lg:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-white/10 transition-colors"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  {/* Mobile menu panel */}
+  <div
+    id="mobile-menu"
+    class="lg:hidden hidden bg-navy-dark border-t border-white/10 max-h-[calc(100vh-4rem)] overflow-y-auto"
+  >
+    <div class="container-dolphin py-4 space-y-1">
+      {navItems.map((item) => (
+        <div>
+          <a
+            href={item.href}
+            class="block px-4 py-3 text-base font-semibold text-gray-200 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          >
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="pl-6 space-y-0.5">
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-gold transition-colors"
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      <div class="pt-3 border-t border-white/10 mt-3">
+        <a
+          href="/contact/"
+          class="block text-center bg-gold text-navy font-bold py-3 rounded-lg hover:bg-gold-light transition-colors"
+        >
+          Contact Us
+        </a>
+        <div class="flex flex-col items-center gap-2 mt-4 text-sm text-gray-400">
+          <a href="tel:2485222573" class="hover:text-gold transition-colors">(248) 522-2573</a>
+          <a href="mailto:sales@dolphincentrifuge.com" class="hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('site-header');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Slim header on scroll
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const utilityBar = header?.querySelector('.bg-navy-dark');
+    if (window.scrollY > 60) {
+      utilityBar?.classList.add('!hidden');
+    } else {
+      utilityBar?.classList.remove('!hidden');
+    }
+    lastScroll = window.scrollY;
+  }, { passive: true });
+</script>

@@ -1,0 +1,101 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+}
+
+const {
+  title,
+  description = 'Dolphin Centrifuge specializes in Alfa Laval industrial centrifuge systems with 40+ years of expertise. Turnkey systems for oil, fuel, wastewater, food, and more.',
+  ogImage = '/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg',
+  canonicalUrl,
+  breadcrumbs = [],
+} = Astro.props;
+
+const fullTitle = title === 'Home'
+  ? 'Dolphin Centrifuge | Alfa Laval Industrial Centrifuge Systems'
+  : `${title} | Dolphin Centrifuge`;
+
+const siteUrl = 'https://dolphincentrifuge.com';
+const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Dolphin Centrifuge" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{fullTitle}</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-warm-white text-text">
+    <Header />
+
+    {/* Breadcrumbs */}
+    {breadcrumbs.length > 0 && (
+      <nav aria-label="Breadcrumb" class="bg-light-bg border-b border-gray-200">
+        <div class="container-dolphin py-3">
+          <ol class="flex items-center gap-2 text-sm text-text-muted">
+            <li>
+              <a href="/" class="hover:text-navy transition-colors">Home</a>
+            </li>
+            {breadcrumbs.map((crumb, i) => (
+              <li class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+                {crumb.href && i < breadcrumbs.length - 1 ? (
+                  <a href={crumb.href} class="hover:text-navy transition-colors">{crumb.label}</a>
+                ) : (
+                  <span class="text-text font-medium">{crumb.label}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </nav>
+    )}
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

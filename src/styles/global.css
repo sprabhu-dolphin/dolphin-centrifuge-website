@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* ── Dolphin Centrifuge Design Tokens ──────────────────────── */
+@theme {
+  --color-navy: #1B3A5C;
+  --color-navy-light: #24507A;
+  --color-navy-dark: #122840;
+  --color-gold: #E8A317;
+  --color-gold-light: #F0B84A;
+  --color-gold-dark: #C48A0E;
+  --color-sea: #2E8B57;
+  --color-sea-light: #3AA86B;
+  --color-sea-dark: #236B43;
+  --color-warm-white: #F5F5F0;
+  --color-light-bg: #EEF2F7;
+  --color-text: #2D2D2D;
+  --color-text-light: #555555;
+  --color-text-muted: #777777;
+
+  --font-family-heading: 'Plus Jakarta Sans', 'DM Sans', 'Segoe UI', sans-serif;
+  --font-family-body: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── Base Styles ───────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-body);
+  color: var(--color-text);
+  background-color: var(--color-warm-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading);
+}
+
+/* ── Utility Classes ───────────────────────────────────────── */
+.container-dolphin {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-dolphin {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-dolphin {
+    padding-inline: 3rem;
+  }
+}
+
+/* Diagonal section divider */
+.section-divider {
+  position: relative;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%);
+  z-index: 1;
+}
