@@ -1,14 +1,19 @@
 ---
-// Hero section — reusable across pages
-// On homepage: large hero with overlay text
-// On subpages: compact hero with breadcrumb
+// Hero section with optional background image slider
+// Slider mode: shows initialImage first, then rotates sliderImages right-to-left
+// Static mode: shows single imageSrc as background
 
 interface Props {
   title: string;
   subtitle?: string;
   description?: string;
-  imageSrc: string;
-  imageAlt: string;
+  /* Static mode */
+  imageSrc?: string;
+  imageAlt?: string;
+  /* Slider mode */
+  initialImage?: { src: string; alt: string };
+  sliderImages?: Array<{ src: string; alt: string }>;
+  /* Common */
   ctaLabel?: string;
   ctaHref?: string;
   secondaryCtaLabel?: string;
@@ -23,6 +28,8 @@ const {
   description,
   imageSrc,
   imageAlt,
+  initialImage,
+  sliderImages,
   ctaLabel,
   ctaHref,
   secondaryCtaLabel,
@@ -30,6 +37,8 @@ const {
   compact = false,
   overlay = 'gradient',
 } = Astro.props;
+
+const isSlider = !!(initialImage && sliderImages?.length);
 
 const overlayClass = {
   dark: 'bg-black/60',
@@ -39,26 +48,57 @@ const overlayClass = {
 
 const heightClass = compact
   ? 'min-h-[240px] md:min-h-[300px]'
-  : 'min-h-[480px] md:min-h-[600px] lg:min-h-[680px]';
+  : 'min-h-[400px] md:min-h-[460px] lg:min-h-[500px]';
 ---
 
-<section class={`relative ${heightClass} flex items-center overflow-hidden`}>
-  {/* Background image */}
-  <img
-    src={imageSrc}
-    alt={imageAlt}
-    class="absolute inset-0 w-full h-full object-cover"
-    loading="eager"
-    decoding="async"
-  />
+<section
+  class={`relative ${heightClass} flex items-center overflow-hidden`}
+  data-hero-slider={isSlider ? 'true' : undefined}
+>
+  {/* ── Background: either slider or static ── */}
+  {isSlider ? (
+    <div class="hero-slider-track absolute inset-0">
+      {/* Slide A — starts visible with the initial (branding) image */}
+      <div class="hero-slide hero-slide--active absolute inset-0" data-slide="A">
+        <img
+          src={initialImage.src}
+          alt={initialImage.alt}
+          class="w-full h-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      {/* Slide B — starts off-screen right, used for incoming image */}
+      <div class="hero-slide hero-slide--next absolute inset-0" data-slide="B">
+        <img
+          src={sliderImages[0].src}
+          alt={sliderImages[0].alt}
+          class="w-full h-full object-cover"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+  ) : (
+    <img
+      src={imageSrc}
+      alt={imageAlt}
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+    />
+  )}
 
-  {/* Overlay */}
-  <div class={`absolute inset-0 ${overlayClass}`}></div>
+  {/* ── Overlay ── */}
+  <div class={`absolute inset-0 ${overlayClass} z-[1]`}></div>
 
-  {/* Subtle pattern overlay for texture */}
-  <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;1&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+  {/* ── Subtle texture ── */}
+  <div
+    class="absolute inset-0 opacity-[0.03] z-[1]"
+    style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;1&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
+  ></div>
 
-  {/* Content */}
+  {/* ── Content ── */}
   <div class="relative z-10 container-dolphin w-full">
     <div class={`max-w-2xl ${compact ? 'py-8' : 'py-12 md:py-16'}`}>
       {subtitle && (
@@ -110,8 +150,118 @@ const heightClass = compact
     </div>
   </div>
 
-  {/* Bottom gradient fade */}
+  {/* ── Bottom gradient fade ── */}
   {!compact && (
-    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-warm-white to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-warm-white to-transparent z-[2]"></div>
+  )}
+
+  {/* ── Slider image data (hidden, read by JS) ── */}
+  {isSlider && (
+    <script
+      type="application/json"
+      id="hero-slider-data"
+      set:html={JSON.stringify(sliderImages.map(img => ({ src: img.src, alt: img.alt })))}
+    />
   )}
 </section>
+
+<style>
+  /* ── Slider transitions ── */
+  .hero-slide {
+    will-change: transform;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Active slide: visible at translateX(0) */
+  .hero-slide--active {
+    transform: translateX(0);
+  }
+
+  /* Next slide: waiting off-screen to the right */
+  .hero-slide--next {
+    transform: translateX(100%);
+  }
+
+  /* Exiting slide: sliding out to the left */
+  .hero-slide--exit {
+    transform: translateX(-100%);
+  }
+</style>
+
+<script>
+  // Hero background image slider
+  // Shows initial image once, then rotates through slider images right-to-left
+  (function heroSlider() {
+    const section = document.querySelector('[data-hero-slider]');
+    if (!section) return;
+
+    const dataEl = document.getElementById('hero-slider-data');
+    if (!dataEl) return;
+
+    const images: Array<{ src: string; alt: string }> = JSON.parse(dataEl.textContent || '[]');
+    if (images.length === 0) return;
+
+    const slideA = section.querySelector('[data-slide="A"]') as HTMLElement;
+    const slideB = section.querySelector('[data-slide="B"]') as HTMLElement;
+    if (!slideA || !slideB) return;
+
+    let currentSlide = slideA;
+    let nextSlide = slideB;
+    let imageIndex = 0; // next image to show is images[0], already preloaded in slide B
+
+    // Preload all rotating images
+    images.forEach(img => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.as = 'image';
+      link.href = img.src;
+      document.head.appendChild(link);
+    });
+
+    function doTransition() {
+      // Current slide exits left
+      currentSlide.classList.remove('hero-slide--active');
+      currentSlide.classList.add('hero-slide--exit');
+
+      // Next slide enters from right
+      nextSlide.classList.remove('hero-slide--next');
+      nextSlide.classList.add('hero-slide--active');
+
+      // After transition completes, recycle the exited slide
+      setTimeout(() => {
+        // Move exited slide to "next" position (off-screen right, no transition)
+        currentSlide.style.transition = 'none';
+        currentSlide.classList.remove('hero-slide--exit');
+        currentSlide.classList.add('hero-slide--next');
+
+        // Force reflow to apply instant repositioning
+        currentSlide.offsetHeight;
+
+        // Re-enable transitions
+        currentSlide.style.transition = '';
+
+        // Advance index (loop through all rotating images)
+        imageIndex = (imageIndex + 1) % images.length;
+
+        // Preload the next image into the recycled slide
+        const img = currentSlide.querySelector('img') as HTMLImageElement;
+        if (img) {
+          img.src = images[imageIndex].src;
+          img.alt = images[imageIndex].alt;
+        }
+
+        // Swap references
+        const temp = currentSlide;
+        currentSlide = nextSlide;
+        nextSlide = temp;
+      }, 1050); // slightly longer than the 1s CSS transition
+    }
+
+    // First transition after 4 seconds (exit branding image)
+    setTimeout(() => {
+      doTransition();
+      // Then rotate every 5.5 seconds
+      setInterval(doTransition, 5500);
+    }, 4000);
+  })();
+</script>
