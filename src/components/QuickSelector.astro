@@ -1,44 +1,132 @@
 ---
-// "What are you separating?" quick selector section
-const options = [
-  { label: 'Waste Oil / Used Oil', href: '/applications/oil-gas/waste-oil/', icon: '🛢️' },
-  { label: 'Machining Coolant', href: '/applications/metalworking/machining-coolant/', icon: '⚙️' },
-  { label: 'Diesel / Fuel Oil', href: '/applications/oil-gas/diesel-fuel/', icon: '⛽' },
-  { label: 'Wastewater / Sludge', href: '/applications/water-treatment/wastewater/', icon: '🌊' },
-  { label: 'Crude Oil / Tank Bottoms', href: '/applications/oil-gas/crude-oil/', icon: '🏗️' },
-  { label: 'Hemp / Cannabis Extract', href: '/applications/cannabis/', icon: '🌿' },
-  { label: 'Food & Beverage', href: '/applications/food-beverage/', icon: '🍺' },
-  { label: 'Something Else', href: '/contact/', icon: '❓' },
+// "What are you separating?" application tiles — with WebP icons and sub-links
+const tiles = [
+  {
+    title: 'Waste Oil & Recycling',
+    icon: '/images/icons/applications/waste-oil-centrifuge-recycling.webp',
+    href: '/applications/oil-gas/waste-oil/',
+    links: [
+      { label: 'Used Oil', href: '/applications/oil-gas/used-oil/' },
+      { label: 'WVO', href: '/applications/oil-gas/wvo/' },
+      { label: 'Biodiesel', href: '/applications/biofuels/biodiesel/' },
+    ],
+  },
+  {
+    title: 'Fuel & Lube Oil',
+    icon: '/images/icons/applications/fuel-lube-oil-centrifuge-purification.webp',
+    href: '/applications/oil-gas/diesel-fuel/',
+    links: [
+      { label: 'Diesel', href: '/applications/oil-gas/diesel-fuel/' },
+      { label: 'Lube Oil', href: '/applications/oil-gas/lube-oil/' },
+      { label: 'Hydraulic Oil', href: '/applications/oil-gas/hydraulic-oil/' },
+    ],
+  },
+  {
+    title: 'Metalworking Fluids',
+    icon: '/images/icons/applications/metalworking-centrifuge-coolant-filtration.webp',
+    href: '/applications/metalworking/',
+    links: [
+      { label: 'Machine Coolant', href: '/applications/metalworking/machining-coolant/' },
+      { label: 'Cutting Oil', href: '/applications/metalworking/cutting-oil/' },
+      { label: 'Quench Oil', href: '/applications/metalworking/quench-oil/' },
+    ],
+  },
+  {
+    title: 'Oil & Gas Processing',
+    icon: '/images/icons/applications/oil-gas-centrifuge-separation.webp',
+    href: '/applications/oil-gas/',
+    links: [
+      { label: 'Crude Oil', href: '/applications/oil-gas/crude-oil/' },
+      { label: 'Tank Bottoms', href: '/applications/oil-gas/tank-bottoms/' },
+      { label: 'BS&W', href: '/applications/oil-gas/' },
+    ],
+  },
+  {
+    title: 'Food & Beverage',
+    icon: '/images/icons/applications/food-beverage-centrifuge-processing.webp',
+    href: '/applications/food-beverage/',
+    links: [
+      { label: 'Beer', href: '/applications/food-beverage/beer-wine/' },
+      { label: 'Wine', href: '/applications/food-beverage/beer-wine/' },
+      { label: 'Fish Processing', href: '/applications/food-beverage/fish/' },
+    ],
+  },
+  {
+    title: 'Organics & Biomass',
+    icon: '/images/icons/applications/botanical-extraction-centrifuge.webp',
+    href: '/applications/cannabis/',
+    links: [
+      { label: 'Algae', href: '/applications/biofuels/algae/' },
+      { label: 'Hemp', href: '/applications/cannabis/' },
+      { label: 'Manure', href: '/applications/water-treatment/manure/' },
+    ],
+  },
+  {
+    title: 'Industrial Wastewater',
+    icon: '/images/icons/applications/wastewater-centrifuge-treatment.webp',
+    href: '/applications/water-treatment/wastewater/',
+    links: [
+      { label: 'Oily Water', href: '/applications/water-treatment/wastewater/' },
+      { label: 'Sludge', href: '/applications/water-treatment/wastewater/' },
+      { label: 'Effluent', href: '/applications/water-treatment/wastewater/' },
+    ],
+  },
 ];
 ---
 
-<section class="py-16 md:py-20 bg-light-bg">
+<section class="py-16 md:py-20 lg:py-24 bg-light-bg">
   <div class="container-dolphin">
-    <div class="text-center mb-10">
-      <p class="inline-flex items-center gap-2 text-gold-dark font-bold text-xs uppercase tracking-[0.2em] mb-3">
-        <span class="w-6 h-0.5 bg-gold rounded"></span>
-        Find Your Solution
-        <span class="w-6 h-0.5 bg-gold rounded"></span>
-      </p>
+    <div class="text-center mb-12">
       <h2 class="font-heading text-3xl md:text-4xl font-bold text-navy">
         What Are You Separating?
       </h2>
-      <p class="text-text-light text-lg mt-3 max-w-xl mx-auto">
-        Select your application to find the right centrifuge for your process.
+      <p class="mt-3 text-text-muted text-base max-w-xl mx-auto">
+        Select your industry to find the right centrifuge solution for your application.
       </p>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
-      {options.map((opt) => (
-        <a
-          href={opt.href}
-          class="group flex items-center gap-3 bg-white hover:bg-navy hover:text-white text-text p-4 rounded-xl border border-gray-200 hover:border-navy transition-all duration-200 shadow-sm hover:shadow-lg"
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-[1080px] mx-auto">
+      {tiles.map((tile) => (
+        <div
+          class="group bg-white rounded-xl p-6 border border-gray-200 hover:border-navy/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+          onclick={`window.location.href='${tile.href}'`}
+          role="link"
+          tabindex="0"
         >
-          <span class="text-2xl shrink-0">{opt.icon}</span>
-          <span class="text-sm font-semibold leading-snug group-hover:text-white transition-colors">
-            {opt.label}
-          </span>
-        </a>
+          {/* Icon badge */}
+          <div class="mb-4">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-navy/5 group-hover:bg-navy transition-colors">
+              <img
+                src={tile.icon}
+                alt={tile.title}
+                class="w-8 h-8 object-contain group-hover:brightness-0 group-hover:invert transition-all"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          {/* Title */}
+          <h3 class="font-heading font-bold text-lg text-navy uppercase tracking-wide mb-3 group-hover:text-navy-light transition-colors">
+            {tile.title}
+          </h3>
+
+          {/* Sub-links */}
+          <div class="flex flex-wrap items-center gap-x-1 gap-y-1" onclick="event.stopPropagation()">
+            {tile.links.map((link, i) => (
+              <>
+                <a
+                  href={link.href}
+                  class="text-sm text-text-muted hover:text-gold-dark transition-colors"
+                >
+                  {link.label}
+                </a>
+                {i < tile.links.length - 1 && (
+                  <span class="text-gray-300 text-xs">•</span>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   </div>

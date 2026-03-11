@@ -1,0 +1,118 @@
+---
+// Knowledge Center / Blog cards section — top articles by GA traffic
+const articles = [
+  {
+    title: 'Alfa Laval Centrifugal Separator',
+    description: 'Complete guide to Alfa Laval centrifugal separators — types, operating principles, and applications.',
+    href: '/knowledge/guides/alfa-laval-separator/',
+    icon: 'book',
+  },
+  {
+    title: 'Decanter Differential Speed Calculator',
+    description: 'Calculate decanter differential speed, scroll conveyor RPM, and optimize separation performance.',
+    href: '/knowledge/guides/decanter-differential-speed/',
+    icon: 'calculator',
+  },
+  {
+    title: 'Purifier vs Clarifier Centrifuge',
+    description: 'Key differences between purifier and clarifier disc centrifuges and when to use each type.',
+    href: '/knowledge/guides/purifier-vs-clarifier/',
+    icon: 'arrows',
+  },
+  {
+    title: 'Centrifugal Filter Guide',
+    description: 'How centrifugal filters work, types of filtration centrifuges, and industrial applications.',
+    href: '/knowledge/guides/centrifugal-filter/',
+    icon: 'filter',
+  },
+  {
+    title: 'Disc Centrifuge Parts Glossary',
+    description: 'Illustrated guide to disc stack centrifuge parts — bowl, disc stack, spindle, frame, and more.',
+    href: '/knowledge/guides/disc-centrifuge-parts/',
+    icon: 'info',
+  },
+  {
+    title: 'Oil Centrifuge Guide',
+    description: 'Everything about oil centrifuges — how they work, types, and selection criteria.',
+    href: '/knowledge/guides/oil-centrifuge/',
+    icon: 'flame',
+  },
+  {
+    title: 'Disc Stack Troubleshooting: Bowl',
+    description: 'Troubleshoot disc stack centrifuge bowl opening and closing issues with this diagnostic guide.',
+    href: '/knowledge/troubleshooting/disc-stack-bowl/',
+    icon: 'wrench',
+  },
+  {
+    title: '5 Ways to Optimize Your Decanter',
+    description: 'Practical tips — differential speed, pond depth, feed rate, and more.',
+    href: '/knowledge/guides/decanter-optimization/',
+    icon: 'bolt',
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  book: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25',
+  calculator: 'M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z',
+  arrows: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5',
+  filter: 'M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z',
+  info: 'M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z',
+  flame: 'M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z',
+  wrench: 'M11.42 15.17l-5.384-3.079A.75.75 0 005.25 12.9v6.2a.75.75 0 00.786.738c.053-.003.104-.01.154-.02l5.23-1.12M11.42 15.17l5.384-3.079A.75.75 0 0017.59 11.5v-.75c0-.69-.56-1.25-1.25-1.25H7.66c-.69 0-1.25.56-1.25 1.25v.75a.75.75 0 00.786.738l4.224.912zm0 0v6.33',
+  bolt: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z',
+};
+---
+
+<section class="py-16 md:py-20 lg:py-24 bg-light-bg">
+  <div class="container-dolphin">
+    <div class="text-center mb-12">
+      <h2 class="font-heading text-3xl md:text-4xl font-bold text-navy">
+        From Our Knowledge Center
+      </h2>
+      <p class="mt-3 text-text-muted text-base max-w-xl mx-auto">
+        Expert guides and articles on industrial centrifuge technology.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+      {articles.map((article) => (
+        <a href={article.href} class="group block bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+          {/* Icon header */}
+          <div class="bg-navy/5 h-28 flex items-center justify-center">
+            <svg class="w-10 h-10 text-navy/20 group-hover:text-navy/40 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={iconPaths[article.icon]} />
+            </svg>
+          </div>
+
+          {/* Content */}
+          <div class="p-4">
+            <h3 class="font-heading font-bold text-sm text-navy leading-snug group-hover:text-gold-dark transition-colors">
+              {article.title}
+            </h3>
+            <p class="mt-1.5 text-text-muted text-xs leading-relaxed line-clamp-2">
+              {article.description}
+            </p>
+            <span class="mt-2 inline-flex items-center text-xs font-semibold text-gold-dark group-hover:text-gold transition-colors">
+              Read More
+              <svg class="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-10">
+      <a
+        href="/knowledge/"
+        class="inline-flex items-center gap-2 text-navy hover:text-gold-dark font-semibold transition-colors border-b-2 border-navy/20 hover:border-gold pb-1"
+      >
+        Browse All Articles
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
