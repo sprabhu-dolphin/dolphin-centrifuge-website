@@ -1,0 +1,314 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "What role does a centrifuge play in biodiesel production?",
+    answer: "A centrifuge performs multiple critical separation steps in biodiesel production: separating glycerin from biodiesel after the transesterification reaction, removing wash water during the purification stage, and final polishing to meet ASTM D6751 quality standards. It replaces hours of gravity settling with seconds of continuous processing."
+  },
+  {
+    question: "Does a biodiesel centrifuge need special modifications?",
+    answer: "Yes. Biodiesel production involves methanol and corrosive chemicals that damage standard centrifuge components. Dolphin Centrifuge offers a complete Biodiesel Kit that includes VITON seals (resistant to methanol), direct-drive motor (eliminates ignition sources), corrosion-resistant coatings, and Class 1, Division 2 (C1D2) rated electrical components for hazardous-area compliance."
+  },
+  {
+    question: "What is the capacity of a biodiesel centrifuge?",
+    answer: "Biodiesel centrifuge capacity ranges from 3 GPM for small-scale WVO purification up to 60 GPM for glycerin separation in large commercial operations. Capacity varies by process step — glycerin separation runs at higher flow rates than WVO purification or wash water removal due to lower viscosity. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your production volume."
+  },
+  {
+    question: "Can a centrifuge help biodiesel meet ASTM D6751 standards?",
+    answer: "Yes. A final centrifuge polishing pass removes trace contaminants including residual glycerin, soaps, catalyst, and fine particles — producing biodiesel that meets ASTM D6751 fuel quality specifications. This polishing step is essential for commercial producers selling into regulated fuel markets."
+  }
+];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "url": "https://dolphincentrifuge.com/biodiesel-centrifuge/",
+  "name": "Biodiesel Centrifuge System",
+  "description": "Industrial biodiesel centrifuges for glycerin separation, wash water removal, WVO purification, and final polishing. Continuous 3-phase separation at up to 8,000 Gs with hazardous-area rated Biodiesel Kit.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'what-is-biodiesel', label: 'What is Biodiesel' },
+  { id: 'production-process', label: 'Biodiesel Production Process' },
+  { id: 'how-centrifuge-works', label: 'How a Centrifuge Works for Biodiesel' },
+  { id: 'advantages', label: 'Advantages of Centrifuge Separation' },
+  { id: 'biodiesel-kit', label: 'Biodiesel Kit Features' },
+  { id: 'processing-applications', label: 'Processing Applications' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'available-systems', label: 'Available Systems' },
+];
+
+const relatedApplications = [
+  { label: 'WVO Centrifuge Separator', href: '/wvo-centrifuge-separator/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Diesel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Oil Centrifuge (General)', href: '/oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMB-007 Manual Clean System', href: '/centrifuges/dmb-007/', description: 'Compact biodiesel centrifuge, 3–6 GPM' },
+  { label: 'DMPX-028 Self-Cleaning System', href: '/centrifuges/dmpx-028/', description: 'Mid-range self-cleaning, 10–18 GPM' },
+  { label: 'DMB-019 Manual Clean System', href: '/centrifuges/dmb-019/', description: 'Mid-capacity manual clean, 5 GPM' },
+  { label: 'DMB-028 Manual Clean System', href: '/centrifuges/dmb-028/', description: 'High-capacity manual clean, 10 GPM' },
+];
+---
+
+<ApplicationLayout
+  title="Biodiesel Centrifuge"
+  description="Dolphin Centrifuge provides industrial biodiesel centrifuges for glycerin separation, wash water removal, WVO purification, and final polishing. 3-phase separation at 8,000 Gs."
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/biodiesel-centrifuge/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <h2 id="what-is-biodiesel">What is Biodiesel</h2>
+
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application at 8000 Gs. Biodiesel is a <strong>renewable alternative to petroleum diesel</strong> produced from natural fats and oils. It can be used in standard diesel engines with little or no modification and burns significantly cleaner than fossil-derived diesel fuel.
+  </p>
+
+  <p>
+    The production of biodiesel relies on a chemical reaction called <strong>transesterification</strong>, in which vegetable oil or animal fat is converted into fatty acid methyl esters (FAME) &mdash; the chemical name for biodiesel. This reaction requires efficient separation of by-products, which is where industrial centrifuges play a critical role.
+  </p>
+
+  <p>
+    Common feedstocks include waste vegetable oil (WVO), soybean oil, canola oil, animal tallow, and other triglyceride-based fats. The quality of the feedstock directly impacts the downstream separation requirements and centrifuge sizing.
+  </p>
+
+  <!-- ── Production Process ── -->
+  <h2 id="production-process">Biodiesel Production Process</h2>
+
+  <p>
+    The biodiesel production process begins with combining fats or oils with <strong>methanol</strong> and a catalyst (typically sodium or potassium hydroxide, commonly known as lye). This transesterification reaction breaks the triglyceride molecule into:
+  </p>
+
+  <ul>
+    <li><strong>Biodiesel (FAME):</strong> The light phase &mdash; the desired end product</li>
+    <li><strong>Glycerin:</strong> The heavy phase &mdash; a by-product that must be separated</li>
+    <li><strong>Sediment &amp; soaps:</strong> Solid contaminants that must be removed</li>
+  </ul>
+
+  <p>
+    After the initial reaction, the mixture must be separated into its constituent phases. Gravity settling can take <strong>hours to days</strong> and leaves residual contamination. A centrifuge performs the same separation in <strong>seconds</strong>, with far superior results.
+  </p>
+
+  <p>
+    The separated biodiesel then requires washing with water to remove residual methanol, catalyst, and soaps. This wash water must also be separated from the biodiesel &mdash; another step where centrifugal separation is essential.
+  </p>
+
+  <!-- ── How Centrifuge Works ── -->
+  <h2 id="how-centrifuge-works">How a Centrifuge Works for Biodiesel</h2>
+
+  <p>
+    A biodiesel centrifuge generates up to <strong>8,000 Gs</strong> of centrifugal force at bowl speeds of approximately <strong>7,000 RPM</strong>. This extreme force separates biodiesel, glycerin, and sediment based on their density differences.
+  </p>
+
+  <p>
+    The disc stack centrifuge performs <strong>3-phase separation</strong> simultaneously:
+  </p>
+
+  <ol>
+    <li><strong>Light phase (biodiesel):</strong> The lowest-density liquid moves toward the center of the bowl and exits through the light-phase outlet</li>
+    <li><strong>Heavy phase (glycerin or wash water):</strong> The higher-density liquid migrates outward and exits through the heavy-phase outlet</li>
+    <li><strong>Solids (sediment &amp; soaps):</strong> The densest material collects at the bowl periphery and is ejected during sludge discharge cycles</li>
+  </ol>
+
+  <p>
+    The disc stack inside the bowl creates thin layers of fluid between each disc, dramatically increasing the effective settling area. This allows the centrifuge to separate fine particles and emulsions that gravity alone cannot handle.
+  </p>
+
+  <blockquote>
+    A single centrifuge replaces multiple process steps &mdash; glycerin separation, wash water removal, and final polishing &mdash; all in a continuous flow-through operation.
+  </blockquote>
+
+  <!-- ── Advantages ── -->
+  <h2 id="advantages">Advantages of Centrifuge Separation</h2>
+
+  <p>
+    Centrifugal separation offers significant advantages over gravity settling and filtration in biodiesel production:
+  </p>
+
+  <ul>
+    <li><strong>Continuous process:</strong> No batch waiting &mdash; biodiesel flows through the centrifuge continuously at rated capacity</li>
+    <li><strong>Mechanical extraction:</strong> Total mechanical separation eliminates the need for disposable filter media or settling chemicals</li>
+    <li><strong>Fine sediment removal:</strong> Separates particles down to <strong>1 micron</strong>, far beyond what filters can achieve economically</li>
+    <li><strong>Speed:</strong> Separation occurs in seconds rather than the hours required for gravity settling</li>
+    <li><strong>Automatic operation:</strong> <a href="/industrial-centrifuge-controls/">PLC-controlled systems</a> handle sludge ejection and process monitoring with no operator intervention</li>
+    <li><strong>No filter replacement:</strong> Eliminates ongoing filter media costs and the labor of filter changes</li>
+    <li><strong>Wash water removal:</strong> Efficiently separates wash water from biodiesel in a single pass</li>
+    <li><strong>Emulsion breaking:</strong> High G-force breaks stable emulsions that form during the washing process, which gravity and filters cannot resolve</li>
+  </ul>
+
+  <!-- Mid-Page CTA -->
+  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white my-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Need a Biodiesel Centrifuge System?</h3>
+        <p class="text-blue-100">Our engineers will evaluate your production capacity and feedstock to recommend the right centrifuge with our Biodiesel Kit.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Biodiesel Kit ── -->
+  <h2 id="biodiesel-kit">Biodiesel Kit Design Features</h2>
+
+  <p>
+    Biodiesel production involves methanol and other chemicals that are incompatible with standard centrifuge components. Our <strong>Biodiesel Kit</strong> upgrades the centrifuge for safe, reliable operation in biodiesel environments:
+  </p>
+
+  <h3>VITON Seals &amp; Compatible Elastomers</h3>
+  <p>
+    All O-rings and gaskets are replaced with <strong>VITON</strong> (fluoroelastomer) seals that resist degradation from methanol, biodiesel, and glycerin. Standard Buna-N or nitrile seals swell and fail rapidly when exposed to methanol-laden biodiesel.
+  </p>
+
+  <h3>Direct-Drive System</h3>
+  <p>
+    A direct-drive motor eliminates the friction clutch and belt drive found in standard centrifuges. This removes ignition sources and reduces maintenance in hazardous environments. The direct-drive also provides smoother, more consistent bowl speed.
+  </p>
+
+  <h3>Corrosion-Resistant Coatings</h3>
+  <p>
+    Teflon-based covers and corrosion-resistant coatings protect external components from the corrosive effects of methanol vapors and biodiesel splash. These coatings extend the service life of the centrifuge frame and housing.
+  </p>
+
+  <h3>C1D2 Hazardous-Area Electrical</h3>
+  <p>
+    The Biodiesel Kit includes <strong>Class I, Division 2 (C1D2)</strong> rated electrical components. This classification is required for areas where flammable vapors (methanol) may be present during abnormal conditions. All motors, starters, and controls meet or exceed C1D2 requirements.
+  </p>
+
+  <!-- ── Processing Applications ── -->
+  <h2 id="processing-applications">Biodiesel Processing Applications</h2>
+
+  <h3>WVO Purification (Pre-Reaction)</h3>
+  <p>
+    Before the transesterification reaction, waste vegetable oil feedstock must be cleaned of food particles, water, and other contaminants. A centrifuge removes these impurities in a single pass, producing clean feedstock that yields higher-quality biodiesel and reduces catalyst consumption.
+  </p>
+
+  <h3>Glycerol Separation (Post-Reaction)</h3>
+  <p>
+    After the transesterification reaction, the mixture of biodiesel and glycerin must be separated. The centrifuge performs this separation continuously, producing clean biodiesel with minimal glycerin carryover. This is the highest-throughput application for a biodiesel centrifuge.
+  </p>
+
+  <h3>Wash Water Separation</h3>
+  <p>
+    Biodiesel washing with water removes residual methanol, catalyst, and soaps. The centrifuge separates the wash water from the biodiesel in a single pass, eliminating the need for extended settling. Multiple wash passes can be performed in rapid succession.
+  </p>
+
+  <h3>Final Polishing</h3>
+  <p>
+    A final centrifuge pass removes any remaining trace contaminants, producing biodiesel that meets <strong>ASTM D6751</strong> quality standards. This polishing step is critical for commercial biodiesel producers who must meet fuel-quality specifications.
+  </p>
+
+  <h3>Glycerin Clarification</h3>
+  <p>
+    Crude glycerin separated during biodiesel production contains residual biodiesel, methanol, and catalyst. A centrifuge clarifies the glycerin for sale or further refining. Note that not all centrifuge models are suited for glycerin clarification due to the high viscosity of crude glycerin.
+  </p>
+
+  <!-- ── Specifications ── -->
+  <h2 id="specifications">Biodiesel Centrifuge Specifications</h2>
+
+  <p>
+    The following table compares our three primary biodiesel centrifuge models. Each system is available with the complete Biodiesel Kit for safe operation in biodiesel production environments.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMB-007</th>
+        <th>DMPX-028</th>
+        <th>DMB-062</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Type</td><td>Manual Clean</td><td>Self-Cleaning</td><td>Manual Clean</td></tr>
+      <tr><td>Biodiesel Kit</td><td colspan="3">Compatible elastomer seals, corrosion-resistant coating, direct-drive, hazardous-area motor</td></tr>
+      <tr><td>WVO Stock Purification</td><td>3 GPM</td><td>10 GPM</td><td>35 GPM</td></tr>
+      <tr><td>Glycerin Separation</td><td>6 GPM</td><td>18 GPM</td><td>60 GPM</td></tr>
+      <tr><td>Wash Water Separation</td><td>3 GPM</td><td>10 GPM</td><td>35 GPM</td></tr>
+      <tr><td>Glycerin Clarification</td><td>5 GPM</td><td>Not Suitable</td><td>40 GPM</td></tr>
+      <tr><td>Drive Motor</td><td>2 HP</td><td>10 HP</td><td>15 HP</td></tr>
+      <tr><td>Bowl Speed</td><td>7,500 RPM</td><td>6,400 RPM</td><td>6,700 RPM</td></tr>
+      <tr><td>Sludge Space</td><td>0.325 gal</td><td>1.3 gal</td><td>2.0 gal</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Note:</strong> The <strong>DMPX-028</strong> self-cleaning model is ideal for glycerin separation due to its automatic sludge ejection. The <strong>DMB-007</strong> and <strong>DMB-062</strong> manual-clean models are better suited for WVO purification and wash water separation where sludge loads are lower.
+  </p>
+
+  <!-- ── Available Systems ── -->
+  <h2 id="available-systems">Available Biodiesel Centrifuge Systems</h2>
+
+  <p>
+    In addition to the models above, the following centrifuge systems are popular choices for biodiesel processing at various production scales:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMB-019</th>
+        <th>DMB-028</th>
+        <th>DMB-037</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Type</td><td>Manual Clean</td><td>Manual Clean</td><td>Manual Clean</td></tr>
+      <tr><td>WVO Stock Purification</td><td>5 GPM</td><td>10 GPM</td><td>15 GPM</td></tr>
+      <tr><td>Glycerin Separation</td><td>10 GPM</td><td>20 GPM</td><td>30 GPM</td></tr>
+      <tr><td>Wash Water Separation</td><td>5 GPM</td><td>10 GPM</td><td>15 GPM</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    All systems are available with the complete Biodiesel Kit. <a href="/contact-for-alfa-laval-centrifuges/">Contact our engineers</a> for help selecting the right centrifuge for your biodiesel production capacity and feedstock type.
+  </p>
+
+  <hr />
+
+  <p>
+    <strong>Related resources:</strong>
+    <a href="/wvo-centrifuge-separator/">WVO Centrifuge Separator</a> |
+    <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a> |
+    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
+    <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Overview</a> |
+    <a href="/picking-the-right-industrial-centrifuge/">How to Pick the Right Centrifuge</a>
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

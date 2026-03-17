@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Centrifuge Applications";
+const description = "Industrial centrifuge applications across oil & fuel, industrial fluids, food & beverage, and environmental processing. Find the right centrifuge for your industry.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Industrial Centrifuge Applications",
+  "description": description,
+  "url": "https://dolphincentrifuge.com/applications/",
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+};
+
+const categories = [
+  {
+    title: "Oil & Fuel",
+    href: "/applications/oil-fuel/",
+    description: "Waste oil recovery, diesel purification, crude oil processing, lube oil cleaning, and fuel separation systems.",
+    count: 10,
+    icon: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707",
+    color: "bg-amber-50 text-amber-600",
+  },
+  {
+    title: "Industrial Fluids",
+    href: "/applications/industrial-fluids/",
+    description: "Machining coolant recovery, cutting oil purification, quench oil filtration, and wash water cleaning systems.",
+    count: 4,
+    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
+    color: "bg-blue-50 text-blue-600",
+  },
+  {
+    title: "Food & Beverage",
+    href: "/applications/food-beverage/",
+    description: "Beer and wine clarification, fish oil processing, mint oil purification, and food-grade separation systems.",
+    count: 3,
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    color: "bg-green-50 text-green-600",
+  },
+  {
+    title: "Water & Environment",
+    href: "/applications/water-environment/",
+    description: "Wastewater treatment, algae harvesting, manure separation, biodiesel processing, and liquid humus production.",
+    count: 5,
+    icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064",
+    color: "bg-teal-50 text-teal-600",
+  },
+];
+
+const quickLinks = [
+  { label: "Waste Oil", href: "/waste-oil-centrifuge/" },
+  { label: "Wastewater", href: "/wastewater-centrifuge/" },
+  { label: "Lube Oil", href: "/lube-oil-centrifuge/" },
+  { label: "Diesel Fuel", href: "/diesel-centrifuge/" },
+  { label: "Beer & Wine", href: "/beer-wine-centrifuge/" },
+  { label: "Machining Coolant", href: "/machine-coolant-centrifuge/" },
+  { label: "Crude Oil", href: "/crude-oil-centrifuge/" },
+  { label: "Algae Harvesting", href: "/algae-centrifuge/" },
+  { label: "All Applications A-Z", href: "/disc-stack-centrifuge-applications/" },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications" }]} jsonLd={jsonLd}>
+  {/* Hero */}
+  <section class="bg-navy text-white">
+    <div class="container-dolphin py-14 md:py-20 lg:py-24">
+      <div class="max-w-3xl">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-5">Centrifuge Applications</h1>
+        <p class="text-lg text-gray-300 leading-relaxed mb-8 max-w-2xl">
+          Over 40 years of centrifuge expertise across dozens of industries. From oil recovery to food processing, our purpose-modified industrial centrifuge systems deliver proven separation performance.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {quickLinks.map((link) => (
+            <a href={link.href} class="inline-block bg-white/10 hover:bg-gold hover:text-navy text-white text-sm font-medium px-4 py-2 rounded-full transition-all duration-200">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Category Cards */}
+  <section class="bg-warm-white">
+    <div class="container-dolphin py-14 md:py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        {categories.map((cat) => (
+          <a href={cat.href} class="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gold/40 transition-all duration-300 p-8 flex flex-col">
+            <div class="flex items-start gap-4 mb-4">
+              <div class={`w-12 h-12 rounded-xl ${cat.color} flex items-center justify-center shrink-0`}>
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon} />
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold font-heading text-navy group-hover:text-gold-dark transition-colors">{cat.title}</h2>
+                <span class="text-xs text-text-muted font-medium">{cat.count} applications</span>
+              </div>
+            </div>
+            <p class="text-sm text-text-light leading-relaxed flex-1">{cat.description}</p>
+            <div class="mt-5 flex items-center gap-1 text-gold font-semibold text-sm">
+              Explore {cat.title}
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {/* All Applications Link */}
+      <div class="mt-10 text-center">
+        <a href="/disc-stack-centrifuge-applications/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-8 py-3.5 rounded-lg transition-colors">
+          View All Applications A-Z
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Bottom CTA */}
+  <section class="bg-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16">
+      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
+        <div class="mb-6 md:mb-0">
+          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Don't see your application?</h3>
+          <p class="text-gray-300 text-sm">We've processed hundreds of different fluids. Contact us — chances are we've done it before.</p>
+        </div>
+        <div class="flex flex-wrap justify-center md:justify-end gap-3">
+          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Contact Us</a>
+          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

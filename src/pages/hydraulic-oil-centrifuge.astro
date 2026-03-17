@@ -1,0 +1,285 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "What contaminants does a hydraulic oil centrifuge remove?",
+    answer: "A disc stack centrifuge removes water, metal fines, sludge, and solid particles down to 0.5 microns from hydraulic oil in a single continuous pass. Operating at up to 7,000 Gs of centrifugal force, it separates both liquid and solid contaminants simultaneously — something filters cannot do."
+  },
+  {
+    question: "How much longer will my hydraulic oil last with a centrifuge?",
+    answer: "Continuous centrifuge purification typically extends hydraulic oil life by 5 to 10 times compared to filter-only systems. By constantly removing water, metal fines, and sludge in a kidney-loop configuration, the centrifuge maintains oil cleanliness near new-oil levels, dramatically reducing oil purchases and disposal costs."
+  },
+  {
+    question: "Can I test my hydraulic oil in your centrifuge before buying a system?",
+    answer: "Yes. Dolphin Centrifuge offers lab-scale centrifuge testing on your actual hydraulic oil. Send us a sample and we process it under controlled conditions, providing a detailed report with before-and-after particle counts, water content, and a recommended system configuration. <a href='/industrial-centrifuge-sample-testing/'>Learn more about sample testing</a>."
+  },
+  {
+    question: "What industries use hydraulic oil centrifuges?",
+    answer: "Hydraulic oil centrifuges are widely used in aluminum and copper extrusion, stamping, forging, injection molding, crane operations, and recycling equipment. Any operation with hydraulic reservoirs subject to water ingress, metal particle generation, or thermal oil degradation benefits from continuous centrifugal purification."
+  }
+];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "url": "https://dolphincentrifuge.com/hydraulic-oil-centrifuge/",
+  "name": "Hydraulic Oil Centrifuge System",
+  "description": "Industrial hydraulic oil centrifuges remove water, metal fines, and sludge from hydraulic fluid in extrusion presses, stamping, forging, and molding operations. Particle removal down to 0.5 microns at 7,000 Gs.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'operation', label: 'How It Works' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'benefits', label: 'Benefits' },
+  { id: 'lab-testing', label: 'Lab Testing' },
+  { id: 'materials', label: 'Materials of Construction' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'models', label: 'Available Systems' },
+];
+
+const relatedApplications = [
+  { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+  { label: 'Fuel Oil Centrifuge', href: '/fuel-oil-centrifuge/' },
+  { label: 'Quench Oil Centrifuge', href: '/quench-oil-centrifuge/' },
+  { label: 'Oil Centrifuge (General)', href: '/oil-centrifuge/' },
+  { label: 'Extrusion Industry Centrifuge', href: '/extrusion-industry-centrifuge-application/' },
+];
+
+const relatedProducts = [
+  { label: 'DMB-004 Manual-Clean', href: '/centrifuges/dmb-004/', description: '2 GPM on hydraulic oil' },
+  { label: 'DMB-007 Manual-Clean', href: '/centrifuges/dmb-007/', description: '4 GPM on hydraulic oil' },
+  { label: 'DMPX-014 Self-Cleaning', href: '/centrifuges/dmpx-014/', description: '10 GPM on hydraulic oil' },
+  { label: 'DMPX-028 Self-Cleaning', href: '/centrifuges/dmpx-028/', description: '~20 GPM on hydraulic oil' },
+];
+---
+
+<ApplicationLayout
+  title="Hydraulic Oil Centrifuge"
+  description="Dolphin Centrifuge provides industrial hydraulic oil centrifuges remove water, metal fines, and sludge from hydraulic fluid in extrusion presses, stamping, forging, and molding operations. Particle removal down to 0.5 microns at 7,000 Gs."
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/hydraulic-oil-centrifuge/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <h2 id="overview">Hydraulic Oil Centrifuge Overview</h2>
+
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application at 8000 Gs. A hydraulic oil centrifuge is a disc stack centrifuge designed for <strong>continuous purification of hydraulic fluid</strong> used in extrusion presses, stamping presses, forging presses, injection molding machines, and heavy industrial hydraulic systems. These centrifuges remove water, metal fines, and sludge that degrade hydraulic oil performance and damage expensive components.
+  </p>
+
+  <p>
+    Hydraulic systems in manufacturing environments are particularly vulnerable to contamination. Metal particles from wear, water ingress from condensation, and sludge formation from thermal degradation all shorten oil life and cause valve, pump, and cylinder failures. A centrifuge provides continuous, automated purification without consumable filter media.
+  </p>
+
+  <blockquote>
+    Dolphin Centrifuge supplies turnkey hydraulic oil purification systems for extrusion, stamping, forging, and molding operations &mdash; from 2 GPM manual-clean units to 10+ GPM self-cleaning systems.
+  </blockquote>
+
+  <!-- ── Operation ── -->
+  <h2 id="operation">How Does a Hydraulic Oil Centrifuge Work?</h2>
+
+  <p>
+    The centrifuge bowl spins at approximately <strong>7,800 RPM</strong>, generating centrifugal forces up to <strong>7,000 Gs</strong>. At this force level, contaminant particles as small as <strong>0.5 microns</strong> are separated from the hydraulic oil. The disc stack inside the bowl creates thin oil layers between closely spaced conical discs, dramatically reducing the distance particles must travel to be captured.
+  </p>
+
+  <p>
+    Contaminated hydraulic oil enters the centrifuge through a central feed tube and is distributed between the disc stack. Under intense centrifugal force, heavier contaminants (metal fines, sludge, and water) move outward toward the bowl wall, while clean oil moves inward and exits through the light-phase outlet.
+  </p>
+
+  <p>
+    The centrifuge operates in a <strong>kidney loop</strong> configuration, continuously drawing oil from the hydraulic reservoir, cleaning it, and returning purified oil. This arrangement maintains oil cleanliness without interrupting press or machine operation.
+  </p>
+
+  <p>
+    Unlike filters that lose efficiency as they load up with contaminants, centrifuge separation performance remains <strong>constant</strong> regardless of the sludge level in the bowl. The centrifuge maintains the same separation efficiency from the first gallon to the last.
+  </p>
+
+  <!-- ── Applications ── -->
+  <h2 id="applications">Applications</h2>
+
+  <p>
+    Hydraulic oil centrifuges are used across a wide range of heavy manufacturing and industrial operations:
+  </p>
+
+  <ul>
+    <li><strong>Extrusion Industry:</strong> Aluminum and copper extrusion presses generate significant metal fines and operate at elevated temperatures, accelerating oil degradation. Centrifuges are essential for maintaining hydraulic oil quality in <a href="/extrusion-industry-centrifuge-application/">extrusion press applications</a>.</li>
+    <li><strong>Stamping Presses:</strong> High-speed stamping operations introduce metal particles and die lubricant contamination into hydraulic fluid</li>
+    <li><strong>Forging Presses:</strong> Extreme pressures and temperatures in forging operations create severe hydraulic oil contamination</li>
+    <li><strong>Injection Molding:</strong> Hydraulic injection molding machines require clean oil to maintain precise pressure control and cycle consistency</li>
+    <li><strong>Cranes &amp; Heavy Lift Equipment:</strong> Mobile and overhead cranes with large hydraulic reservoirs benefit from continuous oil purification</li>
+    <li><strong>Balers &amp; Compactors:</strong> Recycling and waste processing equipment operates in dirty environments where hydraulic oil contamination is accelerated</li>
+  </ul>
+
+  <!-- Mid-Page CTA -->
+  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Need Help With Your Hydraulic Oil System?</h3>
+        <p class="text-blue-100">Our engineers will evaluate your hydraulic oil application and recommend the optimal centrifuge system.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Benefits ── -->
+  <h2 id="benefits">Benefits of Centrifuge Hydraulic Oil Purification</h2>
+
+  <ul>
+    <li><strong>Simultaneous Water and Solids Removal:</strong> A centrifuge separates both water and solid contaminants in a single pass &mdash; filters can only address solids</li>
+    <li><strong>No Performance Degradation:</strong> Unlike filters that lose efficiency as they clog, centrifuge separation performance remains constant throughout the operating cycle</li>
+    <li><strong>Ultra-Fine Particle Removal:</strong> Removes contaminant particles across a wide range from <strong>0.5&mu; to 250&mu;</strong> in a single pass</li>
+    <li><strong>Low Operating Cost:</strong> No consumable filter elements to purchase or dispose of &mdash; the centrifuge is a purely mechanical separator</li>
+    <li><strong>Extends Oil Life:</strong> Continuous purification dramatically extends hydraulic oil service life, reducing oil purchases and disposal costs</li>
+    <li><strong>Protects Components:</strong> Clean, water-free hydraulic fluid prevents valve spool sticking, pump wear, and cylinder scoring</li>
+    <li><strong>Reduces Downtime:</strong> Continuous operation eliminates the downtime associated with filter changes and hydraulic system failures</li>
+    <li><strong>Automatic Operation:</strong> <a href="/industrial-centrifuge-controls/">PLC-controlled systems</a> run unattended around the clock</li>
+  </ul>
+
+  <!-- ── Lab Testing ── -->
+  <h2 id="lab-testing">Lab Scale Testing</h2>
+
+  <p>
+    For new applications or unusual hydraulic fluids, we offer <strong>lab-scale centrifuge testing</strong> to determine the optimal centrifuge configuration before committing to a full-scale system. Testing provides quantifiable before-and-after results on your actual hydraulic oil.
+  </p>
+
+  <p>
+    The testing process is straightforward: send us a sample of your contaminated hydraulic oil. We process it through a lab-scale disc stack centrifuge under controlled conditions and provide a detailed report showing:
+  </p>
+
+  <ul>
+    <li>Particle count and size distribution &mdash; before and after centrifuge processing</li>
+    <li>Water content (ppm) &mdash; before and after</li>
+    <li>Visual clarity comparison</li>
+    <li>Recommended centrifuge model, flow rate, and system configuration</li>
+  </ul>
+
+  <p>
+    Lab testing removes all guesswork from system selection and gives you documented proof of centrifuge performance on your specific hydraulic oil before purchase. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> to arrange a lab test.
+  </p>
+
+  <!-- ── Materials ── -->
+  <h2 id="materials">Materials of Construction</h2>
+
+  <p>
+    Hydraulic oil centrifuge components are manufactured from materials selected for durability, corrosion resistance, and long service life:
+  </p>
+
+  <ul>
+    <li><strong>Centrifuge Bowl:</strong> 316L Duplex stainless steel &mdash; provides superior corrosion resistance and mechanical strength at high rotational speeds</li>
+    <li><strong>Distributor:</strong> Marine bronze &mdash; wear-resistant material for the oil distribution element</li>
+    <li><strong>Bowl Covers:</strong> Silium (silicon-aluminum alloy) &mdash; lightweight, corrosion-resistant covers that reduce rotational inertia</li>
+    <li><strong>Frame &amp; Base:</strong> Cast iron &mdash; heavy-duty construction for vibration dampening and stability</li>
+    <li><strong>Disc Stack:</strong> Stainless steel conical discs &mdash; precision-stamped for uniform spacing and maximum separation area</li>
+  </ul>
+
+  <p>
+    These materials ensure a service life of <strong>30+ years</strong> with proper maintenance. All wetted parts are corrosion-resistant, suitable for processing hydraulic fluids with varying additive packages.
+  </p>
+
+  <!-- ── Specifications ── -->
+  <h2 id="specifications">Specifications</h2>
+
+  <p>
+    The following table shows specifications for our most popular hydraulic oil centrifuge models. Manual-clean units are ideal for applications with low sludge volumes, while self-cleaning models are recommended for higher contamination levels.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMB-004</th>
+        <th>DMB-007</th>
+        <th>DMPX-014</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Type</td><td>Manual-Clean</td><td>Manual-Clean</td><td>Self-Cleaning</td></tr>
+      <tr><td>Hydraulic Oil Capacity</td><td>2 GPM</td><td>4 GPM</td><td>10 GPM</td></tr>
+      <tr><td>Bowl Sludge Volume</td><td>0.15 Gal</td><td>0.38 Gal</td><td>0.42 Gal</td></tr>
+      <tr><td>Bowl Speed</td><td>8,600 RPM</td><td>7,500 RPM</td><td>7,600 RPM</td></tr>
+      <tr><td>Drive Motor</td><td>1 HP</td><td>2 HP</td><td>4 HP</td></tr>
+      <tr><td>Separation Efficiency</td><td>0.5&mu; particles; all free water</td><td>0.5&mu; particles; all free water</td><td>0.5&mu; particles; all free water</td></tr>
+      <tr><td>Footprint</td><td>3' &times; 4' &times; 4' (H)</td><td>3' &times; 4' &times; 4' (H)</td><td>4' &times; 5' &times; 5' (H)</td></tr>
+      <tr><td>Weight</td><td>500 lbs</td><td>750 lbs</td><td>1,500 lbs</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Note:</strong> Actual throughput depends on oil viscosity and process temperature. Higher temperatures reduce viscosity and enable higher flow rates through the centrifuge. Capacities shown are for hydraulic oil at typical operating temperature.
+  </p>
+
+  <!-- ── Models ── -->
+  <h2 id="models">Available Hydraulic Oil Centrifuge Systems</h2>
+
+  <p>
+    Dolphin Centrifuge offers complete turnkey hydraulic oil purification systems. Each system includes the centrifuge, feed pump, controls, piping, and instrumentation &mdash; ready for installation into your hydraulic circuit.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Type</th>
+        <th>Capacity</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>DMB-004</td><td>Manual-Clean</td><td>2 GPM</td><td>Small presses / low contamination</td></tr>
+      <tr><td>DMB-007</td><td>Manual-Clean</td><td>4 GPM</td><td>Medium presses / stamping</td></tr>
+      <tr><td>DMPX-014</td><td>Self-Cleaning</td><td>10 GPM</td><td>Extrusion presses / high sludge</td></tr>
+      <tr><td>DMPX-028</td><td>Self-Cleaning</td><td>~20 GPM</td><td>Large forging / high-volume systems</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Need help selecting the right system? Our engineers will recommend a centrifuge based on your reservoir size, contamination type, and throughput requirements. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a custom recommendation.
+  </p>
+
+  <hr />
+
+  <p>
+    <strong>Related resources:</strong>
+    <a href="/extrusion-industry-centrifuge-application/">Extrusion Industry Centrifuges</a> |
+    <a href="/lube-oil-centrifuge/">Lube Oil Centrifuges</a> |
+    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
+    <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a> |
+    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Centrifuge</a>
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

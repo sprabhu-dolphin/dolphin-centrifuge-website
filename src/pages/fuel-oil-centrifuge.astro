@@ -1,0 +1,249 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "Why does heavy fuel oil need a centrifuge?",
+    answer: "Heavy fuel oil (HFO) carries significantly higher contaminant loads than lighter fuels — including asphaltenes, catalyst fines, rust, and water. These contaminants cause injector damage, turbine blade erosion, and combustion chamber deposits. Filters clog rapidly with HFO and cannot remove water. A self-cleaning disc stack centrifuge handles HFO's high sludge loads continuously and automatically."
+  },
+  {
+    question: "What is the capacity range of fuel oil centrifuge systems?",
+    answer: "Dolphin Centrifuge fuel oil systems range from 12 GPM to 65 GPM on HFO at 30 cSt (pre-heated to 190°F). For heavier fuels at 700 cSt, capacities range from 3 to 20 GPM at 200°F. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your fuel grade and volume requirements for specific sizing."
+  },
+  {
+    question: "Does fuel oil need to be heated before centrifuging?",
+    answer: "Yes. Heavy fuel oil must be pre-heated to reduce viscosity for effective centrifugal separation — typically to 190–200°F depending on the fuel grade. All Dolphin Centrifuge fuel oil modules include electric or steam pre-heaters as standard equipment, along with duplex basket strainers and PLC controls."
+  },
+  {
+    question: "Can a fuel oil centrifuge meet ISO 8217 fuel quality standards?",
+    answer: "Yes. Disc stack centrifuges ensure fuel meets ISO 8217 and OEM specifications for solids, water, and ash content. Operating at over 6,000 Gs, the centrifuge removes particles, water, and sludge to levels well within turbine and engine manufacturer requirements — critical for warranty compliance and equipment longevity."
+  }
+];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "url": "https://dolphincentrifuge.com/fuel-oil-centrifuge/",
+  "name": "Fuel Oil Centrifuge System",
+  "description": "Industrial disc-stack centrifuges for heavy fuel oil (HFO) purification. Self-cleaning, 3-phase separation removes sludge, water, and solids from fuel oil — 21 to 105 GPM capacity.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'what-is-fuel-oil', label: 'What is Fuel Oil' },
+  { id: 'why-purify', label: 'Why Purify Fuel Oil' },
+  { id: 'how-it-works', label: 'How It Works' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'benefits', label: 'Benefits' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'available-systems', label: 'Available Systems' },
+];
+
+const relatedApplications = [
+  { label: 'Diesel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+  { label: 'Hydraulic Oil Centrifuge', href: '/hydraulic-oil-centrifuge/' },
+  { label: 'Oil Centrifuge (General)', href: '/oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-014 Self-Cleaning', href: '/centrifuges/dmpx-014/', description: '21 GPM rated; fuel oil to 12 GPM @30cSt' },
+  { label: 'DMPX-042 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: '68 GPM rated; fuel oil to 42 GPM @30cSt' },
+  { label: 'DMPX-070 Self-Cleaning', href: '/centrifuges/dmpx-070/', description: '105 GPM rated; fuel oil to 65 GPM @30cSt' },
+];
+---
+
+<ApplicationLayout
+  title="Fuel Oil Centrifuge"
+  description="Dolphin Centrifuge supplies industrial disc-stack centrifuges for heavy fuel oil (HFO) purification. Self-cleaning, 3-phase separation removes sludge, water, and solids from fuel oil — 21 to 105 GPM capacity."
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/fuel-oil-centrifuge/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <h2 id="what-is-fuel-oil">What is Fuel Oil (HFO)?</h2>
+
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application at 21 Gs. Fuel oil &mdash; also called heavy fuel oil (HFO), bunker fuel, or residual fuel &mdash; is a dense, viscous petroleum product used in large-scale combustion applications. It is the heaviest fraction remaining after crude oil refining, with a <strong>specific gravity greater than 0.90</strong> and viscosities commonly exceeding <strong>180 cSt at 50&deg;C</strong>.
+  </p>
+
+  <p>
+    Because of its high viscosity and density, fuel oil requires heating before it can be pumped or burned. It also carries a heavier contaminant load than lighter fuels such as diesel, making centrifugal purification essential before combustion.
+  </p>
+
+  <h2 id="why-purify">Why Purify Fuel Oil?</h2>
+
+  <p>
+    Heavy fuel oil contains two principal categories of contaminants:
+  </p>
+
+  <ul>
+    <li><strong>Sludge and Solids:</strong> Asphaltenes, catalyst fines, rust, and sediment from refining and storage. These abrasive particles damage fuel injectors, turbine blades, and combustion chambers.</li>
+    <li><strong>Water:</strong> Condensation during storage and transport introduces free water, which causes corrosion, flame instability, and microbial growth in fuel tanks.</li>
+  </ul>
+
+  <p>
+    Without purification, these contaminants cause <strong>accelerated engine wear</strong>, increased maintenance costs, and unplanned shutdowns. Turbine and engine manufacturers specify maximum permissible levels for solids, water, and vanadium &mdash; fuel oil centrifuges ensure these specifications are consistently met.
+  </p>
+
+  <h2 id="how-it-works">How Does a Fuel Oil Centrifuge Work?</h2>
+
+  <p>
+    Fuel oil centrifuges are <strong>3-phase, self-cleaning disc-stack separators</strong>. Pre-heated fuel oil enters the spinning bowl through a central inlet. Inside the bowl, a stack of closely spaced conical discs multiplies the settling area, dramatically accelerating separation.
+  </p>
+
+  <p>
+    Under centrifugal forces exceeding <strong>6,000 Gs</strong>, the three phases separate by density:
+  </p>
+
+  <ul>
+    <li><strong>Heavy phase (water):</strong> Spun outward to the bowl periphery and continuously discharged through the water outlet</li>
+    <li><strong>Sludge and solids:</strong> Collected at the bowl wall and periodically ejected by the automatic self-cleaning mechanism</li>
+    <li><strong>Clean fuel oil (light phase):</strong> Moves inward through the disc stack and exits through the clean-oil outlet</li>
+  </ul>
+
+  <p>
+    The self-cleaning cycle is triggered automatically by the <a href="/industrial-centrifuge-controls/">PLC control system</a>, eliminating the need for manual intervention during operation.
+  </p>
+
+  <h2 id="applications">Fuel Oil Centrifuge Applications</h2>
+
+  <p>
+    Fuel oil centrifuges are essential wherever HFO is stored or burned:
+  </p>
+
+  <ul>
+    <li><strong>Cogeneration &amp; Power Plants:</strong> Gas turbines and reciprocating engines running on HFO require centrifuge-grade fuel to meet OEM cleanliness specs and avoid turbine blade erosion.</li>
+    <li><strong>Marine Vessels:</strong> Ships burning bunker fuel use onboard centrifuges to purify fuel between the settling tank and the day tank &mdash; a regulatory requirement for most engine classes.</li>
+    <li><strong>Fuel Storage Terminals:</strong> Bulk fuel depots install centrifuges to recondition aged or contaminated fuel before resale or distribution.</li>
+    <li><strong>Backup &amp; Emergency Generators:</strong> Facilities with large standby generators on HFO use centrifuges to keep stored fuel in ready-to-burn condition, preventing startup failures.</li>
+  </ul>
+
+  <!-- Mid-Page CTA -->
+  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Need Help With Your Fuel Oil Purification System?</h3>
+        <p class="text-blue-100">Our engineers will evaluate your fuel oil application and recommend the optimal centrifuge system.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="benefits">Benefits of Centrifuge Fuel Oil Purification</h2>
+
+  <ul>
+    <li><strong>Meets Turbine Fuel Quality Requirements:</strong> Ensures fuel meets ISO 8217 and OEM specifications for solids, water, and ash content</li>
+    <li><strong>Consistent Fuel Quality:</strong> Unlike filters that degrade as pores clog, centrifuge separation performance remains constant throughout operation</li>
+    <li><strong>No Pre-Filtration Required:</strong> Disc-stack centrifuges handle the high contaminant loads in HFO without the need for upstream strainers or coalescing filters</li>
+    <li><strong>Reduced Sludge Disposal:</strong> Concentrated sludge ejections minimize waste volume compared to filter-based systems</li>
+    <li><strong>Fully Automatic Operation:</strong> PLC-controlled sludge ejection, feed regulation, and fault monitoring &mdash; no manual labor required</li>
+    <li><strong>No Filter Replacement Costs:</strong> Centrifuges eliminate the ongoing expense of consumable filter elements, which clog rapidly with heavy fuel oils</li>
+    <li><strong>Extended Equipment Life:</strong> Clean fuel reduces injector wear, turbine blade erosion, and combustion chamber deposits &mdash; lowering long-term maintenance costs</li>
+  </ul>
+
+  <h3>Dolphin Fuel Oil System Features</h3>
+
+  <p>
+    Every Dolphin Centrifuge fuel oil module is a <strong>complete, skid-mounted system</strong> that includes:
+  </p>
+
+  <ul>
+    <li><strong>Pre-Filtration:</strong> Duplex basket strainers protect the centrifuge from large debris (rope fibers, gasket material) that can damage the bowl</li>
+    <li><strong>Pre-Heating:</strong> Electric or steam heaters reduce fuel viscosity to the optimal range for centrifugal separation (typically 190&ndash;200&deg;F)</li>
+    <li><strong>PLC Control Panel:</strong> Fully automated start/stop sequences, sludge ejection timing, temperature regulation, and fault diagnostics with remote monitoring capability</li>
+  </ul>
+
+  <h2 id="specifications">Fuel Oil Centrifuge Specifications</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMPX-014</th>
+        <th>DMPX-042</th>
+        <th>DMPX-070</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Type</td><td>Self-Cleaning Disc Stack</td><td>Self-Cleaning Disc Stack</td><td>Self-Cleaning Disc Stack</td></tr>
+      <tr><td>Bowl Speed</td><td>7,600 RPM</td><td>5,180 RPM</td><td>4,140 RPM</td></tr>
+      <tr><td>Rated Capacity</td><td>21 GPM</td><td>68 GPM</td><td>105 GPM</td></tr>
+      <tr><td>Fuel Oil 30 cSt</td><td>12 GPM @190&deg;F</td><td>42 GPM @190&deg;F</td><td>65 GPM @190&deg;F</td></tr>
+      <tr><td>Fuel Oil 100 cSt</td><td>10 GPM @190&deg;F</td><td>32 GPM @190&deg;F</td><td>47 GPM @190&deg;F</td></tr>
+      <tr><td>Fuel Oil 700 cSt</td><td>3 GPM @200&deg;F</td><td>14 GPM @200&deg;F</td><td>20 GPM @200&deg;F</td></tr>
+      <tr><td>Sludge Space</td><td>0.36 gal</td><td>1.6 gal</td><td>3.8 gal</td></tr>
+      <tr><td>Drive Motor</td><td>5 HP</td><td>15 HP</td><td>20 HP</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <em>Actual throughput depends on fuel oil viscosity, specific gravity, temperature, and contaminant load. Higher viscosity fuels require lower flow rates and higher pre-heat temperatures for effective separation.</em>
+  </p>
+
+  <h2 id="available-systems">Available Fuel Oil Centrifuge Systems</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Type</th>
+        <th>HFO Capacity (30 cSt)</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>DMPX-014</td><td>Self-Cleaning</td><td>12 GPM</td><td>Small cogen / marine auxiliary</td></tr>
+      <tr><td>DMPX-042</td><td>Self-Cleaning</td><td>42 GPM</td><td>Medium power plant / vessel main engine</td></tr>
+      <tr><td>DMPX-070</td><td>Self-Cleaning</td><td>65 GPM</td><td>Large power plant / fuel terminal</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    All fuel oil systems include pre-heating, pre-filtration, and PLC controls as standard. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for sizing assistance based on your fuel type, flow requirements, and installation constraints.
+  </p>
+
+  <hr />
+
+  <p>
+    <strong>Related resources:</strong>
+    <a href="/alfa-laval-centrifuge-selection-guide/">Centrifuge Selection Guide</a> |
+    <a href="/diesel-centrifuge/">Diesel Fuel Centrifuges</a> |
+    <a href="/industrial-centrifuge-controls/">Centrifuge Controls &amp; Automation</a> |
+    <a href="/disc-stack-centrifuge-rental/">Centrifuge Rental Program</a> |
+    <a href="/picking-the-right-industrial-centrifuge/">Picking the Right Industrial Centrifuge</a>
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

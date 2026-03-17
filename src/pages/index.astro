@@ -6,12 +6,67 @@ import WhyDolphin from '../components/WhyDolphin.astro';
 import QuickSelector from '../components/QuickSelector.astro';
 import FeaturedProducts from '../components/FeaturedProducts.astro';
 import KnowledgeCards from '../components/KnowledgeCards.astro';
+import SeparationSolutions from '../components/SeparationSolutions.astro';
 import ApplicationSlider from '../components/ApplicationSlider';
+
+const homepageJsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com",
+    "logo": "https://dolphincentrifuge.com/images/dolphin-centrifuge-logo.png",
+    "description": "Dolphin Centrifuge specializes in Alfa Laval industrial centrifuge systems with 40+ years of expertise. Complete turnkey systems for oil, fuel, wastewater, food & beverage, and more.",
+    "telephone": "+1-248-522-2573",
+    "email": "sales@dolphincentrifuge.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "24248 Gibson Dr",
+      "addressLocality": "Warren",
+      "addressRegion": "MI",
+      "postalCode": "48089",
+      "addressCountry": "US",
+    },
+    "sameAs": [],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Dolphin Centrifuge",
+    "image": "https://dolphincentrifuge.com/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg",
+    "url": "https://dolphincentrifuge.com",
+    "telephone": "+1-248-522-2573",
+    "email": "sales@dolphincentrifuge.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "24248 Gibson Dr",
+      "addressLocality": "Warren",
+      "addressRegion": "MI",
+      "postalCode": "48089",
+      "addressCountry": "US",
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 42.4934,
+      "longitude": -82.9934,
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:00",
+    },
+    "priceRange": "$$$$",
+    "areaServed": "Worldwide",
+    "knowsAbout": ["Industrial Centrifuges", "Alfa Laval Centrifuges", "Disc Stack Centrifuges", "Decanter Centrifuges", "Oil Separation", "Wastewater Treatment"],
+  },
+];
 ---
 
 <BaseLayout
   title="Home"
   description="Dolphin Centrifuge specializes in Alfa Laval industrial centrifuge systems with 40+ years of expertise. Complete turnkey systems for oil, fuel, wastewater, food & beverage, and more."
+  jsonLd={homepageJsonLd}
 >
   {/* ── Hero Section — slider: branding first, then rotate 3 product shots ── */}
   <Hero
@@ -28,9 +83,9 @@ import ApplicationSlider from '../components/ApplicationSlider';
       { src: "/images/homepage/hero/nx314-decanter-module.webp", alt: "NX 314 decanter module for waste oil desludging" },
     ]}
     ctaLabel="Get a Free Consultation"
-    ctaHref="/contact/"
+    ctaHref="/contact-for-alfa-laval-centrifuges/"
     secondaryCtaLabel="View Our Centrifuges"
-    secondaryCtaHref="/centrifuges/"
+    secondaryCtaHref="/disc-stack-centrifuge/"
   />
 
   {/* ── Trust Signals (overlapping hero) ──────────────────── */}
@@ -44,6 +99,9 @@ import ApplicationSlider from '../components/ApplicationSlider';
 
   {/* ── Quick Selector: What Are You Separating? ──────────── */}
   <QuickSelector />
+
+  {/* ── Separation Solutions (dark navy cards) ────────────── */}
+  <SeparationSolutions />
 
   {/* ── Featured Products ─────────────────────────────────── */}
   <FeaturedProducts />

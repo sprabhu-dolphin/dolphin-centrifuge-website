@@ -1,0 +1,300 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "What is the difference between coolant recovery and coolant filtration?",
+    answer: "Coolant filtration only removes solid particles. Coolant recovery with a disc stack centrifuge performs three-phase separation — simultaneously removing tramp oil, metal fines, and bacteria in a single continuous pass. Combined with pasteurization, a recovery system extends coolant life from weeks to months or years, dramatically reducing concentrate purchases and hazardous waste disposal."
+  },
+  {
+    question: "Does pasteurization damage machining coolant chemistry?",
+    answer: "No. Pasteurization at 165°F (74°C) kills anaerobic bacteria without degrading the coolant's chemical composition. The process is the same proven heat treatment used in the food and dairy industry. Combined with heat recovery, the coolant returns to the sump near its original temperature, so there is no thermal disruption to the machining process."
+  },
+  {
+    question: "How much energy does a pasteurization system use?",
+    answer: "With proper heat recovery, the system recovers 70–85% of the thermal energy through a heat exchanger. The electric heater only needs to raise the final 15–25°F, making the energy cost minimal. For example, heating from 80°F to 165°F with 76% heat recovery means the heater only provides the last 20°F of temperature rise."
+  },
+  {
+    question: "What coolant types work with centrifuge recovery systems?",
+    answer: "All water-based coolant types benefit from centrifuge recovery — soluble oils, semi-synthetic coolants, and fully synthetic coolants. The centrifuge disc stack and gravity disc configuration is matched to the specific coolant type for optimal separation. Synthetic coolants respond best since tramp oil separates more readily from oil-free formulations."
+  }
+];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "url": "https://dolphincentrifuge.com/machining-coolant-recovery-centrifuge/",
+  "name": "Coolant Recovery Centrifuge System",
+  "description": "3-phase disc stack centrifuge systems for water-based machining coolant recovery with integrated pasteurization. Removes tramp oil, metal fines, and bacteria at 7,000+ Gs to extend coolant life indefinitely.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'what-is-machining-coolant', label: 'What is Machining Coolant' },
+  { id: 'coolant-types', label: 'Coolant Types' },
+  { id: 'contaminants', label: 'Typical Contaminants' },
+  { id: 'disc-centrifuge-recovery', label: 'How a Disc Centrifuge Recovers Coolant' },
+  { id: 'heating-before-centrifugation', label: 'Why Heat Before Centrifugation' },
+  { id: 'pasteurization', label: 'Pasteurization' },
+  { id: 'pasteurization-process', label: 'Pasteurization Process' },
+  { id: 'heat-recovery', label: 'Heat Recovery' },
+];
+
+const relatedApplications = [
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+  { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+  { label: 'Tramp Oil Centrifuge', href: '/tramp-oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-014 Self-Cleaning', href: '/centrifuges/dmpx-014/', description: '3 GPM on coolant' },
+  { label: 'DMPX-028 Self-Cleaning', href: '/centrifuges/dmpx-028/', description: '28 GPM on coolant' },
+  { label: 'DMPX-042 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: '50 GPM on coolant' },
+];
+---
+
+<ApplicationLayout
+  title="Coolant Recovery Centrifuge"
+  description="Dolphin Centrifuge offers 3-phase disc stack centrifuge systems for water-based machining coolant recovery with integrated pasteurization. Removes tramp oil, metal fines, and bacteria at 7,000+ Gs to extend coolant life indefinitely."
+  heroImage="/images/applications/machining-coolant-recovery-centrifuge.jpg"
+  heroImageAlt="Machining coolant recovery centrifuge system with pasteurization heat exchanger"
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/machining-coolant-recovery-centrifuge/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <h2 id="what-is-machining-coolant">What is Machining Coolant?</h2>
+
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application at 24248 Gs. Machining coolant (metalworking fluid) is a water-based or oil-based liquid used in <strong>metal cutting, grinding, milling, drilling, and turning</strong> operations. Coolant serves four critical functions in the machining process:
+  </p>
+
+  <ul>
+    <li><strong>Friction Reduction:</strong> Lubricates the tool-workpiece interface, lowering cutting forces and improving surface finish</li>
+    <li><strong>Tool Life Extension:</strong> Dissipates heat generated during cutting, keeping tool temperatures within acceptable limits and extending insert life</li>
+    <li><strong>Debris Removal:</strong> Flushes metal chips (swarf) and fine particles away from the cutting zone, preventing re-cutting and tool damage</li>
+    <li><strong>Corrosion Prevention:</strong> Provides a protective film on freshly machined surfaces, preventing oxidation and rust formation on both parts and machine components</li>
+  </ul>
+
+  <p>
+    As coolant circulates through the machining system, it accumulates <strong>metal fines, tramp oil, and bacteria</strong> that degrade its performance. Without continuous purification, coolant life is drastically shortened &mdash; leading to frequent and expensive changeouts. A machining coolant recovery centrifuge addresses all three contamination sources in a single system, extending coolant life from weeks to <strong>months or years</strong>.
+  </p>
+
+  <!-- ── Coolant Types ── -->
+  <h2 id="coolant-types">Types of Machining Coolant</h2>
+
+  <p>
+    Water-based machining coolants fall into three categories, each with different compositions and centrifugal separation characteristics:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Soluble Oils (Emulsifiable Oils):</strong> Contain approximately 50% oil in their concentrate form. When mixed with water, they form a <strong>milky white emulsion</strong>. Soluble oils provide excellent lubrication and are the most widely used coolant type in heavy machining. The high oil content makes them particularly susceptible to tramp oil contamination since the tramp oil blends readily with the emulsion.
+    </li>
+    <li>
+      <strong>Synthetic Coolants:</strong> Contain <strong>no oil</strong>. They are chemical blends of rust inhibitors, surfactants, and biocides dissolved in water, forming a transparent or translucent solution. Synthetic coolants offer superior cooling and cleanliness but less lubrication than oil-containing types. Tramp oil separates more readily from synthetic coolants, making centrifugal recovery particularly effective.
+    </li>
+    <li>
+      <strong>Semi-Synthetic Coolants:</strong> A compromise between soluble oils and synthetics, containing <strong>less oil than soluble oils</strong> (typically 5&ndash;20% oil in concentrate). They form a translucent to semi-transparent emulsion. Semi-synthetics balance lubrication, cooling performance, and cleanliness &mdash; and are increasingly popular in modern CNC machining environments.
+    </li>
+  </ul>
+
+  <p>
+    All three coolant types benefit from centrifugal purification, though the centrifuge <strong>disc stack and gravity disc configuration</strong> must be matched to the coolant type for optimal separation.
+  </p>
+
+  <!-- ── Contaminants ── -->
+  <h2 id="contaminants">Typical Contaminants in Machining Coolant</h2>
+
+  <p>
+    Machining coolant picks up two categories of contaminants during use. Both must be removed for effective coolant recovery:
+  </p>
+
+  <h3>Solid Contaminants</h3>
+
+  <p>
+    <strong>Metal chips and fine particles</strong> (swarf) are the most visible contaminants. They range from coarse chips visible to the eye down to sub-micron particles generated by grinding operations. Metal fines accelerate tool wear, scratch finished surfaces, and settle in sumps where they create sludge that harbors bacteria. A disc stack centrifuge removes particles down to <strong>0.5 micron</strong> &mdash; far finer than any practical filter media.
+  </p>
+
+  <h3>Tramp Oil</h3>
+
+  <p>
+    Tramp oil is unwanted oil that enters the coolant from machine tool <strong>hydraulic systems, slideway lubricants, spindle bearings, and gearboxes</strong>. Even small amounts of tramp oil cause serious problems:
+  </p>
+
+  <ul>
+    <li><strong>Bacterial Growth:</strong> Tramp oil forms a surface film that blocks oxygen transfer, creating the anaerobic conditions bacteria need to thrive</li>
+    <li><strong>Foul Odor:</strong> Anaerobic bacteria produce hydrogen sulfide &mdash; the characteristic "Monday morning" rotten-egg smell that plagues machine shops</li>
+    <li><strong>Coolant Degradation:</strong> Tramp oil destabilizes the coolant emulsion, causing phase separation and loss of cooling/lubrication performance</li>
+    <li><strong>Operator Health Hazards:</strong> Contaminated coolant mist causes <strong>dermatitis</strong>, respiratory irritation, and allergic reactions</li>
+  </ul>
+
+  <!-- Mid-Page CTA -->
+  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Need Help With Coolant Recovery?</h3>
+        <p class="text-blue-100">Our engineers will evaluate your coolant system and recommend the optimal centrifuge and pasteurization configuration.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Disc Centrifuge Recovery ── -->
+  <h2 id="disc-centrifuge-recovery">How a Disc Centrifuge Recovers Machining Coolant</h2>
+
+  <p>
+    A <strong>3-phase disc stack centrifuge</strong> is the most effective technology for machining coolant recovery because it simultaneously removes all three contaminant categories &mdash; tramp oil, solid particles, and bacteria &mdash; in a single continuous pass.
+  </p>
+
+  <p>
+    The centrifuge bowl spins at high speed, generating centrifugal forces exceeding <strong>7,000 Gs</strong>. At this force level, contaminant particles as small as <strong>0.5 micron</strong> are separated from the coolant. Inside the bowl, a stack of closely spaced conical discs creates thin fluid layers that dramatically reduce the distance particles must travel to be captured.
+  </p>
+
+  <p>
+    Under intense centrifugal force, the contaminated coolant separates into three distinct phases by density:
+  </p>
+
+  <ul>
+    <li><strong>Tramp Oil (light phase):</strong> Moves inward toward the bowl center and exits through the light-phase outlet for separate collection</li>
+    <li><strong>Clean Coolant (heavy/water phase):</strong> Exits through the heavy-phase outlet and returns to the sump or central coolant system</li>
+    <li><strong>Metal Particles and Sludge:</strong> Migrate outward to the bowl periphery where they accumulate until automatically ejected through ports in the bowl wall</li>
+  </ul>
+
+  <p>
+    In <strong>self-cleaning models</strong>, accumulated sludge is automatically ejected at timed intervals, enabling continuous unattended operation &mdash; critical for 24/7 machining environments. The centrifuge operates in a <strong>kidney-loop</strong> configuration, continuously drawing from and returning clean coolant to the system without interrupting production.
+  </p>
+
+  <blockquote>
+    Dolphin Centrifuge supplies turnkey coolant recovery systems with integrated pasteurization from 3 GPM for individual machines to 50 GPM for central coolant systems. Call <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a>.
+  </blockquote>
+
+  <!-- ── Why Heat Before Centrifugation ── -->
+  <h2 id="heating-before-centrifugation">Why Heat Coolant Before Centrifugation</h2>
+
+  <p>
+    Heating machining coolant before it enters the centrifuge significantly improves separation performance. There are four reasons to raise coolant temperature prior to centrifugation:
+  </p>
+
+  <ul>
+    <li><strong>Reduces Viscosity:</strong> Lower viscosity allows contaminant particles and tramp oil droplets to move more rapidly through the disc stack, improving separation efficiency and enabling higher throughput</li>
+    <li><strong>Promotes Oil Coalescence:</strong> Heat causes finely dispersed tramp oil droplets to coalesce into larger drops that are more easily captured by the centrifuge &mdash; particularly important in soluble oil and semi-synthetic coolants where tramp oil can be tightly emulsified</li>
+    <li><strong>Flushes Sticky Oils:</strong> Elevated temperature reduces the adhesion of sticky tramp oils (such as slideway oils and forming compounds) to disc surfaces and bowl walls, preventing buildup that reduces separation capacity</li>
+    <li><strong>Releases Dissolved Gases:</strong> Heating drives off dissolved air and gases that can interfere with clean phase separation in the disc stack</li>
+  </ul>
+
+  <p>
+    The combination of heating and centrifugation delivers far better separation results than either process alone &mdash; especially for heavily contaminated coolant systems with high tramp oil loading.
+  </p>
+
+  <!-- ── Pasteurization ── -->
+  <h2 id="pasteurization">Pasteurization: Eliminating Bacteria Without Biocides</h2>
+
+  <p>
+    Pasteurization is the process of heating machining coolant to <strong>165&deg;F (74&deg;C)</strong> to kill the <strong>anaerobic bacteria</strong> responsible for foul odor, coolant degradation, and operator health issues. When integrated with disc centrifuge purification, pasteurization eliminates the need for chemical biocides and fungicides.
+  </p>
+
+  <h3>Why Pasteurize Instead of Using Biocides?</h3>
+
+  <p>
+    The traditional approach to controlling bacteria in machining coolant is adding <strong>biocides and fungicides</strong>. While effective at killing bacteria, these chemicals create their own problems:
+  </p>
+
+  <ul>
+    <li><strong>Dermatitis:</strong> Biocides are a leading cause of <strong>occupational skin irritation</strong> (contact dermatitis) among machine operators &mdash; a significant worker's compensation and health concern</li>
+    <li><strong>Respiratory Irritation:</strong> Chemical biocides in coolant mist cause respiratory issues, especially in enclosed machining environments</li>
+    <li><strong>Chemical Cost:</strong> Biocide treatment is an ongoing expense that increases as bacteria develop resistance to commonly used formulations</li>
+    <li><strong>Environmental Impact:</strong> Biocide-laden spent coolant adds complexity and cost to wastewater treatment and disposal</li>
+  </ul>
+
+  <p>
+    Pasteurization achieves the same bacteria-killing result through <strong>heat alone</strong> &mdash; with no chemical additions, no dermatitis risk, and no additional waste treatment burden. The 165&deg;F temperature is well established in food processing as the threshold for effective pathogen destruction.
+  </p>
+
+  <!-- ── Pasteurization Process ── -->
+  <h2 id="pasteurization-process">Pasteurization Process Flow</h2>
+
+  <p>
+    In an integrated coolant recovery system, the pasteurization and centrifugation steps are combined in a single continuous process:
+  </p>
+
+  <ol>
+    <li><strong>Feed Pump:</strong> Draws contaminated coolant from the machine sump or central system at a controlled flow rate</li>
+    <li><strong>Heat Exchanger (Cold Side):</strong> Incoming cold coolant passes through a plate or shell-and-tube heat exchanger where it is <strong>pre-heated</strong> by the hot outgoing coolant stream (heat recovery)</li>
+    <li><strong>Electric Heater:</strong> Raises the pre-heated coolant to <strong>165&deg;F or higher</strong> &mdash; the pasteurization temperature. Electric heating provides precise temperature control independent of plant steam availability</li>
+    <li><strong>Disc Stack Centrifuge:</strong> The hot coolant enters the self-cleaning centrifuge where 3-phase separation occurs at elevated temperature &mdash; maximizing tramp oil removal, solids separation, and throughput</li>
+    <li><strong>Heat Exchanger (Hot Side):</strong> Purified hot coolant exiting the centrifuge passes back through the heat exchanger, <strong>transferring its heat to the incoming cold feed</strong> before returning to the sump</li>
+    <li><strong>Return to Sump:</strong> Clean, cooled coolant returns to the machining system ready for use</li>
+  </ol>
+
+  <p>
+    The entire process runs continuously and automatically via <a href="/industrial-centrifuge-controls/">PLC-based controls</a>, requiring no operator intervention during normal operation.
+  </p>
+
+  <!-- ── Heat Recovery ── -->
+  <h2 id="heat-recovery">Heat Recovery: Maximizing Energy Efficiency</h2>
+
+  <p>
+    The <strong>heat exchanger</strong> is a critical component of an efficient pasteurization system. By transferring heat from the outgoing hot coolant stream to the incoming cold coolant stream, the heat exchanger dramatically reduces the energy required by the electric heater.
+  </p>
+
+  <p>
+    In a well-designed system, the heat exchanger recovers <strong>70&ndash;85% of the thermal energy</strong>, meaning the electric heater only needs to raise the coolant temperature by a fraction of the total required increase. For example:
+  </p>
+
+  <ul>
+    <li>Sump temperature: 80&deg;F</li>
+    <li>Pasteurization target: 165&deg;F</li>
+    <li>Total temperature rise needed: 85&deg;F</li>
+    <li>Heat exchanger pre-heats incoming coolant to approximately 145&deg;F</li>
+    <li>Electric heater only raises the final 20&deg;F &mdash; a <strong>76% energy savings</strong></li>
+  </ul>
+
+  <p>
+    This heat recovery approach makes pasteurization economically practical even for large central coolant systems. The returned coolant arrives back at the sump close to its original temperature, avoiding any thermal disruption to the machining process.
+  </p>
+
+  <hr />
+
+  <p>
+    <strong>Related resources:</strong>
+    <a href="/machine-coolant-centrifuge/">Machine Coolant Centrifuges</a> |
+    <a href="/cutting-oil-centrifuge/">Cutting Oil Centrifuges</a> |
+    <a href="/self-cleaning-centrifuge/">Self-Cleaning Centrifuge</a> |
+    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
+    <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a>
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 
 const apps = [
-  { id: 1, t: "Wastewater", s: "Clarification & Purification", d: "Municipal & industrial sludge dewatering, effluent treatment, food processing wastewater", g: "linear-gradient(160deg,#2a3325 0%,#3d4a2e 30%,#4a5438 60%,#3a4530 100%)", ac: "#8aad6e", gc: "rgba(138,173,110,0.35)", oc: "rgba(74,84,56,0.4)", to: 0.06, url: "/applications/water-treatment/wastewater/" },
-  { id: 2, t: "Used Motor Oil", s: "Mineral Oil Recovery", d: "Re-refining, crankcase drainings, mineral oil recycling, fleet waste oil processing", g: "linear-gradient(160deg,#0d0d0d 0%,#1a1a1a 30%,#222 60%,#151515 100%)", ac: "#999", gc: "rgba(153,153,153,0.3)", oc: "rgba(30,30,30,0.5)", to: 0.04, url: "/applications/oil-gas/used-oil/" },
-  { id: 3, t: "Waste Veggie Oil", s: "UCO & WVO Processing", d: "WVO, UCO, yellow grease, brown grease, biodiesel feedstock preparation", g: "linear-gradient(160deg,#4a3510 0%,#6b4d18 30%,#7d5a1c 60%,#5c4214 100%)", ac: "#e8b84a", gc: "rgba(232,184,74,0.3)", oc: "rgba(125,90,28,0.35)", to: 0.05, url: "/applications/biofuels/wvo/" },
-  { id: 4, t: "Water-Based Fluids", s: "Coolant & Metalworking", d: "Machining coolant, stamping coolant, synthetic & semi-synthetic metalworking fluids", g: "linear-gradient(160deg,#d4ddd0 0%,#c8d8c0 30%,#b8ccb0 60%,#c2d4ba 100%)", ac: "#3a5e34", gc: "rgba(58,94,52,0.35)", oc: "rgba(180,204,170,0.3)", to: 0.05, url: "/applications/metalworking/machining-coolant/", dk: true },
-  { id: 5, t: "Oil-Based Fluids", s: "Quench, Cutting & Draw", d: "Quench oil, cutting oil, draw oil, rolling oil, tapping oil, heat treating fluids", g: "linear-gradient(160deg,#3a1a0e 0%,#5c2a14 30%,#6e3018 60%,#4a2210 100%)", ac: "#e07040", gc: "rgba(224,112,64,0.3)", oc: "rgba(110,48,24,0.35)", to: 0.05, url: "/applications/metalworking/cutting-oil/" },
-  { id: 6, t: "Industrial Oils", s: "Lube, Hydraulic & Gear", d: "Turbine lube oil, hydraulic oil, compressor oil, transformer oil, gear oil purification", g: "linear-gradient(160deg,#5c4a18 0%,#7a6420 30%,#8c7428 60%,#6a5420 100%)", ac: "#e8cc5a", gc: "rgba(232,204,90,0.3)", oc: "rgba(140,116,40,0.3)", to: 0.05, url: "/applications/oil-gas/lube-oil/" },
-  { id: 7, t: "Fuels", s: "Diesel, HFO & Kerosene", d: "Diesel polishing, heavy fuel oil, kerosene, marine fuel, generator fuel systems", g: "linear-gradient(160deg,#3a3020 0%,#504530 30%,#5c5038 60%,#443a28 100%)", ac: "#d4b878", gc: "rgba(212,184,120,0.3)", oc: "rgba(92,80,56,0.35)", to: 0.05, url: "/applications/oil-gas/diesel-fuel/" },
-  { id: 8, t: "Crude Oil", s: "Tank Bottoms & BS&W", d: "Tank bottoms, refinery slop, condensate, produced water, OBM, BS&W recovery", g: "linear-gradient(160deg,#18100a 0%,#2a1c0e 30%,#342212 60%,#20160c 100%)", ac: "#c49044", gc: "rgba(196,144,68,0.35)", oc: "rgba(52,34,18,0.4)", to: 0.04, url: "/applications/oil-gas/crude-oil/" },
+  { id: 1, t: "Wastewater", s: "Clarification & Purification", d: "Municipal & industrial sludge dewatering, effluent treatment, food processing wastewater", g: "linear-gradient(160deg,#2a3325 0%,#3d4a2e 30%,#4a5438 60%,#3a4530 100%)", ac: "#8aad6e", gc: "rgba(138,173,110,0.35)", oc: "rgba(74,84,56,0.4)", to: 0.06, url: "/wastewater-centrifuge/" },
+  { id: 2, t: "Used Motor Oil", s: "Mineral Oil Recovery", d: "Re-refining, crankcase drainings, mineral oil recycling, fleet waste oil processing", g: "linear-gradient(160deg,#0d0d0d 0%,#1a1a1a 30%,#222 60%,#151515 100%)", ac: "#999", gc: "rgba(153,153,153,0.3)", oc: "rgba(30,30,30,0.5)", to: 0.04, url: "/used-oil-centrifuge/" },
+  { id: 3, t: "Waste Veggie Oil", s: "UCO & WVO Processing", d: "WVO, UCO, yellow grease, brown grease, biodiesel feedstock preparation", g: "linear-gradient(160deg,#4a3510 0%,#6b4d18 30%,#7d5a1c 60%,#5c4214 100%)", ac: "#e8b84a", gc: "rgba(232,184,74,0.3)", oc: "rgba(125,90,28,0.35)", to: 0.05, url: "/wvo-centrifuge-separator/" },
+  { id: 4, t: "Water-Based Fluids", s: "Coolant & Metalworking", d: "Machining coolant, stamping coolant, synthetic & semi-synthetic metalworking fluids", g: "linear-gradient(160deg,#d4ddd0 0%,#c8d8c0 30%,#b8ccb0 60%,#c2d4ba 100%)", ac: "#3a5e34", gc: "rgba(58,94,52,0.35)", oc: "rgba(180,204,170,0.3)", to: 0.05, url: "/machine-coolant-centrifuge/", dk: true },
+  { id: 5, t: "Oil-Based Fluids", s: "Quench, Cutting & Draw", d: "Quench oil, cutting oil, draw oil, rolling oil, tapping oil, heat treating fluids", g: "linear-gradient(160deg,#3a1a0e 0%,#5c2a14 30%,#6e3018 60%,#4a2210 100%)", ac: "#e07040", gc: "rgba(224,112,64,0.3)", oc: "rgba(110,48,24,0.35)", to: 0.05, url: "/cutting-oil-centrifuge/" },
+  { id: 6, t: "Industrial Oils", s: "Lube, Hydraulic & Gear", d: "Turbine lube oil, hydraulic oil, compressor oil, transformer oil, gear oil purification", g: "linear-gradient(160deg,#5c4a18 0%,#7a6420 30%,#8c7428 60%,#6a5420 100%)", ac: "#e8cc5a", gc: "rgba(232,204,90,0.3)", oc: "rgba(140,116,40,0.3)", to: 0.05, url: "/lube-oil-centrifuge/" },
+  { id: 7, t: "Fuels", s: "Diesel, HFO & Kerosene", d: "Diesel polishing, heavy fuel oil, kerosene, marine fuel, generator fuel systems", g: "linear-gradient(160deg,#3a3020 0%,#504530 30%,#5c5038 60%,#443a28 100%)", ac: "#d4b878", gc: "rgba(212,184,120,0.3)", oc: "rgba(92,80,56,0.35)", to: 0.05, url: "/diesel-centrifuge/" },
+  { id: 8, t: "Crude Oil", s: "Tank Bottoms & BS&W", d: "Tank bottoms, refinery slop, condensate, produced water, OBM, BS&W recovery", g: "linear-gradient(160deg,#18100a 0%,#2a1c0e 30%,#342212 60%,#20160c 100%)", ac: "#c49044", gc: "rgba(196,144,68,0.35)", oc: "rgba(52,34,18,0.4)", to: 0.04, url: "/crude-oil-centrifuge/" },
 ];
 
 const W = 310, G = 16, CT = W + G, SP = 0.8;
@@ -214,7 +214,7 @@ export default function ApplicationSlider() {
       <div style={{ maxWidth: 1280, margin: "32px auto 0", padding: "0 48px", textAlign: "center" }}>
         <p style={{ color: "#555", fontSize: 14, margin: 0 }}>
           {"Don't see your application? "}
-          <a href="/contact/" style={{ color: "#E8A317", fontWeight: 600, textDecoration: "none" }}>
+          <a href="/contact-for-alfa-laval-centrifuges/" style={{ color: "#E8A317", fontWeight: 600, textDecoration: "none" }}>
             Contact us
           </a>
           {" \u2014 we've handled hundreds of unique separation challenges."}

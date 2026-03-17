@@ -1,0 +1,316 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const testimonials = [
+  {
+    id: 1,
+    quote: "You've been there, you get it …I pass this along because it is precisely the type of customer service we appreciate and respect. Many don't understand the importance of getting us back on line quickly and we need to have an equipment vendor who understands the equipment they sell. You do understand how important it is to have us up and running… and you clearly understand your equipment. We all thank you for your professionalism. Finally, from your email back to David, it is also abundantly clear that you realize we are not Exxon Mobil or Chevron. We are a start-up in every sense of the word and at this point need an equipment supplier who realizes our concern over every dollar. You've been there, you get it, and for that, too, I thank you! When the time comes, I look forward to talking with you about another Dolphin purchase.",
+    company: "N.E. Biofuel Co.",
+    contact: "T. G.",
+    title: "President & CEO",
+    highlight: "You've been there, you get it",
+    industry: "Biodiesel / Biofuel"
+  },
+  {
+    id: 2,
+    quote: "For the ongoing reservoir side centrifuge filtration you are looking for I would suggest you contact Sanjay at Dolphin Centrifuge. I have been dealing with Sanjay for over 15 years now and he is by far the best at what he does. Aside from the fact he can provide a custom solution for you at the best price, his service is excellent. He has even answered my call in the middle of the night before when he was in Japan on a startup.",
+    company: "D.O.C.",
+    contact: "J. E.",
+    title: "Manager",
+    highlight: "over 15 years",
+    industry: "Industrial / Reservoir"
+  },
+  {
+    id: 3,
+    quote: "Thank you! for your continued support. Both machines are ripping through the stream – good separation. We'll be calling you shortly for 2 more.. stay tuned.",
+    company: "J.H Prod. / Gulf Oilfield Products",
+    contact: "Gulf Oilfield Products",
+    title: null,
+    highlight: "good separation",
+    industry: "Oilfield"
+  },
+  {
+    id: 4,
+    quote: "By the way Jim (Kraft) is very good. He really knows his centrifuges and the process. I am so glad that we brought him in.",
+    company: "NJ BioDiesel Co.",
+    contact: "M. Z.",
+    title: "President / COO",
+    highlight: "knows his centrifuges",
+    industry: "Biodiesel"
+  },
+  {
+    id: 5,
+    quote: "Dolphin Centrifuge did an excellent job of building our MOPX207 separator skid to build it as a compact setup with an easy plug and play operation. Everything that went into the unit as far as the automation from controls for the computer system is very user-friendly. It was very noticeable how far they go to make sure their Centrifuge builds are user-friendly through the computer system, giving the operator the ability only to type in few parameter settings such as % solids and GPM. Hands down, you could tell these guys were very experienced at running these units and processing through these units. They had excellent communication, and if we hit a hiccup along the way, they could clearly explain what was happening and how to correct it.",
+    company: "Alaskan Oil Processor",
+    contact: "C. F.",
+    title: "Facility Supervisor",
+    highlight: "these guys were very experienced at running these units",
+    industry: "Oil Processing / Alaska"
+  }
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Dolphin Centrifuge Customer Testimonials",
+  "description": "Real testimonials from Dolphin Centrifuge customers across biodiesel, oilfield, industrial, and oil processing industries.",
+  "numberOfItems": testimonials.length,
+  "itemListElement": testimonials.map((t, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Review",
+      "reviewBody": t.quote,
+      "author": {
+        "@type": "Person",
+        "name": t.contact,
+        "jobTitle": t.title || undefined
+      },
+      "itemReviewed": {
+        "@type": "LocalBusiness",
+        "name": "Dolphin Centrifuge",
+        "url": "https://dolphincentrifuge.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "24248 Gibson Dr",
+          "addressLocality": "Warren",
+          "addressRegion": "MI",
+          "postalCode": "48089",
+          "addressCountry": "US"
+        }
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": t.company
+      }
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title="Customer Testimonials | Dolphin Centrifuge"
+  description="Read what Dolphin Centrifuge customers say about our engineering expertise, centrifuge systems, lifetime support, and 35+ years of service across industry."
+  canonicalUrl="https://dolphincentrifuge.com/dolphin-centrifuge-customer-testimonials/"
+  breadcrumbs={[
+    { label: 'About', href: '/about-dolphin-centrifuge/' },
+    { label: 'Customer Testimonials' }
+  ]}
+  jsonLd={jsonLd}
+>
+
+  <!-- Hero -->
+  <section class="bg-[#1B3A5C] text-white py-14 md:py-20">
+    <div class="container-dolphin max-w-4xl px-4 md:px-6">
+      <nav class="text-sm text-blue-200 mb-4" aria-label="Breadcrumb">
+        <ol class="flex flex-wrap gap-1 items-center list-none p-0 m-0">
+          <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+          <li class="text-blue-400">/</li>
+          <li><a href="/about-dolphin-centrifuge/" class="hover:text-white transition-colors">About</a></li>
+          <li class="text-blue-400">/</li>
+          <li class="text-white font-medium">Customer Testimonials</li>
+        </ol>
+      </nav>
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">What Our Customers Are Saying</h1>
+      <p class="text-lg md:text-xl text-blue-100 max-w-2xl">
+        For over 35 years, Dolphin Centrifuge has built lasting relationships with customers across
+        biodiesel, oilfield, industrial processing, and beyond. Here is what they have to say.
+      </p>
+      <!-- Trust summary -->
+      <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-white/10 rounded-lg p-4 text-center">
+          <div class="text-2xl font-bold text-[#E8A317]">35+</div>
+          <div class="text-xs text-blue-200 mt-1">Years in Business</div>
+        </div>
+        <div class="bg-white/10 rounded-lg p-4 text-center">
+          <div class="text-2xl font-bold text-[#E8A317]">300+</div>
+          <div class="text-xs text-blue-200 mt-1">Centrifuges in Inventory</div>
+        </div>
+        <div class="bg-white/10 rounded-lg p-4 text-center">
+          <div class="text-2xl font-bold text-[#E8A317]">100s</div>
+          <div class="text-xs text-blue-200 mt-1">Systems Delivered</div>
+        </div>
+        <div class="bg-white/10 rounded-lg p-4 text-center">
+          <div class="text-2xl font-bold text-[#E8A317]">Lifetime</div>
+          <div class="text-xs text-blue-200 mt-1">Free Tech Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="bg-[#F5F5F0] py-12 md:py-16">
+    <div class="container-dolphin max-w-4xl px-4 md:px-6">
+
+      <!-- Intro -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-10">
+        <p class="text-[#2D2D2D] text-base md:text-lg leading-relaxed">
+          The following testimonials are from real Dolphin Centrifuge customers — biodiesel producers,
+          oilfield operators, lube oil processors, and industrial engineers who have put our equipment and
+          expertise to work in demanding environments. We let their words speak for our reputation.
+        </p>
+        <p class="mt-3 text-[#2D2D2D] leading-relaxed">
+          We are happy to provide additional customer references on request. Call us at
+          <a href="tel:+12485222573" class="text-[#1B3A5C] hover:text-[#E8A317] transition-colors font-semibold">(248) 522-2573</a>
+          or email <a href="mailto:sales@dolphincentrifuge.com" class="text-[#1B3A5C] hover:text-[#E8A317] transition-colors font-semibold">sales@dolphincentrifuge.com</a>.
+        </p>
+      </div>
+
+      <!-- Testimonials -->
+      {testimonials.map((t, i) => (
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 relative">
+
+          <!-- Quote mark decoration -->
+          <div class="absolute top-4 right-6 text-6xl text-[#E8A317]/20 font-serif leading-none select-none" aria-hidden="true">&ldquo;</div>
+
+          <!-- Highlight badge -->
+          <div class="inline-block bg-[#E8A317]/10 border border-[#E8A317]/30 text-[#1B3A5C] text-xs font-semibold px-3 py-1 rounded-full mb-4">
+            &ldquo;{t.highlight}&rdquo;
+          </div>
+
+          <!-- Full quote -->
+          <blockquote class="text-[#2D2D2D] leading-relaxed text-base md:text-[1.05rem] italic border-l-4 border-[#E8A317] pl-5">
+            {t.quote}
+          </blockquote>
+
+          <!-- Attribution -->
+          <div class="mt-5 flex items-start gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-[#1B3A5C] flex items-center justify-center text-white font-bold text-sm">
+              {t.contact.charAt(0)}
+            </div>
+            <div>
+              <div class="font-semibold text-[#1B3A5C]">{t.contact}{t.title ? `, ${t.title}` : ''}</div>
+              <div class="text-sm text-gray-600">{t.company}</div>
+              <div class="text-xs text-gray-400 mt-0.5">{t.industry}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <!-- Legacy testimonials section header (all 5 are already above from JSON) -->
+      <!-- Additional context section -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl md:text-2xl font-bold text-[#1B3A5C] mb-4">Why Customers Stay With Dolphin</h2>
+        <p class="text-[#2D2D2D] leading-relaxed mb-4">
+          The testimonials above share common themes: engineers who genuinely know the equipment, responsive
+          support at unusual hours, transparent pricing that respects smaller budgets, and systems that just work.
+          These are not marketing promises — they are observations from customers who bought equipment, put it
+          into service, and came back for more.
+        </p>
+        <p class="text-[#2D2D2D] leading-relaxed mb-4">
+          Dolphin Centrifuge is not a used equipment dealer that happens to sell centrifuges on the side.
+          <strong>Industrial centrifuges are all we do.</strong> That focus translates directly into deeper
+          technical knowledge, better application guidance, and more reliable after-sale support than you
+          will typically receive from a generalist equipment dealer.
+        </p>
+        <p class="text-[#2D2D2D] leading-relaxed">
+          Our <strong>free lifetime technical support</strong> — no subscription, no expiration — reflects our
+          confidence in the equipment we build and our commitment to the customers who buy it. When you call
+          us five years after your centrifuge ships with a question about bowl cleaning intervals or a
+          troubleshooting puzzle, we pick up the phone.
+        </p>
+      </div>
+
+      <!-- Key differentiators -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl md:text-2xl font-bold text-[#1B3A5C] mb-5">What Sets Dolphin Apart</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">35+ Years of Specialization</div>
+              <p class="text-sm text-[#2D2D2D]">Industrial centrifuges exclusively — not a side business or afterthought. Every staff member is focused on centrifuge applications, selection, and support.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">Engineering-Led Company</div>
+              <p class="text-sm text-[#2D2D2D]">We design and build complete centrifuge systems in-house at our Warren, MI factory — not just resell off-the-shelf equipment.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">300+ Unit Inventory</div>
+              <p class="text-sm text-[#2D2D2D]">Over 300 reconditioned and new centrifuges on hand in Warren, MI. What you see on our site is equipment we actually own and can ship.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">Factory Visit Welcome</div>
+              <p class="text-sm text-[#2D2D2D]">All prospective customers are invited to our Warren, MI facility to inspect equipment, witness factory acceptance testing, and meet the team.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">~50% vs New OEM Pricing</div>
+              <p class="text-sm text-[#2D2D2D]">Reconditioned systems with new skid, new pump, new controls, and all accessories — typically at half the cost of a comparable new installation.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-[#E8A317] text-xl font-bold mt-0.5 flex-shrink-0">›</span>
+            <div>
+              <div class="font-semibold text-[#1B3A5C] mb-1">Free Lifetime Tech Support</div>
+              <p class="text-sm text-[#2D2D2D]">No expiration, no subscription fee. Our engineers support every centrifuge we deliver for as long as it operates — even years after purchase.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="bg-[#1B3A5C] rounded-xl p-8 md:p-10 text-white text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-3">Ready to Become Our Next Success Story?</h2>
+        <p class="text-blue-100 mb-6 max-w-xl mx-auto">
+          Talk to a Dolphin Centrifuge engineer about your application. We welcome factory visits and are happy to provide additional customer references.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/contact-us/" class="bg-[#E8A317] hover:bg-amber-500 transition-colors text-white font-bold px-8 py-3 rounded-lg">
+            Contact Us Today
+          </a>
+          <a href="tel:+12485222573" class="bg-white/10 hover:bg-white/20 transition-colors text-white font-semibold px-8 py-3 rounded-lg border border-white/30">
+            (248) 522-2573
+          </a>
+        </div>
+        <p class="text-blue-200 text-sm mt-4">
+          Or email <a href="mailto:sales@dolphincentrifuge.com" class="text-white hover:text-[#E8A317] transition-colors underline underline-offset-2">sales@dolphincentrifuge.com</a> — 24248 Gibson Dr, Warren MI 48089
+        </p>
+      </div>
+
+      <!-- Related -->
+      <div class="mt-12">
+        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Learn More About Dolphin Centrifuge</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <a href="/about-dolphin-centrifuge/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">About Dolphin Centrifuge</div>
+            <div class="text-sm text-gray-600">35+ years of industrial centrifuge engineering from Warren, MI</div>
+          </a>
+          <a href="/industrial-centrifuges-faq/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">Industrial Centrifuge FAQ</div>
+            <div class="text-sm text-gray-600">Common questions about centrifuge types, pricing, and support</div>
+          </a>
+          <a href="/industrial-centrifuge-sample-testing/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">Sample Testing Service</div>
+            <div class="text-sm text-gray-600">Test your fluid on our pilot centrifuge before committing</div>
+          </a>
+          <a href="/disc-stack-centrifuge-applications/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">Centrifuge Applications</div>
+            <div class="text-sm text-gray-600">Explore the full range of industries we serve</div>
+          </a>
+          <a href="/contact-us/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">Contact Us</div>
+            <div class="text-sm text-gray-600">Speak with an engineer or request a quote</div>
+          </a>
+          <a href="/waste-oil-centrifuge/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-[#E8A317] hover:shadow-md transition-all group">
+            <div class="font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition-colors mb-1">Waste Oil Centrifuge</div>
+            <div class="text-sm text-gray-600">Popular application — used motor oil processing systems</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

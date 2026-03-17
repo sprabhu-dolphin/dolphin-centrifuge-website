@@ -1,0 +1,278 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+
+const faqItems = [
+  {
+    question: "What types of wastewater centrifuges are available?",
+    answer: "Two main types of industrial centrifuges handle wastewater: disc stack centrifuges for wastewater with less than 10% solids (generating up to 12,000 Gs for sub-micron particle removal), and decanter centrifuges for wastewater with more than 10% solids (producing dry sludge cake with continuous scroll discharge)."
+  },
+  {
+    question: "When should I use a disc stack centrifuge for wastewater?",
+    answer: "Use a disc stack centrifuge when your wastewater contains less than 10% solids by volume and requires fine particle removal down to 1 micron. Disc stack centrifuges are ideal for semiconductor wastewater, oily wastewater requiring oil-water-solids separation, and battery manufacturing wastewater with fine metallic particles."
+  },
+  {
+    question: "When should I use a decanter centrifuge for wastewater?",
+    answer: "Use a decanter centrifuge when your wastewater contains more than 10% solids and you need high-volume continuous sludge dewatering. Decanters excel at municipal biosolids, mining tailings, food processing waste, and any application producing a stackable dry cake for cheaper hauling and disposal."
+  },
+  {
+    question: "Can a centrifuge separate oil from wastewater?",
+    answer: "Yes. A three-phase disc stack centrifuge simultaneously separates oil, water, and solids from oily wastewater in a single pass. For extremely heavy sludge combined with an oily water phase, a two-stage approach using a decanter followed by disc stack polishing delivers the best results."
+  }
+];
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Wastewater Centrifuge Systems",
+  "url": "https://dolphincentrifuge.com/wastewater-centrifuges-types-applications-amp-photos-dolphin-centrifuge/",
+  "description": "Two types of industrial centrifuges handle wastewater: disc stack centrifuges for low-sludge clarification and decanters for high-sludge dewatering. Specifications, photos, and application examples.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'disc-stack-centrifuges', label: 'Disc Stack Centrifuges' },
+  { id: 'silica-grinding', label: 'Silica Grinding Wastewater' },
+  { id: 'oily-wastewater', label: 'Oily Wastewater' },
+  { id: 'battery-mfg', label: 'Battery Mfg Wastewater' },
+  { id: 'decanter-centrifuges', label: 'Decanter Centrifuges' },
+  { id: 'decanter-models', label: 'Decanter Models' },
+  { id: 'choosing', label: 'Choosing the Right Type' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Algae Harvesting', href: '/algae-centrifuge/' },
+  { label: 'Manure Separator', href: '/manure-centrifuge-separator/' },
+];
+
+const relatedProducts = [
+  { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Small-medium wastewater dewatering' },
+  { label: 'NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'Medium-large sludge thickening' },
+  { label: 'DMPX-070 Disc Stack', href: '/centrifuges/dmpx-070/', description: 'High-capacity disc stack centrifuge' },
+  { label: 'DMPX-028 Disc Stack', href: '/centrifuges/dmpx-028/', description: 'Compact disc stack centrifuge' },
+];
+---
+
+<ApplicationLayout
+  title="Wastewater Centrifuge Types"
+  description="Dolphin Centrifuge offers two types of wastewater centrifuges: disc stack for low-sludge clarification and decanters for high-sludge dewatering. Specs, photos, and examples."
+  heroImage="/images/applications/wastewater-centrifuge-types.jpg"
+  heroImageAlt="Industrial wastewater centrifuge types — disc stack and decanter systems"
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/wastewater-centrifuges-types-applications-amp-photos-dolphin-centrifuge/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <h2 id="overview">Overview</h2>
+
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application at 12000 Gs with separation down to 1 microns. Industrial wastewater centrifuges fall into two broad categories based on the solids content of the waste stream. The correct choice depends on whether the wastewater has <strong>low sludge</strong> (under 10% solids) or <strong>high sludge</strong> (over 10% solids). Each type has distinct operating principles, G-force ranges, and ideal applications.
+  </p>
+
+  <ul>
+    <li><strong>Disc Stack Centrifuges</strong> &mdash; for wastewater with less than 10% solids. High-speed separators that remove particles down to 1 micron and separate oils. G-forces up to 12,000 Gs.</li>
+    <li><strong>Decanter Centrifuges</strong> &mdash; for wastewater with greater than 10% solids. High-volume, continuous sludge dewatering machines that produce a dry cake and clarified effluent.</li>
+  </ul>
+
+  {/* ── DISC STACK SECTION ── */}
+
+  <h2 id="disc-stack-centrifuges">Disc Stack Centrifuges for Low-Sludge Wastewater</h2>
+
+  <p>
+    <a href="/disc-stack-centrifuge/">Disc stack centrifuges</a> are the preferred technology when the wastewater contains less than approximately <strong>10% solids by volume</strong>. These machines spin at extremely high speeds, generating centrifugal forces up to <strong>12,000 Gs</strong>. At these forces, particles as small as <strong>1 micron</strong> are separated from the liquid phase, and any free oil is simultaneously removed via a separate discharge.
+  </p>
+
+  <p>
+    Self-cleaning disc stack models periodically eject accumulated sludge from the bowl automatically, allowing continuous, unattended operation. The following real-world examples illustrate how disc stack centrifuges handle different wastewater streams.
+  </p>
+
+  {/* ── Example 1: Silica Grinding ── */}
+
+  <h3 id="silica-grinding">1. Silica Grinding Wastewater (Semiconductor Industry)</h3>
+
+  <p>
+    Silicon wafer manufacturing generates grinding slurry wastewater containing fine silica particles. A <strong>DMPX-070</strong> disc stack centrifuge handles this application by clarifying the grinding water for reuse, dramatically reducing both water consumption and disposal costs.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMPX-070</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Motor Power</td><td>25 HP</td></tr>
+      <tr><td>Capacity</td><td>50 GPM @ 5% solids</td></tr>
+      <tr><td>Bowl Speed</td><td>5,000 RPM</td></tr>
+      <tr><td>Wetted Material</td><td>316L Stainless Steel</td></tr>
+      <tr><td>Dimensions (L &times; W &times; H)</td><td>7&prime; &times; 6&prime; &times; 7&prime;</td></tr>
+    </tbody>
+  </table>
+
+  {/* ── Example 2: Oily Wastewater ── */}
+
+  <h3 id="oily-wastewater">2. Oily Wastewater (Food Processing)</h3>
+
+  <p>
+    Food processing plants produce oily wastewater that must be treated before discharge. A <strong>20 GPM self-cleaning disc stack centrifuge</strong> simultaneously removes suspended solids and separates free oil from the water phase in a single pass. The three-phase separation eliminates the need for separate oil skimmers and settling tanks.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>Self-Cleaning Disc Stack</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Motor Power</td><td>10 HP</td></tr>
+      <tr><td>Capacity</td><td>20 GPM</td></tr>
+      <tr><td>Bowl Speed</td><td>7,800 RPM</td></tr>
+      <tr><td>Wetted Material</td><td>316L Stainless Steel</td></tr>
+      <tr><td>Dimensions (L &times; W &times; H)</td><td>6&prime; &times; 4&prime; &times; 5&prime;</td></tr>
+    </tbody>
+  </table>
+
+  {/* ── Example 3: Battery Manufacturing ── */}
+
+  <h3 id="battery-mfg">3. Battery Manufacturing Wastewater</h3>
+
+  <p>
+    Battery manufacturing generates chemical-laden wastewater with fine metallic particles and dissolved contaminants. A <strong>DMPX-028</strong> disc stack centrifuge provides the high G-force needed to separate these fine particles, producing clean water suitable for recycling back into the production process.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>DMPX-028</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Motor Power</td><td>10 HP</td></tr>
+      <tr><td>Capacity</td><td>20 GPM @ 5% solids</td></tr>
+      <tr><td>Bowl Speed</td><td>7,800 RPM</td></tr>
+      <tr><td>Wetted Material</td><td>316L Stainless Steel</td></tr>
+      <tr><td>Dimensions (L &times; W &times; H)</td><td>5&prime; &times; 5&prime; &times; 6&prime;</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Mid-page CTA -->
+  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Need Help Choosing the Right Wastewater Centrifuge?</h3>
+        <p class="text-blue-100">Our engineers will evaluate your wastewater stream and recommend the optimal centrifuge type and configuration.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
+  {/* ── DECANTER SECTION ── */}
+
+  <h2 id="decanter-centrifuges">Decanter Centrifuges for High-Sludge Wastewater</h2>
+
+  <p>
+    When wastewater contains more than <strong>10% solids</strong>, a <a href="/decanter-centrifuge/">decanter centrifuge</a> is the appropriate choice. Decanters are designed for high-volume, continuous processing of heavy sludge. An internal scroll conveyor transports the separated solids to the discharge end while clarified liquid overflows at the opposite end.
+  </p>
+
+  <p>
+    Decanters excel at municipal biosolids dewatering, mining tailings, food processing waste, and any application where the waste stream has a significant solids load. They produce a stackable cake that is far cheaper to haul and dispose of than liquid sludge.
+  </p>
+
+  <h3 id="decanter-models">Available Decanter Models</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>NX-314</th>
+        <th>NX-418</th>
+        <th>Sharples P-3000</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Motor Power</td><td>15 HP</td><td>25 HP</td><td>20 HP</td></tr>
+      <tr><td>Capacity</td><td>40 GPM @ 15% solids</td><td>80 GPM @ 15% solids</td><td>40 GPM @ 15% solids</td></tr>
+      <tr><td>Bowl Speed</td><td>4,000 RPM</td><td>4,000 RPM</td><td>3,250 RPM</td></tr>
+      <tr><td>Scroll Torque</td><td>2.5 kNM</td><td>2.5 kNM</td><td>2.5 kNM</td></tr>
+      <tr><td>Dimensions (L &times; W &times; H)</td><td>7&prime; &times; 3&prime; &times; 5&prime;</td><td>10&prime; &times; 4&prime; &times; 5&prime;</td><td>8&prime; &times; 6&prime; &times; 6&prime;</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="choosing">Choosing the Right Wastewater Centrifuge</h2>
+
+  <p>
+    The single most important factor is <strong>solids concentration</strong>. Wastewater with low solids content (under 10%) and fine particles benefits from the extreme G-forces of a disc stack centrifuge. Wastewater with heavy sludge loads (over 10%) requires the high-throughput solids handling of a decanter.
+  </p>
+
+  <p>
+    If the waste stream contains both oil and solids, a three-phase disc stack centrifuge can separate oil, water, and solids simultaneously. For extremely heavy sludge combined with an oily water phase, a two-stage approach &mdash; decanter followed by disc stack polishing &mdash; delivers the best results.
+  </p>
+
+  <p>
+    <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> at <a href="tel:2485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> with your wastewater analysis and flow rates for a no-cost equipment recommendation.
+  </p>
+
+  <!-- ── FAQ Section ── -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  {faqItems.map((item) => (
+    <details class="border border-gray-200 rounded-lg p-4 mb-3 group">
+      <summary class="cursor-pointer font-semibold text-[#1B3A5C] flex justify-between items-center">
+        <span>{item.question}</span>
+        <span class="group-open:rotate-180 transition-transform text-[#E8A317]">&#9660;</span>
+      </summary>
+      <p class="mt-3 text-[#2D2D2D] text-sm leading-relaxed">{item.answer}</p>
+    </details>
+  ))}
+
+  <hr />
+
+  <p>
+    <strong>Related resources:</strong>
+    <a href="/wastewater-centrifuge/">Wastewater Centrifuge Overview</a> |
+    <a href="/industrial-wastewater-centrifuge-silicon-wafer-facility/">Silica Wastewater Case Study</a> |
+    <a href="/dewatering-centrifuge/">Dewatering Centrifuge Guide</a> |
+    <a href="/manure-centrifuge-separator/">Manure Centrifuge Separator</a> |
+    <a href="/industrial-washer-fluid-centrifuge/">Industrial Washer Fluid Centrifuge</a> |
+    <a href="/decanter-centrifuge/">Decanter Centrifuge</a> |
+    <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge</a> |
+    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
+    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs Disc Centrifuge</a> |
+    <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a>
+  </p>
+
+</ApplicationLayout>

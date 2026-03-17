@@ -1,0 +1,127 @@
+---
+// Separation Solutions — dark navy cards with problem-based framing
+const solutions = [
+  {
+    title: 'Oil-Water Separation',
+    description: 'Remove water, sludge, and contaminants from industrial oils. Disc stack centrifuges deliver fuel-grade clarity in a single pass.',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+    applications: ['Waste Oil', 'Lube Oil', 'Diesel Fuel', 'Hydraulic Oil'],
+    href: '/oil-centrifuge/',
+    accent: '#3CBFAE',
+  },
+  {
+    title: 'Solid Removal & Clarification',
+    description: 'Separate fine solids, sediment, and particulate from liquids at high throughput. Decanters handle up to 40% solids loading.',
+    icon: 'M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z',
+    applications: ['Wastewater', 'Food Processing', 'Chemical', 'Mining'],
+    href: '/wastewater-centrifuge/',
+    accent: '#E8A317',
+  },
+  {
+    title: 'Coolant & Tramp Oil Recovery',
+    description: 'Extend coolant life 3-5× by continuously removing tramp oil, fines, and bacteria. Reduce fluid purchase costs by 60-80%.',
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+    applications: ['Machining Coolant', 'Cutting Oil', 'Quench Oil', 'Wash Fluid'],
+    href: '/machine-coolant-centrifuge/',
+    accent: '#6CB4EE',
+  },
+];
+---
+
+<section class="py-16 md:py-20 lg:py-24 bg-navy">
+  <div class="container-dolphin">
+    <div class="text-center mb-12">
+      <p class="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.2em] mb-3">
+        <span class="w-6 h-0.5 bg-gold rounded"></span>
+        Separation Solutions
+        <span class="w-6 h-0.5 bg-gold rounded"></span>
+      </p>
+      <h2 class="font-heading text-3xl md:text-4xl font-bold text-white">
+        Solve Your Separation Challenge
+      </h2>
+      <p class="mt-3 text-gray-400 text-base max-w-xl mx-auto">
+        Whatever you need to separate, we have the centrifuge system engineered for it.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      {solutions.map((solution) => (
+        <a
+          href={solution.href}
+          class="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-7 border border-white/10 hover:border-white/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          {/* Accent top bar */}
+          <div
+            class="absolute top-0 left-6 right-6 h-0.5 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"
+            style={`background: ${solution.accent}`}
+          ></div>
+
+          {/* Icon */}
+          <div
+            class="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+            style={`background: ${solution.accent}15`}
+          >
+            <svg
+              class="w-6 h-6"
+              style={`color: ${solution.accent}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d={solution.icon} />
+            </svg>
+          </div>
+
+          {/* Title */}
+          <h3 class="font-heading text-xl font-bold text-white mb-3 group-hover:text-gold transition-colors">
+            {solution.title}
+          </h3>
+
+          {/* Description */}
+          <p class="text-gray-400 text-sm leading-relaxed mb-5">
+            {solution.description}
+          </p>
+
+          {/* Application tags */}
+          <div class="flex flex-wrap gap-2 mb-5">
+            {solution.applications.map((app) => (
+              <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium text-gray-300 bg-white/8 rounded-full border border-white/10">
+                {app}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <span
+            class="inline-flex items-center text-sm font-bold transition-colors"
+            style={`color: ${solution.accent}`}
+          >
+            Explore Solutions
+            <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+        </a>
+      ))}
+    </div>
+
+    {/* Bottom CTA banner */}
+    <div class="mt-12 text-center">
+      <div class="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-gold/15 via-gold/10 to-gold/15 rounded-xl px-8 py-5 border border-gold/20">
+        <p class="text-gray-300 text-sm">
+          Not sure which system fits your process?
+        </p>
+        <a
+          href="/contact-for-alfa-laval-centrifuges/"
+          class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          Talk to an Engineer
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
