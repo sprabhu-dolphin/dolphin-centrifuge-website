@@ -1,27 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "When was Dolphin Centrifuge founded?",
+    answer: "Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded from parts supply into engineering, manufacturing complete centrifuge system packages, and full-service <a href='/industrial-disc-centrifuge-repair/'>centrifuge repair</a>. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally."
+  },
+  {
+    question: "What types of centrifuges does Dolphin Centrifuge supply?",
+    answer: "Dolphin Centrifuge supplies <a href='/disc-stack-centrifuge/'>disc stack centrifuges</a> (self-cleaning and manual-clean), <a href='/decanter-centrifuge/'>decanter centrifuges</a>, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support."
+  },
+  {
+    question: "Where is Dolphin Centrifuge located?",
+    answer: "Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and <a href='/industrial-centrifuge-sample-testing/'>application testing</a> with their own process fluids."
+  },
+  {
+    question: "Does Dolphin Centrifuge offer centrifuge system design?",
+    answer: "Yes. Dolphin Centrifuge provides complete <a href='/industrial-centrifuge-design/'>centrifuge system design</a> including 3D modeling, skid and piping fabrication, control panel design, centrifuge remanufacturing, and full system assembly and testing — all performed in-house at the Warren, Michigan facility."
+  },
+  {
+    question: "Can I visit the Dolphin Centrifuge facility?",
+    answer: "Absolutely. Dolphin Centrifuge maintains an open invitation for potential customers to tour the Warren, Michigan facility. Visitors can see the centrifuge inventory of 150+ units, the manufacturing shop, and meet the engineering team. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> to schedule a visit."
+  }
+];
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "When was Dolphin Centrifuge founded?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded from parts supply into engineering, manufacturing complete centrifuge system packages, and full-service centrifuge repair. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally." }
-    },
-    {
-      "@type": "Question",
-      "name": "What types of centrifuges does Dolphin Centrifuge supply?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge supplies disc stack centrifuges (self-cleaning and manual-clean), decanter centrifuges, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support." }
-    },
-    {
-      "@type": "Question",
-      "name": "Where is Dolphin Centrifuge located?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and application testing with their own process fluids." }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
-  ]
+  }))
 };
 
 const jsonLd = [
@@ -91,7 +106,7 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title="About Dolphin Centrifuge — Industrial Centrifuge Specialists"
+  title="About Dolphin Centrifuge | Industrial Centrifuge Co."
   description="Dolphin Centrifuge, established 1981 Warren MI — industrial centrifuge systems. 100+ years of team experience, 200+ units in stock, worldwide installations."
   canonicalUrl="https://dolphincentrifuge.com/about-dolphin-centrifuge/"
   breadcrumbs={[{label: 'About', href: '/about-dolphin-centrifuge/'}]}
@@ -139,40 +154,46 @@ const jsonLd = [
     <div class="container-dolphin py-12 md:py-16 max-w-4xl">
 
       <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge is a Warren, Michigan industrial centrifuge manufacturer established in 1981 — specializing in Alfa Laval disc stack and decanter centrifuge systems for fuel purification, coolant recovery, waste oil reclamation, lube oil clarification, and wastewater treatment. Dolphin designs, builds, and services complete centrifuge modules from its Warren, Michigan facility, with a global installed capacity exceeding 10 billion gallons annually. Over 40 years of experience in industrial centrifuge manufacturing and service.</p>
+        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge is a Warren, Michigan industrial centrifuge manufacturer established in 1981. Specializing in Alfa Laval disc stack and decanter centrifuge systems, Dolphin designs, builds, and services complete fluid recovery modules with a global installed capacity exceeding 10 billion gallons annually.</p>
       </div>
 
-      <!-- Who Is Dolphin -->
+      <!-- Who Is Dolphin — Pattern A side-by-side -->
       <div id="who-is-dolphin" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
         <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4">Who is Dolphin Centrifuge?</h2>
-        <p class="text-[#2D2D2D] text-lg font-semibold mb-4">
-          Dolphin Centrifuge is a company specializing in manufacturing industrial centrifuge systems.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Established in 1981, we started as an Alfa Laval aftermarket parts manufacturer. Over time, we created a niche for ourselves in the industrial centrifuge market. Our niche is complete fluid recovery systems built around <a href="/alfa-laval-industrial-centrifuges/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">Alfa Laval industrial centrifuges</a>.
-        </p>
-        <p class="text-[#2D2D2D] mb-6">
-          By 2004 we had supplied centrifuge systems to all five major continents. In 2017 we had a global annual installed capacity of over <strong>10 billion gallons!</strong>
-        </p>
-        <div class="flex flex-wrap gap-6 items-center justify-center mt-4">
-          <img
-            src="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-40-Years.webp"
-            alt="Dolphin Centrifuge 40 Years of Experience in Industrial Centrifuge Manufacturing"
-            width="225"
-            height="225"
-            loading="lazy"
-            class="rounded-lg shadow-sm"
-          />
-          <img
-            src="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-600.webp"
-            alt="Dolphin Centrifuge Shop — Industrial Centrifuge Systems Manufacturing Facility in Warren, Michigan"
-            width="600"
-            height="400"
-            loading="lazy"
-            class="rounded-lg shadow-sm flex-1 min-w-[200px] object-cover"
-          />
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="md:w-1/2">
+            <p class="text-[#2D2D2D] text-lg font-semibold mb-4">
+              Dolphin Centrifuge is a company specializing in manufacturing industrial centrifuge systems.
+            </p>
+            <p class="text-[#2D2D2D] mb-4">
+              Established in 1981, we started as an Alfa Laval aftermarket parts manufacturer. Over time, we created a niche for ourselves in the industrial centrifuge market. Our niche is complete fluid recovery systems built around <a href="/alfa-laval-industrial-centrifuges/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">Alfa Laval industrial centrifuges</a>.
+            </p>
+            <p class="text-[#2D2D2D]">
+              By 2004 we had supplied centrifuge systems to all five major continents. In 2017 we had a global annual installed capacity of over <strong>10 billion gallons!</strong>
+            </p>
+          </div>
+          <div class="md:w-1/2 space-y-4">
+            <img
+              src="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-600.webp"
+              alt="Dolphin Centrifuge Shop — Industrial Centrifuge Systems Manufacturing Facility in Warren, Michigan"
+              width="600"
+              height="400"
+              loading="lazy"
+              class="rounded-lg shadow-sm w-full object-cover"
+            />
+            <div class="flex items-center gap-4">
+              <img
+                src="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-40-Years.webp"
+                alt="Dolphin Centrifuge 40 Years of Experience in Industrial Centrifuge Manufacturing"
+                width="225"
+                height="225"
+                loading="lazy"
+                class="rounded-lg shadow-sm w-28 h-28 object-cover"
+              />
+              <p class="text-gray-500 text-sm">Dolphin Centrifuge Shop — Warren, Michigan</p>
+            </div>
+          </div>
         </div>
-        <p class="text-center text-gray-500 text-sm mt-2">Dolphin Centrifuge Shop</p>
       </div>
 
       <!-- What Does Dolphin Do -->
@@ -267,27 +288,31 @@ const jsonLd = [
         </p>
       </div>
 
-      <!-- Our Team -->
+      <!-- Our Team — Pattern A side-by-side -->
       <div id="our-team" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
         <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4">Our Team</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Dolphin Centrifuge's primary resource is our people. Our team has a cumulative <strong>100+ years of experience</strong> with <a href="/industrial-centrifuge/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">industrial centrifuges</a>. We have the technical background to produce top-shelf equipment with mechanical and electrical engineers on staff.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          We have the experience and expertise to handle the toughest centrifuge challenges.
-        </p>
-        <p class="text-[#2D2D2D]">
-          From <a href="/industrial-centrifuge-design/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">centrifuge system design</a> and 3D modeling to final assembly and testing, our engineers oversee every step of the manufacturing process. This hands-on approach ensures that every centrifuge system leaving our facility meets the highest standards of quality and performance.
-        </p>
-        <div class="mt-6">
-          <img
-            src="/images/about-dolphin-centrifuge/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.webp"
-            alt="Dolphin Centrifuge team working on industrial centrifuge systems in Warren, Michigan facility"
-            width="800"
-            height="500"
-            loading="lazy"
-            class="rounded-lg shadow-sm w-full object-cover"
-          />
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="md:w-1/2">
+            <p class="text-[#2D2D2D] mb-4">
+              Dolphin Centrifuge's primary resource is our people. Our team has a cumulative <strong>100+ years of experience</strong> with <a href="/industrial-centrifuge/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">industrial centrifuges</a>. We have the technical background to produce top-shelf equipment with mechanical and electrical engineers on staff.
+            </p>
+            <p class="text-[#2D2D2D] mb-4">
+              We have the experience and expertise to handle the toughest centrifuge challenges.
+            </p>
+            <p class="text-[#2D2D2D]">
+              From <a href="/industrial-centrifuge-design/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">centrifuge system design</a> and 3D modeling to final assembly and testing, our engineers oversee every step of the manufacturing process. This hands-on approach ensures that every centrifuge system leaving our facility meets the highest standards of quality and performance.
+            </p>
+          </div>
+          <div class="md:w-1/2">
+            <img
+              src="/images/about-dolphin-centrifuge/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.webp"
+              alt="Dolphin Centrifuge team working on industrial centrifuge systems in Warren, Michigan facility"
+              width="800"
+              height="500"
+              loading="lazy"
+              class="rounded-lg shadow-sm w-full object-cover"
+            />
+          </div>
         </div>
       </div>
 
@@ -298,26 +323,32 @@ const jsonLd = [
           Dolphin Centrifuge has the in-house capability to design, manufacture, and test all the components for a complete centrifuge module. We build the following crucial components in our factory in Warren, Michigan.
         </p>
 
-        <!-- System Design -->
+        <!-- System Design — Pattern A side-by-side -->
         <div id="system-design" class="mb-8">
           <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">
             <a href="/industrial-centrifuge-design/" class="hover:text-[#E8A317]">Centrifuge System Design</a> and 3D Modeling
           </h3>
-          <img
-            src="/images/about-dolphin-centrifuge/Centrifugal-Filter-Decanter.webp"
-            alt="Decanter System 3D Model — Dolphin Centrifuge Engineering Design and Modeling"
-            width="1000"
-            height="431"
-            loading="lazy"
-            class="rounded-lg shadow-sm w-full object-cover mb-3"
-          />
-          <p class="text-gray-500 text-sm mb-4">Decanter System 3D Model</p>
-          <p class="text-[#2D2D2D] mb-3">
-            We create 3D models of complex systems to visualize and design appropriate piping and auxiliaries, general assembly layout, module flow, etc.
-          </p>
-          <p class="text-[#2D2D2D]">
-            We also provide the General Assembly (GA) drawing to the customer for review before building.
-          </p>
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <div class="md:w-1/2">
+              <p class="text-[#2D2D2D] mb-3">
+                We create 3D models of complex systems to visualize and design appropriate piping and auxiliaries, general assembly layout, module flow, etc.
+              </p>
+              <p class="text-[#2D2D2D]">
+                We also provide the General Assembly (GA) drawing to the customer for review before building.
+              </p>
+            </div>
+            <div class="md:w-1/2">
+              <img
+                src="/images/about-dolphin-centrifuge/Centrifugal-Filter-Decanter.webp"
+                alt="Decanter System 3D Model — Dolphin Centrifuge Engineering Design and Modeling"
+                width="1000"
+                height="431"
+                loading="lazy"
+                class="rounded-lg shadow-sm w-full object-cover"
+              />
+              <p class="text-gray-500 text-sm mt-1">Decanter System 3D Model</p>
+            </div>
+          </div>
         </div>
 
         <!-- Skid Piping -->
@@ -328,38 +359,42 @@ const jsonLd = [
           </p>
         </div>
 
-        <!-- Control Panel -->
+        <!-- Control Panel — Pattern A side-by-side (images left, text right) -->
         <div id="control-panel" class="mb-8">
           <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">
             <a href="/industrial-centrifuge-controls/" class="hover:text-[#E8A317]">Control Panel Design</a> and Assembly
           </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <img
-                src="/images/about-dolphin-centrifuge/disc-centrifuge-controls.webp"
-                alt="Industrial Centrifuge Control Screen — Dolphin Centrifuge Proprietary Control System"
-                width="834"
-                height="348"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full object-cover"
-              />
-              <p class="text-gray-500 text-sm mt-1">Industrial Centrifuge Control Screen</p>
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <div class="md:w-1/2 space-y-4">
+              <div>
+                <img
+                  src="/images/about-dolphin-centrifuge/disc-centrifuge-controls.webp"
+                  alt="Industrial Centrifuge Control Screen — Dolphin Centrifuge Proprietary Control System"
+                  width="834"
+                  height="348"
+                  loading="lazy"
+                  class="rounded-lg shadow-sm w-full object-cover"
+                />
+                <p class="text-gray-500 text-sm mt-1">Industrial Centrifuge Control Screen</p>
+              </div>
+              <div>
+                <img
+                  src="/images/about-dolphin-centrifuge/XP-Control-Panel.webp"
+                  alt="Class 1 Div 2 Centrifuge Control System — Explosion Proof Control Panel"
+                  width="266"
+                  height="308"
+                  loading="lazy"
+                  class="rounded-lg shadow-sm w-full object-cover"
+                />
+                <p class="text-gray-500 text-sm mt-1">Class 1 Div 2 Centrifuge Control System</p>
+              </div>
             </div>
-            <div>
-              <img
-                src="/images/about-dolphin-centrifuge/XP-Control-Panel.webp"
-                alt="Class 1 Div 2 Centrifuge Control System — Explosion Proof Control Panel"
-                width="266"
-                height="308"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full object-cover"
-              />
-              <p class="text-gray-500 text-sm mt-1">Class 1 Div 2 Centrifuge Control System</p>
+            <div class="md:w-1/2">
+              <p class="text-[#2D2D2D]">
+                Dolphin Centrifuge's proprietary control system uses the latest technologies to offer ease of use and operator feedback with a troubleshooting guide built into the control system.
+              </p>
             </div>
           </div>
-          <p class="text-[#2D2D2D]">
-            Dolphin Centrifuge's proprietary control system uses the latest technologies to offer ease of use and operator feedback with a troubleshooting guide built into the control system.
-          </p>
         </div>
 
         <!-- Centrifuge Remanufacture -->
@@ -424,23 +459,9 @@ const jsonLd = [
         </div>
       </div>
 
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">When was Dolphin Centrifuge founded?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded into engineering complete centrifuge system packages and full-service centrifuge repair. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What types of centrifuges does Dolphin Centrifuge supply?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge supplies disc stack centrifuges (self-cleaning and manual-clean), decanter centrifuges, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Where is Dolphin Centrifuge located?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and application testing with their own process fluids.</p>
-          </div>
-        </div>
+      <!-- FAQ — Accordion Component -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <FAQ items={faqItems} />
       </div>
       <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
