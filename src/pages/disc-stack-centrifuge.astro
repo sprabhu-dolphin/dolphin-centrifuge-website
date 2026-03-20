@@ -1,11 +1,47 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is a disc stack centrifuge?",
+    answer: "A disc stack centrifuge is a high-speed rotating separator that uses centrifugal force (7,000\u201312,000 Gs) to separate liquids of different densities, or to remove fine solid particles from a liquid. The bowl contains a stack of conical metal discs that multiply the settling area, enabling separation of particles as small as 0.5\u20131 micron. It is used for oil clarification, coolant recovery, wastewater polishing, and food/beverage processing."
+  },
+  {
+    question: "What is the difference between a self-cleaning and a manual-clean disc centrifuge?",
+    answer: "A self-cleaning (automatic) disc centrifuge ejects accumulated sludge automatically at timed intervals by briefly opening ports at the bowl periphery, allowing continuous unattended operation. A manual-clean centrifuge must be stopped and disassembled to remove accumulated solids. Self-cleaning centrifuges are preferred for high-solids applications or processes requiring 24/7 uptime."
+  },
+  {
+    question: "How do I select the right disc stack centrifuge size?",
+    answer: "Disc stack centrifuge sizing depends on: (1) required flow rate in GPM or LPH, (2) percentage of solids in the feed, (3) target separation quality, (4) fluid viscosity and temperature, and (5) available utilities. Dolphin Centrifuge\u2019s DMPX series ranges from 7 GPM (DMPX-010) to 59\u201372 GPM (DMPX-070). Contact Dolphin Centrifuge for a sizing recommendation based on your specific process parameters."
+  },
+  {
+    question: "How much does a disc stack centrifuge cost?",
+    answer: "A small-capacity disc centrifuge from a name-brand OEM starts at around $15,000 for a bare centrifuge. With options such as a skid, control system, wiring, and alarms, costs reach $40,000 or more. High-capacity food-grade centrifuges can exceed $750,000. Re-manufactured disc centrifuges cost 40\u201360% of new machines of similar capacity."
+  },
+  {
+    question: "What are the advantages of a disc stack centrifuge over filtration?",
+    answer: "Disc stack centrifuges separate both solids and water in a single pass without consumable filter media. They remove particles down to 1 micron, maintain consistent throughput without clogging, and have negligible operating and disposal costs. The total cost of ownership is typically lower than filtration, with upfront costs recovered within 1\u20132 years."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
+    }
+  }))
+};
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Disc Stack Centrifuge",
-  "description": "Industrial disc stack centrifuge for separating fine particles (0.5µm) and immiscible liquids using up to 10,000 G-force. Covers operation, specifications, sizing, costs, and bowl types.",
+  "description": "Industrial disc stack centrifuge for separating fine particles (0.5\u00b5m) and immiscible liquids using up to 10,000 G-force. Covers operation, specifications, sizing, costs, and bowl types.",
   "brand": {
     "@type": "Brand",
     "name": "Dolphin Centrifuge"
@@ -26,6 +62,8 @@ const jsonLd = {
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge/",
   "offers": {
     "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
     "seller": {
       "@type": "Organization",
       "name": "Dolphin Centrifuge"
@@ -33,1088 +71,970 @@ const jsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a disc stack centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A disc stack centrifuge is a high-speed rotating separator that uses centrifugal force (7,000–12,000 Gs) to separate liquids of different densities, or to remove fine solid particles from a liquid. The bowl contains a stack of conical metal discs that multiply the settling area, enabling separation of particles as small as 0.5–1 micron. It is used for oil clarification, coolant recovery, wastewater polishing, and food/beverage processing." }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between a self-cleaning and a manual-clean disc centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A self-cleaning (automatic) disc centrifuge ejects accumulated sludge automatically at timed intervals by briefly opening ports at the bowl periphery, allowing continuous unattended operation. A manual-clean centrifuge must be stopped and disassembled to remove accumulated solids. Self-cleaning centrifuges are preferred for high-solids applications or processes requiring 24/7 uptime." }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I select the right disc stack centrifuge size?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Disc stack centrifuge sizing depends on: (1) required flow rate in GPM or LPH, (2) percentage of solids in the feed, (3) target separation quality, (4) fluid viscosity and temperature, and (5) available utilities. Dolphin Centrifuge's DMPX series ranges from 7 GPM (DMPX-010) to 59–72 GPM (DMPX-070). Contact Dolphin Centrifuge for a sizing recommendation based on your specific process parameters." }
-    }
-  ]
-};
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'cost', label: 'Cost' },
+  { id: 'operating-cost', label: 'Operating Cost' },
+  { id: 'maintenance-costs', label: 'Maintenance Costs' },
+  { id: 'power-consumption', label: 'Power Consumption' },
+  { id: 'sizing-and-capacity', label: 'Sizing and Capacity' },
+  { id: 'advantages', label: 'Advantages' },
+  { id: 'advantages-over-decanter', label: 'Advantages over Decanter Centrifuge' },
+  { id: 'advantages-over-filtration', label: 'Advantages over Filtration' },
+  { id: 'difference-decanter-disc', label: 'Decanter vs Disc Stack' },
+  { id: 'calculations', label: 'Calculations' },
+  { id: 'bowl-types', label: 'Bowl Types' },
+  { id: 'self-cleaning-bowl', label: 'Self-Cleaning Bowl Operation' },
+  { id: 'manual-clean-bowl', label: 'Manual Clean Bowl Operation' },
+  { id: 'in-stock', label: 'Re-manufactured Units In Stock' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge Applications', href: '/disc-stack-centrifuge-applications/' },
+  { label: 'Disadvantages of Disc Stack Centrifuge', href: '/disadvantages-disc-stack-centrifuge/' },
+  { label: 'Disc Stack Centrifuge FAQ (101 Questions)', href: '/disc-stack-centrifuge-faq/' },
+  { label: 'Decanter vs Disc Stack Comparison', href: '/decanter-centrifuge-disc-centrifuge-technical-comparison/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-014 Self-Cleaning Centrifuge', href: '/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/', description: '3-phase disc stack, 7 GPM' },
+  { label: 'Disc Stack Centrifuge Options', href: '/disc-stack-centrifuge-options/', description: 'Accessories, heaters, skids & controls' },
+  { label: 'Centrifuge Control Systems', href: '/industrial-centrifuge-controls/', description: 'PLC-based automation panels' },
+];
 ---
 
-<BaseLayout
-  title="Disc Stack Centrifuge Guide"
-  description="Disc stack centrifuge guide: how they work, types, specs, and applications. Dolphin Centrifuge supplies and services Alfa Laval disc centrifuges."
+<ApplicationLayout
+  title="Disc Stack Centrifuge"
+  description="Complete disc stack centrifuge guide covering operation, specifications, sizing, costs, and bowl types. Dolphin Centrifuge supplies industrial disc separators."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/disc-stack-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental.webp"
+  heroImageAlt="Duplex Disc Stack Centrifuge System for Diesel Fuel"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Disc Stack Centrifuge'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-14 md:py-20">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <nav class="text-sm text-blue-200 mb-4">
-            <a href="/" class="hover:text-white">Home</a>
-            <span class="mx-2">/</span>
-            <a href="/centrifuges/" class="hover:text-white">Products</a>
-            <span class="mx-2">/</span>
-            <span class="text-white">Disc Stack Centrifuge</span>
-          </nav>
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-            Disc Stack Centrifuge
-          </h1>
-          <p class="text-lg text-blue-100 mb-4">
-            Benefits, Costs, Operation, Specs, Sizing &amp; More
-          </p>
-          <p class="text-blue-100 mb-6">Dolphin Centrifuge supplies purpose-built industrial centrifuge systems for this application, operating at 7000 Gs, separation down to 1 microns. A disc stack centrifuge is a specifically designed <a href="/industrial-centrifuge/" class="text-[#E8A317] hover:underline">industrial centrifuge</a> with a stack of cone-shaped discs. The additional surface increases the settling area multi-fold and reduces the settling distance. Combined with high g-force (7,000 Gs), these features make it a highly efficient separation device for fine particles (0.5µm) and immiscible liquids.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white font-semibold px-6 py-3 rounded-lg hover:bg-yellow-600 text-center transition-colors">Get a Quote</a>
-            <a href="tel:+12485222573" class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] text-center transition-colors">(248) 522-2573</a>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <img
-            src="/images/disc-stack-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental.webp"
-            alt="Duplex Disc Stack Centrifuge System for Diesel Fuel"
-            width="600" height="450"
-            loading="eager"
-            class="rounded-xl shadow-lg w-full max-w-md object-cover"
-          />
-        </div>
+  <!-- AI Summary — 30-50 words -->
+  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-[#555] leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack centrifuge systems for high-speed liquid-liquid-solid separation. Operating at 7,000&ndash;12,000 Gs, these self-cleaning separators process 5 to 100+ GPM continuously, separating particles from 0.5 microns. Over 40 years of disc stack centrifuge experience.</p>
+  </div>
+
+  <!-- Intro -->
+  <p>
+    A disc stack centrifuge is a specifically designed <a href="/industrial-centrifuge/">industrial centrifuge</a> with a stack of cone-shaped discs. The additional surface increases the settling area multi-fold and reduces the settling distance. Combined with high g-force (7,000 Gs), these features make it a highly efficient separation device for fine particles (0.5&micro;m) and immiscible liquids.
+  </p>
+  <p>
+    A disc stack centrifuge is also known as a <em>disc bowl, conical plate, disk stack, or disc stack separator.</em>
+  </p>
+
+  <figure class="text-center my-6">
+    <img
+      src="/images/disc-stack-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp"
+      alt="Alfa Laval Disc Centrifuge Bowl Cross Section showing disc stack arrangement"
+      width="699" height="388"
+      loading="lazy"
+      class="rounded-lg shadow mx-auto"
+    />
+    <figcaption class="text-sm text-gray-500 mt-2">Alfa Laval Disc Centrifuge Bowl Cross Section</figcaption>
+  </figure>
+
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
+
+  <figure class="text-center my-6">
+    <img
+      src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif"
+      alt="Disc Centrifuge Self-Cleaning Animation showing solids ejection cycle"
+      width="599" height="460"
+      loading="lazy"
+      class="rounded-lg shadow mx-auto"
+    />
+    <figcaption class="text-sm text-gray-500 mt-2">Disc Centrifuge Self-Cleaning Animation</figcaption>
+  </figure>
+
+  <p>
+    A disc-stack centrifuge separates immiscible liquids and suspended solids from contaminated fluids. G-forces up to 10,000 Gs cause the particles' sedimentation on the disc surface where they flocculate and move toward the centrifuge bowl periphery.
+  </p>
+  <p>
+    The accumulated solids are self-ejected or manually removed from the disc centrifuge bowl.
+  </p>
+  <p>
+    Think of the discs in the centrifuge bowl splitting the liquid column into thin slices between the inter-disc space. The rotating discs impart the rotational velocity to the incoming stationary (non-rotating) fluid quickly due to the liquid's viscosity.
+  </p>
+
+  <figure class="text-center my-6">
+    <img
+      src="/images/disc-stack-centrifuge/disc-stack-bowl-disc-spacing-1000-768x307-1.webp"
+      alt="Disc stack showing inter-disc spacing and separation zones"
+      width="816" height="323"
+      loading="lazy"
+      class="rounded-lg shadow mx-auto"
+    />
+    <figcaption class="text-sm text-gray-500 mt-2">Disc stack showing inter-disc spacing</figcaption>
+  </figure>
+
+  <!-- Specifications -->
+  <h2 id="specifications">Specifications</h2>
+  <p>
+    The following table lists the specifications of common disc stack centrifuges.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Centrifuge Model</th>
+          <th class="text-center">MOPX 205</th>
+          <th class="text-center">MOPX 207</th>
+          <th class="text-center">MOPX 213</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-medium">Rated Capacity &ndash; GPM</td>
+          <td class="text-center font-mono">21</td>
+          <td class="text-center font-mono">30</td>
+          <td class="text-center font-mono">90</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Bowl Speed &ndash; RPM</td>
+          <td class="text-center font-mono">7,600</td>
+          <td class="text-center font-mono">6,325</td>
+          <td class="text-center font-mono">4,140</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Bowl Volume (Ltrs)</td>
+          <td class="text-center font-mono">3.1</td>
+          <td class="text-center font-mono">7.5</td>
+          <td class="text-center font-mono">29</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Drive Motor &ndash; kW</td>
+          <td class="text-center font-mono">4</td>
+          <td class="text-center font-mono">7.5</td>
+          <td class="text-center font-mono">16</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Max. Power (Startup) &ndash; kW</td>
+          <td class="text-center font-mono">6.5</td>
+          <td class="text-center font-mono">10.3</td>
+          <td class="text-center font-mono">18</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Running Power (Full Capacity) &ndash; kW</td>
+          <td class="text-center font-mono">2.4</td>
+          <td class="text-center font-mono">6.4</td>
+          <td class="text-center font-mono">10.4</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Centrifuge Weight (w/o Motor) &ndash; Kg</td>
+          <td class="text-center font-mono">430</td>
+          <td class="text-center font-mono">785</td>
+          <td class="text-center font-mono">1,290</td>
+        </tr>
+        <tr>
+          <td class="font-medium">Bowl Weight &ndash; Kg</td>
+          <td class="text-center font-mono">56</td>
+          <td class="text-center font-mono">125</td>
+          <td class="text-center font-mono">400</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Disc Cone Angle -->
+  <h3 id="disc-cone-angle">Disc Cone Angle</h3>
+  <p>
+    The disc cone angle is the angle between the disc surface and a horizontal axis. The following image illustrates the cone angle of a small disc stack centrifuge.
+  </p>
+
+  <img
+    src="/images/disc-stack-centrifuge/Centrifuge-Disc-Cone-Angle-600.webp"
+    alt="Centrifuge Disc Cone Angle diagram showing 40-60 degree range"
+    width="839" height="435"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[400px] md:float-right md:ml-6 md:mb-4"
+  />
+
+  <p>
+    The typical disc cone angle is between 40 degrees and 60 degrees, depending on the centrifuge application. For example, the cone angle of the oil centrifuge is less than that in milk centrifuges due to differences in the separation application.
+  </p>
+  <div class="clear-both"></div>
+
+  <!-- Cost -->
+  <h2 id="cost">Cost</h2>
+  <p>
+    The cost of a disc-stack centrifuge depends on several factors. The main factors affecting the cost of a centrifuge are listed below in order of influence.
+  </p>
+
+  <h3 id="new-remanufactured-used">New, Re-manufactured, and Used</h3>
+  <p>
+    New centrifuges from the manufacturer are the first choice for most but are often not cost-feasible. The next option is a re-manufactured centrifuge from the OEM or a reputed centrifuge company. And finally, used 'As-Is' centrifuges are also an option but not recommended for safety reasons.
+  </p>
+  <p>
+    A <strong>small-capacity</strong> disc centrifuge from a <strong>name-brand OEM</strong> starts at around <strong>$15K</strong> for a bare centrifuge. The same centrifuge with all options, including a skid, control system, wiring, alarms, etc. goes up to over $40K, depending on options. On the other end, <strong>high-capacity</strong>, food-grade centrifuges cost <strong>over $750K</strong>.
+  </p>
+  <p>
+    A base <strong>re-manufactured disc centrifuge costs</strong> 40% to 60% of new machines of similar capacity. However, with additional options, a factory-new centrifuge's cost rises faster than a similarly equipped re-manufactured centrifuge with new optional accessories.
+  </p>
+
+  <h3 id="throughput">Throughput</h3>
+  <p>
+    The size of a centrifuge refers to the processing capacity of the machine. Bigger, higher-capacity centrifuges cost more than smaller-capacity units, obviously. However, it is important to mention that the increase in the cost of a larger centrifuge is not proportional to the capacity increase. In other words, the cost of a centrifuge is not directly proportional to its processing capacity.
+  </p>
+  <p>
+    For example, a disc centrifuge with a rated capacity of 10 Gallon-per-Minute costs only about 30% more than a centrifuge <strong>rated at 5 Gallons-per-Minute</strong>.
+  </p>
+
+  <h3 id="manufacturer">Manufacturer</h3>
+  <p>
+    Disc centrifuges from established, name-brand manufacturers such as <strong>Alfa Laval</strong> cost more than those manufactured by Asian manufacturers (China, India, Turkey, etc.). The price multiplier is anywhere from 2 to 5 times.
+  </p>
+  <p>
+    <a href="/alfa-laval-industrial-centrifuges/">Alfa Laval industrial centrifuges</a> are high-quality machines known for their durability and longevity. Such companies have decades of manufacturing experience and also offer worldwide service and parts distribution networks. These advantages more than justify the related cost premium.
+  </p>
+
+  <h3 id="options-accessories">Options &amp; Accessories</h3>
+  <p>
+    Optional equipment is often integrated with disc centrifuges to enhance the separator's performance. Accessories such as feed pumps, electric pre-heaters, pre and post-filters, sludge handling systems, etc., can add significant costs to the centrifuge system.
+  </p>
+  <p>
+    Actual process conditions and process fluid properties often define the options that would benefit the user. For example, an in-line heater will add to the system's cost, but it could double the centrifuge throughput. Learn more about <a href="/disc-stack-centrifuge-options/">disc stack centrifuge options and accessories</a>.
+  </p>
+
+  <!-- Mid-page CTA -->
+  <blockquote class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-5 my-8">
+    <p class="text-navy font-semibold mb-2">Need pricing for your application?</p>
+    <p class="text-sm text-[#555] mb-3">Dolphin Centrifuge has 40+ years of experience sizing and pricing disc stack centrifuges for hundreds of industrial applications.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-5 py-2.5 rounded-lg transition-colors">
+      Get a Free Quote
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+    </a>
+  </blockquote>
+
+  <!-- Operating Cost -->
+  <h2 id="operating-cost">Operating Cost</h2>
+  <p>
+    Operating cost refers to the actual cost incurred during the regular operation of the centrifuge system. Since centrifuges do not use any consumable filters or media, the only operating cost is electricity costs to run the centrifuge.
+  </p>
+  <p>
+    The following table highlights the example of operating costs per gallon for a typical operation such as diesel fuel purification. This table assumes a cost of 0.20 cents/kW-hr of power.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Centrifuge Model &amp; Capacity</th>
+          <th class="text-center">MAB 103 (2 GPM Diesel)</th>
+          <th class="text-center">MOPX 207 (22 GPM Diesel)</th>
+          <th class="text-center">WHPX 513 (62 GPM Diesel)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Motor Power (kW)</td>
+          <td class="text-center font-mono">1</td>
+          <td class="text-center font-mono">5</td>
+          <td class="text-center font-mono">15</td>
+        </tr>
+        <tr>
+          <td>Electricity Cost / Hour</td>
+          <td class="text-center font-mono">$0.20</td>
+          <td class="text-center font-mono">$1.00</td>
+          <td class="text-center font-mono">$2.20</td>
+        </tr>
+        <tr>
+          <td>Gallons / Hour</td>
+          <td class="text-center font-mono">120</td>
+          <td class="text-center font-mono">1,320</td>
+          <td class="text-center font-mono">3,720</td>
+        </tr>
+        <tr>
+          <td class="font-bold">Electric Cost/Gal</td>
+          <td class="text-center font-bold font-mono">0.16 Cents</td>
+          <td class="text-center font-bold font-mono">0.075 Cents</td>
+          <td class="text-center font-bold font-mono">0.06 Cents</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    From the above example, the operating costs are negligible compared to filters or other media-based separation methods.
+  </p>
+
+  <!-- Maintenance Costs -->
+  <h2 id="maintenance-costs">Maintenance Costs</h2>
+  <p>
+    Maintenance costs for disc centrifuges are primarily related to the consumable spare parts needed for regular maintenance. The following table lists the spare parts cost for routine maintenance of the centrifuge models highlighted in the operating cost example above.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Spare Parts</th>
+          <th class="text-center">MAB 103</th>
+          <th class="text-center">MOPX 207</th>
+          <th class="text-center">WHPX 513</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Intermediate Service Kit (2/year)</td>
+          <td class="text-center font-mono">$300</td>
+          <td class="text-center font-mono">$450</td>
+          <td class="text-center font-mono">$950</td>
+        </tr>
+        <tr>
+          <td>Major Service Kit (1/year)</td>
+          <td class="text-center font-mono">$650</td>
+          <td class="text-center font-mono">$1,400</td>
+          <td class="text-center font-mono">$2,200</td>
+        </tr>
+        <tr>
+          <td class="font-bold">Total Spare Parts Cost per Year</td>
+          <td class="text-center font-bold font-mono">$950</td>
+          <td class="text-center font-bold font-mono">$1,850</td>
+          <td class="text-center font-bold font-mono">$3,150</td>
+        </tr>
+        <tr>
+          <td>Gallons / Year (200 &times; 8 hr Days)</td>
+          <td class="text-center font-mono">192,000</td>
+          <td class="text-center font-mono">2,112,000</td>
+          <td class="text-center font-mono">5,952,000</td>
+        </tr>
+        <tr>
+          <td class="font-bold">Maintenance Cost (per Gal)</td>
+          <td class="text-center font-bold font-mono">0.5 Cents</td>
+          <td class="text-center font-bold font-mono">0.1 Cent</td>
+          <td class="text-center font-bold font-mono">0.05 Cent</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mt-6 mb-2">
+    <p class="text-[#2D2D2D] italic text-sm">
+      We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/" class="text-navy underline font-semibold hover:text-gold">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+    </p>
+  </div>
+
+  <!-- Power Consumption -->
+  <h2 id="power-consumption">Power Consumption</h2>
+  <p>
+    The drive motor is the main power consumption in a disc stack centrifuge. It is industry practice to calculate the kW required per m&sup3; or gallon of fluid processed.
+  </p>
+  <p>
+    Several design improvements in centrifuges have led to reduced power consumption. There are certain specific areas where the design changes have been most beneficial.
+  </p>
+  <p>
+    The reduction of drive train losses from belt &amp; gear drive transmissions is achieved with direct-drive configurations with inverters.
+  </p>
+  <p>
+    Internal bowl turbulence reduction with improved designs has also contributed to power consumption optimization.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Centrifuge Capacity</th>
+          <th class="text-center">Motor HP</th>
+          <th class="text-center">Running Amps @ 460 VAC</th>
+          <th class="text-center">Power Consumption</th>
+          <th class="text-center">Power / Gallon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-mono">5 GPM</td>
+          <td class="text-center font-mono">2 HP</td>
+          <td class="text-center font-mono">2.5 A</td>
+          <td class="text-center font-mono">1 kW</td>
+          <td class="text-center font-mono">0.20 kW per GPM</td>
+        </tr>
+        <tr>
+          <td class="font-mono">10 GPM</td>
+          <td class="text-center font-mono">4 HP</td>
+          <td class="text-center font-mono">5 A</td>
+          <td class="text-center font-mono">2.2 kW</td>
+          <td class="text-center font-mono">0.22 kW per GPM</td>
+        </tr>
+        <tr>
+          <td class="font-mono">40 GPM</td>
+          <td class="text-center font-mono">10 HP</td>
+          <td class="text-center font-mono">9 A</td>
+          <td class="text-center font-mono">7.5 kW</td>
+          <td class="text-center font-mono">0.18 kW per GPM</td>
+        </tr>
+        <tr>
+          <td class="font-mono">60 GPM</td>
+          <td class="text-center font-mono">15 HP</td>
+          <td class="text-center font-mono">12 A</td>
+          <td class="text-center font-mono">11 kW</td>
+          <td class="text-center font-mono">0.18 kW per GPM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sizing and Capacity -->
+  <h2 id="sizing-and-capacity">Sizing and Capacity</h2>
+  <p>
+    Disc centrifuge sizing is based on the flow rate of each centrifuge for a specific fluid. For example, all <a href="/alfa-laval-centrifuge/">Alfa Laval centrifuges</a> have an OEM-published flow rate chart, which provides the expected capacity for specific fluids like diesel, fuel oil, hydraulic oil, etc.
+  </p>
+  <p>
+    The capacity of these centrifuges ranges from 2 gallons per minute to over 500 gallons per minute.
+  </p>
+  <p>
+    The user should also consider another essential fact about disc centrifuges. The 'rated' capacity of a centrifuge has little relevance in the practical application of centrifuges. The rated capacity is the hydraulic swallowing capacity of a centrifuge to prevent overflow.
+  </p>
+  <p>
+    In real terms, the actual processing capacity is lesser than the 'rated' capacity. Based on the discussion above, the actual processing capacity depends on the process-liquid and contaminant properties.
+  </p>
+  <p>
+    In other words, the same centrifuge model has different capacities for different liquids. This difference goes back to Stokes' law, wherein the centrifuge efficiency is dependent on the fluid's viscosity, amongst other factors.
+  </p>
+  <p>
+    The following table lists the sizing and capacity of disc stack centrifuges for different fuels and oils.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Centrifuge Type</th>
+          <th class="text-center">MOPX 205</th>
+          <th class="text-center">MOPX 207</th>
+          <th class="text-center">MOPX 310</th>
+          <th class="text-center">MOPX 213</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">Rated Capacity &ndash; GPM</td>
+          <td class="text-center font-bold font-mono">25</td>
+          <td class="text-center font-bold font-mono">34</td>
+          <td class="text-center font-bold font-mono">68</td>
+          <td class="text-center font-bold font-mono">90</td>
+        </tr>
+        <tr>
+          <td>Distillate (3 cSt)</td>
+          <td class="text-center font-mono">23</td>
+          <td class="text-center font-mono">31</td>
+          <td class="text-center font-mono">65</td>
+          <td class="text-center font-mono">82</td>
+        </tr>
+        <tr>
+          <td>Diesel Fuel (13 cSt)</td>
+          <td class="text-center font-mono">15</td>
+          <td class="text-center font-mono">22</td>
+          <td class="text-center font-mono">56</td>
+          <td class="text-center font-mono">62</td>
+        </tr>
+        <tr>
+          <td>Turbine Lube Oil (ISO 32)</td>
+          <td class="text-center font-mono">14</td>
+          <td class="text-center font-mono">20</td>
+          <td class="text-center font-mono">52</td>
+          <td class="text-center font-mono">56</td>
+        </tr>
+        <tr>
+          <td>Hydraulic Oil (ISO 15)</td>
+          <td class="text-center font-mono">14</td>
+          <td class="text-center font-mono">20</td>
+          <td class="text-center font-mono">51</td>
+          <td class="text-center font-mono">54</td>
+        </tr>
+        <tr>
+          <td>Light Fuel Oil (100 cSt)</td>
+          <td class="text-center font-mono">11</td>
+          <td class="text-center font-mono">19</td>
+          <td class="text-center font-mono">39</td>
+          <td class="text-center font-mono">41</td>
+        </tr>
+        <tr>
+          <td>Medium Fuel Oil (380 cSt)</td>
+          <td class="text-center font-mono">7</td>
+          <td class="text-center font-mono">12</td>
+          <td class="text-center font-mono">23</td>
+          <td class="text-center font-mono">24</td>
+        </tr>
+        <tr>
+          <td>Heavy Fuel Oil (600 cSt)</td>
+          <td class="text-center font-mono">5</td>
+          <td class="text-center font-mono">8</td>
+          <td class="text-center font-mono">17</td>
+          <td class="text-center font-mono">16</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Advantages -->
+  <h2 id="advantages">Advantages</h2>
+  <p>
+    As with all separation equipment, disc centrifuges have a specific niche area of application where they deliver the optimum solution for separating solids from liquids or liquids from solids and liquids.
+  </p>
+  <p>
+    However, they also have limitations to their applications, and we have discussed the <a href="/disadvantages-disc-stack-centrifuge/">disadvantages of disc centrifuges</a> in a different article.
+  </p>
+
+  <!-- Advantages over Decanter -->
+  <h3 id="advantages-over-decanter">Advantages over Decanter Centrifuge</h3>
+
+  <img
+    src="/images/disc-stack-centrifuge/decanter-disc-centrifuge-particle-size-efficiency-300.webp"
+    alt="Decanter and Disc Centrifuge Particle Size Efficiency comparison chart"
+    width="520" height="398"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[280px] md:float-right md:ml-6 md:mb-4"
+  />
+
+  <p>
+    There are several benefits of disc centrifuges over <a href="/decanter-centrifuge/">decanter centrifuges</a>. The following table highlights key benefits with a brief explanation of each.
+  </p>
+  <div class="clear-both"></div>
+
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Description</th>
+          <th>Why Does it Matter</th>
+          <th>Advantage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-semibold">Particle Size Efficiency</td>
+          <td>A disc centrifuge can separate particles as <strong>small as 1 micron</strong> as compared to a decanter centrifuge, limited to particles <strong>larger than 50 microns.</strong></td>
+          <td>A disc centrifuge's higher g-force (~7,000 Gs) allows it to separate much smaller particles than a decanter with a lower g-force (~3,000 Gs).</td>
+          <td>This <a href="/disc-stack-centrifuge-efficiency/">particle size efficiency</a> makes a disc centrifuge uniquely suitable for removing small particles for polishing applications, which is impossible with a decanter centrifuge.</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Liquid / Liquid Separation</td>
+          <td>With its high g-force, a stack disc centrifuge can easily separate immiscible liquids.</td>
+          <td>A higher g-force is required to separate liquids with similar specific gravities. A disc centrifuge has a higher g-force, while a decanter centrifuge does not.</td>
+          <td>The disc-centrifuge can separate one liquid from another, even if their specific gravities are very similar.</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Adjusting Sludge Dryness</td>
+          <td>It is impossible to change the separated solid wetness in the decanter centrifuge while operating. However, it is possible to adjust the sludge dryness in a disc-stack centrifuge.</td>
+          <td>A decanter centrifuge continuously ejects the separated sludge, and the sludge dryness depends on the decanter's pond depth.</td>
+          <td>The decanter needs to be stopped to <a href="/decanter-centrifuge-pond-depth/">adjust the pond depth</a>. In a disc centrifuge, adjusting the ejection cycle frequency can help change the sludge moisture content while operating.</td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Physical Size or Footprint</td>
+          <td>A disc centrifuge has a smaller footprint than a decanter centrifuge of similar capacity.</td>
+          <td>Decanter centrifuges are oriented horizontally, whereas disc centrifuges are vertically oriented, allowing a smaller footprint.</td>
+          <td>Disc centrifuges fit within limited space-constrained areas, which is advantageous for installing a centrifuge in an already existing facility.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Advantages over Filtration -->
+  <h3 id="advantages-over-filtration">Advantages over Filtration</h3>
+  <p>
+    Disc centrifuges are capital-intensive equipment. However, reduced maintenance costs and higher production levels quickly make up for initial expenses. Typically the upfront cost is recovered within 1 to 2 years of operation.
+  </p>
+  <p>
+    A disc centrifuge has several benefits compared to filters. The following list highlights some of these benefits.
+  </p>
+  <ul>
+    <li>Particle and water separation in a single operation</li>
+    <li>Removal of particles down to a 1-micron level</li>
+    <li>Consistent throughput without flow reduction (filters clog)</li>
+    <li>Water separation is continuous</li>
+    <li>Minimized O&amp;M cost (Operation and Maintenance)</li>
+    <li>Negligible disposal costs (no filter or membrane media to dispose of)</li>
+    <li>No loss of lubricant additives</li>
+  </ul>
+  <p>
+    The following table compares disc-stack centrifuges' features and costs with other conventional separation methods, i.e., filters and coalescers.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Type of Separator</th>
+          <th class="text-center">Disc Centrifuge</th>
+          <th class="text-center">Filtration</th>
+          <th class="text-center">Coalescing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solids Separation</td>
+          <td class="text-center text-green-700 font-bold">Yes</td>
+          <td class="text-center text-green-700 font-bold">Yes</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+        </tr>
+        <tr>
+          <td>Free Water Separation</td>
+          <td class="text-center text-green-700 font-bold">Yes</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+          <td class="text-center text-green-700 font-bold">Yes</td>
+        </tr>
+        <tr>
+          <td>Dissolved Water Separation</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+        </tr>
+        <tr>
+          <td>Emulsion Separation</td>
+          <td class="text-center text-green-700 font-bold">Yes*</td>
+          <td class="text-center text-red-600 font-bold">No</td>
+          <td class="text-center text-green-700 font-bold">Yes*</td>
+        </tr>
+        <tr>
+          <td class="font-semibold" colspan="4">Costs</td>
+        </tr>
+        <tr>
+          <td>Operating</td>
+          <td class="text-center text-green-700 font-bold">Low</td>
+          <td class="text-center text-red-600 font-bold">High</td>
+          <td class="text-center text-red-600 font-bold">High</td>
+        </tr>
+        <tr>
+          <td>Equipment</td>
+          <td class="text-center text-red-600 font-bold">High</td>
+          <td class="text-center text-green-700 font-bold">Low</td>
+          <td class="text-center font-bold text-yellow-700">Medium</td>
+        </tr>
+        <tr>
+          <td class="font-bold">Total Cost of Ownership</td>
+          <td class="text-center text-green-700 font-bold">Low</td>
+          <td class="text-center text-red-600 font-bold">High</td>
+          <td class="text-center text-red-600 font-bold">High</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-sm text-gray-500 mt-2">* Chemically bonded emulsions need demulsifiers before centrifugation.</p>
+
+  <!-- Difference Decanter vs Disc -->
+  <h2 id="difference-decanter-disc">Difference Between Decanter and Disc Stack Centrifuge</h2>
+  <p>
+    Compared to the disc-stack bowl, the rotating surface is the bowl wall in the chamber bowl (disc-less) centrifuge. Depending on the fluid layer's depth, the inner fluid particles (away from the bowl wall) rotate much slower than the liquid particles in contact with the bowl wall.
+  </p>
+  <p>
+    This reduced rotational velocity decreases the separation efficiency considerably in chamber bowl centrifuges.
+  </p>
+  <p>
+    The liquid pond in the decanter centrifuge has similar limitations. The rotating bowl body contacts the fluid adjacent to it. This outer layer contact limits the separation efficiency of the decanters to bulkier and denser particles.
+  </p>
+  <p>
+    That is one reason the decanter centrifuge has a particle separation range higher than the one for disc-stack centrifuges.
+  </p>
+  <p>
+    The discs in the disc-stack centrifuge bowl also increase the settling area for sedimentation. Considering the g-force and the discs' surface area, the effective settling area in a disc-stack centrifuge equals the size of multiple football fields!
+  </p>
+  <p>
+    For more details, please read the <a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/">Difference between Decanter and Disc Centrifuge</a>.
+  </p>
+
+  <!-- Calculations -->
+  <h2 id="calculations">Calculations</h2>
+  <p>
+    There are two types of calculations associated with disc stack centrifuges. These calculations are summarized below.
+  </p>
+  <p>
+    The first calculation defines the efficiency of a disc stack centrifuge through the relevant formula.
+  </p>
+  <p>
+    The second calculation helps a potential centrifuge user to gauge the effectiveness of the types of industrial centrifuges based on a combination of factors i.e., settling area and G-force.
+  </p>
+
+  <h3 id="centrifuge-efficiency-calculation">Centrifuge Efficiency Calculation</h3>
+  <p>
+    The governing principle of disc stack centrifuges is based on <strong>Stoke's law</strong> which determines the separation of particles within a fluid acted upon by gravitational forces.
+  </p>
+  <div class="not-prose bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 font-mono text-center text-lg">
+    V = gRp&sup2;(&rho;p &minus; &rho;) / 4.5&mu;
+  </div>
+  <p>
+    In the above formula, it is clear that the settling velocity (V) of the particle moving in the direction of the gravitational force is directly proportional to its density and size. This velocity is inversely proportional to the viscosity of the fluid.
+  </p>
+  <p>
+    A higher settling velocity allows the particles to reach and accumulate on the disc surface quickly, thereby enhancing the separation efficiency and settling minute particles. Conversely, a thicker (more viscous) fluid reduced the settling velocity, thereby increasing the time required by the particles to reach the settling surface, which reduces process efficiency.
+  </p>
+
+  <h3 id="area-effectiveness-calculation">Area Effectiveness Calculation</h3>
+  <figure class="text-center my-6">
+    <img
+      src="/images/disc-stack-centrifuge/Chamber-Decanter-Disc-Centrifuge-Ae-800.webp"
+      alt="Chamber Decanter and Disc Centrifuge Area Effectiveness (Ae) comparison diagram"
+      width="800" height="165"
+      loading="lazy"
+      class="rounded-lg shadow mx-auto w-full"
+    />
+    <figcaption class="text-sm text-gray-500 mt-2">Area Equivalent (Ae) Comparison: Chamber Bowl vs Decanter vs Disc Stack</figcaption>
+  </figure>
+  <p>
+    Referring to the illustration above, the Area Equivalent (Ae) is the settling area available to the separating liquid at centrifugal acceleration. It is calculated by the following formula.
+  </p>
+  <div class="not-prose bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 font-mono text-center">
+    <strong>Ae = As &times; g</strong>
+    <p class="text-sm text-gray-600 mt-2 text-left">Where:<br/>As = Surface Area<br/>g = G-Force</p>
+  </div>
+  <p>
+    The following table compares the Ae of the disc centrifuge versus the decanter centrifuge and a chamber bowl centrifuge. This table illustrates the comparative effectiveness of the disc-stack centrifuge versus these other 'low-G' centrifuges.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Centrifuge Type</th>
+          <th class="text-center">Chamber Bowl<br/><span class="font-normal text-xs">300mm &times; 250mm @ 1,000 G</span></th>
+          <th class="text-center">Decanter (NX-314)<br/><span class="font-normal text-xs">350mm &times; 300mm @ 3,500 G</span></th>
+          <th class="text-center">Disc Stack<br/><span class="font-normal text-xs">Multi-Disc 10 m&sup2; @ 7,000 G</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">Area Effective (Ae)</td>
+          <td class="text-center font-bold font-mono">250</td>
+          <td class="text-center font-bold font-mono">780</td>
+          <td class="text-center font-bold font-mono text-green-700">19,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bowl Types -->
+  <h2 id="bowl-types">Disc Stack Centrifuge Bowl Types</h2>
+  <p>
+    Disc-stack centrifuges are available with two bowl configurations. A 'self-cleaning' (aka auto ejecting) bowl has the built-in ability to eject the separated sludge periodically without machine stoppage. A 'manual-cleaning' (aka solids retaining) bowl retains the separated sludge and needs to be manually cleaned periodically. This needs the centrifuge to be stopped for the operator to open and clean the sludge from the bowl.
+  </p>
+
+  <!-- Self-Cleaning Bowl -->
+  <h3 id="self-cleaning-bowl">Self-Cleaning Centrifuge Bowl Operation</h3>
+
+  <div class="grid md:grid-cols-2 gap-6 my-6">
+    <figure class="text-center">
+      <img
+        src="/images/disc-stack-centrifuge/disc-stack-centrifuge-bowl.webp"
+        alt="Self-Cleaning Centrifuge Bowl internal view showing hydraulic ejection mechanism"
+        width="242" height="286"
+        loading="lazy"
+        class="rounded-lg shadow mx-auto"
+      />
+      <figcaption class="text-sm text-gray-500 mt-2">Self-Cleaning Centrifuge Bowl</figcaption>
+    </figure>
+    <figure class="text-center">
+      <img
+        src="/images/disc-stack-centrifuge/DMPX-014-Self-Cleaning-Centrifuge-modified-Alfa-Laval-Disc-Stack-Centrifuge-Hydraulic-Oil-600.webp"
+        alt="DMPX-014 Self Cleaning Centrifuge for Hydraulic Oil — Dolphin Centrifuge"
+        width="300" height="395"
+        loading="lazy"
+        class="rounded-lg shadow mx-auto"
+      />
+      <figcaption class="text-sm text-gray-500 mt-2">DMPX-014 Self Cleaning Centrifuge &mdash; Hydraulic Oil</figcaption>
+    </figure>
+  </div>
+
+  <p>
+    The process fluid enters the bowl through the feed tube. The disc stack imparts the rotating velocity to the incoming liquid. The heavy phase (water) moves outward due to the centrifugal force.
+  </p>
+  <p>
+    It displaces the lighter oil (light phase) inwards towards the bowl center. The clean oil rises to the top of the bowl and exits the bowl through the paring disc pump (4).
+  </p>
+  <p>
+    The heavy phase (water) travels over the top disc (5) and exits the bowl through the water-paring disc (6).
+  </p>
+  <p>
+    The heaviest phase (Solids) collects at the bowl periphery. The 'self-cleaning' bowl opens intermittently to discharge the separated solids periodically. The mechanism operates as follows.
+  </p>
+  <p>
+    The hydraulic operating system opens and closes the bowl at predetermined intervals. The sliding piston (7) is pushed down, which opens the bowl body's sludge-ejection ports. The extremely high centrifugal g-force within the bowl instantly ejects out the separated sludge.
+  </p>
+  <p>
+    Due to their intermittent sludge ejection feature, 'self-cleaning' disc centrifuges are limited to solids content up to about 8% (%v/v). Higher solids content leads to a higher possibility of bowl clogging and frequent sludge ejection cycles. Both of these conditions are not desirable from the centrifuge perspective.
+  </p>
+
+  <!-- Manual Clean Bowl -->
+  <h3 id="manual-clean-bowl">Manual Clean Centrifuge Bowl Operation</h3>
+
+  <div class="grid md:grid-cols-2 gap-6 my-6">
+    <figure class="text-center">
+      <img
+        src="/images/disc-stack-centrifuge/disc-stack-centrifuge-bowl-solid.webp"
+        alt="Solid Bowl (Manual Clean) Centrifuge Bowl internal view"
+        width="242" height="245"
+        loading="lazy"
+        class="rounded-lg shadow mx-auto"
+      />
+      <figcaption class="text-sm text-gray-500 mt-2">Solid Bowl Centrifuge Bowl</figcaption>
+    </figure>
+    <figure class="text-center">
+      <img
+        src="/images/disc-stack-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Skid-600.webp"
+        alt="Alfa Laval MAB-206 Diesel Centrifuge Skid — manual clean disc stack"
+        width="300" height="427"
+        loading="lazy"
+        class="rounded-lg shadow mx-auto"
+      />
+      <figcaption class="text-sm text-gray-500 mt-2">Manual Clean Diesel Centrifuge Skid</figcaption>
+    </figure>
+  </div>
+
+  <p>
+    In the 'manual-clean' bowl, the process fluid comes into the bowl from the top (1). The distributor (2) imparts rotation to the fluid before the fluid enters the disc stack (3). The separation happens between the discs of the stack.
+  </p>
+  <p>
+    The high g-force pushes the heavier fluid (heavy phase) and solids toward the bowl periphery (wall). While the solids collect on the bowl wall, the water (heavy-phase) passes through the passage over the top disc (4) to the heavy-phase outlet (5).
+  </p>
+  <p>
+    The oil (light phase) is displaced toward the inner center of the bowl. It rises through the distributor channels to reach the paring disc pump (6). This pump pumps the clean light oil out of the centrifuge bowl.
+  </p>
+  <p>
+    The operator must manually remove the collected solids from the bowl by stopping the centrifuge at periodic intervals.
+  </p>
+  <p>
+    These solid-bowl centrifuges are much simpler than the 'self-cleaning' bowls described above. They do not have the hydraulic sludge ejection system built into the bowl.
+  </p>
+  <p>
+    This simplified design does not require the <a href="/disc-stack-centrifuge-operating-water/">operating water system</a> (like the 'self-cleaning' centrifuges) for hydraulic operations underneath the bowl. This makes these 'manual-clean' centrifuges easier to install, maintain, and operate.
+  </p>
+  <p>
+    However, this 'solids-retaining' design also limits these centrifuges' applicability to processing fluids with no solids or negligible amounts of solids. In other words, these centrifuges are ideal for liquid/liquid separation applications.
+  </p>
+
+  <!-- In Stock -->
+  <h2 id="in-stock">Re-manufactured Disc Stack Centrifuges In Stock at Dolphin</h2>
+  <div class="not-prose grid sm:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+    <a href="/alfa-laval-whpx-405/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white">
+      <img
+        src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX405-Quench-Oil-Centrifuge.webp"
+        alt="Alfa Laval WHPX 405 Self-Cleaning Disc Centrifuge — 15 GPM on Diesel Fuel"
+        width="600" height="600"
+        loading="lazy"
+        class="w-full object-cover h-40"
+      />
+      <div class="p-3">
+        <h3 class="font-bold text-navy text-sm">Alfa Laval WHPX 405</h3>
+        <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
+        <p class="text-xs text-gold font-semibold">15 GPM on Diesel Fuel</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Table of Contents -->
-  <section class="bg-[#F5F5F0] py-8">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <h2 class="text-lg font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Table of Contents</h2>
-        <div class="grid sm:grid-cols-2 gap-1 text-sm">
-          <a href="#operation" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Operation</a>
-          <a href="#specifications" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Specifications</a>
-          <a href="#disc-cone-angle" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Disc Cone Angle</a>
-          <a href="#cost" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Cost</a>
-          <a href="#new-remanufactured-used" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ New, Re-manufactured, and Used</a>
-          <a href="#throughput" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Throughput</a>
-          <a href="#manufacturer" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Manufacturer</a>
-          <a href="#options-accessories" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Options &amp; Accessories</a>
-          <a href="#operating-cost" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Operating Cost</a>
-          <a href="#maintenance-costs" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Maintenance Costs</a>
-          <a href="#power-consumption" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Power Consumption</a>
-          <a href="#faq" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ FAQ</a>
-          <a href="#sizing-and-capacity" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Sizing and Capacity</a>
-          <a href="#advantages" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Advantages</a>
-          <a href="#advantages-over-decanter" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Advantages over Decanter Centrifuge</a>
-          <a href="#advantages-over-filtration" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Advantages over Filtration</a>
-          <a href="#difference-decanter-disc" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Difference: Decanter vs Disc Stack</a>
-          <a href="#calculations" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Calculations</a>
-          <a href="#bowl-types" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Bowl Types</a>
-          <a href="#self-cleaning-bowl" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Self-Cleaning Bowl Operation</a>
-          <a href="#manual-clean-bowl" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Manual Clean Bowl Operation</a>
-          <a href="#in-stock" class="text-[#1B3A5C] hover:text-[#E8A317] py-1">→ Re-manufactured Units In Stock</a>
-        </div>
+    </a>
+    <a href="/alfa-laval-mopx-207-centrifuge/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white">
+      <div class="w-full h-40 bg-gray-100 flex items-center justify-center">
+        <span class="text-gray-400 text-sm">MOPX 207</span>
       </div>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0] pb-16">
-    <div class="container mx-auto px-4 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack centrifuge systems for high-speed liquid-liquid-solid separation. Operating at 7,000–12,000 Gs, these self-cleaning separators process 5 to 100+ GPM continuously, separating particles from 0.5 microns and removing all free water in a single pass without filter media. Applications span oil recovery, wastewater treatment, food processing, and algae harvesting. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of disc stack centrifuge experience.</p>
+      <div class="p-3">
+        <h3 class="font-bold text-navy text-sm">Alfa Laval MOPX 207</h3>
+        <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
+        <p class="text-xs text-gold font-semibold">28 GPM on Lube Oil</p>
       </div>
-
-      <!-- Intro -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-[#2D2D2D] mb-4">
-          A disc stack centrifuge is also known as a <em>disc bowl, conical plate, disk stack, or disc stack separator.</em>
-        </p>
-        <div class="flex justify-center my-6">
-          <figure class="text-center">
-            <img
-              src="/images/disc-stack-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp"
-              alt="Alfa Laval Disc Centrifuge Bowl Cross Section showing disc stack arrangement"
-              width="699" height="388"
-              loading="lazy"
-              class="rounded-lg shadow mx-auto"
-            />
-            <figcaption class="text-sm text-gray-500 mt-2">Alfa Laval Disc Centrifuge Bowl Cross Section</figcaption>
-          </figure>
-        </div>
+    </a>
+    <a href="/alfa-laval-whpx-510-centrifuge/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white">
+      <img
+        src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX510-Used-Engine-Oil-Centrifuge.webp"
+        alt="Alfa Laval WHPX 510 Self-Cleaning Disc Centrifuge — 30 GPM on Waste Oil"
+        width="600" height="600"
+        loading="lazy"
+        class="w-full object-cover h-40"
+      />
+      <div class="p-3">
+        <h3 class="font-bold text-navy text-sm">Alfa Laval WHPX 510</h3>
+        <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
+        <p class="text-xs text-gold font-semibold">30 GPM on Waste Oil</p>
       </div>
-
-      <!-- Operation -->
-      <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Operation</h2>
-
-        <div class="flex justify-center mb-6">
-          <figure class="text-center">
-            <img
-              src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif"
-              alt="Disc Centrifuge Self-Cleaning Animation showing solids ejection cycle"
-              width="599" height="460"
-              loading="lazy"
-              class="rounded-lg shadow mx-auto"
-            />
-            <figcaption class="text-sm text-gray-500 mt-2">Disc Centrifuge Self-Cleaning Animation</figcaption>
-          </figure>
-        </div>
-
-        <p class="text-[#2D2D2D] mb-4">
-          A disc-stack centrifuge separates immiscible liquids and suspended solids from contaminated fluids. G-forces up to 10,000 Gs cause the particles' sedimentation on the disc surface where they flocculate and move toward the centrifuge bowl periphery.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The accumulated solids are self-ejected or manually removed from the disc centrifuge bowl.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Think of the discs in the centrifuge bowl splitting the liquid column into thin slices between the inter-disc space. The rotating discs impart the rotational velocity to the incoming stationary (non-rotating) fluid quickly due to the liquid's viscosity.
-        </p>
-
-        <div class="flex justify-center mt-4">
-          <figure class="text-center">
-            <img
-              src="/images/disc-stack-centrifuge/disc-stack-bowl-disc-spacing-1000-768x307-1.webp"
-              alt="Disc stack showing inter-disc spacing and separation zones"
-              width="816" height="323"
-              loading="lazy"
-              class="rounded-lg shadow mx-auto"
-            />
-            <figcaption class="text-sm text-gray-500 mt-2">Disc stack showing inter-disc spacing</figcaption>
-          </figure>
-        </div>
+    </a>
+    <a href="/alfa-laval-whpx-513/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white">
+      <img
+        src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
+        alt="Alfa Laval WHPX 513 Self-Cleaning Disc Centrifuge — 75 GPM on Distillate"
+        width="250" height="250"
+        loading="lazy"
+        class="w-full object-cover h-40"
+      />
+      <div class="p-3">
+        <h3 class="font-bold text-navy text-sm">Alfa Laval WHPX 513</h3>
+        <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
+        <p class="text-xs text-gold font-semibold">75 GPM on Distillate</p>
       </div>
+    </a>
+  </div>
 
-      <!-- Specifications -->
-      <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Specifications</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The following table lists the specifications of common disc stack centrifuges.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Centrifuge Model</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 205</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 207</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 213</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-medium">Rated Capacity – GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">21</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">30</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">90</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-medium">Bowl Speed – RPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">7,600</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">6,325</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">4,140</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-medium">Bowl Volume (Ltrs)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">3.1</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">7.5</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">29</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-medium">Drive Motor – kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">4</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">7.5</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">16</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-medium">Max. Power (Startup) – kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">6.5</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">10.3</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">18</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-medium">Running Power (Full Capacity) – kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">2.4</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">6.4</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">10.4</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-medium">Centrifuge Weight (w/o Motor) – Kg</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">430</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">785</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">1,290</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-medium">Bowl Weight – Kg</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">56</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">125</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">400</td>
-              </tr>
-            </tbody>
-          </table>
+  <!-- Related Images Gallery -->
+  <h2>Industrial Disc Stack Centrifuges</h2>
+  <figure class="text-center my-6">
+    <img
+      src="/images/disc-stack-centrifuge/Industrial-Waste-Oil-Self-Cleaning-Centrifuges.webp"
+      alt="Industrial waste oil self-cleaning disc stack centrifuge systems"
+      width="600" height="450"
+      loading="lazy"
+      class="rounded-lg shadow mx-auto"
+    />
+    <figcaption class="text-xs text-gray-500 mt-1">Industrial Waste Oil Self-Cleaning Centrifuges</figcaption>
+  </figure>
+
+  <!-- FAQ with details/summary -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <div class="not-prose space-y-3 my-6">
+    {faqItems.map(item => (
+      <details class="group bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <summary class="flex items-center justify-between cursor-pointer p-4 font-semibold text-navy text-sm hover:bg-gray-50 transition-colors">
+          {item.question}
+          <svg class="w-5 h-5 text-gold shrink-0 ml-3 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-sm text-text-light leading-relaxed border-t border-gray-100 pt-3">
+          <Fragment set:html={item.answer} />
         </div>
+      </details>
+    ))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-        <!-- Disc Cone Angle -->
-        <div id="disc-cone-angle" class="mt-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3" style="font-family: 'Plus Jakarta Sans', sans-serif;">Disc Cone Angle</h3>
-          <p class="text-[#2D2D2D] mb-4">
-            The disc cone angle is the angle between the disc surface and a horizontal axis. The following image illustrates the cone angle of a small disc stack centrifuge.
-          </p>
-          <div class="flex justify-center my-4">
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/Centrifuge-Disc-Cone-Angle-600.webp"
-                alt="Centrifuge Disc Cone Angle diagram showing 40-60 degree range"
-                width="839" height="435"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">Centrifuge Disc Cone Angle</figcaption>
-            </figure>
-          </div>
-          <p class="text-[#2D2D2D]">
-            The typical disc cone angle is between 40 degrees and 60 degrees, depending on the centrifuge application. For example, the cone angle of the oil centrifuge is less than that in milk centrifuges due to differences in the separation application.
-          </p>
-        </div>
-      </div>
+  <!-- Related Links -->
+  <h2>Related Articles &amp; Products</h2>
+  <div class="not-prose grid sm:grid-cols-2 gap-2 text-sm my-4">
+    <a href="/disc-stack-centrifuge-faq/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Disc Stack Centrifuge FAQ (101 Questions)
+    </a>
+    <a href="/disc-stack-centrifuge-efficiency/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Disc Stack Centrifuge Efficiency
+    </a>
+    <a href="/disadvantages-disc-stack-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Disadvantages of Disc Stack Centrifuge
+    </a>
+    <a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Decanter vs Disc Stack Comparison
+    </a>
+    <a href="/disc-stack-centrifuge-operating-water/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Disc Stack Centrifuge Operating Water
+    </a>
+    <a href="/alfa-laval-mab-103-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Alfa Laval MAB 103 Manual-Clean Centrifuge
+    </a>
+    <a href="/alfa-laval-mab-104-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Alfa Laval MAB 104 Manual-Clean Centrifuge
+    </a>
+    <a href="/alfa-laval-mab-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Alfa Laval MAB 204&ndash;209 Series
+    </a>
+    <a href="/diesel-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Diesel Fuel Centrifuge
+    </a>
+    <a href="/lube-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Lube Oil Centrifuge
+    </a>
+    <a href="/disc-stack-centrifuge-options/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> Disc Stack Centrifuge Options &amp; Accessories
+    </a>
+    <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50 transition-colors">
+      <span class="text-gold">&rarr;</span> DMPX-014 Self-Cleaning 3-Phase Centrifuge
+    </a>
+  </div>
 
-      <!-- Cost -->
-      <div id="cost" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Cost</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The cost of a disc-stack centrifuge depends on several factors. The main factors affecting the cost of a centrifuge are listed below in order of influence.
-        </p>
-
-        <h3 id="new-remanufactured-used" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">New, Re-manufactured, and Used</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          New centrifuges from the manufacturer are the first choice for most but are often not cost-feasible. The next option is a re-manufactured centrifuge from the OEM or a reputed centrifuge company. And finally, used 'As-Is' centrifuges are also an option but not recommended for safety reasons.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A <strong>small-capacity</strong> disc centrifuge from a <strong>name-brand OEM</strong> starts at around <strong>$15K</strong> for a bare centrifuge. The same centrifuge with all options, including a skid, control system, wiring, alarms, etc. goes up to over $40K, depending on options. On the other end, <strong>high-capacity</strong>, food-grade centrifuges cost <strong>over $750K</strong>.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A base <strong>re-manufactured disc centrifuge costs</strong> 40% to 60% of new machines of similar capacity. However, with additional options, a factory-new centrifuge's cost rises faster than a similarly equipped re-manufactured centrifuge with new optional accessories.
-        </p>
-
-        <h3 id="throughput" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Throughput</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          The size of a centrifuge refers to the processing capacity of the machine. Bigger, higher-capacity centrifuges cost more than smaller-capacity units, obviously. However, it is important to mention that the increase in the cost of a larger centrifuge is not proportional to the capacity increase. In other words, the cost of a centrifuge is not directly proportional to its processing capacity.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          For example, a disc centrifuge with a rated capacity of 10 Gallon-per-Minute costs only about 30% more than a centrifuge <strong>rated at 5 Gallons-per-Minute</strong>.
-        </p>
-
-        <h3 id="manufacturer" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Manufacturer</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          Disc centrifuges from established, name-brand manufacturers such as <strong>Alfa Laval</strong> cost more than those manufactured by Asian manufacturers (China, India, Turkey, etc.). The price multiplier is anywhere from 2 to 5 times.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          <a href="/alfa-laval-industrial-centrifuges/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">Alfa Laval industrial centrifuges</a> are high-quality machines known for their durability and longevity. Such companies have decades of manufacturing experience and also offer worldwide service and parts distribution networks. These advantages more than justify the related cost premium.
-        </p>
-
-        <h3 id="options-accessories" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Options &amp; Accessories</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          Optional equipment is often integrated with disc centrifuges to enhance the separator's performance. Accessories such as feed pumps, electric pre-heaters, pre and post-filters, sludge handling systems, etc., can add significant costs to the centrifuge system.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Actual process conditions and process fluid properties often define the options that would benefit the user. For example, an in-line heater will add to the system's cost, but it could double the centrifuge throughput.
-        </p>
-      </div>
-
-      <!-- Operating Cost -->
-      <div id="operating-cost" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Operating Cost</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Operating cost refers to the actual cost incurred during the regular operation of the centrifuge system. Since centrifuges do not use any consumable filters or media, the only operating cost is electricity costs to run the centrifuge.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The following table highlights the example of operating costs per gallon for a typical operation such as diesel fuel purification. This table assumes a cost of 0.20 cents/kW-hr of power.
-        </p>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Centrifuge Model &amp; Capacity</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MAB 103 (2 GPM Diesel)</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 207 (22 GPM Diesel)</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">WHPX 513 (62 GPM Diesel)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Motor Power (kW)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">1</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">5</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">15</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2">Electricity Cost / Hour</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$0.20</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$1.00</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$2.20</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Gallons / Hour</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">120</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">1,320</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">3,720</td>
-              </tr>
-              <tr class="bg-[#E8A317] bg-opacity-10">
-                <td class="border border-gray-200 px-3 py-2 font-bold">Electric Cost/Gal</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.16 Cents</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.075 Cents</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.06 Cents</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-[#2D2D2D]">
-          From the above example, the operating costs are negligible compared to filters or other media-based separation methods.
-        </p>
-      </div>
-
-      <!-- Maintenance Costs -->
-      <div id="maintenance-costs" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Maintenance Costs</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Maintenance costs for disc centrifuges are primarily related to the consumable spare parts needed for regular maintenance. The following table lists the spare parts cost for routine maintenance of the centrifuge models highlighted in the operating cost example above.
-        </p>
-        <div class="overflow-x-auto mb-4">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Spare Parts</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MAB 103</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 207</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">WHPX 513</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Intermediate Service Kit (2/year)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$300</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$450</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$950</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2">Major Service Kit (1/year)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$650</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$1,400</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">$2,200</td>
-              </tr>
-              <tr class="bg-[#E8A317] bg-opacity-10">
-                <td class="border border-gray-200 px-3 py-2 font-bold">Total Spare Parts Cost per Year</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">$950</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">$1,850</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">$3,150</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Gallons / Year (200 × 8 hr Days)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">192,000</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">2,112,000</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">5,952,000</td>
-              </tr>
-              <tr class="bg-[#E8A317] bg-opacity-10">
-                <td class="border border-gray-200 px-3 py-2 font-bold">Maintenance Cost (per Gal)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.5 Cents</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.1 Cent</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">0.05 Cent</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="bg-[#1B3A5C] bg-opacity-5 border-l-4 border-[#E8A317] rounded-r-lg p-4 mt-4">
-          <p class="text-[#2D2D2D] italic">
-            We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/" class="text-[#1B3A5C] underline font-semibold hover:text-[#E8A317]">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
-          </p>
-        </div>
-      </div>
-
-      <!-- Power Consumption -->
-      <div id="power-consumption" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Power Consumption</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The drive motor is the main power consumption in a disc stack centrifuge. It is industry practice to calculate the kW required per m³ or gallon of fluid processed.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Several design improvements in centrifuges have led to reduced power consumption. There are certain specific areas where the design changes have been most beneficial.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The reduction of drive train losses from belt &amp; gear drive transmissions is achieved with direct-drive configurations with inverters.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Internal bowl turbulence reduction with improved designs has also contributed to power consumption optimization.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Centrifuge Capacity</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Motor HP</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Running Amps @ 460 VAC</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Power Consumption</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Power / Gallon</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-mono">5 GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">2 HP</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">2.5 A</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">1 kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">0.20 kW per GPM</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-mono">10 GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">4 HP</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">5 A</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">2.2 kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">0.22 kW per GPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2 font-mono">40 GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">10 HP</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">9 A</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">7.5 kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">0.18 kW per GPM</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2 font-mono">60 GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">15 HP</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">12 A</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">11 kW</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">0.18 kW per GPM</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">FAQ</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Have questions about disc stack centrifuges? We have condensed our 40+ years of experience into a comprehensive FAQ resource.
-        </p>
-        <a href="/disc-stack-centrifuge-faq/" class="inline-block bg-[#1B3A5C] text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-900 transition-colors">
-          View 101 Frequently Asked Questions →
-        </a>
-      </div>
-
-      <!-- Sizing and Capacity -->
-      <div id="sizing-and-capacity" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Sizing and Capacity</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Disc centrifuge sizing is based on the flow rate of each centrifuge for a specific fluid. For example, all <a href="/alfa-laval-centrifuge/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">Alfa Laval centrifuges</a> have an OEM-published flow rate chart, which provides the expected capacity for specific fluids like diesel, fuel oil, hydraulic oil, etc.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The capacity of these centrifuges ranges from 2 gallons per minute to over 500 gallons per minute.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The user should also consider another essential fact about disc centrifuges. The 'rated' capacity of a centrifuge has little relevance in the practical application of centrifuges. The rated capacity is the hydraulic swallowing capacity of a centrifuge to prevent overflow.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          In real terms, the actual processing capacity is lesser than the 'rated' capacity. Based on the discussion above, the actual processing capacity depends on the process-liquid and contaminant properties.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          In other words, the same centrifuge model has different capacities for different liquids. This difference goes back to Stokes' law, wherein the centrifuge efficiency is dependent on the fluid's viscosity, amongst other factors.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The following table lists the sizing and capacity of disc stack centrifuges for different fuels and oils.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Centrifuge Type</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 205</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 207</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 310</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">MOPX 213</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-[#E8A317] bg-opacity-10">
-                <td class="border border-gray-200 px-3 py-2 font-bold">Rated Capacity – GPM</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">25</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">34</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">68</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">90</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Distillate (3 cSt)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">23</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">31</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">65</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">82</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2">Diesel Fuel (13 cSt)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">15</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">22</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">56</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">62</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Turbine Lube Oil (ISO 32)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">14</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">20</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">52</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">56</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2">Hydraulic Oil (ISO 15)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">14</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">20</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">51</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">54</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Light Fuel Oil (100 cSt)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">11</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">19</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">39</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">41</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-3 py-2">Medium Fuel Oil (380 cSt)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">7</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">12</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">23</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">24</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-3 py-2">Heavy Fuel Oil (600 cSt)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">5</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">8</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">17</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-mono">16</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Advantages -->
-      <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Advantages</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          As with all separation equipment, disc centrifuges have a specific niche area of application where they deliver the optimum solution for separating solids from liquids or liquids from solids and liquids.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          However, they also have limitations to their applications, and we have discussed the <a href="/disadvantages-disc-stack-centrifuge/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">disadvantages of disc centrifuges</a> in a different article.
-        </p>
-
-        <!-- Advantages over Decanter -->
-        <div id="advantages-over-decanter" class="mt-6">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Advantages over Decanter Centrifuge</h3>
-          <div class="flex justify-center mb-6">
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/decanter-disc-centrifuge-particle-size-efficiency-300.webp"
-                alt="Decanter and Disc Centrifuge Particle Size Efficiency comparison chart"
-                width="520" height="398"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">Decanter and Disc Centrifuge Particle Size Efficiency</figcaption>
-            </figure>
-          </div>
-          <p class="text-[#2D2D2D] mb-4">
-            There are several benefits of disc centrifuges over decanter centrifuges. The following table highlights key benefits with a brief explanation of each.
-          </p>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm border-collapse">
-              <thead>
-                <tr class="bg-[#1B3A5C] text-white">
-                  <th class="border border-gray-300 px-3 py-2 text-left">Feature</th>
-                  <th class="border border-gray-300 px-3 py-2 text-left">Description</th>
-                  <th class="border border-gray-300 px-3 py-2 text-left">Why Does it Matter</th>
-                  <th class="border border-gray-300 px-3 py-2 text-left">Advantage</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2 font-semibold">Particle Size Efficiency</td>
-                  <td class="border border-gray-200 px-3 py-2">A disc centrifuge can separate particles as <strong>small as 1 micron</strong> as compared to a decanter centrifuge, limited to particles <strong>larger than 50 microns.</strong></td>
-                  <td class="border border-gray-200 px-3 py-2">A disc centrifuge's higher g-force (~7,000 Gs) allows it to separate much smaller particles than a decanter with a lower g-force (~3,000 Gs).</td>
-                  <td class="border border-gray-200 px-3 py-2">This <a href="/disc-stack-centrifuge-efficiency/" class="text-[#1B3A5C] underline">particle size efficiency</a> makes a disc centrifuge uniquely suitable for removing small particles for polishing applications, which is impossible with a decanter centrifuge.</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-200 px-3 py-2 font-semibold">Liquid / Liquid Separation</td>
-                  <td class="border border-gray-200 px-3 py-2">With its high g-force, a stack disc centrifuge can easily separate immiscible liquids.</td>
-                  <td class="border border-gray-200 px-3 py-2">A higher g-force is required to separate liquids with similar specific gravities. A disc centrifuge has a higher g-force, while a decanter centrifuge does not.</td>
-                  <td class="border border-gray-200 px-3 py-2">The disc-centrifuge can separate one liquid from another, even if their specific gravities are very similar.</td>
-                </tr>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2 font-semibold">Adjusting Sludge Dryness</td>
-                  <td class="border border-gray-200 px-3 py-2">It is impossible to change the separated solid wetness in the decanter centrifuge while operating. However, it is possible to adjust the sludge dryness in a disc-stack centrifuge.</td>
-                  <td class="border border-gray-200 px-3 py-2">A decanter centrifuge continuously ejects the separated sludge, and the sludge dryness depends on the decanter's pond depth.</td>
-                  <td class="border border-gray-200 px-3 py-2">The decanter needs to be stopped to <a href="/decanter-centrifuge-pond-depth/" class="text-[#1B3A5C] underline">adjust the pond depth</a>. In a disc centrifuge, adjusting the ejection cycle frequency can help change the sludge moisture content while operating.</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-200 px-3 py-2 font-semibold">Physical Size or Footprint</td>
-                  <td class="border border-gray-200 px-3 py-2">A disc centrifuge has a smaller footprint than a decanter centrifuge of similar capacity.</td>
-                  <td class="border border-gray-200 px-3 py-2">Decanter centrifuges are oriented horizontally, whereas disc centrifuges are vertically oriented, allowing a smaller footprint.</td>
-                  <td class="border border-gray-200 px-3 py-2">Disc centrifuges fit within limited space-constrained areas, which is advantageous for installing a centrifuge in an already existing facility.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Advantages over Filtration -->
-        <div id="advantages-over-filtration" class="mt-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Advantages over Filtration</h3>
-          <p class="text-[#2D2D2D] mb-4">
-            Disc centrifuges are capital-intensive equipment. However, reduced maintenance costs and higher production levels quickly make up for initial expenses. Typically the upfront cost is recovered within 1 to 2 years of operation.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            A disc centrifuge has several benefits compared to filters. The following list highlights some of these benefits.
-          </p>
-          <ul class="list-disc list-inside text-[#2D2D2D] space-y-1 mb-6 ml-2">
-            <li>Particle and water separation in a single operation</li>
-            <li>Removal of particles down to a 1-micron level</li>
-            <li>Consistent throughput without flow reduction (filters clog)</li>
-            <li>Water separation is continuous</li>
-            <li>Minimized O&amp;M cost (Operation and Maintenance)</li>
-            <li>Negligible disposal costs (no filter or membrane media to dispose of)</li>
-            <li>No loss of lubricant additives</li>
-          </ul>
-          <p class="text-[#2D2D2D] mb-4">
-            The following table compares disc-stack centrifuges' features and costs with other conventional separation methods, i.e., filters and coalescers.
-          </p>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm border-collapse">
-              <thead>
-                <tr class="bg-[#1B3A5C] text-white">
-                  <th class="border border-gray-300 px-3 py-2 text-left">Type of Separator</th>
-                  <th class="border border-gray-300 px-3 py-2 text-center">Disc Centrifuge</th>
-                  <th class="border border-gray-300 px-3 py-2 text-center">Filtration</th>
-                  <th class="border border-gray-300 px-3 py-2 text-center">Coalescing</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2">Solids Separation</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-200 px-3 py-2">Free Water Separation</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes</td>
-                </tr>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2">Dissolved Water Separation</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-200 px-3 py-2">Emulsion Separation</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes*</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">No</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Yes*</td>
-                </tr>
-                <tr class="bg-gray-100">
-                  <td class="border border-gray-200 px-3 py-2 font-semibold" colspan="4">Costs</td>
-                </tr>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2">Operating</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Low</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">High</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">High</td>
-                </tr>
-                <tr>
-                  <td class="border border-gray-200 px-3 py-2">Equipment</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">High</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Low</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center font-bold text-yellow-700">Medium</td>
-                </tr>
-                <tr class="bg-gray-50">
-                  <td class="border border-gray-200 px-3 py-2 font-bold">Total Cost of Ownership</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-green-700 font-bold">Low</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">High</td>
-                  <td class="border border-gray-200 px-3 py-2 text-center text-red-600 font-bold">High</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="text-sm text-gray-500 mt-2">* Chemically bonded emulsions need demulsifiers before centrifugation.</p>
-        </div>
-      </div>
-
-      <!-- Difference Decanter vs Disc -->
-      <div id="difference-decanter-disc" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Difference Between Decanter and Disc Stack Centrifuge</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Compared to the disc-stack bowl, the rotating surface is the bowl wall in the chamber bowl (disc-less) centrifuge. Depending on the fluid layer's depth, the inner fluid particles (away from the bowl wall) rotate much slower than the liquid particles in contact with the bowl wall.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          This reduced rotational velocity decreases the separation efficiency considerably in chamber bowl centrifuges.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The liquid pond in the decanter centrifuge has similar limitations. The rotating bowl body contacts the fluid adjacent to it. This outer layer contact limits the separation efficiency of the decanters to bulkier and denser particles.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          That is one reason the decanter centrifuge has a particle separation range higher than the one for disc-stack centrifuges.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The discs in the disc-stack centrifuge bowl also increase the settling area for sedimentation. Considering the g-force and the discs' surface area, the effective settling area in a disc-stack centrifuge equals the size of multiple football fields!
-        </p>
-        <p class="text-[#2D2D2D]">
-          For more details, please read the <a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">Difference between Decanter and Disc Centrifuge</a>.
-        </p>
-      </div>
-
-      <!-- Calculations -->
-      <div id="calculations" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Calculations</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          There are two types of calculations associated with disc stack centrifuges. These calculations are summarized below.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The first calculation defines the efficiency of a disc stack centrifuge through the relevant formula.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The second calculation helps a potential centrifuge user to gauge the effectiveness of the types of industrial centrifuges based on a combination of factors i.e., settling area and G-force.
-        </p>
-
-        <h3 id="centrifuge-efficiency-calculation" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Centrifuge Efficiency Calculation</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          The governing principle of disc stack centrifuges is based on <strong>Stoke's law</strong> which determines the separation of particles within a fluid acted upon by gravitational forces.
-        </p>
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 font-mono text-center text-lg">
-          V = gRp²(ρp − ρ) / 4.5μ
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          In the above formula, it is clear that the settling velocity (V) of the particle moving in the direction of the gravitational force is directly proportional to its density and size. This velocity is inversely proportional to the viscosity of the fluid.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A higher settling velocity allows the particles to reach and accumulate on the disc surface quickly, thereby enhancing the separation efficiency and settling minute particles. Conversely, a thicker (more viscous) fluid reduced the settling velocity, thereby increasing the time required by the particles to reach the settling surface, which reduces process efficiency.
-        </p>
-
-        <h3 id="area-effectiveness-calculation" class="text-xl font-bold text-[#1B3A5C] mb-3 mt-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Area Effectiveness Calculation</h3>
-        <div class="flex justify-center mb-4">
-          <figure class="text-center w-full">
-            <img
-              src="/images/disc-stack-centrifuge/Chamber-Decanter-Disc-Centrifuge-Ae-800.webp"
-              alt="Chamber Decanter and Disc Centrifuge Area Effectiveness (Ae) comparison diagram"
-              width="800" height="165"
-              loading="lazy"
-              class="rounded-lg shadow mx-auto w-full"
-            />
-            <figcaption class="text-sm text-gray-500 mt-2">Area Equivalent (Ae) Comparison: Chamber Bowl vs Decanter vs Disc Stack</figcaption>
-          </figure>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          Referring to the illustration above, the Area Equivalent (Ae) is the settling area available to the separating liquid at centrifugal acceleration. It is calculated by the following formula.
-        </p>
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 font-mono text-center">
-          <strong>Ae = As × g</strong>
-          <p class="text-sm text-gray-600 mt-2 text-left">Where:<br/>As = Surface Area<br/>g = G-Force</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          The following table compares the Ae of the disc centrifuge versus the decanter centrifuge and a chamber bowl centrifuge. This table illustrates the comparative effectiveness of the disc-stack centrifuge versus these other 'low-G' centrifuges.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-3 py-2 text-left">Centrifuge Type</th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Chamber Bowl<br/><span class="font-normal text-xs">300mm × 250mm @ 1,000 G</span></th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Decanter (NX-314)<br/><span class="font-normal text-xs">350mm × 300mm @ 3,500 G</span></th>
-                <th class="border border-gray-300 px-3 py-2 text-center">Disc Stack<br/><span class="font-normal text-xs">Multi-Disc 10 m² @ 7,000 G</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-[#E8A317] bg-opacity-10">
-                <td class="border border-gray-200 px-3 py-2 font-bold">Area Effective (Ae)</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">250</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono">780</td>
-                <td class="border border-gray-200 px-3 py-2 text-center font-bold font-mono text-green-700">19,000</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Bowl Types -->
-      <div id="bowl-types" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Disc Stack Centrifuge Bowl Types</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Disc-stack centrifuges are available with two bowl configurations. A 'self-cleaning' (aka auto ejecting) bowl has the built-in ability to eject the separated sludge periodically without machine stoppage. A 'manual-cleaning' (aka solids retaining) bowl retains the separated sludge and needs to be manually cleaned periodically. This needs the centrifuge to be stopped for the operator to open and clean the sludge from the bowl.
-        </p>
-
-        <!-- Self-Cleaning Bowl -->
-        <div id="self-cleaning-bowl" class="mt-6">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Self-Cleaning Centrifuge Bowl Operation</h3>
-          <div class="grid md:grid-cols-2 gap-6 mb-6">
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/disc-stack-centrifuge-bowl.webp"
-                alt="Self-Cleaning Centrifuge Bowl internal view showing hydraulic ejection mechanism"
-                width="242" height="286"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">Self-Cleaning Centrifuge Bowl</figcaption>
-            </figure>
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/DMPX-014-Self-Cleaning-Centrifuge-modified-Alfa-Laval-Disc-Stack-Centrifuge-Hydraulic-Oil-600.webp"
-                alt="DMPX-014 Self Cleaning Centrifuge for Hydraulic Oil — Dolphin Centrifuge"
-                width="300" height="395"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">DMPX-014 Self Cleaning Centrifuge — Hydraulic Oil</figcaption>
-            </figure>
-          </div>
-          <p class="text-[#2D2D2D] mb-4">
-            The process fluid enters the bowl through the feed tube. The disc stack imparts the rotating velocity to the incoming liquid. The heavy phase (water) moves outward due to the centrifugal force.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            It displaces the lighter oil (light phase) inwards towards the bowl center. The clean oil rises to the top of the bowl and exits the bowl through the paring disc pump (4).
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The heavy phase (water) travels over the top disc (5) and exits the bowl through the water-paring disc (6).
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The heaviest phase (Solids) collects at the bowl periphery. The 'self-cleaning' bowl opens intermittently to discharge the separated solids periodically. The mechanism operates as follows.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The hydraulic operating system opens and closes the bowl at predetermined intervals. The sliding piston (7) is pushed down, which opens the bowl body's sludge-ejection ports. The extremely high centrifugal g-force within the bowl instantly ejects out the separated sludge.
-          </p>
-          <p class="text-[#2D2D2D]">
-            Due to their intermittent sludge ejection feature, 'self-cleaning' disc centrifuges are limited to solids content up to about 8% (%v/v). Higher solids content leads to a higher possibility of bowl clogging and frequent sludge ejection cycles. Both of these conditions are not desirable from the centrifuge perspective.
-          </p>
-        </div>
-
-        <!-- Manual Clean Bowl -->
-        <div id="manual-clean-bowl" class="mt-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Manual Clean Centrifuge Bowl Operation</h3>
-          <div class="grid md:grid-cols-2 gap-6 mb-6">
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/disc-stack-centrifuge-bowl-solid.webp"
-                alt="Solid Bowl (Manual Clean) Centrifuge Bowl internal view"
-                width="242" height="245"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">Solid Bowl Centrifuge Bowl</figcaption>
-            </figure>
-            <figure class="text-center">
-              <img
-                src="/images/disc-stack-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Skid-600.webp"
-                alt="Alfa Laval MAB-206 Diesel Centrifuge Skid — manual clean disc stack"
-                width="300" height="427"
-                loading="lazy"
-                class="rounded-lg shadow mx-auto"
-              />
-              <figcaption class="text-sm text-gray-500 mt-2">Manual Clean Diesel Centrifuge Skid</figcaption>
-            </figure>
-          </div>
-          <p class="text-[#2D2D2D] mb-4">
-            In the 'manual-clean' bowl, the process fluid comes into the bowl from the top (1). The distributor (2) imparts rotation to the fluid before the fluid enters the disc stack (3). The separation happens between the discs of the stack.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The high g-force pushes the heavier fluid (heavy phase) and solids toward the bowl periphery (wall). While the solids collect on the bowl wall, the water (heavy-phase) passes through the passage over the top disc (4) to the heavy-phase outlet (5).
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The oil (light phase) is displaced toward the inner center of the bowl. It rises through the distributor channels to reach the paring disc pump (6). This pump pumps the clean light oil out of the centrifuge bowl.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            The operator must manually remove the collected solids from the bowl by stopping the centrifuge at periodic intervals.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            These solid-bowl centrifuges are much simpler than the 'self-cleaning' bowls described above. They do not have the hydraulic sludge ejection system built into the bowl.
-          </p>
-          <p class="text-[#2D2D2D] mb-4">
-            This simplified design does not require the <a href="/disc-stack-centrifuge-operating-water/" class="text-[#1B3A5C] underline hover:text-[#E8A317]">operating water system</a> (like the 'self-cleaning' centrifuges) for hydraulic operations underneath the bowl. This makes these 'manual-clean' centrifuges easier to install, maintain, and operate.
-          </p>
-          <p class="text-[#2D2D2D]">
-            However, this 'solids-retaining' design also limits these centrifuges' applicability to processing fluids with no solids or negligible amounts of solids. In other words, these centrifuges are ideal for liquid/liquid separation applications.
-          </p>
-        </div>
-      </div>
-
-      <!-- In Stock -->
-      <div id="in-stock" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">Re-manufactured Disc Stack Centrifuges In Stock at Dolphin</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <a href="/alfa-laval-whpx-405/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-            <img
-              src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX405-Quench-Oil-Centrifuge.webp"
-              alt="Alfa Laval WHPX 405 Self-Cleaning Disc Centrifuge — 15 GPM on Diesel Fuel"
-              width="600" height="600"
-              loading="lazy"
-              class="w-full object-cover h-40"
-            />
-            <div class="p-3">
-              <h3 class="font-bold text-[#1B3A5C] text-sm">Alfa Laval WHPX 405</h3>
-              <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-              <p class="text-xs text-[#E8A317] font-semibold">15 GPM on Diesel Fuel</p>
-            </div>
-          </a>
-          <a href="/alfa-laval-mopx-207-centrifuge/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-            <div class="w-full h-40 bg-gray-100 flex items-center justify-center">
-              <span class="text-gray-400 text-sm">MOPX 207</span>
-            </div>
-            <div class="p-3">
-              <h3 class="font-bold text-[#1B3A5C] text-sm">Alfa Laval MOPX 207</h3>
-              <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-              <p class="text-xs text-[#E8A317] font-semibold">28 GPM on Lube Oil</p>
-            </div>
-          </a>
-          <a href="/alfa-laval-whpx-510-centrifuge/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-            <img
-              src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX510-Used-Engine-Oil-Centrifuge.webp"
-              alt="Alfa Laval WHPX 510 Self-Cleaning Disc Centrifuge — 30 GPM on Waste Oil"
-              width="600" height="600"
-              loading="lazy"
-              class="w-full object-cover h-40"
-            />
-            <div class="p-3">
-              <h3 class="font-bold text-[#1B3A5C] text-sm">Alfa Laval WHPX 510</h3>
-              <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-              <p class="text-xs text-[#E8A317] font-semibold">30 GPM on Waste Oil</p>
-            </div>
-          </a>
-          <a href="/alfa-laval-whpx-513/" class="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
-            <img
-              src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
-              alt="Alfa Laval WHPX 513 Self-Cleaning Disc Centrifuge — 75 GPM on Distillate"
-              width="250" height="250"
-              loading="lazy"
-              class="w-full object-cover h-40"
-            />
-            <div class="p-3">
-              <h3 class="font-bold text-[#1B3A5C] text-sm">Alfa Laval WHPX 513</h3>
-              <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-              <p class="text-xs text-[#E8A317] font-semibold">75 GPM on Distillate</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Related Images Gallery -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Industrial Disc Stack Centrifuges</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <figure class="text-center">
-            <img
-              src="/images/disc-stack-centrifuge/Industrial-Waste-Oil-Self-Cleaning-Centrifuges.webp"
-              alt="Industrial waste oil self-cleaning disc stack centrifuge systems"
-              width="600" height="450"
-              loading="lazy"
-              class="rounded-lg shadow w-full object-cover h-36"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Industrial Waste Oil Self-Cleaning Centrifuges</figcaption>
-          </figure>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is a disc stack centrifuge?</h3>
-            <p class="text-text-light text-sm">A disc stack centrifuge is a high-speed rotating separator that uses centrifugal force (7,000–12,000 Gs) to separate liquids of different densities or to remove fine solid particles from liquid. The bowl contains a stack of conical metal discs that multiply the settling area, enabling separation of particles as small as 0.5–1 micron. Used for oil clarification, coolant recovery, wastewater polishing, and food/beverage processing.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between a self-cleaning and a manual-clean disc centrifuge?</h3>
-            <p class="text-text-light text-sm">A self-cleaning centrifuge ejects accumulated sludge automatically at timed intervals, allowing continuous unattended operation. A manual-clean centrifuge must be stopped and disassembled to remove accumulated solids. Self-cleaning centrifuges are preferred for high-solids applications or 24/7 operations.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How do I select the right disc stack centrifuge size?</h3>
-            <p class="text-text-light text-sm">Sizing depends on: required flow rate (GPM or LPH), percentage of solids in the feed, target separation quality, fluid viscosity and temperature, and available utilities. Dolphin Centrifuge's DMPX series ranges from 7 GPM (DMPX-010) to 59–72 GPM (DMPX-070). Contact us for a sizing recommendation based on your process parameters.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Links -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4" style="font-family: 'Plus Jakarta Sans', sans-serif;">Related Articles &amp; Products</h2>
-        <div class="grid sm:grid-cols-2 gap-3 text-sm">
-          <a href="/disc-stack-centrifuge-faq/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Disc Stack Centrifuge FAQ (101 Questions)
-          </a>
-          <a href="/disc-stack-centrifuge-efficiency/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Disc Stack Centrifuge Efficiency
-          </a>
-          <a href="/disadvantages-disc-stack-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Disadvantages of Disc Stack Centrifuge
-          </a>
-          <a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Decanter vs Disc Stack Comparison
-          </a>
-          <a href="/disc-stack-centrifuge-operating-water/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Disc Stack Centrifuge Operating Water
-          </a>
-          <a href="/alfa-laval-mab-103-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Alfa Laval MAB 103 Manual-Clean Centrifuge
-          </a>
-          <a href="/alfa-laval-mab-104-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Alfa Laval MAB 104 Manual-Clean Centrifuge
-          </a>
-          <a href="/alfa-laval-mab-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Alfa Laval MAB 204–209 Series
-          </a>
-          <a href="/diesel-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Diesel Fuel Centrifuge
-          </a>
-          <a href="/lube-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Lube Oil Centrifuge
-          </a>
-          <a href="/disc-stack-centrifuge-options/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> Disc Stack Centrifuge Options & Accessories
-          </a>
-          <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">→</span> DMPX-014 Self-Cleaning 3-Phase Centrifuge
-          </a>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-6 md:p-8 text-white text-center">
-        <h2 class="text-2xl font-bold mb-3" style="font-family: 'Plus Jakarta Sans', sans-serif;">Need Help Selecting the Right Disc Stack Centrifuge?</h2>
-        <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-          Dolphin Centrifuge has 40+ years of experience with disc stack centrifuges across hundreds of industrial applications. Contact our engineers to discuss your specific requirements.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white font-semibold px-8 py-3 rounded-lg hover:bg-yellow-600 transition-colors">Request a Quote</a>
-          <a href="tel:+12485222573" class="border border-white text-white px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition-colors">(248) 522-2573</a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">sales@dolphincentrifuge.com · 24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
-    </div>
-  </section>
-
-</BaseLayout>
+</ApplicationLayout>

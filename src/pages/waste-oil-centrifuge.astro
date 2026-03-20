@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 import DolphinChart from '../components/DolphinChart.astro';
 
 const faqItems = [
@@ -26,7 +26,7 @@ const faqItems = [
   },
   {
     question: "What is black diesel and can a centrifuge clean it?",
-    answer: "Black diesel refers to used engine oil and other used mineral oils repurposed as fuel for diesel engines and generators. A disc stack centrifuge effectively purifies black diesel by removing all solids and water to produce usable fuel. Dolphin Centrifuge offers dedicated black diesel centrifuge systems."
+    answer: "Black diesel refers to used engine oil and other used mineral oils repurposed as fuel for diesel engines and generators. A disc stack centrifuge effectively purifies black diesel by removing all solids and water to produce usable fuel. Dolphin Centrifuge offers dedicated <a href='/black-diesel-centrifuge/'>black diesel centrifuge systems</a>."
   }
 ];
 
@@ -39,6 +39,7 @@ const productJsonLd = {
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "category": "Industrial Centrifuges",
+  "image": "https://dolphincentrifuge.com/images/waste-oil-centrifuge/waste-motor-oil-centrifuge-system.webp",
   "offers": {
     "@type": "Offer",
     "availability": "https://schema.org/InStock",
@@ -61,880 +62,840 @@ const faqJsonLd = {
 };
 
 const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'performance', label: 'Performance Results' },
+  { id: 'factors', label: 'Factors Affecting Performance' },
+  { id: 'sizing', label: 'Sizing' },
+  { id: 'advantages', label: 'Advantages Over Filters' },
+  { id: 'faq', label: 'Waste Oil Centrifuge FAQ' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'black-diesel', label: 'Black Diesel' },
+  { id: 'installation', label: 'Installation' },
+  { id: 'industrial-scale', label: 'Industrial Scale Processing' },
+  { id: 'decanters', label: 'Decanters for High Sludge' },
+  { id: 'filter-vs-centrifuge', label: 'Filter vs Centrifuge' },
+  { id: 'process-flow', label: 'Process Flow Diagram' },
+  { id: 'models', label: 'Centrifuges for Sale' },
+];
+
+const relatedApplications = [
+  { label: 'Used Oil Centrifuge', href: '/used-oil-centrifuge/' },
+  { label: 'Black Diesel Centrifuge', href: '/black-diesel-centrifuge/' },
+  { label: 'WVO Centrifuge Separator', href: '/wvo-centrifuge-separator/' },
+  { label: 'Waste Oil Emulsion Centrifuge', href: '/waste-oil-emulsion-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval WHPX 405', href: '/alfa-laval-whpx-405/', description: '3-phase self-cleaning — 5 GPM @ 180°F' },
+  { label: 'Alfa Laval WHPX 513', href: '/alfa-laval-whpx-513/', description: '3-phase self-cleaning — 60 GPM @ 180°F' },
+  { label: 'Alfa Laval MOPX 213', href: '/alfa-laval-mopx-213-centrifuge/', description: '3-phase self-cleaning — 40 GPM @ 180°F' },
+];
 ---
 
-<BaseLayout
-  title="Waste Oil Centrifuge Systems"
+<ApplicationLayout
+  title="Waste Oil Centrifuge"
   description="Industrial waste oil centrifuges: 3-phase separation up to 12,000 Gs, removes water and solids to 1 micron. Specs, sizing, and systems — Dolphin Centrifuge."
+  heroImage="/images/waste-oil-centrifuge/waste-motor-oil-centrifuge-system.webp"
+  heroImageAlt="Waste motor oil centrifuge system — industrial disc stack centrifuge for waste oil recovery"
+  category="applications"
+  categoryLabel="Oil & Fuel"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   canonicalUrl="https://dolphincentrifuge.com/waste-oil-centrifuge/"
-  breadcrumbs={[{label: 'Applications', href: '/applications/'}, {label: 'Waste Oil Centrifuge'}]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero — Frosted Glass Backdrop -->
-  <Hero
-    title="Waste Oil Centrifuge"
-    categoryLabel="Oil & Fuel"
-    description="Operation, Benefits, Specifications, Cost & Installation"
-    imageSrc="/images/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/waste-oil-centrifuge-guam.webp"
-    imageAlt="Waste oil centrifuge system installation — industrial disc stack centrifuge for waste oil recovery"
-    overlay="frost"
-    ctaLabel="Get a Free Quote"
-    ctaHref="/contact-for-alfa-laval-centrifuges/"
-    secondaryCtaLabel="(248) 522-2573"
-    secondaryCtaHref="tel:2485222573"
-  />
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies three-phase industrial waste oil centrifuge systems — disc stack separators that continuously remove oil, water, and solids from contaminated waste oil at up to 12,000 Gs. These systems separate particles to 1 micron and all free water, processing 3 to 100+ GPM without filter media. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in industrial oil recovery and waste oil purification.</p>
+  </div>
 
-  <!-- TOC -->
-  <section class="bg-white border-b border-gray-200">
-    <div class="container-dolphin max-w-4xl py-8">
-      <h2 class="text-lg font-bold text-navy mb-4">Table of Contents</h2>
-      <nav class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-        <a href="#operation" class="text-navy hover:text-gold underline">Operation</a>
-        <a href="#performance" class="text-navy hover:text-gold underline">Performance Results</a>
-        <a href="#factors" class="text-navy hover:text-gold underline">Factors Affecting Performance</a>
-        <a href="#sizing" class="text-navy hover:text-gold underline">Sizing</a>
-        <a href="#advantages" class="text-navy hover:text-gold underline">Advantages Over Filters</a>
-        <a href="#faq" class="text-navy hover:text-gold underline">Waste Oil Centrifuge FAQ</a>
-        <a href="#specifications" class="text-navy hover:text-gold underline">Specifications</a>
-        <a href="#black-diesel" class="text-navy hover:text-gold underline">Black Diesel</a>
-        <a href="#installation" class="text-navy hover:text-gold underline">Installation</a>
-        <a href="#industrial-scale" class="text-navy hover:text-gold underline">Industrial Scale Processing</a>
-        <a href="#decanters" class="text-navy hover:text-gold underline">Decanters for High Sludge</a>
-        <a href="#filter-vs-centrifuge" class="text-navy hover:text-gold underline">Filter vs Centrifuge</a>
-        <a href="#process-flow" class="text-navy hover:text-gold underline">Process Flow Diagram</a>
-        <a href="#models" class="text-navy hover:text-gold underline">Centrifuges for Sale</a>
-      </nav>
+  <!-- ═══ Operation ═══ Pattern A: Image + Text side by side -->
+  <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/waste-oil-centrifuge/Alfa-Laval-Waste-Oil-Centrifuge-P-615-300.webp"
+          alt="Alfa Laval Waste Oil Centrifuge P-615 — 10 GPM three-phase disc stack unit"
+          width="400"
+          height="350"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Waste Oil Centrifuge (10 GPM)</p>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-text text-lg font-semibold mb-4">
+          A waste oil centrifuge works by exerting gravitational forces up to 12,000 Gs to separate sediment and water from waste oil. This force separates particles as small as 1 micron from the waste oil. The centrifuge has a flow-through design that enables the continuous flow of the separated contaminants through separate outlets.
+        </p>
+        <p class="text-text mb-4">
+          Three-phase separation means the separation of the three phases in contaminated oil:
+        </p>
+        <ul class="list-disc pl-6 text-text space-y-2 mb-4">
+          <li><strong>Light phase</strong> &mdash; oil (the clean, recovered product)</li>
+          <li><strong>Heavy phase</strong> &mdash; water (separated and discharged continuously)</li>
+          <li><strong>Sludge</strong> &mdash; solid contaminants (intermittently ejected from the bowl)</li>
+        </ul>
+        <p class="text-text mb-4">
+          A waste oil centrifuge is a heavy-duty, industrial-grade machine. It has the added capacity to <em>self-eject</em> the separated solids. It also discharges the separated water continuously through a discrete heavy-phase outlet.
+        </p>
+        <p class="text-text">
+          <a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/" class="text-navy underline hover:text-gold font-semibold">Waste Oil Recovery Case Study with Ash Removal &rarr;</a>
+        </p>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <!-- ═══ Performance Results ═══ Pattern A: Before/After + Table side by side -->
+  <div id="performance" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Performance Results</h2>
+    <p class="text-text mb-4">
+      Centrifuge performance refers to the cleaning ability of the centrifuge on waste oil. In this section, we answer the question:
+    </p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies three-phase industrial waste oil centrifuge systems — disc stack separators that continuously remove oil, water, and solids from contaminated waste oil at up to 12,000 Gs. These systems separate particles to 1 micron and all free water, processing 3 to 100+ GPM without filter media. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in industrial oil recovery and waste oil purification.</p>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+      <div class="md:w-[40%] shrink-0">
+        <a href="/images/waste-oil-centrifuge/Waste-Oil-Before-and-After-Disc-Stack-Centrifuge.webp" target="_blank" rel="noopener">
+          <img
+            src="/images/waste-oil-centrifuge/Waste-Oil-Before-and-After-Disc-Stack-Centrifuge.webp"
+            alt="Waste Oil Before and After Disc Stack Centrifuge — visible separation showing contaminated oil transformed to clean oil"
+            width="400"
+            height="300"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto object-contain"
+          />
+        </a>
+        <p class="text-gray-500 text-sm mt-2 text-center">Waste Oil Before and After Disc Stack Centrifuge</p>
       </div>
-
-      <!-- ═══ Operation ═══ Pattern A: Image + Text side by side -->
-      <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <div class="md:w-[45%] shrink-0">
-            <img
-              src="/images/waste-oil-centrifuge/Alfa-Laval-Waste-Oil-Centrifuge-P-615-300.webp"
-              alt="Alfa Laval Waste Oil Centrifuge P-615 — 10 GPM three-phase disc stack unit"
-              width="400"
-              height="350"
-              loading="lazy"
-              class="rounded-lg shadow-sm w-full h-auto object-contain"
-            />
-            <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Waste Oil Centrifuge (10 GPM)</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-text text-lg font-semibold mb-4">
-              A waste oil centrifuge works by exerting gravitational forces up to 12,000 Gs to separate sediment and water from waste oil. This force separates particles as small as 1 micron from the waste oil. The centrifuge has a flow-through design that enables the continuous flow of the separated contaminants through separate outlets.
-            </p>
-            <p class="text-text mb-4">
-              Three-phase separation means the separation of the three phases in contaminated oil:
-            </p>
-            <ul class="list-disc pl-6 text-text space-y-2 mb-4">
-              <li><strong>Light phase</strong> &mdash; oil (the clean, recovered product)</li>
-              <li><strong>Heavy phase</strong> &mdash; water (separated and discharged continuously)</li>
-              <li><strong>Sludge</strong> &mdash; solid contaminants (intermittently ejected from the bowl)</li>
-            </ul>
-            <p class="text-text mb-4">
-              A waste oil centrifuge is a heavy-duty, industrial-grade machine. It has the added capacity to <em>self-eject</em> the separated solids. It also discharges the separated water continuously through a discrete heavy-phase outlet.
-            </p>
-            <p class="text-text">
-              <a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/" class="text-navy underline hover:text-gold font-semibold">Waste Oil Recovery Case Study with Ash Removal &rarr;</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ Performance Results ═══ Pattern A: Before/After + Table side by side -->
-      <div id="performance" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Performance Results</h2>
+      <div class="flex-1 min-w-0">
+        <h3 class="text-xl font-bold text-navy mb-3">How well does a disc centrifuge clean waste oil?</h3>
         <p class="text-text mb-4">
-          Centrifuge performance refers to the cleaning ability of the centrifuge on waste oil. In this section, we answer the question:
+          The following is a <em>real-world example</em> of our centrifuge performance results on waste oil. The table shows the contaminant levels in waste oil before and after an Alfa Laval MOPX 207 Centrifuge.
         </p>
-
-        <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-          <div class="md:w-[40%] shrink-0">
-            <a href="/images/waste-oil-centrifuge/Waste-Oil-Before-and-After-Disc-Stack-Centrifuge.webp" target="_blank" rel="noopener">
-              <img
-                src="/images/waste-oil-centrifuge/Waste-Oil-Before-and-After-Disc-Stack-Centrifuge.webp"
-                alt="Waste Oil Before and After Disc Stack Centrifuge — visible separation showing contaminated oil transformed to clean oil"
-                width="400"
-                height="300"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full h-auto object-contain"
-              />
-            </a>
-            <p class="text-gray-500 text-sm mt-2 text-center">Waste Oil Before and After Disc Stack Centrifuge</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <h3 class="text-xl font-bold text-navy mb-3">How well does a disc centrifuge clean waste oil?</h3>
-            <p class="text-text mb-4">
-              The following is a <em>real-world example</em> of our centrifuge performance results on waste oil. The table shows the contaminant levels in waste oil before and after an Alfa Laval MOPX 207 Centrifuge.
-            </p>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm border-collapse">
-                <thead>
-                  <tr class="bg-navy text-white">
-                    <th class="text-left p-2.5 rounded-tl-lg text-xs" colspan="3">Alfa Laval MOPX-207 — 3-Phase, Self-Cleaning</th>
-                  </tr>
-                  <tr class="bg-blue-900 text-white">
-                    <th class="text-left p-2.5 text-xs">Contaminant</th>
-                    <th class="text-left p-2.5 text-xs">Before</th>
-                    <th class="text-left p-2.5 text-xs rounded-tr-lg">After</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bg-white border-b border-gray-100">
-                    <td class="p-2.5 text-xs">Sediment</td>
-                    <td class="p-2.5 text-red-600 font-semibold text-xs">0.42% Wt.</td>
-                    <td class="p-2.5 text-green-700 font-semibold text-xs">0.06% Wt.</td>
-                  </tr>
-                  <tr class="bg-light-bg border-b border-gray-100">
-                    <td class="p-2.5 text-xs">Water</td>
-                    <td class="p-2.5 text-red-600 font-semibold text-xs">38.0% Vol.</td>
-                    <td class="p-2.5 text-green-700 font-semibold text-xs">1.2% Vol.</td>
-                  </tr>
-                  <tr class="bg-white border-b border-gray-100">
-                    <td class="p-2.5 text-xs">Aluminum</td>
-                    <td class="p-2.5 text-red-600 font-semibold text-xs">495 ppm</td>
-                    <td class="p-2.5 text-green-700 font-semibold text-xs">85 ppm</td>
-                  </tr>
-                  <tr class="bg-light-bg border-b border-gray-100">
-                    <td class="p-2.5 text-xs">Silicon</td>
-                    <td class="p-2.5 text-red-600 font-semibold text-xs">386 ppm</td>
-                    <td class="p-2.5 text-green-700 font-semibold text-xs">132 ppm</td>
-                  </tr>
-                  <tr class="bg-white">
-                    <td class="p-2.5 text-xs">Ash Content</td>
-                    <td class="p-2.5 text-red-600 font-semibold text-xs">1.17% Wt.</td>
-                    <td class="p-2.5 text-green-700 font-semibold text-xs">0.09% Wt.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="bg-navy text-white">
+                <th class="text-left p-2.5 rounded-tl-lg text-xs" colspan="3">Alfa Laval MOPX-207 — 3-Phase, Self-Cleaning</th>
+              </tr>
+              <tr class="bg-blue-900 text-white">
+                <th class="text-left p-2.5 text-xs">Contaminant</th>
+                <th class="text-left p-2.5 text-xs">Before</th>
+                <th class="text-left p-2.5 text-xs rounded-tr-lg">After</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-white border-b border-gray-100">
+                <td class="p-2.5 text-xs">Sediment</td>
+                <td class="p-2.5 text-red-600 font-semibold text-xs">0.42% Wt.</td>
+                <td class="p-2.5 text-green-700 font-semibold text-xs">0.06% Wt.</td>
+              </tr>
+              <tr class="bg-light-bg border-b border-gray-100">
+                <td class="p-2.5 text-xs">Water</td>
+                <td class="p-2.5 text-red-600 font-semibold text-xs">38.0% Vol.</td>
+                <td class="p-2.5 text-green-700 font-semibold text-xs">1.2% Vol.</td>
+              </tr>
+              <tr class="bg-white border-b border-gray-100">
+                <td class="p-2.5 text-xs">Aluminum</td>
+                <td class="p-2.5 text-red-600 font-semibold text-xs">495 ppm</td>
+                <td class="p-2.5 text-green-700 font-semibold text-xs">85 ppm</td>
+              </tr>
+              <tr class="bg-light-bg border-b border-gray-100">
+                <td class="p-2.5 text-xs">Silicon</td>
+                <td class="p-2.5 text-red-600 font-semibold text-xs">386 ppm</td>
+                <td class="p-2.5 text-green-700 font-semibold text-xs">132 ppm</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="p-2.5 text-xs">Ash Content</td>
+                <td class="p-2.5 text-red-600 font-semibold text-xs">1.17% Wt.</td>
+                <td class="p-2.5 text-green-700 font-semibold text-xs">0.09% Wt.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- ═══ Factors ═══ Two charts side by side using DolphinChart -->
-      <div id="factors" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">
-          Factors Affecting <a href="/disc-stack-centrifuge-efficiency/" class="hover:text-gold underline">Centrifuge Performance</a>
-        </h2>
+  <!-- ═══ Factors ═══ Two charts side by side using DolphinChart -->
+  <div id="factors" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">
+      Factors Affecting <a href="/disc-stack-centrifuge-efficiency/" class="hover:text-gold underline">Centrifuge Performance</a>
+    </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="text-lg font-bold text-navy mb-2">Temperature</h3>
-            <p class="text-text mb-4">
-              Processing temperature is a key consideration while sizing waste oil centrifuges. Higher process temperature reduces the oil viscosity, which enables higher throughput.
-            </p>
-            <DolphinChart
-              title="Oil Viscosity vs Temperature"
-              xLabel="Temperature (°F)"
-              yLabel="Viscosity (cSt)"
-              series={[{
-                data: [
-                  { x: 70, y: 480 },
-                  { x: 100, y: 200 },
-                  { x: 130, y: 85 },
-                  { x: 160, y: 38 },
-                  { x: 190, y: 18 },
-                  { x: 210, y: 12 },
-                ]
-              }]}
-              altText="Oil Viscosity versus Temperature Graph — showing how higher temperature reduces viscosity and increases centrifuge throughput"
-              caption="Oil Viscosity versus Temperature Graph"
-            />
-            <p class="text-text mt-3 text-sm">
-              Conversely, lower-temperature oil leads to lower capacity through the same centrifuge.
-            </p>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-navy mb-2">Flow Rate</h3>
-            <p class="text-text mb-4">
-              Lower flow rates give higher retention time in the centrifuge bowl. This time enables longer exposure to the high centrifugal forces leading to better separation.
-            </p>
-            <DolphinChart
-              title="Flow Rate vs Solids Separation"
-              xLabel="Flow Rate (GPM)"
-              yLabel="% Solids Remaining"
-              series={[{
-                data: [
-                  { x: 2, y: 0.62 },
-                  { x: 4, y: 0.72 },
-                  { x: 6, y: 0.79 },
-                  { x: 8, y: 0.85 },
-                  { x: 10, y: 0.90 },
-                  { x: 12, y: 0.93 },
-                  { x: 14, y: 0.98 },
-                ]
-              }]}
-              altText="Flow Rate vs Particle Size Separation Efficiency Chart — lower flow rates improve separation quality"
-              caption="Flow Rate vs Particle Size Separation"
-            />
-            <p class="text-text mt-3 text-sm">
-              Inversely, higher flow rates lead to less effective separation.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ Sizing ═══ Pattern A: Image (45%) + Text (55%) side by side -->
-      <div id="sizing" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Sizing</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <div class="md:w-[45%] shrink-0">
-            <img
-              src="/images/waste-oil-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp"
-              alt="Industrial Centrifuge Systems for Waste Oil — complete skid-mounted waste oil purification system"
-              width="500"
-              height="375"
-              loading="lazy"
-              class="rounded-lg shadow-sm w-full h-auto object-contain"
-            />
-            <p class="text-gray-500 text-sm mt-1 text-center">Industrial Centrifuge Systems for Waste Oil</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-text mb-4">
-              Industrial centrifuges used for waste oil purification are sized based on their throughput or processing capacity. Centrifuges with processing capacities from <strong>3 Gallons per Minute to over 100 Gallons per Minute</strong> are available for sale.
-            </p>
-            <p class="text-text mb-4">
-              Due to the higher sludge levels in waste oil than in lube or hydraulic oil, <strong>self-cleaning centrifuges are required</strong> for waste oil processing.
-            </p>
-            <p class="text-text">
-              For example, consider our medium capacity, self-cleaning Alfa Laval centrifuge, widely used for waste oil recovery. Notice the reduction in capacity at reduced oil temperature in the specifications below.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ Advantages ═══ Pattern B: Bullets (55%) + Illustration (45%) side by side -->
-      <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Advantages of Centrifuges Over Filters</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <div class="flex-1 min-w-0">
-            <ul class="space-y-3">
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text">Total mechanical separation eliminates the need for filter media</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text"><a href="/industrial-centrifuge-controls/" class="text-navy underline hover:text-gold">Automatic operation</a> eliminates labor costs</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text">Continuous separation without the downtime/labor associated with filter replacement</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text">High g-force allows the centrifuge to separate particles down to <strong>0.5 micron level</strong></span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text">A waste oil centrifuge will also <strong>separate all free water</strong></span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text"><a href="/waste-oil-emulsion-centrifuge/" class="text-navy underline hover:text-gold">Breaking of waste oil emulsion</a></span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
-                <span class="text-text"><a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy underline hover:text-gold">Removing ash and fine metal particles from used engine oil</a></span>
-              </li>
-            </ul>
-          </div>
-          <div class="md:w-[40%] shrink-0">
-            <img
-              src="/images/waste-oil-centrifuge/filter-vs-centrifuge-comparison.webp"
-              alt="Filter versus Centrifuge comparison — industrial oil filtration vs disc stack centrifuge separation"
-              width="500"
-              height="373"
-              loading="lazy"
-              class="rounded-lg shadow-sm w-full h-auto object-contain"
-            />
-            <p class="text-gray-500 text-sm mt-1 text-center">Filter vs Centrifuge Comparison</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ FAQ ═══ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6">Waste Oil Centrifuge FAQ</h2>
-        <div class="space-y-4">
-          {faqItems.map((item) => (
-            <details class="border border-gray-200 rounded-lg overflow-hidden">
-              <summary class="flex items-center justify-between p-4 cursor-pointer bg-warm-white hover:bg-blue-50 font-semibold text-navy">
-                <span>{item.question}</span>
-                <span class="text-gold text-xl ml-4 flex-shrink-0">+</span>
-              </summary>
-              <div class="p-4 text-text text-sm leading-relaxed">{item.answer}</div>
-            </details>
-          ))}
-        </div>
-      </div>
-
-      <!-- Mid-page CTA -->
-      <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center mb-8">
-        <h2 class="text-xl font-bold mb-2">Need Help Sizing a Waste Oil Centrifuge?</h2>
-        <p class="text-blue-100 mb-4 max-w-xl mx-auto text-sm">
-          Tell us your daily volume, oil type, and processing temperature. Our engineers will recommend the right centrifuge system for your waste oil application.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-gold-light transition-colors text-sm">
-            Get a Free Quote
-          </a>
-          <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white hover:text-navy transition-colors text-sm">
-            Sample Testing
-          </a>
-          <a href="tel:+12485222573" class="border border-white text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white hover:text-navy transition-colors text-sm">
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-
-      <!-- ═══ Specifications ═══ Pattern C: Table (60%) + Product Photo (40%) -->
-      <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Specifications</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-lg font-bold text-navy mb-2">Temperature</h3>
         <p class="text-text mb-4">
-          The following table highlights the specifications of our most popular large-scale waste oil processing disc-stack centrifuges.
+          Processing temperature is a key consideration while sizing waste oil centrifuges. Higher process temperature reduces the oil viscosity, which enables higher throughput.
         </p>
-        <div class="flex flex-col lg:flex-row gap-6 items-start">
-          <div class="flex-1 min-w-0 overflow-x-auto">
-            <table class="w-full text-sm border-collapse">
-              <thead>
-                <tr class="bg-navy text-white">
-                  <th class="text-left p-3 rounded-tl-lg">Specification</th>
-                  <th class="text-left p-3">MOPX207<br /><span class="font-normal text-xs">Self-Cleaning</span></th>
-                  <th class="text-left p-3 rounded-tr-lg">MOPX 210<br /><span class="font-normal text-xs">Self-Cleaning</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">Separation @ 200&deg;F</td>
-                  <td class="p-3">1&micro;; All Free Water</td>
-                  <td class="p-3">1&micro;; All Free Water</td>
-                </tr>
-                <tr class="bg-light-bg border-b border-gray-100">
-                  <td class="p-3 font-semibold">Rated Capacity</td>
-                  <td class="p-3 font-mono">32 GPM</td>
-                  <td class="p-3 font-mono">72 GPM</td>
-                </tr>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">@ 70&deg;F (Ambient)</td>
-                  <td class="p-3 font-mono">5–7 GPM</td>
-                  <td class="p-3 font-mono">12–15 GPM</td>
-                </tr>
-                <tr class="bg-light-bg border-b border-gray-100">
-                  <td class="p-3 font-semibold">@ 140&deg;F</td>
-                  <td class="p-3 font-mono">10–12 GPM</td>
-                  <td class="p-3 font-mono">20–24 GPM</td>
-                </tr>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">@ 200&deg;F</td>
-                  <td class="p-3 font-mono font-bold text-green-700">20+ GPM</td>
-                  <td class="p-3 font-mono font-bold text-green-700">45+ GPM</td>
-                </tr>
-                <tr class="bg-light-bg border-b border-gray-100">
-                  <td class="p-3 font-semibold">Drive Motor</td>
-                  <td class="p-3">7.5 HP</td>
-                  <td class="p-3">15 HP</td>
-                </tr>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">Voltage</td>
-                  <td class="p-3 font-mono">230/460V 3-Phase</td>
-                  <td class="p-3 font-mono">230/460V 3-Phase</td>
-                </tr>
-                <tr class="bg-light-bg border-b border-gray-100">
-                  <td class="p-3 font-semibold">Bowl Speed</td>
-                  <td class="p-3 font-mono">7,200 RPM</td>
-                  <td class="p-3 font-mono">5,100 RPM</td>
-                </tr>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">G-Force</td>
-                  <td class="p-3 font-mono font-bold">7,200 Gs</td>
-                  <td class="p-3 font-mono font-bold">6,800 Gs</td>
-                </tr>
-                <tr class="bg-light-bg border-b border-gray-100">
-                  <td class="p-3 font-semibold">MOC</td>
-                  <td class="p-3 text-xs">316L SS Bowl; Nickel non-SS</td>
-                  <td class="p-3 text-xs">316L SS Bowl; Nickel non-SS</td>
-                </tr>
-                <tr class="bg-white border-b border-gray-100">
-                  <td class="p-3 font-semibold">Skid Size</td>
-                  <td class="p-3 font-mono">4'×5'×6'H</td>
-                  <td class="p-3 font-mono">6'×7'×8'H</td>
-                </tr>
-                <tr class="bg-light-bg">
-                  <td class="p-3 font-semibold">Weight</td>
-                  <td class="p-3 font-mono">2,800 Lbs</td>
-                  <td class="p-3 font-mono">4,000 Lbs</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="lg:w-[35%] shrink-0">
-            <img
-              src="/images/waste-oil-centrifuge/Alfa-Laval-Waste-Oil-Centrifuge-MOPX-210-Panama.webp"
-              alt="Alfa Laval Waste Oil Centrifuge MOPX-210 — supplied to Panama installation by Dolphin Centrifuge"
-              width="400"
-              height="350"
-              loading="lazy"
-              class="rounded-lg shadow-sm w-full h-auto object-contain"
-            />
-            <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval MOPX-210 Centrifuge System</p>
-          </div>
-        </div>
+        <DolphinChart
+          title="Oil Viscosity vs Temperature"
+          xLabel="Temperature (°F)"
+          yLabel="Viscosity (cSt)"
+          series={[{
+            data: [
+              { x: 70, y: 480 },
+              { x: 100, y: 200 },
+              { x: 130, y: 85 },
+              { x: 160, y: 38 },
+              { x: 190, y: 18 },
+              { x: 210, y: 12 },
+            ]
+          }]}
+          altText="Oil Viscosity versus Temperature Graph — showing how higher temperature reduces viscosity and increases centrifuge throughput"
+          caption="Oil Viscosity versus Temperature Graph"
+        />
+        <p class="text-text mt-3 text-sm">
+          Conversely, lower-temperature oil leads to lower capacity through the same centrifuge.
+        </p>
       </div>
-
-      <!-- ═══ Black Diesel ═══ Pattern A: Image + Text side by side -->
-      <div id="black-diesel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Black Diesel</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-center">
-          <div class="md:w-[28%] shrink-0">
-            <a href="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp" target="_blank" rel="noopener">
-              <img
-                src="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp"
-                alt="Alfa Laval Black Diesel Centrifuge — disc stack centrifuge system for purifying used oil into diesel fuel"
-                width="280"
-                height="250"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full max-h-[250px] object-contain"
-              />
-            </a>
-            <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Black Diesel Centrifuge</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-text mb-4">
-              Black diesel is a term used to describe used engines and other used mineral oils that are repurposed as fuel for diesel engines and diesel generators. Read more about our <a href="/black-diesel-centrifuge/" class="text-navy underline hover:text-gold">black diesel centrifuges</a>.
-            </p>
-            <div class="bg-warm-white rounded-lg p-4 text-sm text-text">
-              <strong class="text-navy">Related Reading:</strong>
-              <a href="/used-oil-centrifuge-plant/" class="text-navy underline hover:text-gold ml-1">6MGY Used Oil Centrifuge Plant Layout</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ Installation ═══ Pattern A: Photo + Content side by side -->
-      <div id="installation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Installation</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-          <div class="md:w-[45%] shrink-0">
-            <a href="/images/waste-oil-centrifuge/Waste-Oil-Centrifuge-Setup-Alfa-Laval-Disc-Stack-Centrifuge-Panama.webp" target="_blank" rel="noopener">
-              <img
-                src="/images/waste-oil-centrifuge/Waste-Oil-Centrifuge-Setup-Alfa-Laval-Disc-Stack-Centrifuge-Panama.webp"
-                alt="Waste Oil Centrifuge Setup — Alfa Laval Disc Stack Centrifuge installed on elevated platform in Panama"
-                width="500"
-                height="400"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full h-auto object-contain"
-              />
-            </a>
-            <p class="text-gray-500 text-sm mt-1 text-center">Waste Oil Centrifuge Setup &mdash; Panama</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-text mb-4">
-              A typical waste oil centrifuge installation requires certain auxiliary equipment and site features for the optimum and durable operation of the centrifuge system.
-            </p>
-            <p class="text-text mb-4 font-semibold">Recommended ancillary equipment:</p>
-            <div class="space-y-3">
-              <div class="border-l-4 border-gold pl-4">
-                <h3 class="font-bold text-navy mb-1 text-sm">Elevated Platform</h3>
-                <p class="text-text text-sm">
-                  Self-cleaning centrifuges discharge sludge through the bottom. An elevated platform allows a sludge receptacle below.
-                </p>
-              </div>
-              <div class="border-l-4 border-gold pl-4">
-                <h3 class="font-bold text-navy mb-1 text-sm">Overhead Lifting Device</h3>
-                <p class="text-text text-sm">
-                  Disc stack centrifuge bowls are heavy parts needing mechanical assistance for retraction and reinstallation during service.
-                </p>
-              </div>
-              <div class="border-l-4 border-gold pl-4">
-                <h3 class="font-bold text-navy mb-1 text-sm">Extended Access Platform (Catwalk)</h3>
-                <p class="text-text text-sm">
-                  Provides operator access for operation and service. A guardrail is essential for safety at the elevated location.
-                </p>
-              </div>
-              <div class="border-l-4 border-gold pl-4">
-                <h3 class="font-bold text-navy mb-1 text-sm">Sludge Receptacle & Transfer Pump</h3>
-                <p class="text-text text-sm">
-                  A sludge tank with an attached pump is the ideal way to handle separated sludge discharged from the centrifuge.
-                </p>
-              </div>
-              <div class="border-l-4 border-gold pl-4">
-                <h3 class="font-bold text-navy mb-1 text-sm">Operating Water Supply</h3>
-                <p class="text-text text-sm">
-                  A non-corrosive water supply pipe with minimum recommended flow rate for trouble-free operation.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══ Industrial Scale ═══ -->
-      <div id="industrial-scale" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Industrial Scale Waste Oil Processing</h2>
+      <div>
+        <h3 class="text-lg font-bold text-navy mb-2">Flow Rate</h3>
         <p class="text-text mb-4">
-          Small-scale centrifuges (open, top-loading type) produce approximately 2,500 g force. This force is enough to separate bulk sludge from the waste oil but not separate the small particles.
+          Lower flow rates give higher retention time in the centrifuge bowl. This time enables longer exposure to the high centrifugal forces leading to better separation.
         </p>
-
-        <h3 class="text-xl font-bold text-navy mb-3">Alfa Laval Disc Centrifuge &mdash; Waste Oil Recovery</h3>
-        <p class="text-text mb-4">
-          Our industrial <a href="https://en.wikipedia.org/wiki/Centrifugal_water%E2%80%93oil_separator" target="_blank" rel="noopener" class="text-navy underline hover:text-gold">waste oil centrifuges</a> generate up to <strong>8,000 g's</strong>. Separating microscopic solid particles from the contaminated oil requires a higher g-force. <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">Industrial centrifuges</a> best handle the commercial processing of waste oil. Alfa Laval disc stack centrifuges have a continuous flow-through design and are perfect for this application.
-        </p>
-        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
-          <p class="text-text text-sm font-semibold">
-            Industrial-scale waste oil centrifuges are <em>NOT cost-competitive for DIY or small-scale</em> WVO separation. These waste oil centrifuges are workable for large-scale or commercial processors.
-          </p>
-        </div>
-        <p class="text-text">
-          Our turn-key waste oil purification systems range from <strong>500 Gal/Day to over 10,000 Gal/Day.</strong>
+        <DolphinChart
+          title="Flow Rate vs Solids Separation"
+          xLabel="Flow Rate (GPM)"
+          yLabel="% Solids Remaining"
+          series={[{
+            data: [
+              { x: 2, y: 0.62 },
+              { x: 4, y: 0.72 },
+              { x: 6, y: 0.79 },
+              { x: 8, y: 0.85 },
+              { x: 10, y: 0.90 },
+              { x: 12, y: 0.93 },
+              { x: 14, y: 0.98 },
+            ]
+          }]}
+          altText="Flow Rate vs Particle Size Separation Efficiency Chart — lower flow rates improve separation quality"
+          caption="Flow Rate vs Particle Size Separation"
+        />
+        <p class="text-text mt-3 text-sm">
+          Inversely, higher flow rates lead to less effective separation.
         </p>
       </div>
+    </div>
+  </div>
 
-      <!-- ═══ Decanters ═══ Pattern A: Image + Text side by side -->
-      <div id="decanters" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Decanters For High Sludge Waste Oil</h2>
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <div class="md:w-[40%] shrink-0">
-            <a href="/images/waste-oil-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp" target="_blank" rel="noopener">
-              <img
-                src="/images/waste-oil-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
-                alt="Alfa Laval Decanter Centrifuge for Waste Oil De-Sludging — handles up to 40% solids content"
-                width="400"
-                height="350"
-                loading="lazy"
-                class="rounded-lg shadow-sm w-full h-auto object-contain"
-              />
-            </a>
-            <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Decanter for Waste Oil De-Sludging</p>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-text mb-4">
-              Waste oil decanters are well suited for de-sludging of high-sludge waste oil. Refinery waste slop and tank bottom sludge are typical examples. This process is also known as <strong>sludge thickening</strong>. A <a href="/decanter-centrifuge/" class="text-navy underline hover:text-gold">decanter centrifuge</a> continuously handles high levels of sludge (up to 40%).
-            </p>
-            <p class="text-text">
-              Alfa Laval decanters replace belt presses and screw presses in many demanding high-sludge applications.
-            </p>
-          </div>
-        </div>
+  <!-- ═══ Sizing ═══ Pattern A: Image (45%) + Text (55%) side by side -->
+  <div id="sizing" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Sizing</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/waste-oil-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp"
+          alt="Industrial Centrifuge Systems for Waste Oil — complete skid-mounted waste oil purification system"
+          width="500"
+          height="375"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Industrial Centrifuge Systems for Waste Oil</p>
       </div>
-
-      <!-- ═══ Filter vs Centrifuge ═══ Text with visual break -->
-      <div id="filter-vs-centrifuge" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Waste Oil Filter versus Centrifuge</h2>
-        <p class="text-text mb-6">
-          This section will delve into commercial aspects of waste oil recycling using filters versus centrifuges.
-        </p>
-
-        <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
-          <div class="flex-1 min-w-0">
-            <h3 class="text-xl font-bold text-navy mb-3">Using Filters for Waste Oil Recycling</h3>
-            <p class="text-text mb-4">
-              Filtration is not suitable for large-scale processing of used engine oil due to the ongoing cost of labor and material involved.
-            </p>
-            <p class="text-text mb-4">
-              Consider a large-scale used oil collector who wants to process 10,000 gallons daily. Their collection consists of <a href="/wvo-centrifuge-separator/" class="text-navy underline hover:text-gold">WVO</a>, UCO, Waste Oil, <a href="/yellow-grease-purification-centrifuge/" class="text-navy underline hover:text-gold">Yellow Grease</a>, and any other used oil. The first step involves heating and settling to remove the free water.
-            </p>
-            <p class="text-text">
-              This process requires significant tank volume with heat for the 'heating and settling' routine. Despite the time and heating cost, this method still does not remove all free water.
-            </p>
-          </div>
-          <div class="md:w-[30%] shrink-0">
-            <img
-              src="/images/waste-oil-centrifuge/Alfa-Laval-Stainless-Steel-Waste-Oil-Centrifuge-reframed.webp"
-              alt="Alfa Laval Stainless Steel Waste Oil Centrifuge — WHPX 405 three-phase self-cleaning unit"
-              width="300"
-              height="280"
-              loading="lazy"
-              class="rounded-lg shadow-sm w-full max-h-[280px] object-contain"
-            />
-            <p class="text-gray-500 text-sm mt-1 text-center">Stainless Steel Waste Oil Centrifuge</p>
-          </div>
-        </div>
-
-        <div class="bg-warm-white border-l-4 border-navy rounded-r-lg p-4 mb-6">
-          <p class="text-text text-sm italic">
-            If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/" class="text-navy underline hover:text-gold font-semibold">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
-          </p>
-        </div>
-
+      <div class="flex-1 min-w-0">
         <p class="text-text mb-4">
-          Let's not forget about the sludge left in the settling tanks! That sludge contains significant amounts of oil, which means lost revenue. Also, the tank bottoms need cleaning.
+          Industrial centrifuges used for waste oil purification are sized based on their throughput or processing capacity. Centrifuges with processing capacities from <strong>3 Gallons per Minute to over 100 Gallons per Minute</strong> are available for sale.
         </p>
         <p class="text-text mb-4">
-          Next, filtering the decanted waste oil through bag filters is labor-intensive. Replacing and disposing of filter media adds to cost and time. Cleaner oil requires small mesh filters, which means frequent media replacement and more material and labor costs.
-        </p>
-        <p class="text-text mb-4">
-          The 'finished product' contains water. Water removal requires adsorption or 'boiling off,' which adds extra cost to the process. Water removal by settling adds time to the process.
+          Due to the higher sludge levels in waste oil than in lube or hydraulic oil, <strong>self-cleaning centrifuges are required</strong> for waste oil processing.
         </p>
         <p class="text-text">
-          The capital expense of centrifuge equipment is more compared to decanting and filtration. The payback period of a centrifuge system is short, considering all costs. It is often <strong>in months</strong>, depending on the volume of oil processed.
+          For example, consider our medium capacity, self-cleaning Alfa Laval centrifuge, widely used for waste oil recovery. Notice the reduction in capacity at reduced oil temperature in the specifications below.
         </p>
       </div>
+    </div>
+  </div>
 
-      <!-- ═══ Process Flow ═══ -->
-      <div id="process-flow" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Waste Oil Separation Using Industrial Centrifuge</h2>
+  <!-- ═══ Advantages ═══ Pattern B: Bullets (55%) + Illustration (45%) side by side -->
+  <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Advantages of Centrifuges Over Filters</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="flex-1 min-w-0">
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text">Total mechanical separation eliminates the need for filter media</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text"><a href="/industrial-centrifuge-controls/" class="text-navy underline hover:text-gold">Automatic operation</a> eliminates labor costs</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text">Continuous separation without the downtime/labor associated with filter replacement</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text">High g-force allows the centrifuge to separate particles down to <strong>0.5 micron level</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text">A waste oil centrifuge will also <strong>separate all free water</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text"><a href="/waste-oil-emulsion-centrifuge/" class="text-navy underline hover:text-gold">Breaking of waste oil emulsion</a></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 bg-gold rounded-full flex-shrink-0 mt-2"></span>
+            <span class="text-text"><a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy underline hover:text-gold">Removing ash and fine metal particles from used engine oil</a></span>
+          </li>
+        </ul>
+      </div>
+      <div class="md:w-[40%] shrink-0">
+        <img
+          src="/images/waste-oil-centrifuge/filter-vs-centrifuge-comparison.webp"
+          alt="Filter versus Centrifuge comparison — industrial oil filtration vs disc stack centrifuge separation"
+          width="500"
+          height="373"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Filter vs Centrifuge Comparison</p>
+      </div>
+    </div>
+  </div>
 
-        <h3 class="text-xl font-bold text-navy mb-3">Waste Oil Processing &mdash; Industrial Scale</h3>
+  <!-- ═══ FAQ ═══ -->
+  <FAQ items={faqItems} heading="Waste Oil Centrifuge FAQ" />
 
-        <h4 class="text-lg font-bold text-navy mb-3">Process Flow Diagram for Industrial Scale Processing</h4>
+  <!-- Mid-page CTA -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center my-8">
+    <h2 class="text-xl font-bold mb-2">Need Help Sizing a Waste Oil Centrifuge?</h2>
+    <p class="text-blue-100 mb-4 max-w-xl mx-auto text-sm">
+      Tell us your daily volume, oil type, and processing temperature. Our engineers will recommend the right centrifuge system for your waste oil application.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-gold-light transition-colors text-sm">
+        Get a Free Quote
+      </a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white hover:text-navy transition-colors text-sm">
+        Sample Testing
+      </a>
+      <a href="tel:+12485222573" class="border border-white text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white hover:text-navy transition-colors text-sm">
+        (248) 522-2573
+      </a>
+    </div>
+  </div>
 
+  <!-- ═══ Specifications ═══ Pattern C: Table (60%) + Product Photo (40%) -->
+  <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Specifications</h2>
+    <p class="text-text mb-4">
+      The following table highlights the specifications of our most popular large-scale waste oil processing disc-stack centrifuges.
+    </p>
+    <div class="flex flex-col lg:flex-row gap-6 items-start">
+      <div class="flex-1 min-w-0 overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-navy text-white">
+              <th class="text-left p-3 rounded-tl-lg">Specification</th>
+              <th class="text-left p-3">MOPX207<br /><span class="font-normal text-xs">Self-Cleaning</span></th>
+              <th class="text-left p-3 rounded-tr-lg">MOPX 210<br /><span class="font-normal text-xs">Self-Cleaning</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">Separation @ 200&deg;F</td>
+              <td class="p-3">1&micro;; All Free Water</td>
+              <td class="p-3">1&micro;; All Free Water</td>
+            </tr>
+            <tr class="bg-light-bg border-b border-gray-100">
+              <td class="p-3 font-semibold">Rated Capacity</td>
+              <td class="p-3 font-mono">32 GPM</td>
+              <td class="p-3 font-mono">72 GPM</td>
+            </tr>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">@ 70&deg;F (Ambient)</td>
+              <td class="p-3 font-mono">5–7 GPM</td>
+              <td class="p-3 font-mono">12–15 GPM</td>
+            </tr>
+            <tr class="bg-light-bg border-b border-gray-100">
+              <td class="p-3 font-semibold">@ 140&deg;F</td>
+              <td class="p-3 font-mono">10–12 GPM</td>
+              <td class="p-3 font-mono">20–24 GPM</td>
+            </tr>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">@ 200&deg;F</td>
+              <td class="p-3 font-mono font-bold text-green-700">20+ GPM</td>
+              <td class="p-3 font-mono font-bold text-green-700">45+ GPM</td>
+            </tr>
+            <tr class="bg-light-bg border-b border-gray-100">
+              <td class="p-3 font-semibold">Drive Motor</td>
+              <td class="p-3">7.5 HP</td>
+              <td class="p-3">15 HP</td>
+            </tr>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">Voltage</td>
+              <td class="p-3 font-mono">230/460V 3-Phase</td>
+              <td class="p-3 font-mono">230/460V 3-Phase</td>
+            </tr>
+            <tr class="bg-light-bg border-b border-gray-100">
+              <td class="p-3 font-semibold">Bowl Speed</td>
+              <td class="p-3 font-mono">7,200 RPM</td>
+              <td class="p-3 font-mono">5,100 RPM</td>
+            </tr>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">G-Force</td>
+              <td class="p-3 font-mono font-bold">7,200 Gs</td>
+              <td class="p-3 font-mono font-bold">6,800 Gs</td>
+            </tr>
+            <tr class="bg-light-bg border-b border-gray-100">
+              <td class="p-3 font-semibold">MOC</td>
+              <td class="p-3 text-xs">316L SS Bowl; Nickel non-SS</td>
+              <td class="p-3 text-xs">316L SS Bowl; Nickel non-SS</td>
+            </tr>
+            <tr class="bg-white border-b border-gray-100">
+              <td class="p-3 font-semibold">Skid Size</td>
+              <td class="p-3 font-mono">4'×5'×6'H</td>
+              <td class="p-3 font-mono">6'×7'×8'H</td>
+            </tr>
+            <tr class="bg-light-bg">
+              <td class="p-3 font-semibold">Weight</td>
+              <td class="p-3 font-mono">2,800 Lbs</td>
+              <td class="p-3 font-mono">4,000 Lbs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lg:w-[35%] shrink-0">
+        <img
+          src="/images/waste-oil-centrifuge/Alfa-Laval-Waste-Oil-Centrifuge-MOPX-210-Panama.webp"
+          alt="Alfa Laval Waste Oil Centrifuge MOPX-210 — supplied to Panama installation by Dolphin Centrifuge"
+          width="400"
+          height="350"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval MOPX-210 Centrifuge System</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Black Diesel ═══ Pattern A: Image + Text side by side -->
+  <div id="black-diesel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Black Diesel</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="md:w-[28%] shrink-0">
+        <a href="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp" target="_blank" rel="noopener">
+          <img
+            src="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp"
+            alt="Alfa Laval Black Diesel Centrifuge — disc stack centrifuge system for purifying used oil into diesel fuel"
+            width="280"
+            height="250"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full max-h-[250px] object-contain"
+          />
+        </a>
+        <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Black Diesel Centrifuge</p>
+      </div>
+      <div class="flex-1 min-w-0">
         <p class="text-text mb-4">
-          A <a href="/decanter-centrifuge/" class="text-navy underline hover:text-gold">decanter centrifuge</a> is a heavy-duty continuous de-sludging machine. It generates approximately <strong>3,100 times the force of gravity</strong> by centrifugal force. The decanter centrifuge processes incoming crude oil to remove all solids from <strong>1/2" down to a 50-micron level in a single pass.</strong>
+          Black diesel is a term used to describe used engines and other used mineral oils that are repurposed as fuel for diesel engines and diesel generators. Read more about our <a href="/black-diesel-centrifuge/" class="text-navy underline hover:text-gold">black diesel centrifuges</a>.
         </p>
+        <div class="bg-warm-white rounded-lg p-4 text-sm text-text">
+          <strong class="text-navy">Related Reading:</strong>
+          <a href="/used-oil-centrifuge-plant/" class="text-navy underline hover:text-gold ml-1">6MGY Used Oil Centrifuge Plant Layout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Installation ═══ Pattern A: Photo + Content side by side -->
+  <div id="installation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Installation</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+      <div class="md:w-[45%] shrink-0">
+        <a href="/images/waste-oil-centrifuge/Waste-Oil-Centrifuge-Setup-Alfa-Laval-Disc-Stack-Centrifuge-Panama.webp" target="_blank" rel="noopener">
+          <img
+            src="/images/waste-oil-centrifuge/Waste-Oil-Centrifuge-Setup-Alfa-Laval-Disc-Stack-Centrifuge-Panama.webp"
+            alt="Waste Oil Centrifuge Setup — Alfa Laval Disc Stack Centrifuge installed on elevated platform in Panama"
+            width="500"
+            height="400"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto object-contain"
+          />
+        </a>
+        <p class="text-gray-500 text-sm mt-1 text-center">Waste Oil Centrifuge Setup &mdash; Panama</p>
+      </div>
+      <div class="flex-1 min-w-0">
         <p class="text-text mb-4">
-          The de-sludged oil and water are then pre-heated. A high-efficiency inline electric heater heats the fluid. An inline electric heater is energy efficient because it heats only the in-process liquid. Heating the entire tank volume is wasteful.
+          A typical waste oil centrifuge installation requires certain auxiliary equipment and site features for the optimum and durable operation of the centrifuge system.
         </p>
+        <p class="text-text mb-4 font-semibold">Recommended ancillary equipment:</p>
+        <div class="space-y-3">
+          <div class="border-l-4 border-gold pl-4">
+            <h3 class="font-bold text-navy mb-1 text-sm">Elevated Platform</h3>
+            <p class="text-text text-sm">
+              Self-cleaning centrifuges discharge sludge through the bottom. An elevated platform allows a sludge receptacle below.
+            </p>
+          </div>
+          <div class="border-l-4 border-gold pl-4">
+            <h3 class="font-bold text-navy mb-1 text-sm">Overhead Lifting Device</h3>
+            <p class="text-text text-sm">
+              Disc stack centrifuge bowls are heavy parts needing mechanical assistance for retraction and reinstallation during service.
+            </p>
+          </div>
+          <div class="border-l-4 border-gold pl-4">
+            <h3 class="font-bold text-navy mb-1 text-sm">Extended Access Platform (Catwalk)</h3>
+            <p class="text-text text-sm">
+              Provides operator access for operation and service. A guardrail is essential for safety at the elevated location.
+            </p>
+          </div>
+          <div class="border-l-4 border-gold pl-4">
+            <h3 class="font-bold text-navy mb-1 text-sm">Sludge Receptacle & Transfer Pump</h3>
+            <p class="text-text text-sm">
+              A sludge tank with an attached pump is the ideal way to handle separated sludge discharged from the centrifuge.
+            </p>
+          </div>
+          <div class="border-l-4 border-gold pl-4">
+            <h3 class="font-bold text-navy mb-1 text-sm">Operating Water Supply</h3>
+            <p class="text-text text-sm">
+              A non-corrosive water supply pipe with minimum recommended flow rate for trouble-free operation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Industrial Scale ═══ -->
+  <div id="industrial-scale" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Industrial Scale Waste Oil Processing</h2>
+    <p class="text-text mb-4">
+      Small-scale centrifuges (open, top-loading type) produce approximately 2,500 g force. This force is enough to separate bulk sludge from the waste oil but not separate the small particles.
+    </p>
+
+    <h3 class="text-xl font-bold text-navy mb-3">Alfa Laval Disc Centrifuge &mdash; Waste Oil Recovery</h3>
+    <p class="text-text mb-4">
+      Our industrial <a href="https://en.wikipedia.org/wiki/Centrifugal_water%E2%80%93oil_separator" target="_blank" rel="noopener" class="text-navy underline hover:text-gold">waste oil centrifuges</a> generate up to <strong>8,000 g's</strong>. Separating microscopic solid particles from the contaminated oil requires a higher g-force. <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">Industrial centrifuges</a> best handle the commercial processing of waste oil. Alfa Laval disc stack centrifuges have a continuous flow-through design and are perfect for this application.
+    </p>
+    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+      <p class="text-text text-sm font-semibold">
+        Industrial-scale waste oil centrifuges are <em>NOT cost-competitive for DIY or small-scale</em> WVO separation. These waste oil centrifuges are workable for large-scale or commercial processors.
+      </p>
+    </div>
+    <p class="text-text">
+      Our turn-key waste oil purification systems range from <strong>500 Gal/Day to over 10,000 Gal/Day.</strong>
+    </p>
+  </div>
+
+  <!-- ═══ Decanters ═══ Pattern A: Image + Text side by side -->
+  <div id="decanters" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Decanters For High Sludge Waste Oil</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="md:w-[40%] shrink-0">
+        <a href="/images/waste-oil-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp" target="_blank" rel="noopener">
+          <img
+            src="/images/waste-oil-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
+            alt="Alfa Laval Decanter Centrifuge for Waste Oil De-Sludging — handles up to 40% solids content"
+            width="400"
+            height="350"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto object-contain"
+          />
+        </a>
+        <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Decanter for Waste Oil De-Sludging</p>
+      </div>
+      <div class="flex-1 min-w-0">
         <p class="text-text mb-4">
-          The heated waste oil is now processed through a self-cleaning, high-speed disc centrifuge. These <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">industrial centrifuges</a> generate up to <strong>12,000 times the force of gravity</strong>. This g-force is enough to separate all free water and <strong>solid particles</strong> down to the <strong>0.5-micron level</strong>.
-        </p>
-        <p class="text-text mb-4">
-          This centrifuge machine continuously separates the water and intermittently ejects the separated solids. A PLC in the local <a href="/industrial-centrifuge-controls/" class="text-navy underline hover:text-gold">centrifuge control panel</a> controls the entire process. It also controls the sludge ejection system.
-        </p>
-        <p class="text-text mb-4">
-          The process illustrated and described above is ideal for commercial-scale waste oil purification. This separation is a continuous process without media and labor costs.
+          Waste oil decanters are well suited for de-sludging of high-sludge waste oil. Refinery waste slop and tank bottom sludge are typical examples. This process is also known as <strong>sludge thickening</strong>. A <a href="/decanter-centrifuge/" class="text-navy underline hover:text-gold">decanter centrifuge</a> continuously handles high levels of sludge (up to 40%).
         </p>
         <p class="text-text">
-          Have you considered a centrifuge for Pyrolysis Oil separation? Please read our article using <a href="/pyrolysis-oil-centrifuge/" class="text-navy underline hover:text-gold">Industrial Centrifuges for Pyrolysis Oil production</a>.
+          Alfa Laval decanters replace belt presses and screw presses in many demanding high-sludge applications.
         </p>
       </div>
+    </div>
+  </div>
 
-      <!-- ═══ Models for Sale ═══ Pattern D: Gallery Row — uniform height -->
-      <div id="models" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Used / Remanufactured Alfa Laval Centrifuges for Waste Oil Recovery</h2>
-        <p class="text-text mb-6">
-          The following models show 3 Alfa Laval centrifuges of different capacities for processing <a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy underline hover:text-gold">Used Engine Oil</a>. Hover on each model for technical specifications.
+  <!-- ═══ Filter vs Centrifuge ═══ Text with visual break -->
+  <div id="filter-vs-centrifuge" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Waste Oil Filter versus Centrifuge</h2>
+    <p class="text-text mb-6">
+      This section will delve into commercial aspects of waste oil recycling using filters versus centrifuges.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
+      <div class="flex-1 min-w-0">
+        <h3 class="text-xl font-bold text-navy mb-3">Using Filters for Waste Oil Recycling</h3>
+        <p class="text-text mb-4">
+          Filtration is not suitable for large-scale processing of used engine oil due to the ongoing cost of labor and material involved.
         </p>
+        <p class="text-text mb-4">
+          Consider a large-scale used oil collector who wants to process 10,000 gallons daily. Their collection consists of <a href="/wvo-centrifuge-separator/" class="text-navy underline hover:text-gold">WVO</a>, UCO, Waste Oil, <a href="/yellow-grease-purification-centrifuge/" class="text-navy underline hover:text-gold">Yellow Grease</a>, and any other used oil. The first step involves heating and settling to remove the free water.
+        </p>
+        <p class="text-text">
+          This process requires significant tank volume with heat for the 'heating and settling' routine. Despite the time and heating cost, this method still does not remove all free water.
+        </p>
+      </div>
+      <div class="md:w-[30%] shrink-0">
+        <img
+          src="/images/waste-oil-centrifuge/Alfa-Laval-Stainless-Steel-Waste-Oil-Centrifuge-reframed.webp"
+          alt="Alfa Laval Stainless Steel Waste Oil Centrifuge — WHPX 405 three-phase self-cleaning unit"
+          width="300"
+          height="280"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full max-h-[280px] object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Stainless Steel Waste Oil Centrifuge</p>
+      </div>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-warm-white border-l-4 border-navy rounded-r-lg p-4 mb-6">
+      <p class="text-text text-sm italic">
+        If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/" class="text-navy underline hover:text-gold font-semibold">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+      </p>
+    </div>
 
-          <!-- WHPX 405 -->
-          <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
-            <a href="/alfa-laval-whpx-405/">
-              <img
-                src="/images/waste-oil-centrifuge/Alfa-Laval-Stainless-Steel-Waste-Oil-Centrifuge-reframed.webp"
-                alt="Alfa Laval Stainless Steel Waste Oil Centrifuge — WHPX 405 three-phase self-cleaning unit"
-                width="350"
-                height="250"
-                loading="lazy"
-                class="w-full object-cover h-[220px]"
-              />
-            </a>
-            <div class="p-4">
-              <h3 class="font-bold text-navy mb-3">
-                <a href="/alfa-laval-whpx-405/" class="hover:text-gold">Alfa Laval WHPX 405</a>
-              </h3>
-              <table class="w-full text-xs">
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Type:</td>
-                    <td class="py-1">3-Phase; Self-Cleaning</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">G-Force:</td>
-                    <td class="py-1 font-mono">8,000 Gs</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Capacity:</td>
-                    <td class="py-1 font-mono">5 GPM @ 180&deg;F</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Motor:</td>
-                    <td class="py-1">4 HP</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Power:</td>
-                    <td class="py-1 font-mono">460V; 20A</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Size:</td>
-                    <td class="py-1 font-mono">4'×5'×5'H</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1 font-semibold text-navy">Weight:</td>
-                    <td class="py-1 font-mono">1,800 Lbs</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <p class="text-text mb-4">
+      Let's not forget about the sludge left in the settling tanks! That sludge contains significant amounts of oil, which means lost revenue. Also, the tank bottoms need cleaning.
+    </p>
+    <p class="text-text mb-4">
+      Next, filtering the decanted waste oil through bag filters is labor-intensive. Replacing and disposing of filter media adds to cost and time. Cleaner oil requires small mesh filters, which means frequent media replacement and more material and labor costs.
+    </p>
+    <p class="text-text mb-4">
+      The 'finished product' contains water. Water removal requires adsorption or 'boiling off,' which adds extra cost to the process. Water removal by settling adds time to the process.
+    </p>
+    <p class="text-text">
+      The capital expense of centrifuge equipment is more compared to decanting and filtration. The payback period of a centrifuge system is short, considering all costs. It is often <strong>in months</strong>, depending on the volume of oil processed.
+    </p>
+  </div>
 
-          <!-- MOPX 213 -->
-          <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
-            <a href="/alfa-laval-mopx-213-centrifuge/">
-              <img
-                src="/images/waste-oil-centrifuge/waste-motor-oil-centrifuge-system.webp"
-                alt="Waste Motor Oil Centrifuge System — Alfa Laval MOPX 213 self-cleaning disc stack centrifuge"
-                width="350"
-                height="250"
-                loading="lazy"
-                class="w-full object-cover h-[220px]"
-              />
-            </a>
-            <div class="p-4">
-              <h3 class="font-bold text-navy mb-3">Alfa Laval MOPX 213</h3>
-              <table class="w-full text-xs">
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Type:</td>
-                    <td class="py-1">3-Phase; Self-Cleaning</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">G-Force:</td>
-                    <td class="py-1 font-mono">8,000 Gs</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Capacity:</td>
-                    <td class="py-1 font-mono">40 GPM @ 180&deg;F</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Motor:</td>
-                    <td class="py-1">10 HP</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Power:</td>
-                    <td class="py-1 font-mono">460V; 50A</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Size:</td>
-                    <td class="py-1 font-mono">5'×6'×7'H</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1 font-semibold text-navy">Weight:</td>
-                    <td class="py-1 font-mono">3,500 Lbs</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+  <!-- ═══ Process Flow ═══ -->
+  <div id="process-flow" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Waste Oil Separation Using Industrial Centrifuge</h2>
 
-          <!-- WHPX 513 -->
-          <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
-            <a href="/alfa-laval-whpx-513/">
-              <img
-                src="/images/waste-oil-centrifuge/Alfa-Laval-WHPX-513-Used-Engine-Oil-Centrifuge.webp"
-                alt="Alfa Laval WHPX 513 Used Engine Oil Centrifuge — high-capacity self-cleaning disc stack"
-                width="350"
-                height="250"
-                loading="lazy"
-                class="w-full object-cover h-[220px]"
-              />
-            </a>
-            <div class="p-4">
-              <h3 class="font-bold text-navy mb-3">
-                <a href="/alfa-laval-whpx-513/" class="hover:text-gold">Alfa Laval WHPX 513</a>
-              </h3>
-              <table class="w-full text-xs">
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Type:</td>
-                    <td class="py-1">3-Phase; Self-Cleaning</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">G-Force:</td>
-                    <td class="py-1 font-mono">8,000 Gs</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Capacity:</td>
-                    <td class="py-1 font-mono">60 GPM @ 180&deg;F</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Motor:</td>
-                    <td class="py-1">15 HP</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Power:</td>
-                    <td class="py-1 font-mono">460V; 60A</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-1 font-semibold text-navy">Size:</td>
-                    <td class="py-1 font-mono">6'×7'×7'H</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1 font-semibold text-navy">Weight:</td>
-                    <td class="py-1 font-mono">4,500 Lbs</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <h3 class="text-xl font-bold text-navy mb-3">Waste Oil Processing &mdash; Industrial Scale</h3>
 
+    <h4 class="text-lg font-bold text-navy mb-3">Process Flow Diagram for Industrial Scale Processing</h4>
+
+    <p class="text-text mb-4">
+      A <a href="/decanter-centrifuge/" class="text-navy underline hover:text-gold">decanter centrifuge</a> is a heavy-duty continuous de-sludging machine. It generates approximately <strong>3,100 times the force of gravity</strong> by centrifugal force. The decanter centrifuge processes incoming crude oil to remove all solids from <strong>1/2" down to a 50-micron level in a single pass.</strong>
+    </p>
+    <p class="text-text mb-4">
+      The de-sludged oil and water are then pre-heated. A high-efficiency inline electric heater heats the fluid. An inline electric heater is energy efficient because it heats only the in-process liquid. Heating the entire tank volume is wasteful.
+    </p>
+    <p class="text-text mb-4">
+      The heated waste oil is now processed through a self-cleaning, high-speed disc centrifuge. These <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">industrial centrifuges</a> generate up to <strong>12,000 times the force of gravity</strong>. This g-force is enough to separate all free water and <strong>solid particles</strong> down to the <strong>0.5-micron level</strong>.
+    </p>
+    <p class="text-text mb-4">
+      This centrifuge machine continuously separates the water and intermittently ejects the separated solids. A PLC in the local <a href="/industrial-centrifuge-controls/" class="text-navy underline hover:text-gold">centrifuge control panel</a> controls the entire process. It also controls the sludge ejection system.
+    </p>
+    <p class="text-text mb-4">
+      The process illustrated and described above is ideal for commercial-scale waste oil purification. This separation is a continuous process without media and labor costs.
+    </p>
+    <p class="text-text">
+      Have you considered a centrifuge for Pyrolysis Oil separation? Please read our article using <a href="/pyrolysis-oil-centrifuge/" class="text-navy underline hover:text-gold">Industrial Centrifuges for Pyrolysis Oil production</a>.
+    </p>
+  </div>
+
+  <!-- ═══ Models for Sale ═══ Pattern D: Gallery Row — uniform height -->
+  <div id="models" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Used / Remanufactured Alfa Laval Centrifuges for Waste Oil Recovery</h2>
+    <p class="text-text mb-6">
+      The following models show 3 Alfa Laval centrifuges of different capacities for processing <a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy underline hover:text-gold">Used Engine Oil</a>. Hover on each model for technical specifications.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- WHPX 405 -->
+      <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
+        <a href="/alfa-laval-whpx-405/">
+          <img
+            src="/images/waste-oil-centrifuge/Alfa-Laval-Stainless-Steel-Waste-Oil-Centrifuge-reframed.webp"
+            alt="Alfa Laval Stainless Steel Waste Oil Centrifuge — WHPX 405 three-phase self-cleaning unit"
+            width="350"
+            height="250"
+            loading="lazy"
+            class="w-full object-cover h-[220px]"
+          />
+        </a>
+        <div class="p-4">
+          <h3 class="font-bold text-navy mb-3">
+            <a href="/alfa-laval-whpx-405/" class="hover:text-gold">Alfa Laval WHPX 405</a>
+          </h3>
+          <table class="w-full text-xs">
+            <tbody>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Type:</td>
+                <td class="py-1">3-Phase; Self-Cleaning</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">G-Force:</td>
+                <td class="py-1 font-mono">8,000 Gs</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Capacity:</td>
+                <td class="py-1 font-mono">5 GPM @ 180&deg;F</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Motor:</td>
+                <td class="py-1">4 HP</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Power:</td>
+                <td class="py-1 font-mono">460V; 20A</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Size:</td>
+                <td class="py-1 font-mono">4'×5'×5'H</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-navy">Weight:</td>
+                <td class="py-1 font-mono">1,800 Lbs</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- ═══ Related Articles ═══ -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Waste Oil Recovery Case Study</h3>
-            <p class="text-gray-500 text-xs">Marine and industrial waste oil recovery with ash removal results</p>
-          </a>
-          <a href="/used-oil-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Used Oil Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Industrial centrifuge solutions for used oil purification and recycling</p>
-          </a>
-          <a href="/pyrolysis-oil-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Pyrolysis Oil Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Industrial centrifuges for pyrolysis oil production and purification</p>
-          </a>
-          <a href="/waste-oil-emulsion-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Waste Oil Emulsion Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Breaking waste oil emulsions mechanically with disc stack centrifuges</p>
-          </a>
-          <a href="/black-diesel-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Black Diesel Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Centrifuge systems for black diesel fuel production from used oil</p>
-          </a>
-          <a href="/disc-stack-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Disc Stack Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Complete guide to disc stack centrifuge technology and applications</p>
-          </a>
-          <a href="/industrial-centrifuge-sample-testing/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Sample Testing Program</h3>
-            <p class="text-gray-500 text-xs">Send us your oil sample for lab-scale centrifuge testing</p>
-          </a>
-          <a href="/picking-the-right-industrial-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
-            <h3 class="font-semibold text-navy text-sm mb-1">Picking the Right Centrifuge</h3>
-            <p class="text-gray-500 text-xs">Guide to selecting the right industrial centrifuge for your application</p>
-          </a>
+      <!-- MOPX 213 -->
+      <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
+        <a href="/alfa-laval-mopx-213-centrifuge/">
+          <img
+            src="/images/waste-oil-centrifuge/waste-motor-oil-centrifuge-system.webp"
+            alt="Waste Motor Oil Centrifuge System — Alfa Laval MOPX 213 self-cleaning disc stack centrifuge"
+            width="350"
+            height="250"
+            loading="lazy"
+            class="w-full object-cover h-[220px]"
+          />
+        </a>
+        <div class="p-4">
+          <h3 class="font-bold text-navy mb-3">Alfa Laval MOPX 213</h3>
+          <table class="w-full text-xs">
+            <tbody>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Type:</td>
+                <td class="py-1">3-Phase; Self-Cleaning</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">G-Force:</td>
+                <td class="py-1 font-mono">8,000 Gs</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Capacity:</td>
+                <td class="py-1 font-mono">40 GPM @ 180&deg;F</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Motor:</td>
+                <td class="py-1">10 HP</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Power:</td>
+                <td class="py-1 font-mono">460V; 50A</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Size:</td>
+                <td class="py-1 font-mono">5'×6'×7'H</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-navy">Weight:</td>
+                <td class="py-1 font-mono">3,500 Lbs</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-white text-center">
-        <h2 class="text-2xl font-bold mb-3">Ready to Process Waste Oil More Efficiently?</h2>
-        <p class="text-blue-100 mb-6 max-w-xl mx-auto">
-          Tell us your daily volume, oil type, and capacity requirements. We will size the right centrifuge system for your operation. Our engineers have over 40 years of experience in waste oil centrifuge systems.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-gold-light transition-colors">
-            Get a Free Quote
-          </a>
-          <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">
-            Sample Testing
-          </a>
-          <a href="tel:+12485222573" class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">
-            (248) 522-2573
-          </a>
+      <!-- WHPX 513 -->
+      <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all">
+        <a href="/alfa-laval-whpx-513/">
+          <img
+            src="/images/waste-oil-centrifuge/Alfa-Laval-WHPX-513-Used-Engine-Oil-Centrifuge.webp"
+            alt="Alfa Laval WHPX 513 Used Engine Oil Centrifuge — high-capacity self-cleaning disc stack"
+            width="350"
+            height="250"
+            loading="lazy"
+            class="w-full object-cover h-[220px]"
+          />
+        </a>
+        <div class="p-4">
+          <h3 class="font-bold text-navy mb-3">
+            <a href="/alfa-laval-whpx-513/" class="hover:text-gold">Alfa Laval WHPX 513</a>
+          </h3>
+          <table class="w-full text-xs">
+            <tbody>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Type:</td>
+                <td class="py-1">3-Phase; Self-Cleaning</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">G-Force:</td>
+                <td class="py-1 font-mono">8,000 Gs</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Capacity:</td>
+                <td class="py-1 font-mono">60 GPM @ 180&deg;F</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Motor:</td>
+                <td class="py-1">15 HP</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Power:</td>
+                <td class="py-1 font-mono">460V; 60A</td>
+              </tr>
+              <tr class="border-b border-gray-100">
+                <td class="py-1 font-semibold text-navy">Size:</td>
+                <td class="py-1 font-mono">6'×7'×7'H</td>
+              </tr>
+              <tr>
+                <td class="py-1 font-semibold text-navy">Weight:</td>
+                <td class="py-1 font-mono">4,500 Lbs</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089 &middot; sales@dolphincentrifuge.com</p>
       </div>
 
     </div>
-  </section>
+  </div>
 
-</BaseLayout>
+  <!-- ═══ Related Articles ═══ -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Waste Oil Recovery Case Study</h3>
+        <p class="text-gray-500 text-xs">Marine and industrial waste oil recovery with ash removal results</p>
+      </a>
+      <a href="/used-oil-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Used Oil Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Industrial centrifuge solutions for used oil purification and recycling</p>
+      </a>
+      <a href="/pyrolysis-oil-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Pyrolysis Oil Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Industrial centrifuges for pyrolysis oil production and purification</p>
+      </a>
+      <a href="/waste-oil-emulsion-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Waste Oil Emulsion Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Breaking waste oil emulsions mechanically with disc stack centrifuges</p>
+      </a>
+      <a href="/black-diesel-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Black Diesel Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Centrifuge systems for black diesel fuel production from used oil</p>
+      </a>
+      <a href="/disc-stack-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Disc Stack Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Complete guide to disc stack centrifuge technology and applications</p>
+      </a>
+      <a href="/industrial-centrifuge-sample-testing/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Sample Testing Program</h3>
+        <p class="text-gray-500 text-xs">Send us your oil sample for lab-scale centrifuge testing</p>
+      </a>
+      <a href="/picking-the-right-industrial-centrifuge/" class="block border border-gray-200 rounded-lg p-4 hover:border-gold hover:shadow-md transition-all">
+        <h3 class="font-semibold text-navy text-sm mb-1">Picking the Right Centrifuge</h3>
+        <p class="text-gray-500 text-xs">Guide to selecting the right industrial centrifuge for your application</p>
+      </a>
+    </div>
+  </div>
+
+</ApplicationLayout>

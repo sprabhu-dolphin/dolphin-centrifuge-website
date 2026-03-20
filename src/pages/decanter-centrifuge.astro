@@ -1,13 +1,42 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is a decanter centrifuge used for?",
+    answer: "A decanter centrifuge is used for continuously separating solids from liquids in industrial processes. Common applications include <a href='/crude-oil-tank-bottom-recovery-centrifuge/' class='text-navy font-semibold hover:text-gold transition-colors'>crude oil tank bottom recovery</a>, oilfield drilling mud processing, <a href='/waste-oil-centrifuge/' class='text-navy font-semibold hover:text-gold transition-colors'>waste oil de-sludging</a>, industrial and municipal <a href='/wastewater-centrifuge/' class='text-navy font-semibold hover:text-gold transition-colors'>wastewater treatment</a>, fish meal stick-water processing, WVO (waste vegetable oil) de-sludging, rendering plant sludge thickening, and food industry waste streams."
+  },
+  {
+    question: "How does a decanter centrifuge work?",
+    answer: "A decanter centrifuge works by exerting high centrifugal force (upwards of 3,000 g) on a slurry of solids and liquids. The slurry enters through an axial feed tube and is accelerated into the rotating bowl, forming a pond. Heavier solids settle against the bowl wall and are conveyed out by a scroll (auger) rotating at a <a href='/decanter-centrifuge-differential-speed/' class='text-navy font-semibold hover:text-gold transition-colors'>differential speed</a>. The clarified liquid flows over weir plates and exits from the opposite end."
+  },
+  {
+    question: "What is the difference between a 2-phase and 3-phase decanter centrifuge?",
+    answer: "A 2-phase decanter separates solids from a single liquid phase &mdash; it produces one solid output and one liquid output. A <a href='/three-phase-decanter/' class='text-navy font-semibold hover:text-gold transition-colors'>3-phase decanter</a> (also called a tricanter) separates solids from two immiscible liquids simultaneously &mdash; for example, separating crude oil from water and sludge in a single pass."
+  },
+  {
+    question: "How much does a decanter centrifuge cost?",
+    answer: "A new decanter centrifuge from a quality, established manufacturer starts from around $50,000 for a small capacity unit to over $1 million for a large capacity machine. Remanufactured models typically cost 40% to 60% of comparable new models. Additional accessories such as explosion-proof upgrades, control systems, and pumps add to the cost."
+  },
+  {
+    question: "What factors affect decanter centrifuge performance?",
+    answer: "Key factors affecting decanter centrifuge performance include bowl speed (RPM/centrifugal force), auger or conveyor differential speed, pond depth (controlled by weir plates), beach angle of the conical bowl section, and conveyor pitch. Each of these parameters can be adjusted to optimize separation for specific applications. Read our detailed guide on <a href='/decanter-centrifuge-optimization/' class='text-navy font-semibold hover:text-gold transition-colors'>decanter performance optimization</a> for more information."
+  },
+  {
+    question: "What should I consider when buying a remanufactured decanter centrifuge?",
+    answer: "Important considerations include the manufacturer of the original centrifuge, credentials and experience of the re-manufacturer, the machine's previous use, wear status of the bowl and conveyor, quality of parts used in the rebuild (especially bearings), balancing of major rotating components, and vibration check and complete testing per OEM specifications. Dolphin Centrifuge adheres to all of these criteria in our remanufacturing process."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Decanter Centrifuge",
+  "url": "https://dolphincentrifuge.com/decanter-centrifuge/",
   "description": "Decanter centrifuge — working principle, types, advantages, disadvantages, specifications, cost, and applications. Dolphin Centrifuge supplies reconditioned Alfa Laval decanters with warranty and lifetime technical support.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "category": "Industrial Centrifuges",
   "image": "https://dolphincentrifuge.com/images/decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-for-WVO-Processing.webp",
   "offers": {
@@ -23,568 +52,514 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a decanter centrifuge used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A decanter centrifuge is used for continuously separating solids from liquids in industrial processes. Common applications include crude oil tank bottom recovery, oilfield drilling mud processing, waste oil de-sludging, industrial and municipal wastewater treatment, fish meal stick-water processing, WVO (waste vegetable oil) de-sludging, rendering plant sludge thickening, and food industry waste streams."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a decanter centrifuge work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A decanter centrifuge works by exerting high centrifugal force (upwards of 3,000 g) on a slurry of solids and liquids. The slurry enters through an axial feed tube and is accelerated into the rotating bowl, forming a pond. Heavier solids settle against the bowl wall and are conveyed out by a scroll (auger) rotating at a differential speed. The clarified liquid flows over weir plates and exits from the opposite end."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between a 2-phase and 3-phase decanter centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A 2-phase decanter separates solids from a single liquid phase — it produces one solid output and one liquid output. A 3-phase decanter (also called a tricanter) separates solids from two immiscible liquids simultaneously — for example, separating crude oil from water and sludge in a single pass."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much does a decanter centrifuge cost?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A new decanter centrifuge from a quality, established manufacturer starts from around $50,000 for a small capacity unit to over $1 million for a large capacity machine. Remanufactured models typically cost 40% to 60% of comparable new models. Additional accessories such as explosion-proof upgrades, control systems, and pumps add to the cost."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What factors affect decanter centrifuge performance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Key factors affecting decanter centrifuge performance include bowl speed (RPM/centrifugal force), auger or conveyor differential speed, pond depth (controlled by weir plates), beach angle of the conical bowl section, and conveyor pitch. Each of these parameters can be adjusted to optimize separation for specific applications."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What should I consider when buying a remanufactured decanter centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Important considerations include the manufacturer of the original centrifuge, credentials and experience of the re-manufacturer, the machine's previous use, wear status of the bowl and conveyor, quality of parts used in the rebuild (especially bearings), balancing of major rotating components, and vibration check and complete testing per OEM specifications."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'how-does-a-decanter-centrifuge-work', label: 'How Does a Decanter Centrifuge Work?' },
+  { id: 'types-of-decanter-centrifuges', label: 'Types of Decanter Centrifuges' },
+  { id: 'advantages', label: 'Advantages' },
+  { id: 'disadvantages', label: 'Disadvantages' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'manufacturers', label: 'Manufacturers' },
+  { id: 'sizing', label: 'Sizing' },
+  { id: 'equipment-cost', label: 'Equipment Cost' },
+  { id: 'operating-costs', label: 'Operating Costs' },
+  { id: 'new-versus-remanufactured', label: 'New vs Remanufactured' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'remanufactured-by-dolphin', label: 'Remanufactured by Dolphin Centrifuge' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Crude Oil Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Dewatering Centrifuge', href: '/dewatering-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Compact decanter — 50 GPM, 15 HP' },
+  { label: 'Alfa Laval NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'High-capacity decanter — 170 GPM, 25 HP' },
+  { label: 'Sharples P-3000 Decanter', href: '/sharples-p-3000-decanter/', description: '30 GPM on waste oil' },
+];
 ---
 
-<BaseLayout
-  title="Decanter Centrifuge | Working, Types, Benefits, Cost, Specs, Uses"
-  description="Decanter centrifuge types, specs, and applications. Dolphin Centrifuge supplies NX-314, NX-418, G2-40 decanters for industrial solid-liquid separation."
+<ApplicationLayout
+  title="Decanter Centrifuge"
+  description="Decanter centrifuge types, working principle, specifications, cost, and industrial applications. Dolphin Centrifuge supplies remanufactured Alfa Laval decanters with warranty."
+  category="products"
+  categoryLabel="Centrifuges"
+  heroImage="/images/decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-for-WVO-Processing.webp"
+  heroImageAlt="Alfa Laval NX-314 decanter centrifuge module for WVO (waste vegetable oil) processing and de-sludging"
   canonicalUrl="https://dolphincentrifuge.com/decanter-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge-applications/'}, {label: 'Decanter Centrifuge'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- FAQ Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Centrifuges</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Decanter Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">A decanter centrifuge continuously separates solids from liquids using high centrifugal force generated by its rotating bowl. Dolphin Centrifuge supplies reconditioned Alfa Laval decanters with new PLC controls, rebuilt to factory specifications, with warranty and lifetime technical support.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-7 py-3 rounded-lg transition-colors">Get a Quote</a>
-        <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-7 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies remanufactured Alfa Laval decanter centrifuges for continuous solid-liquid separation. NX-314 and NX-418 models generate up to 3,150 Gs, processing 50&ndash;170 GPM. Based in Warren, Michigan with 40+ years of experience.</p>
+  </div>
+
+  <!-- Hero Image Below Fold -->
+  <img src="/images/decanter-centrifuge/Alfa-Laval-ALDEC-406-Decanter-Dewatering-Centrifuge-for-Sludge-Thickening-600.webp" alt="Alfa Laval ALDEC-406 decanter dewatering centrifuge for sludge thickening applications" width="600" height="407" loading="lazy" class="rounded-lg w-full mb-2" />
+  <p class="text-sm text-text-muted text-center mb-8 italic">Alfa Laval ALDEC-406 Decanter Dewatering Centrifuge for Sludge Thickening</p>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- How It Works -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="how-does-a-decanter-centrifuge-work">How Does a Decanter Centrifuge Work?</h2>
+
+  <p><strong>A decanter centrifuge works by exerting a high centrifugal force on the slurry of solids and liquids. A rotating conveyor pushes out the heavier solids that settle on the decanter wall. The lighter liquid exits the decanter through the liquid outlet port on the other end of the bowl.</strong></p>
+
+  <p>Continuous process decanter centrifuges can process a large volume of fluids with sludge. Centrifugal force (upwards of 3,000 g) causes graded settling and separates the fluid from small sediment (50&micro;).</p>
+
+  <p>The rotating bowl has a concentric scroll that rotates at a <a href="/decanter-centrifuge-differential-speed/">differential speed</a> to that of the decanter bowl. This speed differential allows the scroll to transfer the separated sludge.</p>
+
+  <!-- Side-by-Side: Diagram + Animation -->
+  <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
+    <div>
+      <h3 class="text-lg font-bold text-navy mb-3" id="cross-section-diagram">Cross-Section Diagram</h3>
+      <img src="/images/decanter-centrifuge/Decanter-Cross-Section-600.webp" alt="Decanter centrifuge cross-section diagram showing bowl, scroll conveyor, feed tube, and liquid/solid discharge ports" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Decanter Centrifuge Cross Section</p>
+    </div>
+    <div>
+      <h3 class="text-lg font-bold text-navy mb-3" id="animation">Animation</h3>
+      <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Decanter centrifuge animation showing the working principle — solid-liquid separation inside the rotating bowl" width="533" height="188" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Decanter Centrifuge Animation</p>
+    </div>
+  </div>
+
+  <h3 id="working-principle">Working Principle</h3>
+
+  <p>The separation of fluid from the sludge occurs inside the rotating decanter bowl. One can explain the internal working as follows:</p>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6 not-prose">
+    <ol class="space-y-4 text-text-light">
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">1</span><span><strong class="text-navy">Feed Introduction:</strong> The slurry is fed into the machine through an axial feed tube, injecting it into the conveyor. The tube conveys the slurry to the center of the conveyor feed chamber.</span></li>
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">2</span><span><strong class="text-navy">Acceleration / Dispersal:</strong> The injected slurry strikes against an accelerator in the conveyor feed zone. This action accelerates the flow outward through the feed ports into the bowl, forming a &ldquo;pond.&rdquo;</span></li>
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">3</span><span><strong class="text-navy">Separation:</strong> The solids of higher density displace the liquid and settle to the bowl&apos;s wall. The conveyor continuously scrolls the solids up the angled conical part (beach).</span></li>
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">4</span><span><strong class="text-navy">Auger Rotation:</strong> The bowl-mounted gearbox causes a differential rotation between the conveyor and the bowl.</span></li>
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">5</span><span><strong class="text-navy">Sludge Discharge:</strong> The flights push the separated sludge up the bowl&apos;s conical part (beach). The solids exit the bowl through 360&deg; discharge ports at the rear end.</span></li>
+      <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">6</span><span><strong class="text-navy">Fluid Discharge:</strong> The clarified liquid rises to the pond&apos;s surface and flows over the dams in the front bowl hub. At this point, the liquid discharges from the bowl.</span></li>
+    </ol>
+  </div>
+
+  <!-- Side-by-Side: Waste Oil Decanter + Performance Curves -->
+  <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
+    <div>
+      <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp" alt="Alfa Laval decanter centrifuge for waste oil de-sludging — showing the full machine assembly" width="600" height="680" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Alfa Laval Decanter for Waste Oil De-Sludging</p>
+    </div>
+    <div>
+      <h3 class="text-lg font-bold text-navy mb-3" id="factors-affecting-performance">Factors Affecting Performance</h3>
+      <img src="/images/decanter-centrifuge/decanter-solids-recovery-versus-bowl-speed.webp" alt="Decanter centrifuge performance optimization curves — solids recovery vs bowl speed" width="600" height="278" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center mb-4 italic">Performance Optimization Curves</p>
+      <p class="text-sm text-text-light">Key factors include <strong class="text-navy">bowl speed</strong>, <strong class="text-navy">conveyor differential speed</strong>, <strong class="text-navy">pond depth</strong>, <strong class="text-navy">beach angle</strong>, and <strong class="text-navy">conveyor pitch</strong>. Each can be adjusted for maximum effectiveness.</p>
+    </div>
+  </div>
+
+  <!-- Side-by-Side: Gearbox + Optimization Link -->
+  <div class="grid md:grid-cols-2 gap-6 my-8 not-prose items-center">
+    <div>
+      <img src="/images/decanter-centrifuge/Decanter-Centrifuge-Gearbox-and-Torque-Clutch-Assembly-600.webp" alt="Decanter centrifuge gearbox and torque clutch assembly" width="600" height="450" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Gearbox and Torque Clutch Assembly</p>
+    </div>
+    <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-5">
+      <p class="text-text-light"><a href="/decanter-centrifuge-optimization/" class="text-navy font-semibold hover:text-gold transition-colors">Decanter Performance Optimization</a> provides a detailed insight into optimizing the factors mentioned above for maximum effectiveness.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Types -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="types-of-decanter-centrifuges">Types of Decanter Centrifuges</h2>
+
+  <p>Decanter centrifuges are available in 2 configurations, namely 2-phase and 3-phase. In other words, solid-liquid and solid, liquid, liquid separation.</p>
+
+  <!-- Side-by-Side: 2-Phase vs 3-Phase -->
+  <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
+    <div id="2-phase-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">2-Phase Decanter</h3>
+      <p class="text-text-light">The two-phase separator is a solid-liquid separator. In other words, it separates the fed slurry into a solid phase and one liquid phase. Most de-sludging duties use a two-phase design. These include industrial sludge thickening, municipal wastewater, hemp biomass separation, etc.</p>
+    </div>
+    <div id="3-phase-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">3-Phase Decanter (Tricanter)</h3>
+      <p class="text-text-light mb-2">Tricanter is also known as <a href="/three-phase-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">Three-Phase Decanter</a>. A 3-phase type separates solids from 2 immiscible fluids. In other words, a 3-phase decanter centrifuge produces a solid phase and two separate liquid phases.</p>
+      <p class="text-text-light">For example, a 3-phase configuration separates crude oil from tank bottom sludge and water. Olive oil separation from water and biomass is another example.</p>
+    </div>
+  </div>
+
+  <!-- Explosion Proof -->
+  <div id="explosion-proof-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <h3 class="text-lg font-bold text-navy mb-3">Explosion Proof Decanter</h3>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <img src="/images/decanter-centrifuge/Alfa-Laval-NX418-Decaner-C1D2-for-Hemp-Ethanol-Processing-600.webp" alt="Alfa Laval NX-418 explosion-proof decanter centrifuge Class 1 Division 2 for hazardous area applications" width="600" height="420" loading="lazy" class="rounded-lg w-full mb-2" />
+        <p class="text-sm text-text-muted text-center italic">Decanter for Hemp Ethanol Extraction</p>
+      </div>
+      <div>
+        <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp" alt="Alfa Laval decanter centrifuge system - Class 1 Div 2 rated for herbal extraction in hazardous environments" width="531" height="600" loading="lazy" class="rounded-lg w-full mb-2" />
+        <p class="text-sm text-text-muted text-center italic">Class 1 Div 2 for Herbal Extraction</p>
       </div>
     </div>
-  </section>
+    <p class="text-text-light mt-4 mb-3">A decanter centrifuge with applications in hazardous or explosive environments needs special design considerations. The special-purpose centrifuges are referred to as <strong>Explosion Proof Decanters</strong>.</p>
+    <p class="text-text-light mb-3">The NEC classification for these areas in the domestic market comes under the Class 1 Division 1 zones. Therefore, it is common to refer to these decanters as Class 1 Division 1-rated machines.</p>
+    <p class="text-text-light mb-3">Environments, where flammable gases, fluids, or dust are present, require using explosion-proof decanters. Refiners, Offshore Oil Platforms, Mines, Chemical Plants Effluent, and similar locations mandate these classifications.</p>
+    <p class="text-text-light">Our article about <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Centrifuges</a> provides detailed information about these centrifuge classifications for explosion-proof or hazardous areas.</p>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Advantages -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="advantages">Advantages</h2>
 
-      <img src="/images/decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-for-WVO-Processing.webp" alt="Alfa Laval NX-314 decanter centrifuge module for WVO (waste vegetable oil) processing and de-sludging" width="600" height="510" loading="eager" class="rounded-lg w-full mb-2" />
-      <p class="text-sm text-text-muted text-center mb-8 italic">Alfa Laval NX-314 Decanter Centrifuge Module for WVO Processing</p>
+  <p>Decanters compete with other separation technologies such as filter presses, screw presses, etc. Though all these different equipment have advantages, decanters have some specific benefits. These benefits are due to the decanter centrifuge being a mechanical separator.</p>
 
-      <!-- Table of Contents -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <h2 class="text-lg font-bold text-navy mb-3">Table of Contents</h2>
-        <nav>
-          <ul class="space-y-1 text-sm text-navy">
-            <li><a href="#how-does-a-decanter-centrifuge-work" class="hover:text-gold transition-colors">&bull; How Does a Decanter Centrifuge Work?</a></li>
-            <li class="ml-4"><a href="#cross-section-diagram" class="hover:text-gold transition-colors">&bull; Cross-Section Diagram</a></li>
-            <li class="ml-4"><a href="#animation" class="hover:text-gold transition-colors">&bull; Animation</a></li>
-            <li class="ml-4"><a href="#working-principle" class="hover:text-gold transition-colors">&bull; Working Principle</a></li>
-            <li class="ml-4"><a href="#factors-affecting-performance" class="hover:text-gold transition-colors">&bull; Factors Affecting Performance</a></li>
-            <li><a href="#types-of-decanter-centrifuges" class="hover:text-gold transition-colors">&bull; Types of Decanter Centrifuges</a></li>
-            <li class="ml-4"><a href="#2-phase-decanter" class="hover:text-gold transition-colors">&bull; 2-Phase Decanter</a></li>
-            <li class="ml-4"><a href="#3-phase-decanter" class="hover:text-gold transition-colors">&bull; 3-Phase Decanter (Tricanter)</a></li>
-            <li class="ml-4"><a href="#explosion-proof-decanter" class="hover:text-gold transition-colors">&bull; Explosion Proof Decanter</a></li>
-            <li><a href="#advantages" class="hover:text-gold transition-colors">&bull; Advantages</a></li>
-            <li><a href="#disadvantages" class="hover:text-gold transition-colors">&bull; Disadvantages</a></li>
-            <li><a href="#specifications" class="hover:text-gold transition-colors">&bull; Specifications</a></li>
-            <li class="ml-4"><a href="#material-of-construction" class="hover:text-gold transition-colors">&bull; Material of Construction</a></li>
-            <li class="ml-4"><a href="#modifications-for-special-applications" class="hover:text-gold transition-colors">&bull; Modification for Special Applications</a></li>
-            <li><a href="#manufacturers" class="hover:text-gold transition-colors">&bull; Manufacturers</a></li>
-            <li><a href="#sizing" class="hover:text-gold transition-colors">&bull; Sizing</a></li>
-            <li><a href="#equipment-cost" class="hover:text-gold transition-colors">&bull; Equipment Cost</a></li>
-            <li><a href="#operating-costs" class="hover:text-gold transition-colors">&bull; Operating Costs</a></li>
-            <li class="ml-4"><a href="#power-consumption" class="hover:text-gold transition-colors">&bull; Power Consumption</a></li>
-            <li class="ml-4"><a href="#spare-parts" class="hover:text-gold transition-colors">&bull; Spare Parts</a></li>
-            <li class="ml-4"><a href="#labor" class="hover:text-gold transition-colors">&bull; Labor</a></li>
-            <li class="ml-4"><a href="#chemical-use" class="hover:text-gold transition-colors">&bull; Chemical Use</a></li>
-            <li class="ml-4"><a href="#maintenance-and-service" class="hover:text-gold transition-colors">&bull; Maintenance &amp; Service</a></li>
-            <li><a href="#faq" class="hover:text-gold transition-colors">&bull; FAQ</a></li>
-            <li><a href="#new-versus-remanufactured" class="hover:text-gold transition-colors">&bull; New versus Remanufactured</a></li>
-            <li class="ml-4"><a href="#important-considerations" class="hover:text-gold transition-colors">&bull; Important Considerations Before Buying a Remanufactured Decanter</a></li>
-            <li><a href="#applications" class="hover:text-gold transition-colors">&bull; Applications</a></li>
-            <li><a href="#remanufactured-by-dolphin" class="hover:text-gold transition-colors">&bull; Remanufactured By Dolphin Centrifuge</a></li>
-          </ul>
-        </nav>
-      </div>
+  <p>All the other technologies use media separation, which has inherent drawbacks. The following is a list of advantages of decanter centrifuges over filtration methods:</p>
 
-      <!-- Intro Summary -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <p class="text-text-light leading-relaxed mb-4"><strong>A <a href="https://en.wikipedia.org/wiki/Decanter_Centrifuge" target="_blank" rel="noopener noreferrer" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> is an industrial centrifuge that continuously separates solids from liquids. The separation in the decanter occurs due to the high centrifugal force generated by its rotating bowl.</strong></p>
-        <p class="text-text-light leading-relaxed mb-4">Solid particles need a higher density than liquid for a decanter centrifuge to work.</p>
-        <p class="text-text-light leading-relaxed">Given its separating abilities, the decanter finds a variety of applications in biotechnology separation, oil fields, <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">wastewater treatment</a>, the food industry, and many other industrial processes.</p>
-      </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6 not-prose">
+    <div class="grid md:grid-cols-2 gap-x-6 gap-y-4 text-text-light">
+      <div><p class="font-semibold text-navy">1. Process Adaptability</p><p class="text-sm">Decanter centrifuges can easily handle product variations. They can produce consistent separation results even with varying flow rates.</p></div>
+      <div><p class="font-semibold text-navy">2. Compact Dimensions</p><p class="text-sm">Decanter centrifuges have a smaller footprint than belt and filter presses of similar capacity, allowing installation in confined spaces.</p></div>
+      <div><p class="font-semibold text-navy">3. Vapor Tight Design</p><p class="text-sm">The basic design includes a rotating bowl in an enclosed chamber, preventing odors, fumes, and gases from contaminating the operating space.</p></div>
+      <div><p class="font-semibold text-navy">4. Low Labor Costs</p><p class="text-sm">Fluid separation through a decanter is practically an automatic process, requiring minimal manual attendance.</p></div>
+      <div><p class="font-semibold text-navy">5. Reduced Operating Cost</p><p class="text-sm">Since only worn parts are replaceable, it minimizes long-term operating costs. Filter media need constant replacement in other methods.</p></div>
+      <div><p class="font-semibold text-navy">6. Long Service Life</p><p class="text-sm">Robust design and high-quality construction materials help decanters perform reliably for extended periods.</p></div>
+      <div><p class="font-semibold text-navy">7. Easy Installation</p><p class="text-sm">Decanter centrifuge systems are self-contained and easy to install. Quick commissioning allows them to be productive fast.</p></div>
+      <div><p class="font-semibold text-navy">8. Wide Particle Range</p><p class="text-sm">The decanter separates particle sizes from 1 Micron to 15 mm or larger, a significant advantage over fixed-aperture media filters.</p></div>
+      <div><p class="font-semibold text-navy">9. Three-Phase Separation</p><p class="text-sm">Besides separating solids from liquids, three-phase decanters (tricanters) also separate immiscible liquids simultaneously.</p></div>
+      <div><p class="font-semibold text-navy">10. Easy Adjustments</p><p class="text-sm">Users can adjust sludge dryness or centrate clarity quickly. Installed weir plates control the separated phase by changing the pond depth.</p></div>
+    </div>
+  </div>
 
-      <img src="/images/decanter-centrifuge/Alfa-Laval-ALDEC-406-Decanter-Dewatering-Centrifuge-for-Sludge-Thickening-600.webp" alt="Alfa Laval ALDEC-406 decanter dewatering centrifuge for sludge thickening applications" width="600" height="407" loading="lazy" class="rounded-lg w-full mb-2" />
-      <p class="text-sm text-text-muted text-center mb-10 italic">Alfa Laval ALDEC-406 Decanter Dewatering Centrifuge for Sludge Thickening</p>
+  <!-- Side-by-Side: Discharge Ports + Weir Plate -->
+  <div class="grid md:grid-cols-2 gap-6 my-8 not-prose">
+    <div>
+      <img src="/images/decanter-centrifuge/Decanter-Centrifuge-Sludge-Discharge-Ports-600.webp" alt="Decanter centrifuge sludge discharge ports — replaceable wear components for extended service life" width="600" height="450" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Sludge Discharge Ports</p>
+    </div>
+    <div>
+      <img src="/images/decanter-centrifuge/Decanter-Weir-Plate-600.webp" alt="Decanter centrifuge weir plate — used to adjust pond depth and control sludge dryness" width="600" height="299" loading="lazy" class="rounded-lg w-full mb-2" />
+      <p class="text-sm text-text-muted text-center italic">Decanter Weir Plate</p>
+    </div>
+  </div>
 
-      <!-- How It Works -->
-      <h2 id="how-does-a-decanter-centrifuge-work" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">How Does a Decanter Centrifuge Work?</h2>
-      <p class="text-text-light leading-relaxed mb-4"><strong>A decanter centrifuge works by exerting a high centrifugal force on the slurry of solids and liquids. A rotating conveyor pushes out the heavier solids that settle on the decanter wall. The lighter liquid exits the decanter through the liquid outlet port on the other end of the bowl.</strong></p>
-      <p class="text-text-light leading-relaxed mb-4">Continuous process decanter centrifuges can process a large volume of fluids with sludge. Centrifugal force (upwards of 3,000 g) causes graded settling and separates the fluid from small sediment (50&micro;).</p>
-      <p class="text-text-light leading-relaxed mb-6">The rotating bowl has a concentric scroll that rotates at a <a href="/decanter-centrifuge-differential-speed/" class="text-navy font-semibold hover:text-gold transition-colors">differential speed</a> to that of the decanter bowl. This speed differential allows the scroll to transfer the separated sludge.</p>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Disadvantages -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="disadvantages">Disadvantages</h2>
 
-      <h3 id="cross-section-diagram" class="text-lg font-bold text-navy mb-3">Cross-Section Diagram</h3>
-      <p class="text-text-light leading-relaxed mb-4">The following diagram shows the cross-section of a typical decanter centrifuge.</p>
-      <img src="/images/decanter-centrifuge/Decanter-Cross-Section-600.webp" alt="Decanter centrifuge cross-section diagram showing bowl, scroll conveyor, feed tube, and liquid/solid discharge ports" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2" />
-      <p class="text-sm text-text-muted text-center mb-8 italic">Decanter Centrifuge Cross Section</p>
+  <p>A decanter centrifuge has certain disadvantages when compared to other solid-liquid separation equipment. The following is a list of the main limitations:</p>
 
-      <h3 id="animation" class="text-lg font-bold text-navy mb-3">Animation</h3>
-      <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Decanter centrifuge animation showing the working principle — solid-liquid separation inside the rotating bowl" width="533" height="188" loading="lazy" class="rounded-lg w-full mb-2" />
-      <p class="text-sm text-text-muted text-center mb-8 italic">Decanter Centrifuge Animation</p>
+  <div class="grid md:grid-cols-2 gap-4 mb-8 not-prose">
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <p class="font-semibold text-navy mb-1">1. Capital Expense</p>
+      <p class="text-sm text-text-light">Decanter centrifuges have a higher cost than filters and similar separation devices. Performance improvement and wear preventive options can further add to this cost.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <p class="font-semibold text-navy mb-1">2. Light Particle Separation</p>
+      <p class="text-sm text-text-light">When the solids (such as biological cells) have a specific gravity close to the liquid, the decanter cannot separate them effectively.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <p class="font-semibold text-navy mb-1">3. Power Requirement</p>
+      <p class="text-sm text-text-light">Large horsepower motors power decanter centrifuges. Compared to filtration machines, these drive motors need a higher operating current.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <p class="font-semibold text-navy mb-1">4. Noise and Vibration</p>
+      <p class="text-sm text-text-light">Heavy rotating bowls and masses cause vibrations that lead to noise. Decanters create noise levels in the <strong>70&ndash;80 dB(A) range</strong>.</p>
+    </div>
+  </div>
 
-      <h3 id="working-principle" class="text-lg font-bold text-navy mb-3">Working Principle</h3>
-      <p class="text-text-light mb-4">The separation of fluid from the sludge occurs inside the rotating decanter bowl. One can explain the internal working as follows:</p>
+  <!-- Selection Guide Callout -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-5 mb-8 not-prose">
+    <p class="text-text-light font-semibold">Also, read our <a href="/alfa-laval-centrifuge-selection-guide/" class="text-navy hover:text-gold transition-colors">Alfa Laval Centrifuge Selection Guide</a> for detailed help choosing the right centrifuge for your application.</p>
+  </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <ol class="space-y-4 text-text-light">
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">1</span><span><strong class="text-navy">Feed Introduction:</strong> The slurry is fed into the machine through an axial feed tube, injecting it into the conveyor. The tube conveys the slurry to the center of the conveyor feed chamber.</span></li>
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">2</span><span><strong class="text-navy">Acceleration / Dispersal:</strong> The injected slurry strikes against an accelerator in the conveyor feed zone. This action accelerates the flow outward through the feed ports into the bowl, forming a &ldquo;pond.&rdquo;</span></li>
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">3</span><span><strong class="text-navy">Separation:</strong> The solids of higher density displace the liquid and settle to the bowl&apos;s wall. The conveyor continuously scrolls the solids up the angled conical part (beach).</span></li>
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">4</span><span><strong class="text-navy">Auger Rotation:</strong> The bowl-mounted gearbox causes a differential rotation between the conveyor and the bowl.</span></li>
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">5</span><span><strong class="text-navy">Sludge Discharge:</strong> The flights push the separated sludge up the bowl&apos;s conical part (beach). The solids exit the bowl through 360&deg; discharge ports at the rear end.</span></li>
-          <li class="flex items-start gap-3"><span class="bg-gold text-navy font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-sm">6</span><span><strong class="text-navy">Fluid Discharge:</strong> The clarified liquid rises to the pond&apos;s surface and flows over the dams in the front bowl hub. At this point, the liquid discharges from the bowl.</span></li>
-        </ol>
-      </div>
+  <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp" alt="Alfa Laval decanter centrifuge for WVO (waste vegetable oil) de-sludging — full system view" width="950" height="1000" loading="lazy" class="rounded-lg w-full mb-2" />
+  <p class="text-sm text-text-muted text-center mb-8 italic">Alfa Laval Decanter for WVO De-Sludging</p>
 
-      <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp" alt="Alfa Laval decanter centrifuge for waste oil de-sludging — showing the full machine assembly" width="600" height="680" loading="lazy" class="rounded-lg mb-2" />
-      <p class="text-sm text-text-muted text-center mb-8 italic">Alfa Laval Decanter Centrifuge for Waste Oil De-Sludging</p>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Specifications -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="specifications">Specifications</h2>
 
-      <!-- Factors Affecting Performance -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <h3 id="factors-affecting-performance" class="text-xl font-bold text-navy mb-4">Factors Affecting Decanter Performance</h3>
-        <img src="/images/decanter-centrifuge/decanter-solids-recovery-versus-bowl-speed.webp" alt="Decanter centrifuge performance optimization curves — solids recovery vs bowl speed" width="600" height="278" loading="lazy" class="rounded-lg w-full mb-2" />
-        <p class="text-sm text-text-muted text-center mb-4 italic">Performance Optimization Curves</p>
-        <p class="text-text-light mb-4">Certain decanter features have a direct impact on the performance of the decanter. These factors are adjustable for optimization:</p>
-        <div class="space-y-4 text-text-light">
-          <div><p class="font-semibold text-navy">Decanter Bowl Speed</p><p>The bowl speed or RPM signifies the effective centrifugal force generated by the decanter. Depending on the fluid and type/density of solids, the centrifugal force is the key factor affecting performance.</p></div>
-          <div><p class="font-semibold text-navy">Auger or Conveyor Speed</p><p>The relative rotation of the auger versus the bowl relates to the speed at which the separated sludge is conveyed out of the bowl. High sludge content applications require a fast conveyor speed to maximize efficiency.</p></div>
-          <div><p class="font-semibold text-navy">Pond Depth</p><p>The thickness of the fluid layer formed around the bowl&apos;s inner wall is the pond depth. Deeper ponds lead to clearer centrate and wetter solids. Shallower ponds lead to dryer solids and murkier centrate. Weir plate adjustments allow pond depth changes. Example weir plates are shown below.</p></div>
-          <div><p class="font-semibold text-navy">Beach Angle</p><p>The angle of the conical part of the bowl is known as the beach angle. Varying the beach angle has a direct impact on the separated sludge dryness.</p></div>
-          <div><p class="font-semibold text-navy">Conveyor Pitch</p><p>The distance between the conveyor flights is the conveyor pitch. A shorter pitch enhances the decanter&apos;s solids&apos; separation capacity and increases the torque on the gearbox.</p></div>
-        </div>
-        <img src="/images/decanter-centrifuge/Decanter-Centrifuge-Gearbox-and-Torque-Clutch-Assembly-600.webp" alt="Decanter centrifuge gearbox and torque clutch assembly" width="600" height="450" loading="lazy" class="rounded-lg w-full mt-4 mb-2" />
-        <p class="text-sm text-text-muted text-center mb-3 italic">Decanter Centrifuge Gearbox and Torque Clutch Assembly</p>
-        <p class="text-text-light mt-3"><a href="/decanter-centrifuge-optimization/" class="text-navy font-semibold hover:text-gold transition-colors">Decanter Performance Optimization</a> provides a detailed insight into optimizing the factors mentioned above for maximum effectiveness.</p>
-      </div>
+  <p>The following table lists the essential technical specifications of Alfa Laval decanter centrifuges.</p>
 
-      <!-- Types -->
-      <h2 id="types-of-decanter-centrifuges" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Types of Decanter Centrifuges</h2>
-      <p class="text-text-light leading-relaxed mb-6">Decanter centrifuges are available in 2 configurations, namely 2-phase and 3-phase. In other words, solid-liquid and solid, liquid, liquid separation.</p>
+  <div class="overflow-x-auto mb-6 not-prose">
+    <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-5 py-3 font-semibold">Specification</th>
+          <th class="text-left px-5 py-3 font-semibold"><a href="/alfa-laval-nx-314-decanter-centrifuge/" class="text-gold hover:underline">Alfa Laval NX-314</a></th>
+          <th class="text-left px-5 py-3 font-semibold"><a href="/alfa-laval-nx-418-decanter-centrifuge/" class="text-gold hover:underline">Alfa Laval NX-418</a></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr><td class="px-5 py-3 font-medium text-navy">Material of Construction (MOC)</td><td class="px-5 py-3 text-text-light">316L Stainless Steel</td><td class="px-5 py-3 text-text-light">316L Stainless Steel</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Max. Bowl RPM</td><td class="px-5 py-3 text-text-light">4,000</td><td class="px-5 py-3 text-text-light">4,000</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Bowl Diameter</td><td class="px-5 py-3 text-text-light">14&Prime; (353 mm)</td><td class="px-5 py-3 text-text-light">14&Prime; (353 mm)</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Bowl Length</td><td class="px-5 py-3 text-text-light">40&Prime;</td><td class="px-5 py-3 text-text-light">68&Prime;</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">G-Force (Centrifugal Force)</td><td class="px-5 py-3 text-text-light">3,150 G&apos;s</td><td class="px-5 py-3 text-text-light">3,150 G&apos;s</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Particle Size Separation Range</td><td class="px-5 py-3 text-text-light">50 &micro;m to 1/2&Prime;</td><td class="px-5 py-3 text-text-light">50 &micro;m to 1/2&Prime;</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Max. Processing Capacity</td><td class="px-5 py-3 text-text-light">50 GPM</td><td class="px-5 py-3 text-text-light">170 GPM</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Drive Power</td><td class="px-5 py-3 text-text-light">15 HP</td><td class="px-5 py-3 text-text-light">25 HP</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Size (Footprint)</td><td class="px-5 py-3 text-text-light">3&apos; &times; 6&apos; &times; 5&apos; (H)</td><td class="px-5 py-3 text-text-light">3&apos; &times; 10&apos; &times; 5&apos; (H)</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy"><a href="/decanter-centrifuge-differential-speed/" class="text-navy font-semibold hover:text-gold transition-colors">Differential Speed</a></td><td class="px-5 py-3 text-text-light">1 ~ 25 RPM</td><td class="px-5 py-3 text-text-light">1 ~ 50 RPM</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Gearbox Type</td><td class="px-5 py-3 text-text-light">Planetary Gearbox; 2.5 kN-M Torque</td><td class="px-5 py-3 text-text-light">Planetary Gearbox; 2.5 and 3.5 kN-M Torque</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-      <div class="space-y-4 mb-10">
-        <div id="2-phase-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">2-Phase Decanter</h3>
-          <p class="text-text-light">The two-phase separator is a solid-liquid separator. In other words, it separates the fed slurry into a solid phase and one liquid phase. Most de-sludging duties use a two-phase design. These include industrial sludge thickening, municipal wastewater, hemp biomass separation, etc.</p>
-        </div>
-        <div id="3-phase-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">3-Phase Decanter (Tricanter)</h3>
-          <p class="text-text-light mb-2">Tricanter is also known as <a href="/three-phase-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">Three-Phase Decanter</a>. A 3-phase type separates solids from 2 immiscible fluids. In other words, a 3-phase decanter centrifuge produces a solid phase and two separate liquid phases.</p>
-          <p class="text-text-light">For example, a 3-phase configuration separates crude oil from tank bottom sludge and water. Olive oil separation from water and biomass is another example.</p>
-        </div>
-        <div id="explosion-proof-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Explosion Proof Decanter</h3>
-          <img src="/images/decanter-centrifuge/Alfa-Laval-NX418-Decaner-C1D2-for-Hemp-Ethanol-Processing-600.webp" alt="Alfa Laval NX-418 explosion-proof decanter centrifuge Class 1 Division 2 for hazardous area applications" width="600" height="420" loading="lazy" class="rounded-lg w-full mb-2" />
-          <p class="text-sm text-text-muted text-center mb-3 italic">Decanter for Hemp Ethanol Extraction</p>
-          <p class="text-text-light mb-3">A decanter centrifuge with applications in hazardous or explosive environments needs special design considerations. The special-purpose centrifuges are referred to as <strong>Explosion Proof Decanters</strong>.</p>
-          <p class="text-text-light mb-3">The NEC classification for these areas in the domestic market comes under the Class 1 Division 1 zones. Therefore, it is common to refer to these decanters as Class 1 Division 1-rated machines.</p>
-          <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp" alt="Alfa Laval decanter centrifuge system - Class 1 Div 2 rated for herbal extraction in hazardous environments" width="531" height="600" loading="lazy" class="rounded-lg w-full mb-2" />
-          <p class="text-sm text-text-muted text-center mb-3 italic">Alfa Laval Decanter Centrifuge System - Class 1 Div 2 for Herbal Extraction</p>
-          <p class="text-text-light mb-3">Environments, where flammable gases, fluids, or dust are present, require using explosion-proof decanters. Refiners, Offshore Oil Platforms, Mines, Chemical Plants Effluent, and similar locations mandate these classifications.</p>
-          <p class="text-text-light">Our article about <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Centrifuges</a> provides detailed information about these centrifuge classifications for explosion-proof or hazardous areas.</p>
-        </div>
-      </div>
+  <h3 id="material-of-construction">Material of Construction</h3>
 
-      <!-- Advantages -->
-      <h2 id="advantages" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Advantages</h2>
-      <p class="text-text-light leading-relaxed mb-4">Decanters compete with other separation technologies such as filter presses, screw presses, etc. Though all these different equipment have advantages, decanters have some specific benefits. These benefits are due to the decanter centrifuge being a mechanical separator.</p>
-      <p class="text-text-light leading-relaxed mb-4">All the other technologies use media separation, which has inherent drawbacks.</p>
-      <p class="text-text-light leading-relaxed mb-4">The following is a list of advantages of decanter centrifuges over filtration methods:</p>
+  <p>The Alfa Laval NX 418 and NX 314 decanters are designed for applications of crude oil, mineral oil, and wastewater. Therefore, the material used in its construction is well suited for such uses.</p>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <div class="space-y-4 text-text-light">
-          <div><p class="font-semibold text-navy">1. Process Adaptability</p><p>Decanter centrifuges can easily handle product variations. They can produce consistent separation results even with varying flow rates. These centrifuges can handle process fluid mix variations without final product degradation.</p></div>
-          <div><p class="font-semibold text-navy">2. Compact Dimensions</p><p>Decanter centrifuges have a smaller footprint than belt and filter presses of similar capacity. This small size allows for the installation of decanters in small, confined spaces.</p></div>
-          <div><p class="font-semibold text-navy">3. Vapor Tight Design</p><p>The basic design of decanters includes a rotating bowl in an enclosed chamber. This design prevents odors, undesirable fumes, and gases from contaminating the operating space.</p></div>
-          <div><p class="font-semibold text-navy">4. Low Labor Costs</p><p>Fluid separation through a decanter is practically an automatic process. This process requires minimal manual attendance service, thereby reducing associated labor costs.</p></div>
-          <div><p class="font-semibold text-navy">5. Reduced Operating Cost</p><p>Since only worn parts are replaceable in decanter centrifuges, it minimizes long-term operating costs. Filter media need constant replacement in other separation methods.</p></div>
-          <div><p class="font-semibold text-navy">6. Long Service Life</p><p>Robust design and construction are primary features of decanter centrifuges. Besides, high-quality construction material helps decanters perform with reliability for extended periods. Replaceable wear parts such as sludge discharge ports enable long service life.</p></div>
-          <img src="/images/decanter-centrifuge/Decanter-Centrifuge-Sludge-Discharge-Ports-600.webp" alt="Decanter centrifuge sludge discharge ports — replaceable wear components for extended service life" width="600" height="450" loading="lazy" class="rounded-lg w-full my-2" />
-          <p class="text-sm text-text-muted text-center italic">Decanter Centrifuge Sludge Discharge Ports</p>
-          <div><p class="font-semibold text-navy">7. Easy and Quick Installation</p><p>Decanter centrifuge systems are self-contained and are thus easy to install. The speed and ease of commissioning allow them to be productive quickly.</p></div>
-          <div><p class="font-semibold text-navy">8. Wide Range of Particle Separation</p><p>The decanter separates particle size ranges from 1 Micron to 15 mm or larger. This ability gives decanters a significant advantage over media filters with fixed apertures.</p></div>
-          <div><p class="font-semibold text-navy">9. Three-Phase Separation</p><p>Besides separating solids from liquids, three-phase decanters (tricanters) also separate immiscible liquids. This separation co-occurs with solids separation.</p></div>
-          <div><p class="font-semibold text-navy">10. Easy Adjustments for Desired Separation Phase</p><p>The decanter centrifuge user can adjust sludge dryness or centrate clarity quickly and easily. This ease of phase quality adjustment is an added benefit lacking in filtration equipment. The installed weir plate controls the separated phase dryness by changing the pond depth.</p></div>
-          <img src="/images/decanter-centrifuge/Decanter-Weir-Plate-600.webp" alt="Decanter centrifuge weir plate — used to adjust pond depth and control sludge dryness" width="600" height="299" loading="lazy" class="rounded-lg w-full mt-2 mb-1" />
-          <p class="text-sm text-text-muted text-center italic">Decanter Weir Plate</p>
-        </div>
-      </div>
+  <div class="overflow-x-auto mb-6 not-prose">
+    <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
+      <thead><tr class="bg-navy text-white"><th class="text-left px-5 py-3 font-semibold">Component</th><th class="text-left px-5 py-3 font-semibold">Material</th></tr></thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr><td class="px-5 py-3 font-medium text-navy">Bowl Body</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Conveyor / Auger</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel with Tungsten Carbide Hard Surfacing</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Vessel / Collecting Cover</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Gearbox</td><td class="px-5 py-3 text-text-light">Hardened Steel &mdash; Planetary Gearbox</td></tr>
+        <tr><td class="px-5 py-3 font-medium text-navy">Base Frame</td><td class="px-5 py-3 text-text-light">Carbon Steel with Epoxy Base and Top Coat Paint</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-      <!-- Disadvantages -->
-      <h2 id="disadvantages" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Disadvantages</h2>
-      <p class="text-text-light leading-relaxed mb-4">A decanter centrifuge has certain disadvantages when compared to other solid-liquid separation equipment. The following is a list of the main limitations:</p>
+  <h3 id="modifications-for-special-applications">Modification for Special Applications</h3>
 
-      <div class="space-y-3 mb-8">
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <p class="font-semibold text-navy mb-1">1. Capital Expense</p>
-          <p class="text-text-light">Decanter centrifuges have a higher cost than filters and similar separation devices. Performance improvement and wear preventive options can further add to this cost.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <p class="font-semibold text-navy mb-1">2. Light Particle Separation</p>
-          <p class="text-text-light">Centrifuges leverage the difference in specific gravities between solids and liquids to separate. When the solids (such as biological cells) have a specific gravity close to the liquid, the decanter cannot separate them.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <p class="font-semibold text-navy mb-1">3. Power Requirement</p>
-          <p class="text-text-light">Large horsepower motors power decanter centrifuges. Compared to filtration machines, these drive motors need a higher operating current.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <p class="font-semibold text-navy mb-1">4. Noise and Vibration</p>
-          <p class="text-text-light">Decanter centrifuges have heavy rotating bowls and other rotations of heavy masses cause vibrations that lead to noise. These decanters create noise levels in the <strong>70&ndash;80 dB(A) range</strong>.</p>
-        </div>
-      </div>
+  <p>Special modifications are available for Decanter centrifuges for specific applications. Some of these adaptations are in the following table.</p>
 
-      <!-- Selection Guide Callout -->
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-5 mb-10">
-        <p class="text-text-light font-semibold">Also, read our <a href="/alfa-laval-centrifuge-selection-guide/" class="text-navy hover:text-gold transition-colors">Alfa Laval Centrifuge Selection Guide</a> for detailed help choosing the right centrifuge for your application.</p>
-      </div>
+  <div class="overflow-x-auto mb-8 not-prose">
+    <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
+      <thead><tr class="bg-navy text-white"><th class="text-left px-4 py-3 font-semibold">Decanter Modification</th><th class="text-left px-4 py-3 font-semibold">Technical Details</th><th class="text-left px-4 py-3 font-semibold">Benefits</th></tr></thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr><td class="px-4 py-3 font-medium text-navy">Tungsten Carbide Tiles</td><td class="px-4 py-3 text-text-light">Multiple Tungsten Carbide hard-surface tiles welded to the conveyor flight edge.</td><td class="px-4 py-3 text-text-light">Erosion protection of conveyor in highly abrasive sludge applications.</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Back Drive Motor</td><td class="px-4 py-3 text-text-light">Allows conveyor differential speed control.</td><td class="px-4 py-3 text-text-light">Centrifuge adaptation under varying sludge load.</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Nitrogen Blanketing</td><td class="px-4 py-3 text-text-light">Nitrogen purging of the bowl surrounding the vessel (coffin).</td><td class="px-4 py-3 text-text-light">Prevent oxygen contact with process fluid in oxygen-sensitive and flammable fluids.</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Clean Fluid Tank</td><td class="px-4 py-3 text-text-light">Collection tank for centrate falling out under decanter.</td><td class="px-4 py-3 text-text-light">A modular system eliminates the need to raise the decanter to collect fluid.</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Separated Sludge Conveyor</td><td class="px-4 py-3 text-text-light">Conveyor sub-assembly under sludge outlet.</td><td class="px-4 py-3 text-text-light">Eliminates the need to elevate the decanter for sludge collection.</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-      <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp" alt="Alfa Laval decanter centrifuge for WVO (waste vegetable oil) de-sludging — full system view" width="950" height="1000" loading="lazy" class="rounded-lg w-full mb-2" />
-      <p class="text-sm text-text-muted text-center mb-10 italic">Alfa Laval Decanter for WVO De-Sludging</p>
-
-      <!-- Specifications -->
-      <h2 id="specifications" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Specifications</h2>
-      <p class="text-text-light leading-relaxed mb-4">The following table lists the essential technical specifications of Alfa Laval decanter centrifuges.</p>
-
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-5 py-3 font-semibold">Specification</th>
-              <th class="text-left px-5 py-3 font-semibold"><a href="/alfa-laval-nx-314-decanter-centrifuge/" class="text-gold hover:underline">Alfa Laval NX-314</a></th>
-              <th class="text-left px-5 py-3 font-semibold"><a href="/alfa-laval-nx-418-decanter-centrifuge/" class="text-gold hover:underline">Alfa Laval NX-418</a></th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            <tr><td class="px-5 py-3 font-medium text-navy">Material of Construction (MOC)</td><td class="px-5 py-3 text-text-light">316L Stainless Steel</td><td class="px-5 py-3 text-text-light">316L Stainless Steel</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Max. Bowl RPM</td><td class="px-5 py-3 text-text-light">4,000</td><td class="px-5 py-3 text-text-light">4,000</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Bowl Diameter</td><td class="px-5 py-3 text-text-light">14&Prime; (353 mm)</td><td class="px-5 py-3 text-text-light">14&Prime; (353 mm)</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Bowl Length</td><td class="px-5 py-3 text-text-light">40&Prime;</td><td class="px-5 py-3 text-text-light">68&Prime;</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">G-Force (Centrifugal Force)</td><td class="px-5 py-3 text-text-light">3,150 G&apos;s</td><td class="px-5 py-3 text-text-light">3,150 G&apos;s</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Particle Size Separation Range</td><td class="px-5 py-3 text-text-light">50 &micro;m to 1/2&Prime;</td><td class="px-5 py-3 text-text-light">50 &micro;m to 1/2&Prime;</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Max. Processing Capacity</td><td class="px-5 py-3 text-text-light">50 GPM</td><td class="px-5 py-3 text-text-light">170 GPM</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Drive Power</td><td class="px-5 py-3 text-text-light">15 HP</td><td class="px-5 py-3 text-text-light">25 HP</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Size (Footprint)</td><td class="px-5 py-3 text-text-light">3&apos; &times; 6&apos; &times; 5&apos; (H)</td><td class="px-5 py-3 text-text-light">3&apos; &times; 10&apos; &times; 5&apos; (H)</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy"><a href="/decanter-centrifuge-differential-speed/" class="text-navy font-semibold hover:text-gold transition-colors">Differential Speed</a></td><td class="px-5 py-3 text-text-light">1 ~ 25 RPM</td><td class="px-5 py-3 text-text-light">1 ~ 50 RPM</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Gearbox Type</td><td class="px-5 py-3 text-text-light">Planetary Gearbox; 2.5 kN-M Torque</td><td class="px-5 py-3 text-text-light">Planetary Gearbox; 2.5 and 3.5 kN-M Torque</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3 id="material-of-construction" class="text-lg font-bold text-navy mb-3">Material of Construction</h3>
-      <p class="text-text-light mb-3">The Alfa Laval NX 418 and NX 314 decanters are designed for applications of crude oil, mineral oil, and wastewater. Therefore, the material used in its construction is well suited for such uses. The following table lists the various components of the centrifuge and the material it is made of.</p>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
-          <thead><tr class="bg-navy text-white"><th class="text-left px-5 py-3 font-semibold">Component</th><th class="text-left px-5 py-3 font-semibold">Material</th></tr></thead>
-          <tbody class="divide-y divide-gray-100">
-            <tr><td class="px-5 py-3 font-medium text-navy">Bowl Body</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Conveyor / Auger</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel with Tungsten Carbide Hard Surfacing</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Vessel / Collecting Cover</td><td class="px-5 py-3 text-text-light">316L Duplex Stainless Steel</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Gearbox</td><td class="px-5 py-3 text-text-light">Hardened Steel &mdash; Planetary Gearbox</td></tr>
-            <tr><td class="px-5 py-3 font-medium text-navy">Base Frame</td><td class="px-5 py-3 text-text-light">Carbon Steel with Epoxy Base and Top Coat Paint</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3 id="modifications-for-special-applications" class="text-lg font-bold text-navy mb-3">Modification for Special Applications</h3>
-      <p class="text-text-light mb-3">Special modifications are available for Decanter centrifuges for specific applications. Some of these adaptations are in the following table.</p>
-      <div class="overflow-x-auto mb-10">
-        <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
-          <thead><tr class="bg-navy text-white"><th class="text-left px-4 py-3 font-semibold">Decanter Modification</th><th class="text-left px-4 py-3 font-semibold">Technical Details</th><th class="text-left px-4 py-3 font-semibold">Benefits</th></tr></thead>
-          <tbody class="divide-y divide-gray-100">
-            <tr><td class="px-4 py-3 font-medium text-navy">Tungsten Carbide Tiles</td><td class="px-4 py-3 text-text-light">Multiple Tungsten Carbide hard-surface tiles welded to the conveyor flight edge.</td><td class="px-4 py-3 text-text-light">Erosion protection of conveyor in highly abrasive sludge applications.</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Back Drive Motor</td><td class="px-4 py-3 text-text-light">Allows conveyor differential speed control.</td><td class="px-4 py-3 text-text-light">Centrifuge adaptation under varying sludge load.</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Nitrogen Blanketing</td><td class="px-4 py-3 text-text-light">Nitrogen purging of the bowl surrounding the vessel (coffin).</td><td class="px-4 py-3 text-text-light">Prevent oxygen contact with process fluid in oxygen-sensitive and flammable fluids.</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Clean Fluid Tank</td><td class="px-4 py-3 text-text-light">Collection tank for centrate falling out under decanter.</td><td class="px-4 py-3 text-text-light">A modular system eliminates the need to raise the decanter to collect fluid.</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Separated Sludge Conveyor</td><td class="px-4 py-3 text-text-light">Conveyor sub-assembly under sludge outlet.</td><td class="px-4 py-3 text-text-light">Eliminates the need to elevate the decanter for sludge collection.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Manufacturers -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
-        <h2 id="manufacturers" class="text-xl font-bold text-navy mb-3">Manufacturers</h2>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Manufacturers -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <h2 id="manufacturers" class="text-xl font-bold text-navy mb-3">Manufacturers</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-center">
+      <div>
         <p class="text-text-light mb-3">Prospective buyers should consider some crucial aspects listed below before selecting and purchasing a decanter.</p>
         <p class="text-text-light mb-3">There are many decanter centrifuge manufacturers worldwide. Yet, it is essential to consider the manufacturer&apos;s origin and legacy &mdash; especially given these machines&apos; initial cost and sophistication.</p>
-        <p class="text-text-light mb-4">Long-term durability and field experience have proven the reliability and longevity of a few brands.</p>
-        <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-400-1.webp" alt="Alfa Laval decanter centrifuge — a name brand trusted for over 100 years in centrifugal separation" width="400" height="533" loading="lazy" class="rounded-lg mx-auto mb-2" />
-        <p class="text-sm text-text-muted text-center mb-4 italic">Alfa Laval Decanter Centrifuge</p>
-        <p class="text-text-light"><strong>Alfa Laval is the top-quality manufacturer of centrifuges for over 100 years!</strong> Alfa Laval is a &ldquo;name brand&rdquo; among centrifuge manufacturers. It is not uncommon to see <a href="/alfa-laval-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval centrifuges</a> last 50+ years.</p>
+        <p class="text-text-light mb-3">Long-term durability and field experience have proven the reliability and longevity of a few brands.</p>
+        <p class="text-text-light"><strong>Alfa Laval is the top-quality manufacturer of centrifuges for over 100 years!</strong> It is not uncommon to see <a href="/alfa-laval-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval centrifuges</a> last 50+ years.</p>
       </div>
-
-      <!-- Sizing -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
-        <h2 id="sizing" class="text-xl font-bold text-navy mb-3">Sizing</h2>
-        <p class="text-text-light mb-3">A decanter centrifuge comes in different designs and sizes. For optimum process efficiency, sizing is a critical parameter in selection.</p>
-        <p class="text-text-light mb-3">A machine rated 100 gallons/minute of wastewater will likely process 20 gallons/minute of thick waste oil. Therefore, the user should carefully consider the process-fluid properties and decanter design features to size a proper decanter for each process.</p>
-        <p class="text-text-light">Other design features such as auger pitch, beach cone angle, gearbox ratio, bowl speed, and auger speed significantly affect decanter sizing. Consulting an experienced centrifuge company with extensive application history is highly desirable and recommended.</p>
+      <div>
+        <img src="/images/decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-400-1.webp" alt="Alfa Laval decanter centrifuge — a name brand trusted for over 100 years in centrifugal separation" width="400" height="533" loading="lazy" class="rounded-lg w-full mb-2" />
+        <p class="text-sm text-text-muted text-center italic">Alfa Laval Decanter Centrifuge</p>
       </div>
+    </div>
+  </div>
 
-      <!-- Equipment Cost -->
-      <h2 id="equipment-cost" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Equipment Cost</h2>
-      <p class="text-text-light leading-relaxed mb-4">Decanter centrifuges are capital equipment based on their expected operating life and durability. Their price depends on the manufacturer and size/capacity.</p>
-      <p class="text-text-light leading-relaxed mb-4">A new machine (from a quality, established manufacturer) starts from around $50K for a small capacity unit to over $1M for a large capacity machine. Accessories such as explosion-proof upgrades, control systems, pumps, etc., are optional and add to the cost.</p>
-      <p class="text-text-light leading-relaxed mb-8">Remanufactured models range from 40% to 60% compared to new models of similar capacity.</p>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Sizing -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <h2 id="sizing" class="text-xl font-bold text-navy mb-3">Sizing</h2>
+    <p class="text-text-light mb-3">A decanter centrifuge comes in different designs and sizes. For optimum process efficiency, sizing is a critical parameter in selection.</p>
+    <p class="text-text-light mb-3">A machine rated 100 gallons/minute of wastewater will likely process 20 gallons/minute of thick waste oil. Therefore, the user should carefully consider the process-fluid properties and decanter design features to size a proper decanter for each process.</p>
+    <p class="text-text-light">Other design features such as auger pitch, beach cone angle, gearbox ratio, bowl speed, and auger speed significantly affect decanter sizing. Consulting an experienced centrifuge company with extensive application history is highly desirable and recommended.</p>
+  </div>
 
-      <!-- Operating Costs -->
-      <h2 id="operating-costs" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Operating Costs</h2>
-      <p class="text-text-light leading-relaxed mb-4">Decanter centrifuge operating costs can be categorized as follows.</p>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Equipment Cost -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="equipment-cost">Equipment Cost</h2>
 
-      <div class="space-y-3 mb-10">
-        <div id="power-consumption" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 class="font-semibold text-navy mb-2">Power Consumption</h3>
-          <p class="text-text-light mb-3">The only power-consuming component of these centrifuges is the motors. Consider the following example:</p>
-          <div class="bg-gray-50 rounded-lg p-4 text-sm font-mono text-text-light">
-            <p>Your cost per kWh: 25 &cent;</p>
-            <p>Capacity: 5 GPM</p>
-            <p>Volume processed per hour: 300 Gallons</p>
-            <p>Cost per gallon processed: 25 &cent; / 300 = 0.08 &cent;</p>
-          </div>
-        </div>
-        <div id="spare-parts" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 class="font-semibold text-navy mb-2">Spare Parts</h3>
-          <p class="text-text-light mb-2">The availability of spare parts is an important consideration for the longer-term operating costs.</p>
-          <p class="text-text-light mb-2">For &ldquo;no-name&rdquo; decanters, the buyer wholly depends overseas on a single source manufacturer. Stock, availability &amp; part cost are essential considerations for critical equipment.</p>
-          <p class="text-text-light">On the other hand, generic spare parts are readily available for established, brand-name manufacturers. The manufacturers themselves have parts stock worldwide for quick delivery.</p>
-        </div>
-        <div id="labor" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 class="font-semibold text-navy mb-2">Labor</h3>
-          <p class="text-text-light">Decanter centrifuges are continuous processing, self-contained machines, which means there are no operating labor costs involved. Only service and maintenance require labor.</p>
-        </div>
-        <div id="chemical-use" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 class="font-semibold text-navy mb-2">Chemical Use</h3>
-          <p class="text-text-light">Specific processes need chemicals to aid separation, an extra cost the buyer should consider.</p>
-        </div>
-        <div id="maintenance-and-service" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 class="font-semibold text-navy mb-2">Maintenance &amp; Service</h3>
-          <p class="text-text-light mb-2">Decanters from high-quality manufacturers are generally very reliable. As long as the user maintains them per the manufacturer&apos;s recommendation, they provide reliable service.</p>
-          <p class="text-text-light mb-2">Ongoing maintenance involves periodic gearbox oil changes and bearing lubrication. The primary service involving bearing replacement is every few years, depending on the severity of use.</p>
-          <p class="text-text-light">Processes involving abrasive solids, such as drilling mud, will need scroll or screw rebuild based on wear rate.</p>
-        </div>
+  <p>Decanter centrifuges are capital equipment based on their expected operating life and durability. Their price depends on the manufacturer and size/capacity.</p>
+
+  <p>A new machine (from a quality, established manufacturer) starts from around $50K for a small capacity unit to over $1M for a large capacity machine. Accessories such as explosion-proof upgrades, control systems, pumps, etc., are optional and add to the cost.</p>
+
+  <p>Remanufactured models range from 40% to 60% compared to new models of similar capacity.</p>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Operating Costs -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="operating-costs">Operating Costs</h2>
+
+  <p>Decanter centrifuge operating costs can be categorized as follows.</p>
+
+  <div class="grid md:grid-cols-2 gap-4 mb-8 not-prose">
+    <div id="power-consumption" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <h3 class="font-semibold text-navy mb-2">Power Consumption</h3>
+      <p class="text-sm text-text-light mb-3">The only power-consuming component is the motors. Example:</p>
+      <div class="bg-gray-50 rounded-lg p-3 text-xs font-mono text-text-light">
+        <p>Cost per kWh: 25 &cent;</p>
+        <p>Capacity: 5 GPM</p>
+        <p>Volume/hour: 300 Gallons</p>
+        <p>Cost/gallon: 25&cent;/300 = 0.08&cent;</p>
       </div>
+    </div>
+    <div id="spare-parts" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <h3 class="font-semibold text-navy mb-2">Spare Parts</h3>
+      <p class="text-sm text-text-light">Availability of spare parts is an important consideration. For established, brand-name manufacturers, generic spare parts are readily available worldwide for quick delivery.</p>
+    </div>
+    <div id="labor" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <h3 class="font-semibold text-navy mb-2">Labor</h3>
+      <p class="text-sm text-text-light">Decanter centrifuges are continuous processing, self-contained machines with no operating labor costs. Only service and maintenance require labor.</p>
+    </div>
+    <div id="maintenance-and-service" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <h3 class="font-semibold text-navy mb-2">Maintenance &amp; Service</h3>
+      <p class="text-sm text-text-light">Ongoing maintenance involves periodic gearbox oil changes and bearing lubrication. Primary bearing replacement is every few years depending on severity of use.</p>
+    </div>
+  </div>
 
-      <!-- Mid-page CTA -->
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-6 mb-10">
-        <p class="text-navy font-bold text-lg mb-2">Need Help Selecting the Right Decanter?</p>
-        <p class="text-text-light mb-3">Contact our engineers to discuss your feed material, solids content, and flow rate. We will recommend the right decanter model and configuration for your application.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg transition-colors text-sm">Get a Quote</a>
-          <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors text-sm">(248) 522-2573</a>
-        </div>
-      </div>
+  <!-- Mid-page CTA -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-6 mb-8 not-prose">
+    <p class="text-navy font-bold text-lg mb-2">Need Help Selecting the Right Decanter?</p>
+    <p class="text-text-light mb-3">Contact our engineers to discuss your feed material, solids content, and flow rate. We will recommend the right decanter model and configuration for your application.</p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-6 py-2.5 rounded-lg transition-colors text-sm">Get a Quote</a>
+      <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors text-sm">(248) 522-2573</a>
+    </div>
+  </div>
 
-      <!-- FAQ -->
-      <h2 id="faq" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Frequently Asked Questions</h2>
-      <div class="space-y-3 mb-10">
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>What is a decanter centrifuge used for?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>A decanter centrifuge is used for continuously separating solids from liquids in industrial processes. Common applications include crude oil tank bottom recovery, oilfield drilling mud processing, waste oil de-sludging, industrial and municipal wastewater treatment, fish meal stick-water processing, WVO (waste vegetable oil) de-sludging, rendering plant sludge thickening, and food industry waste streams. Decanters can continuously separate over 50% (v/v) solids from liquids and produce up to 4,000 g&apos;s of centrifugal force.</p>
-          </div>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>How does a decanter centrifuge work?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>A decanter centrifuge works by exerting high centrifugal force (upwards of 3,000 g) on a slurry of solids and liquids. The slurry enters through an axial feed tube and is accelerated into the rotating bowl, forming a pond. Heavier solids settle against the bowl wall and are conveyed out by a scroll (auger) rotating at a differential speed. The clarified liquid flows over weir plates and exits from the opposite end. The entire process is continuous, allowing large volumes to be processed without interruption.</p>
-          </div>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>What is the difference between a 2-phase and 3-phase decanter centrifuge?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>A 2-phase decanter separates solids from a single liquid phase &mdash; it produces one solid output and one liquid output. Most de-sludging duties use a two-phase design, including industrial sludge thickening and municipal wastewater. A 3-phase decanter (also called a tricanter) separates solids from two immiscible liquids simultaneously &mdash; for example, separating crude oil from water and sludge, or olive oil from water and biomass, in a single pass.</p>
-          </div>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>How much does a decanter centrifuge cost?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>A new decanter centrifuge from a quality, established manufacturer starts from around $50,000 for a small capacity unit to over $1 million for a large capacity machine. Remanufactured models typically cost 40% to 60% of comparable new models. Additional accessories such as explosion-proof upgrades, control systems, and pumps add to the cost. Consult Dolphin Centrifuge for competitive pricing on remanufactured Alfa Laval decanters.</p>
-          </div>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>What factors affect decanter centrifuge performance?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>Key factors affecting decanter centrifuge performance include bowl speed (RPM/centrifugal force), auger or conveyor differential speed, pond depth (controlled by weir plates), beach angle of the conical bowl section, and conveyor pitch. Each of these parameters can be adjusted to optimize separation for specific applications. Read our detailed guide on <a href="/decanter-centrifuge-optimization/" class="text-navy font-semibold hover:text-gold transition-colors">decanter performance optimization</a> for more information.</p>
-          </div>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 shadow-sm group">
-          <summary class="px-6 py-4 cursor-pointer font-semibold text-navy hover:text-gold transition-colors list-none flex justify-between items-center">
-            <span>What should I consider when buying a remanufactured decanter centrifuge?</span>
-            <span class="text-gold group-open:rotate-180 transition-transform">&#9662;</span>
-          </summary>
-          <div class="px-6 pb-4 text-text-light">
-            <p>Important considerations include the manufacturer of the original centrifuge, credentials and experience of the re-manufacturer, the machine&apos;s previous use, wear status of the bowl and conveyor, quality of parts used in the rebuild (especially bearings), balancing of major rotating components, and vibration check and complete testing per OEM specifications. Dolphin Centrifuge adheres to all of these criteria in our remanufacturing process.</p>
-          </div>
-        </details>
-      </div>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- New vs Remanufactured -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <h2 id="new-versus-remanufactured" class="text-xl font-bold text-navy mb-3">New versus Remanufactured</h2>
+    <p class="text-text-light mb-4">New machines from branded manufacturers like Alfa Laval is the first choice. However, given the cost of new models, buyers often seek remanufactured decanters from trusted and established companies.</p>
+    <h3 id="important-considerations" class="font-semibold text-navy mb-2">Important considerations before buying a remanufactured decanter centrifuge</h3>
+    <ul class="space-y-1 text-text-light list-disc list-inside ml-2 mb-4">
+      <li>Manufacturer of the original centrifuge.</li>
+      <li>Credentials &amp; experience of the re-manufacturer.</li>
+      <li>Previous use.</li>
+      <li>Wear status of the bowl and conveyor.</li>
+      <li>Parts used in the rebuild &mdash; especially bearings.</li>
+      <li>Balancing of major rotating components.</li>
+      <li>Vibration check and complete testing of the centrifuge assembly per OEM specifications.</li>
+    </ul>
+    <p class="text-text-light">We have condensed 35 years of our centrifuge specialty into a <a href="/industrial-centrifuge-buying-guide/" class="text-navy font-semibold hover:text-gold transition-colors">9 Step Guide to Selecting Your Perfect Industrial Centrifuge</a>.</p>
+  </div>
 
-      <!-- New vs Remanufactured -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
-        <h2 id="new-versus-remanufactured" class="text-xl font-bold text-navy mb-3">New versus Remanufactured</h2>
-        <p class="text-text-light mb-4">New machines from branded manufacturers like Alfa Laval is the first choice. However, given the cost of new models, buyers often seek remanufactured decanters from trusted and established companies.</p>
-        <h3 id="important-considerations" class="font-semibold text-navy mb-2">Important considerations before buying a remanufactured decanter centrifuge</h3>
-        <ul class="space-y-1 text-text-light list-disc list-inside ml-2 mb-4">
-          <li>Manufacturer of the original centrifuge.</li>
-          <li>Credentials &amp; experience of the re-manufacturer.</li>
-          <li>Previous use.</li>
-          <li>Wear status of the bowl and conveyor.</li>
-          <li>Parts used in the rebuild &mdash; especially bearings.</li>
-          <li>Balancing of major rotating components.</li>
-          <li>Vibration check and complete testing of the centrifuge assembly per OEM specifications.</li>
-        </ul>
-        <p class="text-text-light">We have condensed 35 years of our centrifuge specialty into a <a href="/industrial-centrifuge-buying-guide/" class="text-navy font-semibold hover:text-gold transition-colors">9 Step Guide to Selecting Your Perfect Industrial Centrifuge</a>.</p>
-      </div>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Applications -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2 id="applications">Applications</h2>
 
-      <!-- Applications -->
-      <h2 id="applications" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Applications</h2>
-      <p class="text-text-light leading-relaxed mb-4">Decanter centrifuges are perfect for separating liquids from high amounts of solids. Realistically, they can <strong>continuously separate over 50% (v/v) solids from liquids</strong>. Decanter centrifuges can produce up to <strong>4,000 g&apos;s of centrifugal force</strong>, sufficient to separate <strong>particles down to 50&micro;</strong>.</p>
-      <p class="text-text-light mb-4">The following are some of the industries using our remanufactured decanters:</p>
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <ul class="space-y-2 text-text-light">
-          <li>&bull; <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude Oil Tank Bottoms</a></li>
-          <li>&bull; Oilfield Drilling Mud</li>
-          <li>&bull; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Waste Oil De-Sludging</a></li>
-          <li>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Industrial Wastewater</a></li>
-          <li>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Municipal Sludge Dewatering</a></li>
-          <li>&bull; <a href="/fish-processing-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Fish Meal Stick-water</a></li>
-          <li>&bull; <a href="/yellow-grease-purification-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">WVO De-Sludging</a></li>
-          <li>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Paint Industry Wastewater</a></li>
-          <li>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Rendering Plants Sludge Thickening</a></li>
-          <li>&bull; Food Industry Waste Streams</li>
-        </ul>
-      </div>
+  <p>Decanter centrifuges are perfect for separating liquids from high amounts of solids. Realistically, they can <strong>continuously separate over 50% (v/v) solids from liquids</strong>. Decanter centrifuges can produce up to <strong>4,000 g&apos;s of centrifugal force</strong>, sufficient to separate <strong>particles down to 50&micro;</strong>.</p>
 
-      <!-- Remanufactured by Dolphin -->
-      <div id="remanufactured-by-dolphin" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
-        <h2 class="text-xl font-bold text-navy mb-3">Remanufactured by Dolphin Centrifuge</h2>
+  <p>The following are some of the industries using our remanufactured decanters:</p>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <div class="grid md:grid-cols-2 gap-2 text-text-light">
+      <p>&bull; <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude Oil Tank Bottoms</a></p>
+      <p>&bull; Oilfield Drilling Mud</p>
+      <p>&bull; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Waste Oil De-Sludging</a></p>
+      <p>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Industrial Wastewater</a></p>
+      <p>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Municipal Sludge Dewatering</a></p>
+      <p>&bull; <a href="/fish-processing-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Fish Meal Stick-water</a></p>
+      <p>&bull; <a href="/yellow-grease-purification-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">WVO De-Sludging</a></p>
+      <p>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Paint Industry Wastewater</a></p>
+      <p>&bull; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Rendering Plants Sludge Thickening</a></p>
+      <p>&bull; Food Industry Waste Streams</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Remanufactured by Dolphin -->
+  <!-- ════════════════════════════════════════════ -->
+  <div id="remanufactured-by-dolphin" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8 not-prose">
+    <h2 class="text-xl font-bold text-navy mb-3">Remanufactured by Dolphin Centrifuge</h2>
+    <div class="grid md:grid-cols-2 gap-6 items-start">
+      <div>
         <img src="/images/decanter-centrifuge/Alfa-Laval-NX418-Decanter-C1D2-for-Hemp-Ethanol-Processing-Texted-600.webp" alt="Alfa Laval NX418 decanter centrifuge C1D2 rated, remanufactured by Dolphin Centrifuge for hemp ethanol processing" width="600" height="320" loading="lazy" class="rounded-lg w-full mb-2" />
-        <p class="text-sm text-text-muted text-center mb-4 italic">Alfa Laval NX418 Decanter C1D2 for Hemp Ethanol Processing</p>
+        <p class="text-sm text-text-muted text-center italic">NX418 Decanter C1D2 for Hemp Ethanol Processing</p>
+      </div>
+      <div>
         <p class="text-text-light mb-3">Dolphin Centrifuge has been remanufacturing Alfa Laval decanters for over 30 years. We have a similar experience with Sharples centrifuges.</p>
         <div class="bg-navy/5 border-l-4 border-gold rounded-r-xl p-4 mb-4">
-          <p class="text-text-light font-semibold">Our remanufactured decanter centrifuges come with a warranty, lifetime technical support, on-site startup, and training and can be built to suit your application (as shown above).</p>
+          <p class="text-text-light font-semibold text-sm">Our remanufactured decanter centrifuges come with a warranty, lifetime technical support, on-site startup, and training and can be built to suit your application.</p>
         </div>
-        <p class="text-text-light mb-3">Our remanufacturing process follows OEM guidelines. We strictly adhere to all the remanufactured decanter considerations listed above.</p>
-        <p class="text-text-light mb-3">We have a stock of over 50 Decanters at our factory in Warren, MI. Our stock machines are carefully selected based on their previous use. We stock gently used units from olive oil or other similar benign applications.</p>
-        <p class="text-text-light italic">We avoid stocking decanters from drilling mud or other abrasive applications.</p>
-      </div>
-
-      <!-- Available Models -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Available Decanter Models</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <a href="/alfa-laval-nx-314-decanter-centrifuge/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <img src="/images/decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314-e1614264203157.webp" alt="Alfa Laval NX 314 decanter centrifuge - biomass separation" width="250" height="250" loading="lazy" class="rounded-lg w-full mb-3" />
-          <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Alfa Laval NX 314</h3>
-          <p class="text-sm text-text-light">15 GPM on Diesel Fuel</p>
-        </a>
-        <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <img src="/images/decanter-centrifuge/Alfa-Laval-NX418-3-Phase-Decanter.webp" alt="Alfa Laval NX 418 decanter centrifuge - 3 phase decanter" width="600" height="600" loading="lazy" class="rounded-lg w-full mb-3" />
-          <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Alfa Laval NX 418</h3>
-          <p class="text-sm text-text-light">28 GPM on Turbine Lube Oil</p>
-        </a>
-        <a href="/sharples-p-3000-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <img src="/images/decanter-centrifuge/Sharples-P3000-Decanter-300.webp" alt="Sharples P3000 decanter centrifuge for waste oil applications" width="300" height="300" loading="lazy" class="rounded-lg w-full mb-3" />
-          <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Sharples P 3000</h3>
-          <p class="text-sm text-text-light">30 GPM on Waste Oil</p>
-        </a>
-        <a href="/sharples-p-3400-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <img src="/images/decanter-centrifuge/sharples-p3400-decanter.webp" alt="Sharples P3400 decanter centrifuge for distillate processing" width="600" height="600" loading="lazy" class="rounded-lg w-full mb-3" />
-          <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Sharples P 3400</h3>
-          <p class="text-sm text-text-light">75 GPM on Distillate</p>
-        </a>
-      </div>
-
-      <!-- Related Articles -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Related Resources</h2>
-      <div class="grid md:grid-cols-2 gap-4 mb-8">
-        <a href="/decanter-centrifuge-optimization/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Performance Optimization</h3>
-          <p class="text-sm text-text-muted">Detailed guide on optimizing bowl speed, pond depth, and conveyor settings.</p>
-        </a>
-        <a href="/decanter-centrifuge-differential-speed/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Differential Speed</h3>
-          <p class="text-sm text-text-muted">Understanding scroll-bowl speed differential and its impact on separation.</p>
-        </a>
-        <a href="/three-phase-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Three-Phase Decanter (Tricanter)</h3>
-          <p class="text-sm text-text-muted">How 3-phase decanters separate solids from two immiscible liquids.</p>
-        </a>
-        <a href="/alfa-laval-centrifuge-selection-guide/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
-          <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Centrifuge Selection Guide</h3>
-          <p class="text-sm text-text-muted">Complete guide to selecting the right Alfa Laval centrifuge for your application.</p>
-        </a>
-      </div>
-
-      <p class="text-text-light leading-relaxed">Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> to discuss your decanter requirements or see our current stock.</p>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need a Decanter Centrifuge?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Describe your feed material, solids content, and flow rate. Our engineers will recommend the right decanter model and configuration.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
+        <p class="text-text-light mb-3 text-sm">Our remanufacturing process follows OEM guidelines. We strictly adhere to all the remanufactured decanter considerations listed above.</p>
+        <p class="text-text-light text-sm">We have a stock of over 50 Decanters at our factory in Warren, MI. Our stock machines are carefully selected based on their previous use. We stock gently used units from olive oil or other similar benign applications.</p>
       </div>
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Available Models -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2>Available Decanter Models</h2>
+
+  <div class="grid md:grid-cols-2 gap-6 mb-8 not-prose">
+    <a href="/alfa-laval-nx-314-decanter-centrifuge/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <img src="/images/decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314-e1614264203157.webp" alt="Alfa Laval NX 314 decanter centrifuge - biomass separation" width="250" height="250" loading="lazy" class="rounded-lg w-full mb-3" />
+      <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Alfa Laval NX 314</h3>
+      <p class="text-sm text-text-light">15 GPM on Diesel Fuel</p>
+    </a>
+    <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <img src="/images/decanter-centrifuge/Alfa-Laval-NX418-3-Phase-Decanter.webp" alt="Alfa Laval NX 418 decanter centrifuge - 3 phase decanter" width="600" height="600" loading="lazy" class="rounded-lg w-full mb-3" />
+      <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Alfa Laval NX 418</h3>
+      <p class="text-sm text-text-light">28 GPM on Turbine Lube Oil</p>
+    </a>
+    <a href="/sharples-p-3000-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <img src="/images/decanter-centrifuge/Sharples-P3000-Decanter-300.webp" alt="Sharples P3000 decanter centrifuge for waste oil applications" width="300" height="300" loading="lazy" class="rounded-lg w-full mb-3" />
+      <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Sharples P 3000</h3>
+      <p class="text-sm text-text-light">30 GPM on Waste Oil</p>
+    </a>
+    <a href="/sharples-p-3400-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <img src="/images/decanter-centrifuge/sharples-p3400-decanter.webp" alt="Sharples P3400 decanter centrifuge for distillate processing" width="600" height="600" loading="lazy" class="rounded-lg w-full mb-3" />
+      <h3 class="text-lg font-bold text-navy group-hover:text-gold transition-colors mb-1">Sharples P 3400</h3>
+      <p class="text-sm text-text-light">75 GPM on Distillate</p>
+    </a>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Related Resources -->
+  <!-- ════════════════════════════════════════════ -->
+  <h2>Related Resources</h2>
+
+  <div class="grid md:grid-cols-2 gap-4 mb-8 not-prose">
+    <a href="/decanter-centrifuge-optimization/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Performance Optimization</h3>
+      <p class="text-sm text-text-muted">Detailed guide on optimizing bowl speed, pond depth, and conveyor settings.</p>
+    </a>
+    <a href="/decanter-centrifuge-differential-speed/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Differential Speed</h3>
+      <p class="text-sm text-text-muted">Understanding scroll-bowl speed differential and its impact on separation.</p>
+    </a>
+    <a href="/three-phase-decanter/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Three-Phase Decanter (Tricanter)</h3>
+      <p class="text-sm text-text-muted">How 3-phase decanters separate solids from two immiscible liquids.</p>
+    </a>
+    <a href="/alfa-laval-centrifuge-selection-guide/" class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow group">
+      <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Centrifuge Selection Guide</h3>
+      <p class="text-sm text-text-muted">Complete guide to selecting the right Alfa Laval centrifuge for your application.</p>
+    </a>
+  </div>
+
+  <p>Contact Dolphin Centrifuge at <a href="tel:+12485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> to discuss your decanter requirements or see our current stock.</p>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- FAQ -->
+  <!-- ════════════════════════════════════════════ -->
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>
