@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the rated capacity of the Alfa Laval WHPX 513?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WHPX 513 is rated at 72 GPM on diesel fuel (13 cSt viscosity). On lighter fluids throughput can exceed 90+ GPM. On heavier fluids like intermediate fuel oil, throughput is reduced proportionally to viscosity. The WHPX 513 is powered by a 15 HP motor with a 3.87-gallon sludge space." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the WHPX 513 and the FOPX 613?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WHPX 513 is a three-phase self-cleaning disc centrifuge suited for diesel, waste oil, and intermediate fuel oil. The FOPX 613 is a partial-discharge centrifuge specifically engineered for heavy fuel oil (HFO) processing at 380 cSt viscosity, rated at 30 GPM on bunker fuel. Choose the FOPX 613 when processing heavy bunker fuel with high wax content." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the WHPX 513 available in explosion-proof configuration?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -162,6 +184,26 @@ const jsonLd = {
       <p class="text-text-light mb-8">
         <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
       </p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the rated capacity of the Alfa Laval WHPX 513?</h3>
+            <p class="text-text-light text-sm">The WHPX 513 is rated at 72 GPM on diesel fuel (13 cSt viscosity). On lighter fluids throughput can exceed 90+ GPM. On heavier fluids like intermediate fuel oil, throughput is reduced proportionally to viscosity. The WHPX 513 is powered by a 15 HP motor with a 3.87-gallon sludge space.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between the WHPX 513 and the FOPX 613?</h3>
+            <p class="text-text-light text-sm">The WHPX 513 is a three-phase self-cleaning disc centrifuge suited for diesel, waste oil, and intermediate fuel oil. The FOPX 613 is a partial-discharge centrifuge specifically engineered for heavy fuel oil (HFO) processing at 380 cSt viscosity, rated at 30 GPM on bunker fuel. Choose the FOPX 613 when processing heavy bunker fuel with high wax content.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is the WHPX 513 available in explosion-proof configuration?</h3>
+            <p class="text-text-light text-sm">Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

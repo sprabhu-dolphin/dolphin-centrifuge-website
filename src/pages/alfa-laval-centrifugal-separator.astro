@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an Alfa Laval centrifugal separator?",
+      "acceptedAnswer": { "@type": "Answer", "text": "An Alfa Laval centrifugal separator is a disc stack centrifuge that separates liquids from solids or separates immiscible liquids of different densities. Alfa Laval is the world's leading manufacturer of centrifugal separators, with disc stack models covering oil purification, food processing, pharmaceutical production, water treatment, and industrial fluid applications." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a centrifugal purifier and a centrifugal clarifier?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A centrifugal purifier separates two immiscible liquid phases plus solids (three-phase) — for example, oil, water, and sludge. A centrifugal clarifier separates solids from a single liquid phase only (two-phase). The key hardware difference is that a purifier uses a gravity disc to maintain a liquid-liquid interface; a clarifier does not use a gravity disc." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the gravity disc selected for a centrifugal separator?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The gravity disc inner diameter is selected based on the density of the process liquid being separated. A nomogram or formula in the Alfa Laval service manual relates feed density and throughput to gravity disc size. Selecting the wrong gravity disc causes liquid carryover into the heavy phase or contamination of the light liquid phase with water." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -797,6 +819,26 @@ const jsonLd = {
           </div>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is an Alfa Laval centrifugal separator?</h3>
+            <p class="text-text-light text-sm">An Alfa Laval centrifugal separator is a disc stack centrifuge that separates liquids from solids or separates immiscible liquids of different densities. Alfa Laval is the world's leading manufacturer of centrifugal separators, with disc stack models covering oil purification, food processing, pharmaceutical production, water treatment, and industrial fluid applications.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between a centrifugal purifier and a centrifugal clarifier?</h3>
+            <p class="text-text-light text-sm">A centrifugal purifier separates two immiscible liquid phases plus solids (three-phase) — for example, oil, water, and sludge. A centrifugal clarifier separates solids from a single liquid phase only (two-phase). The key hardware difference is that a purifier uses a gravity disc to maintain a liquid-liquid interface; a clarifier does not use a gravity disc.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How is the gravity disc selected for a centrifugal separator?</h3>
+            <p class="text-text-light text-sm">The gravity disc inner diameter is selected based on the density of the process liquid being separated. A nomogram or formula in the Alfa Laval service manual relates feed density and throughput to gravity disc size. Selecting the wrong gravity disc causes liquid carryover into the heavy phase or contamination of the light liquid phase with water.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">

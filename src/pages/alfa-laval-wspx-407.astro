@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the coolant capacity of the WSPX 407 centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 407 handles 400–800 LPH (106–211 GPH) of metalworking coolant, making it the highest-flow model in the WSPX series. It is designed for large central coolant systems serving 10+ CNC machines or high-volume grinding operations. The 407-series bowl operates at 7,000–8,500 × g for effective fine particle and tramp oil removal." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the WSPX 407 handle both straight and water-soluble coolants?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 407 processes water-soluble coolants (semi-synthetic, full synthetic emulsions) to remove tramp oil and metal fines. Straight oil and neat cutting oil require different centrifuge configurations — specifically a purifier-type disc stack centrifuge optimized for high-viscosity liquids. Contact Dolphin Centrifuge to confirm the right model for your coolant chemistry." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the ROI for the WSPX 407 in high-volume machining facilities?",
+      "acceptedAnswer": { "@type": "Answer", "text": "In high-volume facilities, the WSPX 407 typically pays back in 12–24 months through coolant savings (3–5× extended coolant life), reduced disposal costs, lower tool replacement frequency from cleaner coolant, and reduced machine downtime from biologic growth. Facilities with coolant disposal costs above $5,000/month typically achieve the fastest payback." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -122,6 +144,26 @@ const jsonLd = {
           <p class="text-sm text-text-light">800+ LPH</p>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the coolant capacity of the WSPX 407 centrifuge?</h3>
+            <p class="text-text-light text-sm">The WSPX 407 handles 400–800 LPH (106–211 GPH) of metalworking coolant, making it the highest-flow model in the WSPX series. It is designed for large central coolant systems serving 10+ CNC machines or high-volume grinding operations. The 407-series bowl operates at 7,000–8,500 × g for effective fine particle and tramp oil removal.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can the WSPX 407 handle both straight and water-soluble coolants?</h3>
+            <p class="text-text-light text-sm">The WSPX 407 processes water-soluble coolants (semi-synthetic, full synthetic emulsions) to remove tramp oil and metal fines. Straight oil and neat cutting oil require different centrifuge configurations — specifically a purifier-type disc stack centrifuge optimized for high-viscosity liquids. Contact Dolphin Centrifuge to confirm the right model for your coolant chemistry.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the ROI for the WSPX 407 in high-volume machining facilities?</h3>
+            <p class="text-text-light text-sm">In high-volume facilities, the WSPX 407 typically pays back in 12–24 months through coolant savings (3–5× extended coolant life), reduced disposal costs, lower tool replacement frequency from cleaner coolant, and reduced machine downtime from biologic growth. Facilities with coolant disposal costs above $5,000/month typically achieve the fastest payback.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

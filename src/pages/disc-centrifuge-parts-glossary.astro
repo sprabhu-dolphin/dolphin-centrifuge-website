@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between the bowl disc and the paring disc in a disc centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Bowl discs (also called separation discs or plate discs) are the thin conical plates stacked inside the bowl that create the laminar flow channels for liquid separation. The paring disc (or skimmer disc) is a stationary device at the top of the bowl that pumps the separated liquid phase out of the rotating bowl under pressure. Bowl discs create the separation — the paring disc extracts the product." }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the gravity disc (or dam ring) do in a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The gravity disc (or dam ring) controls the position of the liquid-liquid interface inside the bowl — the boundary between the separated oil layer and water layer. Changing gravity disc size shifts the interface inward or outward, optimizing separation efficiency for specific liquid density combinations. Selecting the correct gravity disc size is critical for clean water discharge in purifier mode." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the operating slide (or sliding bowl bottom) in a self-cleaning centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The operating slide (or sliding bowl bottom) is a hydraulically actuated piston inside the bowl that opens and closes the sludge ejection ports. During normal operation, the slide is held up by operating water pressure, sealing the bowl. When operating water is released, the slide drops, opening the sludge ports and ejecting accumulated solids in a fraction of a second." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -835,6 +857,26 @@ const jsonLd = {
           Feel free to <a href="/contact-for-alfa-laval-centrifuges/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium underline">contact Dolphin Centrifuge</a> if you have questions or need some application consulting. You can also reach us by calling <a href="tel:+12485222573" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">(248) 522-2573</a>.
         </p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between the bowl disc and the paring disc in a disc centrifuge?</h3>
+            <p class="text-text-light text-sm">Bowl discs (also called separation discs or plate discs) are the thin conical plates stacked inside the bowl that create laminar flow channels for liquid separation. The paring disc (or skimmer disc) is a stationary device at the top of the bowl that pumps the separated liquid phase out of the rotating bowl under pressure. Bowl discs create the separation — the paring disc extracts the product.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What does the gravity disc (dam ring) do in a disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">The gravity disc controls the position of the liquid-liquid interface inside the bowl — the boundary between the separated oil layer and water layer. Changing gravity disc size shifts the interface inward or outward, optimizing separation for specific liquid density combinations. Selecting the correct gravity disc size is critical for clean water discharge in purifier mode.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the operating slide (sliding bowl bottom) in a self-cleaning centrifuge?</h3>
+            <p class="text-text-light text-sm">The operating slide (or sliding bowl bottom) is a hydraulically actuated piston inside the bowl that opens and closes the sludge ejection ports. During normal operation, the slide is held up by operating water pressure. When operating water is released, the slide drops, opening the sludge ports and ejecting accumulated solids in a fraction of a second.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Links -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

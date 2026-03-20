@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the WHPX 513 Clarifier Module used for?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. It includes PLC controls, stainless steel feed pump, and pre-filter — pre-wired and factory tested for wastewater clarification, machine coolant recovery, and industrial fluid polishing." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in the WHPX 513 module package?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The module includes the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge, PLC touchscreen control panel, stainless steel feed pump, pre-filter assembly, skid frame, and all interconnecting pipework — pre-wired and factory tested. Dolphin Centrifuge custom-builds each module to the customer's application requirements." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the clarifier module handle sludge discharge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WHPX 513's self-cleaning bowl automatically discharges accumulated solids at programmable intervals using hydraulically operated discharge valves. Discharge takes only a few seconds and does not interrupt fluid flow. The sludge is collected in an integrated sludge tank within the module. No manual bowl opening or cleaning is required between service intervals." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -120,6 +142,26 @@ const jsonLd = {
       <p class="text-text-light mb-8">
         <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
       </p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the WHPX 513 Clarifier Module used for?</h3>
+            <p class="text-text-light text-sm">The WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. It includes PLC controls, stainless steel feed pump, and pre-filter — pre-wired and factory tested for wastewater clarification, machine coolant recovery, and industrial fluid polishing.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is included in the WHPX 513 module package?</h3>
+            <p class="text-text-light text-sm">The module includes the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge, PLC touchscreen control panel, stainless steel feed pump, pre-filter assembly, skid frame, and all interconnecting pipework — pre-wired and factory tested. Dolphin Centrifuge custom-builds each module to the customer's application requirements.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does the clarifier module handle sludge discharge?</h3>
+            <p class="text-text-light text-sm">The WHPX 513's self-cleaning bowl automatically discharges accumulated solids at programmable intervals using hydraulically operated discharge valves. Discharge takes only a few seconds and does not interrupt fluid flow. The sludge is collected in an integrated sludge tank within the module. No manual bowl opening or cleaning is required between service intervals.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

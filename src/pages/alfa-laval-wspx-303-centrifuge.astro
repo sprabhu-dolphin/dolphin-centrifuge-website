@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the coolant flow rate of the WSPX 303 centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 303 handles 200–400 LPH (53–106 GPH) of metalworking coolant or cutting fluid. This capacity serves medium-sized production cells with 3–8 CNC machines sharing a central sump. The 303-series bowl operates at 6,500–8,000 × g, sufficient to remove fine metal particles and tramp oil from most water-soluble coolants." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the WSPX 207, WSPX 303, and WSPX 307?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 207 (53–79 LPH) serves single CNC machines. The WSPX 303 (200–400 LPH) serves small production cells. The WSPX 307 (300–500 LPH) is a higher-speed variant of the 303 for applications requiring greater G-force on difficult coolants. All models use self-cleaning bowl design with automatic solids ejection." }
+    },
+    {
+      "@type": "Question",
+      "name": "How often does the WSPX 303 eject solids automatically?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ejection frequency depends on solids concentration. For typical metalworking coolants with light contamination, the WSPX 303 ejects solids every 15–60 minutes. High-concentration slurries (heavy grinding, cast iron) may require ejection every 5–10 minutes. The PLC controller manages ejection timing based on cycle counters or optional turbidity sensing." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -114,6 +136,26 @@ const jsonLd = {
           <p class="text-sm text-text-light">400–800 LPH. High-volume automotive and aerospace facilities.</p>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the coolant flow rate of the WSPX 303 centrifuge?</h3>
+            <p class="text-text-light text-sm">The WSPX 303 handles 200–400 LPH (53–106 GPH) of metalworking coolant or cutting fluid. This capacity serves medium-sized production cells with 3–8 CNC machines sharing a central sump. The 303-series bowl operates at 6,500–8,000 × g, sufficient to remove fine metal particles and tramp oil from most water-soluble coolants.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between the WSPX 207, WSPX 303, and WSPX 307?</h3>
+            <p class="text-text-light text-sm">The WSPX 207 (53–79 LPH) serves single CNC machines. The WSPX 303 (200–400 LPH) serves small production cells. The WSPX 307 (300–500 LPH) is a higher-speed variant of the 303 for applications requiring greater G-force on difficult coolants. All models use self-cleaning bowl design with automatic solids ejection.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How often does the WSPX 303 eject solids automatically?</h3>
+            <p class="text-text-light text-sm">Ejection frequency depends on solids concentration. For typical metalworking coolants with light contamination, the WSPX 303 ejects solids every 15–60 minutes. High-concentration slurries (heavy grinding, cast iron) may require ejection every 5–10 minutes. The PLC controller manages ejection timing based on cycle counters or optional turbidity sensing.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

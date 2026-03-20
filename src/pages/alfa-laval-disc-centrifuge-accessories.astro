@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What accessories does Dolphin Centrifuge supply for disc stack centrifuges?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge supplies heater-timer panels for automatic operation scheduling, heating systems (shell-and-tube and electric), sludge collection tanks, feed pumps, pre-filter assemblies, flow meters, and complete PLC control panels with touchscreen interfaces. All accessories are integrated into complete centrifuge system packages." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a heater-timer panel used for on a centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A heater-timer panel controls the on/off timing and feed fluid temperature for automatic centrifuge operation. It allows the centrifuge to start, purify, and shut down automatically on a schedule — maintaining proper feed temperature without manual intervention. This is essential for unattended overnight or weekend operation in industrial facilities." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a separate feed pump with a disc centrifuge system?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, in most installations a dedicated feed pump is required to supply fluid to the centrifuge at the correct pressure and flow rate. Dolphin Centrifuge supplies complete skid packages with integrated pump, heating system, flow controls, and PLC panel — delivered pre-wired and factory tested, ready for field connection." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -324,6 +346,26 @@ const jsonLd = {
           <a href="/industrial-centrifuge-design/" class="border border-navy text-navy font-semibold px-6 py-3 rounded-lg hover:bg-navy hover:text-white transition-colors">System Design</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What accessories does Dolphin Centrifuge supply for disc stack centrifuges?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies heater-timer panels for automatic operation scheduling, heating systems (shell-and-tube and electric), sludge collection tanks, feed pumps, pre-filter assemblies, flow meters, and complete PLC control panels with touchscreen interfaces. All accessories are integrated into complete centrifuge system packages.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is a heater-timer panel used for on a centrifuge?</h3>
+            <p class="text-text-light text-sm">A heater-timer panel controls the on/off timing and feed fluid temperature for automatic centrifuge operation. It allows the centrifuge to start, purify, and shut down automatically on a schedule — maintaining proper feed temperature without manual intervention. This is essential for unattended overnight or weekend operation in industrial facilities.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Do I need a separate feed pump with a disc centrifuge system?</h3>
+            <p class="text-text-light text-sm">Yes, in most installations a dedicated feed pump is required to supply fluid to the centrifuge at the correct pressure and flow rate. Dolphin Centrifuge supplies complete skid packages with integrated pump, heating system, flow controls, and PLC panel — delivered pre-wired and factory tested, ready for field connection.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <h2 class="text-2xl font-bold font-heading text-navy mb-4">Related Articles</h2>
