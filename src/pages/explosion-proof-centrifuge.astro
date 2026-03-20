@@ -1,7 +1,30 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is an explosion-proof centrifuge?",
+    answer: "An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof. These centrifuges feature certified electrical enclosures, spark-free drive mechanisms, and specialized sensors and wiring to prevent ignition of flammable materials."
+  },
+  {
+    question: "What is the difference between Class 1 Div 1 and Class 1 Div 2 centrifuges?",
+    answer: "Class 1 Division 1 areas are locations where explosion or fire hazards exist due to the continuous presence of flammable gases, combustible liquid-produced vapors, combustible dust, or ignitable fibers. Class 1 Division 2 areas are locations where volatile flammable liquids or flammable gases exist but are generally confined within closed containers. Class 1 Div 1 centrifuges require more stringent modifications including cast metal housings and fully sealed enclosures, while Class 1 Div 2 centrifuges may use nitrogen-purged enclosures."
+  },
+  {
+    question: "What electrical modifications are needed for a hazardous area centrifuge?",
+    answer: "Hazardous area centrifuges require several electrical modifications: upgraded enclosures with inert gas purging or cast metal containment housings, rigid conduit routing with specialized fittings and sealed glands for both sensor and power wiring, and certified field instruments including temperature, pressure, level, and flow sensors rated for the applicable classification. Solenoid valves must also be certified for hazardous area use."
+  },
+  {
+    question: "How are centrifuge drives modified for explosion-proof applications?",
+    answer: "Two primary mechanical modifications address spark risk in centrifuge drives. First, standard steel friction clutch shoes can be replaced with brass or other non-ferrous metals to prevent sparking during contact. Second, and preferred, the friction clutch can be eliminated entirely through direct coupling using a coupling disc bolted to the horizontal shaft drum. Direct coupling requires a power inverter (VFD) to allow the motor to ramp up to operating speed over a defined time window without drawing excessive current."
+  },
+  {
+    question: "What hazardous area certifications are available for industrial centrifuges?",
+    answer: "Industrial centrifuges can be certified under three primary classification systems: NEC/CEC (North America) with Class and Division designations, ATEX (European Union) with Zone designations for explosive atmospheres, and IECEx (International) maintained by the International Electrotechnical Commission. Dolphin Centrifuge provides centrifuge systems certified to all three standards depending on the installation region and requirements."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Explosion Proof Centrifuge",
@@ -29,845 +52,695 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is an explosion-proof centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof. These centrifuges feature certified electrical enclosures, spark-free drive mechanisms, and specialized sensors and wiring to prevent ignition of flammable materials."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Class 1 Div 1 and Class 1 Div 2 centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Class 1 Division 1 areas are locations where explosion or fire hazards exist due to the continuous presence of flammable gases, combustible liquid-produced vapors, combustible dust, or ignitable fibers. Class 1 Division 2 areas are locations where volatile flammable liquids or flammable gases exist but are generally confined within closed containers. Class 1 Div 1 centrifuges require more stringent modifications including cast metal housings and fully sealed enclosures, while Class 1 Div 2 centrifuges may use nitrogen-purged enclosures."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What electrical modifications are needed for a hazardous area centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Hazardous area centrifuges require several electrical modifications: upgraded enclosures with inert gas purging or cast metal containment housings, rigid conduit routing with specialized fittings and sealed glands for both sensor and power wiring, and certified field instruments including temperature, pressure, level, and flow sensors rated for the applicable classification. Solenoid valves must also be certified for hazardous area use."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How are centrifuge drives modified for explosion-proof applications?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Two primary mechanical modifications address spark risk in centrifuge drives. First, standard steel friction clutch shoes can be replaced with brass or other non-ferrous metals to prevent sparking during contact. Second, and preferred, the friction clutch can be eliminated entirely through direct coupling using a coupling disc bolted to the horizontal shaft drum. Direct coupling requires a power inverter (VFD) to allow the motor to ramp up to operating speed over a defined time window without drawing excessive current."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What hazardous area certifications are available for industrial centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Industrial centrifuges can be certified under three primary classification systems: NEC/CEC (North America) with Class and Division designations, ATEX (European Union) with Zone designations for explosive atmospheres, and IECEx (International) maintained by the International Electrotechnical Commission. Dolphin Centrifuge provides centrifuge systems certified to all three standards depending on the installation region and requirements."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'synopsis', label: 'Synopsis' },
+  { id: 'explosion-proof-centrifuge', label: 'Explosion Proof Centrifuge' },
+  { id: 'applications', label: 'Applications Requiring Area Classified Centrifuges' },
+  { id: 'class1-div1', label: 'Class 1 Division 1 Centrifuge Applications' },
+  { id: 'petroleum-refineries', label: 'Centrifuge for Petroleum Refineries' },
+  { id: 'class1-div2', label: 'Class 1 Division 2 Hazardous Area Applications' },
+  { id: 'hemp-ethanol-extraction', label: 'Hemp Ethanol Extraction Centrifuge' },
+  { id: 'purged-centrifuges', label: 'Uses for Purged Centrifuges' },
+  { id: 'electrical-standards', label: 'Electrical Standards (NEC / ATEX / IECEx)' },
+  { id: 'electrical-modifications', label: 'Electrical Modifications' },
+  { id: 'enclosure-upgrades', label: 'Electrical Enclosures Upgrades' },
+  { id: 'wiring', label: 'Power and Field Sensor Wiring' },
+  { id: 'field-instruments', label: 'Field Instruments & Gages' },
+  { id: 'mechanical-modifications', label: 'Mechanical Modifications' },
+  { id: 'spark-less-clutches', label: 'Spark-less Clutches' },
+  { id: 'direct-coupling', label: 'Direct Coupling of Centrifuge Drive' },
+  { id: 'other-upgrades', label: 'Other Upgrades & Safety Devices' },
+  { id: 'summary', label: 'Summary' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Crude Oil Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+  { label: 'Diesel Fuel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Stainless Steel Centrifuge', href: '/stainless-steel-centrifuge/' },
+  { label: 'XP Stainless Steel Centrifuge', href: '/explosion-proof-stainless-steel-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/', description: 'Full line of disc stack separators' },
+  { label: 'Centrifuge Rental Services', href: '/disc-stack-centrifuge-rental/', description: 'Short & long-term rental programs' },
+  { label: 'Centrifuge Selection Guide', href: '/alfa-laval-centrifuge-selection-guide/', description: 'Choose the right centrifuge for your application' },
+];
 ---
 
-<BaseLayout
-  title="Explosion Proof Centrifuge Guide"
-  description="UL-listed explosion-proof disc centrifuges for Class I Div 1 & Div 2 hazardous locations. Dolphin Centrifuge — certified units, fast delivery, expert support."
+<ApplicationLayout
+  title="Explosion Proof Centrifuge"
+  description="Industrial explosion-proof centrifuges certified for Class 1 Div 1 &amp; Div 2, ATEX, and IECEx hazardous areas. Dolphin Centrifuge — 40+ years, fast delivery."
+  heroImage="/images/explosion-proof-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600.webp"
+  heroImageAlt="Explosion-proof centrifuge certified for Class 1 Div 1 hazardous area installation"
+  category="applications"
+  categoryLabel="Hazardous Area"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   canonicalUrl="https://dolphincentrifuge.com/explosion-proof-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Explosion-Proof Centrifuge'}]}
   jsonLd={jsonLd}
 >
 
-  <!-- FAQ Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies explosion-proof industrial centrifuge systems certified for Class 1 Div 1, Class 1 Div 2, ATEX Zone 1/2, and IECEx hazardous area installations. These systems feature certified enclosures, spark-free drives, and approved wiring for petroleum refineries, offshore platforms, and solvent extraction facilities. Based in Warren, Michigan with over 40 years of experience.</p>
+  </div>
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-14 md:py-20">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <nav class="text-sm text-blue-200 mb-4" aria-label="Breadcrumb">
-            <a href="/centrifuges/" class="hover:text-white transition-colors">Products</a>
-            <span class="mx-2">›</span>
-            <span class="text-white">Explosion-Proof Centrifuge</span>
-          </nav>
-          <h1 class="text-3xl md:text-4xl font-bold font-['Plus_Jakarta_Sans'] mb-4 leading-tight">
-            Explosion Proof Centrifuge
-          </h1>
-          <p class="text-lg text-blue-100 mb-6 font-['Source_Sans_3']">
-            Hazardous Area Certified — Class 1 Div 1 / Div 2, ATEX, IECEx
-          </p>
-          <p class="text-blue-100 mb-4 font-['Source_Sans_3']">
-            Industrial centrifuge applications need not be limited by a hazardous or explosive environment. Specially designed and certified centrifuges operate safely in Class 1 Division 1, Class 1 Division 2, ATEX Zone 1/2, and IECEx classified locations.
-          </p>
-          <p class="text-blue-100 mb-8 font-['Source_Sans_3']">
-            Dolphin Centrifuge supplies purpose-modified industrial disc stack and decanter centrifuges for hazardous area installations. With over 40 years of experience in centrifugal separation, we provide fully certified explosion-proof centrifuge systems for petroleum refineries, offshore platforms, solvent extraction, and chemical processing facilities across North America and worldwide.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-lg transition-colors text-center">
-              Request a Quote
-            </a>
-            <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold py-3 px-6 rounded-lg transition-colors text-center">
-              (248) 522-2573
-            </a>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <img
-            src="/images/explosion-proof-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600.webp"
-            alt="Explosion-proof centrifuge certified for Class 1 Div 1 hazardous area installation"
-            width="600"
-            height="450"
-            loading="eager"
-            class="rounded-xl shadow-2xl w-full max-w-md object-cover"
-          />
-        </div>
+  <!-- ══ Synopsis ══ -->
+  <div id="synopsis" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Synopsis</h2>
+    <p>
+      Industrial centrifuge applications need not be limited by the location or environment being unacceptable for standard machinery. Specially designed centrifuges are safe to install in potentially hazardous environments. In this article, we discuss various considerations and solutions for applying centrifuges in dangerous locations.
+    </p>
+  </div>
+
+  <!-- ══ What Is an XP Centrifuge ══ Pattern A: side-by-side -->
+  <div id="explosion-proof-centrifuge" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Explosion Proof Centrifuge</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="md:w-[55%]">
+        <p>
+          An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof.
+        </p>
+        <p>
+          Many industrial applications process fluids that have a low flash point and are flammable. In other words, liquids that can easily ignite need specially designed equipment to operate safely. Sub-classifications within this category of hazardous environments depend on the type and presence of such flammable materials.
+        </p>
+        <p>
+          Authorized governing bodies define specific details on area classifications. UL documentation provides detailed hazardous area classification criteria for North American installations.
+        </p>
+      </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
+          alt="Class 1 Div 1 explosion-proof centrifuge for hazardous area installation"
+          width="600"
+          height="450"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-cover"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Class 1 Div 1 — Explosion Proof Centrifuge</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Table of Contents -->
-  <section class="bg-white border-b border-gray-200">
-    <div class="container mx-auto px-4 max-w-4xl py-6">
-      <details class="group">
-        <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] text-lg flex items-center gap-2">
-          <span>Table of Contents</span>
-          <span class="group-open:rotate-180 transition-transform">▼</span>
-        </summary>
-        <nav class="mt-4 grid sm:grid-cols-2 gap-1 text-sm font-['Source_Sans_3']">
-          <a href="#synopsis" class="text-[#1B3A5C] hover:underline py-1">Synopsis</a>
-          <a href="#explosion-proof-centrifuge" class="text-[#1B3A5C] hover:underline py-1">Explosion Proof Centrifuge</a>
-          <a href="#applications" class="text-[#1B3A5C] hover:underline py-1">Applications Requiring Area Classified Centrifuges</a>
-          <a href="#class1-div1" class="text-[#1B3A5C] hover:underline py-1">Class 1 Division 1 Centrifuge Applications</a>
-          <a href="#petroleum-refineries" class="text-[#1B3A5C] hover:underline py-1">Centrifuge for Petroleum Refineries</a>
-          <a href="#class1-div2" class="text-[#1B3A5C] hover:underline py-1">Class 1 Division 2 Hazardous Area Centrifuge Applications</a>
-          <a href="#hemp-ethanol-extraction" class="text-[#1B3A5C] hover:underline py-1">Hemp Ethanol Extraction Centrifuge</a>
-          <a href="#purged-centrifuges" class="text-[#1B3A5C] hover:underline py-1">Uses for Purged Centrifuges</a>
-          <a href="#electrical-standards" class="text-[#1B3A5C] hover:underline py-1">Electrical Standards (NEC / ATEX / IECEx)</a>
-          <a href="#electrical-modifications" class="text-[#1B3A5C] hover:underline py-1">Electrical Modifications for Hazardous Area Centrifuges</a>
-          <a href="#enclosure-upgrades" class="text-[#1B3A5C] hover:underline py-1">Electrical Enclosures Upgrades</a>
-          <a href="#wiring" class="text-[#1B3A5C] hover:underline py-1">Power and Field Sensor Wiring</a>
-          <a href="#field-instruments" class="text-[#1B3A5C] hover:underline py-1">Field Instruments, Components, and Gages</a>
-          <a href="#mechanical-modifications" class="text-[#1B3A5C] hover:underline py-1">Mechanical Modifications</a>
-          <a href="#spark-less-clutches" class="text-[#1B3A5C] hover:underline py-1">Centrifuge Drive Modification — Spark-less Clutches</a>
-          <a href="#direct-coupling" class="text-[#1B3A5C] hover:underline py-1">Direct Coupling of Centrifuge Drive</a>
-          <a href="#other-upgrades" class="text-[#1B3A5C] hover:underline py-1">Other Upgrades & Safety Devices</a>
-          <a href="#summary" class="text-[#1B3A5C] hover:underline py-1">Summary</a>
-          <a href="#faq" class="text-[#1B3A5C] hover:underline py-1">Frequently Asked Questions</a>
-        </nav>
-      </details>
-    </div>
-  </section>
+  <!-- ══ Applications — Class 1 Div 1 ══ -->
+  <div id="applications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Applications Requiring Area Classified Centrifuges</h2>
 
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0]">
-    <div class="container mx-auto px-4 max-w-4xl py-12 md:py-16">
+    <div id="class1-div1" class="mb-8">
+      <h3>Class 1 Division 1 Centrifuge Applications</h3>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies Class 1 Division 2 (C1D2) explosion-proof industrial centrifuge systems for flammable fluid processing in hazardous locations. These certified systems feature explosion-proof motors, compliant control panels, and approved wiring for fuel tank farms, marine engine rooms, and petroleum storage facilities. Models range from 4 to 72 GPM for diesel, lube oil, and waste oil applications. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in hazardous area centrifuge installations.</p>
-      </div>
-
-      <!-- Synopsis -->
-      <div id="synopsis" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Synopsis</h2>
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-lg leading-relaxed">
-          Industrial centrifuge applications need not be limited by the location or environment being unacceptable for standard machinery. Specially designed centrifuges are safe to install in potentially hazardous environments. In this article, we discuss various considerations and solutions for applying centrifuges in dangerous locations.
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+        <p>
+          <strong>Class 1 Division 1</strong> areas are classified as locations where explosion or fire hazards exist due to the presence of flammable gases, flammable or combustible liquid-produced vapors, combustible dust, or ignitable fibers or flyings.
         </p>
       </div>
 
-      <!-- What Is an XP Centrifuge -->
-      <div id="explosion-proof-centrifuge" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-6">Explosion Proof Centrifuge</h2>
+      <p>
+        The following are typical examples of such explosion-proof centrifuge applications. We briefly describe the considerations for centrifuge execution for petroleum refineries.
+      </p>
 
-        <div class="grid md:grid-cols-2 gap-8 items-start mb-6">
-          <div>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-              An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof.
+      <!-- Petroleum Refineries — Pattern A -->
+      <div id="petroleum-refineries" class="bg-gray-50 rounded-lg p-6 mb-6">
+        <h4 class="text-lg font-bold text-navy mb-4">Centrifuge for Petroleum Refineries</h4>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="md:w-[55%]">
+            <p>
+              Crude oil refineries process crude oil feedstock to produce final products such as solvents, condensate, gasoline, diesel, naphtha, kerosene, etc. All of these petroleum components are flammable and therefore require safe processing by using explosion-proof centrifuges.
+            </p>
+            <p>
+              The hazardous area classification of the centrifuge depends on the actual location of the centrifuge. If the centrifuge is in an area in the presence of flammable liquids, vapors, or gases, it needs to be suitable for the Class 1 Div 1 environment.
+            </p>
+            <p>
+              The photograph shown here illustrates a centrifuge suitable for NEC Class 1 Division 1 Groups C &amp; D hazardous area installation. This type of centrifuge is commonly deployed in petroleum refinery environments where flammable vapors and gases may be present continuously during normal operations.
+            </p>
+            <p>
+              On the other hand, if the centrifuge application is in a relatively safer area where such flammable material is not usually present, a Class I Div 2 certified centrifuge may be adequate, like the one shown below.
             </p>
           </div>
-          <div>
+          <div class="md:w-[45%] shrink-0">
             <img
-              src="/images/explosion-proof-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
-              alt="Class 1 Div 1 explosion-proof centrifuge for hazardous area installation"
+              src="/images/explosion-proof-centrifuge/Alfa-Laval-Diesel-Centrifuge-Class-1-Div-2-Explosion-Proof-600-1.webp"
+              alt="Diesel centrifuge Class 1 Div 2 explosion-proof for petroleum refinery application"
               width="600"
               height="450"
               loading="lazy"
-              class="rounded-lg w-full object-cover"
+              class="rounded-lg shadow-sm w-full h-auto object-cover"
             />
-            <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Class 1 Div 1 — Explosion Proof Centrifuge</p>
+            <p class="text-gray-500 text-sm mt-1 text-center">Diesel Centrifuge — Class 1 Div 2 Explosion Proof</p>
           </div>
         </div>
+      </div>
 
-        <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Applications</h3>
-
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-          Many industrial applications process fluids that have a low flash point and are flammable. In other words, liquids that can easily ignite need specially designed equipment to operate safely. Sub-classifications within this category of hazardous environments depend on the type and presence of such flammable materials.
-        </p>
-
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-          Authorized governing bodies define specific details on area classifications. UL documentation provides detailed hazardous area classification criteria for North American installations.
-        </p>
-
-        <div class="grid md:grid-cols-2 gap-6 items-start">
-          <div>
+      <!-- Offshore Gas Platform — Pattern A -->
+      <div class="mb-4">
+        <h4 class="text-lg font-bold text-navy mb-3">Class 1 Div 1 Explosion Proof Centrifuge — Offshore Gas Platform</h4>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="md:w-[55%]">
+            <p>
+              Similarly, an Offshore Oil and Gas Platform centrifuge system could require a specific hazardous area classification based on the final installation location. Offshore platforms present unique challenges because flammable gases and vapors may be present in varying concentrations depending on the specific area of the platform. The centrifuge and all associated control equipment must be certified for the appropriate Class and Division based on a thorough assessment of the installation location.
+            </p>
+          </div>
+          <div class="md:w-[45%] shrink-0">
             <img
               src="/images/explosion-proof-centrifuge/alfa-laval-class1-div2-hazardous-area-centrifuge-offshore-400.webp"
               alt="Class 1 Div 2 diesel centrifuge installed on offshore oil and gas platform"
               width="400"
               height="300"
               loading="lazy"
-              class="rounded-lg w-full object-cover"
+              class="rounded-lg shadow-sm w-full h-auto object-cover"
             />
-            <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Class 1 Div 2 Diesel Centrifuge — Offshore Platform</p>
-          </div>
-          <div class="bg-blue-50 border-l-4 border-[#1B3A5C] p-4 rounded-r-lg">
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed">
-              Authorized governing bodies define specific details on area classifications. The UL (Underwriters Laboratories) system provides detailed hazardous area classification criteria used across North American installations. Different regional standards (NEC, ATEX, IECEx) apply depending on where the centrifuge is installed.
-            </p>
+            <p class="text-gray-500 text-sm mt-1 text-center">Class 1 Div 2 Diesel Centrifuge — Offshore Platform</p>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Applications Section -->
-      <div id="applications" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-6">Applications Requiring Area Classified Centrifuges</h2>
+    <!-- ══ Class 1 Div 2 ══ -->
+    <div id="class1-div2" class="mb-8">
+      <h3>Class 1 Division 2 (C1D2) Hazardous Area Centrifuge Applications</h3>
 
-        <!-- Class 1 Div 1 -->
-        <div id="class1-div1" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Class 1 Division 1 Centrifuge Applications</h3>
-
-          <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <strong>Class 1 Division 1</strong> areas are classified as locations where explosion or fire hazards exist due to the presence of flammable gases, flammable or combustible liquid-produced vapors, combustible dust, or ignitable fibers or flyings.
-            </p>
-          </div>
-
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-6">
-            The following are typical examples of such explosion-proof centrifuge applications. We briefly describe the considerations for centrifuge execution for petroleum refineries.
-          </p>
-
-          <!-- Petroleum Refineries -->
-          <div id="petroleum-refineries" class="bg-gray-50 rounded-lg p-6 mb-6">
-            <h4 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Centrifuge for Petroleum Refineries</h4>
-            <div class="grid md:grid-cols-2 gap-6 items-start">
-              <div>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  Crude oil refineries process crude oil feedstock to produce final products such as solvents, condensate, gasoline, diesel, naphtha, kerosene, etc. All of these petroleum components are flammable and therefore require safe processing by using explosion-proof centrifuges.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  The hazardous area classification of the centrifuge depends on the actual location of the centrifuge. If the centrifuge is in an area in the presence of flammable liquids, vapors, or gases, it needs to be suitable for the Class 1 Div 1 environment.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  The photograph shown here illustrates a centrifuge suitable for NEC Class 1 Division 1 Groups C & D hazardous area installation. This type of centrifuge is commonly deployed in petroleum refinery environments where flammable vapors and gases may be present continuously during normal operations.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-                  On the other hand, if the centrifuge application is in a relatively safer area where such flammable material is not usually present, a Class I Div 2 certified centrifuge may be adequate, like the one shown below.
-                </p>
-              </div>
-              <div>
-                <img
-                  src="/images/explosion-proof-centrifuge/Alfa-Laval-Diesel-Centrifuge-Class-1-Div-2-Explosion-Proof-600-1.webp"
-                  alt="Diesel centrifuge Class 1 Div 2 explosion-proof for petroleum refinery application"
-                  width="600"
-                  height="450"
-                  loading="lazy"
-                  class="rounded-lg w-full object-cover"
-                />
-                <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Diesel Centrifuge — Class 1 Div 2 Explosion Proof</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Offshore Gas Platform -->
-          <div class="mb-4">
-            <h4 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-3">Class 1 Div 1 Explosion Proof Centrifuge — Offshore Gas Platform</h4>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-              Similarly, an Offshore Oil and Gas Platform centrifuge system could require a specific hazardous area classification based on the final installation location. Offshore platforms present unique challenges because flammable gases and vapors may be present in varying concentrations depending on the specific area of the platform. The centrifuge and all associated control equipment must be certified for the appropriate Class and Division based on a thorough assessment of the installation location.
-            </p>
-          </div>
-        </div>
-
-        <!-- Class 1 Div 2 -->
-        <div id="class1-div2" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Class 1 Division 2 (C1D2) Hazardous Area Centrifuge Applications</h3>
-
-          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <strong>Class 1 Division 2</strong> areas are classified as locations where volatile flammable liquids or flammable gases or vapors exist but are generally confined within closed containers.
-            </p>
-          </div>
-
-          <div class="grid md:grid-cols-3 gap-4 mb-6">
-            <div class="col-span-1">
-              <img
-                src="/images/explosion-proof-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
-                alt="DMPX-028 Class 1 Div 2 duplex diesel centrifuge module"
-                width="600"
-                height="450"
-                loading="lazy"
-                class="rounded-lg w-full object-cover"
-              />
-              <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module</p>
-            </div>
-            <div class="col-span-1">
-              <img
-                src="/images/explosion-proof-centrifuge/Alfa-Laval-3-Phase-Centrifuge-Class-1-Div-2-Crude-Oil-Hawaii-300.webp"
-                alt="3-phase centrifuge Class 1 Div 2 for crude oil processing"
-                width="300"
-                height="300"
-                loading="lazy"
-                class="rounded-lg w-full object-cover"
-              />
-              <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Centrifuge Class 1 Div 2 — Crude Oil</p>
-            </div>
-            <div class="col-span-1">
-              <img
-                src="/images/explosion-proof-centrifuge/SS-Food-Grade-Decanter-C1D2-Alcohol-Processing-600-1.webp"
-                alt="Stainless steel food-grade decanter centrifuge Class 1 Div 2 for alcohol slurry processing"
-                width="600"
-                height="450"
-                loading="lazy"
-                class="rounded-lg w-full object-cover"
-              />
-              <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Stainless Steel (Food Grade) Decanter Centrifuge for Hazardous Areas Class 1 Div 2 for Alcohol Slurry Processing</p>
-            </div>
-          </div>
-
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-6">
-            The following example illustrates the explosion-proof equipment considerations for industries that use flammable solvents such as ethanol for extraction processes.
-          </p>
-
-          <!-- Hemp Ethanol Extraction -->
-          <div id="hemp-ethanol-extraction" class="bg-gray-50 rounded-lg p-6">
-            <h4 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-3">Hemp Ethanol Extraction Centrifuge</h4>
-            <div class="grid md:grid-cols-2 gap-6 items-start">
-              <div>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  Alcohol is the solvent of choice for CBD oil extraction from hemp plants. Ethanol alcohol has a low flash point and is considered a hazardous fluid. Therefore, decanter centrifuges used for hemp biomass separation from ethanol must meet hazardous area certification.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  The image shown here is that of a large-volume <strong>Class 1 Div 2 Explosion Proof Centrifuge</strong> rated at 40 GPM for ethanol-based hemp extraction processes.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-3">
-                  Since the hemp solvent extraction is a closed (isolated from the environment) system, Class 1 Div 2 certified components are adequate for such locations. Suppose the hemp producer uses a hydrocarbon-based solvent as the extraction medium. In that case, careful consideration and professional consultation are recommended to identify and implement the right hazardous area classification.
-                </p>
-                <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-                  Another very similar application is for THC extraction from cannabis using solvents or ethanol. These solvent-based extraction processes all share the same fundamental requirement for hazardous area classification due to the flammable nature of the extraction solvents.
-                </p>
-              </div>
-              <div>
-                <img
-                  src="/images/explosion-proof-centrifuge/hemp-centrifuge-explosion-proof-300x300.webp"
-                  alt="Large volume hemp centrifuge explosion-proof Class 1 Div 2 rated at 40 GPM"
-                  width="300"
-                  height="300"
-                  loading="lazy"
-                  class="rounded-lg w-full object-cover"
-                />
-                <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Large Volume Hemp Centrifuge — Explosion Proof — 40 GPM</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stainless Steel Disc Stack XP -->
-          <div class="mt-6">
-            <img
-              src="/images/explosion-proof-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-Stainless-Steel-Explosion-Proof.webp"
-              alt="Stainless steel disc stack centrifuge in explosion-proof configuration"
-              width="600"
-              height="400"
-              loading="lazy"
-              class="rounded-lg w-full max-w-lg mx-auto block"
-            />
-            <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Disc Stack Centrifuge — Stainless Steel Explosion Proof</p>
-          </div>
-        </div>
-
-        <!-- Purged Centrifuges -->
-        <div id="purged-centrifuges">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Uses for Purged Centrifuges</h3>
-
-          <div class="grid md:grid-cols-2 gap-6 items-start mb-4">
-            <div>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                In specific applications, the centrifuges may be purged with an inert gas to blanket the internals. This constant purging prevents the buildup of vapors from the process fluid. This purging is an added safety measure. This methodology also helps in cases where the gases or odors are a potential health hazard for the local operators.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                An inert gas purging system coupled with a low vacuum venting system helps prevent the operating area from being free of such gases and odors.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                For example, centrifuges operating on <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-[#1B3A5C] hover:underline font-semibold">crude oil tank bottoms</a> could potentially be inert gas purged and vented to alleviate the presence of hydrogen sulfide gas in the operating area.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-                Inert gas blanketing isolates the process fluid from the atmosphere to prevent oxidation and related chemical deterioration. <a href="/beer-wine-centrifuge/" class="text-[#1B3A5C] hover:underline font-semibold">Centrifuges used to process wine and beer</a> must keep the process fluid away from the air to prevent oxidation. This application is an example of purging for a non-hazardous centrifuge application.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp"
-                alt="Disc stack centrifuge explosion-proof Class 1 Div 2 configuration"
-                width="600"
-                height="450"
-                loading="lazy"
-                class="rounded-lg w-full object-cover"
-              />
-              <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Disc Stack Centrifuge — Explosion Proof Class 1 Div 2</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Electrical Standards -->
-      <div id="electrical-standards" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Electrical Standards for Explosion-Proof & Hazardous Areas</h2>
-
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-6">
-          Depending on the region, different types of hazardous area classifications apply to specific area locations. We have broadly summarized the three primary systems of classification in use worldwide. Again, specific details on each guideline are on the included links under each heading.
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+        <p>
+          <strong>Class 1 Division 2</strong> areas are classified as locations where volatile flammable liquids or flammable gases or vapors exist but are generally confined within closed containers.
         </p>
+      </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-
-          <!-- N. America -->
-          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-3">N. America (NEC / CEC)</h3>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed mb-3">
-              Permissible components for use in hazardous areas in N. America must comply with requirements issued by <strong>NEC (National Electrical Code)</strong> and <strong>CEC (Canadian Electrical Code)</strong> standards.
-            </p>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed mb-3">
-              The UL system designates Classes and Divisions within each Class. In comparison, the new Canadian system sets zones within each Class. There are significant differences between the division and zone classifications.
-            </p>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed">
-              UL (Underwriters Laboratories) provides certification and marking for equipment intended for use in classified hazardous locations. A typical UL marking tag identifies the specific Class, Division, and Group designations that the equipment is rated for.
-            </p>
-            <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-['JetBrains_Mono'] text-[#1B3A5C]">
-              Class 1 Div 1 / Div 2<br/>
-              Groups A, B, C, D
-            </div>
-          </div>
-
-          <!-- European Union -->
-          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-3">European Union (ATEX)</h3>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed mb-3">
-              The European electrical and protective equipment certification system in Europe is commonly known as the <strong>ATEX directive</strong>. Per the official document, "Equipment and protective systems intended for use in potentially explosive atmospheres (ATEX) cover a range of products, including those used on fixed offshore platforms, petrochemical plants, mines, and flour mills, amongst others."
-            </p>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed">
-              A typical example of a centrifuge suitable for hazardous locations would be marked as <strong>ATEX II 3 G (Zone 2) II B T3.</strong> The reader can reference specific zone details in the official ATEX summary documentation. ATEX marking tags identify the zone classification, gas group, and temperature class.
-            </p>
-            <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-['JetBrains_Mono'] text-[#1B3A5C]">
-              Zone 1 / Zone 2<br/>
-              ATEX II 3G, IIB T3
-            </div>
-          </div>
-
-          <!-- International -->
-          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-lg font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-3">International (IECEx)</h3>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed mb-3">
-              IS (International Standard) has guidelines for hazardous area designation and compliance, similar to the ATEX guidelines. The <strong>IEC (International Electrotechnical Commission)</strong> maintains these standards.
-            </p>
-            <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm leading-relaxed">
-              IECEx certification is recognized in many countries outside North America and the EU, providing a globally consistent framework for hazardous area electrical equipment certification and compliance.
-            </p>
-            <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-['JetBrains_Mono'] text-[#1B3A5C]">
-              IECEx Zone 1 / Zone 2<br/>
-              IEC 60079 Series
-            </div>
-          </div>
-        </div>
-
-        <!-- ATEX image -->
-        <div class="mt-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div>
           <img
-            src="/images/explosion-proof-centrifuge/DMPX-014-Duplex-Disc-Stack-Centrifuge-Skid-for-HFO-and-Diesel-ATEX-Zone-2-600.webp"
-            alt="DMPX-014 duplex disc stack centrifuge skid for HFO and diesel fuel - ATEX Zone 2 certified"
+            src="/images/explosion-proof-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
+            alt="DMPX-028 Class 1 Div 2 duplex diesel centrifuge module"
             width="600"
             height="450"
             loading="lazy"
-            class="rounded-lg w-full max-w-xl mx-auto block"
+            class="rounded-lg w-full object-cover"
           />
-          <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">DMPX-014 Duplex Disc Stack Centrifuge Skid for HFO and Diesel — ATEX Zone 2</p>
+          <p class="text-gray-500 text-xs mt-1 text-center">DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module</p>
+        </div>
+        <div>
+          <img
+            src="/images/explosion-proof-centrifuge/Alfa-Laval-3-Phase-Centrifuge-Class-1-Div-2-Crude-Oil-Hawaii-300.webp"
+            alt="3-phase centrifuge Class 1 Div 2 for crude oil processing"
+            width="300"
+            height="300"
+            loading="lazy"
+            class="rounded-lg w-full object-cover"
+          />
+          <p class="text-gray-500 text-xs mt-1 text-center">Centrifuge Class 1 Div 2 — Crude Oil</p>
+        </div>
+        <div>
+          <img
+            src="/images/explosion-proof-centrifuge/SS-Food-Grade-Decanter-C1D2-Alcohol-Processing-600-1.webp"
+            alt="Stainless steel food-grade decanter centrifuge Class 1 Div 2 for alcohol slurry processing"
+            width="600"
+            height="450"
+            loading="lazy"
+            class="rounded-lg w-full object-cover"
+          />
+          <p class="text-gray-500 text-xs mt-1 text-center">Stainless Steel (Food Grade) Decanter — C1D2 Alcohol Processing</p>
         </div>
       </div>
 
-      <!-- Considerations for Explosion-Proof Centrifuge Adaptation -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-6">Considerations for Explosion-Proof Centrifuge Adaptation</h2>
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-          Converting a standard industrial centrifuge for use in a hazardous area requires a comprehensive set of modifications spanning both the electrical and mechanical systems. The following sections detail the specific categories of modifications required to achieve hazardous area compliance for industrial centrifuge installations.
-        </p>
-      </div>
+      <p>
+        The following example illustrates the explosion-proof equipment considerations for industries that use flammable solvents such as ethanol for extraction processes.
+      </p>
 
-      <!-- Electrical Modifications -->
-      <div id="electrical-modifications" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Electrical Modifications for Hazardous Area Centrifuges</h2>
-
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-6">
-          Electrical components used on industrial centrifuges designed for hazardous areas must meet the designated classification and be certified to the same standard. These parts fall into the following categories.
-        </p>
-
-        <!-- Electrical Enclosures -->
-        <div id="enclosure-upgrades" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Electrical Enclosures Upgrades</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-start">
-            <div>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                Industrial electrical enclosures house various electrical components, which can cause sparking during routine operations. These sparks can cause flammable gases or vapors to ignite if they are present in high concentrations. Therefore centrifuge control system enclosures need to be appropriately isolated from the surrounding environment through proper sealing.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                Depending on the classification level, an inert gas purging system may be installed on the enclosure, as shown in the adjacent photograph. This device creates and maintains an inert gas atmosphere within the enclosure that prevents the ignition of flammable gases or vapors by replacing oxygen.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-                The next level of enclosure classification to Class I Div 1 specification involves cast metal housing designed to contain thermal events within the enclosures. Specially rated electrical fittings and joint seals isolate these containment enclosures from the surrounding environment.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-centrifuge/Class-1-Div-2-Nitrogen-Purge-Centrifuge-System-300.webp"
-                alt="Nitrogen purge device for Class 1 Div 2 centrifuge control enclosure"
-                width="300"
-                height="300"
-                loading="lazy"
-                class="rounded-lg w-full max-w-xs"
-              />
-              <p class="text-xs text-gray-500 mt-2 font-['Source_Sans_3']">Nitrogen Purge Device</p>
-            </div>
+      <!-- Hemp Ethanol Extraction — Pattern A -->
+      <div id="hemp-ethanol-extraction" class="bg-gray-50 rounded-lg p-6 mt-6">
+        <h4 class="text-lg font-bold text-navy mb-3">Hemp Ethanol Extraction Centrifuge</h4>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="md:w-[55%]">
+            <p>
+              Alcohol is the solvent of choice for CBD oil extraction from hemp plants. Ethanol alcohol has a low flash point and is considered a hazardous fluid. Therefore, decanter centrifuges used for hemp biomass separation from ethanol must meet hazardous area certification.
+            </p>
+            <p>
+              The image shown here is that of a large-volume <strong>Class 1 Div 2 Explosion Proof Centrifuge</strong> rated at 40 GPM for ethanol-based hemp extraction processes.
+            </p>
+            <p>
+              Since the hemp solvent extraction is a closed (isolated from the environment) system, Class 1 Div 2 certified components are adequate for such locations. Suppose the hemp producer uses a hydrocarbon-based solvent as the extraction medium. In that case, careful consideration and professional consultation are recommended to identify and implement the right hazardous area classification.
+            </p>
+            <p>
+              Another very similar application is for THC extraction from cannabis using solvents or ethanol. These solvent-based extraction processes all share the same fundamental requirement for hazardous area classification due to the flammable nature of the extraction solvents.
+            </p>
           </div>
-        </div>
-
-        <!-- Wiring -->
-        <div id="wiring" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Power and Field Sensor Wiring for Classified Centrifuge Systems</h3>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-            Field sensor wiring refers to small gauge wires used to connect the pressure, vibration, temperature, and other sensors to the control system. Typically these are low-voltage conductors, but they still need to be routed through a rigid conduit with specialized fittings and glands. These fittings are sealed at the instrument and control panel to prevent the ingress of gases or vapors into the device or control enclosure.
-          </p>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-            Similar guidelines apply to power wiring that supplies power to components such as centrifuge drive motors and process fluid heaters. Power wiring also requires routing through approved conduits and truncated with certified and sealed glands.
-          </p>
-        </div>
-
-        <!-- Field Instruments -->
-        <div id="field-instruments">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Field Instruments, Components, and Gages for XP Centrifuges</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-start">
-            <div>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-                Field instruments or sensors are required for the reliable operation of centrifuges. These sensors include temperature, pressure, level, and flow sensors, which must be certified by the relevant authority to meet the applicable classification requirements.
-              </p>
-              <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-                Another component widely used on centrifuges is solenoid valves. Specific solenoid valves are certified for hazardous area applications and allowable for use in such applications.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-centrifuge/Explosion-Proof-Sensors-ADDAX-Diesel-Centrifuge.webp"
-                alt="Explosion-proof sensors installed on ADDAX diesel centrifuge system"
-                width="600"
-                height="400"
-                loading="lazy"
-                class="rounded-lg w-full object-cover"
-              />
-              <p class="text-xs text-gray-500 mt-2 text-center font-['Source_Sans_3']">Explosion Proof Sensors — ADDAX Diesel Centrifuge</p>
-            </div>
+          <div class="md:w-[45%] shrink-0">
+            <img
+              src="/images/explosion-proof-centrifuge/hemp-centrifuge-explosion-proof-300x300.webp"
+              alt="Large volume hemp centrifuge explosion-proof Class 1 Div 2 rated at 40 GPM"
+              width="300"
+              height="300"
+              loading="lazy"
+              class="rounded-lg shadow-sm w-full h-auto object-cover"
+            />
+            <p class="text-gray-500 text-sm mt-1 text-center">Large Volume Hemp Centrifuge — Explosion Proof — 40 GPM</p>
           </div>
         </div>
       </div>
 
-      <!-- Mechanical Modifications -->
-      <div id="mechanical-modifications" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-6">Mechanical Modifications for Explosion-Proof Centrifuges</h2>
-
-        <!-- Spark-less Clutches -->
-        <div id="spark-less-clutches" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Centrifuge Drive Modification — Spark-less Clutches</h3>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-            Industrial centrifuges have friction clutches as part of the main power transmission, which uses a rotating friction element mounted on a steel shoe. This assembly contacts the centrifuge drum and transmits the torque through friction.
-          </p>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-            In case of excessive wear of the friction elements, the steel components contacting each other at high speed can cause sparking. Therefore, these steel shoes are sometimes replaced with brass or other non-ferrous metal. Friction between steel and brass components prevents sparks from being generated.
-          </p>
-        </div>
-
-        <!-- Direct Coupling -->
-        <div id="direct-coupling" class="mb-8">
-          <h3 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Direct Coupling of Centrifuge Drive</h3>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-4">
-            Direct coupling of the drive components is the preferred way to avoid the clutch sparking issue. In this modification, a coupling disc bolted to the horizontal shaft drum replaces the rotating clutch assembly.
-          </p>
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-            However, this adaptation also means that the drive motor has to overcome the entire rotating mechanism's inertia, including the heavy bowl assembly. Therefore, a power inverter in the control system is a part of the adaptation. An inverter allows the motor to ramp up to operating speed over a defined time window without drawing excessive current.
-          </p>
-        </div>
-
-        <!-- Comparison table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm font-['Source_Sans_3'] border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="text-left p-3">Drive Type</th>
-                <th class="text-left p-3">Spark Risk</th>
-                <th class="text-left p-3">Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="p-3 font-semibold">Standard Friction Clutch (Steel)</td>
-                <td class="p-3 text-red-600">High</td>
-                <td class="p-3">Not suitable for C1D1/D2 without modification</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="p-3 font-semibold">Non-Ferrous (Brass) Clutch</td>
-                <td class="p-3 text-yellow-600">Low</td>
-                <td class="p-3">Acceptable for many C1D2 applications</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold">Direct Drive Coupling + VFD</td>
-                <td class="p-3 text-green-600">None</td>
-                <td class="p-3">Preferred method; eliminates clutch entirely</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- Stainless Steel Disc Stack XP -->
+      <div class="mt-6">
+        <img
+          src="/images/explosion-proof-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-Stainless-Steel-Explosion-Proof.webp"
+          alt="Stainless steel disc stack centrifuge in explosion-proof configuration"
+          width="600"
+          height="400"
+          loading="lazy"
+          class="rounded-lg w-full max-w-lg mx-auto block"
+        />
+        <p class="text-gray-500 text-xs mt-2 text-center">Disc Stack Centrifuge — Stainless Steel Explosion Proof</p>
       </div>
-
-      <!-- Other Upgrades -->
-      <div id="other-upgrades" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Other Upgrades</h2>
-
-        <ul class="space-y-4 font-['Source_Sans_3'] text-[#2D2D2D]">
-          <li class="flex gap-3">
-            <span class="text-[#E8A317] font-bold mt-0.5">▸</span>
-            <div>
-              <strong>Blow-out-back Pressure Gauges:</strong> Pressure gauges made for hazardous area applications have a blow-out-back type design. This feature allows for the specially designed back of the indicator to pop out under excessive pressure and prevent any possible injury or damage.
-            </div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-[#E8A317] font-bold mt-0.5">▸</span>
-            <div>
-              <strong>Vibration Sensors:</strong> Vibration sensors detect excessive <a href="/decanter-centrifuge-vibration/" class="text-[#1B3A5C] hover:underline">vibration of horizontal decanter centrifuges</a> to affect system shutdown in case of excessive shaking, which could indicate severe <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="text-[#1B3A5C] hover:underline">mechanical malfunction</a>.
-            </div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-[#E8A317] font-bold mt-0.5">▸</span>
-            <div>
-              <strong>Bearing Temperature Monitors:</strong> Redundant safety devices that continuously monitor bearing temperatures and trigger automatic shutdown upon abnormal heat rise. These sensors are critical in explosion-proof applications where excessive heat can become an ignition source.
-            </div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-[#E8A317] font-bold mt-0.5">▸</span>
-            <div>
-              <strong>Pressure Relief Valves:</strong> Protect the system from overpressure events in process piping and centrifuge enclosures. These valves are designed to safely vent pressure without creating sparks or ignition sources.
-            </div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-[#E8A317] font-bold mt-0.5">▸</span>
-            <div>
-              <strong>Process Area Venting Systems:</strong> Prevent accumulation of flammable vapors or toxic gases in the centrifuge operating area by continuously exchanging air. These systems are especially important in enclosed spaces where vapors could reach dangerous concentration levels.
-            </div>
-          </li>
-        </ul>
-
-        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p class="text-[#2D2D2D] font-['Source_Sans_3'] text-sm">
-            Other redundant safety devices, such as bearing temperature monitors, pressure relief valves, process area venting systems, etc., may be recommended based on the process and operating environment. Contact Dolphin Centrifuge to discuss your specific hazardous area centrifuge requirements.
-          </p>
-        </div>
-      </div>
-
-      <!-- Summary -->
-      <div id="summary" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Summary</h2>
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed text-lg mb-4">
-          Based on the above, we can summarize that industrial centrifuges are suitable for explosion-proof classified areas with proper design considerations. Actual hazardous area specifications depend on the installation location and are governed by the appropriate regional authority.
-        </p>
-        <p class="text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed mb-6">
-          Whether the centrifuge system is intended for a petroleum refinery, an offshore oil and gas platform, an ethanol extraction facility, or any other environment where flammable gases, vapors, or particles may be present, the correct hazardous area classification must be identified and all electrical and mechanical components must be certified to meet that standard. Dolphin Centrifuge has extensive experience designing and supplying explosion-proof centrifuge systems for all major classification standards including NEC Class 1 Div 1, Class 1 Div 2, ATEX Zone 1/2, and IECEx.
-        </p>
-
-        <!-- Quick Reference Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm font-['Source_Sans_3'] border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="text-left p-3">Classification</th>
-                <th class="text-left p-3">Region</th>
-                <th class="text-left p-3">Description</th>
-                <th class="text-left p-3">Typical Centrifuge Use</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="p-3 font-['JetBrains_Mono'] text-sm font-semibold">Class 1 Div 1</td>
-                <td class="p-3">N. America</td>
-                <td class="p-3">Flammable gases/vapors continuously present</td>
-                <td class="p-3">Refineries, chemical plants (process areas)</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="p-3 font-['JetBrains_Mono'] text-sm font-semibold">Class 1 Div 2</td>
-                <td class="p-3">N. America</td>
-                <td class="p-3">Flammable materials confined, not normally present</td>
-                <td class="p-3">Offshore platforms, oil storage, ethanol extraction</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="p-3 font-['JetBrains_Mono'] text-sm font-semibold">ATEX Zone 1</td>
-                <td class="p-3">Europe (EU)</td>
-                <td class="p-3">Explosive atmosphere likely during normal operation</td>
-                <td class="p-3">Petrochemical plants, offshore EU platforms</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="p-3 font-['JetBrains_Mono'] text-sm font-semibold">ATEX Zone 2</td>
-                <td class="p-3">Europe (EU)</td>
-                <td class="p-3">Explosive atmosphere unlikely, only under abnormal conditions</td>
-                <td class="p-3">HFO/diesel purification, chemical secondary zones</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-['JetBrains_Mono'] text-sm font-semibold">IECEx Zone 1/2</td>
-                <td class="p-3">International</td>
-                <td class="p-3">IEC 60079 framework, similar to ATEX</td>
-                <td class="p-3">Global installations requiring international certification</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FAQ Section -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-6">Frequently Asked Questions</h2>
-
-        <div class="space-y-4">
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] flex items-center justify-between">
-              <span>What is an explosion-proof centrifuge?</span>
-              <span class="group-open:rotate-180 transition-transform text-[#E8A317]">▼</span>
-            </summary>
-            <div class="mt-3 text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <p>An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof. These centrifuges feature certified electrical enclosures, spark-free drive mechanisms, and specialized sensors and wiring to prevent ignition of flammable materials.</p>
-            </div>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] flex items-center justify-between">
-              <span>What is the difference between Class 1 Div 1 and Class 1 Div 2 centrifuges?</span>
-              <span class="group-open:rotate-180 transition-transform text-[#E8A317]">▼</span>
-            </summary>
-            <div class="mt-3 text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <p class="mb-2">Class 1 Division 1 areas are locations where explosion or fire hazards exist due to the continuous presence of flammable gases, combustible liquid-produced vapors, combustible dust, or ignitable fibers. Class 1 Division 2 areas are locations where volatile flammable liquids or flammable gases exist but are generally confined within closed containers.</p>
-              <p>Class 1 Div 1 centrifuges require more stringent modifications including cast metal housings designed to contain thermal events and fully sealed enclosures, while Class 1 Div 2 centrifuges may use nitrogen-purged enclosures to maintain an inert atmosphere.</p>
-            </div>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] flex items-center justify-between">
-              <span>What electrical modifications are needed for a hazardous area centrifuge?</span>
-              <span class="group-open:rotate-180 transition-transform text-[#E8A317]">▼</span>
-            </summary>
-            <div class="mt-3 text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <p>Hazardous area centrifuges require several electrical modifications: upgraded enclosures with inert gas purging or cast metal containment housings, rigid conduit routing with specialized fittings and sealed glands for both sensor and power wiring, and certified field instruments including temperature, pressure, level, and flow sensors rated for the applicable classification. Solenoid valves must also be certified for hazardous area use. All wiring, whether for low-voltage field sensors or high-power drive motors, must be routed through approved conduits and terminated with certified sealed glands.</p>
-            </div>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] flex items-center justify-between">
-              <span>How are centrifuge drives modified for explosion-proof applications?</span>
-              <span class="group-open:rotate-180 transition-transform text-[#E8A317]">▼</span>
-            </summary>
-            <div class="mt-3 text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <p class="mb-2">Two primary mechanical modifications address spark risk in centrifuge drives. First, standard steel friction clutch shoes can be replaced with brass or other non-ferrous metals to prevent sparking during contact at high speed.</p>
-              <p>Second, and preferred, the friction clutch can be eliminated entirely through direct coupling using a coupling disc bolted to the horizontal shaft drum. Direct coupling requires a power inverter (VFD) in the control system to allow the motor to ramp up to operating speed over a defined time window without drawing excessive current, since the motor must overcome the entire rotating mechanism's inertia including the heavy bowl assembly.</p>
-            </div>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="cursor-pointer font-semibold text-[#1B3A5C] font-['Plus_Jakarta_Sans'] flex items-center justify-between">
-              <span>What hazardous area certifications are available for industrial centrifuges?</span>
-              <span class="group-open:rotate-180 transition-transform text-[#E8A317]">▼</span>
-            </summary>
-            <div class="mt-3 text-[#2D2D2D] font-['Source_Sans_3'] leading-relaxed">
-              <p>Industrial centrifuges can be certified under three primary classification systems: NEC/CEC (North America) with Class and Division designations using the UL certification system, ATEX (European Union) with Zone designations for explosive atmospheres covering equipment used on offshore platforms, petrochemical plants, and more, and IECEx (International) maintained by the International Electrotechnical Commission for global installations. Dolphin Centrifuge provides centrifuge systems certified to all three standards depending on the installation region and specific requirements.</p>
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-8 mb-8">
-        <h2 class="text-xl font-bold font-['Plus_Jakarta_Sans'] text-[#1B3A5C] mb-4">Related Articles</h2>
-        <div class="grid sm:grid-cols-2 gap-4 font-['Source_Sans_3']">
-          <a href="/alfa-laval-mab-103-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Alfa Laval MAB-103 Centrifuge</span>
-          </a>
-          <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Disc Stack Centrifuge Mechanical Issues</span>
-          </a>
-          <a href="/decanter-centrifuge-vibration/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Decanter Centrifuge Vibration</span>
-          </a>
-          <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Crude Oil Tank Bottom Recovery Centrifuge</span>
-          </a>
-          <a href="/alfa-laval-diesel-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Alfa Laval Diesel Centrifuge</span>
-          </a>
-          <a href="/beer-wine-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Beer & Wine Centrifuge</span>
-          </a>
-          <a href="/disc-stack-centrifuge-rental/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Centrifuge Rental Services</span>
-          </a>
-          <a href="/alfa-laval-centrifuge-selection-guide/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
-            <span class="text-[#E8A317] text-lg">›</span>
-            <span class="text-[#1B3A5C] hover:underline">Disc Stack Centrifuge Selection Guide</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-8 text-center text-white">
-        <h2 class="text-2xl font-bold font-['Plus_Jakarta_Sans'] mb-3">Need an Explosion-Proof Centrifuge?</h2>
-        <p class="text-blue-100 font-['Source_Sans_3'] mb-6 max-w-xl mx-auto">
-          Dolphin Centrifuge supplies and services Class 1 Div 1, Class 1 Div 2, ATEX, and IECEx certified centrifuge systems for petroleum refineries, offshore platforms, solvent extraction, and chemical processing. Contact us to discuss your hazardous area classification requirements and get a customized solution for your specific installation.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-lg transition-colors">
-            Request a Quote
-          </a>
-          <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold py-3 px-8 rounded-lg transition-colors">
-            (248) 522-2573
-          </a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4 font-['Source_Sans_3']">
-          sales@dolphincentrifuge.com &nbsp;|&nbsp; 24248 Gibson Dr, Warren MI 48089
-        </p>
-      </div>
-
     </div>
-  </section>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-10 max-w-4xl">
-      <h2 class="text-xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2">
-        <li>&#8226; <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Diesel Fuel Centrifuge</a></li>
-        <li>&#8226; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Waste Oil Centrifuge</a></li>
-        <li>&#8226; <a href="/stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Stainless Steel Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/explosion-proof-stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Stainless Steel Centrifuge</a></li>
-        <li>&#8226; <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Us for Explosion Proof Inquiry</a></li>
-      </ul>
+    <!-- Purged Centrifuges — Pattern A -->
+    <div id="purged-centrifuges">
+      <h3>Uses for Purged Centrifuges</h3>
+      <div class="flex flex-col md:flex-row gap-6 items-start">
+        <div class="md:w-[55%]">
+          <p>
+            In specific applications, the centrifuges may be purged with an inert gas to blanket the internals. This constant purging prevents the buildup of vapors from the process fluid. This purging is an added safety measure. This methodology also helps in cases where the gases or odors are a potential health hazard for the local operators.
+          </p>
+          <p>
+            An inert gas purging system coupled with a low vacuum venting system helps prevent the operating area from being free of such gases and odors.
+          </p>
+          <p>
+            For example, centrifuges operating on <a href="/crude-oil-tank-bottom-recovery-centrifuge/">crude oil tank bottoms</a> could potentially be inert gas purged and vented to alleviate the presence of hydrogen sulfide gas in the operating area.
+          </p>
+          <p>
+            Inert gas blanketing isolates the process fluid from the atmosphere to prevent oxidation and related chemical deterioration. <a href="/beer-wine-centrifuge/">Centrifuges used to process wine and beer</a> must keep the process fluid away from the air to prevent oxidation. This application is an example of purging for a non-hazardous centrifuge application.
+          </p>
+        </div>
+        <div class="md:w-[45%] shrink-0">
+          <img
+            src="/images/explosion-proof-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp"
+            alt="Disc stack centrifuge explosion-proof Class 1 Div 2 configuration"
+            width="600"
+            height="450"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto object-cover"
+          />
+          <p class="text-gray-500 text-sm mt-1 text-center">Disc Stack Centrifuge — Explosion Proof Class 1 Div 2</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 
-</BaseLayout>
+  <!-- ══ Electrical Standards ══ -->
+  <div id="electrical-standards" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Electrical Standards for Explosion-Proof &amp; Hazardous Areas</h2>
+
+    <p class="mb-6">
+      Depending on the region, different types of hazardous area classifications apply to specific area locations. We have broadly summarized the three primary systems of classification in use worldwide. Again, specific details on each guideline are on the included links under each heading.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- N. America -->
+      <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+        <h4 class="text-lg font-bold text-navy mb-3">N. America (NEC / CEC)</h4>
+        <p class="text-sm leading-relaxed mb-3">
+          Permissible components for use in hazardous areas in N. America must comply with requirements issued by <strong>NEC (National Electrical Code)</strong> and <strong>CEC (Canadian Electrical Code)</strong> standards.
+        </p>
+        <p class="text-sm leading-relaxed mb-3">
+          The UL system designates Classes and Divisions within each Class. In comparison, the new Canadian system sets zones within each Class. There are significant differences between the division and zone classifications.
+        </p>
+        <p class="text-sm leading-relaxed">
+          UL (Underwriters Laboratories) provides certification and marking for equipment intended for use in classified hazardous locations. A typical UL marking tag identifies the specific Class, Division, and Group designations that the equipment is rated for.
+        </p>
+        <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-mono text-navy">
+          Class 1 Div 1 / Div 2<br/>
+          Groups A, B, C, D
+        </div>
+      </div>
+
+      <!-- European Union -->
+      <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+        <h4 class="text-lg font-bold text-navy mb-3">European Union (ATEX)</h4>
+        <p class="text-sm leading-relaxed mb-3">
+          The European electrical and protective equipment certification system in Europe is commonly known as the <strong>ATEX directive</strong>. Per the official document, "Equipment and protective systems intended for use in potentially explosive atmospheres (ATEX) cover a range of products, including those used on fixed offshore platforms, petrochemical plants, mines, and flour mills, amongst others."
+        </p>
+        <p class="text-sm leading-relaxed">
+          A typical example of a centrifuge suitable for hazardous locations would be marked as <strong>ATEX II 3 G (Zone 2) II B T3.</strong> The reader can reference specific zone details in the official ATEX summary documentation. ATEX marking tags identify the zone classification, gas group, and temperature class.
+        </p>
+        <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-mono text-navy">
+          Zone 1 / Zone 2<br/>
+          ATEX II 3G, IIB T3
+        </div>
+      </div>
+
+      <!-- International -->
+      <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+        <h4 class="text-lg font-bold text-navy mb-3">International (IECEx)</h4>
+        <p class="text-sm leading-relaxed mb-3">
+          IS (International Standard) has guidelines for hazardous area designation and compliance, similar to the ATEX guidelines. The <strong>IEC (International Electrotechnical Commission)</strong> maintains these standards.
+        </p>
+        <p class="text-sm leading-relaxed">
+          IECEx certification is recognized in many countries outside North America and the EU, providing a globally consistent framework for hazardous area electrical equipment certification and compliance.
+        </p>
+        <div class="mt-3 bg-blue-50 rounded p-2 text-xs font-mono text-navy">
+          IECEx Zone 1 / Zone 2<br/>
+          IEC 60079 Series
+        </div>
+      </div>
+    </div>
+
+    <!-- ATEX image -->
+    <div class="mt-6">
+      <img
+        src="/images/explosion-proof-centrifuge/DMPX-014-Duplex-Disc-Stack-Centrifuge-Skid-for-HFO-and-Diesel-ATEX-Zone-2-600.webp"
+        alt="DMPX-014 duplex disc stack centrifuge skid for HFO and diesel fuel - ATEX Zone 2 certified"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg w-full max-w-xl mx-auto block"
+      />
+      <p class="text-gray-500 text-xs mt-2 text-center">DMPX-014 Duplex Disc Stack Centrifuge Skid for HFO and Diesel — ATEX Zone 2</p>
+    </div>
+  </div>
+
+  <!-- ══ Considerations for XP Adaptation ══ -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Considerations for Explosion-Proof Centrifuge Adaptation</h2>
+    <p>
+      Converting a standard industrial centrifuge for use in a hazardous area requires a comprehensive set of modifications spanning both the electrical and mechanical systems. The following sections detail the specific categories of modifications required to achieve hazardous area compliance for industrial centrifuge installations.
+    </p>
+  </div>
+
+  <!-- ══ Electrical Modifications ══ -->
+  <div id="electrical-modifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Electrical Modifications for Hazardous Area Centrifuges</h2>
+
+    <p class="mb-6">
+      Electrical components used on industrial centrifuges designed for hazardous areas must meet the designated classification and be certified to the same standard. These parts fall into the following categories.
+    </p>
+
+    <!-- Enclosures — Pattern A -->
+    <div id="enclosure-upgrades" class="mb-8">
+      <h3>Electrical Enclosures Upgrades</h3>
+      <div class="flex flex-col md:flex-row gap-6 items-start">
+        <div class="md:w-[55%]">
+          <p>
+            Industrial electrical enclosures house various electrical components, which can cause sparking during routine operations. These sparks can cause flammable gases or vapors to ignite if they are present in high concentrations. Therefore centrifuge control system enclosures need to be appropriately isolated from the surrounding environment through proper sealing.
+          </p>
+          <p>
+            Depending on the classification level, an inert gas purging system may be installed on the enclosure, as shown in the adjacent photograph. This device creates and maintains an inert gas atmosphere within the enclosure that prevents the ignition of flammable gases or vapors by replacing oxygen.
+          </p>
+          <p>
+            The next level of enclosure classification to Class I Div 1 specification involves cast metal housing designed to contain thermal events within the enclosures. Specially rated electrical fittings and joint seals isolate these containment enclosures from the surrounding environment.
+          </p>
+        </div>
+        <div class="md:w-[45%] shrink-0">
+          <img
+            src="/images/explosion-proof-centrifuge/Class-1-Div-2-Nitrogen-Purge-Centrifuge-System-300.webp"
+            alt="Nitrogen purge device for Class 1 Div 2 centrifuge control enclosure"
+            width="300"
+            height="300"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto max-w-xs"
+          />
+          <p class="text-gray-500 text-sm mt-1">Nitrogen Purge Device</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wiring -->
+    <div id="wiring" class="mb-8">
+      <h3>Power and Field Sensor Wiring for Classified Centrifuge Systems</h3>
+      <p>
+        Field sensor wiring refers to small gauge wires used to connect the pressure, vibration, temperature, and other sensors to the control system. Typically these are low-voltage conductors, but they still need to be routed through a rigid conduit with specialized fittings and glands. These fittings are sealed at the instrument and control panel to prevent the ingress of gases or vapors into the device or control enclosure.
+      </p>
+      <p>
+        Similar guidelines apply to power wiring that supplies power to components such as centrifuge drive motors and process fluid heaters. Power wiring also requires routing through approved conduits and truncated with certified and sealed glands.
+      </p>
+    </div>
+
+    <!-- Field Instruments — Pattern A -->
+    <div id="field-instruments">
+      <h3>Field Instruments, Components, and Gages for XP Centrifuges</h3>
+      <div class="flex flex-col md:flex-row gap-6 items-start">
+        <div class="md:w-[55%]">
+          <p>
+            Field instruments or sensors are required for the reliable operation of centrifuges. These sensors include temperature, pressure, level, and flow sensors, which must be certified by the relevant authority to meet the applicable classification requirements.
+          </p>
+          <p>
+            Another component widely used on centrifuges is solenoid valves. Specific solenoid valves are certified for hazardous area applications and allowable for use in such applications.
+          </p>
+        </div>
+        <div class="md:w-[45%] shrink-0">
+          <img
+            src="/images/explosion-proof-centrifuge/Explosion-Proof-Sensors-ADDAX-Diesel-Centrifuge.webp"
+            alt="Explosion-proof sensors installed on ADDAX diesel centrifuge system"
+            width="600"
+            height="400"
+            loading="lazy"
+            class="rounded-lg shadow-sm w-full h-auto object-cover"
+          />
+          <p class="text-gray-500 text-sm mt-1 text-center">Explosion Proof Sensors — ADDAX Diesel Centrifuge</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Mechanical Modifications ══ -->
+  <div id="mechanical-modifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Mechanical Modifications for Explosion-Proof Centrifuges</h2>
+
+    <!-- Spark-less Clutches -->
+    <div id="spark-less-clutches" class="mb-8">
+      <h3>Centrifuge Drive Modification — Spark-less Clutches</h3>
+      <p>
+        Industrial centrifuges have friction clutches as part of the main power transmission, which uses a rotating friction element mounted on a steel shoe. This assembly contacts the centrifuge drum and transmits the torque through friction.
+      </p>
+      <p>
+        In case of excessive wear of the friction elements, the steel components contacting each other at high speed can cause sparking. Therefore, these steel shoes are sometimes replaced with brass or other non-ferrous metal. Friction between steel and brass components prevents sparks from being generated.
+      </p>
+    </div>
+
+    <!-- Direct Coupling -->
+    <div id="direct-coupling" class="mb-8">
+      <h3>Direct Coupling of Centrifuge Drive</h3>
+      <p>
+        Direct coupling of the drive components is the preferred way to avoid the clutch sparking issue. In this modification, a coupling disc bolted to the horizontal shaft drum replaces the rotating clutch assembly.
+      </p>
+      <p>
+        However, this adaptation also means that the drive motor has to overcome the entire rotating mechanism's inertia, including the heavy bowl assembly. Therefore, a power inverter in the control system is a part of the adaptation. An inverter allows the motor to ramp up to operating speed over a defined time window without drawing excessive current.
+      </p>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Drive Type</th>
+            <th>Spark Risk</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-semibold">Standard Friction Clutch (Steel)</td>
+            <td class="text-red-600">High</td>
+            <td>Not suitable for C1D1/D2 without modification</td>
+          </tr>
+          <tr>
+            <td class="font-semibold">Non-Ferrous (Brass) Clutch</td>
+            <td class="text-yellow-600">Low</td>
+            <td>Acceptable for many C1D2 applications</td>
+          </tr>
+          <tr>
+            <td class="font-semibold">Direct Drive Coupling + VFD</td>
+            <td class="text-green-600">None</td>
+            <td>Preferred method; eliminates clutch entirely</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ Other Upgrades ══ -->
+  <div id="other-upgrades" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Other Upgrades &amp; Safety Devices</h2>
+
+    <ul class="space-y-4">
+      <li class="flex gap-3">
+        <span class="text-gold font-bold mt-0.5">&#9656;</span>
+        <div>
+          <strong>Blow-out-back Pressure Gauges:</strong> Pressure gauges made for hazardous area applications have a blow-out-back type design. This feature allows for the specially designed back of the indicator to pop out under excessive pressure and prevent any possible injury or damage.
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold mt-0.5">&#9656;</span>
+        <div>
+          <strong>Vibration Sensors:</strong> Vibration sensors detect excessive <a href="/decanter-centrifuge-vibration/">vibration of horizontal decanter centrifuges</a> to affect system shutdown in case of excessive shaking, which could indicate severe <a href="/disc-stack-centrifuge-mechanical-issues-fixes/">mechanical malfunction</a>.
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold mt-0.5">&#9656;</span>
+        <div>
+          <strong>Bearing Temperature Monitors:</strong> Redundant safety devices that continuously monitor bearing temperatures and trigger automatic shutdown upon abnormal heat rise. These sensors are critical in explosion-proof applications where excessive heat can become an ignition source.
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold mt-0.5">&#9656;</span>
+        <div>
+          <strong>Pressure Relief Valves:</strong> Protect the system from overpressure events in process piping and centrifuge enclosures. These valves are designed to safely vent pressure without creating sparks or ignition sources.
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold mt-0.5">&#9656;</span>
+        <div>
+          <strong>Process Area Venting Systems:</strong> Prevent accumulation of flammable vapors or toxic gases in the centrifuge operating area by continuously exchanging air. These systems are especially important in enclosed spaces where vapors could reach dangerous concentration levels.
+        </div>
+      </li>
+    </ul>
+
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-sm">
+        Other redundant safety devices, such as bearing temperature monitors, pressure relief valves, process area venting systems, etc., may be recommended based on the process and operating environment. Contact Dolphin Centrifuge to discuss your specific hazardous area centrifuge requirements.
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ Summary ══ -->
+  <div id="summary" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Summary</h2>
+    <p class="text-lg mb-4">
+      Based on the above, we can summarize that industrial centrifuges are suitable for explosion-proof classified areas with proper design considerations. Actual hazardous area specifications depend on the installation location and are governed by the appropriate regional authority.
+    </p>
+    <p class="mb-6">
+      Whether the centrifuge system is intended for a petroleum refinery, an offshore oil and gas platform, an ethanol extraction facility, or any other environment where flammable gases, vapors, or particles may be present, the correct hazardous area classification must be identified and all electrical and mechanical components must be certified to meet that standard. Dolphin Centrifuge has extensive experience designing and supplying explosion-proof centrifuge systems for all major classification standards including NEC Class 1 Div 1, Class 1 Div 2, ATEX Zone 1/2, and IECEx.
+    </p>
+
+    <!-- Quick Reference Table -->
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Classification</th>
+            <th>Region</th>
+            <th>Description</th>
+            <th>Typical Centrifuge Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-mono text-sm font-semibold">Class 1 Div 1</td>
+            <td>N. America</td>
+            <td>Flammable gases/vapors continuously present</td>
+            <td>Refineries, chemical plants (process areas)</td>
+          </tr>
+          <tr>
+            <td class="font-mono text-sm font-semibold">Class 1 Div 2</td>
+            <td>N. America</td>
+            <td>Flammable materials confined, not normally present</td>
+            <td>Offshore platforms, oil storage, ethanol extraction</td>
+          </tr>
+          <tr>
+            <td class="font-mono text-sm font-semibold">ATEX Zone 1</td>
+            <td>Europe (EU)</td>
+            <td>Explosive atmosphere likely during normal operation</td>
+            <td>Petrochemical plants, offshore EU platforms</td>
+          </tr>
+          <tr>
+            <td class="font-mono text-sm font-semibold">ATEX Zone 2</td>
+            <td>Europe (EU)</td>
+            <td>Explosive atmosphere unlikely, only under abnormal conditions</td>
+            <td>HFO/diesel purification, chemical secondary zones</td>
+          </tr>
+          <tr>
+            <td class="font-mono text-sm font-semibold">IECEx Zone 1/2</td>
+            <td>International</td>
+            <td>IEC 60079 framework, similar to ATEX</td>
+            <td>Global installations requiring international certification</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mid-page CTA -->
+  <div class="bg-navy/5 border border-navy/10 rounded-xl p-6 md:p-8 mb-8 text-center">
+    <h3 class="text-xl font-bold text-navy mb-2">Need an Explosion-Proof Centrifuge?</h3>
+    <p class="text-text-light mb-4 max-w-xl mx-auto">Dolphin Centrifuge supplies Class 1 Div 1, Class 1 Div 2, ATEX, and IECEx certified systems for refineries, offshore platforms, and chemical processing.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center justify-center bg-gold hover:bg-gold-light text-navy font-bold px-6 py-3 rounded-lg transition-colors">
+        Request a Quote
+      </a>
+      <a href="tel:2485222573" class="inline-flex items-center justify-center border-2 border-navy/20 hover:border-navy text-navy font-semibold px-6 py-3 rounded-lg transition-colors">
+        (248) 522-2573
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ FAQ ══ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="space-y-4">
+      {faqItems.map((item) => (
+        <details class="border border-gray-200 rounded-lg p-4 group">
+          <summary class="cursor-pointer font-semibold text-navy flex items-center justify-between">
+            <span>{item.question}</span>
+            <span class="group-open:rotate-180 transition-transform text-gold">&#9660;</span>
+          </summary>
+          <div class="mt-3 leading-relaxed">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <!-- ══ Related Articles (internal links) ══ -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2>Related Articles</h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Crude Oil Tank Bottom Recovery Centrifuge</span>
+      </a>
+      <a href="/diesel-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Diesel Fuel Centrifuge</span>
+      </a>
+      <a href="/waste-oil-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Waste Oil Centrifuge</span>
+      </a>
+      <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Disc Stack Centrifuge Mechanical Issues</span>
+      </a>
+      <a href="/decanter-centrifuge-vibration/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Decanter Centrifuge Vibration</span>
+      </a>
+      <a href="/explosion-proof-stainless-steel-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Explosion Proof Stainless Steel Centrifuge</span>
+      </a>
+      <a href="/beer-wine-centrifuge/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Beer &amp; Wine Centrifuge</span>
+      </a>
+      <a href="/alfa-laval-centrifuge-selection-guide/" class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
+        <span class="text-gold text-lg">&#8250;</span>
+        <span class="text-navy hover:underline">Disc Stack Centrifuge Selection Guide</span>
+      </a>
+    </div>
+  </div>
+
+</ApplicationLayout>

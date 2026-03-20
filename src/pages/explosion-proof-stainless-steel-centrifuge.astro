@@ -1,11 +1,32 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What makes a centrifuge explosion-proof?",
+    answer: "An explosion-proof centrifuge incorporates several safety features including direct drive transmission (eliminating the <a href='/disc-centrifuge-friction-clutch/'>friction clutch</a> that can cause sparks), nitrogen blanketing to purge flammable oxygen from the centrifuge interior, and specially rated sensors and components certified for hazardous area classifications such as UL Class 1 Div 2. These modifications ensure the centrifuge can operate safely in environments where flammable gases, vapors, or liquids may be present."
+  },
+  {
+    question: "Why does an explosion-proof centrifuge need stainless steel construction?",
+    answer: "Stainless steel construction serves two critical purposes in explosion-proof centrifuges. First, it provides corrosion resistance for processing corrosive chemicals and solvents commonly found in refineries, offshore platforms, and chemical plants. Second, it meets <a href='/food-grade-centrifuge/'>food-grade requirements</a> for applications like extraction and pharmaceutical processing where the processed product is intended for human consumption. The 316L stainless steel (duplex) bowl construction resists degradation from harsh chemicals and eliminates the risk of product contamination."
+  },
+  {
+    question: "What is the explosion-proof classification of these centrifuges?",
+    answer: "These centrifuges are rated UL Class 1 Div 2 Groups C&D per US standards, and IEC Zone 2 IIB T4 per international standards. This classification certifies the centrifuge for use in locations where flammable gases or vapors may be present under abnormal conditions. The classification covers typical hazardous environments found in petroleum refineries, offshore oil and gas platforms, chemical processing facilities, and solvent-based extraction operations."
+  },
+  {
+    question: "What is nitrogen blanketing in an explosion-proof centrifuge?",
+    answer: "Nitrogen blanketing involves introducing inert nitrogen gas into the centrifuge to purge out ambient air containing oxygen. Since combustion requires oxygen, displacing the oxygen within the centrifuge eliminates the possibility of an explosion. This safety feature is used in addition to the direct drive transmission to provide maximum protection in hazardous environments. The centrifuge is modified to allow continuous introduction of nitrogen, maintaining an inert atmosphere throughout the separation process."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Explosion Proof Stainless Steel Centrifuge",
-  "description": "Alfa Laval disc-stack type explosion-proof stainless steel centrifuge for continuous separation of solids from liquids in hazardous areas. UL Class 1 Div 2 rated, 316L SS bowl, 6,800 Gs centrifugal force.",
+  "url": "https://dolphincentrifuge.com/explosion-proof-stainless-steel-centrifuge/",
+  "description": "Disc-stack type explosion-proof stainless steel centrifuge for continuous separation of solids from liquids in hazardous areas. UL Class 1 Div 2 rated, 316L SS bowl, 6,800 Gs centrifugal force.",
   "brand": {
     "@type": "Brand",
     "name": "Dolphin Centrifuge"
@@ -24,6 +45,7 @@ const jsonLd = {
       "addressCountry": "US"
     }
   },
+  "image": "https://dolphincentrifuge.com/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-BRPX-213-Stainless-Steel-Centrifuge.webp",
   "offers": {
     "@type": "Offer",
     "seller": {
@@ -37,516 +59,387 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What makes a centrifuge explosion-proof?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An explosion-proof centrifuge incorporates several safety features including direct drive transmission (eliminating the friction clutch that can cause sparks), nitrogen blanketing to purge flammable oxygen from the centrifuge interior, and specially rated sensors and components certified for hazardous area classifications such as UL Class 1 Div 2."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does an explosion-proof centrifuge need stainless steel construction?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Stainless steel construction serves two purposes: it provides corrosion resistance for processing corrosive chemicals and solvents, and it meets food-grade requirements for applications like cannabinoid extraction where the processed product is intended for human consumption. The 316L stainless steel (duplex) bowl resists degradation from harsh chemicals."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the explosion-proof classification of these centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "These centrifuges are rated UL Class 1 Div 2 Groups C&D per US standards, and IEC Zone 2 IIB T4 per international standards. This classification certifies the centrifuge for use in locations where flammable gases or vapors may be present under abnormal conditions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is nitrogen blanketing in an explosion-proof centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nitrogen blanketing involves introducing inert nitrogen gas into the centrifuge to purge out ambient air containing oxygen. By displacing the oxygen within the centrifuge, the possibility of an explosion is eliminated since combustion requires oxygen. This is used in addition to direct drive transmission for maximum safety."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'operation', label: 'Operation' },
+  { id: 'unique-features', label: 'Unique Features' },
+  { id: 'advantages', label: 'Advantages' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Explosion-Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+  { label: 'Stainless Steel Centrifuge', href: '/stainless-steel-centrifuge/' },
+  { label: 'Food-Grade Centrifuge', href: '/food-grade-centrifuge/' },
+  { label: 'Crude Oil Recovery Centrifuge', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval WHPX 513', href: '/alfa-laval-whpx-513/', description: '3-phase self-cleaning — 60 GPM' },
+  { label: 'Alfa Laval MOPX 209', href: '/alfa-laval-mopx-209-centrifuge/', description: '3-phase self-cleaning — 40 GPM' },
+  { label: 'Alfa Laval CHNX-418 Decanter', href: '/alfa-laval-chnx-418-decanter/', description: 'High-solids decanter centrifuge' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Explosion Proof Stainless Steel Centrifuge"
   description="UL Class 1 Div 2 stainless disc centrifuge for flammable liquids. 316 SS contact parts, 6,800 Gs, 100 GPM. Dolphin Centrifuge — call (248) 522-2573."
+  heroImage="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-BRPX-213-Stainless-Steel-Centrifuge.webp"
+  heroImageAlt="Alfa Laval BRPX-213 Stainless Steel Explosion-Proof Centrifuge"
+  category="applications"
+  categoryLabel="Hazardous Area Centrifuges"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   canonicalUrl="https://dolphincentrifuge.com/explosion-proof-stainless-steel-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Explosion-Proof SS Centrifuge'}]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-14 md:py-20">
-    <div class="container-dolphin max-w-5xl">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <div class="text-[#E8A317] text-sm font-semibold uppercase tracking-wider mb-3">Hazardous Area Centrifuges</div>
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-5">
-            Explosion-Proof Stainless Steel Centrifuge
-          </h1>
-          <p class="text-lg text-gray-200 mb-6">Dolphin Centrifuge supplies purpose-built industrial centrifuge systems for this application, operating at 24248 Gs, separation down to 1 microns. Alfa Laval disc-stack type separator designed for continuous separation of solids from liquids in hazardous, flammable, and corrosive environments. UL Class 1 Div 2 rated with 316L stainless steel bowl construction.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request Quote</a>
-            <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-        </div>
-        <div>
-          <img
-            src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-BRPX-213-Stainless-Steel-Centrifuge.webp"
-            alt="Alfa Laval BRPX-213 Stainless Steel Explosion-Proof Centrifuge"
-            width="600" height="323"
-            loading="eager"
-            class="rounded-xl w-full shadow-lg"
-          />
-        </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies explosion-proof stainless steel disc stack centrifuges rated UL Class 1 Div 2 for hazardous areas. These 316L SS systems generate 6,800 Gs at 100 GPM, serving refineries, offshore platforms, and food-grade solvent extraction. Based in Warren, Michigan with over 40 years of experience.</p>
+  </div>
+
+  <!-- Overview -->
+  <div id="overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Overview</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-3-Phase-Centrifuge-Class-1-Div-2-Crude-Oil-Hawaii-300.webp"
+          alt="Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil"
+          width="478" height="639"
+          loading="lazy"
+          class="rounded-lg shadow-sm w-full h-auto object-contain"
+        />
+        <p class="text-gray-500 text-sm mt-1 text-center">Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0] py-12 md:py-16">
-    <div class="container-dolphin max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies explosion-proof stainless steel disc stack centrifuge systems — combining Class 1 Division 2 (C1D2) hazardous area certification with 316L stainless steel sanitary construction. These systems serve food-grade flammable applications including ethanol, fruit spirits, and solvent extraction where both explosion protection and corrosion resistance are required. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in specialty centrifuge installations.</p>
-      </div>
-
-      <!-- Table of Contents -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-lg font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-        <nav>
-          <ul class="space-y-1 text-sm">
-            <li><a href="#overview" class="text-[#1B3A5C] hover:text-[#E8A317]">Overview</a></li>
-            <li><a href="#applications" class="text-[#1B3A5C] hover:text-[#E8A317]">Applications</a>
-              <ul class="ml-4 mt-1 space-y-1">
-                <li><a href="#refineries" class="text-[#1B3A5C] hover:text-[#E8A317]">Refineries</a></li>
-                <li><a href="#offshore" class="text-[#1B3A5C] hover:text-[#E8A317]">Offshore Platforms</a></li>
-                <li><a href="#cannabinoid" class="text-[#1B3A5C] hover:text-[#E8A317]">Cannabinoid Production</a></li>
-                <li><a href="#chemical" class="text-[#1B3A5C] hover:text-[#E8A317]">Chemical Processing</a></li>
-              </ul>
-            </li>
-            <li><a href="#operation" class="text-[#1B3A5C] hover:text-[#E8A317]">Operation</a></li>
-            <li><a href="#unique-features" class="text-[#1B3A5C] hover:text-[#E8A317]">Unique Features of Explosion-Proof Centrifuges</a>
-              <ul class="ml-4 mt-1 space-y-1">
-                <li><a href="#direct-drive" class="text-[#1B3A5C] hover:text-[#E8A317]">Direct Drive Transmission</a></li>
-                <li><a href="#nitrogen" class="text-[#1B3A5C] hover:text-[#E8A317]">Nitrogen Blanketing</a></li>
-                <li><a href="#sensors" class="text-[#1B3A5C] hover:text-[#E8A317]">Special Sensors & Components</a></li>
-              </ul>
-            </li>
-            <li><a href="#advantages" class="text-[#1B3A5C] hover:text-[#E8A317]">Advantages</a>
-              <ul class="ml-4 mt-1 space-y-1">
-                <li><a href="#hazardous" class="text-[#1B3A5C] hover:text-[#E8A317]">Operate Under Hazardous Conditions</a></li>
-                <li><a href="#food-grade" class="text-[#1B3A5C] hover:text-[#E8A317]">Suitable for Food-Grade Products</a></li>
-                <li><a href="#corrosive" class="text-[#1B3A5C] hover:text-[#E8A317]">Corrosive Fluid Processing</a></li>
-              </ul>
-            </li>
-            <li><a href="#specifications" class="text-[#1B3A5C] hover:text-[#E8A317]">Specifications</a></li>
-            <li><a href="#faq" class="text-[#1B3A5C] hover:text-[#E8A317]">Frequently Asked Questions</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <!-- Overview -->
-      <div id="overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-lg font-semibold text-[#2D2D2D] mb-4">
-          An <a href="https://en.wikipedia.org/wiki/Explosion_protection" class="text-[#1B3A5C] underline" target="_blank" rel="noopener">explosion-proof</a> stainless steel centrifuge is an Alfa Laval disc-stack type separator designed for the continuous separation of solids from liquids. This centrifuge can separate immiscible liquids for the cannabinoid and pharmaceutical industries that require explosion-proof centrifuges.
+      <div class="flex-1 min-w-0">
+        <p class="text-lg font-semibold mb-4">
+          An <a href="https://en.wikipedia.org/wiki/Explosion_protection" target="_blank" rel="noopener">explosion-proof</a> stainless steel centrifuge is a disc-stack type separator designed for the continuous separation of solids from liquids. This centrifuge can separate immiscible liquids for the pharmaceutical and chemical industries that require explosion-proof centrifuges.
         </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The combination of stainless steel construction and explosion-proof execution is unique for centrifuges. The stainless steel contact makes these centrifuges suitable for corrosive and food-grade applications.
+        <p class="mb-4">
+          The combination of stainless steel construction and explosion-proof execution is unique for centrifuges. The stainless steel contact makes these centrifuges suitable for corrosive and <a href="/food-grade-centrifuge/">food-grade applications</a>.
         </p>
-        <p class="text-[#2D2D2D]">
+        <p>
           Making these centrifuges explosion-proof allows their use for flammable fluids and other hazardous conditions. These conditions could include the presence of flammable gases or other explosive chemicals.
         </p>
       </div>
+    </div>
+  </div>
 
-      <!-- Applications -->
-      <div id="applications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Applications</h2>
-        <p class="text-[#2D2D2D] mb-6">
-          <a href="/explosion-proof-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Explosion-proof centrifuges</a> with stainless steel construction find uses in special industries and locations. Some of these applications and locations are listed below.
+  <!-- Applications -->
+  <div id="applications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
+    <p class="mb-6">
+      <a href="/explosion-proof-centrifuge/">Explosion-proof centrifuges</a> with stainless steel construction find uses in special industries and locations. Some of these applications and locations are listed below.
+    </p>
+
+    <!-- Refineries -->
+    <h3 id="refineries" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Refineries</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-8">
+      <div class="flex-1 min-w-0">
+        <p class="mb-3">
+          Petroleum refineries are one such location where flammable gases and liquids are often present. <a href="/crude-oil-tank-bottom-recovery-centrifuge/">Crude oil processing</a> produces a range of flammable fluids such as gasoline, distillate, solvents, etc. Besides, natural gas is quite often present in and around refineries.
         </p>
-
-        <!-- Refineries -->
-        <div id="refineries" class="mb-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Refineries</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-center mb-4">
-            <div>
-              <p class="text-[#2D2D2D] mb-3">
-                Petroleum refineries are one such location where flammable gases and liquids are often present. <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Crude oil processing</a> produces a range of flammable fluids such as gasoline, distillate, solvents, etc. Besides, natural gas is quite often present in and around refineries.
-              </p>
-              <p class="text-[#2D2D2D]">
-                Therefore, refineries, in general, need the highest classification of explosion-proof centrifuge equipment.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/explosion-proof-centrifuge-refinery-distillate.webp"
-                alt="Explosion Proof Centrifuge for Refinery Distillate"
-                width="600" height="600"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Centrifuge for Refinery Distillate</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Offshore Platforms -->
-        <div id="offshore" class="mb-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Offshore Platforms</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-center mb-4">
-            <div>
-              <p class="text-[#2D2D2D] mb-3">
-                Offshore oil and gas platforms are locations where the presence of explosive fluids and gases is pervasive. The use of explosion-proof centrifuges in such locations is mandatory.
-              </p>
-              <p class="text-[#2D2D2D]">
-                Also, offshore platforms are corrosive environments due to the presence of saltwater. The use of corrosion-resistant materials is also necessary. <a href="/stainless-steel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Stainless steel centrifuges</a> offer a high level of corrosion resistance and are, therefore, desirable under such conditions.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/NEMA7-lube-oil-centrifuge-gas-plant.webp"
-                alt="Explosion Proof Centrifuge at Gas Power Plant"
-                width="450" height="450"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Centrifuge — Gas Power Plant</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cannabinoid Production -->
-        <div id="cannabinoid" class="mb-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Cannabinoid Production</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-center mb-4">
-            <div>
-              <p class="text-[#2D2D2D] mb-3">
-                Hemp CBD oil or Cannabis THC production uses solvents or alcohol as the primary extraction fluid. Petroleum-based solvents are highly flammable and require the use of explosion-proof centrifuges. Ethanol alcohol is also flammable though not in the same category as solvents.
-              </p>
-              <p class="text-[#2D2D2D] mb-3">
-                Either case requires using hazardous-area suitable (C1 D2) or explosion-proof centrifuges.
-              </p>
-              <p class="text-[#2D2D2D] mb-3">
-                CBD oil and cannabis THC extract are primarily for human consumption, which means stainless-steel food-grade centrifuges are a requirement.
-              </p>
-              <p class="text-[#2D2D2D]">
-                Thus the processing of hemp or cannabis for extraction requires stainless-steel explosion-proof centrifuges.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
-                alt="Alfa Laval Decanter Centrifuge System Class 1 Div 2 for Herbal Extraction"
-                width="531" height="600"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Decanter Centrifuge System — Class 1 Div 2 for Herbal Extraction</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chemical Processing -->
-        <div id="chemical">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Chemical Processing</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-center">
-            <div>
-              <p class="text-[#2D2D2D] mb-3">
-                Chemical processing often uses solvents for hydrocarbon-based extraction. These applications could be precipitate extraction or solvent extraction through distillation. Since hydrocarbon solvents are present in such processing, using explosion-proof extraction centrifuges is essential.
-              </p>
-              <p class="text-[#2D2D2D]">
-                Additionally, chemical extraction can be highly corrosive depending on the type of chemical process. The corrosive environment mandates the use of corrosion-resistant material, which is often stainless steel. Therefore, stainless-steel explosion-proof centrifuges find various applications in the chemical industry.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
-                alt="Alfa Laval Explosion Proof Centrifuge for Chemical Processing"
-                width="600" height="707"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Explosion Proof Centrifuge</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Operation -->
-      <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Operation</h2>
-        <p class="text-lg font-semibold text-[#2D2D2D]">
-          An explosion-proof centrifuge separates liquids from solids safely in hazardous areas with explosion-prone liquids and gases. The stainless steel centrifuge separates edible fluids under corrosive conditions. The high centrifugal force (7,000 Gs) removes sediment as small as 1 micron from flammable fluids.
+        <p>
+          Therefore, refineries, in general, need the highest classification of explosion-proof centrifuge equipment.
         </p>
       </div>
-
-      <!-- Unique Features -->
-      <div id="unique-features" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6">Unique Features of Explosion-Proof Centrifuges</h2>
-
-        <div class="mb-6">
-          <img
-            src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-3-Phase-Centrifuge-Class-1-Div-2-Crude-Oil-Hawaii-300.webp"
-            alt="Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil"
-            width="478" height="639"
-            loading="lazy"
-            class="rounded-lg max-w-sm mx-auto w-full md:float-right md:ml-6 md:mb-4"
-          />
-          <p class="text-sm text-gray-500 text-center mb-6">Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil</p>
-        </div>
-
-        <!-- Direct Drive -->
-        <div id="direct-drive" class="mb-6 clear-both">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Direct Drive Transmission</h3>
-          <p class="text-[#2D2D2D] mb-3">
-            Alfa Laval centrifuges, like most centrifuges, have a <a href="/friction-clutch/" class="text-[#1B3A5C] hover:text-[#E8A317]">friction clutch</a> to reduce the torque during the initial startup. This clutch has friction liners that wear during daily use.
-          </p>
-          <p class="text-[#2D2D2D] mb-3">
-            These liners can wear out to the point where the base metal plate can contact the steel drum and cause sparks. Such sparking is highly undesirable in the presence of flammable fluids or vapors.
-          </p>
-          <p class="text-[#2D2D2D] mb-3">
-            The clutch is removed, and the drive motor is directly coupled to the centrifuge transmission in explosion-proof centrifuges. This design change eliminates the possibility of sparking and is known as a direct drive.
-          </p>
-          <p class="text-[#2D2D2D]">
-            The direct-drive centrifuge requires high startup torque to ramp up the speed of the heavy bowl assembly. Therefore, an inverter or VFD (variable frequency drive) powers the centrifuge motor for direct-driven centrifuges.
-          </p>
-        </div>
-
-        <!-- Nitrogen Blanketing -->
-        <div id="nitrogen" class="mb-6">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Nitrogen Blanketing</h3>
-          <p class="text-[#2D2D2D] mb-3">
-            In addition to a direct-drive transmission, some centrifuges feature a nitrogen purge or the centrifuge's nitrogen blanketing. In this adaptation, we modify the centrifuge to introduce an inert (non-explosive) gas, such as nitrogen, into the centrifuge.
-          </p>
-          <p class="text-[#2D2D2D]">
-            This inert gas purges out ambient air (containing oxygen) from within the centrifuge. The blanketing of the centrifuge with inert nitrogen eliminates the possibility of an explosion.
-          </p>
-        </div>
-
-        <!-- Special Sensors -->
-        <div id="sensors">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Special Sensors &amp; Components</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-center">
-            <div>
-              <p class="text-[#2D2D2D]">
-                An explosion-proof centrifuge requires sensors and components such as electrically operated valves rated for areas classified as hazardous locations. These devices are available for different types of explosion-proof environments depending on the location's type and severity.
-              </p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/Explosion-Proof-Sensors-ADDAX-Diesel-Centrifuge.webp"
-                alt="Explosion Proof Sensors — ADDAX Diesel Centrifuge"
-                width="839" height="404"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Sensors — ADDAX Diesel Centrifuge</p>
-            </div>
-          </div>
-        </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/explosion-proof-centrifuge-refinery-distillate.webp"
+          alt="Explosion Proof Centrifuge for Refinery Distillate"
+          width="600" height="600"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Centrifuge for Refinery Distillate</p>
       </div>
+    </div>
 
-      <!-- Related Articles Callout Box -->
-      <div class="bg-blue-50 border-l-4 border-[#1B3A5C] rounded-xl p-6 md:p-8 mb-8">
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-3">Other Disc-Centrifuge Articles of Interest</h3>
-        <ul class="space-y-2">
-          <li><a href="/disc-centrifuge-backpressure/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Disc Centrifuge Backpressure — Comprehensive Guide</a></li>
-          <li><a href="/industrial-centrifuge-buying-guide/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
-          <li><a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
-          <li><a href="/disadvantages-disc-stack-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
-          <li><a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
-        </ul>
-      </div>
-
-      <!-- Advantages -->
-      <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Advantages</h2>
-        <p class="text-[#2D2D2D] mb-6">
-          Explosion-proof centrifuges with stainless steel as construction material offer multiple advantages over conventional centrifuges. Some of the advantages are listed below.
+    <!-- Offshore Platforms -->
+    <h3 id="offshore" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Offshore Platforms</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-8">
+      <div class="flex-1 min-w-0">
+        <p class="mb-3">
+          Offshore oil and gas platforms are locations where the presence of explosive fluids and gases is pervasive. The use of explosion-proof centrifuges in such locations is mandatory.
         </p>
-
-        <!-- Hazardous Conditions -->
-        <div id="hazardous" class="mb-6">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Operate Under Hazardous Conditions</h3>
-          <p class="text-[#2D2D2D]">
-            The most significant advantage of explosion-proof centrifuges is their applicability to hazardous areas. Conventional centrifuges do not have any of the safety features of explosion-proof centrifuges and are, therefore, a safety hazard in hazardous areas.
-          </p>
-        </div>
-
-        <!-- Food Grade -->
-        <div id="food-grade" class="mb-6">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Suitable for Food-Grade Products</h3>
-          <div class="grid md:grid-cols-2 gap-6 items-start mb-4">
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/SS-Food-Grade-Decanter-C1D2-Alcohol-Processing-600-1.webp"
-                alt="Stainless Steel Food Grade Decanter Centrifuge for Hazardous Areas Class 1 Div 2 for Alcohol Slurry Processing"
-                width="600" height="630"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Stainless Steel (Food Grade) Decanter Centrifuge for Hazardous Areas Class 1 Div 2</p>
-            </div>
-            <div>
-              <img
-                src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Food-Grade-Stainless-Steel-3-Phase-Disc-Centrifuge-400.webp"
-                alt="Alfa Laval Food Grade Stainless Steel 3-Phase Disc Centrifuge C1 D2"
-                width="514" height="771"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Food Grade Stainless Steel 3-Phase Disc Centrifuge</p>
-            </div>
-          </div>
-          <p class="text-[#2D2D2D] mb-3">
-            Conventional centrifuges have non-ferrous and regular steel components that contact the process fluid. In cases where the centrifuge processes edible fluids and solids (<a href="/food-grade-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">food-grade</a>), these metals can contaminate the process fluid.
-          </p>
-          <p class="text-[#2D2D2D]">
-            A stainless steel centrifuge has all product contact parts made of stainless steel that eliminate product contamination.
-          </p>
-        </div>
-
-        <!-- Corrosive Fluid Processing -->
-        <div id="corrosive">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Corrosive Fluid Processing</h3>
-          <p class="text-[#2D2D2D] mb-3">
-            As mentioned above, standard centrifuges have internal components that are not corrosion-resistant. This construction is a disadvantage in the case of processing corrosive fluids.
-          </p>
-          <p class="text-[#2D2D2D]">
-            A stainless steel centrifuge has all liquid contact parts made of stainless steel, which is corrosion-resistant. Therefore, the processing of corrosive products requires these types of centrifuges.
-          </p>
-        </div>
+        <p>
+          Also, offshore platforms are corrosive environments due to the presence of saltwater. The use of corrosion-resistant materials is also necessary. <a href="/stainless-steel-centrifuge/">Stainless steel centrifuges</a> offer a high level of corrosion resistance and are, therefore, desirable under such conditions.
+        </p>
       </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/NEMA7-lube-oil-centrifuge-gas-plant.webp"
+          alt="Explosion Proof Centrifuge at Gas Power Plant"
+          width="450" height="450"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Centrifuge — Gas Power Plant</p>
+      </div>
+    </div>
 
-      <!-- Specifications -->
-      <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Specifications</h2>
-        <p class="text-[#2D2D2D] mb-4">The following table highlights the specifications of explosion-proof stainless steel centrifuges.</p>
+    <!-- Solvent Extraction -->
+    <h3 id="solvent-extraction" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Solvent-Based Extraction</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-8">
+      <div class="flex-1 min-w-0">
+        <p class="mb-3">
+          Solvent-based extraction processes use alcohol or petroleum-based solvents as the primary extraction fluid. Petroleum-based solvents are highly flammable and require the use of explosion-proof centrifuges. Ethanol alcohol is also flammable though not in the same category as solvents.
+        </p>
+        <p class="mb-3">
+          Either case requires using hazardous-area suitable (C1 D2) or explosion-proof centrifuges.
+        </p>
+        <p class="mb-3">
+          Extracts intended for human consumption require stainless-steel food-grade centrifuges as a baseline requirement.
+        </p>
+        <p>
+          Thus the processing of botanical or herbal extracts using solvents requires stainless-steel explosion-proof centrifuges.
+        </p>
+      </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
+          alt="Alfa Laval Decanter Centrifuge System Class 1 Div 2 for Herbal Extraction"
+          width="531" height="600"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Decanter Centrifuge System — Class 1 Div 2 for Herbal Extraction</p>
+      </div>
+    </div>
+
+    <!-- Chemical Processing -->
+    <h3 id="chemical" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Chemical Processing</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="flex-1 min-w-0">
+        <p class="mb-3">
+          Chemical processing often uses solvents for hydrocarbon-based extraction. These applications could be precipitate extraction or solvent extraction through distillation. Since hydrocarbon solvents are present in such processing, using explosion-proof extraction centrifuges is essential.
+        </p>
+        <p>
+          Additionally, chemical extraction can be highly corrosive depending on the type of chemical process. The corrosive environment mandates the use of corrosion-resistant material, which is often stainless steel. Therefore, stainless-steel explosion-proof centrifuges find various applications in the chemical industry.
+        </p>
+      </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
+          alt="Alfa Laval Explosion Proof Centrifuge for Chemical Processing"
+          width="600" height="707"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Explosion Proof Centrifuge</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operation -->
+  <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
+    <p class="text-lg font-semibold">
+      An explosion-proof centrifuge separates liquids from solids safely in hazardous areas with explosion-prone liquids and gases. The <a href="/stainless-steel-centrifuge/">stainless steel centrifuge</a> separates edible fluids under corrosive conditions. The high centrifugal force (7,000 Gs) removes sediment as small as 1 micron from flammable fluids.
+    </p>
+  </div>
+
+  <!-- Mid-Page CTA -->
+  <div class="bg-navy/10 border border-navy/20 rounded-xl p-6 md:p-8 mb-8 text-center">
+    <p class="text-navy font-bold text-lg mb-2">Need help selecting an explosion-proof centrifuge?</p>
+    <p class="text-text-light text-sm mb-4">Our engineers can help you choose the right C1D2-rated system for your specific application.</p>
+    <div class="flex flex-wrap gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-navy/30 hover:bg-navy/5 text-navy font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+    </div>
+  </div>
+
+  <!-- Unique Features -->
+  <div id="unique-features" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6">Unique Features of Explosion-Proof Centrifuges</h2>
+
+    <!-- Direct Drive -->
+    <h3 id="direct-drive" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Direct Drive Transmission</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-8">
+      <div class="flex-1 min-w-0">
+        <p class="mb-3">
+          Centrifuges typically have a <a href="/disc-centrifuge-friction-clutch/">friction clutch</a> to reduce the torque during the initial startup. This clutch has friction liners that wear during daily use.
+        </p>
+        <p class="mb-3">
+          These liners can wear out to the point where the base metal plate can contact the steel drum and cause sparks. Such sparking is highly undesirable in the presence of flammable fluids or vapors.
+        </p>
+        <p class="mb-3">
+          The clutch is removed, and the drive motor is directly coupled to the centrifuge transmission in explosion-proof centrifuges. This design change eliminates the possibility of sparking and is known as a direct drive.
+        </p>
+        <p>
+          The direct-drive centrifuge requires high startup torque to ramp up the speed of the heavy bowl assembly. Therefore, an inverter or VFD (variable frequency drive) powers the centrifuge motor for direct-driven centrifuges.
+        </p>
+      </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Explosion-Proof-Sensors-ADDAX-Diesel-Centrifuge.webp"
+          alt="Explosion Proof Sensors — ADDAX Diesel Centrifuge"
+          width="839" height="404"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Explosion Proof Sensors — ADDAX Diesel Centrifuge</p>
+      </div>
+    </div>
+
+    <!-- Nitrogen Blanketing -->
+    <h3 id="nitrogen" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Nitrogen Blanketing</h3>
+    <p class="mb-3">
+      In addition to a direct-drive transmission, some centrifuges feature a nitrogen purge or the centrifuge's nitrogen blanketing. In this adaptation, we modify the centrifuge to introduce an inert (non-explosive) gas, such as nitrogen, into the centrifuge.
+    </p>
+    <p class="mb-8">
+      This inert gas purges out ambient air (containing oxygen) from within the centrifuge. The blanketing of the centrifuge with inert nitrogen eliminates the possibility of an explosion.
+    </p>
+
+    <!-- Special Sensors -->
+    <h3 id="sensors" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Special Sensors &amp; Components</h3>
+    <p>
+      An explosion-proof centrifuge requires sensors and components such as electrically operated valves rated for areas classified as hazardous locations. These devices are available for different types of explosion-proof environments depending on the location's type and severity.
+    </p>
+  </div>
+
+  <!-- Related Articles Callout Box -->
+  <div class="bg-blue-50 border-l-4 border-navy rounded-xl p-6 md:p-8 mb-8">
+    <h3 class="text-lg font-bold text-navy mb-3">Related Technical Articles</h3>
+    <ul class="space-y-2">
+      <li><a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold-dark font-medium underline decoration-gold underline-offset-2">Disc Centrifuge Backpressure &mdash; Comprehensive Guide</a></li>
+      <li><a href="/picking-the-right-industrial-centrifuge/" class="text-navy hover:text-gold-dark font-medium underline decoration-gold underline-offset-2">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
+      <li><a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy hover:text-gold-dark font-medium underline decoration-gold underline-offset-2">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
+      <li><a href="/disadvantages-disc-stack-centrifuge/" class="text-navy hover:text-gold-dark font-medium underline decoration-gold underline-offset-2">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
+      <li><a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy hover:text-gold-dark font-medium underline decoration-gold underline-offset-2">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
+    </ul>
+  </div>
+
+  <!-- Advantages -->
+  <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Advantages</h2>
+    <p class="mb-6">
+      Explosion-proof centrifuges with stainless steel as construction material offer multiple advantages over conventional centrifuges. Some of the advantages are listed below.
+    </p>
+
+    <!-- Hazardous Conditions -->
+    <h3 id="hazardous" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Operate Under Hazardous Conditions</h3>
+    <p class="mb-8">
+      The most significant advantage of explosion-proof centrifuges is their applicability to hazardous areas. Conventional centrifuges do not have any of the safety features of explosion-proof centrifuges and are, therefore, a safety hazard in hazardous areas.
+    </p>
+
+    <!-- Food Grade -->
+    <h3 id="food-grade" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Suitable for Food-Grade Products</h3>
+    <div class="flex flex-col md:flex-row gap-6 items-start mb-4">
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/SS-Food-Grade-Decanter-C1D2-Alcohol-Processing-600-1.webp"
+          alt="Stainless Steel Food Grade Decanter Centrifuge for Hazardous Areas Class 1 Div 2 for Alcohol Slurry Processing"
+          width="600" height="630"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Stainless Steel (Food Grade) Decanter Centrifuge for Hazardous Areas Class 1 Div 2</p>
+      </div>
+      <div class="md:w-[45%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Food-Grade-Stainless-Steel-3-Phase-Disc-Centrifuge-400.webp"
+          alt="Alfa Laval Food Grade Stainless Steel 3-Phase Disc Centrifuge C1 D2"
+          width="514" height="771"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Food Grade Stainless Steel 3-Phase Disc Centrifuge</p>
+      </div>
+    </div>
+    <p class="mb-3">
+      Conventional centrifuges have non-ferrous and regular steel components that contact the process fluid. In cases where the centrifuge processes edible fluids and solids (<a href="/food-grade-centrifuge/">food-grade</a>), these metals can contaminate the process fluid.
+    </p>
+    <p class="mb-8">
+      A stainless steel centrifuge has all product contact parts made of stainless steel that eliminate product contamination.
+    </p>
+
+    <!-- Corrosive Fluid Processing -->
+    <h3 id="corrosive" class="text-xl font-bold text-navy mb-3 scroll-mt-20">Corrosive Fluid Processing</h3>
+    <p class="mb-3">
+      As mentioned above, standard centrifuges have internal components that are not corrosion-resistant. This construction is a disadvantage in the case of processing corrosive fluids.
+    </p>
+    <p>
+      A stainless steel centrifuge has all liquid contact parts made of stainless steel, which is corrosion-resistant. Therefore, the processing of corrosive products requires these types of centrifuges.
+    </p>
+  </div>
+
+  <!-- Specifications -->
+  <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Specifications</h2>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <div class="flex-1 min-w-0">
+        <p class="mb-4">The following table highlights the specifications of explosion-proof stainless steel centrifuges.</p>
         <div class="overflow-x-auto">
           <table class="w-full text-sm border-collapse">
             <tbody>
               <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Centrifuge Model</td>
+                <td class="py-3 pr-4 font-semibold text-navy w-1/2">Centrifuge Model</td>
                 <td class="py-3 font-mono font-bold">Alfa Laval Stainless Steel CBPX-213-XP</td>
               </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Type</td>
+              <tr class="border-b border-gray-200 bg-light-bg">
+                <td class="py-3 pr-4 font-semibold text-navy">Type</td>
                 <td class="py-3">Self-Cleaning; Disc-Stack</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Material of Bowl Construction</td>
+                <td class="py-3 pr-4 font-semibold text-navy">Material of Bowl Construction</td>
                 <td class="py-3 font-mono">316 L Stainless Steel (Duplex)</td>
               </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Frame Material</td>
+              <tr class="border-b border-gray-200 bg-light-bg">
+                <td class="py-3 pr-4 font-semibold text-navy">Frame Material</td>
                 <td class="py-3">Nodular Cast Iron</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
+                <td class="py-3 pr-4 font-semibold text-navy">Bowl Speed</td>
                 <td class="py-3 font-mono">4,400 RPM</td>
               </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]"><a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317]">RCF</a> (Relative Centrifugal Force)</td>
+              <tr class="border-b border-gray-200 bg-light-bg">
+                <td class="py-3 pr-4 font-semibold text-navy"><a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a> (Relative Centrifugal Force)</td>
                 <td class="py-3 font-mono font-bold">6,800 Gs</td>
               </tr>
               <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Explosion Proof Classification</td>
-                <td class="py-3 font-mono">UL Class 1 Div 2 Groups C&amp;D · IEC Zone 2 IIB T4</td>
+                <td class="py-3 pr-4 font-semibold text-navy">Explosion Proof Classification</td>
+                <td class="py-3 font-mono">UL Class 1 Div 2 Groups C&amp;D &middot; IEC Zone 2 IIB T4</td>
               </tr>
-              <tr class="bg-[#1B3A5C] text-white">
+              <tr class="bg-navy text-white">
                 <td class="py-3 pr-4 font-semibold">Rated Capacity</td>
                 <td class="py-3 font-mono font-bold">100 Gallons-Per-Minute</td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <div class="mt-6">
-          <img
-            src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
-            alt="Alfa Laval Stainless Steel Centrifuge"
-            width="450" height="450"
-            loading="lazy"
-            class="rounded-lg w-full max-w-md mx-auto"
-          />
-          <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Stainless Steel Centrifuge</p>
-        </div>
       </div>
-
-      <!-- FAQ Section -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6">Frequently Asked Questions</h2>
-
-        <div class="space-y-6">
-          <div class="border-b border-gray-100 pb-6">
-            <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">What makes a centrifuge explosion-proof?</h3>
-            <p class="text-[#2D2D2D]">
-              An explosion-proof centrifuge incorporates several safety features including direct drive transmission (eliminating the friction clutch that can cause sparks), nitrogen blanketing to purge flammable oxygen from the centrifuge interior, and specially rated sensors and components certified for hazardous area classifications such as UL Class 1 Div 2. These modifications ensure the centrifuge can operate safely in environments where flammable gases, vapors, or liquids may be present.
-            </p>
-          </div>
-
-          <div class="border-b border-gray-100 pb-6">
-            <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Why does an explosion-proof centrifuge need stainless steel construction?</h3>
-            <p class="text-[#2D2D2D]">
-              Stainless steel construction serves two critical purposes in explosion-proof centrifuges. First, it provides corrosion resistance for processing corrosive chemicals and solvents commonly found in refineries, offshore platforms, and chemical plants. Second, it meets food-grade requirements for applications like cannabinoid extraction and pharmaceutical processing where the processed product is intended for human consumption. The 316L stainless steel (duplex) bowl construction resists degradation from harsh chemicals and eliminates the risk of product contamination.
-            </p>
-          </div>
-
-          <div class="border-b border-gray-100 pb-6">
-            <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">What is the explosion-proof classification of these centrifuges?</h3>
-            <p class="text-[#2D2D2D]">
-              These centrifuges are rated UL Class 1 Div 2 Groups C&amp;D per US standards, and IEC Zone 2 IIB T4 per international standards. This classification certifies the centrifuge for use in locations where flammable gases or vapors may be present under abnormal conditions. The classification covers typical hazardous environments found in petroleum refineries, offshore oil and gas platforms, chemical processing facilities, and solvent-based extraction operations.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">What is nitrogen blanketing in an explosion-proof centrifuge?</h3>
-            <p class="text-[#2D2D2D]">
-              Nitrogen blanketing involves introducing inert nitrogen gas into the centrifuge to purge out ambient air containing oxygen. Since combustion requires oxygen, displacing the oxygen within the centrifuge eliminates the possibility of an explosion. This safety feature is used in addition to the direct drive transmission to provide maximum protection in hazardous environments. The centrifuge is modified to allow continuous introduction of nitrogen, maintaining an inert atmosphere throughout the separation process.
-            </p>
-          </div>
-        </div>
+      <div class="md:w-[40%] shrink-0">
+        <img
+          src="/images/explosion-proof-stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
+          alt="Alfa Laval Stainless Steel Centrifuge"
+          width="450" height="450"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Stainless Steel Centrifuge</p>
       </div>
-
-      <!-- Additional Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Products &amp; Articles</h2>
-        <ul class="space-y-2">
-          <li><a href="/explosion-proof-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Explosion-Proof Centrifuge — Complete Guide</a></li>
-          <li><a href="/stainless-steel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Stainless Steel Centrifuge — Corrosion-Resistant Separators</a></li>
-          <li><a href="/food-grade-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Food-Grade Centrifuge — Sanitary Separation Solutions</a></li>
-          <li><a href="/disc-stack-centrifuge-faq/" class="text-[#1B3A5C] hover:text-[#E8A317]">101 Frequently Asked Questions about Disc Stack Centrifuges</a></li>
-          <li><a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Crude Oil Tank Bottom Recovery Centrifuge</a></li>
-          <li><a href="/alfa-laval-diesel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Diesel Fuel Centrifuge — Purification Systems</a></li>
-        </ul>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-6 md:p-8 text-center text-white mb-8">
-        <h2 class="text-2xl font-bold mb-3">Need an Explosion-Proof Centrifuge?</h2>
-        <p class="text-gray-200 mb-6">
-          Contact Dolphin Centrifuge to discuss your hazardous area requirements. Our engineering team will help you select the right explosion-proof, stainless steel centrifuge configuration for your application.
-        </p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-8 py-3 rounded-lg transition">Email Us</a>
-          <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-8 py-3 rounded-lg transition">(248) 522-2573</a>
-        </div>
-        <p class="text-sm text-gray-300 mt-4">24248 Gibson Dr, Warren MI 48089 · sales@dolphincentrifuge.com</p>
-        <p class="text-xs text-gray-400 mt-4">By Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
-      </div>
-
     </div>
-  </section>
+  </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <!-- FAQ Section -->
+  <FAQ items={faqItems} heading="Explosion-Proof Stainless Steel Centrifuge FAQ" />
 
-</BaseLayout>
+</ApplicationLayout>
