@@ -1,489 +1,416 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Disc Stack Centrifuge Options: Benefits, Details & Alternatives",
-  "description": "Detailed guide to disc stack centrifuge options including feed pumps, pre-heaters, sludge tanks, clean fluid tanks, pre-filters, post-filters, and chemical injection systems.",
-  "author": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Disc Stack Centrifuge Options: Benefits, Details & Alternatives",
+    "description": "Detailed guide to disc stack centrifuge options including feed pumps, pre-heaters, sludge tanks, clean fluid tanks, pre-filters, post-filters, and chemical injection systems.",
+    "author": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com"
+    },
+    "datePublished": "2022-08-01",
+    "dateModified": "2024-06-01",
+    "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-options/"
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  },
-  "datePublished": "2022-08-01",
-  "dateModified": "2024-06-01"
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What options are commonly added to a disc stack centrifuge system?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Common disc stack centrifuge system options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric immersion or steam-heated shell-and-tube), duplex basket strainer (pre-filtration for coarse solids protection), sludge tank with agitator (sludge accumulation and re-pumping), clean fluid tank (polished product storage), chemical injection (demulsifier or anti-foaming agent), VFD (variable frequency drive for bowl speed control), PLC with HMI (automated control and monitoring), and CIP (clean-in-place) circuit for sanitary applications." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a pre-heater for my disc stack centrifuge?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A pre-heater is required for any application where the process fluid has a viscosity above 50 cSt at operating temperature, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating. Pre-heaters can be electric immersion type (for moderate volumes) or shell-and-tube steam/hot water exchangers (for large volumes)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a duplex basket strainer and do I need one?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. For disc centrifuges, it protects the feed pump and centrifuge from large solid particles (typically 50–500 micron) that would accelerate bowl wear or clog the feed inlet. A duplex design is preferred over a simplex strainer because it allows basket cleaning without shutting down the process. It is recommended for any application with intermittent large solid particles — crude oil, waste oil, and machining coolant applications especially benefit." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should my disc centrifuge system have a PLC controller?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A PLC (programmable logic controller) with HMI is strongly recommended for any production centrifuge system. It automates startup/shutdown sequences, controls sludge ejection cycle timing, monitors operating water pressure and flow, handles alarm conditions (high vibration, low flow, over-temperature), and logs operating data. PLC control eliminates the need for constant operator attention and reduces the risk of costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX centrifuge systems." }
+      }
+    ]
+  }
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What options are commonly added to a disc stack centrifuge system?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Common disc stack centrifuge system options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric immersion or steam-heated shell-and-tube), duplex basket strainer (pre-filtration for coarse solids protection), sludge tank with agitator (sludge accumulation and re-pumping), clean fluid tank (polished product storage), chemical injection (demulsifier or anti-foaming agent), VFD (variable frequency drive for bowl speed control), PLC with HMI (automated control and monitoring), and CIP (clean-in-place) circuit for sanitary applications." }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I need a pre-heater for my disc stack centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A pre-heater is required for any application where the process fluid has a viscosity above 50 cSt at operating temperature, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating. Pre-heaters can be electric immersion type (for moderate volumes) or shell-and-tube steam/hot water exchangers (for large volumes)." }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a duplex basket strainer and do I need one?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. For disc centrifuges, it protects the feed pump and centrifuge from large solid particles (typically 50–500 micron) that would accelerate bowl wear or clog the feed inlet. A duplex design is preferred over a simplex strainer because it allows basket cleaning without shutting down the process. It is recommended for any application with intermittent large solid particles — crude oil, waste oil, and machining coolant applications especially benefit." }
-    },
-    {
-      "@type": "Question",
-      "name": "Should my disc centrifuge system have a PLC controller?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A PLC (programmable logic controller) with HMI is strongly recommended for any production centrifuge system. It automates startup/shutdown sequences, controls sludge ejection cycle timing, monitors operating water pressure and flow, handles alarm conditions (high vibration, low flow, over-temperature), and logs operating data. PLC control eliminates the need for constant operator attention and reduces the risk of costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX centrifuge systems." }
-    }
-  ]
-};
+const toc = [
+  { id: 'base-system', label: 'Base Disc Stack Centrifuge System' },
+  { id: 'centrifuge-unit', label: 'New or Remanufactured Centrifuge' },
+  { id: 'skid', label: 'Skid or Base Platform' },
+  { id: 'water-harness', label: 'Water Harness (Operating Water Solenoids)' },
+  { id: 'control-panel', label: 'Local Control Panel' },
+  { id: 'alarm-systems', label: 'Alarm Systems' },
+  { id: 'mechanical-integration', label: 'Mechanical System Integration' },
+  { id: 'electrical-integration', label: 'Electrical System Integration' },
+  { id: 'system-test', label: 'System Test' },
+  { id: 'optional-accessories', label: 'Optional Accessories' },
+  { id: 'feed-pump', label: 'Feed Pump with VFD Control' },
+  { id: 'pre-heater', label: 'Electric Pre-Heater' },
+  { id: 'sludge-tank', label: 'Sludge Tank with Level Sensor & Pump' },
+  { id: 'clean-fluid-tank', label: 'Clean Fluid Tank and Transfer Pump' },
+  { id: 'pre-filter', label: 'Duplex Pre-Filter (Strainer)' },
+  { id: 'post-filter', label: 'Duplex Post-Filter (Polisher)' },
+  { id: 'chemical-injection', label: 'Inline Static Mixer with Chemical Injection' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/', description: 'Technical overview of disc centrifuge design and operation' },
+  { label: 'Industrial Centrifuge Controls', href: '/industrial-centrifuge-controls/', description: 'PLC-based control panels and automation options' },
+  { label: 'Disc Stack Centrifuge FAQ', href: '/disc-stack-centrifuge-faq/', description: 'Common questions answered by our engineers' },
+  { label: 'Mechanical Issues & Fixes', href: '/disc-stack-centrifuge-mechanical-issues-fixes/', description: 'Troubleshooting guide for vibration and noise problems' },
+  { label: 'Disc Centrifuge Accessories', href: '/alfa-laval-disc-centrifuge-accessories/', description: 'Full catalog of accessories and spare parts' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge Parts', href: '/disc-stack-centrifuge-parts/', description: 'Genuine and aftermarket replacement parts' },
+  { label: 'Explosion Proof Centrifuge', href: '/explosion-proof-centrifuge/', description: 'Class 1 Div 1 and Div 2 systems for hazardous areas' },
+  { label: 'Stainless Steel Centrifuge', href: '/stainless-steel-centrifuge/', description: 'Sanitary and corrosion-resistant configurations' },
+];
 ---
 
-<BaseLayout
-  title="Disc Stack Centrifuge Options | Benefits & Alternatives"
-  description="Guide to disc stack centrifuge options: feed pumps, pre-heaters, sludge tanks, clean fluid tanks, strainers, and chemical injection systems."
+<ApplicationLayout
+  title="Disc Stack Centrifuge Options | Benefits, Details & Alternatives"
+  description="Complete guide to disc stack centrifuge options: feed pumps, pre-heaters, sludge tanks, clean fluid tanks, duplex strainers, and chemical injection systems."
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-options/"
-  breadcrumbs={[{label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/'}, {label: 'Disc Stack Centrifuge Options'}]}
+  heroImage="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Options-600.webp"
+  heroImageAlt="Disc stack centrifuge system with all optional accessories installed on skid"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-16 md:py-20">
-    <div class="container-dolphin max-w-4xl">
-      <div class="mb-6">
-        <img
-          src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Options-600.webp"
-          alt="Disc stack centrifuge system with all optional accessories installed on skid"
-          width="600" height="407"
-          loading="eager"
-          class="rounded-xl w-full max-w-2xl mx-auto block"
-        />
-      </div>
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Disc Stack Centrifuge Options | Benefits, Details & Alternatives</h1>
-      <p class="text-lg text-blue-100 max-w-3xl">
-        Disc stack centrifuge performance depends on operational parameters that optional equipment can enhance. This guide covers every available option, its benefits, and customer-side alternatives.
-      </p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge engineers complete DMPX disc stack centrifuge system packages — including feed pumps, electric pre-heaters rated up to 200°F, duplex strainers, sludge tanks, and PLC controls — all factory-tested at our Warren, Michigan facility before shipment.</p>
+  </div>
+
+  <!-- Intro -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <p class="text-[#2D2D2D] mb-4">
+      <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc stack centrifuge</a> performance depends on operational parameters that the use of optional equipment can enhance. The following is a detailed list of disc stack centrifuge options and the benefits of each option. We also indicate alternatives that centrifuge customers can provide on their side to extract the same benefits.
+    </p>
+    <p class="text-[#2D2D2D]">
+      It is necessary to describe the scope of supply of a base centrifuge system to differentiate the options from the standard accessories included with our disc stack centrifuge systems.
+    </p>
+  </div>
+
+  <!-- Base System -->
+  <div id="base-system" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Base Disc Stack Centrifuge System — Scope of Supply</h2>
+    <p class="text-[#2D2D2D]">
+      We describe the scope of supply of a typical base centrifuge system designed and manufactured by Dolphin Centrifuge.
+    </p>
+  </div>
+
+  <!-- Centrifuge Unit -->
+  <div id="centrifuge-unit" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">New or Remanufactured Disc Stack Centrifuge</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      Each centrifuge system features a new or remanufactured disc stack centrifuge. The centrifuge could be a 'self-cleaning' or 'manual cleaning' type depending on the sludge or solid content in the process fluid.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      We install a new electric motor on the centrifuge, suitable for the centrifuge and application environment.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      For example, a centrifuge designed for explosion-proof locations will have a suitable Class 1 Div 1 or Div 2 motor. We replace the standard friction clutch with a direct-drive coupling with a corresponding VFD or inverter accommodated in the local or remote control panel.
+    </p>
+    <p class="text-[#2D2D2D]">
+      Other centrifuge upgrades could include special elastomers for specific applications, upgraded material for wetted parts (stainless steel), inert gas purging for centrifuge casing, unique bowl adaptation, etc.
+    </p>
+  </div>
+
+  <!-- Skid -->
+  <div id="skid" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Skid or Base Platform</h2>
+    <p class="text-[#2D2D2D]">
+      The centrifuge system is mounted on a welded steel base structure (carbon steel). This platform includes lifting eyes or elevation feet for moving or transportation. The centrifuge, interconnecting piping, valves, electrical cables, control panel, water harness, etc., are electrically and mechanically integrated into this base structure.
+    </p>
+  </div>
+
+  <!-- Water Harness -->
+  <div id="water-harness" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Water Harness (Operating Water Solenoids Manifold)</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Water-Harness-600.webp"
+        alt="Disc stack centrifuge water harness with solenoids, flow control valves, and pressure-reducing valves"
+        width="600" height="470"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Water Harness</p>
     </div>
-  </section>
+    <p class="text-[#2D2D2D] mb-4">
+      The sludge discharge mechanism of self-cleaning disc stack centrifuges requires a water harness. Manual clean centrifuges do not require water harnesses.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Again, the solenoids are suitable for the operating environment, such as explosion-proof or hazardous areas depending on the application.
+    </p>
+    <p class="text-[#2D2D2D]">
+      This standard feature includes the flow control valves, pressure-reducing valves, and reinforced clean vinyl hoses connecting the solenoids to the centrifuge operating water device. The base system includes the electrical and mechanical integration of the water harness into the centrifuge module.
+    </p>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-[#F5F5F0]">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge configures DMPX and DMB disc stack centrifuge systems with application-specific options — feed pumps, pre-heaters, sludge tanks, pre-filters, and PLC controls — engineered as an integrated skid system. Every Dolphin system is tested in Warren, Michigan before shipment. Dolphin Centrifuge has over 40 years of experience designing complete centrifuge system packages.</p>
-      </div>
-      <!-- Intro -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-[#2D2D2D] mb-4">
-          Disc stack centrifuge performance depends on operational parameters that the use of optional equipment can enhance. The following is a detailed list of disc stack centrifuge options and the benefits of each option. We also indicate alternatives that centrifuge customers can provide on their side to extract the same benefits.
-        </p>
-        <p class="text-[#2D2D2D]">
-          It is necessary to describe the scope of supply of a base centrifuge system to differentiate the options from the standard accessories included with our disc stack centrifuge systems.
-        </p>
-      </div>
-
-      <!-- TOC -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 text-sm">
-          <a href="#base-system" class="text-[#1B3A5C] hover:text-[#E8A317]">Base Disc Stack Centrifuge System</a>
-          <a href="#centrifuge-unit" class="text-[#1B3A5C] hover:text-[#E8A317]">New or Remanufactured Centrifuge</a>
-          <a href="#skid" class="text-[#1B3A5C] hover:text-[#E8A317]">Skid or Base Platform</a>
-          <a href="#water-harness" class="text-[#1B3A5C] hover:text-[#E8A317]">Water Harness (Operating Water Solenoids)</a>
-          <a href="#control-panel" class="text-[#1B3A5C] hover:text-[#E8A317]">Local Control Panel</a>
-          <a href="#alarm-systems" class="text-[#1B3A5C] hover:text-[#E8A317]">Alarm Systems</a>
-          <a href="#mechanical-integration" class="text-[#1B3A5C] hover:text-[#E8A317]">Mechanical System Integration</a>
-          <a href="#electrical-integration" class="text-[#1B3A5C] hover:text-[#E8A317]">Electrical System Integration</a>
-          <a href="#system-test" class="text-[#1B3A5C] hover:text-[#E8A317]">System Test</a>
-          <a href="#optional-accessories" class="text-[#1B3A5C] hover:text-[#E8A317]">Optional Accessories</a>
-          <a href="#feed-pump" class="text-[#1B3A5C] hover:text-[#E8A317]">Feed Pump with VFD Control</a>
-          <a href="#pre-heater" class="text-[#1B3A5C] hover:text-[#E8A317]">Electric Pre-Heater</a>
-          <a href="#sludge-tank" class="text-[#1B3A5C] hover:text-[#E8A317]">Sludge Tank with Level Sensor & Pump</a>
-          <a href="#clean-fluid-tank" class="text-[#1B3A5C] hover:text-[#E8A317]">Clean Fluid Tank and Transfer Pump</a>
-          <a href="#pre-filter" class="text-[#1B3A5C] hover:text-[#E8A317]">Duplex Pre-Filter (Strainer)</a>
-          <a href="#post-filter" class="text-[#1B3A5C] hover:text-[#E8A317]">Duplex Post-Filter (Polisher)</a>
-          <a href="#chemical-injection" class="text-[#1B3A5C] hover:text-[#E8A317]">Inline Static Mixer with Chemical Injection</a>
-        </div>
-      </div>
-
-      <!-- Base System -->
-      <div id="base-system" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Base Disc Stack Centrifuge System — Scope of Supply</h2>
-        <p class="text-[#2D2D2D]">
-          We describe the scope of supply of a typical base centrifuge system designed and manufactured by Dolphin Centrifuge.
-        </p>
-      </div>
-
-      <!-- Centrifuge Unit -->
-      <div id="centrifuge-unit" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">New or Remanufactured Disc Stack Centrifuge</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Each centrifuge system features a new or remanufactured disc stack centrifuge. The centrifuge could be a 'self-cleaning' or 'manual cleaning' type depending on the sludge or solid content in the process fluid.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          We install a new electric motor on the centrifuge, suitable for the centrifuge and application environment.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          For example, a centrifuge designed for explosion-proof locations will have a suitable Class 1 Div 1 or Div 2 motor. We replace the standard friction clutch with a direct-drive coupling with a corresponding VFD or inverter accommodated in the local or remote control panel.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Other centrifuge upgrades could include special elastomers for specific applications, upgraded material for wetted parts (stainless steel), inert gas purging for centrifuge casing, unique bowl adaptation, etc.
-        </p>
-      </div>
-
-      <!-- Skid -->
-      <div id="skid" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Skid or Base Platform</h2>
-        <p class="text-[#2D2D2D]">
-          The centrifuge system is mounted on a welded steel base structure (carbon steel). This platform includes lifting eyes or elevation feet for moving or transportation. The centrifuge, interconnecting piping, valves, electrical cables, control panel, water harness, etc., are electrically and mechanically integrated into this base structure.
-        </p>
-      </div>
-
-      <!-- Water Harness -->
-      <div id="water-harness" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Water Harness (Operating Water Solenoids Manifold)</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Water-Harness-600.webp"
-            alt="Disc stack centrifuge water harness with solenoids, flow control valves, and pressure-reducing valves"
-            width="600" height="470"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Water Harness</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          The sludge discharge mechanism of self-cleaning disc stack centrifuges requires a water harness. Manual clean centrifuges do not require water harnesses.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Again, the solenoids are suitable for the operating environment, such as explosion-proof or hazardous areas depending on the application.
-        </p>
-        <p class="text-[#2D2D2D]">
-          This standard feature includes the flow control valves, pressure-reducing valves, and reinforced clean vinyl hoses connecting the solenoids to the centrifuge operating water device. The base system includes the electrical and mechanical integration of the water harness into the centrifuge module.
-        </p>
-      </div>
-
-      <!-- Control Panel -->
-      <div id="control-panel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Local Control Panel</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Control-Panel-600.webp"
-            alt="Disc stack centrifuge local control panel NEMA 4 enclosure with PLC and instrumentation"
-            width="600" height="553"
-            loading="lazy"
-            class="rounded-lg w-full max-w-md mx-auto block"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Control Panel</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          A local control panel (LCP) is part of the base centrifuge skid supplied by Dolphin Centrifuge. A NEMA 4 enclosure affixed to the skid-mounted mounting structure houses the LCP. All power and instrument cables are part of the supply scope.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Unless otherwise specified, conduits and glands suitable for NEMA 4 rating are standard supply. Of course, explosion-proof or hazardous area systems feature suitable enclosures and inert gas purging systems, cables, glands, and conduits.
-        </p>
-      </div>
-
-      <!-- Alarm Systems -->
-      <div id="alarm-systems" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alarm Systems</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Alarm-System-600.webp"
-            alt="Alfa Laval disc stack centrifuge alarm system with pressure sensor and breakover monitoring"
-            width="600" height="333"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Alarm System</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          All base disc-stack centrifuge systems come with a breakover or liquid seal alarm. This alarm system includes a pressure sensor that monitors the pressure in the outgoing fluid pipe and triggers the alarm if the pressure falls below a predetermined level.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Self-cleaning disc stack centrifuges also have fail-to-shoot and fail-to-close alarms. These alarms monitor the sludge discharge function of the self-cleaning bowl and trigger an alarm if either function fails.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Each option below explains the additional alarms specific to the option.
-        </p>
-      </div>
-
-      <!-- Mechanical Integration -->
-      <div id="mechanical-integration" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Mechanical System Integration</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Each centrifuge system supplied by Dolphin Centrifuge is fully assembled and integrated mechanically and electrically.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Mechanical integration includes interconnecting pipes of suitable material (often carbon steel or stainless steel), flow control valves, directional valves, vibration isolators, vibration dampeners, sample port valves, pressure and temperature indicating gauges, etc.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Pneumatic pressure or gravity fill tests are standard leak testing methods for tanks and welded steel pipes.
-        </p>
-        <p class="text-[#2D2D2D]">
-          System assembly, including centrifuge mounts and pipe flanges, uses graded fasteners specified by the manufacturer.
-        </p>
-      </div>
-
-      <!-- Electrical Integration -->
-      <div id="electrical-integration" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Electrical System Integration</h2>
-        <p class="text-[#2D2D2D]">
-          Electrical integration of the system includes the interconnection of power, control, and instrumentation cables using UL specifications. Cable conduits and glands between the local control panel and each electrical component are suitable for the specific application and type of component.
-        </p>
-      </div>
-
-      <!-- System Test -->
-      <div id="system-test" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">System Test</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          All centrifuge systems undergo a rigorous testing process to ensure that the mechanical and electrical functions of the system are fully functional per the design specifications. We use hydraulic oil to test systems that process oil-based fluids and water for wastewater and other water-based applications.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Dolphin Centrifuge has an in-house test procedure that documents all system parameters that must meet set criteria during the test process.
-        </p>
-      </div>
-
-      <!-- Optional Accessories Intro -->
-      <div id="optional-accessories" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Optional Accessories for Disc Stack Centrifuge Systems</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Options-Piping-Flow-Diagram-800.webp"
-            alt="Disc stack centrifuge options piping flow diagram showing feed pump, pre-heater, strainer, clean fluid tank, and sludge tank"
-            width="800" height="408"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Options — Piping Flow Diagram</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          In addition to the standard centrifuge system described in the previous section, additional disc stack centrifuge options enhance the centrifuge performance.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Some optional accessories help reduce the preparatory work that a customer may otherwise need to perform.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The following is a list of optional accessories we recommend based on customer-specific applications.
-        </p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
-          <li>Feed pump — delivers consistent flow to the centrifuge</li>
-          <li>Pre-heater — raises fluid temperature for better separation</li>
-          <li>Sludge tank — collects discharged sludge</li>
-          <li>Clean fluid tank — stores processed clean fluid</li>
-          <li>Pre-filter / strainer — removes large debris before centrifuge</li>
-          <li>Post-filter / polisher — final polishing after centrifuge</li>
-          <li>Chemical injection — enhances separation with additives</li>
-        </ul>
-      </div>
-
-      <!-- Feed Pump -->
-      <div id="feed-pump" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Feed Pump with VFD Control</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Pump-600.webp"
-            alt="Disc stack centrifuge feed pump with VFD variable frequency drive control on centrifuge skid"
-            width="600" height="312"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Feed Pump</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A dedicated feed pump installed on the centrifuge skid sucks the process fluid from the customer's supply tank and feeds it to the centrifuge. Typically a VFD controls the feed pump speed, which allows the operator to control the flow rate during operation. This sub-system has a pressure sensor to detect pump flow to prevent dry running and overpressure in the feed line.</p>
-        <p class="text-[#2D2D2D] mb-3">This is the most commonly requested of all disc stack centrifuge options.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The PLC operating the centrifuge also controls the feed pump. This feature allows the PLC to shut off the feed in case of an alarm or system shutdown.</p>
-        <p class="text-[#2D2D2D] mb-3">Also, using the bypass line that is part of the pump system allows the user to recirculate the process fluid back to the supply tank, which helps agitate the process fluid.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The centrifuge user may choose to supply their pump or use an existing pump. However, letting the centrifuge PLC control the user's pump is essential. Also, centrifuges do not work well with air diaphragm pumps due to the pulsation generated by such pumps. A positive displacement pump with feed control is ideal for use with centrifuges.</p>
-      </div>
-
-      <!-- Pre-Heater -->
-      <div id="pre-heater" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Electric Pre-Heater with Digital Temperature Control</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Electric-Pre-Heater-400.webp"
-            alt="Alfa Laval disc stack centrifuge electric pre-heater with digital temperature control for viscous oil processing"
-            width="400" height="437"
-            loading="lazy"
-            class="rounded-lg w-full max-w-sm mx-auto block"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Electric Pre-Heater</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Special heaters with a gentle heating design avoid the charring of oils passing through the heaters. In addition, the multi-bank design of heaters allows gradual heating and controls the electrical load created by the heater.</p>
-        <p class="text-[#2D2D2D] mb-3">The thermostat controller monitors the fluid temperature and controls the various banks of the heater. It also shuts off the heater to prevent overheating.</p>
-        <p class="text-[#2D2D2D] mb-3">Centrifuge systems with installed pre-heaters have flow monitoring devices to prevent the heater from turning on without process fluid. Pressure relief valves and standard drains prevent over-pressurization of the heater vessel.</p>
-        <p class="text-[#2D2D2D] mb-3">The electric pre-heater is the most cost-intensive of all the disc stack centrifuge options.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> Disc stack centrifuge efficiency is highly dependent on the viscosity of the process fluid. A pre-heater installed on the centrifuge allows heating of the process fluid to reduce viscosity and thereby increase separation efficiency.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The customer may install heat exchangers or have existing heated tanks that can supply hot process fluid to the centrifuge. Even in such scenarios, an electric pre-heater may help bring the process fluid to the optimum temperature for optimum separation.</p>
-      </div>
-
-      <!-- Sludge Tank -->
-      <div id="sludge-tank" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Sludge Tank with Level Sensor & Sludge Pump</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Sludge-Tank-and-Level-Switch-600.webp"
-            alt="Alfa Laval disc stack centrifuge sludge tank and level switch for automatic sludge evacuation"
-            width="600" height="412"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Sludge Tank and Level Switch</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> The centrifuge base platform integrates a welded steel tank beneath. The sludge discharge of the self-cleaning centrifuge falls into this tank. A level switch activates a sludge pump automatically to evacuate the accumulated sludge. This complete sub-system enables sludge handling.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The integrated sludge tank and pump allow the centrifuge system to be modular, i.e., self-contained and moveable.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may choose to build an elevated platform for the base centrifuge skid. This elevation allows the user to place a sludge receptacle under the centrifuge sludge discharge chute. Such platforms serve the purpose but are also anchored to the floor, thus fixing the centrifuge location.</p>
-      </div>
-
-      <!-- Clean Fluid Tank -->
-      <div id="clean-fluid-tank" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Clean Fluid Tank and Transfer Pump with VFD Control</h2>
-        <div class="mb-6">
-          <img
-            src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Clean-Fluid-Tank-600.webp"
-            alt="Alfa Laval disc stack centrifuge clean fluid collection tank with transfer pump and level sensing"
-            width="600" height="389"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Clean Fluid Tank</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A collection tank on the centrifuge skid acts as a receptacle for the clean (separated) fluid exiting the centrifuge. This local tank has a level sensing device and suitable pump to transfer the clean fluid to the user's collection tanks.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> An elevated or extended clean fluid return pipe to the user's tanks generates back pressure on the centrifuge. Varying back pressure has a detrimental effect on the centrifuge performance.</p>
-        <p class="text-[#2D2D2D] mb-3">The availability of a local collection tank prevents the creation of back pressure on the centrifuge outlet. This option automatically allows the user to return the separated fluid to remote collection tanks.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> A locally available tank to collect the separated fluid that eliminates the back pressure mentioned above serves the same purpose as this option. Using centrifuge-generated pressure to transfer the separated fluid over long distances or tall tanks is not recommended due to the back pressure created by such piping setups.</p>
-      </div>
-
-      <!-- Pre-Filter -->
-      <div id="pre-filter" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Duplex or Single Pre-Filter (Strainer)</h2>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A pair of basket-style filter housings on the centrifuge inlet are pre-strainers for the incoming process fluid. The housing has differential pressure sensors to detect the filter back pressure. A 3-way valve manifold allows quick switching between the strainers when one gets full without the need to stop the fluid flow.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The pre-strainer prevents particles bigger than the inter-disc space from entering the centrifuge and potentially plugging up the disc stack.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may pre-treat or filter the supply tank to a certain level to eliminate such large particles from the supply fluid. A decanter centrifuge upstream of the disc stack centrifuge works well to de-sludge the process fluid for bulk solids.</p>
-      </div>
-
-      <!-- Post-Filter -->
-      <div id="post-filter" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Duplex or Single Post-Filter (Polisher)</h2>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Certain applications require absolute filtration, meaning that particles above a specific size are not allowable. In such cases, the cleaned or separated fluid passes through a filter to catch stray particles that may escape the centrifuge.</p>
-        <p class="text-[#2D2D2D] mb-3">Again, a duplex filter allows easy switching between the filters on the fly.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> A post-processing or polishing filter ensures the processed fluid meets the customer's required filtration level.</p>
-        <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may not require absolute filtration or can supply their filters for polishing the fluid separated by the centrifuge.</p>
-      </div>
-
-      <!-- Chemical Injection -->
-      <div id="chemical-injection" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Inline Static Mixer with Chemical Injection Port</h2>
-        <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Some applications require chemicals to augment the separation process. For example, a demulsifying chemical may help break the emulsion in emulsified oils. A chemical injection port followed by an inline static mixer works well for introducing chemicals.</p>
-        <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> A skid-integrated chemical injection system eliminates the need for a separate chemical injection module. This setup saves space and costs for the user.</p>
-        <p class="text-[#2D2D2D] mb-4"><strong>Alternative:</strong> The user may introduce the chemicals upstream of the centrifuge or in the supply tank if the chemical reaction requires a set period.</p>
-        <p class="text-[#2D2D2D]">
-          For other options such as Viton Gaskets, Stainless Steel Piping, Explosion Proof or Hazardous Area applications, Heat Exchangers, Steam Heat Loops, etc. — please contact Dolphin Centrifuge or call our sales engineer at (248) 522-2573.
-        </p>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] text-white rounded-xl p-6 md:p-8 mb-8 text-center">
-        <h2 class="text-2xl font-bold mb-3">Configure Your Disc Stack Centrifuge System</h2>
-        <p class="text-blue-100 mb-6">Contact our engineers to discuss which options are right for your application. We'll design a complete turnkey system with all the accessories you need.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+12485222573" class="bg-[#E8A317] text-white font-bold px-8 py-3 rounded-lg hover:bg-yellow-500 transition-colors">(248) 522-2573</a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition-colors">sales@dolphincentrifuge.com</a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What options are commonly added to a disc stack centrifuge system?</h3>
-            <p class="text-text-light text-sm">Common options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric or steam shell-and-tube), duplex basket strainer (pre-filtration), sludge tank with agitator, clean fluid tank, chemical injection (demulsifier or anti-foaming), VFD for bowl speed control, PLC with HMI for automated control, and CIP circuit for sanitary applications.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Do I need a pre-heater for my disc stack centrifuge?</h3>
-            <p class="text-text-light text-sm">A pre-heater is required for any application where the process fluid has viscosity above 50 cSt, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is a duplex basket strainer and do I need one?</h3>
-            <p class="text-text-light text-sm">A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. It protects the centrifuge from large solid particles (50–500 micron) that would accelerate bowl wear or clog the feed inlet. Recommended for crude oil, waste oil, and machining coolant applications with intermittent large particles.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Should my disc centrifuge system have a PLC controller?</h3>
-            <p class="text-text-light text-sm">A PLC with HMI is strongly recommended for any production centrifuge. It automates startup/shutdown, controls sludge ejection cycle timing, monitors operating water and flow, handles alarm conditions, and logs data. PLC control eliminates the need for constant operator attention and reduces costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX systems.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="/disc-stack-centrifuge/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Disc Stack Centrifuge Overview</h3>
-            <p class="text-sm text-gray-600">Technical overview of disc stack centrifuge design, types, and operation.</p>
-          </a>
-          <a href="/industrial-centrifuge-controls/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Industrial Centrifuge Controls</h3>
-            <p class="text-sm text-gray-600">PLC-based centrifuge control panels and automation options.</p>
-          </a>
-          <a href="/explosion-proof-centrifuge/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Explosion Proof Centrifuge</h3>
-            <p class="text-sm text-gray-600">Class 1 Div 1 and Div 2 centrifuge systems for hazardous areas.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Disc Stack Centrifuge Mechanical Issues</h3>
-            <p class="text-sm text-gray-600">Troubleshooting guide for vibration, noise, speed, and other mechanical problems.</p>
-          </a>
-        </div>
-      </div>
-
+  <!-- Control Panel -->
+  <div id="control-panel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Local Control Panel</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Control-Panel-600.webp"
+        alt="Disc stack centrifuge local control panel NEMA 4 enclosure with PLC and instrumentation"
+        width="600" height="553"
+        loading="lazy"
+        class="rounded-lg w-full max-w-md mx-auto block"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Control Panel</p>
     </div>
-  </section>
+    <p class="text-[#2D2D2D] mb-4">
+      A local control panel (LCP) is part of the base centrifuge skid supplied by Dolphin Centrifuge. A NEMA 4 enclosure affixed to the skid-mounted mounting structure houses the LCP. All power and instrument cables are part of the supply scope.
+    </p>
+    <p class="text-[#2D2D2D]">
+      Unless otherwise specified, conduits and glands suitable for NEMA 4 rating are standard supply. Of course, explosion-proof or hazardous area systems feature suitable enclosures and inert gas purging systems, cables, glands, and conduits. See our <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">explosion proof centrifuge</a> page for hazardous area details.
+    </p>
+  </div>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/alfa-laval-disc-centrifuge-accessories/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Centrifuge Accessories</span>
-        </a>
-        <a href="/disc-stack-centrifuge-parts/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Parts</span>
-        </a>
-        <a href="/stainless-steel-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Stainless Steel Centrifuge</span>
-        </a>
-        <a href="/explosion-proof-stainless-steel-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Explosion Proof Centrifuge</span>
-        </a>
-        <a href="/industrial-centrifuge-controls/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Centrifuge Controls</span>
-        </a>
+  <!-- Alarm Systems -->
+  <div id="alarm-systems" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alarm Systems</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Alarm-System-600.webp"
+        alt="Alfa Laval disc stack centrifuge alarm system with pressure sensor and breakover monitoring"
+        width="600" height="333"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Alarm System</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-4">
+      All base disc-stack centrifuge systems come with a breakover or liquid seal alarm. This alarm system includes a pressure sensor that monitors the pressure in the outgoing fluid pipe and triggers the alarm if the pressure falls below a predetermined level.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Self-cleaning disc stack centrifuges also have fail-to-shoot and fail-to-close alarms. These alarms monitor the sludge discharge function of the self-cleaning bowl and trigger an alarm if either function fails.
+    </p>
+    <p class="text-[#2D2D2D]">
+      Each option below explains the additional alarms specific to the option.
+    </p>
+  </div>
+
+  <!-- Mechanical Integration -->
+  <div id="mechanical-integration" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Mechanical System Integration</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      Each centrifuge system supplied by Dolphin Centrifuge is fully assembled and integrated mechanically and electrically.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Mechanical integration includes interconnecting pipes of suitable material (often carbon steel or stainless steel), flow control valves, directional valves, vibration isolators, vibration dampeners, sample port valves, pressure and temperature indicating gauges, etc.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Pneumatic pressure or gravity fill tests are standard leak testing methods for tanks and welded steel pipes.
+    </p>
+    <p class="text-[#2D2D2D]">
+      System assembly, including centrifuge mounts and pipe flanges, uses graded fasteners specified by the manufacturer.
+    </p>
+  </div>
+
+  <!-- Electrical Integration -->
+  <div id="electrical-integration" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Electrical System Integration</h2>
+    <p class="text-[#2D2D2D]">
+      Electrical integration of the system includes the interconnection of power, control, and instrumentation cables using UL specifications. Cable conduits and glands between the <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">local control panel</a> and each electrical component are suitable for the specific application and type of component.
+    </p>
+  </div>
+
+  <!-- System Test -->
+  <div id="system-test" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">System Test</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      All centrifuge systems undergo a rigorous testing process to ensure that the mechanical and electrical functions of the system are fully functional per the design specifications. We use hydraulic oil to test systems that process oil-based fluids and water for wastewater and other water-based applications.
+    </p>
+    <p class="text-[#2D2D2D]">
+      Dolphin Centrifuge has an in-house test procedure that documents all system parameters that must meet set criteria during the test process.
+    </p>
+  </div>
+
+  <!-- Optional Accessories Intro -->
+  <div id="optional-accessories" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Optional Accessories for Disc Stack Centrifuge Systems</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Options-Piping-Flow-Diagram-800.webp"
+        alt="Disc stack centrifuge options piping flow diagram showing feed pump, pre-heater, strainer, clean fluid tank, and sludge tank"
+        width="800" height="408"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Options — Piping Flow Diagram</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-4">
+      In addition to the standard centrifuge system described in the previous section, additional disc stack centrifuge options enhance the centrifuge performance.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Some optional accessories help reduce the preparatory work that a customer may otherwise need to perform.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      The following is a list of optional accessories we recommend based on customer-specific applications.
+    </p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
+      <li>Feed pump — delivers consistent flow to the centrifuge</li>
+      <li>Pre-heater — raises fluid temperature for better separation</li>
+      <li>Sludge tank — collects discharged sludge</li>
+      <li>Clean fluid tank — stores processed clean fluid</li>
+      <li>Pre-filter / strainer — removes large debris before centrifuge</li>
+      <li>Post-filter / polisher — final polishing after centrifuge</li>
+      <li>Chemical injection — enhances separation with additives</li>
+    </ul>
+  </div>
+
+  <!-- Feed Pump -->
+  <div id="feed-pump" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Feed Pump with VFD Control</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Disc-Stack-Centrifuge-Pump-600.webp"
+        alt="Disc stack centrifuge feed pump with VFD variable frequency drive control on centrifuge skid"
+        width="600" height="312"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Feed Pump</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A dedicated feed pump installed on the centrifuge skid sucks the process fluid from the customer's supply tank and feeds it to the centrifuge. Typically a VFD controls the feed pump speed, which allows the operator to control the flow rate during operation. This sub-system has a pressure sensor to detect pump flow to prevent dry running and overpressure in the feed line.</p>
+    <p class="text-[#2D2D2D] mb-3">This is the most commonly requested of all disc stack centrifuge options.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The PLC operating the centrifuge also controls the feed pump. This feature allows the PLC to shut off the feed in case of an alarm or system shutdown.</p>
+    <p class="text-[#2D2D2D] mb-3">Also, using the bypass line that is part of the pump system allows the user to recirculate the process fluid back to the supply tank, which helps agitate the process fluid.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The centrifuge user may choose to supply their pump or use an existing pump. However, letting the centrifuge PLC control the user's pump is essential. Also, centrifuges do not work well with air diaphragm pumps due to the pulsation generated by such pumps. A positive displacement pump with feed control is ideal for use with centrifuges.</p>
+  </div>
+
+  <!-- Pre-Heater -->
+  <div id="pre-heater" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Electric Pre-Heater with Digital Temperature Control</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Electric-Pre-Heater-400.webp"
+        alt="Alfa Laval disc stack centrifuge electric pre-heater with digital temperature control for viscous oil processing"
+        width="400" height="437"
+        loading="lazy"
+        class="rounded-lg w-full max-w-sm mx-auto block"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Electric Pre-Heater</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Special heaters with a gentle heating design avoid the charring of oils passing through the heaters. In addition, the multi-bank design of heaters allows gradual heating and controls the electrical load created by the heater.</p>
+    <p class="text-[#2D2D2D] mb-3">The thermostat controller monitors the fluid temperature and controls the various banks of the heater. It also shuts off the heater to prevent overheating.</p>
+    <p class="text-[#2D2D2D] mb-3">Centrifuge systems with installed pre-heaters have flow monitoring devices to prevent the heater from turning on without process fluid. Pressure relief valves and standard drains prevent over-pressurization of the heater vessel.</p>
+    <p class="text-[#2D2D2D] mb-3">The electric pre-heater is the most cost-intensive of all the disc stack centrifuge options.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc stack centrifuge</a> efficiency is highly dependent on the viscosity of the process fluid. A pre-heater installed on the centrifuge allows heating of the process fluid to reduce viscosity and thereby increase separation efficiency.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The customer may install heat exchangers or have existing heated tanks that can supply hot process fluid to the centrifuge. Even in such scenarios, an electric pre-heater may help bring the process fluid to the optimum temperature for optimum separation.</p>
+  </div>
+
+  <!-- Sludge Tank -->
+  <div id="sludge-tank" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Sludge Tank with Level Sensor & Sludge Pump</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Sludge-Tank-and-Level-Switch-600.webp"
+        alt="Alfa Laval disc stack centrifuge sludge tank and level switch for automatic sludge evacuation"
+        width="600" height="412"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Sludge Tank and Level Switch</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> The centrifuge base platform integrates a welded steel tank beneath. The sludge discharge of the self-cleaning centrifuge falls into this tank. A level switch activates a sludge pump automatically to evacuate the accumulated sludge. This complete sub-system enables sludge handling.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The integrated sludge tank and pump allow the centrifuge system to be modular, i.e., self-contained and moveable.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may choose to build an elevated platform for the base centrifuge skid. This elevation allows the user to place a sludge receptacle under the centrifuge sludge discharge chute. Such platforms serve the purpose but are also anchored to the floor, thus fixing the centrifuge location.</p>
+  </div>
+
+  <!-- Clean Fluid Tank -->
+  <div id="clean-fluid-tank" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Clean Fluid Tank and Transfer Pump with VFD Control</h2>
+    <div class="mb-6">
+      <img
+        src="/images/disc-stack-centrifuge-options/Alfa-Laval-Disc-Stack-Centrifuge-Clean-Fluid-Tank-600.webp"
+        alt="Alfa Laval disc stack centrifuge clean fluid collection tank with transfer pump and level sensing"
+        width="600" height="389"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Alfa Laval Disc Stack Centrifuge Clean Fluid Tank</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A collection tank on the centrifuge skid acts as a receptacle for the clean (separated) fluid exiting the centrifuge. This local tank has a level sensing device and suitable pump to transfer the clean fluid to the user's collection tanks.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> An elevated or extended clean fluid return pipe to the user's tanks generates back pressure on the centrifuge. Varying back pressure has a detrimental effect on the centrifuge performance.</p>
+    <p class="text-[#2D2D2D] mb-3">The availability of a local collection tank prevents the creation of back pressure on the centrifuge outlet. This option automatically allows the user to return the separated fluid to remote collection tanks.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> A locally available tank to collect the separated fluid that eliminates the back pressure mentioned above serves the same purpose as this option. Using centrifuge-generated pressure to transfer the separated fluid over long distances or tall tanks is not recommended due to the back pressure created by such piping setups.</p>
+  </div>
+
+  <!-- Pre-Filter -->
+  <div id="pre-filter" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Duplex or Single Pre-Filter (Strainer)</h2>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> A pair of basket-style filter housings on the centrifuge inlet are pre-strainers for the incoming process fluid. The housing has differential pressure sensors to detect the filter back pressure. A 3-way valve manifold allows quick switching between the strainers when one gets full without the need to stop the fluid flow.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> The pre-strainer prevents particles bigger than the inter-disc space from entering the centrifuge and potentially plugging up the disc stack.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may pre-treat or filter the supply tank to a certain level to eliminate such large particles from the supply fluid. A <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> upstream of the disc stack centrifuge works well to de-sludge the process fluid for bulk solids.</p>
+  </div>
+
+  <!-- Post-Filter -->
+  <div id="post-filter" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Duplex or Single Post-Filter (Polisher)</h2>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Certain applications require absolute filtration, meaning that particles above a specific size are not allowable. In such cases, the cleaned or separated fluid passes through a filter to catch stray particles that may escape the centrifuge.</p>
+    <p class="text-[#2D2D2D] mb-3">Again, a duplex filter allows easy switching between the filters on the fly.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> A post-processing or polishing filter ensures the processed fluid meets the customer's required filtration level.</p>
+    <p class="text-[#2D2D2D]"><strong>Alternative:</strong> The user may not require absolute filtration or can supply their filters for polishing the fluid separated by the centrifuge.</p>
+  </div>
+
+  <!-- Chemical Injection -->
+  <div id="chemical-injection" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Inline Static Mixer with Chemical Injection Port</h2>
+    <p class="text-[#2D2D2D] mb-3"><strong>Description:</strong> Some applications require chemicals to augment the separation process. For example, a demulsifying chemical may help break the emulsion in emulsified oils. A chemical injection port followed by an inline static mixer works well for introducing chemicals.</p>
+    <p class="text-[#2D2D2D] mb-3"><strong>Benefit:</strong> A skid-integrated chemical injection system eliminates the need for a separate chemical injection module. This setup saves space and costs for the user.</p>
+    <p class="text-[#2D2D2D] mb-4"><strong>Alternative:</strong> The user may introduce the chemicals upstream of the centrifuge or in the supply tank if the chemical reaction requires a set period.</p>
+    <p class="text-[#2D2D2D]">
+      For other options such as Viton Gaskets, <a href="/stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Stainless Steel Piping</a>, Explosion Proof or Hazardous Area applications, Heat Exchangers, Steam Heat Loops, etc. — please contact Dolphin Centrifuge or call our sales engineer at (248) 522-2573.
+    </p>
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What options are commonly added to a disc stack centrifuge system?</h3>
+        <p class="text-text-light text-sm">Common options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric or steam shell-and-tube), duplex basket strainer (pre-filtration), sludge tank with agitator, clean fluid tank, chemical injection (demulsifier or anti-foaming), VFD for bowl speed control, PLC with HMI for automated control, and CIP circuit for sanitary applications.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Do I need a pre-heater for my disc stack centrifuge?</h3>
+        <p class="text-text-light text-sm">A pre-heater is required for any application where the process fluid has viscosity above 50 cSt, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What is a duplex basket strainer and do I need one?</h3>
+        <p class="text-text-light text-sm">A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. It protects the centrifuge from large solid particles (50–500 micron) that would accelerate bowl wear or clog the feed inlet. Recommended for crude oil, waste oil, and machining coolant applications with intermittent large particles.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Should my disc centrifuge system have a PLC controller?</h3>
+        <p class="text-text-light text-sm">A PLC with HMI is strongly recommended for any production centrifuge. It automates startup/shutdown, controls sludge ejection cycle timing, monitors operating water and flow, handles alarm conditions, and logs data. PLC control eliminates the need for constant operator attention and reduces costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX systems.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-</BaseLayout>
+</ApplicationLayout>

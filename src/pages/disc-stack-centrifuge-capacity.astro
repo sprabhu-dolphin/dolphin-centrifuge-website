@@ -1,344 +1,287 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Disc Stack Centrifuge Capacity: Rated vs. Actual | Factors to Consider",
-  "description": "Understand disc stack centrifuge capacity: the difference between swallowing, rated, and actual capacity, plus all factors affecting real-world throughput including viscosity, temperature, particle size, and centrifuge design.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu MSME" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "datePublished": "2021-08-01",
-  "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-capacity/",
-};
+const toc = [
+  { id: 'terminology', label: 'Disc Stack Centrifuge Capacity Terminology' },
+  { id: 'swallowing', label: 'Swallowing Capacity' },
+  { id: 'rated', label: 'Rated Capacity' },
+  { id: 'specific', label: 'Capacity on Specific Liquid' },
+  { id: 'range', label: 'Range of Capacities for Specific Fluids' },
+  { id: 'factors', label: 'Factors Affecting Capacity' },
+  { id: 'size', label: 'Centrifuge Size' },
+  { id: 'viscosity', label: 'Viscosity' },
+  { id: 'temperature', label: 'Temperature' },
+  { id: 'sludge', label: 'Sludge or Solids in Fluid' },
+  { id: 'particle-size', label: 'Particle Size' },
+  { id: 'particle-density', label: 'Solid Particle Density' },
+  { id: 'desired-results', label: 'Desired Results' },
+  { id: 'design', label: 'Centrifuge Design' },
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the difference between swallowing capacity and rated capacity of a disc stack centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Swallowing capacity is the maximum volumetric flow rate the centrifuge pump and piping can handle physically — it is not the separation-effective rate. Rated capacity is the manufacturer's specified throughput for a given fluid at standard conditions (typically diesel at 13 cSt). Actual capacity in real-world operation may be lower due to fluid viscosity, temperature, solids content, and the required separation quality."
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge FAQ', href: '/disc-stack-centrifuge-faq/' },
+  { label: 'Purifier vs. Clarifier Centrifuge', href: '/disc-centrifuge-purifier-clarifier-difference/' },
+  { label: 'Decanter vs. Disc Stack Centrifuge', href: '/difference-between-decanter-centrifuge-disc-centrifuge/' },
+  { label: 'Disc Stack Centrifuge Troubleshooting', href: '/disc-stack-centrifuge-mechanical-issues-fixes/' },
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX Series — Self-Cleaning', href: '/centrifuges/', description: '4 to 108 GPM rated capacity' },
+  { label: 'Oil Centrifuge Systems', href: '/oil-centrifuge/', description: 'Fuel & lube oil purification' },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Disc Stack Centrifuge Capacity: Rated vs. Actual | Factors to Consider",
+    "description": "Understand disc stack centrifuge capacity: the difference between swallowing, rated, and actual capacity, plus all factors affecting real-world throughput including viscosity, temperature, particle size, and centrifuge design.",
+    "author": { "@type": "Person", "name": "Sanjay Prabhu MSME" },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-08-01",
+    "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-capacity/",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between swallowing capacity and rated capacity of a disc stack centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Swallowing capacity is the maximum volumetric flow rate the centrifuge pump and piping can handle physically — it is not the separation-effective rate. Rated capacity is the manufacturer's specified throughput for a given fluid at standard conditions (typically diesel at 13 cSt). Actual capacity in real-world operation may be lower due to fluid viscosity, temperature, solids content, and the required separation quality."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does fluid viscosity affect disc stack centrifuge capacity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Higher viscosity directly reduces centrifuge throughput. As a rule of thumb: doubling the viscosity roughly halves the effective capacity. For example, a DMPX-028 rated at 25 GPM on diesel (13 cSt) drops to approximately 10-12 GPM on 100 cSt lube oil, and as low as 3-4 GPM on 700 cSt heavy fuel oil (HFO 380)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does temperature affect disc stack centrifuge capacity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Higher temperature reduces fluid viscosity, which increases centrifuge capacity. Most heavy oils are preheated to 190-210 degrees F before centrifuge processing to bring viscosity down to the 30-100 cSt range where the centrifuge operates efficiently. Heating is often the most effective way to recover capacity on viscous fluids."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I select the right disc stack centrifuge capacity for my application?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Start with your required throughput in GPM, then identify your fluid viscosity at operating temperature. Apply the viscosity de-rating factor (from manufacturer tables) to the rated capacity to get effective capacity for your fluid. Add 20-30% buffer for flow surges and future expansion. Dolphin Centrifuge engineers can size the right DMPX model for your application — call (248) 522-2573."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does solids content affect disc stack centrifuge capacity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Higher solids content fills the sludge space faster, requiring more frequent bowl ejection cycles (for self-cleaning centrifuges) or more frequent manual cleaning (for solid-bowl types). In practical terms, high solids reduce effective throughput because the centrifuge must spend more time on cleaning cycles and less time on separation."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "How does fluid viscosity affect disc stack centrifuge capacity?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Higher viscosity directly reduces centrifuge throughput. As a rule of thumb: doubling the viscosity roughly halves the effective capacity. For example, a DMPX-028 rated at 25 GPM on diesel (13 cSt) drops to approximately 10-12 GPM on 100 cSt lube oil, and as low as 3-4 GPM on 700 cSt heavy fuel oil (HFO 380)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does temperature affect disc stack centrifuge capacity?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Higher temperature reduces fluid viscosity, which increases centrifuge capacity. Most heavy oils are preheated to 190–210°F before centrifuge processing to bring viscosity down to the 30–100 cSt range where the centrifuge operates efficiently. Heating is often the most effective way to recover capacity on viscous fluids."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I select the right disc stack centrifuge capacity for my application?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Start with your required throughput in GPM, then identify your fluid viscosity at operating temperature. Apply the viscosity de-rating factor (from manufacturer tables) to the rated capacity to get effective capacity for your fluid. Add 20-30% buffer for flow surges and future expansion. Dolphin Centrifuge engineers can size the right DMPX model for your application — call (248) 522-2573."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does solids content affect disc stack centrifuge capacity?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Higher solids content fills the sludge space faster, requiring more frequent bowl ejection cycles (for self-cleaning centrifuges) or more frequent manual cleaning (for solid-bowl types). In practical terms, high solids reduce effective throughput because the centrifuge must spend more time on cleaning cycles and less time on separation."
-      }
-    }
-  ]
-};
+    ]
+  }
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Disc Stack Centrifuge Capacity: Rated vs Actual | Dolphin"
-  description="How disc stack centrifuge capacity is determined: swallowing vs rated vs real-world throughput, and the effect of viscosity, temperature, and particle size."
+  description="How disc stack centrifuge capacity is determined: swallowing vs rated vs real-world throughput, and the effect of viscosity, temperature, and particle size on throughput."
+  heroImage="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Capacity-Factors-600.webp"
+  heroImageAlt="Disc stack centrifuge capacity factors diagram"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-capacity/"
-  breadcrumbs={[{label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/'}, {label: 'Disc Stack Centrifuge Capacity'}]}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Knowledge Base</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Disc Stack Centrifuge Capacity</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Rated vs. actual vs. swallowing capacity — and why the same centrifuge can have dramatically different throughput for the same application depending on fluid properties and desired results.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-      <img src="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Capacity-Factors-600.webp" alt="Disc stack centrifuge capacity factors diagram" width="600" height="400" loading="eager" class="rounded-xl mt-4 max-w-xl w-full" />
+
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems with rated capacities from 4 GPM (DMB-004) to 108 GPM (DMPX-070) on diesel fuel. Actual throughput varies by fluid viscosity and separation target — Dolphin engineers size each system for real-world conditions, not swallowing capacity. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifuge selection and sizing.</p>
+  </div>
+
+  <!-- Intro -->
+  <p class="text-text-light leading-relaxed mb-3">Disc stack centrifuge capacity is often confusing to first-time centrifuge customers primarily due to the wide range of capacities mentioned by used equipment sellers, online literature, and general users.</p>
+  <p class="text-text-light leading-relaxed mb-3">So, in this article, we will explain the difference between swallowing capacity, rated capacity, and actual real-world capacity of <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuges</a>.</p>
+  <p class="text-text-light leading-relaxed mb-8">We will also explain why a disc centrifuge could potentially have different processing capacities mentioned for the same application.</p>
+
+  <!-- Terminology -->
+  <h2 id="terminology" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Disc Stack Centrifuge Capacity Terminology</h2>
+  <p class="text-text-light leading-relaxed mb-6">In the first section, we explain the various terms that people use to describe the capacity of an industrial centrifuge with a disc stack.</p>
+
+  <h3 id="swallowing" class="text-xl font-bold text-navy mb-3">Swallowing Capacity</h3>
+  <p class="text-text-light leading-relaxed mb-6">The swallowing capacity, also known as the hydraulic capacity, is the centrifuge passages' physical flow. This capacity is just a theoretical estimate often unrelated to the centrifuge's actual (real-world) capacity.</p>
+
+  <h3 id="rated" class="text-xl font-bold text-navy mb-3">Rated Capacity</h3>
+  <p class="text-text-light leading-relaxed mb-6">The rated capacity of a centrifuge is the flow rate the centrifuge can process of a low viscosity fluid such as distillate or water. This capacity is the maximum separation capacity of the centrifuge under optimum conditions.</p>
+
+  <h3 id="specific" class="text-xl font-bold text-navy mb-3">Capacity on Specific Liquid</h3>
+  <p class="text-text-light leading-relaxed mb-3">The actual capacity of the centrifuge is highly dependent on the physical properties of the process fluid. A specific centrifuge model has a recommended capacity table of flow rates for liquids of different viscosities.</p>
+  <p class="text-text-light leading-relaxed mb-8">The capacity of the centrifuge decreases as the viscosity of the process liquid increases. The examples below explain this phenomenon.</p>
+
+  <!-- Range of Capacities Table -->
+  <h2 id="range" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Range of Capacities for Specific Fluids</h2>
+  <p class="text-text-light leading-relaxed mb-6">The following table shows the various capacities of a disc stack centrifuge for fluids with different viscosities. All flow rates are in GPM.</p>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">Centrifuge Model</th>
+          <th class="text-center px-4 py-3 font-semibold">Diesel<br/><span class="font-normal text-xs text-gray-300">1.5 cSt</span></th>
+          <th class="text-center px-4 py-3 font-semibold">Turbine Lube<br/><span class="font-normal text-xs text-gray-300">2 cSt</span></th>
+          <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">100 cSt</span></th>
+          <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">380 cSt</span></th>
+          <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">600 cSt</span></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-405</td>
+          <td class="px-4 py-3 text-center text-text-light">16</td>
+          <td class="px-4 py-3 text-center text-text-light">15</td>
+          <td class="px-4 py-3 text-center text-text-light">11</td>
+          <td class="px-4 py-3 text-center text-text-light">6</td>
+          <td class="px-4 py-3 text-center text-text-light">2</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-409</td>
+          <td class="px-4 py-3 text-center text-text-light">36</td>
+          <td class="px-4 py-3 text-center text-text-light">34</td>
+          <td class="px-4 py-3 text-center text-text-light">24</td>
+          <td class="px-4 py-3 text-center text-text-light">14</td>
+          <td class="px-4 py-3 text-center text-text-light">10</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-513</td>
+          <td class="px-4 py-3 text-center text-text-light">71</td>
+          <td class="px-4 py-3 text-center text-text-light">68</td>
+          <td class="px-4 py-3 text-center text-text-light">47</td>
+          <td class="px-4 py-3 text-center text-text-light">28</td>
+          <td class="px-4 py-3 text-center text-text-light">19</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-xs text-text-light mb-8">Flow rates in GPM. Note how capacity drops sharply as viscosity increases from 2 cSt (turbine lube) to 380 cSt (heavy fuel oil).</p>
+
+  <!-- Factors Affecting Capacity -->
+  <h2 id="factors" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Factors Affecting Capacity</h2>
+  <p class="text-text-light leading-relaxed mb-6">The physical properties of the centrifuge and those of the process fluid influence the processing capacity of the centrifuge.</p>
+
+  <figure class="mb-6">
+    <img src="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Capacity-Factors-600.webp" alt="Disc stack centrifuge capacity factors summary diagram" width="600" height="400" loading="lazy" class="rounded-lg w-full" />
+    <figcaption class="text-xs text-center text-text-light mt-2">Disc Stack Centrifuge Capacity Factors</figcaption>
+  </figure>
+
+  <!-- Centrifuge Size -->
+  <h3 id="size" class="text-xl font-bold text-navy mb-3">Centrifuge Size</h3>
+  <p class="text-text-light leading-relaxed mb-4">The bowl volume of a centrifuge is proportional to the physical size of the centrifuge. Larger bowl volumes allow a higher residence time for the fluid under the high centrifugal force.</p>
+  <p class="text-text-light leading-relaxed mb-6">Therefore, a physically large centrifuge has a higher processing capacity than a small centrifuge for the same process fluid.</p>
+
+  <!-- Fluid Properties -->
+  <h3 id="fluid-props" class="text-xl font-bold text-navy mb-3">Fluid Properties</h3>
+  <p class="text-text-light leading-relaxed mb-6">The process fluid properties have a significant effect on the processing capacity of the centrifuge. The following is a list of fluid properties and their effect on the centrifuge capacity.</p>
+
+  <!-- Viscosity -->
+  <h4 id="viscosity" class="text-lg font-bold text-navy mb-3">Viscosity</h4>
+  <p class="text-text-light leading-relaxed mb-4">The formula below predicts the velocity of particles in a fluid and is known as Stokes' equation. The equation shows that the particle's velocity (separation efficiency) is inversely proportional to the fluid viscosity.</p>
+
+  <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-4 font-mono text-sm">
+    <div class="text-center text-navy font-bold text-base mb-3">V = gRp²(ρ<sub>p</sub>–ρ) / 4.5μ</div>
+    <div class="space-y-1 text-text-light text-xs">
+      <div><strong>V</strong> = Terminal Velocity of Particle</div>
+      <div><strong>Rp</strong> = Radius of Particle</div>
+      <div><strong>g</strong> = Gravitation or G-Force</div>
+      <div><strong>ρ<sub>p</sub></strong> = Density of Particle</div>
+      <div><strong>ρ</strong> = Density of Fluid</div>
+      <div><strong>μ</strong> = Viscosity of Fluid</div>
     </div>
-  </section>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <p class="text-text-light leading-relaxed mb-4">A reduced particle velocity implies a longer separation time which means viscous fluids require higher residence time for the particles to separate. Since the residence time is inversely proportional to the flow rate, viscous fluids reduce the centrifuge processing capacity.</p>
+  <p class="text-text-light leading-relaxed mb-6">In the case of an oil processing centrifuge, a thicker, more viscous oil will have a lower flow rate than a lighter, less viscous oil through the same <a href="/oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">oil centrifuge</a>.</p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems with rated capacities from 4 GPM (DMB-004) to 108 GPM (DMPX-070) on diesel fuel. Actual throughput varies by fluid viscosity and separation target — Dolphin engineers size each system for real-world conditions, not swallowing capacity. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifuge selection and sizing.</p>
-      </div>
-      <!-- Intro -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-text-light leading-relaxed mb-3">Disc stack centrifuge capacity is often confusing to first-time centrifuge customers primarily due to the wide range of capacities mentioned by used equipment sellers, online literature, and general users.</p>
-        <p class="text-text-light leading-relaxed mb-3">So, in this article, we will explain the difference between swallowing capacity, rated capacity, and actual real-world capacity of disc stack centrifuges.</p>
-        <p class="text-text-light leading-relaxed">We will also explain why a disc centrifuge could potentially have different processing capacities mentioned for the same application.</p>
-      </div>
+  <!-- Temperature -->
+  <h4 id="temperature" class="text-lg font-bold text-navy mb-3">Temperature</h4>
+  <figure class="mb-4">
+    <img src="/images/disc-stack-centrifuge-capacity/oil-viscosity-vs-temperature-600.webp" alt="Oil viscosity versus temperature graph showing how heating reduces oil viscosity" width="600" height="400" loading="lazy" class="rounded-lg w-full" />
+    <figcaption class="text-xs text-center text-text-light mt-2">Oil Viscosity versus Temperature Graph</figcaption>
+  </figure>
+  <p class="text-text-light leading-relaxed mb-6">The fluid viscosity is a crucial factor in centrifuge processing. The processing temperature of the fluid often reduces the fluid viscosity, which improves the separation. Therefore, when processing thick, viscous fluids, the temperature of the fluid reduces the viscosity and increases throughput capacity.</p>
 
-      <!-- Table of Contents -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-lg font-bold text-navy mb-4">Table of Contents</h2>
-        <ol class="space-y-1 text-navy text-sm">
-          <li><a href="#terminology" class="hover:text-gold transition-colors">1. Disc Stack Centrifuge Capacity Terminology</a>
-            <ol class="ml-4 mt-1 space-y-1 list-[lower-alpha]">
-              <li><a href="#swallowing" class="hover:text-gold transition-colors">Swallowing Capacity</a></li>
-              <li><a href="#rated" class="hover:text-gold transition-colors">Rated Capacity</a></li>
-              <li><a href="#specific" class="hover:text-gold transition-colors">Capacity on Specific Liquid</a></li>
-              <li><a href="#range" class="hover:text-gold transition-colors">Range of Capacities for Specific Fluids</a></li>
-            </ol>
-          </li>
-          <li><a href="#factors" class="hover:text-gold transition-colors">2. Factors Affecting Capacity</a>
-            <ol class="ml-4 mt-1 space-y-1 list-[lower-alpha]">
-              <li><a href="#size" class="hover:text-gold transition-colors">Centrifuge Size</a></li>
-              <li><a href="#fluid-props" class="hover:text-gold transition-colors">Fluid Properties</a></li>
-              <li><a href="#viscosity" class="hover:text-gold transition-colors">Viscosity</a></li>
-              <li><a href="#temperature" class="hover:text-gold transition-colors">Temperature</a></li>
-              <li><a href="#sludge" class="hover:text-gold transition-colors">Sludge or Solids in Fluid</a></li>
-              <li><a href="#particle-size" class="hover:text-gold transition-colors">Particle Size</a></li>
-              <li><a href="#particle-density" class="hover:text-gold transition-colors">Solid Particle Density</a></li>
-              <li><a href="#desired-results" class="hover:text-gold transition-colors">Desired Results</a></li>
-              <li><a href="#design" class="hover:text-gold transition-colors">Centrifuge Design</a></li>
-            </ol>
-          </li>
-        </ol>
-      </div>
+  <!-- Sludge or Solids -->
+  <h4 id="sludge" class="text-lg font-bold text-navy mb-3">Sludge or Solids in Fluid</h4>
+  <p class="text-text-light leading-relaxed mb-6">In the case of a <a href="/self-cleaning-disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">self-cleaning disc stack centrifuge</a>, the sludge discharge cycle interrupts the centrifuge processing. The percentage of solids is directly proportional to the frequency of sludge discharge cycles. And therefore, a higher solids percentage leads to more process interruptions which lead to lower processing capacity.</p>
 
-      <!-- Terminology -->
-      <h2 id="terminology" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Disc Stack Centrifuge Capacity Terminology</h2>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-text-light leading-relaxed mb-6">In the first section, we explain the various terms that people use to describe the capacity of an industrial centrifuge with a disc stack.</p>
+  <!-- Particle Size -->
+  <h4 id="particle-size" class="text-lg font-bold text-navy mb-3">Particle Size</h4>
+  <p class="text-text-light leading-relaxed mb-3">The particle size in the process fluid affects the capacity of the centrifuge. All other factors being equal, the centrifuge flow rate is directly proportional to the particle size separated. In other words, a lesser flow rate leads to longer residence time which allows for smaller particle size separation.</p>
+  <p class="text-text-light leading-relaxed mb-6">Therefore, the same centrifuge can separate smaller particles at a lower flow rate.</p>
 
-        <h3 id="swallowing" class="text-xl font-bold text-navy mb-3">Swallowing Capacity</h3>
-        <p class="text-text-light leading-relaxed mb-6">The swallowing capacity, also known as the hydraulic capacity, is the centrifuge passages' physical flow. This capacity is just a theoretical estimate often unrelated to the centrifuge's actual (real-world) capacity.</p>
+  <!-- Solid Particle Density -->
+  <h4 id="particle-density" class="text-lg font-bold text-navy mb-3">Solid Particle Density</h4>
+  <p class="text-text-light leading-relaxed mb-3">Denser particles separate quickly from the fluid per Stokes' law. Therefore, a particular centrifuge can process a higher capacity for a fluid with denser particles than the same fluid with lighter particles.</p>
+  <p class="text-text-light leading-relaxed mb-6">For example, consider water with sand particles and water with organic particles. The disc stack centrifuge capacity on water with sand will be higher than the centrifuge capacity on the water with lighter, organic particles.</p>
 
-        <h3 id="rated" class="text-xl font-bold text-navy mb-3">Rated Capacity</h3>
-        <p class="text-text-light leading-relaxed mb-6">The rated capacity of a centrifuge is the flow rate the centrifuge can process of a low viscosity fluid such as distillate or water. This capacity is the maximum separation capacity of the centrifuge under optimum conditions.</p>
+  <!-- Desired Results -->
+  <h3 id="desired-results" class="text-xl font-bold text-navy mb-3">Desired Results</h3>
+  <figure class="mb-4">
+    <img src="/images/disc-stack-centrifuge-capacity/Flow-Rate-vs-Particle-Separation-Efficiency-800.webp" alt="Graph showing flow rate versus particle separation efficiency — lower flow rate achieves finer separation" width="800" height="273" loading="lazy" class="rounded-lg w-full" />
+    <figcaption class="text-xs text-center text-text-light mt-2">Flow Rate versus Particle Separation Efficiency</figcaption>
+  </figure>
+  <p class="text-text-light leading-relaxed mb-4">The process flow rate (capacity) is inversely proportional to the fluid separation efficiency. In other words, the lesser the flow rate, the better the separation.</p>
 
-        <h3 id="specific" class="text-xl font-bold text-navy mb-3">Capacity on Specific Liquid</h3>
-        <p class="text-text-light leading-relaxed mb-3">The actual capacity of the centrifuge is highly dependent on the physical properties of the process fluid. A specific centrifuge model has a recommended capacity table of flow rates for liquids of different viscosities.</p>
-        <p class="text-text-light leading-relaxed">The capacity of the centrifuge decreases as the viscosity of the process liquid increases. The examples below explain this phenomenon.</p>
-      </div>
+  <figure class="mb-4">
+    <img src="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Effect-of-Flow-Rate-on-Centrate-Clarity.webp" alt="Disc stack centrifuge effect of flow rate on centrate clarity — lower flow rate produces clearer output" width="1000" height="257" loading="lazy" class="rounded-lg w-full" />
+    <figcaption class="text-xs text-center text-text-light mt-2">Disc Stack Centrifuge — Effect of Flow Rate on Centrate Clarity</figcaption>
+  </figure>
+  <p class="text-text-light leading-relaxed mb-3">Therefore, the operator can reduce the flow rate to achieve better results with the same centrifuge.</p>
+  <p class="text-text-light leading-relaxed italic mb-6">From the above example, it is clear that a disc stack centrifuge's capacity varies for the same application depending on the desired results.</p>
 
-      <!-- Range of Capacities Table -->
-      <h2 id="range" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Range of Capacities for Specific Fluids</h2>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-text-light leading-relaxed mb-6">The following table shows the various capacities of a disc stack centrifuge for fluids with different viscosities. All flow rates are in GPM.</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Centrifuge Model</th>
-                <th class="text-center px-4 py-3 font-semibold">Diesel<br/><span class="font-normal text-xs text-gray-300">1.5 cSt</span></th>
-                <th class="text-center px-4 py-3 font-semibold">Turbine Lube<br/><span class="font-normal text-xs text-gray-300">2 cSt</span></th>
-                <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">100 cSt</span></th>
-                <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">380 cSt</span></th>
-                <th class="text-center px-4 py-3 font-semibold">HFO<br/><span class="font-normal text-xs text-gray-300">600 cSt</span></th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-405</td>
-                <td class="px-4 py-3 text-center text-text-light">16</td>
-                <td class="px-4 py-3 text-center text-text-light">15</td>
-                <td class="px-4 py-3 text-center text-text-light">11</td>
-                <td class="px-4 py-3 text-center text-text-light">6</td>
-                <td class="px-4 py-3 text-center text-text-light">2</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-409</td>
-                <td class="px-4 py-3 text-center text-text-light">36</td>
-                <td class="px-4 py-3 text-center text-text-light">34</td>
-                <td class="px-4 py-3 text-center text-text-light">24</td>
-                <td class="px-4 py-3 text-center text-text-light">14</td>
-                <td class="px-4 py-3 text-center text-text-light">10</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium text-navy">Alfa Laval WHPX-513</td>
-                <td class="px-4 py-3 text-center text-text-light">71</td>
-                <td class="px-4 py-3 text-center text-text-light">68</td>
-                <td class="px-4 py-3 text-center text-text-light">47</td>
-                <td class="px-4 py-3 text-center text-text-light">28</td>
-                <td class="px-4 py-3 text-center text-text-light">19</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-xs text-text-light mt-3">Flow rates in GPM. Note how capacity drops sharply as viscosity increases from 2 cSt (turbine lube) to 380 cSt (heavy fuel oil).</p>
-      </div>
+  <!-- Centrifuge Design -->
+  <h3 id="design" class="text-xl font-bold text-navy mb-3">Centrifuge Design</h3>
+  <p class="text-text-light leading-relaxed mb-3">Disc stack centrifuges have design parameters specific to the original application. For example, a centrifuge to separate diesel from water has fluid pathways that allow a large proportion of the light phase (diesel) and small quantities of the heavy phase (water).</p>
+  <p class="text-text-light leading-relaxed mb-3">The processing capacity of this particular centrifuge degrades when the predominant proportion of the fluid is water with a small quantity of diesel. This degradation is because the water pathway does not allow the high volumes of water to exit the centrifuge fast enough, which degrades processing capacity.</p>
+  <p class="text-text-light leading-relaxed mb-6">Thus, the original design of the centrifuge plays a vital role in the centrifuge processing capacity for a particular application. Learn more about <a href="/disc-centrifuge-purifier-clarifier-difference/" class="text-navy font-semibold hover:text-gold transition-colors">purifier vs clarifier centrifuge design differences</a>.</p>
 
-      <!-- Factors Affecting Capacity -->
-      <h2 id="factors" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Factors Affecting Capacity</h2>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-text-light leading-relaxed mb-6">The physical properties of the centrifuge and those of the process fluid influence the processing capacity of the centrifuge.</p>
+  <!-- Author Attribution -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
+    <p class="text-text-light text-sm italic">by <strong>Sanjay Prabhu MSME</strong>, Engineering Manager, Dolphin Centrifuge</p>
+  </div>
 
-        <figure class="mb-6">
-          <img src="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Capacity-Factors-600.webp" alt="Disc stack centrifuge capacity factors summary diagram" width="600" height="400" loading="lazy" class="rounded-lg w-full" />
-          <figcaption class="text-xs text-center text-text-light mt-2">Disc Stack Centrifuge Capacity Factors</figcaption>
-        </figure>
-
-        <!-- Centrifuge Size -->
-        <h3 id="size" class="text-xl font-bold text-navy mb-3">Centrifuge Size</h3>
-        <p class="text-text-light leading-relaxed mb-6">The bowl volume of a centrifuge is proportional to the physical size of the centrifuge. Larger bowl volumes allow a higher residence time for the fluid under the high centrifugal force.</p>
-        <p class="text-text-light leading-relaxed mb-6">Therefore, a physically large centrifuge has a higher processing capacity than a small centrifuge for the same process fluid.</p>
-
-        <!-- Fluid Properties -->
-        <h3 id="fluid-props" class="text-xl font-bold text-navy mb-3">Fluid Properties</h3>
-        <p class="text-text-light leading-relaxed mb-6">The process fluid properties have a significant effect on the processing capacity of the centrifuge. The following is a list of fluid properties and their effect on the centrifuge capacity.</p>
-
-        <!-- Viscosity -->
-        <h4 id="viscosity" class="text-lg font-bold text-navy mb-3">Viscosity</h4>
-        <p class="text-text-light leading-relaxed mb-4">The formula below predicts the velocity of particles in a fluid and is known as Stokes' equation. The equation shows that the particle's velocity (separation efficiency) is inversely proportional to the fluid viscosity.</p>
-
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-4 font-mono text-sm">
-          <div class="text-center text-navy font-bold text-base mb-3">V = gRp²(ρ<sub>p</sub>–ρ) / 4.5μ</div>
-          <div class="space-y-1 text-text-light text-xs">
-            <div><strong>V</strong> = Terminal Velocity of Particle</div>
-            <div><strong>Rp</strong> = Radius of Particle</div>
-            <div><strong>g</strong> = Gravitation or G-Force</div>
-            <div><strong>ρ<sub>p</sub></strong> = Density of Particle</div>
-            <div><strong>ρ</strong> = Density of Fluid</div>
-            <div><strong>μ</strong> = Viscosity of Fluid</div>
-          </div>
-        </div>
-
-        <p class="text-text-light leading-relaxed mb-4">A reduced particle velocity implies a longer separation time which means viscous fluids require higher residence time for the particles to separate. Since the residence time is inversely proportional to the flow rate, viscous fluids reduce the centrifuge processing capacity.</p>
-        <p class="text-text-light leading-relaxed mb-6">In the case of an oil processing centrifuge, a thicker, more viscous oil will have a lower flow rate than a lighter, less viscous oil through the same <a href="/oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">oil centrifuge</a>.</p>
-
-        <!-- Temperature -->
-        <h4 id="temperature" class="text-lg font-bold text-navy mb-3">Temperature</h4>
-        <figure class="mb-4">
-          <img src="/images/disc-stack-centrifuge-capacity/oil-viscosity-vs-temperature-600.webp" alt="Oil viscosity versus temperature graph showing how heating reduces oil viscosity" width="600" height="400" loading="lazy" class="rounded-lg w-full" />
-          <figcaption class="text-xs text-center text-text-light mt-2">Oil Viscosity versus Temperature Graph</figcaption>
-        </figure>
-        <p class="text-text-light leading-relaxed mb-6">The fluid viscosity is a crucial factor in centrifuge processing. The processing temperature of the fluid often reduces the fluid viscosity, which improves the separation. Therefore, when processing thick, viscous fluids, the temperature of the fluid reduces the viscosity and increases throughput capacity.</p>
-
-        <!-- Sludge or Solids -->
-        <h4 id="sludge" class="text-lg font-bold text-navy mb-3">Sludge or Solids in Fluid</h4>
-        <p class="text-text-light leading-relaxed mb-6">In the case of a self-cleaning disc stack centrifuge, the sludge discharge cycle interrupts the centrifuge processing. The percentage of solids is directly proportional to the frequency of sludge discharge cycles. And therefore, a higher solids percentage leads to more process interruptions which lead to lower processing capacity.</p>
-
-        <!-- Particle Size -->
-        <h4 id="particle-size" class="text-lg font-bold text-navy mb-3">Particle Size</h4>
-        <p class="text-text-light leading-relaxed mb-3">The particle size in the process fluid affects the capacity of the centrifuge. All other factors being equal, the centrifuge flow rate is directly proportional to the particle size separated. In other words, a lesser flow rate leads to longer residence time which allows for smaller particle size separation.</p>
-        <p class="text-text-light leading-relaxed mb-6">Therefore, the same centrifuge can separate smaller particles at a lower flow rate.</p>
-
-        <!-- Solid Particle Density -->
-        <h4 id="particle-density" class="text-lg font-bold text-navy mb-3">Solid Particle Density</h4>
-        <p class="text-text-light leading-relaxed mb-3">Denser particles separate quickly from the fluid per Stokes' law. Therefore, a particular centrifuge can process a higher capacity for a fluid with denser particles than the same fluid with lighter particles.</p>
-        <p class="text-text-light leading-relaxed mb-6">For example, consider water with sand particles and water with organic particles. The disc stack centrifuge capacity on water with sand will be higher than the centrifuge capacity on the water with lighter, organic particles.</p>
-
-        <!-- Desired Results -->
-        <h3 id="desired-results" class="text-xl font-bold text-navy mb-3">Desired Results</h3>
-        <figure class="mb-4">
-          <img src="/images/disc-stack-centrifuge-capacity/Flow-Rate-vs-Particle-Separation-Efficiency-800.webp" alt="Graph showing flow rate versus particle separation efficiency — lower flow rate achieves finer separation" width="800" height="273" loading="lazy" class="rounded-lg w-full" />
-          <figcaption class="text-xs text-center text-text-light mt-2">Flow Rate versus Particle Separation Efficiency</figcaption>
-        </figure>
-        <p class="text-text-light leading-relaxed mb-4">The process flow rate (capacity) is inversely proportional to the fluid separation efficiency. In other words, the lesser the flow rate, the better the separation.</p>
-
-        <figure class="mb-4">
-          <img src="/images/disc-stack-centrifuge-capacity/Disc-Stack-Centrifuge-Effect-of-Flow-Rate-on-Centrate-Clarity.webp" alt="Disc stack centrifuge effect of flow rate on centrate clarity — lower flow rate produces clearer output" width="1000" height="257" loading="lazy" class="rounded-lg w-full" />
-          <figcaption class="text-xs text-center text-text-light mt-2">Disc Stack Centrifuge — Effect of Flow Rate on Centrate Clarity</figcaption>
-        </figure>
-        <p class="text-text-light leading-relaxed mb-3">Therefore, the operator can reduce the flow rate to achieve better results with the same centrifuge.</p>
-        <p class="text-text-light leading-relaxed italic mb-6">From the above example, it is clear that a disc stack centrifuge's capacity varies for the same application depending on the desired results.</p>
-
-        <!-- Centrifuge Design -->
-        <h3 id="design" class="text-xl font-bold text-navy mb-3">Centrifuge Design</h3>
-        <p class="text-text-light leading-relaxed mb-3">Disc stack centrifuges have design parameters specific to the original application. For example, a centrifuge to separate diesel from water has fluid pathways that allow a large proportion of the light phase (diesel) and small quantities of the heavy phase (water).</p>
-        <p class="text-text-light leading-relaxed mb-3">The processing capacity of this particular centrifuge degrades when the predominant proportion of the fluid is water with a small quantity of diesel. This degradation is because the water pathway does not allow the high volumes of water to exit the centrifuge fast enough, which degrades processing capacity.</p>
-        <p class="text-text-light leading-relaxed">Thus, the original design of the centrifuge plays a vital role in the centrifuge processing capacity for a particular application.</p>
-      </div>
-
-      <!-- Author Attribution -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
-        <p class="text-text-light text-sm italic">by <strong>Sanjay Prabhu MSME</strong>, Engineering Manager, Dolphin Centrifuge</p>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-4 mb-8">
-        <h2 class="text-2xl font-bold text-white mb-3">Need Help Selecting the Right Centrifuge Capacity?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Our engineers can evaluate your fluid properties and determine the correct centrifuge size and flow rate for your application.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Contact Our Engineers</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">sales@dolphincentrifuge.com</a>
-        </div>
-      </div>
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-          <a href="/disc-centrifuge-purifier-clarifier-difference/" class="block p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
-            <div class="font-semibold text-navy text-sm mb-1">Purifier vs. Clarifier Centrifuge</div>
-            <div class="text-xs text-text-light">Understand the fundamental difference between two-phase and three-phase disc centrifuge separation.</div>
-          </a>
-          <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="block p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
-            <div class="font-semibold text-navy text-sm mb-1">Disc Stack Centrifuge Troubleshooting</div>
-            <div class="text-xs text-text-light">Diagnose and fix common disc centrifuge mechanical issues affecting throughput and separation.</div>
-          </a>
-          <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="block p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
-            <div class="font-semibold text-navy text-sm mb-1">Decanter vs. Disc Stack Centrifuge</div>
-            <div class="text-xs text-text-light">How to choose between decanter and disc stack centrifuges for your application.</div>
-          </a>
-          <a href="/disc-stack-centrifuge-faq/" class="block p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors">
-            <div class="font-semibold text-navy text-sm mb-1">Disc Stack Centrifuge FAQ</div>
-            <div class="text-xs text-text-light">Answers to frequently asked questions about disc stack centrifuge selection and operation.</div>
-          </a>
-          <a href="/disc-stack-centrifuge/" class="block p-4 rounded-lg border border-gray-200 hover:border-gold transition-colors"><p class="font-semibold text-navy text-sm">Disc Stack Centrifuge Overview</p><p class="text-xs text-text-light mt-1">Types, models, and applications</p></a>
-        </div>
-      </div>
-
-    </div>
-  </section>
   <!-- FAQ Section -->
-  <section class="bg-warm-white py-12">
-    <div class="container-dolphin max-w-4xl">
-      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What is the difference between swallowing capacity and rated capacity?</summary>
-          <p class="text-text-light mt-3 text-sm">Swallowing capacity is the maximum volumetric flow rate the centrifuge pump and piping can handle physically — it is not the separation-effective rate. Rated capacity is the manufacturer's specified throughput for a given fluid at standard conditions (typically diesel at 13 cSt). Actual capacity in real-world operation may be lower due to fluid viscosity, temperature, solids content, and the required separation quality.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How does fluid viscosity affect disc stack centrifuge capacity?</summary>
-          <p class="text-text-light mt-3 text-sm">Higher viscosity directly reduces centrifuge throughput. As a rule of thumb: doubling the viscosity roughly halves the effective capacity. For example, a DMPX-028 rated at 25 GPM on diesel (13 cSt) drops to approximately 10–12 GPM on 100 cSt lube oil, and as low as 3–4 GPM on 700 cSt heavy fuel oil (HFO 380).</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Does temperature affect disc stack centrifuge capacity?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Higher temperature reduces fluid viscosity, which increases centrifuge capacity. Most heavy oils are preheated to 190–210°F before centrifuge processing to bring viscosity down to the 30–100 cSt range where the centrifuge operates efficiently. Heating is often the most effective way to recover capacity on viscous fluids.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How do I select the right disc stack centrifuge capacity for my application?</summary>
-          <p class="text-text-light mt-3 text-sm">Start with your required throughput in GPM, then identify your fluid viscosity at operating temperature. Apply the viscosity de-rating factor (from manufacturer tables) to the rated capacity to get effective capacity for your fluid. Add 20–30% buffer for flow surges and future expansion. Dolphin Centrifuge engineers can size the right DMPX model for your application — call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a>.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Does solids content affect disc stack centrifuge capacity?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Higher solids content fills the sludge space faster, requiring more frequent bowl ejection cycles (for self-cleaning centrifuges) or more frequent manual cleaning (for solid-bowl types). In practical terms, high solids reduce effective throughput because the centrifuge must spend more time on cleaning cycles and less time on separation.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+  <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+  <div class="space-y-4 mb-8">
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">What is the difference between swallowing capacity and rated capacity?</summary>
+      <p class="text-text-light mt-3 text-sm">Swallowing capacity is the maximum volumetric flow rate the centrifuge pump and piping can handle physically — it is not the separation-effective rate. Rated capacity is the manufacturer's specified throughput for a given fluid at standard conditions (typically diesel at 13 cSt). Actual capacity in real-world operation may be lower due to fluid viscosity, temperature, solids content, and the required separation quality.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">How does fluid viscosity affect disc stack centrifuge capacity?</summary>
+      <p class="text-text-light mt-3 text-sm">Higher viscosity directly reduces centrifuge throughput. As a rule of thumb: doubling the viscosity roughly halves the effective capacity. For example, a DMPX-028 rated at 25 GPM on diesel (13 cSt) drops to approximately 10–12 GPM on 100 cSt lube oil, and as low as 3–4 GPM on 700 cSt heavy fuel oil (HFO 380).</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">Does temperature affect disc stack centrifuge capacity?</summary>
+      <p class="text-text-light mt-3 text-sm">Yes. Higher temperature reduces fluid viscosity, which increases centrifuge capacity. Most heavy oils are preheated to 190–210°F before centrifuge processing to bring viscosity down to the 30–100 cSt range where the centrifuge operates efficiently. Heating is often the most effective way to recover capacity on viscous fluids.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">How do I select the right disc stack centrifuge capacity for my application?</summary>
+      <p class="text-text-light mt-3 text-sm">Start with your required throughput in GPM, then identify your fluid viscosity at operating temperature. Apply the viscosity de-rating factor (from manufacturer tables) to the rated capacity to get effective capacity for your fluid. Add 20–30% buffer for flow surges and future expansion. Dolphin Centrifuge engineers can size the right DMPX model for your application — call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a>.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">Does solids content affect disc stack centrifuge capacity?</summary>
+      <p class="text-text-light mt-3 text-sm">Yes. Higher solids content fills the sludge space faster, requiring more frequent bowl ejection cycles (for self-cleaning centrifuges) or more frequent manual cleaning (for solid-bowl types). In practical terms, high solids reduce effective throughput because the centrifuge must spend more time on cleaning cycles and less time on separation.</p>
+    </details>
+  </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-</BaseLayout>
+</ApplicationLayout>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -48,56 +48,57 @@ const faqJsonLd = {
     }
   ]
 };
+
+const toc = [
+  { id: "excessive-vibration", label: "Centrifuge Excessive Vibration" },
+  { id: "unusual-smell", label: "Unusual Smell" },
+  { id: "excessive-noise", label: "Excessive Noise" },
+  { id: "low-operating-speed", label: "Low Operating Speed" },
+  { id: "high-current", label: "High Current on Startup" },
+  { id: "low-current", label: "Low Current on Startup" },
+  { id: "long-starting-time", label: "Long Starting Time" },
+  { id: "long-stoppage-time", label: "Long Stoppage Time" },
+  { id: "water-in-housing", label: "Water in Transmission Housing" },
+  { id: "oil-leaking", label: "Oil Leaking from Transmission Housing" },
+];
+
+const relatedApplications = [
+  { label: "Disc Stack Centrifuge Overview", href: "/disc-stack-centrifuge/", description: "Types, specs, and models" },
+  { label: "Bowl Leaking Troubleshooting", href: "/disc-stack-centrifuge-troubleshooting-bowl-leaking/", description: "Diagnose and fix bowl leaks" },
+  { label: "Cannot Reach Operating Speed", href: "/disc-centrifuge-cannot-reach-operating-speed/", description: "Causes and fixes for low speed" },
+  { label: "Paring Disc Blockage", href: "/disc-centrifuge-troubleshooting-paring-disc-block/", description: "Symptoms and corrective actions" },
+  { label: "Clogged Bowl Discs", href: "/centrifuge-clogged-bowl-discs/", description: "Identify and fix fouled disc stacks" },
+  { label: "Disc Centrifuge Backpressure Guide", href: "/disc-centrifuge-backpressure/", description: "Setup and adjustment" },
+  { label: "Disc Centrifuge Parts Glossary", href: "/disc-centrifuge-parts-glossary/", description: "All components defined" },
+];
+
+const relatedProducts = [
+  { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/", description: "Mid-range self-cleaning separator" },
+  { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/", description: "Compact self-cleaning separator" },
+  { label: "DMPX-070 Disc Centrifuge", href: "/centrifuges/dmpx-070/", description: "High-capacity disc separator" },
+];
+
+const allJsonLd = [jsonLd, faqJsonLd];
 ---
 
-<BaseLayout
-  title="Disc Stack Centrifuge: Top 10 Mechanical Issues & Fixes"
-  description="Troubleshooting guide for disc stack centrifuge mechanical problems — vibration, noise, low speed, high current, oil leaks — causes and fixes."
+<ApplicationLayout
+  title="Disc Stack Centrifuge: Top 10 Mechanical Issues & Fixes | Dolphin Centrifuge"
+  description="Troubleshoot disc stack centrifuge problems: vibration, noise, burning smell, low speed, high/low current, oil leaks, and water in gearbox — causes and fixes."
+  heroImage="/images/disc-stack-centrifuge-mechanical-issues-fixes/disc-stack-centrifuge-repair-600.webp"
+  heroImageAlt="Disc stack centrifuge repair and mechanical troubleshooting"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  jsonLd={allJsonLd}
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-mechanical-issues-fixes/"
-  breadcrumbs={[
-    { label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/' },
-    { label: 'Disc Stack Centrifuge Mechanical Issues & Fixes' }
-  ]}
-  jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-navy text-white py-14 md:py-20">
-    <div class="container-dolphin max-w-5xl">
-      <div class="md:flex md:items-center md:gap-10">
-        <div class="md:w-1/2">
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">
-            Disc Stack Centrifuge — Top 10 Mechanical Issues &amp; Fixes
-          </h1>
-          <p class="text-blue-200 text-base leading-relaxed">
-            A comprehensive troubleshooting guide covering the most common mechanical problems in disc stack centrifuges — with causes and practical fixes for each issue.
-          </p>
-          <p class="text-sm text-blue-300 mt-4 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-        </div>
-        <div class="md:w-1/2 mt-8 md:mt-0">
-          <img
-            src="/images/disc-stack-centrifuge-mechanical-issues-fixes/disc-stack-centrifuge-repair-600.webp"
-            alt="Disc stack centrifuge repair and mechanical troubleshooting"
-            width="600" height="274"
-            loading="eager"
-            class="rounded-xl w-full object-cover shadow-lg"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides comprehensive troubleshooting support for disc stack centrifuge mechanical problems — including excessive vibration, unusual sounds, overheating, slow acceleration, and bowl assembly issues. Disc stack centrifuges operate at 3,000–8,000+ RPM and require prompt attention when mechanical symptoms appear to prevent serious damage. Dolphin Centrifuge provides field service, parts, and complete bowl rebuilds for all Alfa Laval and industrial disc centrifuge models. Based in Warren, Michigan, with over 40 years of centrifuge mechanical experience.</p>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides comprehensive troubleshooting support for disc stack centrifuges operating at 3,000–8,000+ RPM — covering the 10 most common mechanical problems including excessive vibration, burning smell, unusual noise, low bowl speed, high or low startup current, long start/stop times, water in gearbox, and oil leaks. Each issue is diagnosed with root causes and practical corrective actions. Dolphin Centrifuge offers field service, genuine parts, and complete bowl rebuilds for all Alfa Laval and industrial disc centrifuge models, backed by 40+ years of centrifuge mechanical expertise based in Warren, Michigan.</p>
+  </div>
 
       <!-- Synopsis -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
@@ -673,28 +674,6 @@ const faqJsonLd = {
         <p class="text-sm text-gray-500 mt-4 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
       </div>
 
-      <!-- CTA -->
-      <div class="bg-navy rounded-xl p-6 md:p-8 mb-8 text-white text-center">
-        <h2 class="text-2xl font-bold mb-3">Need Help Troubleshooting Your Centrifuge?</h2>
-        <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-          Dolphin Centrifuge offers lifetime technical support to all our customers. If you are experiencing mechanical issues with your disc stack centrifuge, call or email our US-based centrifuge specialists.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+12485222573" class="inline-flex items-center justify-center gap-2 bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-yellow-400 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            (248) 522-2573
-          </a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="inline-flex items-center justify-center gap-2 bg-white text-navy font-bold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            sales@dolphincentrifuge.com
-          </a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089 · US-based specialists</p>
-      </div>
 
       <!-- FAQ -->
       <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
@@ -718,7 +697,6 @@ const faqJsonLd = {
           </div>
         </div>
       </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
@@ -752,7 +730,5 @@ const faqJsonLd = {
         </div>
       </div>
 
-    </div>
-  </section>
 
-</BaseLayout>
+</ApplicationLayout>
