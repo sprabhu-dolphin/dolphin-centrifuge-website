@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What do Dolphin Centrifuge customers say about their support experience?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Customers consistently note Dolphin Centrifuge's rapid response time, deep technical knowledge of their equipment, and long-term relationship focus. Multiple customers report relationships spanning 15+ years. The company's engineering manager has fielded support calls at 2 AM from customers in Japan and other international locations. Technical support is included at no additional charge for all centrifuges supplied." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge provide references for specific applications?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge can provide customer references for most centrifuge applications including waste oil recovery, food processing, pharmaceutical, metalworking coolant, wastewater treatment, and marine applications. Contact us at (248) 522-2573 or sales@dolphincentrifuge.com to request application-specific references." }
+    },
+    {
+      "@type": "Question",
+      "name": "How long has Dolphin Centrifuge been in business?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge was founded in 1981 — over 40 years serving industrial customers with disc stack and decanter centrifuge systems, parts, and service. The company began as an Alfa Laval aftermarket parts supplier and grew into a full-service centrifuge systems manufacturer based in Warren, Michigan." }
+    }
+  ]
+};
+
 const testimonials = [
   {
     id: 1,
@@ -282,6 +304,26 @@ const jsonLd = {
           Or email <a href="mailto:sales@dolphincentrifuge.com" class="text-white hover:text-[#E8A317] transition-colors underline underline-offset-2">sales@dolphincentrifuge.com</a> — 24248 Gibson Dr, Warren MI 48089
         </p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What do Dolphin Centrifuge customers say about their support experience?</h3>
+            <p class="text-text-light text-sm">Customers consistently note Dolphin Centrifuge's rapid response time, deep technical knowledge of their equipment, and long-term relationship focus. Multiple customers report relationships spanning 15+ years. Technical support is included at no additional charge for all centrifuges supplied.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge provide references for specific applications?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge can provide customer references for most centrifuge applications including waste oil recovery, food processing, pharmaceutical, metalworking coolant, wastewater treatment, and marine applications. Contact us at (248) 522-2573 or sales@dolphincentrifuge.com to request application-specific references.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How long has Dolphin Centrifuge been in business?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge was founded in 1981 — over 40 years serving industrial customers with disc stack and decanter centrifuge systems, parts, and service. The company began as an Alfa Laval aftermarket parts supplier and grew into a full-service centrifuge systems manufacturer based in Warren, Michigan.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related -->
       <div class="mt-12">

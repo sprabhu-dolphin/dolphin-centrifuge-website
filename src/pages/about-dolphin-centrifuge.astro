@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "When was Dolphin Centrifuge founded?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded from parts supply into engineering, manufacturing complete centrifuge system packages, and full-service centrifuge repair. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally." }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of centrifuges does Dolphin Centrifuge supply?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge supplies disc stack centrifuges (self-cleaning and manual-clean), decanter centrifuges, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support." }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is Dolphin Centrifuge located?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and application testing with their own process fluids." }
+    }
+  ]
+};
+
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -424,6 +446,26 @@ const jsonLd = [
           </a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">When was Dolphin Centrifuge founded?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded into engineering complete centrifuge system packages and full-service centrifuge repair. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What types of centrifuges does Dolphin Centrifuge supply?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies disc stack centrifuges (self-cleaning and manual-clean), decanter centrifuges, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Where is Dolphin Centrifuge located?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and application testing with their own process fluids.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- CTA -->
       <div class="bg-[#1B3A5C] rounded-xl p-8 text-white text-center">
