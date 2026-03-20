@@ -10,6 +10,45 @@ const jsonLd = {
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-510-centrifuge/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Dolphin equivalent of the Alfa Laval WHPX 510?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval WHPX 510 (or equivalent MOPX 209/310 / MAPX 210) centrifuge bowl. The DMPX-042 is a complete system module rated at 32–47 GPM on diesel, with full PLC controls, electric heaters, and piping."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What flow rate does the Alfa Laval WHPX 510 handle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval WHPX 510 handles approximately 42 GPM on diesel fuel (13 cSt at operating temperature) and approximately 24 GPM on lube oil at 30 cSt. For the equivalent Dolphin DMPX-042 system, rated capacity ranges from 32 to 47 GPM on diesel depending on configuration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the WHPX 510 self-cleaning or manual clean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval WHPX 510 is a self-cleaning (automatic partial-discharge) disc stack centrifuge. The bowl automatically ejects accumulated sludge through timed discharge cycles without stopping the centrifuge. This allows continuous uninterrupted operation ideal for high-volume waste oil and diesel purification applications."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What industries use the WHPX 510 / DMPX-042 centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The WHPX 510 / DMPX-042 is widely used in: waste oil recovery and re-refining, diesel fuel polishing for large fleet operations, crude oil dehydration in oilfields, biodiesel glycerin separation, marine fuel purification, and industrial lube oil reclamation. Its 42 GPM capacity on diesel makes it one of the most popular mid-range industrial centrifuges."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -127,6 +166,31 @@ const jsonLd = {
       <p class="text-text-light mb-8">
         <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
       </p>
+
+      <!-- FAQ Section -->
+      <div class="mt-12 mb-8">
+        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What is the Dolphin equivalent of the Alfa Laval WHPX 510?</summary>
+            <p class="text-text-light mt-3 text-sm">The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval WHPX 510 (or equivalent MOPX 209/310 / MAPX 210) centrifuge bowl. The DMPX-042 is a complete system module rated at 32–47 GPM on diesel, with full PLC controls, electric heaters, and piping.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What flow rate does the Alfa Laval WHPX 510 handle?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval WHPX 510 handles approximately 42 GPM on diesel fuel (13 cSt) and approximately 24 GPM on lube oil at 30 cSt. For the equivalent Dolphin DMPX-042 system, rated capacity ranges from 32 to 47 GPM on diesel depending on configuration.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">Is the WHPX 510 self-cleaning or manual clean?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval WHPX 510 is a self-cleaning (automatic partial-discharge) disc stack centrifuge. The bowl automatically ejects accumulated sludge through timed discharge cycles without stopping the centrifuge, allowing continuous uninterrupted operation ideal for high-volume waste oil and diesel purification.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What industries use the WHPX 510 / DMPX-042 centrifuge?</summary>
+            <p class="text-text-light mt-3 text-sm">The WHPX 510 / DMPX-042 is widely used in: waste oil recovery and re-refining, diesel fuel polishing for large fleet operations, crude oil dehydration in oilfields, biodiesel glycerin separation, marine fuel purification, and industrial lube oil reclamation.</p>
+          </details>
+        </div>
+      </div>
+
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

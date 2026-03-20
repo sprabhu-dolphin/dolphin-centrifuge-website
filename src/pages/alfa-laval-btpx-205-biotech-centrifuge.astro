@@ -1,6 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Alfa Laval BTPX 205 used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval BTPX-205 is a self-cleaning disc stack centrifuge used for biotech cell harvesting, pharmaceutical recovery, and fine chemical separation. Typical applications include fermentation broth clarification, organic cell harvesting, inclusion body recovery, plasma fraction recovery, vaccine production, and catalyst separation. It handles solids content up to 10% by volume and particle sizes from 0.5 to 500 microns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What G-force does the Alfa Laval BTPX-205 generate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval BTPX-205 generates 12,800 Gs of centrifugal force at its rated bowl speed of 9,650 RPM. This extreme G-force enables separation of particles as small as 0.5 microns, making it suitable for sub-micron pharmaceutical precipitates, cell debris, and fine biotech solids."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is partial discharge on the BTPX-205 and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partial discharge means the BTPX-205 ejects only the accumulated solid fraction during its self-cleaning cycle — not the liquid process fluid. This dramatically reduces product loss compared to full-discharge centrifuges, which is critical in pharmaceutical and biotech applications where the process liquid is the high-value product. Discharge intervals can be set by timer or by volume processed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the BTPX-205 CIP and SIP compatible?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The BTPX-205 features clean-in-place (CIP) and steam-in-place (SIP) compatible hygienic design with closed-loop hermetic operation. The product path is fully sealed from the atmosphere, preventing contamination and foaming. This makes it suitable for GMP-compliant pharmaceutical and biotech environments requiring documented cleanability."
+      }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -166,6 +205,31 @@ const jsonLd = {
       <p class="text-text-light mb-8">
         <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
       </p>
+
+      <!-- FAQ Section -->
+      <div class="mt-12 mb-8">
+        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What is the Alfa Laval BTPX 205 used for?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval BTPX-205 is a self-cleaning disc stack centrifuge used for biotech cell harvesting, pharmaceutical recovery, and fine chemical separation. Typical applications include fermentation broth clarification, organic cell harvesting, inclusion body recovery, plasma fraction recovery, vaccine production, and catalyst separation. It handles solids content up to 10% by volume and particle sizes from 0.5 to 500 microns.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What G-force does the Alfa Laval BTPX-205 generate?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval BTPX-205 generates 12,800 Gs of centrifugal force at its rated bowl speed of 9,650 RPM. This extreme G-force enables separation of particles as small as 0.5 microns, making it suitable for sub-micron pharmaceutical precipitates, cell debris, and fine biotech solids.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What is partial discharge on the BTPX-205 and why does it matter?</summary>
+            <p class="text-text-light mt-3 text-sm">Partial discharge means the BTPX-205 ejects only the accumulated solid fraction during its self-cleaning cycle — not the liquid process fluid. This dramatically reduces product loss compared to full-discharge centrifuges, which is critical in pharmaceutical and biotech applications where the process liquid is the high-value product. Discharge intervals can be set by timer or by volume processed.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">Is the BTPX-205 CIP and SIP compatible?</summary>
+            <p class="text-text-light mt-3 text-sm">Yes. The BTPX-205 features clean-in-place (CIP) and steam-in-place (SIP) compatible hygienic design with closed-loop hermetic operation. The product path is fully sealed from the atmosphere, preventing contamination and foaming. This makes it suitable for GMP-compliant pharmaceutical and biotech environments requiring documented cleanability.</p>
+          </details>
+        </div>
+      </div>
+
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What type of centrifuge is best for ethanol extraction?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Decanter centrifuges are preferred for continuous ethanol extraction operations due to their high throughput and fully automated operation. Basket centrifuges are used for smaller batch processes where maximum biomass dryness is critical. Decanters produce higher volumes of recovered ethanol per hour, while baskets achieve slightly drier cake for low-throughput applications." }
+    },
+    {
+      "@type": "Question",
+      "name": "What G-force is used for ethanol extraction centrifuges?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Decanter centrifuges for ethanol extraction typically operate at 1,500–3,000 × g. This G-force range is sufficient to sediment plant biomass (hemp, botanical) against the bowl wall while the clarified ethanol solvent exits as centrate. Higher G-force improves cake dryness and ethanol recovery from biomass." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do ethanol extraction centrifuges need explosion-proof motors?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Ethanol is a Class I, Division 1 flammable solvent. All centrifuges processing ethanol — including the motor, control panel, and all electrical components — must be rated for Class I Div 1 (or ATEX Zone 1 for international installations). Non-explosion-proof equipment in ethanol processing areas creates a serious fire and explosion hazard." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -300,6 +322,26 @@ const jsonLd = {
           <a href="/contact-for-alfa-laval-centrifuges/" class="border border-gray-300 text-navy font-semibold px-6 py-3 rounded-lg hover:border-navy transition-colors">Contact Our Engineers</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What type of centrifuge is best for ethanol extraction?</h3>
+            <p class="text-text-light text-sm">Decanter centrifuges are preferred for continuous ethanol extraction operations due to their high throughput and fully automated operation. Basket centrifuges are used for smaller batch processes where maximum biomass dryness is critical. Decanters produce higher volumes of recovered ethanol per hour, while baskets achieve slightly drier cake for low-throughput applications.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What G-force is used for ethanol extraction centrifuges?</h3>
+            <p class="text-text-light text-sm">Decanter centrifuges for ethanol extraction typically operate at 1,500–3,000 × g. This G-force range is sufficient to sediment plant biomass (hemp, botanical) against the bowl wall while the clarified ethanol solvent exits as centrate. Higher G-force improves cake dryness and ethanol recovery from biomass.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Do ethanol extraction centrifuges need explosion-proof motors?</h3>
+            <p class="text-text-light text-sm">Yes. Ethanol is a Class I, Division 1 flammable solvent. All centrifuges processing ethanol must be rated for Class I Div 1 (or ATEX Zone 1 for international installations). Non-explosion-proof equipment in ethanol processing areas creates a serious fire and explosion hazard.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

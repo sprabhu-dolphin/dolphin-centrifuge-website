@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can a centrifuge separate salt from water?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Centrifuges separate phases by density difference — they cannot separate dissolved substances from a solution. Salt dissolved in water forms a single homogeneous phase with no density boundary to exploit. Separation of dissolved salts requires evaporation, reverse osmosis, or ion exchange processes, not centrifugation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What can a centrifuge separate from water?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Centrifuges can separate undissolved solids (suspended particles, sludge), immiscible liquids (oil-water separation), and undissolved biological materials (bacteria, yeast cells). The separating phase must be physically distinct — a solid particle or an immiscible liquid — not dissolved in the water." }
+    },
+    {
+      "@type": "Question",
+      "name": "What separation method is used for dissolved salts or minerals?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dissolved salts and minerals are separated by evaporation and crystallization, reverse osmosis membranes, electrodialysis, or ion exchange resins. These processes work on the molecular or ionic level, whereas centrifuges work on bulk density differences between physically distinct phases." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -112,6 +134,26 @@ const jsonLd = {
       <p class="text-text-light leading-relaxed mb-4">In some cases, chemical precipitation can convert dissolved substances into insoluble particles that a centrifuge can then separate. For example, heavy metal compounds dissolved in water can be precipitated into solid particles using chemical reagents. Once precipitated, a <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> or <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> effectively separates the solid precipitate from the clean water.</p>
 
       <p class="text-text-light leading-relaxed">Questions about whether a centrifuge can work for your specific separation challenge? Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> to speak with a centrifuge engineer.</p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can a centrifuge separate salt from water?</h3>
+            <p class="text-text-light text-sm">No. Centrifuges separate phases by density difference — they cannot separate dissolved substances from a solution. Salt dissolved in water forms a single homogeneous phase with no density boundary to exploit. Separation of dissolved salts requires evaporation, reverse osmosis, or ion exchange processes, not centrifugation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What can a centrifuge separate from water?</h3>
+            <p class="text-text-light text-sm">Centrifuges can separate undissolved solids (suspended particles, sludge), immiscible liquids (oil-water separation), and undissolved biological materials (bacteria, yeast cells). The separating phase must be physically distinct — a solid particle or an immiscible liquid — not dissolved in the water.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What separation method is used for dissolved salts or minerals?</h3>
+            <p class="text-text-light text-sm">Dissolved salts and minerals are separated by evaporation and crystallization, reverse osmosis membranes, electrodialysis, or ion exchange resins. These processes work on the molecular or ionic level, whereas centrifuges work on bulk density differences between physically distinct phases.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

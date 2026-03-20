@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are the main ways to improve decanter centrifuge separation performance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The five primary optimization parameters are: pond depth (weir plate position), bowl speed (G-force), differential speed (scroll vs. bowl), scroll pitch angle, and process fluid temperature. Adjusting these in sequence — starting with pond depth then bowl speed — allows operators to tune the machine for both cake dryness and centrate clarity without hardware changes." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if bowl speed is set too high on a decanter centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Excessively high bowl speed increases G-force but also increases bearing wear and mechanical stress. Higher speed can also create finer particle fragmentation that may resist sedimentation. For most applications, operating at the manufacturer's recommended bowl speed is optimal — over-speeding rarely improves performance and accelerates wear." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does process fluid temperature affect decanter centrifuge performance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Higher process temperature reduces fluid viscosity, allowing finer solids to sediment faster under centrifugal force. Heating feed to 60–80°C for oil-water systems can significantly improve separation quality without changing any mechanical settings. Dolphin Centrifuge supplies fluid heating systems for viscous oil processing applications." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -368,6 +390,26 @@ const jsonLd = {
         </div>
         <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What are the main ways to improve decanter centrifuge separation performance?</h3>
+            <p class="text-text-light text-sm">The five primary optimization parameters are: pond depth (weir plate position), bowl speed (G-force), differential speed (scroll vs. bowl), scroll pitch angle, and process fluid temperature. Adjusting these in sequence allows operators to tune the machine for both cake dryness and centrate clarity without hardware changes.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What happens if bowl speed is set too high on a decanter centrifuge?</h3>
+            <p class="text-text-light text-sm">Excessively high bowl speed increases G-force but also increases bearing wear and mechanical stress. Higher speed can also create finer particle fragmentation that may resist sedimentation. For most applications, operating at the manufacturer's recommended bowl speed is optimal — over-speeding rarely improves performance and accelerates wear.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does process fluid temperature affect decanter centrifuge performance?</h3>
+            <p class="text-text-light text-sm">Higher process temperature reduces fluid viscosity, allowing finer solids to sediment faster under centrifugal force. Heating feed to 60–80°C for oil-water systems can significantly improve separation quality without changing any mechanical settings. Dolphin Centrifuge supplies fluid heating systems for viscous oil processing applications.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

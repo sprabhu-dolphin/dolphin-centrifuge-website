@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between RCF and RPM in centrifuge specifications?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RPM (revolutions per minute) measures rotational speed, while RCF (relative centrifugal force, in × g) measures the centrifugal force at the bowl wall. Two centrifuges running at the same RPM produce very different RCF values depending on bowl diameter — larger bowls produce higher g-force at the same RPM." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is RCF more important than RPM for comparing centrifuges?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RCF directly determines separation performance — it governs whether particles of a given size and density will sediment within the available residence time. RPM alone is meaningless without knowing bowl radius. When comparing centrifuges for a separation application, always compare on RCF, not RPM." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is RCF calculated from RPM and bowl radius?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RCF = 1.118 × 10⁻⁵ × r × N², where r is the bowl radius in centimeters and N is the speed in RPM. This gives the centrifugal force at the bowl wall as a multiple of gravitational acceleration (× g). Dolphin Centrifuge can provide RCF values for specific centrifuge models on request." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -192,6 +214,26 @@ const jsonLd = {
       <p class="text-text-light leading-relaxed mb-4">These are general ranges. Actual RCF requirements depend on the density differential between phases, viscosity of the continuous phase, and required separation sharpness. Dolphin Centrifuge engineers can calculate the required G-factor for your specific application and recommend the appropriate centrifuge model.</p>
 
       <p class="text-text-light leading-relaxed mb-6">Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> for application-specific RCF calculations.</p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between RCF and RPM in centrifuge specifications?</h3>
+            <p class="text-text-light text-sm">RPM (revolutions per minute) measures rotational speed, while RCF (relative centrifugal force, in × g) measures the centrifugal force at the bowl wall. Two centrifuges running at the same RPM produce very different RCF values depending on bowl diameter — larger bowls generate higher g-force at the same RPM.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why is RCF more important than RPM for comparing centrifuges?</h3>
+            <p class="text-text-light text-sm">RCF directly determines separation performance — it governs whether particles of a given size and density will sediment within the available residence time. RPM alone is meaningless without knowing bowl radius. When comparing centrifuges for a separation application, always compare on RCF, not RPM.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How is RCF calculated from RPM and bowl radius?</h3>
+            <p class="text-text-light text-sm">RCF = 1.118 × 10⁻⁵ × r × N², where r is the bowl radius in centimeters and N is the speed in RPM. This gives the centrifugal force at the bowl wall as a multiple of gravitational acceleration (× g). Dolphin Centrifuge can provide RCF values for specific centrifuge models on request.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="mt-10">

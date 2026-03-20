@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What disc stack centrifuge applications are common on offshore platforms?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Offshore platforms use disc stack centrifuges for diesel fuel purification, lube oil cleaning, hydraulic oil purification, bilge water treatment (oil-water separation), and ballast water treatment. These applications require explosion-proof (ATEX) designs suited for hazardous area zones on drilling rigs and production platforms." }
+    },
+    {
+      "@type": "Question",
+      "name": "What explosion-proof certification should an offshore centrifuge have?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Offshore centrifuges in hydrocarbon-handling areas require ATEX (Directive 2014/34/EU) and/or IECEx certification for Zone 1 or Zone 2 hazardous locations. Equipment must be certified for the specific gas group and temperature class relevant to the platform's hazardous area classification." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is compact footprint important for offshore centrifuge selection?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Offshore platforms have severe space and weight constraints. Centrifuge packages must fit within designated equipment rooms while meeting structural weight limits. Dolphin Centrifuge designs compact skid-mounted centrifuge packages with integral pipework, heating systems, and controls optimized for offshore installations." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -219,6 +241,26 @@ const jsonLd = {
           <a href="/contact-for-alfa-laval-centrifuges/" class="border border-gray-300 text-navy font-semibold px-6 py-3 rounded-lg hover:border-navy transition-colors">Contact Our Engineers</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What disc stack centrifuge applications are common on offshore platforms?</h3>
+            <p class="text-text-light text-sm">Offshore platforms use disc stack centrifuges for diesel fuel purification, lube oil cleaning, hydraulic oil purification, bilge water treatment, and ballast water treatment. These applications require explosion-proof (ATEX) designs suited for hazardous area zones on drilling rigs and production platforms.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What explosion-proof certification should an offshore centrifuge have?</h3>
+            <p class="text-text-light text-sm">Offshore centrifuges in hydrocarbon-handling areas require ATEX (Directive 2014/34/EU) and/or IECEx certification for Zone 1 or Zone 2 hazardous locations. Equipment must be certified for the specific gas group and temperature class relevant to the platform's hazardous area classification.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why is compact footprint important for offshore centrifuge selection?</h3>
+            <p class="text-text-light text-sm">Offshore platforms have severe space and weight constraints. Centrifuge packages must fit within designated equipment rooms while meeting structural weight limits. Dolphin Centrifuge designs compact skid-mounted centrifuge packages with integral pipework, heating systems, and controls optimized for offshore installations.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
