@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,459 +23,396 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "5 Ways to Optimize Decanter Centrifuge Performance — Illustrated Guide",
-  "description": "How to optimize decanter centrifuge performance by adjusting pond depth, bowl speed, auger speed, auger pitch, and process fluid temperature. Includes performance curves and illustrated diagrams.",
-  "author": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "5 Ways to Optimize Decanter Centrifuge Performance — Illustrated Guide",
+    "description": "How to optimize decanter centrifuge performance by adjusting pond depth, bowl speed, auger speed, auger pitch, and process fluid temperature. Includes performance curves and illustrated diagrams.",
+    "author": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com"
+    },
+    "datePublished": "2021-02-01",
+    "dateModified": "2024-06-01"
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  },
-  "datePublished": "2021-02-01",
-  "dateModified": "2024-06-01"
-};
+  faqJsonLd
+];
+
+const toc = [
+  { id: "pond-depth", label: "1. Pond Depth" },
+  { id: "bowl-speed", label: "2. Bowl Speed" },
+  { id: "auger-speed", label: "3. Auger (Scroll) Speed" },
+  { id: "auger-pitch", label: "4. Auger Pitch" },
+  { id: "temperature", label: "5. Process Fluid Temperature" },
+  { id: "faq", label: "Frequently Asked Questions" },
+];
+
+const relatedProducts = [
+  { label: "NX-314 Decanter Centrifuge", href: "/alfa-laval-nx-314-decanter-centrifuge/", description: "2-phase decanter, up to 3,000 RPM" },
+  { label: "NX-418 Decanter Centrifuge", href: "/alfa-laval-nx-418-decanter-centrifuge/", description: "3-phase decanter for oil-water-solids" },
+  { label: "G2-40 Decanter Centrifuge", href: "/alfa-laval-g2-40-decanter-centrifuge/", description: "High-capacity industrial decanter" },
+];
+
+const relatedApplications = [
+  { label: "Decanter Centrifuge Applications", href: "/decanter-centrifuge-applications/" },
+  { label: "Decanter Differential Speed", href: "/decanter-centrifuge-differential-speed/" },
+  { label: "Decanter Pond Depth", href: "/decanter-centrifuge-pond-depth/" },
+  { label: "Decanter vs Disc Stack", href: "/difference-between-decanter-centrifuge-disc-centrifuge/" },
+  { label: "Decanter Centrifuge Vibration", href: "/decanter-centrifuge-vibration/" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="5 Ways to Optimize Decanter Performance | Illustrated Guide"
   description="Optimize decanter centrifuge performance by adjusting pond depth, bowl speed, auger differential speed, auger pitch, and temperature. Illustrated guide."
   canonicalUrl="https://dolphincentrifuge.com/decanter-centrifuge-optimization/"
-  breadcrumbs={[{label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/'}, {label: 'Decanter Centrifuge Optimization'}]}
+  category="knowledge"
+  categoryLabel="Knowledge Center"
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-16 md:py-20">
-    <div class="container-dolphin max-w-4xl">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">5 Ways to Optimize Decanter Centrifuge Performance | Illustrated Guide</h1>
-      <p class="text-lg text-blue-100 max-w-3xl">
-        Decanter centrifuge performance optimization involves tuning specific operating parameters to improve separation efficiency. This guide covers the 5 most effective and straightforward ways to achieve optimal decanter operation.
-      </p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge optimizes decanter centrifuge performance — including Alfa Laval NX-314, NX-418, and G2-40 models — by tuning five key parameters: pond depth, bowl speed, differential scroll speed, auger pitch, and feed temperature. Operating at the correct bowl RPM and weir plate radius reduces solids-in-centrate below 500 ppm. Based in Warren, Michigan with 40+ years of decanter expertise.</p>
+  </div>
+
+  <!-- Summary / TOC -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">30 Second Summary Takeaway</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      Decanter centrifuge performance optimization involves tuning or adjusting specific operating parameters to improve the separation efficiency of the decanter.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">In this article, we discuss the 5 most effective and straightforward ways to achieve optimal decanter operation. We address the following typical questions:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
+      <li>What is decanter optimization?</li>
+      <li>What parameters affect optimization?</li>
+      <li>How does pond-depth help optimize decanter performance?</li>
+      <li>How does bowl speed affect performance?</li>
+      <li>Isn't high speed always good for separation? Not Necessarily!</li>
+      <li>How does conveyor speed affect performance?</li>
+    </ul>
+  </div>
+
+  <!-- Pond Depth -->
+  <div id="pond-depth" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">1. Pond Depth</h2>
+    <p class="text-[#2D2D2D] mb-6">
+      The pond depth is the radial distance between the internal bowl wall and the inner surface of the concentric liquid layer. The high centrifugal force causes the liquid to form a concentric layer within the bowl.
+    </p>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-pond-depth-versus-torque-cake-dryness-600.webp"
+        alt="Decanter centrifuge pond depth versus cake dryness and torque performance chart"
+        width="556" height="278"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Pond Depth Versus Cake Dryness Torque</p>
     </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-[#F5F5F0]">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides decanter centrifuge optimization support for Alfa Laval NX-314, NX-418, and G2-40 installations — tuning differential speed, pond depth, bowl speed, feed rate, and polymer dosing to maximize separation efficiency and minimize operating cost. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in decanter centrifuge performance optimization.</p>
-      </div>
-
-      <!-- Summary / TOC -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">30 Second Summary Takeaway</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Decanter centrifuge performance optimization involves tuning or adjusting specific operating parameters to improve the separation efficiency of the decanter.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">In this article, we discuss the 5 most effective and straightforward ways to achieve optimal decanter operation. We address the following typical questions:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
-          <li>What is decanter optimization?</li>
-          <li>What parameters affect optimization?</li>
-          <li>How does pond-depth help optimize decanter performance?</li>
-          <li>How does bowl speed affect performance?</li>
-          <li>Isn't high speed always good for separation? Not Necessarily!</li>
-          <li>How does conveyor speed affect performance?</li>
-        </ul>
-      </div>
-
-      <!-- Pond Depth -->
-      <div id="pond-depth" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">1. Pond Depth</h2>
-        <p class="text-[#2D2D2D] mb-6">
-          The pond depth is the radial distance between the internal bowl wall and the inner surface of the concentric liquid layer. The high centrifugal force causes the liquid to form a concentric layer within the bowl.
-        </p>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-pond-depth-versus-torque-cake-dryness-600.webp"
-            alt="Decanter centrifuge pond depth versus cake dryness and torque performance chart"
-            width="556" height="278"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Pond Depth Versus Cake Dryness Torque</p>
-        </div>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Pond Depth</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          It is easy to adjust the pond depth by changing the weir plates with different radii to the decanter bowl axis of rotation. The following is an image of a decanter weir plate.
-        </p>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/Decanter-Weir-Plate-600.webp"
-            alt="Decanter weir plate used to adjust pond depth in decanter centrifuge"
-            width="450" height="224"
-            loading="lazy"
-            class="rounded-lg w-full max-w-lg mx-auto block"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Weir Plate</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-6">The adjustment of the pond depth has the maximum effect on decanter centrifuge performance. In this section, we discuss these effects.</p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Deep Pond</h3>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-deep-pond-depth.webp"
-            alt="Deep pond depth diagram showing longer settling zone and shorter beach in decanter centrifuge"
-            width="542" height="219"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Deep Pond Depth — Decanter Centrifuge</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          Weir plates with shorter radii allow a deeper pond formation within the decanter bowl. This shorter radius increases the settling space available for the sedimentation of sludge particles. Therefore, a deeper pond facilitates better sedimentation and sludge separation. Removal of more solids means clearer liquid.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          However, the deeper pond depth also implies more liquid will cover the taper section (beach) of the bowl leading to reduced beach length. The reduced beach length impedes the liquid removal from the sludge as it travels up the beach toward the solids' outlet ports. Therefore, a deeper pond causes wetter solids.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The decanter auger pushes the sedimented solids towards the solid ejection ports along the tapered section of the bowl (beach). A deeper pond exposes a shorter section of the beach and reduces the torque required to push the solids out.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">In summary, a deeper pond leads to:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
-          <li>Removal of more solids from the liquid</li>
-          <li>Sludge with more liquid or wetter solids</li>
-          <li>Reduced torque on the solids auger</li>
-        </ul>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Shallow Pond</h3>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-shallow-pond-depth.webp"
-            alt="Shallow pond depth diagram showing shorter settling zone and longer beach in decanter centrifuge"
-            width="550" height="225"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Shallow Pond Depth — Decanter Centrifuge</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          Weir plates with longer radii cause the depth of the liquid layer to decrease, leading to a shallow pond depth. A liquid layer with reduced depth reduces the space available for solid settling, leading to reduced solids removal. Therefore, a shallower pond depth causes more solids in the liquid, leading to murkier liquid.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A shallow pond exposes more of the taper section of the decanter bowl, i.e., increased beach length. The more extended beach enhances the separation of solids from the liquid as the auger pushes the sludge up the beach under the high centrifugal force. Therefore, a shallower pond causes drier solids.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A more extended beach also implies that the auger has to push the sludge over a longer distance, thereby increasing the torque on the auger.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">In summary, a shallower pond leads to:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
-          <li>Removal of fewer solids from the liquid</li>
-          <li>Sludge with less liquid or drier solids</li>
-          <li>Increased torque on the solids auger</li>
-        </ul>
-      </div>
-
-      <!-- Bowl Speed -->
-      <div id="bowl-speed" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">2. Bowl Rotation or Bowl Speed</h2>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-energy-torque-wear-noise-versus-bowl-speed.webp"
-            alt="Decanter centrifuge energy, noise, and wear versus bowl speed optimization chart"
-            width="600" height="278"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Energy, Noise, and Wear versus Bowl Speed</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-6">
-          The rotational velocity of the bowl is known as the bowl speed or bowl RPM. This speed is directly proportional to the centrifugal force generated by the bowl. Therefore, a higher bowl speed indicates greater centrifugal force.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Decanter Bowl Speed</h3>
-        <p class="text-[#2D2D2D] mb-6">
-          The decanter bowl is directly connected to the drive motor. A slower motor speed reduces the bowl speed, and conversely, a higher motor speed leads to higher bowl RPM.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Higher Bowl Speed</h3>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-solids-recovery-versus-bowl-speed.webp"
-            alt="Decanter centrifuge solids recovery versus bowl speed performance optimization curves"
-            width="600" height="278"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Performance Optimization Curves — Solids Recovery vs. Bowl Speed</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-4">
-          An increase in the bowl speed implies a higher g-force acting on the solids in the fluid. An increase in sedimentation is a direct consequence of higher centrifugal force. More sedimentation causes more solids to be separated from the liquid and pushed by the conveyor (auger), leading to higher torque on the auger.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Also, increased sedimentation means lesser solids in the exiting fluid leading to clearer liquid and more solids removal.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A higher bowl RPM generates a higher centrifugal force acting on the solids being pushed up the tapered beach section of the bowl, which squeezes out more liquid from the solids causing drier solids.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          As explained above, a higher bowl speed requires the decanter motor to operate at a higher RPM leading to more energy consumption.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">In summary, a higher bowl speed leads to:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
-          <li>Higher torque on the solids auger</li>
-          <li>Removal of more solids from the liquid — clearer liquid</li>
-          <li>Sludge with lesser liquid or drier solids</li>
-          <li>More power consumption</li>
-        </ul>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Lower Bowl Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          Reduced bowl speed has the opposite effect on decanter centrifuge performance from increased bowl speed. A reduction in bowl speed leads to a reduction in the decanter bowl's centrifugal force, leading to decreased sedimentation and, consequently, reduced solids removal.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The reduction in solids removal means fewer solids that need to be pushed out, leading to reduced load and torque on the conveyor. Following the above, a lower bowl speed causes reduced solids removal and more solids in the separated liquid, leading to a murkier liquid.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">In summary, lower decanter bowl speed leads to:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
-          <li>Lower torque on the solids auger</li>
-          <li>Removal of fewer solids from the liquid — murkier liquid</li>
-          <li>Sludge with more liquid or wetter solids</li>
-          <li>Reduced power consumption</li>
-        </ul>
-      </div>
-
-      <!-- Auger Speed -->
-      <div id="auger-speed" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">3. Auger (Scroll) Speed</h2>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/decanter-bowl-scroll-rotation-800.webp"
-            alt="Decanter centrifuge bowl and auger differential speed rotation diagram"
-            width="735" height="299"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Bowl Auger Differential Speed</p>
-        </div>
-        <p class="text-[#2D2D2D] mb-6">
-          The auger speed refers to the differential speed between the decanter bowl and the auger. This speed indicates how quickly or slowly the auger rotates inside the bowl.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Auger Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          The decanter bowl connects to the auger through the gearbox. The auger speed changes with the gearbox sun-wheel shaft speed. In other words, the user can adjust the auger speed by changing the sun-wheel shaft rotation speed.
-        </p>
-        <div class="mb-6">
-          <img
-            src="/images/decanter-centrifuge-optimization/Decanter-Centrifuge-Gearbox-and-Torque-Clutch-Assembly-600.webp"
-            alt="Decanter centrifuge gearbox and torque clutch assembly for adjusting auger differential speed"
-            width="600" height="450"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Centrifuge Gearbox and Torque Clutch Assembly</p>
-        </div>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Higher Auger Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          If the auger is rotating faster, it can move more solids to the solids discharge ports per rotation, allowing the decanter higher solids handling capability. Therefore, it is desirable to have a higher auger speed for high solid applications.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A higher rotational speed of the auger also implies the solids are pushed out quickly before they accumulate and cause more resistance to the auger, thereby reducing the torque required.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          A higher speed of the auger causes the solids not to have enough settling time and therefore retain more liquid. This quicker discharge leads to wetter solids.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">Summarizing the effects of higher auger speed:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
-          <li>Higher solids handling capacity</li>
-          <li>Reduced torque on the auger (conveyor)</li>
-          <li>Wetter solids discharge</li>
-        </ul>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Lower Auger Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          A slower auger RPM causes fewer solids movement reducing the solids handling capacity of the decanter. This reduced capacity means that a slower auger speed is better suited for low-solid applications.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Also, a lower auger speed means the solids are pushed out slower, giving more time for the solids to settle and accumulate. Higher solids accumulation leads to higher torque on the conveyor.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          Similarly, a lower auger speed allows more time for the solids to settle out, thereby removing more water from the solids and ejecting drier solids.
-        </p>
-        <p class="text-[#2D2D2D] mb-2">Summarizing the effects of lower auger speed:</p>
-        <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
-          <li>Lower solids handling capacity</li>
-          <li>Increased torque on the auger (conveyor)</li>
-          <li>Drier solids discharge</li>
-        </ul>
-      </div>
-
-      <!-- Auger Pitch -->
-      <div id="auger-pitch" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">4. Auger Pitch</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The auger pitch is the distance between the flights on the decanter auger. An auger with flights closer to each other is known as a fine-pitch auger. On the other hand, if the flights are farther from each other, it is known as a coarse pitch auger.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting the Auger Pitch</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          The pitch of the auger is a preset mechanical feature of the decanter. The user has the option to order the decanter with different auger pitches. However, once the decanter is manufactured, the only way to change the pitch is to replace the auger with a different pitch.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Fine Pitch Auger</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          A fine pitch of flights on the auger has similar performance effects as increasing the auger speed. So, a fine pitch leads to lower solid moving capacity. The quick movement of solids also leads to higher auger torque.
-        </p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Coarse Pitch Auger</h3>
-        <p class="text-[#2D2D2D] mb-4">
-          A coarse pitch auger has similar effects on the decanter performance as a slow auger speed. Therefore, a coarse flight pitch moves more solids per rotation which exerts lesser torque on the auger and gearbox.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-4">Effects of Auger Pitch on decanter performance:</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="p-3 text-left border border-gray-200">Parameter</th>
-                <th class="p-3 text-left border border-gray-200">Coarse Pitch</th>
-                <th class="p-3 text-left border border-gray-200">Fine Pitch</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-white">
-                <td class="p-3 border border-gray-200 font-semibold">Solids Handling Capacity</td>
-                <td class="p-3 border border-gray-200">High</td>
-                <td class="p-3 border border-gray-200">Low</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="p-3 border border-gray-200 font-semibold">Torque On Auger</td>
-                <td class="p-3 border border-gray-200">Low</td>
-                <td class="p-3 border border-gray-200">High</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Temperature -->
-      <div id="temperature" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">5. Process Fluid Temperature</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The fluid process temperature is significant when processing viscous fluid through a decanter centrifuge. Higher viscosity fluids such as crude oil resist the separation of solids. As the temperature of the fluid increases, the viscosity reduces, leading to better separation.
-        </p>
-        <p class="text-[#2D2D2D]">
-          The fluid temperature does not affect the decanter performance in cases of low viscosity fluids such as water.
-        </p>
-      </div>
-
-      <!-- Summary -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Summary</h2>
-        <p class="text-[#2D2D2D]">
-          The 5 adjustments mentioned above help optimize decanter centrifuge performance. Needless to say, each application has a different set of parameters. However, following the guidelines above, the user can optimize the decanter centrifuge under set operating conditions.
-        </p>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] text-white rounded-xl p-6 md:p-8 mb-8 text-center">
-        <h2 class="text-2xl font-bold mb-3">Need Help Optimizing Your Decanter?</h2>
-        <p class="text-blue-100 mb-6">Our engineers can help troubleshoot performance issues and recommend parameter adjustments for your specific application.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+12485222573" class="bg-[#E8A317] text-white font-bold px-8 py-3 rounded-lg hover:bg-yellow-500 transition-colors">(248) 522-2573</a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition-colors">sales@dolphincentrifuge.com</a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What are the main ways to improve decanter centrifuge separation performance?</h3>
-            <p class="text-text-light text-sm">The five primary optimization parameters are: pond depth (weir plate position), bowl speed (G-force), differential speed (scroll vs. bowl), scroll pitch angle, and process fluid temperature. Adjusting these in sequence allows operators to tune the machine for both cake dryness and centrate clarity without hardware changes.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What happens if bowl speed is set too high on a decanter centrifuge?</h3>
-            <p class="text-text-light text-sm">Excessively high bowl speed increases G-force but also increases bearing wear and mechanical stress. Higher speed can also create finer particle fragmentation that may resist sedimentation. For most applications, operating at the manufacturer's recommended bowl speed is optimal — over-speeding rarely improves performance and accelerates wear.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How does process fluid temperature affect decanter centrifuge performance?</h3>
-            <p class="text-text-light text-sm">Higher process temperature reduces fluid viscosity, allowing finer solids to sediment faster under centrifugal force. Heating feed to 60–80°C for oil-water systems can significantly improve separation quality without changing any mechanical settings. Dolphin Centrifuge supplies fluid heating systems for viscous oil processing applications.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="/decanter-centrifuge/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Decanter Centrifuge Overview</h3>
-            <p class="text-sm text-gray-600">Technical overview of decanter centrifuge design, components, and operation.</p>
-          </a>
-          <a href="/decanter-centrifuge-applications/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Decanter Centrifuge Applications</h3>
-            <p class="text-sm text-gray-600">A-to-Z applications guide for decanter centrifuges across all industries.</p>
-          </a>
-          <a href="/decanter-centrifuge-differential-speed/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Decanter Differential Speed</h3>
-            <p class="text-sm text-gray-600">Deep dive into differential speed between bowl and auger in decanter centrifuges.</p>
-          </a>
-          <a href="/decanter-centrifuge-pond-depth/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Decanter Pond Depth</h3>
-            <p class="text-sm text-gray-600">How weir plate selection affects pond depth and centrifuge performance.</p>
-          </a>
-        </div>
-      </div>
-
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Pond Depth</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      It is easy to adjust the pond depth by changing the weir plates with different radii to the decanter bowl axis of rotation. The following is an image of a decanter weir plate.
+    </p>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/Decanter-Weir-Plate-600.webp"
+        alt="Decanter weir plate used to adjust pond depth in decanter centrifuge"
+        width="450" height="224"
+        loading="lazy"
+        class="rounded-lg w-full max-w-lg mx-auto block"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Weir Plate</p>
     </div>
-  </section>
+    <p class="text-[#2D2D2D] mb-6">The adjustment of the pond depth has the maximum effect on <a href="/decanter-centrifuge/">decanter centrifuge</a> performance. In this section, we discuss these effects.</p>
 
-  <!-- Bottom CTA -->
-  <section class="bg-[#1B3A5C] text-white">
-    <div class="container-dolphin py-12 md:py-16 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold font-heading mb-4">Need Help Optimizing Your Decanter?</h2>
-      <p class="text-gray-300 mb-8 max-w-2xl mx-auto">Our engineers can help you tune your decanter centrifuge for peak separation performance. Contact us for expert guidance.</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-8 py-3 rounded-lg transition">Get a Free Quote</a>
-        <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-8 py-3 rounded-lg transition">(248) 522-2573</a>
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Deep Pond</h3>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-deep-pond-depth.webp"
+        alt="Deep pond depth diagram showing longer settling zone and shorter beach in decanter centrifuge"
+        width="542" height="219"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Deep Pond Depth — Decanter Centrifuge</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-4">
+      Weir plates with shorter radii allow a deeper pond formation within the decanter bowl. This shorter radius increases the settling space available for the sedimentation of sludge particles. Therefore, a deeper pond facilitates better sedimentation and sludge separation. Removal of more solids means clearer liquid.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      However, the deeper pond depth also implies more liquid will cover the taper section (beach) of the bowl leading to reduced beach length. The reduced beach length impedes the liquid removal from the sludge as it travels up the beach toward the solids' outlet ports. Therefore, a deeper pond causes wetter solids.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      The decanter auger pushes the sedimented solids towards the solid ejection ports along the tapered section of the bowl (beach). A deeper pond exposes a shorter section of the beach and reduces the torque required to push the solids out.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">In summary, a deeper pond leads to:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
+      <li>Removal of more solids from the liquid</li>
+      <li>Sludge with more liquid or wetter solids</li>
+      <li>Reduced torque on the solids auger</li>
+    </ul>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Shallow Pond</h3>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-shallow-pond-depth.webp"
+        alt="Shallow pond depth diagram showing shorter settling zone and longer beach in decanter centrifuge"
+        width="550" height="225"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Shallow Pond Depth — Decanter Centrifuge</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-4">
+      Weir plates with longer radii cause the depth of the liquid layer to decrease, leading to a shallow pond depth. A liquid layer with reduced depth reduces the space available for solid settling, leading to reduced solids removal. Therefore, a shallower pond depth causes more solids in the liquid, leading to murkier liquid.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      A shallow pond exposes more of the taper section of the decanter bowl, i.e., increased beach length. The more extended beach enhances the separation of solids from the liquid as the auger pushes the sludge up the beach under the high centrifugal force. Therefore, a shallower pond causes drier solids. For a detailed treatment, see our guide on <a href="/decanter-centrifuge-pond-depth/">decanter centrifuge pond depth</a>.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      A more extended beach also implies that the auger has to push the sludge over a longer distance, thereby increasing the torque on the auger.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">In summary, a shallower pond leads to:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
+      <li>Removal of fewer solids from the liquid</li>
+      <li>Sludge with less liquid or drier solids</li>
+      <li>Increased torque on the solids auger</li>
+    </ul>
+  </div>
+
+  <!-- Bowl Speed -->
+  <div id="bowl-speed" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">2. Bowl Rotation or Bowl Speed</h2>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-energy-torque-wear-noise-versus-bowl-speed.webp"
+        alt="Decanter centrifuge energy, noise, and wear versus bowl speed optimization chart"
+        width="600" height="278"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Energy, Noise, and Wear versus Bowl Speed</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-6">
+      The rotational velocity of the bowl is known as the bowl speed or bowl RPM. This speed is directly proportional to the centrifugal force generated by the bowl. Therefore, a higher bowl speed indicates greater centrifugal force.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Decanter Bowl Speed</h3>
+    <p class="text-[#2D2D2D] mb-6">
+      The decanter bowl is directly connected to the drive motor. A slower motor speed reduces the bowl speed, and conversely, a higher motor speed leads to higher bowl RPM.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Higher Bowl Speed</h3>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-solids-recovery-versus-bowl-speed.webp"
+        alt="Decanter centrifuge solids recovery versus bowl speed performance optimization curves"
+        width="600" height="278"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Performance Optimization Curves — Solids Recovery vs. Bowl Speed</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-4">
+      An increase in the bowl speed implies a higher g-force acting on the solids in the fluid. An increase in sedimentation is a direct consequence of higher centrifugal force. More sedimentation causes more solids to be separated from the liquid and pushed by the conveyor (auger), leading to higher torque on the auger.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Also, increased sedimentation means lesser solids in the exiting fluid leading to clearer liquid and more solids removal.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      A higher bowl RPM generates a higher centrifugal force acting on the solids being pushed up the tapered beach section of the bowl, which squeezes out more liquid from the solids causing drier solids.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      As explained above, a higher bowl speed requires the decanter motor to operate at a higher RPM leading to more energy consumption.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">In summary, a higher bowl speed leads to:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
+      <li>Higher torque on the solids auger</li>
+      <li>Removal of more solids from the liquid — clearer liquid</li>
+      <li>Sludge with lesser liquid or drier solids</li>
+      <li>More power consumption</li>
+    </ul>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Lower Bowl Speed</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      Reduced bowl speed has the opposite effect on decanter centrifuge performance from increased bowl speed. A reduction in bowl speed leads to a reduction in the decanter bowl's centrifugal force, leading to decreased sedimentation and, consequently, reduced solids removal.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      The reduction in solids removal means fewer solids that need to be pushed out, leading to reduced load and torque on the conveyor. Following the above, a lower bowl speed causes reduced solids removal and more solids in the separated liquid, leading to a murkier liquid.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">In summary, lower decanter bowl speed leads to:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
+      <li>Lower torque on the solids auger</li>
+      <li>Removal of fewer solids from the liquid — murkier liquid</li>
+      <li>Sludge with more liquid or wetter solids</li>
+      <li>Reduced power consumption</li>
+    </ul>
+  </div>
+
+  <!-- Auger Speed -->
+  <div id="auger-speed" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">3. Auger (Scroll) Speed</h2>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/decanter-bowl-scroll-rotation-800.webp"
+        alt="Decanter centrifuge bowl and auger differential speed rotation diagram"
+        width="735" height="299"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Bowl Auger Differential Speed</p>
+    </div>
+    <p class="text-[#2D2D2D] mb-6">
+      The auger speed refers to the differential speed between the decanter bowl and the auger. This speed indicates how quickly or slowly the auger rotates inside the bowl. See our dedicated page on <a href="/decanter-centrifuge-differential-speed/">decanter differential speed</a> for a deeper technical treatment.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting Auger Speed</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      The decanter bowl connects to the auger through the gearbox. The auger speed changes with the gearbox sun-wheel shaft speed. In other words, the user can adjust the auger speed by changing the sun-wheel shaft rotation speed.
+    </p>
+    <div class="mb-6">
+      <img
+        src="/images/decanter-centrifuge-optimization/Decanter-Centrifuge-Gearbox-and-Torque-Clutch-Assembly-600.webp"
+        alt="Decanter centrifuge gearbox and torque clutch assembly for adjusting auger differential speed"
+        width="600" height="450"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 italic text-center">Decanter Centrifuge Gearbox and Torque Clutch Assembly</p>
+    </div>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Higher Auger Speed</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      If the auger is rotating faster, it can move more solids to the solids discharge ports per rotation, allowing the decanter higher solids handling capability. Therefore, it is desirable to have a higher auger speed for high solid applications.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      A higher rotational speed of the auger also implies the solids are pushed out quickly before they accumulate and cause more resistance to the auger, thereby reducing the torque required.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      A higher speed of the auger causes the solids not to have enough settling time and therefore retain more liquid. This quicker discharge leads to wetter solids.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">Summarizing the effects of higher auger speed:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] mb-6 space-y-1">
+      <li>Higher solids handling capacity</li>
+      <li>Reduced torque on the auger (conveyor)</li>
+      <li>Wetter solids discharge</li>
+    </ul>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Lower Auger Speed</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      A slower auger RPM causes fewer solids movement reducing the solids handling capacity of the decanter. This reduced capacity means that a slower auger speed is better suited for low-solid applications.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Also, a lower auger speed means the solids are pushed out slower, giving more time for the solids to settle and accumulate. Higher solids accumulation leads to higher torque on the conveyor.
+    </p>
+    <p class="text-[#2D2D2D] mb-4">
+      Similarly, a lower auger speed allows more time for the solids to settle out, thereby removing more water from the solids and ejecting drier solids.
+    </p>
+    <p class="text-[#2D2D2D] mb-2">Summarizing the effects of lower auger speed:</p>
+    <ul class="list-disc pl-6 text-[#2D2D2D] space-y-1">
+      <li>Lower solids handling capacity</li>
+      <li>Increased torque on the auger (conveyor)</li>
+      <li>Drier solids discharge</li>
+    </ul>
+  </div>
+
+  <!-- Auger Pitch -->
+  <div id="auger-pitch" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">4. Auger Pitch</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      The auger pitch is the distance between the flights on the decanter auger. An auger with flights closer to each other is known as a fine-pitch auger. On the other hand, if the flights are farther from each other, it is known as a coarse pitch auger.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Adjusting the Auger Pitch</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      The pitch of the auger is a preset mechanical feature of the decanter. The user has the option to order the decanter with different auger pitches. However, once the decanter is manufactured, the only way to change the pitch is to replace the auger with a different pitch.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Fine Pitch Auger</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      A fine pitch of flights on the auger has similar performance effects as increasing the auger speed. So, a fine pitch leads to lower solid moving capacity. The quick movement of solids also leads to higher auger torque.
+    </p>
+
+    <h3 class="text-xl font-bold text-[#1B3A5C] mb-3">Coarse Pitch Auger</h3>
+    <p class="text-[#2D2D2D] mb-4">
+      A coarse pitch auger has similar effects on the decanter performance as a slow auger speed. Therefore, a coarse flight pitch moves more solids per rotation which exerts lesser torque on the auger and gearbox.
+    </p>
+
+    <p class="text-[#2D2D2D] mb-4">Effects of Auger Pitch on decanter performance:</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-[#1B3A5C] text-white">
+            <th class="p-3 text-left border border-gray-200">Parameter</th>
+            <th class="p-3 text-left border border-gray-200">Coarse Pitch</th>
+            <th class="p-3 text-left border border-gray-200">Fine Pitch</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-white">
+            <td class="p-3 border border-gray-200 font-semibold">Solids Handling Capacity</td>
+            <td class="p-3 border border-gray-200">High</td>
+            <td class="p-3 border border-gray-200">Low</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="p-3 border border-gray-200 font-semibold">Torque On Auger</td>
+            <td class="p-3 border border-gray-200">Low</td>
+            <td class="p-3 border border-gray-200">High</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Temperature -->
+  <div id="temperature" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">5. Process Fluid Temperature</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      The fluid process temperature is significant when processing viscous fluid through a decanter centrifuge. Higher viscosity fluids such as crude oil resist the separation of solids. As the temperature of the fluid increases, the viscosity reduces, leading to better separation.
+    </p>
+    <p class="text-[#2D2D2D]">
+      The fluid temperature does not affect the decanter performance in cases of low viscosity fluids such as water. For oil-water-solids separation, see our overview of <a href="/decanter-centrifuge-applications/">decanter centrifuge applications</a>.
+    </p>
+  </div>
+
+  <!-- Summary -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Summary</h2>
+    <p class="text-[#2D2D2D] mb-4">
+      The 5 adjustments mentioned above help optimize decanter centrifuge performance. Needless to say, each application has a different set of parameters. However, following the guidelines above, the user can optimize the decanter centrifuge under set operating conditions.
+    </p>
+    <p class="text-[#2D2D2D]">
+      For a side-by-side comparison of decanter and disc stack centrifuge technology, see our article on the <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">difference between decanter and disc centrifuges</a>. If vibration is a concern during operation, refer to our <a href="/decanter-centrifuge-vibration/">decanter centrifuge vibration guide</a>.
+    </p>
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What are the main ways to improve decanter centrifuge separation performance?</h3>
+        <p class="text-text-light text-sm">The five primary optimization parameters are: pond depth (weir plate position), bowl speed (G-force), differential speed (scroll vs. bowl), scroll pitch angle, and process fluid temperature. Adjusting these in sequence allows operators to tune the machine for both cake dryness and centrate clarity without hardware changes.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What happens if bowl speed is set too high on a decanter centrifuge?</h3>
+        <p class="text-text-light text-sm">Excessively high bowl speed increases G-force but also increases bearing wear and mechanical stress. Higher speed can also create finer particle fragmentation that may resist sedimentation. For most applications, operating at the manufacturer's recommended bowl speed is optimal — over-speeding rarely improves performance and accelerates wear.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">How does process fluid temperature affect decanter centrifuge performance?</h3>
+        <p class="text-text-light text-sm">Higher process temperature reduces fluid viscosity, allowing finer solids to sediment faster under centrifugal force. Heating feed to 60–80°C for oil-water systems can significantly improve separation quality without changing any mechanical settings. Dolphin Centrifuge supplies fluid heating systems for viscous oil processing applications.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/decanter-centrifuge-differential-speed/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Differential Speed</span>
-        </a>
-        <a href="/decanter-centrifuge-pond-depth/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Pond Depth</span>
-        </a>
-        <a href="/decanter-centrifuge-applications/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Applications</span>
-        </a>
-        <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter vs Disc Stack</span>
-        </a>
-        <a href="/decanter-centrifuge-vibration/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Vibration</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-</BaseLayout>
+</ApplicationLayout>

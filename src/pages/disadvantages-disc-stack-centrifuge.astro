@@ -1,248 +1,250 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Disc Stack Centrifuge Disadvantages: An Honest Assessment",
-  "description": "The real limitations of disc stack centrifuges: solids handling capacity, capital cost, maintenance complexity, and when a decanter makes more sense.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Engineering Manager", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "datePublished": "2021-01-01",
-  "url": "https://dolphincentrifuge.com/disadvantages-disc-stack-centrifuge/",
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Disc Stack Centrifuge Disadvantages: An Honest Assessment",
+    "description": "The real limitations of disc stack centrifuges: solids handling capacity, capital cost, maintenance complexity, and when a decanter makes more sense.",
+    "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Engineering Manager", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+    "url": "https://dolphincentrifuge.com/disadvantages-disc-stack-centrifuge/",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are the main disadvantages of disc stack centrifuges?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The primary limitations are: limited solids handling capacity (typically under 3–5% v/v), high capital cost compared to gravity separators and filter centrifuges, complex bowl maintenance requiring trained technicians, sensitivity to feed variations and solids surges, and inability to handle fibrous, stringy, or abrasive materials that damage the disc stack." }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I use a decanter centrifuge instead of a disc stack centrifuge?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Choose a decanter centrifuge when solids content exceeds 3–5% by volume, when a dry or stackable cake discharge is required, when continuous solids discharge is needed without production interruptions, or when the solids are coarse, fibrous, or too abrasive for the disc stack. Decanters handle higher solids loads at lower G-forces." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a self-cleaning disc stack centrifuge handle high-solids feeds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Self-cleaning disc stack centrifuges can handle feeds up to approximately 3–5% solids by volume. Above this level, the sludge space fills too quickly between discharge cycles, reducing separation effectiveness and increasing the risk of bowl clogging. For higher-solids applications, a decanter centrifuge or a pre-filtration step is recommended." }
+      }
+    ]
+  }
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What are the main disadvantages of disc stack centrifuges?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The primary limitations are: limited solids handling capacity (typically under 3–5% v/v), high capital cost compared to gravity separators and filter centrifuges, complex bowl maintenance requiring trained technicians, sensitivity to feed variations and solids surges, and inability to handle fibrous, stringy, or abrasive materials that damage the disc stack." }
-    },
-    {
-      "@type": "Question",
-      "name": "When should I use a decanter centrifuge instead of a disc stack centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Choose a decanter centrifuge when solids content exceeds 3–5% by volume, when a dry or stackable cake discharge is required, when continuous solids discharge is needed without production interruptions, or when the solids are coarse, fibrous, or too abrasive for the disc stack. Decanters handle higher solids loads at lower G-forces." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can a self-cleaning disc stack centrifuge handle high-solids feeds?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Self-cleaning disc stack centrifuges can handle feeds up to approximately 3–5% solids by volume. Above this level, the sludge space fills too quickly between discharge cycles, reducing separation effectiveness and increasing the risk of bowl clogging. For higher-solids applications, a decanter centrifuge or a pre-filtration step is recommended." }
-    }
-  ]
-};
+const toc = [
+  { id: "capital-cost", label: "1. High Capital Cost" },
+  { id: "solids-handling", label: "2. Limited Solids Handling Capacity" },
+  { id: "pre-filtered-feed", label: "3. Requires Clean, Pre-Filtered Feed" },
+  { id: "maintenance", label: "4. Maintenance Complexity" },
+  { id: "operating-water", label: "5. Operating Water Requirement" },
+  { id: "feed-sensitivity", label: "6. Sensitivity to Feed Variations" },
+  { id: "safety", label: "7. High RPM Safety Requirements" },
+  { id: "when-decanter", label: "When to Choose a Decanter Instead" },
+  { id: "faq", label: "Frequently Asked Questions" },
+];
+
+const relatedProducts = [
+  { label: "Decanter Centrifuge", href: "/decanter-centrifuge/", description: "For high-solids feeds exceeding 5% v/v" },
+  { label: "Industrial Sample Testing", href: "/industrial-centrifuge-sample-testing/", description: "Test your feed before committing to equipment" },
+];
+
+const relatedApplications = [
+  { label: "Bad Separation Troubleshooting", href: "/disc-stack-centrifuge-bad-separation/" },
+  { label: "Centrifuge Lubrication Guide", href: "/disc-stack-centrifuge-lubrication/" },
+  { label: "Disc Stack Centrifuge FAQ", href: "/disc-stack-centrifuge-faq/" },
+  { label: "All Applications", href: "/disc-stack-centrifuge-applications/" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Disc Stack Centrifuge Disadvantages | Dolphin Centrifuge"
   description="The real limitations of disc stack centrifuges: solids handling capacity, capital cost, maintenance complexity, and when a decanter makes more sense."
   canonicalUrl="https://dolphincentrifuge.com/disadvantages-disc-stack-centrifuge/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Centrifuge Disadvantages'}]}
+  heroImage="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-moving-parts-1050.webp"
+  heroImageAlt="Disc stack centrifuge bowl moving parts showing self-cleaning sludge discharge mechanism"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Knowledge Base</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Disc Stack Centrifuge Disadvantages</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">We sell and service disc stack centrifuges — so we know exactly where they excel and where they fall short. This honest guide covers the real limitations of disc centrifuge technology so you can make the right equipment decision for your process.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides objective guidance on disc stack centrifuge limitations to help engineers and plant operators select the right separation technology. Disc stack centrifuges are exceptional for removing fine water droplets and sub-micron particles from oils and fuels at up to 8,000 Gs — but have real limitations in high-solids applications, very high-viscosity fluids, and certain feed conditions. Dolphin Centrifuge has over 40 years of centrifuge application experience. Based in Warren, Michigan.</p>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
+    <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-moving-parts-1050.webp" alt="Disc stack centrifuge bowl moving parts showing self-cleaning sludge discharge mechanism" width="1050" height="401" loading="eager" class="rounded-lg w-full mb-4" />
+    <p class="text-text-light leading-relaxed"><strong>Why we wrote this:</strong> Too many equipment selection decisions are made based on vendor enthusiasm rather than engineering fit. A disc stack centrifuge is one of the most powerful separation tools available — but it is not the right tool for every application. Understanding the limitations helps you avoid expensive mismatches and makes the case for disc centrifuges in applications where they genuinely belong.</p>
+  </div>
+
+  <!-- Disadvantage 1 -->
+  <div id="capital-cost" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">1. High Capital Cost</h2>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disadvantages-disc-stack-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp" alt="Alfa Laval MAB-206 disc stack centrifuge explosion proof Class 1 Div 2" width="287" height="383" loading="lazy" class="rounded-lg float-right ml-4 mb-4 w-auto max-w-[200px]" />
+      <p>Disc stack centrifuges are precision machines machined to tight tolerances, assembled from high-grade stainless steel, and built to withstand enormous centrifugal forces at high RPM. This engineering quality comes at a cost.</p>
+      <p>A new mid-size disc centrifuge (10,000–30,000 L/hour capacity) typically ranges from $80,000 to $250,000 USD, depending on features, materials, and automation level. Larger or specialty models can exceed $500,000.</p>
+      <p>This capital cost is often justified by operating cost savings, but in low-throughput applications or where the separation requirement is modest, simpler alternatives — gravity tanks, hydrocyclones, bag filters — may achieve acceptable results at a fraction of the cost. The ROI calculation must support the investment before committing to disc centrifuge technology.</p>
+      <p><strong class="text-navy">When to reconsider:</strong> If your throughput is under 1,000 L/hour and your separation requirement tolerates some imperfection, alternatives may offer better capital efficiency.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- Disadvantage 2 -->
+  <div id="solids-handling" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">2. Limited Solids Handling Capacity</h2>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-sticky-sludge-900-768x341-1.webp" alt="Disc stack centrifuge bowl sticky sludge buildup — solids handling limitation" width="768" height="341" loading="lazy" class="rounded-lg w-full mb-4" />
+      <p>This is the most significant technical limitation of disc stack centrifuges. The sludge holding space in the bowl periphery is small — typically 5–30 liters on common industrial models. This means disc centrifuges handle feeds with relatively low solids content well, but they struggle with high-solids feeds.</p>
+      <p>Practical limits for continuous operation:</p>
+      <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>Clarifiers (liquid-solids): typically effective up to 1–3% solids by volume in the feed. Above this, the sludge space fills too rapidly and discharge frequency becomes impractical.</li>
+        <li>Purifiers (liquid-liquid-solids): typically handle even lower solids loads — 0.1–0.5% solids is typical — because the sludge space priority is maintaining the liquid-liquid interface, not solids accumulation.</li>
+      </ul>
+      <p>Feeds with high, variable, or fibrous solids content cause rapid sludge space filling, frequent discharges, high product loss, and eventual blockage of the disc stack channels.</p>
+      <p><strong class="text-navy">When to use a decanter instead:</strong> If your feed regularly contains more than 2–5% solids by volume, or if the solids are fibrous or stringy, a <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> with its screw conveyor can handle continuous high-solids feeds that would overwhelm a disc centrifuge.</p>
+    </div>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides objective guidance on disc stack centrifuge limitations to help engineers and plant operators select the right separation technology. Disc stack centrifuges are exceptional for removing fine water droplets and sub-micron particles from oils and fuels at up to 8,000 Gs — but have real limitations in high-solids applications, very high-viscosity fluids, and certain feed conditions. Dolphin Centrifuge has over 40 years of centrifuge application experience. Based in Warren, Michigan.</p>
+  <!-- Disadvantage 3 -->
+  <div id="pre-filtered-feed" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">3. Requires Clean, Pre-Filtered Feed</h2>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-bowl-disc-spacing-1000-768x307-1.webp" alt="Disc stack centrifuge disc spacing showing narrow flow channels that require pre-filtered feed" width="580" height="231" loading="lazy" class="rounded-lg w-full mb-4" />
+      <p>The disc stack inside a centrifuge consists of thin (0.5–1 mm) stainless steel or aluminum discs stacked with small separation channels between them. These channels are typically only 0.3–0.8 mm wide. Particles larger than the channel gap — scale, rust, trash, fibrous material, large agglomerates — will lodge between discs and block the separation channels.</p>
+      <p>This means virtually all disc centrifuge installations require upstream pre-filtration or screening to protect the disc stack. Common requirements:</p>
+      <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>Pre-strainer or basket filter: 200–500 micron, depending on disc spacing</li>
+        <li>Softening or anti-scale treatment if the feed has high mineral content</li>
+        <li>Demagnetizing if ferrous particles are present (these can accumulate on the discs and cause vibration)</li>
+      </ul>
+      <p>The pre-filtration equipment adds capital cost, footprint, maintenance requirements, and an additional failure mode to the system. In plants with heavily contaminated or variable feed streams, maintaining adequate pre-filtration quality is a persistent operational burden.</p>
+    </div>
+  </div>
+
+  <!-- Disadvantage 4 -->
+  <div id="maintenance" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">4. Maintenance Complexity</h2>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-moving-parts-1050-768x293-1.webp" alt="Disc stack centrifuge bowl moving parts — sliding piston and operating slide require periodic maintenance" width="580" height="221" loading="lazy" class="rounded-lg w-full mb-4" />
+      <p>Disc centrifuges are sophisticated machines with many precision components. Routine maintenance requires specialized knowledge and tools that most general maintenance departments do not possess:</p>
+      <ul class="list-disc list-inside space-y-2 ml-2">
+        <li><strong class="text-navy">Bowl disassembly:</strong> Requires specialized spanner wrenches for the bowl lock ring, proper torque sequences, and knowledge of disc stack orientation and numbering.</li>
+        <li><strong class="text-navy">Bearing replacement:</strong> Spindle bearings must be press-fitted to precise dimensions. Improper installation causes early failure or vibration.</li>
+        <li><strong class="text-navy">Operating system:</strong> Self-cleaning models have a hydraulic operating water circuit with solenoid valves, check valves, timing systems, and sliding bowl bottom seals — all requiring periodic inspection and replacement.</li>
+        <li><strong class="text-navy">Lubrication:</strong> Gear drives (on some models) require scheduled oil changes. Bearing housings require correct lubricant type and level. Over-lubrication is as damaging as under-lubrication.</li>
+        <li><strong class="text-navy">CIP and chemical cleaning:</strong> Scaling or biological fouling on discs requires periodic chemical cleaning with specific acids or alkaline cleaners — adding to the maintenance burden.</li>
+      </ul>
+      <p>Typical annual maintenance cost for a disc centrifuge is 3–8% of purchase price, depending on operating hours and feed conditions. Facilities without trained centrifuge technicians on staff should factor in service contract costs when evaluating total cost of ownership. Dolphin Centrifuge offers <a href="/disc-stack-centrifuge-lubrication/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge lubrication guidance</a> and service support.</p>
+    </div>
+  </div>
+
+  <!-- Disadvantage 5 -->
+  <div id="operating-water" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">5. Operating Water Requirement</h2>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc centrifuge self-cleaning animation showing sludge discharge cycle that requires operating water" width="599" height="460" loading="lazy" class="rounded-lg w-full mb-4" />
+      <p>Self-cleaning disc centrifuges consume water for every discharge cycle. A typical medium-size machine uses 3–8 liters of operating water per discharge. At 4 discharges per hour over a 6,000-hour operating year, that is 72,000–192,000 liters of water per year — water that must be supplied, treated if needed, and disposed of with the sludge stream.</p>
+      <p>In facilities where water supply is limited, costly, or where the sludge discharge must remain dry for downstream handling, the operating water consumption is a real constraint. Some installations recycle the operating water by treating and recirculating it, but this adds system complexity and capital cost.</p>
+    </div>
+  </div>
+
+  <!-- Disadvantage 6 -->
+  <div id="feed-sensitivity" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">6. Sensitivity to Feed Variations</h2>
+    <div class="space-y-3 text-text-light">
+      <p>A disc centrifuge optimized for a specific feed — set up with the correct gravity disc, discharge timing, and back pressure — performs well when the feed stays consistent. Real-world feeds are rarely perfectly consistent.</p>
+      <p>Factors that throw off a properly set centrifuge include:</p>
+      <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>Changes in feed fluid density (seasonal temperature shifts, different batches, changes in upstream process)</li>
+        <li>Sudden increases in feed solids concentration (upstream upsets, cleaning events, process changes)</li>
+        <li>Changes in feed viscosity from temperature or composition changes</li>
+        <li>pH changes that affect emulsion stability or solids characteristics</li>
+      </ul>
+      <p>Each of these may require re-optimization of gravity disc selection, discharge timing, or flow rate. Automated centrifuges with turbidity monitoring and adaptive control handle this better than manually operated machines, but they add to the initial cost. See also our guide on <a href="/disc-stack-centrifuge-bad-separation/" class="text-navy font-semibold hover:text-gold transition-colors">diagnosing bad separation</a> when feed conditions shift.</p>
+    </div>
+  </div>
+
+  <!-- Disadvantage 7 -->
+  <div id="safety" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">7. High RPM Safety Requirements</h2>
+    <div class="space-y-3 text-text-light">
+      <p>Disc centrifuges operate at very high rotational speeds — typically 4,000–9,000 RPM, generating centrifugal forces of 5,000–15,000× gravity. The kinetic energy stored in the rotating bowl is enormous. A bowl failure — though rare with properly maintained equipment — would be catastrophic.</p>
+      <p>As a result, disc centrifuges require:</p>
+      <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>Heavy-duty, interlocked safety enclosures that must not be bypassed</li>
+        <li>Vibration monitoring systems with automatic shutdown on overload</li>
+        <li>Bowl inspection programs including periodic non-destructive testing (NDT)</li>
+        <li>Strict procedures for bowl assembly — incorrect assembly is a safety hazard</li>
+        <li>Trained operators who understand the risks and follow shutdown procedures</li>
+      </ul>
+      <p>These requirements are manageable but they add to operational overhead and mean disc centrifuges are not suitable environments for untrained operators.</p>
+    </div>
+  </div>
+
+  <!-- When to Choose Decanter -->
+  <div id="when-decanter" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">When to Choose a Decanter Instead</h2>
+    <div class="space-y-3 text-text-light">
+      <p>A <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> uses a horizontal bowl with an internal screw conveyor to continuously convey and discharge solids — making it a fundamentally different tool suited to different applications. Choose a decanter when:</p>
+      <ul class="list-disc list-inside space-y-2 ml-2">
+        <li><strong class="text-navy">High solids content:</strong> Feeds with 5–40%+ solids by volume are handled continuously by a decanter; a disc centrifuge would need constant discharge cycles.</li>
+        <li><strong class="text-navy">Dry cake requirement:</strong> When the application requires a dry, stackable, or conveyable solids cake (sludge dewatering, mining tailings), the decanter's screw conveyor delivers solids at much higher dryness than a disc centrifuge discharge can achieve.</li>
+        <li><strong class="text-navy">Fibrous or coarse solids:</strong> Long fibers, coarse particles, or abrasive materials that would block a disc stack pass through a decanter's larger geometry without damage.</li>
+        <li><strong class="text-navy">High-volume liquid-solids separation:</strong> For applications primarily focused on dewatering large volumes of sludge (wastewater, food processing byproducts), a decanter is typically more cost-effective per unit of solids handled.</li>
+      </ul>
+      <p>The two technologies are often complementary: a disc centrifuge for the primary liquid clarification stage, and a decanter handling the sludge concentrate from the disc centrifuge's discharge to achieve maximum dryness before disposal.</p>
+    </div>
+  </div>
+
+  <p class="text-text-light leading-relaxed mb-6">Not sure which centrifuge technology fits your application? Dolphin Centrifuge can evaluate your process parameters and recommend the right separation approach. Contact us at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What are the main disadvantages of disc stack centrifuges?</h3>
+        <p class="text-text-light text-sm">The primary limitations are: limited solids handling capacity (typically under 3–5% v/v), high capital cost compared to gravity separators, complex bowl maintenance requiring trained technicians, sensitivity to feed variations and solids surges, and inability to handle fibrous, stringy, or abrasive materials that damage the disc stack.</p>
       </div>
-
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-moving-parts-1050.webp" alt="Disc stack centrifuge bowl moving parts showing self-cleaning sludge discharge mechanism" width="1050" height="401" loading="eager" class="rounded-lg w-full mb-4" />
-        <p class="text-text-light leading-relaxed"><strong>Why we wrote this:</strong> Too many equipment selection decisions are made based on vendor enthusiasm rather than engineering fit. A disc stack centrifuge is one of the most powerful separation tools available — but it is not the right tool for every application. Understanding the limitations helps you avoid expensive mismatches and makes the case for disc centrifuges in applications where they genuinely belong.</p>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">When should I use a decanter centrifuge instead of a disc stack centrifuge?</h3>
+        <p class="text-text-light text-sm">Choose a decanter centrifuge when solids content exceeds 3–5% by volume, when a dry or stackable cake discharge is required, when continuous solids discharge is needed without production interruptions, or when the solids are coarse, fibrous, or too abrasive for the disc stack. Decanters handle higher solids loads at lower G-forces.</p>
       </div>
-
-      <!-- Disadvantage 1 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">1. High Capital Cost</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/disadvantages-disc-stack-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp" alt="Alfa Laval MAB-206 disc stack centrifuge explosion proof Class 1 Div 2" width="287" height="383" loading="lazy" class="rounded-lg float-right ml-4 mb-4 w-auto max-w-[200px]" />
-          <p>Disc stack centrifuges are precision machines machined to tight tolerances, assembled from high-grade stainless steel, and built to withstand enormous centrifugal forces at high RPM. This engineering quality comes at a cost.</p>
-          <p>A new mid-size disc centrifuge (10,000–30,000 L/hour capacity) typically ranges from $80,000 to $250,000 USD, depending on features, materials, and automation level. Larger or specialty models can exceed $500,000.</p>
-          <p>This capital cost is often justified by operating cost savings, but in low-throughput applications or where the separation requirement is modest, simpler alternatives — gravity tanks, hydrocyclones, bag filters — may achieve acceptable results at a fraction of the cost. The ROI calculation must support the investment before committing to disc centrifuge technology.</p>
-          <p><strong class="text-navy">When to reconsider:</strong> If your throughput is under 1,000 L/hour and your separation requirement tolerates some imperfection, alternatives may offer better capital efficiency.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 2 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">2. Limited Solids Handling Capacity</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-sticky-sludge-900-768x341-1.webp" alt="Disc stack centrifuge bowl sticky sludge buildup — solids handling limitation" width="768" height="341" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>This is the most significant technical limitation of disc stack centrifuges. The sludge holding space in the bowl periphery is small — typically 5–30 liters on common industrial models. This means disc centrifuges handle feeds with relatively low solids content well, but they struggle with high-solids feeds.</p>
-          <p>Practical limits for continuous operation:</p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Clarifiers (liquid-solids): typically effective up to 1–3% solids by volume in the feed. Above this, the sludge space fills too rapidly and discharge frequency becomes impractical.</li>
-            <li>Purifiers (liquid-liquid-solids): typically handle even lower solids loads — 0.1–0.5% solids is typical — because the sludge space priority is maintaining the liquid-liquid interface, not solids accumulation.</li>
-          </ul>
-          <p>Feeds with high, variable, or fibrous solids content cause rapid sludge space filling, frequent discharges, high product loss, and eventual blockage of the disc stack channels.</p>
-          <p><strong class="text-navy">When to use a decanter instead:</strong> If your feed regularly contains more than 2–5% solids by volume, or if the solids are fibrous or stringy, a <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> with its screw conveyor can handle continuous high-solids feeds that would overwhelm a disc centrifuge.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 3 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">3. Requires Clean, Pre-Filtered Feed</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-bowl-disc-spacing-1000-768x307-1.webp" alt="Disc stack centrifuge disc spacing showing narrow flow channels that require pre-filtered feed" width="580" height="231" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>The disc stack inside a centrifuge consists of thin (0.5–1 mm) stainless steel or aluminum discs stacked with small separation channels between them. These channels are typically only 0.3–0.8 mm wide. Particles larger than the channel gap — scale, rust, trash, fibrous material, large agglomerates — will lodge between discs and block the separation channels.</p>
-          <p>This means virtually all disc centrifuge installations require upstream pre-filtration or screening to protect the disc stack. Common requirements:</p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Pre-strainer or basket filter: 200–500 micron, depending on disc spacing</li>
-            <li>Softening or anti-scale treatment if the feed has high mineral content</li>
-            <li>Demagnetizing if ferrous particles are present (these can accumulate on the discs and cause vibration)</li>
-          </ul>
-          <p>The pre-filtration equipment adds capital cost, footprint, maintenance requirements, and an additional failure mode to the system. In plants with heavily contaminated or variable feed streams, maintaining adequate pre-filtration quality is a persistent operational burden.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 4 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">4. Maintenance Complexity</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/disadvantages-disc-stack-centrifuge/disc-stack-centrifuge-bowl-moving-parts-1050-768x293-1.webp" alt="Disc stack centrifuge bowl moving parts — sliding piston and operating slide require periodic maintenance" width="580" height="221" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>Disc centrifuges are sophisticated machines with many precision components. Routine maintenance requires specialized knowledge and tools that most general maintenance departments do not possess:</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">Bowl disassembly:</strong> Requires specialized spanner wrenches for the bowl lock ring, proper torque sequences, and knowledge of disc stack orientation and numbering.</li>
-            <li><strong class="text-navy">Bearing replacement:</strong> Spindle bearings must be press-fitted to precise dimensions. Improper installation causes early failure or vibration.</li>
-            <li><strong class="text-navy">Operating system:</strong> Self-cleaning models have a hydraulic operating water circuit with solenoid valves, check valves, timing systems, and sliding bowl bottom seals — all requiring periodic inspection and replacement.</li>
-            <li><strong class="text-navy">Lubrication:</strong> Gear drives (on some models) require scheduled oil changes. Bearing housings require correct lubricant type and level. Over-lubrication is as damaging as under-lubrication.</li>
-            <li><strong class="text-navy">CIP and chemical cleaning:</strong> Scaling or biological fouling on discs requires periodic chemical cleaning with specific acids or alkaline cleaners — adding to the maintenance burden.</li>
-          </ul>
-          <p>Typical annual maintenance cost for a disc centrifuge is 3–8% of purchase price, depending on operating hours and feed conditions. Facilities without trained centrifuge technicians on staff should factor in service contract costs when evaluating total cost of ownership.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 5 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">5. Operating Water Requirement</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc centrifuge self-cleaning animation showing sludge discharge cycle that requires operating water" width="599" height="460" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>Self-cleaning disc centrifuges consume water for every discharge cycle. A typical medium-size machine uses 3–8 liters of operating water per discharge. At 4 discharges per hour over a 6,000-hour operating year, that is 72,000–192,000 liters of water per year — water that must be supplied, treated if needed, and disposed of with the sludge stream.</p>
-          <p>In facilities where water supply is limited, costly, or where the sludge discharge must remain dry for downstream handling, the operating water consumption is a real constraint. Some installations recycle the operating water by treating and recirculating it, but this adds system complexity and capital cost.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 6 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">6. Sensitivity to Feed Variations</h2>
-        <div class="space-y-3 text-text-light">
-          <p>A disc centrifuge optimized for a specific feed — set up with the correct gravity disc, discharge timing, and back pressure — performs well when the feed stays consistent. Real-world feeds are rarely perfectly consistent.</p>
-          <p>Factors that throw off a properly set centrifuge include:</p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Changes in feed fluid density (seasonal temperature shifts, different batches, changes in upstream process)</li>
-            <li>Sudden increases in feed solids concentration (upstream upsets, cleaning events, process changes)</li>
-            <li>Changes in feed viscosity from temperature or composition changes</li>
-            <li>pH changes that affect emulsion stability or solids characteristics</li>
-          </ul>
-          <p>Each of these may require re-optimization of gravity disc selection, discharge timing, or flow rate. Automated centrifuges with turbidity monitoring and adaptive control handle this better than manually operated machines, but they add to the initial cost.</p>
-        </div>
-      </div>
-
-      <!-- Disadvantage 7 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">7. High RPM Safety Requirements</h2>
-        <div class="space-y-3 text-text-light">
-          <p>Disc centrifuges operate at very high rotational speeds — typically 4,000–9,000 RPM, generating centrifugal forces of 5,000–15,000× gravity. The kinetic energy stored in the rotating bowl is enormous. A bowl failure — though rare with properly maintained equipment — would be catastrophic.</p>
-          <p>As a result, disc centrifuges require:</p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Heavy-duty, interlocked safety enclosures that must not be bypassed</li>
-            <li>Vibration monitoring systems with automatic shutdown on overload</li>
-            <li>Bowl inspection programs including periodic non-destructive testing (NDT)</li>
-            <li>Strict procedures for bowl assembly — incorrect assembly is a safety hazard</li>
-            <li>Trained operators who understand the risks and follow shutdown procedures</li>
-          </ul>
-          <p>These requirements are manageable but they add to operational overhead and mean disc centrifuges are not suitable environments for untrained operators.</p>
-        </div>
-      </div>
-
-      <!-- When to Choose Decanter -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">When to Choose a Decanter Instead</h2>
-        <div class="space-y-3 text-text-light">
-          <p>A <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> uses a horizontal bowl with an internal screw conveyor to continuously convey and discharge solids — making it a fundamentally different tool suited to different applications. Choose a decanter when:</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">High solids content:</strong> Feeds with 5–40%+ solids by volume are handled continuously by a decanter; a disc centrifuge would need constant discharge cycles.</li>
-            <li><strong class="text-navy">Dry cake requirement:</strong> When the application requires a dry, stackable, or conveyable solids cake (sludge dewatering, mining tailings), the decanter's screw conveyor delivers solids at much higher dryness than a disc centrifuge discharge can achieve.</li>
-            <li><strong class="text-navy">Fibrous or coarse solids:</strong> Long fibers, coarse particles, or abrasive materials that would block a disc stack pass through a decanter's larger geometry without damage.</li>
-            <li><strong class="text-navy">High-volume liquid-solids separation:</strong> For applications primarily focused on dewatering large volumes of sludge (wastewater, food processing byproducts), a decanter is typically more cost-effective per unit of solids handled.</li>
-          </ul>
-          <p>The two technologies are often complementary: a disc centrifuge for the primary liquid clarification stage, and a decanter handling the sludge concentrate from the disc centrifuge's discharge to achieve maximum dryness before disposal.</p>
-        </div>
-      </div>
-
-      <p class="text-text-light leading-relaxed mb-6">Not sure which centrifuge technology fits your application? Dolphin Centrifuge can evaluate your process parameters and recommend the right separation approach. Contact us at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What are the main disadvantages of disc stack centrifuges?</h3>
-            <p class="text-text-light text-sm">The primary limitations are: limited solids handling capacity (typically under 3–5% v/v), high capital cost compared to gravity separators, complex bowl maintenance requiring trained technicians, sensitivity to feed variations and solids surges, and inability to handle fibrous, stringy, or abrasive materials that damage the disc stack.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">When should I use a decanter centrifuge instead of a disc stack centrifuge?</h3>
-            <p class="text-text-light text-sm">Choose a decanter centrifuge when solids content exceeds 3–5% by volume, when a dry or stackable cake discharge is required, when continuous solids discharge is needed without production interruptions, or when the solids are coarse, fibrous, or too abrasive for the disc stack. Decanters handle higher solids loads at lower G-forces.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Can a self-cleaning disc stack centrifuge handle high-solids feeds?</h3>
-            <p class="text-text-light text-sm">Self-cleaning disc stack centrifuges can handle feeds up to approximately 3–5% solids by volume. Above this level, the sludge space fills too quickly between discharge cycles, reducing separation effectiveness and increasing the risk of bowl clogging. For higher-solids applications, a decanter centrifuge or pre-filtration step is recommended.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="mt-10">
-        <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="/decanter-centrifuge/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Decanter Centrifuge Guide</span>
-            <p class="text-sm text-text-light mt-1">When a decanter centrifuge handles high-solids feeds better than a disc stack.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-bad-separation/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Bad Separation Troubleshooting</span>
-            <p class="text-sm text-text-light mt-1">6 causes of poor disc centrifuge separation and how to fix them.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-lubrication/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Centrifuge Lubrication Guide</span>
-            <p class="text-sm text-text-light mt-1">Correct oil types, change intervals, and common maintenance mistakes.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-faq/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Disc Stack Centrifuge FAQ</span>
-            <p class="text-sm text-text-light mt-1">101 frequently asked questions about disc stack centrifuges.</p>
-          </a>
-        </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Can a self-cleaning disc stack centrifuge handle high-solids feeds?</h3>
+        <p class="text-text-light text-sm">Self-cleaning disc stack centrifuges can handle feeds up to approximately 3–5% solids by volume. Above this level, the sludge space fills too quickly between discharge cycles, reducing separation effectiveness and increasing the risk of bowl clogging. For higher-solids applications, a decanter centrifuge or pre-filtration step is recommended.</p>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Not Sure Which Centrifuge Fits Your Application?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Dolphin Centrifuge provides impartial application consulting and sample testing to match the right separation technology to your specific process requirements.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+  <!-- Related Articles -->
+  <div class="mt-10">
+    <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <a href="/decanter-centrifuge/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
+        <span class="text-navy font-semibold">Decanter Centrifuge Guide</span>
+        <p class="text-sm text-text-light mt-1">When a decanter centrifuge handles high-solids feeds better than a disc stack.</p>
+      </a>
+      <a href="/disc-stack-centrifuge-bad-separation/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
+        <span class="text-navy font-semibold">Bad Separation Troubleshooting</span>
+        <p class="text-sm text-text-light mt-1">6 causes of poor disc centrifuge separation and how to fix them.</p>
+      </a>
+      <a href="/disc-stack-centrifuge-lubrication/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
+        <span class="text-navy font-semibold">Centrifuge Lubrication Guide</span>
+        <p class="text-sm text-text-light mt-1">Correct oil types, change intervals, and common maintenance mistakes.</p>
+      </a>
+      <a href="/disc-stack-centrifuge-faq/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
+        <span class="text-navy font-semibold">Disc Stack Centrifuge FAQ</span>
+        <p class="text-sm text-text-light mt-1">101 frequently asked questions about disc stack centrifuges.</p>
+      </a>
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+</ApplicationLayout>

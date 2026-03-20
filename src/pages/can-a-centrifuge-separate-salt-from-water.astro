@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,147 +23,136 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Can a Centrifuge Separate Salt from Water?",
-  "description": "Why centrifuges cannot separate dissolved substances like salt from water, what they can and cannot separate, and alternative separation methods explained.",
-  "author": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com",
-  "datePublished": "2021-05-01" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/can-a-centrifuge-separate-salt-from-water/",
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Can a Centrifuge Separate Salt from Water?",
+    "description": "Why centrifuges cannot separate dissolved substances like salt from water, what they can and cannot separate, and alternative separation methods explained.",
+    "author": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com",
+    "datePublished": "2021-05-01" },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "url": "https://dolphincentrifuge.com/can-a-centrifuge-separate-salt-from-water/",
+  },
+  faqJsonLd,
+];
 ---
 
-<BaseLayout
-  title="Can a Centrifuge Separate Salt?"
+<ApplicationLayout
+  title="Can a Centrifuge Separate Salt from Water?"
   description="Why centrifuges cannot separate dissolved substances like salt from water, what they can and cannot separate, and alternative separation methods explained."
   canonicalUrl="https://dolphincentrifuge.com/can-a-centrifuge-separate-salt-from-water/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Salt from Water'}]}
+  heroImage="/images/can-a-centrifuge-separate-salt-from-water/Centrifuge-Separate-Salt-from-Water-800.webp"
+  heroImageAlt="Can a centrifuge separate salt from water — diagram showing dissolved vs suspended substances"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  relatedApplications={[
+    { label: 'Oil–Water Separation', href: '/waste-oil-centrifuge/' },
+    { label: 'Diesel Fuel Centrifuge', href: '/diesel-centrifuge/' },
+    { label: 'Beer & Wine Clarification', href: '/beer-wine-centrifuge/' },
+    { label: 'Algae Harvesting', href: '/algae-centrifuge/' },
+    { label: 'Crude Oil Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+  ]}
+  relatedProducts={[
+    { label: 'Disc Stack Centrifuges', href: '/disc-stack-centrifuge-applications/', description: 'Liquid–liquid and solid–liquid separation' },
+    { label: 'Decanter Centrifuges', href: '/decanter-centrifuge/', description: 'High-solids sludge dewatering' },
+  ]}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Knowledge Base</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Can a Centrifuge Separate Salt from Water?</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The short answer is no. A centrifuge separates immiscible phases based on density differences, but dissolved substances like salt form a homogeneous solution with no density gradient to exploit.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack and decanter centrifuge systems for liquid–liquid and solid–liquid separation — applications where immiscible phases of different densities exist. Centrifuges operate at 2,000 to 12,000+ Gs and remove particles from 0.5 microns upward. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifugal separation technology.</p>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
+    <p class="text-text-light leading-relaxed"><strong>Key takeaway:</strong> A centrifuge cannot separate salt from water because salt dissolves to form a chemical solution. Centrifuges work by exploiting specific gravity differences between immiscible phases &mdash; such as sand particles suspended in water or oil droplets floating in water. Since a saltwater solution has no distinct phases with different densities, centrifugal force has no effect on the dissolved salt molecules.</p>
+  </div>
+
+  <img src="/images/can-a-centrifuge-separate-salt-from-water/Centrifuge-Separate-Salt-from-Water-800.webp" alt="Can a centrifuge separate salt from water — diagram showing dissolved vs suspended substances" width="800" height="533" loading="lazy" class="rounded-lg w-full mb-10" />
+
+  <!-- Why it doesn't work -->
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Why Centrifuges Cannot Separate Dissolved Solids</h2>
+  <p class="text-text-light leading-relaxed mb-4">A <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge</a> operates on the principle of differential sedimentation. It amplifies gravitational force by thousands of times to accelerate the natural settling of heavier particles away from lighter fluids. This requires two fundamental conditions:</p>
+
+  <div class="grid md:grid-cols-2 gap-6 mb-10">
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-3">Condition 1: Immiscible Phases</h3>
+      <p class="text-text-light text-sm">The substances must exist as separate, distinct phases &mdash; particles suspended in liquid, or two liquids that do not mix (like oil and water). Salt dissolved in water forms a single, homogeneous phase.</p>
     </div>
-  </section>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-3">Condition 2: Density Difference</h3>
+      <p class="text-text-light text-sm">The phases must have different specific gravities. Even at 10,000 G, a centrifuge cannot act on individual dissolved molecules &mdash; they are chemically bonded to the solvent molecules and move together as one fluid.</p>
+    </div>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- Edge cases -->
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">When Centrifuges Cannot Separate Immiscible Solids</h2>
+  <p class="text-text-light leading-relaxed mb-4">Even with immiscible (undissolved) solids, certain conditions can prevent effective centrifugal separation. When solid particles are both extremely small and have a specific gravity close to the carrier fluid, the centrifugal force may be insufficient to push them out of suspension.</p>
+  <p class="text-text-light leading-relaxed mb-4">A practical example is the sub-micron carbon particles in used engine oil. These combustion byproducts are so tiny and so close in density to the oil that even a high-G <a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> cannot separate them completely. This is why used engine oil remains black after centrifugation &mdash; the color comes from these ultra-fine carbon particles.</p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack and decanter centrifuge systems for liquid–liquid and solid–liquid separation — applications where immiscible phases of different densities exist. Centrifuges operate at 2,000 to 12,000+ Gs and remove particles from 0.5 microns upward. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifugal separation technology.</p>
+  <!-- What centrifuges cannot separate -->
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Mixtures a Centrifuge Cannot Separate</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
+    <p class="text-text-light mb-3">The following are examples of solutions and miscible mixtures where centrifugal separation is not effective:</p>
+    <div class="grid md:grid-cols-2 gap-x-6 gap-y-1 text-text-light text-sm">
+      <p>&bull; Salt and water</p>
+      <p>&bull; Sugar and water</p>
+      <p>&bull; Ink in water</p>
+      <p>&bull; Diesel and gasoline</p>
+      <p>&bull; Diesel and lube oil</p>
+      <p>&bull; Water and glycol (antifreeze)</p>
+      <p>&bull; Used oil and diesel fuel</p>
+      <p>&bull; Alcohol and water</p>
+      <p>&bull; Chicken fat and vegetable oil</p>
+      <p>&bull; Emulsified oil and water</p>
+    </div>
+  </div>
+
+  <!-- What centrifuges CAN separate -->
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Mixtures a Centrifuge Separates Effectively</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
+    <p class="text-text-light mb-3">Centrifuges excel at separating immiscible phases with distinct density differences:</p>
+    <div class="grid md:grid-cols-2 gap-x-6 gap-y-1 text-text-light text-sm">
+      <p>&bull; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Oil from water</a></p>
+      <p>&bull; <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Diesel from water and sludge</a></p>
+      <p>&bull; Sludge from oil</p>
+      <p>&bull; Fine sediment from lube oil</p>
+      <p>&bull; Water from lube oil</p>
+      <p>&bull; Milk fat from milk</p>
+      <p>&bull; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer from yeast</a></p>
+      <p>&bull; Wine from grape skin</p>
+      <p>&bull; Fruit juice from pulp</p>
+      <p>&bull; <a href="/algae-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Algae cells from water</a></p>
+      <p>&bull; Vegetable oil from gums</p>
+      <p>&bull; <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude oil from water and sludge</a></p>
+      <p>&bull; Clarified butter from butter solids</p>
+    </div>
+  </div>
+
+  <!-- Alternative methods -->
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">How to Separate Dissolved Solids from Liquids</h2>
+  <p class="text-text-light leading-relaxed mb-4">Since centrifugal force cannot act on dissolved solids, other methods are required. The most common approach is <strong>evaporation or distillation</strong> &mdash; converting the liquid to vapor while the dissolved solid remains behind. Salt production from seawater in evaporation lagoons is the classic example of this process.</p>
+  <p class="text-text-light leading-relaxed mb-4">In some cases, chemical precipitation can convert dissolved substances into insoluble particles that a centrifuge can then separate. For example, heavy metal compounds dissolved in water can be precipitated into solid particles using chemical reagents. Once precipitated, a <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> or <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> effectively separates the solid precipitate from the clean water.</p>
+
+  <p class="text-text-light leading-relaxed">Questions about whether a centrifuge can work for your specific separation challenge? Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> to speak with a centrifuge engineer.</p>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Can a centrifuge separate salt from water?</h3>
+        <p class="text-text-light text-sm">No. Centrifuges separate phases by density difference — they cannot separate dissolved substances from a solution. Salt dissolved in water forms a single homogeneous phase with no density boundary to exploit. Separation of dissolved salts requires evaporation, reverse osmosis, or ion exchange processes, not centrifugation.</p>
       </div>
-
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <p class="text-text-light leading-relaxed"><strong>Key takeaway:</strong> A centrifuge cannot separate salt from water because salt dissolves to form a chemical solution. Centrifuges work by exploiting specific gravity differences between immiscible phases &mdash; such as sand particles suspended in water or oil droplets floating in water. Since a saltwater solution has no distinct phases with different densities, centrifugal force has no effect on the dissolved salt molecules.</p>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What can a centrifuge separate from water?</h3>
+        <p class="text-text-light text-sm">Centrifuges can separate undissolved solids (suspended particles, sludge), immiscible liquids (oil-water separation), and undissolved biological materials (bacteria, yeast cells). The separating phase must be physically distinct — a solid particle or an immiscible liquid — not dissolved in the water.</p>
       </div>
-
-      <img src="/images/can-a-centrifuge-separate-salt-from-water/Centrifuge-Separate-Salt-from-Water-800.webp" alt="Can a centrifuge separate salt from water — diagram showing dissolved vs suspended substances" width="800" height="533" loading="lazy" class="rounded-lg w-full mb-10" />
-
-      <!-- Why it doesn't work -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Why Centrifuges Cannot Separate Dissolved Solids</h2>
-      <p class="text-text-light leading-relaxed mb-4">A <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge</a> operates on the principle of differential sedimentation. It amplifies gravitational force by thousands of times to accelerate the natural settling of heavier particles away from lighter fluids. This requires two fundamental conditions:</p>
-
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-3">Condition 1: Immiscible Phases</h3>
-          <p class="text-text-light text-sm">The substances must exist as separate, distinct phases &mdash; particles suspended in liquid, or two liquids that do not mix (like oil and water). Salt dissolved in water forms a single, homogeneous phase.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-3">Condition 2: Density Difference</h3>
-          <p class="text-text-light text-sm">The phases must have different specific gravities. Even at 10,000 G, a centrifuge cannot act on individual dissolved molecules &mdash; they are chemically bonded to the solvent molecules and move together as one fluid.</p>
-        </div>
-      </div>
-
-      <!-- Edge cases -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">When Centrifuges Cannot Separate Immiscible Solids</h2>
-      <p class="text-text-light leading-relaxed mb-4">Even with immiscible (undissolved) solids, certain conditions can prevent effective centrifugal separation. When solid particles are both extremely small and have a specific gravity close to the carrier fluid, the centrifugal force may be insufficient to push them out of suspension.</p>
-      <p class="text-text-light leading-relaxed mb-4">A practical example is the sub-micron carbon particles in used engine oil. These combustion byproducts are so tiny and so close in density to the oil that even a high-G <a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> cannot separate them completely. This is why used engine oil remains black after centrifugation &mdash; the color comes from these ultra-fine carbon particles.</p>
-
-      <!-- What centrifuges cannot separate -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Mixtures a Centrifuge Cannot Separate</h2>
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <p class="text-text-light mb-3">The following are examples of solutions and miscible mixtures where centrifugal separation is not effective:</p>
-        <div class="grid md:grid-cols-2 gap-x-6 gap-y-1 text-text-light text-sm">
-          <p>&bull; Salt and water</p>
-          <p>&bull; Sugar and water</p>
-          <p>&bull; Ink in water</p>
-          <p>&bull; Diesel and gasoline</p>
-          <p>&bull; Diesel and lube oil</p>
-          <p>&bull; Water and glycol (antifreeze)</p>
-          <p>&bull; Used oil and diesel fuel</p>
-          <p>&bull; Alcohol and water</p>
-          <p>&bull; Chicken fat and vegetable oil</p>
-          <p>&bull; Emulsified oil and water</p>
-        </div>
-      </div>
-
-      <!-- What centrifuges CAN separate -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Mixtures a Centrifuge Separates Effectively</h2>
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <p class="text-text-light mb-3">Centrifuges excel at separating immiscible phases with distinct density differences:</p>
-        <div class="grid md:grid-cols-2 gap-x-6 gap-y-1 text-text-light text-sm">
-          <p>&bull; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Oil from water</a></p>
-          <p>&bull; <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Diesel from water and sludge</a></p>
-          <p>&bull; Sludge from oil</p>
-          <p>&bull; Fine sediment from lube oil</p>
-          <p>&bull; Water from lube oil</p>
-          <p>&bull; Milk fat from milk</p>
-          <p>&bull; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer from yeast</a></p>
-          <p>&bull; Wine from grape skin</p>
-          <p>&bull; Fruit juice from pulp</p>
-          <p>&bull; <a href="/algae-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Algae cells from water</a></p>
-          <p>&bull; Vegetable oil from gums</p>
-          <p>&bull; <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude oil from water and sludge</a></p>
-          <p>&bull; Clarified butter from butter solids</p>
-        </div>
-      </div>
-
-      <!-- Alternative methods -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">How to Separate Dissolved Solids from Liquids</h2>
-      <p class="text-text-light leading-relaxed mb-4">Since centrifugal force cannot act on dissolved solids, other methods are required. The most common approach is <strong>evaporation or distillation</strong> &mdash; converting the liquid to vapor while the dissolved solid remains behind. Salt production from seawater in evaporation lagoons is the classic example of this process.</p>
-      <p class="text-text-light leading-relaxed mb-4">In some cases, chemical precipitation can convert dissolved substances into insoluble particles that a centrifuge can then separate. For example, heavy metal compounds dissolved in water can be precipitated into solid particles using chemical reagents. Once precipitated, a <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> or <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> effectively separates the solid precipitate from the clean water.</p>
-
-      <p class="text-text-light leading-relaxed">Questions about whether a centrifuge can work for your specific separation challenge? Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> to speak with a centrifuge engineer.</p>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Can a centrifuge separate salt from water?</h3>
-            <p class="text-text-light text-sm">No. Centrifuges separate phases by density difference — they cannot separate dissolved substances from a solution. Salt dissolved in water forms a single homogeneous phase with no density boundary to exploit. Separation of dissolved salts requires evaporation, reverse osmosis, or ion exchange processes, not centrifugation.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What can a centrifuge separate from water?</h3>
-            <p class="text-text-light text-sm">Centrifuges can separate undissolved solids (suspended particles, sludge), immiscible liquids (oil-water separation), and undissolved biological materials (bacteria, yeast cells). The separating phase must be physically distinct — a solid particle or an immiscible liquid — not dissolved in the water.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What separation method is used for dissolved salts or minerals?</h3>
-            <p class="text-text-light text-sm">Dissolved salts and minerals are separated by evaporation and crystallization, reverse osmosis membranes, electrodialysis, or ion exchange resins. These processes work on the molecular or ionic level, whereas centrifuges work on bulk density differences between physically distinct phases.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Not Sure If a Centrifuge Will Work?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Send us a sample of your fluid. Our engineers will test it and determine whether centrifugal separation is the right solution for your application.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Contact Our Engineers</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What separation method is used for dissolved salts or minerals?</h3>
+        <p class="text-text-light text-sm">Dissolved salts and minerals are separated by evaporation and crystallization, reverse osmosis membranes, electrodialysis, or ion exchange resins. These processes work on the molecular or ionic level, whereas centrifuges work on bulk density differences between physically distinct phases.</p>
       </div>
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+</ApplicationLayout>
