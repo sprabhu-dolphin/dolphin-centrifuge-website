@@ -18,6 +18,33 @@ const jsonLd = {
   "datePublished": "2022-08-01",
   "dateModified": "2024-06-01"
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What options are commonly added to a disc stack centrifuge system?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Common disc stack centrifuge system options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric immersion or steam-heated shell-and-tube), duplex basket strainer (pre-filtration for coarse solids protection), sludge tank with agitator (sludge accumulation and re-pumping), clean fluid tank (polished product storage), chemical injection (demulsifier or anti-foaming agent), VFD (variable frequency drive for bowl speed control), PLC with HMI (automated control and monitoring), and CIP (clean-in-place) circuit for sanitary applications." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a pre-heater for my disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A pre-heater is required for any application where the process fluid has a viscosity above 50 cSt at operating temperature, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating. Pre-heaters can be electric immersion type (for moderate volumes) or shell-and-tube steam/hot water exchangers (for large volumes)." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a duplex basket strainer and do I need one?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. For disc centrifuges, it protects the feed pump and centrifuge from large solid particles (typically 50–500 micron) that would accelerate bowl wear or clog the feed inlet. A duplex design is preferred over a simplex strainer because it allows basket cleaning without shutting down the process. It is recommended for any application with intermittent large solid particles — crude oil, waste oil, and machining coolant applications especially benefit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Should my disc centrifuge system have a PLC controller?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A PLC (programmable logic controller) with HMI is strongly recommended for any production centrifuge system. It automates startup/shutdown sequences, controls sludge ejection cycle timing, monitors operating water pressure and flow, handles alarm conditions (high vibration, low flow, over-temperature), and logs operating data. PLC control eliminates the need for constant operator attention and reduces the risk of costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX centrifuge systems." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -379,6 +406,30 @@ const jsonLd = {
         </div>
         <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What options are commonly added to a disc stack centrifuge system?</h3>
+            <p class="text-text-light text-sm">Common options include: feed pump (gear, peristaltic, or progressive cavity), pre-heater (electric or steam shell-and-tube), duplex basket strainer (pre-filtration), sludge tank with agitator, clean fluid tank, chemical injection (demulsifier or anti-foaming), VFD for bowl speed control, PLC with HMI for automated control, and CIP circuit for sanitary applications.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Do I need a pre-heater for my disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">A pre-heater is required for any application where the process fluid has viscosity above 50 cSt, or where the feed contains wax or asphaltene components that solidify below 120°F. Heavy fuel oil (HFO), crude oil, and waste oil applications almost always require pre-heating to 180–200°F. Coolant and water-based fluid applications typically do not require heating.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is a duplex basket strainer and do I need one?</h3>
+            <p class="text-text-light text-sm">A duplex basket strainer is a two-body in-line filter with switching valves that allows continuous operation while one basket is cleaned. It protects the centrifuge from large solid particles (50–500 micron) that would accelerate bowl wear or clog the feed inlet. Recommended for crude oil, waste oil, and machining coolant applications with intermittent large particles.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Should my disc centrifuge system have a PLC controller?</h3>
+            <p class="text-text-light text-sm">A PLC with HMI is strongly recommended for any production centrifuge. It automates startup/shutdown, controls sludge ejection cycle timing, monitors operating water and flow, handles alarm conditions, and logs data. PLC control eliminates the need for constant operator attention and reduces costly mistakes during manual operation. Dolphin Centrifuge designs and builds complete control panels for all DMPX systems.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

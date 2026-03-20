@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the first step in selecting an industrial centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The first step is fluid analysis — characterizing the mixture to be separated: phase compositions, particle size distribution, density difference, viscosity, temperature, and required flow rate. Without accurate fluid data, centrifuge sizing and type selection cannot be done reliably." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I choose between a disc stack centrifuge and a decanter centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Use a disc stack centrifuge for separating fine particles from liquid-continuous feeds at low solids concentrations (typically under 3% by volume). Use a decanter centrifuge for dewatering high-solids sludges (3–40% solids) where continuous solids discharge is required. Fluid testing can confirm which technology achieves the required separation quality." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a remanufactured centrifuge a good alternative to a new one?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A remanufactured centrifuge can deliver 80–90% of new machine performance at 40–60% of the cost, provided it is fully rebuilt with new bearings, seals, and wear components and properly balanced. Dolphin Centrifuge offers fully refurbished disc stack and decanter centrifuges with performance documentation." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -758,6 +780,26 @@ const jsonLd = {
         </div>
         <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089 · US-based specialists</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the first step in selecting an industrial centrifuge?</h3>
+            <p class="text-text-light text-sm">The first step is fluid analysis — characterizing the mixture to be separated: phase compositions, particle size distribution, density difference, viscosity, temperature, and required flow rate. Without accurate fluid data, centrifuge sizing and type selection cannot be done reliably.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I choose between a disc stack centrifuge and a decanter centrifuge?</h3>
+            <p class="text-text-light text-sm">Use a disc stack centrifuge for separating fine particles from liquid-continuous feeds at low solids concentrations (typically under 3% by volume). Use a decanter centrifuge for dewatering high-solids sludges (3–40% solids) where continuous solids discharge is required. Fluid testing can confirm which technology achieves the required separation quality.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is a remanufactured centrifuge a good alternative to a new one?</h3>
+            <p class="text-text-light text-sm">A remanufactured centrifuge can deliver 80–90% of new machine performance at 40–60% of the cost, provided it is fully rebuilt with new bearings, seals, and wear components and properly balanced. Dolphin Centrifuge offers fully refurbished disc stack and decanter centrifuges with performance documentation.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">

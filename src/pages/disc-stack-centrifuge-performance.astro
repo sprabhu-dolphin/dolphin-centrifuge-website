@@ -11,6 +11,33 @@ const jsonLd = {
   "datePublished": "2021-03-01",
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-performance/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What external factors affect disc stack centrifuge performance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The 8 main external factors affecting disc centrifuge performance are: (1) feed temperature — lower temperatures increase viscosity and reduce separation efficiency, (2) feed tank agitation — settled feed has variable sludge content that disrupts stable operation, (3) feed pump selection — incorrect pump type causes pulsation or cavitation, (4) pre-filtration — oversized particles bypass the disc stack and contaminate the centrate, (5) discharge piping back-pressure, (6) sludge ejection cycle timing, (7) operating water quality and pressure, (8) ambient temperature affecting gearbox oil viscosity and feed fluid properties." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does feed temperature affect centrifuge separation performance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Feed temperature directly determines the viscosity of the liquid being separated. Lower viscosity (higher temperature) allows centrifugal force to move particles more rapidly through the liquid. For every 10°C reduction in temperature, viscosity typically increases 10–20%, reducing separation efficiency proportionally. Heavy oils must be heated to 180–200°F to achieve acceptable viscosity. Even water-based coolants benefit from operating above 70°F for optimal sub-micron particle removal." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does feed tank agitation matter for centrifuge performance?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Without agitation, sludge settles to the bottom of the feed tank and the centrifuge receives alternating feeds of clean liquid (from the top) and highly concentrated sludge (from the bottom). These concentration spikes overload the bowl's sludge space and cause premature bowl filling, liquid seal instability, and inconsistent centrate quality. A properly sized agitator keeps sludge uniformly suspended, ensuring a consistent, manageable sludge load throughout operation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What back-pressure is acceptable on a disc centrifuge centrate outlet?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Acceptable centrate back-pressure for most disc centrifuge models is 0–15 PSIG on the light phase outlet and 0–10 PSIG on the heavy phase outlet. Excessive back-pressure compresses the liquid seal ring and can cause liquid seal break. Back-pressure is created by long or undersized centrate piping, elevation changes, flow control valves, and downstream equipment resistance. Always minimize discharge piping length and elevation changes." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -221,6 +248,30 @@ const jsonLd = {
           <a href="/contact-for-alfa-laval-centrifuges/" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">Contact Our Engineers</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What external factors affect disc stack centrifuge performance?</h3>
+            <p class="text-text-light text-sm">The 8 main external factors are: (1) feed temperature — lower temps increase viscosity and reduce efficiency, (2) feed tank agitation — settled feed creates sludge spikes that disrupt operation, (3) feed pump selection — incorrect type causes pulsation or cavitation, (4) pre-filtration — oversized particles contaminate the centrate, (5) discharge piping back-pressure, (6) sludge ejection cycle timing, (7) operating water quality and pressure, (8) ambient temperature affecting gearbox oil viscosity and feed properties.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does feed temperature affect centrifuge separation performance?</h3>
+            <p class="text-text-light text-sm">Feed temperature determines the viscosity of the liquid being separated. Lower viscosity (higher temperature) allows centrifugal force to move particles more rapidly. For every 10°C reduction in temperature, viscosity typically increases 10–20%, reducing separation efficiency proportionally. Heavy oils must be heated to 180–200°F. Even water-based coolants benefit from operating above 70°F for optimal sub-micron particle removal.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why does feed tank agitation matter for centrifuge performance?</h3>
+            <p class="text-text-light text-sm">Without agitation, sludge settles to the bottom and the centrifuge receives alternating clean liquid (from the top) and highly concentrated sludge (from the bottom). These concentration spikes overload the bowl's sludge space causing premature filling, liquid seal instability, and inconsistent centrate quality. A properly sized agitator keeps sludge uniformly suspended throughout operation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What back-pressure is acceptable on a disc centrifuge centrate outlet?</h3>
+            <p class="text-text-light text-sm">Acceptable centrate back-pressure is typically 0–15 PSIG on the light phase outlet and 0–10 PSIG on the heavy phase outlet. Excessive back-pressure compresses the liquid seal ring and can cause seal break. Back-pressure is created by long or undersized centrate piping, elevation changes, flow control valves, and downstream equipment resistance.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">

@@ -1,6 +1,53 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge maintains inventory of common Alfa Laval centrifuge parts including disc stacks, bowl gaskets, bearings, seals, and operating water components for MOPX, WHPX, MAPX, MAB, and WSB series centrifuges. Contact (248) 522-2573 or sales@dolphincentrifuge.com with your model number and serial number for availability."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the most frequently replaced part on an Alfa Laval disc centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The most frequently replaced consumable parts are bowl gaskets (O-rings and seals), operating water valve seats, and bearing sets. Disc stacks are replaced less frequently (every 3–7 years depending on application) but are the highest-cost components. Gravity discs are replaced or swapped when processing fluid specific gravity changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Dolphin supply aftermarket replacement parts for Alfa Laval centrifuges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge supplies both OEM Alfa Laval parts and high-quality aftermarket equivalents for disc centrifuges. Aftermarket parts meet or exceed OEM specifications and are typically 20–40% less expensive. Critical safety components (bowl parts, operating water valves) should use OEM specifications — consult with our engineers for guidance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What information do I need to order Alfa Laval centrifuge parts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To order parts, you need: (1) Centrifuge model number (e.g., MOPX 207, MAB 206); (2) Serial number from the nameplate; (3) Part name or description (e.g., 'bowl gasket kit', 'gravity disc 80mm', 'main bearing set'); and (4) Quantity needed. Dolphin Centrifuge can also cross-reference parts using the AL parts manual if you have the drawing or part number."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to receive Alfa Laval centrifuge parts from Dolphin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parts in stock typically ship within 24–48 hours from our Warren, MI warehouse. Non-stock parts may require 1–4 weeks depending on availability. For emergency situations, contact (248) 522-2573 directly — we can often source critical parts faster through our supplier network."
+      }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -194,6 +241,37 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-warm-white py-12">
+    <div class="container-dolphin max-w-4xl">
+      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?</summary>
+          <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge maintains inventory of common Alfa Laval centrifuge parts including disc stacks, bowl gaskets, bearings, seals, and operating water components for MOPX, WHPX, MAPX, MAB, and WSB series centrifuges. Contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> with your model number and serial number for availability.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">What is the most frequently replaced part on an Alfa Laval disc centrifuge?</summary>
+          <p class="text-text-light mt-3 text-sm">The most frequently replaced consumable parts are bowl gaskets (O-rings and seals), operating water valve seats, and bearing sets. Disc stacks are replaced less frequently (every 3–7 years depending on application) but are the highest-cost components. Gravity discs are replaced or swapped when processing fluid specific gravity changes.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">Can Dolphin supply aftermarket replacement parts for Alfa Laval centrifuges?</summary>
+          <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge supplies both OEM Alfa Laval parts and high-quality aftermarket equivalents for disc centrifuges. Aftermarket parts meet or exceed OEM specifications and are typically 20–40% less expensive. Critical safety components (bowl parts, operating water valves) should use OEM specifications — consult with our engineers for guidance.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">What information do I need to order Alfa Laval centrifuge parts?</summary>
+          <p class="text-text-light mt-3 text-sm">To order parts, you need: (1) Centrifuge model number (e.g., MOPX 207, MAB 206); (2) Serial number from the nameplate; (3) Part name or description (e.g., 'bowl gasket kit', 'gravity disc 80mm', 'main bearing set'); and (4) Quantity needed. Dolphin Centrifuge can also cross-reference parts using the AL parts manual if you have the drawing or part number.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">How long does it take to receive Alfa Laval centrifuge parts from Dolphin?</summary>
+          <p class="text-text-light mt-3 text-sm">Parts in stock typically ship within 24–48 hours from our Warren, MI warehouse. Non-stock parts may require 1–4 weeks depending on availability. For emergency situations, contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> directly — we can often source critical parts faster through our supplier network.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

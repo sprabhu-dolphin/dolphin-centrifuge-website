@@ -11,6 +11,53 @@ const jsonLd = {
   "datePublished": "2020-11-01",
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-efficiency/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the most effective way to improve disc stack centrifuge efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reducing feed flow rate is typically the most effective single adjustment — lower flow means longer residence time in the disc stack, allowing finer separation. However, the best approach combines multiple factors: reducing flow rate, increasing fluid temperature (to reduce viscosity), selecting the correct gravity disc, and ensuring adequate operating water temperature. Together these adjustments can improve water removal efficiency from 60% to 95%+."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does fluid temperature affect disc stack centrifuge efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Higher fluid temperature reduces viscosity, which dramatically improves centrifuge efficiency. As viscosity drops, the density difference between oil and water becomes more effective at driving separation. Most industrial centrifuges operate most efficiently when the feed oil is heated to 190–210°F. For every 20°F increase in temperature, separation efficiency can improve 10–30% depending on the oil type."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a gravity disc and how does it affect centrifuge efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The gravity disc (also called the interface disc or dam disc) controls the position of the oil-water interface inside the centrifuge bowl. Selecting the correct gravity disc diameter for your specific oil density is critical — too large a disc pushes the interface inward (water carry-over into oil), too small pushes it outward (oil loss into water). Matching the gravity disc to your fluid's specific gravity optimizes separation efficiency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does back pressure affect disc stack centrifuge efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Insufficient back pressure on the clean oil outlet allows the oil-water interface to shift outward, causing water contamination in the clean oil phase. Most disc stack centrifuges require 3–8 PSI of back pressure on the oil outlet to maintain proper interface position. Check that back pressure regulators are set correctly and not bypassed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does operating water temperature affect centrifuge efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Operating water (also called sealing water or displacement water) triggers the bowl's self-cleaning ejection cycle. If operating water temperature is too low, it can cool the process fluid near the bowl's opening, increasing local viscosity and reducing efficiency. Operating water should generally be at a similar temperature to the process fluid — ideally 140–190°F — to maintain stable separation conditions."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -239,6 +286,37 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-warm-white py-12">
+    <div class="container-dolphin max-w-4xl">
+      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">What is the most effective way to improve disc stack centrifuge efficiency?</summary>
+          <p class="text-text-light mt-3 text-sm">Reducing feed flow rate is typically the most effective single adjustment — lower flow means longer residence time in the disc stack, allowing finer separation. However, the best approach combines multiple factors: reducing flow rate, increasing fluid temperature (to reduce viscosity), selecting the correct gravity disc, and ensuring adequate operating water temperature. Together these adjustments can improve water removal efficiency from 60% to 95%+.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">How does fluid temperature affect disc stack centrifuge efficiency?</summary>
+          <p class="text-text-light mt-3 text-sm">Higher fluid temperature reduces viscosity, which dramatically improves centrifuge efficiency. As viscosity drops, the density difference between oil and water becomes more effective at driving separation. Most industrial centrifuges operate most efficiently when the feed oil is heated to 190–210°F. For every 20°F increase in temperature, separation efficiency can improve 10–30% depending on the oil type.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">What is a gravity disc and how does it affect centrifuge efficiency?</summary>
+          <p class="text-text-light mt-3 text-sm">The gravity disc (also called the interface disc or dam disc) controls the position of the oil-water interface inside the centrifuge bowl. Selecting the correct gravity disc diameter for your specific oil density is critical — too large a disc pushes the interface inward (water carry-over into oil), too small pushes it outward (oil loss into water). Matching the gravity disc to your fluid's specific gravity optimizes separation efficiency.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">Does back pressure affect disc stack centrifuge efficiency?</summary>
+          <p class="text-text-light mt-3 text-sm">Yes. Insufficient back pressure on the clean oil outlet allows the oil-water interface to shift outward, causing water contamination in the clean oil phase. Most disc stack centrifuges require 3–8 PSI of back pressure on the oil outlet to maintain proper interface position. Check that back pressure regulators are set correctly and not bypassed.</p>
+        </details>
+        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <summary class="font-semibold text-navy cursor-pointer">How does operating water temperature affect centrifuge efficiency?</summary>
+          <p class="text-text-light mt-3 text-sm">Operating water triggers the bowl's self-cleaning ejection cycle. If operating water temperature is too low, it can cool the process fluid near the bowl's opening, increasing local viscosity and reducing efficiency. Operating water should generally be at a similar temperature to the process fluid — ideally 140–190°F — to maintain stable separation conditions.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

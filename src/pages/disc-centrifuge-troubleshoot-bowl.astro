@@ -11,6 +11,33 @@ const jsonLd = {
   "datePublished": "2021-01-01" },
   "url": "https://dolphincentrifuge.com/disc-centrifuge-troubleshoot-bowl/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why won't my disc centrifuge bowl open for sludge discharge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Bowl failure to open (fail-to-shoot) is most commonly caused by: (1) insufficient operating water pressure — the bowl requires adequate pressure to actuate the sliding bowl bottom, (2) blocked or worn operating water nozzles preventing water from reaching the closing water chamber, (3) calcium deposits or mineral scale accumulating in the operating slide passages and sealing the actuation pathway, (4) a failed solenoid valve not delivering the discharge water pulse, or (5) a stuck or seized operating slide. Always verify operating water pressure first before inspecting mechanical components." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why won't my disc centrifuge bowl close properly after discharge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Bowl failure to close (or incomplete closure) after sludge discharge is typically caused by: worn or damaged O-rings on the sliding bowl bottom that prevent forming a watertight seal, foreign material (sludge, scale, or process debris) lodged in the bowl closing mechanism, low closing water pressure, or a damaged bowl body that prevents the sliding bottom from seating properly. Incomplete closure results in continuous process fluid leaking from the bowl during operation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are operating slides and why do they cause bowl problems?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Operating slides are small cylindrical valves inside the rotating bowl that control the flow of operating water to open and close the sliding bowl bottom for sludge discharge. They can become blocked by mineral deposits from hard operating water, by process residue that enters the operating water circuit, or by corrosion. Blocked operating slides are one of the most common causes of disc centrifuge discharge failure and require bowl disassembly and soaking to clear." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I prevent disc centrifuge bowl opening and closing problems?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Prevention measures: (1) use soft, filtered operating water (below 200 ppm hardness as CaCO3) to prevent mineral scale, (2) flush the operating water circuit with clean water at every shutdown, (3) replace operating water O-rings and sliding bowl bottom seals at every scheduled bowl overhaul, (4) verify operating water pressure is within specification at each startup, (5) inspect and clean operating slides during each major overhaul — do not wait for failure." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -218,6 +245,30 @@ const jsonLd = {
           <p class="text-sm italic mt-4">by <strong>Sanjay Prabhu MSME</strong>, Engineering Manager, Dolphin Centrifuge</p>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why won't my disc centrifuge bowl open for sludge discharge?</h3>
+            <p class="text-text-light text-sm">Bowl failure to open (fail-to-shoot) is most commonly caused by: insufficient operating water pressure, blocked or worn operating water nozzles, calcium deposits in the operating slide passages, a failed solenoid valve, or a stuck operating slide. Always verify operating water pressure first before inspecting mechanical components.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why won't my disc centrifuge bowl close properly after discharge?</h3>
+            <p class="text-text-light text-sm">Bowl failure to close after sludge discharge is typically caused by worn or damaged O-rings on the sliding bowl bottom, foreign material lodged in the bowl closing mechanism, low closing water pressure, or a damaged bowl body. Incomplete closure results in continuous process fluid leaking from the bowl during operation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What are operating slides and why do they cause bowl problems?</h3>
+            <p class="text-text-light text-sm">Operating slides are small cylindrical valves inside the rotating bowl that control operating water flow to open and close the sliding bowl bottom. They become blocked by mineral deposits from hard operating water, process residue entering the water circuit, or corrosion. Blocked operating slides are one of the most common causes of discharge failure and require bowl disassembly and soaking to clear.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I prevent disc centrifuge bowl opening and closing problems?</h3>
+            <p class="text-text-light text-sm">Prevention: (1) use soft, filtered operating water (below 200 ppm hardness), (2) flush the circuit with clean water at every shutdown, (3) replace operating water O-rings and sliding bowl bottom seals at every scheduled overhaul, (4) verify operating water pressure at each startup, (5) inspect and clean operating slides during every major overhaul — do not wait for failure.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- CTA -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

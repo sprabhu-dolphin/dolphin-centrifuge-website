@@ -18,6 +18,33 @@ const jsonLd = {
   "datePublished": "2021-01-01",
   "dateModified": "2024-06-01"
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can a disc stack centrifuge remove metals from used engine oil?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Disc stack centrifuges effectively remove iron, copper, aluminum, lead, and chromium wear metal particles from used engine oil by exploiting the density difference between metal particles (7–11 g/cm³) and oil (0.87 g/cm³). Operating at 6,000–10,000 Gs, the centrifuge separates particles as small as 1 micron — far smaller than any filter can achieve. Case studies show 90–97% reduction in metal content after a single pass through a disc centrifuge at 180°F." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is ash in used engine oil and how does a centrifuge remove it?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ash in used engine oil is the residue left after combustion — including burned additive packages (calcium, magnesium, zinc compounds), carbon soot, and combustion byproducts. These ash particles are denser than the oil and range from 0.5 to 50 microns. A disc centrifuge at 7,000+ Gs removes the dense inorganic ash fraction from the oil, reducing ash content to below 0.1% by weight. This dramatically extends oil life and allows re-refining or re-use of the treated oil." }
+    },
+    {
+      "@type": "Question",
+      "name": "What centrifuge model is recommended for used oil metal and ash removal?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge recommends the DMPX-028 (45 GPM rated) or DMPX-042 (68 GPM rated) self-cleaning disc stack centrifuge modules for used engine oil processing. These systems include electric pre-heaters (180°F target temperature), a sludge tank for metal/ash collection, and PLC controls for automated ejection cycle management. For smaller volumes (under 15 GPM), the DMPX-014 is suitable. All systems include stainless steel bowls and are rated for continuous operation at elevated temperatures." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does heating used oil improve centrifuge metal removal efficiency?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Heating used engine oil to 160–200°F (70–93°C) dramatically improves centrifuge metal and ash removal efficiency by reducing oil viscosity from 100–500 cSt (cold) to 15–30 cSt (hot). At lower viscosity, the centrifugal force can move metal particles and ash through the oil to the bowl wall much more rapidly, allowing either higher throughput at the same separation quality or finer particle removal at the same flow rate. Heating also reduces water content through partial flash evaporation." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -389,6 +416,30 @@ const jsonLd = {
         </div>
         <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can a disc stack centrifuge remove metals from used engine oil?</h3>
+            <p class="text-text-light text-sm">Yes. Disc stack centrifuges effectively remove iron, copper, aluminum, lead, and chromium wear metal particles from used engine oil by exploiting the density difference between metal particles (7–11 g/cm³) and oil (0.87 g/cm³). Operating at 6,000–10,000 Gs, the centrifuge separates particles as small as 1 micron. Case studies show 90–97% reduction in metal content after a single pass at 180°F.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is ash in used engine oil and how does a centrifuge remove it?</h3>
+            <p class="text-text-light text-sm">Ash in used engine oil is the residue from combustion — including burned additive packages (calcium, magnesium, zinc compounds), carbon soot, and combustion byproducts. These denser particles range from 0.5 to 50 microns. A disc centrifuge at 7,000+ Gs removes the inorganic ash fraction, reducing ash content to below 0.1% by weight and dramatically extending oil life for re-use or re-refining.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What centrifuge model is recommended for used oil metal and ash removal?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge recommends the DMPX-028 (45 GPM) or DMPX-042 (68 GPM) self-cleaning disc stack centrifuge modules for used engine oil processing. Systems include electric pre-heaters (180°F target), a sludge tank for metal/ash collection, and PLC controls for automated ejection cycle management. For smaller volumes (under 15 GPM), the DMPX-014 is suitable.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does heating used oil improve centrifuge metal removal efficiency?</h3>
+            <p class="text-text-light text-sm">Yes. Heating used engine oil to 160–200°F dramatically improves metal and ash removal efficiency by reducing oil viscosity from 100–500 cSt (cold) to 15–30 cSt (hot). At lower viscosity, centrifugal force moves metal particles and ash to the bowl wall much more rapidly, allowing higher throughput or finer particle removal at the same flow rate. Heating also reduces water content through partial flash evaporation.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

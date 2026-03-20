@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are the main wear parts in a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The primary wear parts are the disc stack (separation discs), gravity disc, paring disc, neck bearing, hood ring, operating water valve, and bowl seals. The disc stack and seals are the most frequently replaced items in routine maintenance." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge supply OEM or aftermarket parts?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge supplies both OEM and high-quality aftermarket replacement parts for disc stack centrifuges, including Alfa Laval models. Aftermarket parts are manufactured to OEM dimensions and meet the same performance specifications at a lower cost." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know when to replace the gravity disc?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Replace the gravity disc when it shows visible wear, corrosion, or dimensional changes that alter the separation radius. If the centrifuge produces excessive liquid carryover or poor separation despite correct feed conditions, a worn or incorrectly sized gravity disc is often the cause." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -366,6 +388,26 @@ const jsonLd = {
       <p class="text-text-light leading-relaxed mb-4">For complete parts ordering and overhaul kits, visit our <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval Centrifuge Parts page</a>. For repair and reconditioning services, see our <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Centrifuge Repair services</a>.</p>
 
       <p class="text-text-light leading-relaxed">To order parts or get a quote, call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What are the main wear parts in a disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">The primary wear parts are the disc stack (separation discs), gravity disc, paring disc, neck bearing, hood ring, operating water valve, and bowl seals. The disc stack and seals are the most frequently replaced items in routine maintenance.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge supply OEM or aftermarket parts?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies both OEM and high-quality aftermarket replacement parts for disc stack centrifuges, including Alfa Laval models. Aftermarket parts are manufactured to OEM dimensions and meet the same performance specifications at a lower cost.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I know when to replace the gravity disc?</h3>
+            <p class="text-text-light text-sm">Replace the gravity disc when it shows visible wear, corrosion, or dimensional changes that alter the separation radius. If the centrifuge produces excessive liquid carryover or poor separation despite correct feed conditions, a worn or incorrectly sized gravity disc is often the cause.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="mt-10">

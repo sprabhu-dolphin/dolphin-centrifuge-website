@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the main difference between the Sharples P-3400 and P-3000?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge stock parts for the P-3400?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Sharples P-3400 still supported by Alfa Laval?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -118,6 +140,26 @@ const jsonLd = {
         <li>&#8226; Seal replacement and liquid end reconditioning</li>
         <li>&#8226; <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">Full centrifuge repair and refurbishment services</a></li>
       </ul>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the main difference between the Sharples P-3400 and P-3000?</h3>
+            <p class="text-text-light text-sm">The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge stock parts for the P-3400?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is the Sharples P-3400 still supported by Alfa Laval?</h3>
+            <p class="text-text-light text-sm">Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

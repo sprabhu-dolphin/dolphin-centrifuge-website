@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is differential speed in a decanter centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Differential speed is the rotational speed difference between the outer bowl and the internal scroll conveyor. The scroll must rotate slightly slower than the bowl to continuously push accumulated solids toward the discharge end. Typical differential speeds range from 1–30 RPM depending on application and solids characteristics." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does differential speed affect solids dryness?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Lower differential speed allows solids longer residence time on the beach, improving cake dryness. However, if differential speed is too low for the sludge solids load, the scroll becomes overloaded and torque alarms activate. Optimum differential speed balances cake dryness against scroll torque within safe operating limits." }
+    },
+    {
+      "@type": "Question",
+      "name": "What causes high scroll torque in a decanter centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "High scroll torque is typically caused by excessive feed solids rate overloading the conveyor, too-low differential speed, very dense or compressible solids that resist conveying, or scroll wear that reduces conveying efficiency. Corrective actions include increasing differential speed, reducing feed rate, or inspecting scroll wear tiles." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -250,6 +272,26 @@ const jsonLd = {
           <a href="/contact-for-alfa-laval-centrifuges/" class="border border-gray-300 text-navy font-semibold px-6 py-3 rounded-lg hover:border-navy transition-colors">Contact Our Engineers</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is differential speed in a decanter centrifuge?</h3>
+            <p class="text-text-light text-sm">Differential speed is the rotational speed difference between the outer bowl and the internal scroll conveyor. The scroll must rotate slightly slower than the bowl to continuously push accumulated solids toward the discharge end. Typical differential speeds range from 1–30 RPM depending on application and solids characteristics.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does differential speed affect solids dryness?</h3>
+            <p class="text-text-light text-sm">Lower differential speed allows solids longer residence time on the beach, improving cake dryness. However, if differential speed is too low for the sludge solids load, the scroll becomes overloaded and torque alarms activate. Optimum differential speed balances cake dryness against scroll torque within safe operating limits.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What causes high scroll torque in a decanter centrifuge?</h3>
+            <p class="text-text-light text-sm">High scroll torque is typically caused by excessive feed solids rate overloading the conveyor, too-low differential speed, very dense or compressible solids that resist conveying, or scroll wear that reduces conveying efficiency. Corrective actions include increasing differential speed, reducing feed rate, or inspecting scroll wear tiles.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
