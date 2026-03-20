@@ -1,0 +1,292 @@
+---
+/**
+ * DolphinChart — Site-wide SVG line chart with Dolphin branding
+ *
+ * Graph Template Standard:
+ *   Dimensions: 600×380 (rendered), scales responsively
+ *   Colors: Navy #1B3A5C (axes/labels), Gold #E8A317 (primary line),
+ *           Sea #2E8B57 (secondary line), #D94F4F (tertiary/alert)
+ *   Line: 2.5px stroke, round caps, round joins
+ *   Markers: 5px radius circles, white fill with colored stroke
+ *   Font: 'Source Sans 3', system-ui (body font)
+ *   Title font: 'Plus Jakarta Sans', system-ui (heading font)
+ *   Grid: light gray #E5E7EB dashed lines (4 3 pattern)
+ *   Background: white #FFFFFF with 8px radius + 1px #E5E7EB border
+ *   Watermark: "Dolphin Centrifuge" diagonal, navy at 6% opacity
+ *   Fixed viewBox: 600×380 (ALL graphs site-wide, no exceptions)
+ */
+
+interface DataPoint {
+  x: number;
+  y: number;
+  label?: string;
+}
+
+interface DataSeries {
+  data: DataPoint[];
+  color?: string;
+  label?: string;
+}
+
+interface Props {
+  title: string;
+  xLabel: string;
+  yLabel: string;
+  series: DataSeries[];
+  /** Show data value labels on points */
+  showValues?: boolean;
+  /** Chart width (SVG viewBox) */
+  width?: number;
+  /** Chart height (SVG viewBox) */
+  height?: number;
+  /** SEO: preserved filename for alt text matching */
+  altText?: string;
+  /** Caption below chart */
+  caption?: string;
+}
+
+const {
+  title,
+  xLabel,
+  yLabel,
+  series,
+  showValues = true,
+  width = 600,
+  height = 380,
+  altText,
+  caption,
+} = Astro.props;
+
+// Chart area (inside axes)
+const pad = { top: 50, right: 30, bottom: 55, left: 65 };
+const chartW = width - pad.left - pad.right;
+const chartH = height - pad.top - pad.bottom;
+
+// Calculate data bounds across all series
+const allPoints = series.flatMap(s => s.data);
+const xMin = Math.min(...allPoints.map(p => p.x));
+const xMax = Math.max(...allPoints.map(p => p.x));
+const yMin = Math.min(...allPoints.map(p => p.y));
+const yMax = Math.max(...allPoints.map(p => p.y));
+
+// Add some padding to Y range
+const yRange = yMax - yMin || 1;
+const yFloor = Math.max(0, yMin - yRange * 0.1);
+const yCeil = yMax + yRange * 0.1;
+
+// Scale functions
+function scaleX(val: number): number {
+  return pad.left + ((val - xMin) / (xMax - xMin || 1)) * chartW;
+}
+function scaleY(val: number): number {
+  return pad.top + chartH - ((val - yFloor) / (yCeil - yFloor)) * chartH;
+}
+
+// Generate grid lines (5 horizontal, dynamic vertical)
+const yTicks = 5;
+const yStep = (yCeil - yFloor) / yTicks;
+const yGridLines = Array.from({ length: yTicks + 1 }, (_, i) => {
+  const val = yFloor + i * yStep;
+  return { val, y: scaleY(val) };
+});
+
+// X ticks from data points of first series
+const xTicks = series[0].data.map(p => ({
+  val: p.x,
+  x: scaleX(p.x),
+  label: p.label || String(p.x),
+}));
+
+// Colors
+const lineColors = ['#E8A317', '#2E8B57', '#D94F4F', '#1B3A5C'];
+
+// Build polyline paths
+const seriesPaths = series.map((s, si) => {
+  const color = s.color || lineColors[si % lineColors.length];
+  const points = s.data.map(p => `${scaleX(p.x)},${scaleY(p.y)}`).join(' ');
+  return { ...s, color, points, data: s.data };
+});
+---
+
+<figure class="dolphin-chart-wrap" role="img" aria-label={altText || title}>
+  <svg
+    viewBox={`0 0 ${width} ${height}`}
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-auto max-w-[600px]"
+    style="font-family: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;"
+  >
+    {/* Background with border */}
+    <rect width={width} height={height} fill="white" rx="8" stroke="#E5E7EB" stroke-width="1" />
+
+    {/* Dolphin Centrifuge watermark — diagonal, subtle */}
+    <text
+      x={width / 2}
+      y={height / 2}
+      text-anchor="middle"
+      fill="#1B3A5C"
+      font-size="38"
+      font-weight="700"
+      opacity="0.06"
+      transform={`rotate(-25, ${width / 2}, ${height / 2})`}
+      style="font-family: 'Plus Jakarta Sans', 'Source Sans 3', system-ui, sans-serif; pointer-events: none;"
+    >
+      Dolphin Centrifuge
+    </text>
+
+    {/* Title */}
+    <text
+      x={width / 2}
+      y="28"
+      text-anchor="middle"
+      fill="#1B3A5C"
+      font-size="16"
+      font-weight="700"
+      style="font-family: 'Plus Jakarta Sans', 'Source Sans 3', system-ui, sans-serif;"
+    >
+      {title}
+    </text>
+
+    {/* Y grid lines + labels */}
+    {yGridLines.map(line => (
+      <>
+        <line
+          x1={pad.left}
+          y1={line.y}
+          x2={width - pad.right}
+          y2={line.y}
+          stroke="#E5E7EB"
+          stroke-width="1"
+          stroke-dasharray="4 3"
+        />
+        <text
+          x={pad.left - 8}
+          y={line.y + 4}
+          text-anchor="end"
+          fill="#555555"
+          font-size="11"
+        >
+          {line.val.toFixed(2)}
+        </text>
+      </>
+    ))}
+
+    {/* X tick marks + labels */}
+    {xTicks.map(tick => (
+      <>
+        <line
+          x1={tick.x}
+          y1={pad.top}
+          x2={tick.x}
+          y2={pad.top + chartH}
+          stroke="#E5E7EB"
+          stroke-width="1"
+          stroke-dasharray="4 3"
+        />
+        <text
+          x={tick.x}
+          y={pad.top + chartH + 18}
+          text-anchor="middle"
+          fill="#555555"
+          font-size="11"
+        >
+          {tick.label}
+        </text>
+      </>
+    ))}
+
+    {/* Axes */}
+    <line
+      x1={pad.left}
+      y1={pad.top}
+      x2={pad.left}
+      y2={pad.top + chartH}
+      stroke="#1B3A5C"
+      stroke-width="1.5"
+    />
+    <line
+      x1={pad.left}
+      y1={pad.top + chartH}
+      x2={width - pad.right}
+      y2={pad.top + chartH}
+      stroke="#1B3A5C"
+      stroke-width="1.5"
+    />
+
+    {/* Axis labels */}
+    <text
+      x={width / 2}
+      y={height - 8}
+      text-anchor="middle"
+      fill="#1B3A5C"
+      font-size="13"
+      font-weight="600"
+    >
+      {xLabel}
+    </text>
+    <text
+      x="15"
+      y={pad.top + chartH / 2}
+      text-anchor="middle"
+      fill="#1B3A5C"
+      font-size="13"
+      font-weight="600"
+      transform={`rotate(-90, 15, ${pad.top + chartH / 2})`}
+    >
+      {yLabel}
+    </text>
+
+    {/* Data lines + markers */}
+    {seriesPaths.map(s => (
+      <>
+        <polyline
+          points={s.points}
+          fill="none"
+          stroke={s.color}
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        {s.data.map(p => (
+          <>
+            <circle
+              cx={scaleX(p.x)}
+              cy={scaleY(p.y)}
+              r="5"
+              fill="white"
+              stroke={s.color}
+              stroke-width="2.5"
+            />
+            {showValues && (
+              <text
+                x={scaleX(p.x)}
+                y={scaleY(p.y) - 10}
+                text-anchor="middle"
+                fill="#2D2D2D"
+                font-size="10"
+                font-weight="600"
+              >
+                {p.y % 1 === 0 ? p.y : p.y.toFixed(2)}
+              </text>
+            )}
+          </>
+        ))}
+      </>
+    ))}
+
+    {/* Legend (if multiple series) */}
+    {series.length > 1 && (
+      <g>
+        {seriesPaths.map((s, i) => (
+          <g transform={`translate(${pad.left + 10 + i * 150}, ${pad.top + 10})`}>
+            <line x1="0" y1="0" x2="20" y2="0" stroke={s.color} stroke-width="2.5" />
+            <circle cx="10" cy="0" r="4" fill="white" stroke={s.color} stroke-width="2" />
+            <text x="26" y="4" fill="#2D2D2D" font-size="11">{s.label || `Series ${i + 1}`}</text>
+          </g>
+        ))}
+      </g>
+    )}
+  </svg>
+  {caption && (
+    <figcaption class="text-gray-500 text-sm mt-2 text-center">{caption}</figcaption>
+  )}
+</figure>

@@ -1,7 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What type of centrifuge is used for dewatering?",
+    answer: "Decanter centrifuges are the most widely used type for dewatering applications. They generate 3,000+ Gs of centrifugal force, separate particles from 0.5 inches down to below 100 microns, and operate continuously without shutdown. For very fine solids (below 2 microns), disc stack centrifuges are used instead."
+  },
+  {
+    question: "How does a dewatering centrifuge differ from a filter press?",
+    answer: "A dewatering centrifuge separates water from sludge using centrifugal force — it operates continuously without media replacement and handles high feed volumes without operator intervention. A filter press is a batch process requiring manual cake removal, filter cloth replacement, and more labor. Centrifuges produce slightly wetter cake than filter presses but offer much higher throughput and lower labor costs for large-volume applications."
+  },
+  {
+    question: "What industries use dewatering centrifuges?",
+    answer: "Dewatering centrifuges are used in municipal wastewater treatment (sludge thickening and dewatering), oilfield applications (crude oil tank bottom recovery, drilling mud dewatering), food processing (starch, rendering, olive oil), chemical manufacturing, mining (tailings dewatering), and paper/pulp industries."
+  },
+  {
+    question: "What is the minimum particle size a dewatering centrifuge can separate?",
+    answer: "Decanter centrifuges can separate particles down to below 100 microns continuously. For finer separation (2–100 microns), disc stack centrifuges operating at 7,000+ Gs are more appropriate. The actual separation limit depends on particle density, fluid viscosity, and centrifuge G-force."
+  },
+  {
+    question: "Can Dolphin Centrifuge supply dewatering centrifuges for rental?",
+    answer: 'Yes. Dolphin Centrifuge supplies reconditioned dewatering centrifuges for both purchase and rental. Rental units are available for short-term projects, pilot testing, and emergency backup. Contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold">sales@dolphincentrifuge.com</a> to discuss your requirements.'
+  }
+];
+
+const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Dewatering Centrifuge | Operation, Animation, Uses, Benefits",
@@ -14,327 +38,233 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What type of centrifuge is used for dewatering?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Decanter centrifuges are the most widely used type for dewatering applications. They generate 3,000+ Gs of centrifugal force, separate particles from 0.5 inches down to below 100 microns, and operate continuously without shutdown. For very fine solids (below 2 microns), disc stack centrifuges are used instead."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a dewatering centrifuge differ from a filter press?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A dewatering centrifuge separates water from sludge using centrifugal force — it operates continuously without media replacement and handles high feed volumes without operator intervention. A filter press is a batch process requiring manual cake removal, filter cloth replacement, and more labor. Centrifuges produce slightly wetter cake than filter presses but offer much higher throughput and lower labor costs for large-volume applications."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What industries use dewatering centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dewatering centrifuges are used in municipal wastewater treatment (sludge thickening and dewatering), oilfield applications (crude oil tank bottom recovery, drilling mud dewatering), food processing (starch, rendering, olive oil), chemical manufacturing, mining (tailings dewatering), and paper/pulp industries."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the minimum particle size a dewatering centrifuge can separate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Decanter centrifuges can separate particles down to below 100 microns continuously. For finer separation (2-100 microns), disc stack centrifuges operating at 7,000+ Gs are more appropriate. The actual separation limit depends on particle density, fluid viscosity, and centrifuge G-force."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can Dolphin Centrifuge supply dewatering centrifuges for rental?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge supplies reconditioned dewatering centrifuges for both purchase and rental. Rental units are available for short-term projects, pilot testing, and emergency backup. Contact (248) 522-2573 or sales@dolphincentrifuge.com to discuss your dewatering requirements."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
-  ]
+  }))
 };
+
+const jsonLd = [articleJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'main-components', label: 'Main Components' },
+  { id: 'types', label: 'Types' },
+  { id: 'benefits', label: 'Benefits or Advantages' },
+  { id: 'disadvantages', label: 'Disadvantages' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Crude Oil Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+  { label: 'Industrial Centrifuge Overview', href: '/industrial-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'High-capacity dewatering decanter' },
+  { label: 'Decanter Centrifuge Rental', href: '/decanter-centrifuge-rental/', description: 'Short-term rental for trial projects' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Dewatering Centrifuge Guide"
   description="Dewatering centrifuges for sludge thickening. Operation, components, benefits vs filter presses, specifications, and applications in wastewater and crude oil."
+  heroImage="/images/dewatering-centrifuge/Dewatering-Centrifuge-Cross-Section-600.webp"
+  heroImageAlt="Dewatering centrifuge cross section — showing bowl, auger conveyor, sludge discharge ports, and liquid weir arrangement"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
   canonicalUrl="https://dolphincentrifuge.com/dewatering-centrifuge/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Dewatering Centrifuge'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Knowledge Base</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Dewatering Centrifuge: Operation, Benefits &amp; Applications</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dewatering centrifuges &mdash; primarily of the decanter type &mdash; separate water from sludge to thicken waste streams, reduce disposal volume, and recover reusable water across municipal, industrial, and oilfield applications.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies decanter-type dewatering centrifuges that separate water from sludge at 3,000+ Gs, processing particles from 0.5 inches to below 100 microns continuously. Based in Warren, Michigan with 40+ years of industrial dewatering experience.</p>
+  </div>
+
+  <!-- Summary -->
+  <p>
+    A dewatering centrifuge is an <a href="/industrial-centrifuge/">industrial centrifuge</a> specifically designed to dewater, i.e., separate water from sludge. Water separation from a slurry thickens the sludge and reduces the volume of wastewater for disposal. Therefore, this centrifuge is also known as a sludge-thickening centrifuge. The <a href="/decanter-centrifuge/">decanter centrifuge</a> is the most widely used type, generating over 3,000 G to separate particles from 0.5 inches down to below 100 microns. These centrifuges operate continuously without shutdown for media replacement, and their robust construction delivers service lives exceeding 50 years.
+  </p>
+
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
+
+  <p>The operation of a dewatering centrifuge can be simply explained as follows. Under the high centrifugal force inside the rotating bowl, the sludge is spun out towards the periphery of the centrifuge bowl and pushed out by the auger through the solids' discharge ports. The centrifuge discharges the water through liquid ports on the fluid discharge end.</p>
+
+  <h3>Animation</h3>
+  <p>The animation below shows the operation of a dewatering centrifuge. One can see the auger pushing the dark sludge towards the solids' end (right side). The water flows towards the liquid discharge end (left side).</p>
+  <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Dewatering centrifuge animation — showing auger pushing sludge to solids discharge while water exits liquid end" width="533" height="188" loading="lazy" class="rounded-lg w-full" />
+
+  <!-- Main Components -->
+  <h2 id="main-components">Main Components</h2>
+
+  <p>The main components of a dewatering (sludge-thickening) centrifuge are the bowl, scroll or auger or conveyor, and the gearbox.</p>
+
+  <h3>Centrifuge Bowl</h3>
+  <p>The centrifuge bowl is the outer cylindrical drum that rotates at a predetermined speed. This drum is the primary containment vessel for the feed slurry. The separation of the water from the sludge occurs within this bowl.</p>
+
+  <h3>Auger (Scroll or Conveyor)</h3>
+  <p>The auger is a screw-shaped conveyor that rotates within the bowl at a differential speed to the bowl body. The relative rotation of the auger pushes the separated thickened sludge towards the solids' end of the bowl. The solid ejection ports allow the separated sludge to exit the bowl into the sludge chute.</p>
+  <p>The separated water flows towards the liquid end and exits the bowl over the weir plates and into the water discharge chamber. The constant pushing of the separated sludge wears the flights of the auger. Therefore, the auger flights have a special erosion-resistant coating.</p>
+
+  <h3>Gearbox</h3>
+  <p>The planetary gearbox is a critical part of the dewatering centrifuge assembly. The gearbox facilitates the rotation of the auger at a differential speed to that of the bowl. It is easy to control the differential speed of the auger by changing the rotational speed of the sun wheel shaft of the gearbox.</p>
+  <p>A higher differential speed allows the centrifuge to push out larger volumes of sludge continuously. On the other hand, a lower auger speed allows the sludge to settle out better and therefore produces a clearer centrate.</p>
+
+  <!-- Types -->
+  <h2 id="types">Types</h2>
+
+  <p>Different types of dewatering centrifuges are effective at different thickening types of slurries. But the most popular and commonly used dewatering centrifuge is the <a href="/decanter-centrifuge/">decanter type centrifuge</a>.</p>
+  <p>Some basket-type or peeler-type centrifuges are also suitable for thickening slurries with high sludge content beyond the capacity of decanter centrifuges.</p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose my-6">
+    <div class="md:w-1/2">
+      <img
+        src="/images/dewatering-centrifuge/Dewatering-Centrifuge-Cross-Section-600.webp"
+        alt="Dewatering centrifuge cross section — showing bowl, auger conveyor, sludge discharge ports, and liquid weir arrangement"
+        width="600" height="400"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-text-muted mt-2 text-center">Dewatering centrifuge cross-section diagram</p>
     </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <img src="/images/dewatering-centrifuge/Dewatering-Centrifuge-Cross-Section-600.jpg" alt="Dewatering centrifuge cross section — showing bowl, auger conveyor, sludge discharge ports, and liquid weir arrangement" width="600" height="400" loading="eager" class="rounded-lg w-full mb-8" />
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial dewatering centrifuges — primarily decanter centrifuges that separate water from sludge, thickening solids for disposal while recovering clean water for reuse or discharge. Operating at 3,000+ Gs, these systems handle particles from 0.5 inches down to below 100 microns, processing continuously without shutdown. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in industrial sludge dewatering and wastewater treatment.</p>
-      </div>
-
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A dewatering centrifuge is an <a href="/industrial-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">industrial centrifuge</a> specifically designed to dewater, i.e., separate water from sludge. Water separation from a slurry thickens the sludge and reduces the volume of wastewater for disposal. Therefore, this centrifuge is also known as a sludge-thickening centrifuge. The <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> is the most widely used type, generating over 3,000 G to separate particles from 0.5 inches down to below 100 microns. These centrifuges operate continuously without shutdown for media replacement, and their robust construction delivers service lives exceeding 50 years.</p>
-      </div>
-
-      <!-- Operation -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Operation</h2>
-        <div class="space-y-3 text-text-light">
-          <p>The operation of a dewatering centrifuge can be simply explained as follows. Under the high centrifugal force inside the rotating bowl, the sludge is spun out towards the periphery of the centrifuge bowl and pushed out by the auger through the solids' discharge ports. The centrifuge discharges the water through liquid ports on the fluid discharge end.</p>
-
-          <h3 class="font-semibold text-navy mt-4 mb-2">Animation</h3>
-          <p>The animation below shows the operation of a dewatering centrifuge. One can see the auger pushing the dark sludge towards the solids' end (right side). The water flows towards the liquid discharge end (left side).</p>
-          <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Dewatering centrifuge animation — showing auger pushing sludge to solids discharge while water exits liquid end" width="533" height="188" loading="lazy" class="rounded-lg w-full mt-3" />
-        </div>
-      </div>
-
-      <!-- Main Components -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Main Components</h2>
-        <p class="text-text-light mb-4">The main components of a dewatering (sludge-thickening) centrifuge are the bowl, scroll or auger or conveyor, and the gearbox.</p>
-
-        <div class="space-y-4 text-text-light">
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Centrifuge Bowl</h3>
-            <p class="text-sm">The centrifuge bowl is the outer cylindrical drum that rotates at a predetermined speed. This drum is the primary containment vessel for the feed slurry. The separation of the water from the sludge occurs within this bowl.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Auger (Scroll or Conveyor)</h3>
-            <p class="text-sm">The auger is a screw-shaped conveyor that rotates within the bowl at a differential speed to the bowl body. The relative rotation of the auger pushes the separated thickened sludge towards the solids' end of the bowl. The solid ejection ports allow the separated sludge to exit the bowl into the sludge chute.</p>
-            <p class="text-sm mt-2">The separated water flows towards the liquid end and exits the bowl over the weir plates and into the water discharge chamber. The constant pushing of the separated sludge wears the flights of the auger. Therefore, the auger flights have a special erosion-resistant coating.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Gearbox</h3>
-            <p class="text-sm">The planetary gearbox is a critical part of the dewatering centrifuge assembly. The gearbox facilitates the rotation of the auger at a differential speed to that of the bowl. It is easy to control the differential speed of the auger by changing the rotational speed of the sun wheel shaft of the gearbox.</p>
-            <p class="text-sm mt-2">A higher differential speed allows the centrifuge to push out larger volumes of sludge continuously. On the other hand, a lower auger speed allows the sludge to settle out better and therefore produces a clearer centrate.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Types -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Types</h2>
-        <div class="space-y-3 text-text-light">
-          <p>Different types of dewatering centrifuges are effective at different thickening types of slurries. But the most popular and commonly used dewatering centrifuge is the <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter type centrifuge</a>.</p>
-          <p>Some basket-type or peeler-type centrifuges are also suitable for thickening slurries with high sludge content beyond the capacity of decanter centrifuges.</p>
-          <img src="/images/dewatering-centrifuge/Basket-and-Decanter-Centrifuge-Comparison-600.jpg" alt="Basket and decanter centrifuge comparison — side-by-side showing differences between basket type and decanter type dewatering centrifuges" width="600" height="204" loading="lazy" class="rounded-lg w-full mt-3" />
-        </div>
-      </div>
-
-      <!-- Benefits -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Benefits or Advantages</h2>
-        <p class="text-text-light mb-4">The benefits of dewatering centrifuges over other types of dewatering technologies are listed here. The other methods of sludge thickening are filter presses, screw presses, and just settling the sludge out of the water.</p>
-
-        <div class="space-y-4 text-text-light">
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Compact Size</h3>
-            <p class="text-sm">Compared to filter presses and screw presses, a dewatering centrifuge has a much smaller footprint than presses of similar processing capacity. Decanter centrifuges for sludge thickening are often less than half the size of comparable filter presses.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Efficiency</h3>
-            <p class="text-sm">Dewatering centrifuges have a high separation efficiency when compared to other dewatering equipment. For example, a filter press has a rated sludge separation rate based on the particle size of the water slurry. Particles smaller than the filter pore pass through the filter press, leading to lower efficiency. A dewatering centrifuge separates mechanically, and therefore, it can separate a <strong>wide range of particles from 0.5" to less than 100 microns.</strong> The decanter centrifuge exerts <strong>over 3,000 Gs</strong> to separate the solids from water, and this centrifugal force is the reason for its high separation efficiency.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Continuous Processing</h3>
-            <p class="text-sm">Unlike filter presses that are essentially operating in batch mode that require periodic manual cleaning, the dewatering centrifuges are flow-through type devices that operate continuously without any need for shut-downs related to cleanouts. The slurry passes through the decanter centrifuge, which dewaters the sludge to thicken it and concentrate the sludge.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Low Operating Cost</h3>
-            <p class="text-sm">A dewatering centrifuge does not require filtration media that need a replacement that incurs labor and material costs. The centrifuge is a continuous process without manual intervention, and therefore, the operating costs for a dewatering centrifuge are considerably lesser than screw and filter presses.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Durability</h3>
-            <p class="text-sm">Decanter centrifuges as dewatering centrifuges feature robust construction that gives these machines high durability. This durability is evident from the ability of these machines to operate continuously over long periods with the need for a stoppage. Filter and screw presses are not as durable as dewatering centrifuges due to their lightweight construction and the need for constant opening and closing to extract the sludge.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Equipment Longevity</h3>
-            <p class="text-sm">Dewatering centrifuges manufactured by established brands have extremely heavy-duty construction, which leads to exceptionally high service life. It is not uncommon for Alfa Laval decanter centrifuges to have service lives of over 50 years. Comparatively, filter and screw presses have much higher failure rates and shorter service lives in the 10 to 15 years range.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Disadvantages -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Disadvantages</h2>
-        <p class="text-text-light mb-4">Like most industrial equipment, industrial centrifuges also have inherent disadvantages when compared to other dewatering technologies. The following are some of the disadvantages of dewatering centrifuges.</p>
-
-        <div class="space-y-4 text-text-light">
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Capital Cost</h3>
-            <p class="text-sm">Compared to presses (screw and filter), dewatering centrifuges initially cost more. However, the low operating costs and equipment longevity pay for the initial expense multiple times over the service life of the centrifuge. The cost difference between presses and decanter centrifuges for dewatering is not in multiples but fractionally more, which makes the dewatering centrifuge attractive as a long-term dewatering solution.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Vibration</h3>
-            <p class="text-sm">Dewatering centrifuges are rotating equipment, and like all rotating equipment, these centrifuges generate vibrations. Decanter centrifuges must be isolated from the structural bases to prevent the vibrations from propagating to other structures. Spring and elastomer vibration isolators are standard parts of dewatering centrifuges and need to be maintained.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Noise</h3>
-            <p class="text-sm">Unlike presses that do not emit any operating noise, dewatering centrifuges generate noise due to the rotating bearings and air currents within the centrifuge housing. Though the noise level is not excessive (~85 dB), it is still considered for dewatering centrifuge installations.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Maintenance</h3>
-            <p class="text-sm">Like all mechanical rotating equipment, dewatering centrifuges also need periodic maintenance and repairs. Though these centrifuges have robust construction, the centrifuge may require the replacement of bearings once every few years.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Applications -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Applications</h2>
-        <p class="text-text-light mb-4">As the name suggests, the primary purpose of dewatering centrifuges is to separate water from slurries to thicken the sludge. The following is a list of practical applications for these centrifuges.</p>
-
-        <div class="space-y-4 text-text-light">
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Municipal Sewage Dewatering</h3>
-            <p class="text-sm">Municipal sewage dewatering is the primary application of dewatering centrifuges. Alfa Laval decanter centrifuges are the most widely used centrifuges for this purpose. Large capacity dewatering centrifuges can process millions of gallons of <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">wastewater</a> per day to recover sewage water.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Industrial Sludge Thickening</h3>
-            <p class="text-sm">Industrial wastewater pits accumulate sludge over time and need dewatering to reduce the sludge volume for disposal. Dewatering centrifuges can thicken the sludge from industrial wastewater pits and dry them enough to be sent to landfills. Thickened sludge leads to considerable cost savings in transportation and disposal.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Crude Oil Tank Bottom Sludge</h3>
-            <p class="text-sm"><a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude oil storage tanks</a> accumulate sludge and water over time. It is crucial to clean these tanks to recover storage volume. A dewatering centrifuge separates the sludge from crude oil tank bottoms and allows cost-effective disposal of the thickened sludge. The separated water is pumped back into the ground.</p>
-          </div>
-          <div>
-            <h3 class="font-semibold text-navy mb-1">Corn Mush Thickening</h3>
-            <p class="text-sm">The commercial production of ethanol involves the corn mush extracting the sugars that are the source of ethanol as a fuel. A dewatering centrifuge separates the corn solids from the water efficiently. This centrifuge is, therefore, an integral part of ethanol production.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Specifications -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Specifications</h2>
-        <p class="text-text-light mb-4">The following table lists the specifications of commonly used dewatering centrifuges.</p>
-
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Specification</th>
-                <th class="text-left px-4 py-3 font-semibold">Alfa Laval NX-314</th>
-                <th class="text-left px-4 py-3 font-semibold">Alfa Laval NX-418</th>
-                <th class="text-left px-4 py-3 font-semibold">Sharples P-3000</th>
-                <th class="text-left px-4 py-3 font-semibold">Sharples P-3400</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Rated Capacity*</td><td class="px-4 py-3 text-text-light">60 GPM</td><td class="px-4 py-3 text-text-light">120 GPM</td><td class="px-4 py-3 text-text-light">55 GPM</td><td class="px-4 py-3 text-text-light">120 GPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl RPM</td><td class="px-4 py-3 text-text-light">3,250</td><td class="px-4 py-3 text-text-light">4,000</td><td class="px-4 py-3 text-text-light">4,000</td><td class="px-4 py-3 text-text-light">4,000</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Diameter</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Length</td><td class="px-4 py-3 text-text-light">34"</td><td class="px-4 py-3 text-text-light">58"</td><td class="px-4 py-3 text-text-light">30"</td><td class="px-4 py-3 text-text-light">50"</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">G-Force</td><td class="px-4 py-3 text-text-light">3,157</td><td class="px-4 py-3 text-text-light">3,157</td><td class="px-4 py-3 text-text-light">3,180</td><td class="px-4 py-3 text-text-light">3,180</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Beach Angle</td><td class="px-4 py-3 text-text-light">8.5 Deg.</td><td class="px-4 py-3 text-text-light">8.5 Deg.</td><td class="px-4 py-3 text-text-light">10 Deg.</td><td class="px-4 py-3 text-text-light">10 Deg.</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Motor Power</td><td class="px-4 py-3 text-text-light">15 kW</td><td class="px-4 py-3 text-text-light">20 kW</td><td class="px-4 py-3 text-text-light">15 kW</td><td class="px-4 py-3 text-text-light">20 kW</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Gearbox</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Dimensions</td><td class="px-4 py-3 text-text-light">28" &times; 72" &times; 48"(H)</td><td class="px-4 py-3 text-text-light">28" &times; 96" &times; 50"(H)</td><td class="px-4 py-3 text-text-light">28" &times; 70" &times; 46"(H)</td><td class="px-4 py-3 text-text-light">36" &times; 100" &times; 42"(H)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Weight</td><td class="px-4 py-3 text-text-light">2,000 Lbs</td><td class="px-4 py-3 text-text-light">3,600 Lbs</td><td class="px-4 py-3 text-text-light">2,400 Lbs</td><td class="px-4 py-3 text-text-light">4,100 Lbs</td></tr>
-            </tbody>
-          </table>
-          <p class="text-xs text-text-muted mt-2 italic">* Rated capacity is under ideal fluid conditions. Actual processing capacity depends on fluid &amp; sludge properties and volume.</p>
-        </div>
-
-        <h3 class="font-semibold text-navy mb-3">Material of Construction (MOC)</h3>
-        <p class="text-text-light mb-3 text-sm">The following is the typical material of construction for dewatering centrifuges manufactured by Alfa Laval.</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Component</th>
-                <th class="text-left px-4 py-3 font-semibold">Material of Construction</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Body</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">End Caps (Hubs)</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Vessel</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Auger (Conveyor)</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Base Frame</td><td class="px-4 py-3 text-text-light">Carbon Steel or Cast Steel</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Gearbox</td><td class="px-4 py-3 text-text-light">Carbon Steel (Planetary)</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <p class="text-text-light leading-relaxed mb-4">Dolphin Centrifuge supplies reconditioned dewatering centrifuges with new controls, bearings, and wear components. Our systems are <a href="/decanter-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">also available for rental</a> for short-term or trial projects.</p>
-      <p class="text-text-light leading-relaxed mb-4">Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> to discuss your dewatering requirements.</p>
-      <p class="text-sm text-text-muted italic">By Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
+    <div class="md:w-1/2">
+      <img
+        src="/images/dewatering-centrifuge/Basket-and-Decanter-Centrifuge-Comparison-600.webp"
+        alt="Basket and decanter centrifuge comparison — side-by-side showing differences between basket type and decanter type dewatering centrifuges"
+        width="600" height="204"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-sm text-text-muted mt-2 text-center">Basket vs. decanter centrifuge comparison</p>
     </div>
-  </section>
+  </div>
 
-  <!-- FAQ Section -->
-  <section class="bg-warm-white py-12">
-    <div class="container-dolphin max-w-4xl">
-      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What type of centrifuge is used for dewatering?</summary>
-          <p class="text-text-light mt-3 text-sm">Decanter centrifuges are the most widely used type for dewatering applications. They generate 3,000+ Gs of centrifugal force, separate particles from 0.5 inches down to below 100 microns, and operate continuously without shutdown. For very fine solids (below 2 microns), disc stack centrifuges are used instead.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How does a dewatering centrifuge differ from a filter press?</summary>
-          <p class="text-text-light mt-3 text-sm">A dewatering centrifuge separates water from sludge using centrifugal force — it operates continuously without media replacement and handles high feed volumes without operator intervention. A filter press is a batch process requiring manual cake removal, filter cloth replacement, and more labor. Centrifuges produce slightly wetter cake than filter presses but offer much higher throughput and lower labor costs for large-volume applications.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What industries use dewatering centrifuges?</summary>
-          <p class="text-text-light mt-3 text-sm">Dewatering centrifuges are used in municipal wastewater treatment (sludge thickening and dewatering), oilfield applications (crude oil tank bottom recovery, drilling mud dewatering), food processing (starch, rendering, olive oil), chemical manufacturing, mining (tailings dewatering), and paper/pulp industries.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What is the minimum particle size a dewatering centrifuge can separate?</summary>
-          <p class="text-text-light mt-3 text-sm">Decanter centrifuges can separate particles down to below 100 microns continuously. For finer separation (2–100 microns), disc stack centrifuges operating at 7,000+ Gs are more appropriate. The actual separation limit depends on particle density, fluid viscosity, and centrifuge G-force.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Can Dolphin Centrifuge supply dewatering centrifuges for rental?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge supplies reconditioned dewatering centrifuges for both purchase and rental. Rental units are available for short-term projects, pilot testing, and emergency backup. Contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold">sales@dolphincentrifuge.com</a> to discuss your requirements.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+  <!-- Benefits -->
+  <h2 id="benefits">Benefits or Advantages</h2>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <p>The benefits of dewatering centrifuges over other types of dewatering technologies are listed here. The other methods of sludge thickening are filter presses, screw presses, and just settling the sludge out of the water.</p>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-10 max-w-4xl">
-      <h2 class="text-xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2">
-        <li>&#8226; <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Decanter Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Wastewater Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval NX-418 Decanter</a></li>
-        <li>&#8226; <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold transition-colors">Pilot Sample Testing</a></li>
-      </ul>
-    </div>
-  </section>
+  <h3>Compact Size</h3>
+  <p>Compared to filter presses and screw presses, a dewatering centrifuge has a much smaller footprint than presses of similar processing capacity. Decanter centrifuges for sludge thickening are often less than half the size of comparable filter presses.</p>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need a Dewatering Centrifuge?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">From municipal wastewater to crude oil tank bottoms, our engineers will recommend the right dewatering centrifuge for your sludge volume and disposal requirements.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Our Engineers</a>
-        <a href="/decanter-centrifuge/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">View Decanter Centrifuges</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  <h3>Efficiency</h3>
+  <p>Dewatering centrifuges have a high separation efficiency when compared to other dewatering equipment. For example, a filter press has a rated sludge separation rate based on the particle size of the water slurry. Particles smaller than the filter pore pass through the filter press, leading to lower efficiency. A dewatering centrifuge separates mechanically, and therefore, it can separate a <strong>wide range of particles from 0.5" to less than 100 microns.</strong> The decanter centrifuge exerts <strong>over 3,000 Gs</strong> to separate the solids from water, and this centrifugal force is the reason for its high separation efficiency.</p>
+
+  <h3>Continuous Processing</h3>
+  <p>Unlike filter presses that are essentially operating in batch mode that require periodic manual cleaning, the dewatering centrifuges are flow-through type devices that operate continuously without any need for shut-downs related to cleanouts. The slurry passes through the decanter centrifuge, which dewaters the sludge to thicken it and concentrate the sludge.</p>
+
+  <h3>Low Operating Cost</h3>
+  <p>A dewatering centrifuge does not require filtration media that need a replacement that incurs labor and material costs. The centrifuge is a continuous process without manual intervention, and therefore, the operating costs for a dewatering centrifuge are considerably lesser than screw and filter presses.</p>
+
+  <h3>Durability</h3>
+  <p>Decanter centrifuges as dewatering centrifuges feature robust construction that gives these machines high durability. This durability is evident from the ability of these machines to operate continuously over long periods with the need for a stoppage. Filter and screw presses are not as durable as dewatering centrifuges due to their lightweight construction and the need for constant opening and closing to extract the sludge.</p>
+
+  <h3>Equipment Longevity</h3>
+  <p>Dewatering centrifuges manufactured by established brands have extremely heavy-duty construction, which leads to exceptionally high service life. It is not uncommon for Alfa Laval decanter centrifuges to have service lives of over 50 years. Comparatively, filter and screw presses have much higher failure rates and shorter service lives in the 10 to 15 years range.</p>
+
+  <!-- Disadvantages -->
+  <h2 id="disadvantages">Disadvantages</h2>
+
+  <p>Like most industrial equipment, industrial centrifuges also have inherent disadvantages when compared to other dewatering technologies. The following are some of the disadvantages of dewatering centrifuges.</p>
+
+  <h3>Capital Cost</h3>
+  <p>Compared to presses (screw and filter), dewatering centrifuges initially cost more. However, the low operating costs and equipment longevity pay for the initial expense multiple times over the service life of the centrifuge. The cost difference between presses and decanter centrifuges for dewatering is not in multiples but fractionally more, which makes the dewatering centrifuge attractive as a long-term dewatering solution.</p>
+
+  <h3>Vibration</h3>
+  <p>Dewatering centrifuges are rotating equipment, and like all rotating equipment, these centrifuges generate vibrations. Decanter centrifuges must be isolated from the structural bases to prevent the vibrations from propagating to other structures. Spring and elastomer vibration isolators are standard parts of dewatering centrifuges and need to be maintained.</p>
+
+  <h3>Noise</h3>
+  <p>Unlike presses that do not emit any operating noise, dewatering centrifuges generate noise due to the rotating bearings and air currents within the centrifuge housing. Though the noise level is not excessive (~85 dB), it is still considered for dewatering centrifuge installations.</p>
+
+  <h3>Maintenance</h3>
+  <p>Like all mechanical rotating equipment, dewatering centrifuges also need periodic maintenance and repairs. Though these centrifuges have robust construction, the centrifuge may require the replacement of bearings once every few years.</p>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+
+  <p>As the name suggests, the primary purpose of dewatering centrifuges is to separate water from slurries to thicken the sludge. The following is a list of practical applications for these centrifuges.</p>
+
+  <h3>Municipal Sewage Dewatering</h3>
+  <p>Municipal sewage dewatering is the primary application of dewatering centrifuges. Alfa Laval decanter centrifuges are the most widely used centrifuges for this purpose. Large capacity dewatering centrifuges can process millions of gallons of <a href="/wastewater-centrifuge/">wastewater</a> per day to recover sewage water.</p>
+
+  <h3>Industrial Sludge Thickening</h3>
+  <p>Industrial wastewater pits accumulate sludge over time and need dewatering to reduce the sludge volume for disposal. Dewatering centrifuges can thicken the sludge from industrial wastewater pits and dry them enough to be sent to landfills. Thickened sludge leads to considerable cost savings in transportation and disposal.</p>
+
+  <h3>Crude Oil Tank Bottom Sludge</h3>
+  <p><a href="/crude-oil-tank-bottom-recovery-centrifuge/">Crude oil storage tanks</a> accumulate sludge and water over time. It is crucial to clean these tanks to recover storage volume. A dewatering centrifuge separates the sludge from crude oil tank bottoms and allows cost-effective disposal of the thickened sludge. The separated water is pumped back into the ground.</p>
+
+  <h3>Corn Mush Thickening</h3>
+  <p>The commercial production of ethanol involves the corn mush extracting the sugars that are the source of ethanol as a fuel. A dewatering centrifuge separates the corn solids from the water efficiently. This centrifuge is, therefore, an integral part of ethanol production.</p>
+
+  <!-- Specifications -->
+  <h2 id="specifications">Specifications</h2>
+
+  <p>The following table lists the specifications of commonly used dewatering centrifuges.</p>
+
+  <div class="overflow-x-auto not-prose mb-6">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">Specification</th>
+          <th class="text-left px-4 py-3 font-semibold">Alfa Laval NX-314</th>
+          <th class="text-left px-4 py-3 font-semibold">Alfa Laval NX-418</th>
+          <th class="text-left px-4 py-3 font-semibold">Sharples P-3000</th>
+          <th class="text-left px-4 py-3 font-semibold">Sharples P-3400</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Rated Capacity*</td><td class="px-4 py-3 text-text-light">60 GPM</td><td class="px-4 py-3 text-text-light">120 GPM</td><td class="px-4 py-3 text-text-light">55 GPM</td><td class="px-4 py-3 text-text-light">120 GPM</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl RPM</td><td class="px-4 py-3 text-text-light">3,250</td><td class="px-4 py-3 text-text-light">4,000</td><td class="px-4 py-3 text-text-light">4,000</td><td class="px-4 py-3 text-text-light">4,000</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Diameter</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td><td class="px-4 py-3 text-text-light">14"</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Length</td><td class="px-4 py-3 text-text-light">34"</td><td class="px-4 py-3 text-text-light">58"</td><td class="px-4 py-3 text-text-light">30"</td><td class="px-4 py-3 text-text-light">50"</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">G-Force</td><td class="px-4 py-3 text-text-light">3,157</td><td class="px-4 py-3 text-text-light">3,157</td><td class="px-4 py-3 text-text-light">3,180</td><td class="px-4 py-3 text-text-light">3,180</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Beach Angle</td><td class="px-4 py-3 text-text-light">8.5 Deg.</td><td class="px-4 py-3 text-text-light">8.5 Deg.</td><td class="px-4 py-3 text-text-light">10 Deg.</td><td class="px-4 py-3 text-text-light">10 Deg.</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Motor Power</td><td class="px-4 py-3 text-text-light">15 kW</td><td class="px-4 py-3 text-text-light">20 kW</td><td class="px-4 py-3 text-text-light">15 kW</td><td class="px-4 py-3 text-text-light">20 kW</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Gearbox</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td><td class="px-4 py-3 text-text-light">Planetary</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Dimensions</td><td class="px-4 py-3 text-text-light">28" &times; 72" &times; 48"(H)</td><td class="px-4 py-3 text-text-light">28" &times; 96" &times; 50"(H)</td><td class="px-4 py-3 text-text-light">28" &times; 70" &times; 46"(H)</td><td class="px-4 py-3 text-text-light">36" &times; 100" &times; 42"(H)</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Weight</td><td class="px-4 py-3 text-text-light">2,000 Lbs</td><td class="px-4 py-3 text-text-light">3,600 Lbs</td><td class="px-4 py-3 text-text-light">2,400 Lbs</td><td class="px-4 py-3 text-text-light">4,100 Lbs</td></tr>
+      </tbody>
+    </table>
+    <p class="text-xs text-text-muted mt-2 italic">* Rated capacity is under ideal fluid conditions. Actual processing capacity depends on fluid &amp; sludge properties and volume.</p>
+  </div>
+
+  <h3>Material of Construction (MOC)</h3>
+  <p>The following is the typical material of construction for dewatering centrifuges manufactured by Alfa Laval.</p>
+  <div class="overflow-x-auto not-prose">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">Component</th>
+          <th class="text-left px-4 py-3 font-semibold">Material of Construction</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Bowl Body</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">End Caps (Hubs)</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Vessel</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Auger (Conveyor)</td><td class="px-4 py-3 text-text-light">316 Duplex Stainless Steel (Some versions Carbon Steel)</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Base Frame</td><td class="px-4 py-3 text-text-light">Carbon Steel or Cast Steel</td></tr>
+        <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Gearbox</td><td class="px-4 py-3 text-text-light">Carbon Steel (Planetary)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Dolphin Centrifuge supplies reconditioned dewatering centrifuges with new controls, bearings, and wear components. Our systems are <a href="/decanter-centrifuge-rental/">also available for rental</a> for short-term or trial projects.</p>
+  <p>Call <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> to discuss your dewatering requirements.</p>
+  <p class="text-sm text-text-muted italic">By Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
+
+  <!-- FAQ -->
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

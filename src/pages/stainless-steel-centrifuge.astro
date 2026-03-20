@@ -1,13 +1,33 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const title = "Stainless Steel Centrifuge";
+const description = "Stainless steel (316L, 304) industrial disc stack centrifuges for food-grade, pharmaceutical, and corrosive applications. FDA/3A compliant. Dolphin Centrifuge.";
+
+const faqItems = [
+  {
+    question: "What stainless steel grades are available for Dolphin centrifuge systems?",
+    answer: "Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications where higher corrosion resistance is required. Bowl components, frame, hood, and piping can all be specified in either grade."
+  },
+  {
+    question: "Are Dolphin stainless steel centrifuges FDA or 3A compliant?",
+    answer: "Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra &le; 0.8 &micro;m), and FDA-compliant elastomers. Specific documentation can be provided upon request."
+  },
+  {
+    question: "What applications require stainless steel centrifuges?",
+    answer: "Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids (acids, alkalis, saltwater), and any application where metal contamination of the process fluid would be unacceptable."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
+  "url": "https://dolphincentrifuge.com/stainless-steel-centrifuge/",
   "name": "Stainless Steel Centrifuge",
-  "description": "Stainless steel (316L, 304) industrial centrifuges for food-grade, pharmaceutical, and corrosive applications. FDA/3A compliant disc stack systems from Dolphin Centrifuge.",
+  "description": description,
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "category": "Industrial Centrifuges",
   "offers": {
     "@type": "Offer",
@@ -20,361 +40,331 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What stainless steel grades are available for Dolphin centrifuge systems?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications where higher corrosion resistance is required. Bowl components, frame, hood, and piping can all be specified in either grade."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are Dolphin stainless steel centrifuges FDA or 3A compliant?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra ≤ 0.8 µm), and FDA-compliant elastomers. Specific documentation can be provided upon request."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications require stainless steel centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids (acids, alkalis, saltwater), and any application where metal contamination of the process fluid would be unacceptable."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: "overview", label: "Overview" },
+  { id: "when-to-specify", label: "When to Specify Stainless Steel" },
+  { id: "material-guide", label: "Material Selection Guide" },
+  { id: "grades", label: "304 vs. 316L Grades" },
+  { id: "centrifuge-models", label: "Stainless Steel Centrifuge Models" },
+  { id: "fda-compliance", label: "FDA & 3A Compliance" },
+  { id: "applications", label: "Industrial Applications" },
+  { id: "faq", label: "FAQ" },
+];
+
+const relatedApplications = [
+  { label: "Food Grade Centrifuge", href: "/food-grade-centrifuge/" },
+  { label: "Beer & Wine Centrifuge", href: "/beer-wine-centrifuge/" },
+  { label: "Explosion Proof Centrifuge", href: "/explosion-proof-centrifuge/" },
+  { label: "Algae Centrifuge", href: "/algae-centrifuge/" },
+];
+
+const relatedProducts = [
+  { label: "Disc Stack Centrifuge", href: "/disc-stack-centrifuge/", description: "Self-cleaning disc stack separators" },
+  { label: "Centrifuge Parts & Spares", href: "/alfa-laval-centrifuge-parts/", description: "OEM-equivalent replacement parts" },
+  { label: "Centrifuge Control Systems", href: "/industrial-centrifuge-controls/", description: "PLC and VFD control panels" },
+];
 ---
 
-<BaseLayout
-  title="Stainless Steel Centrifuge"
-  description="Stainless steel (316L, 304) industrial centrifuges for food-grade, pharmaceutical, and corrosive applications. FDA/3A compliant. Dolphin Centrifuge."
+<ApplicationLayout
+  title={title}
+  description={description}
   canonicalUrl="https://dolphincentrifuge.com/stainless-steel-centrifuge/"
-  breadcrumbs={[{label: 'Centrifuges', href: '/alfa-laval-centrifuges/'}, {label: 'Stainless Steel Centrifuge'}]}
   jsonLd={jsonLd}
+  heroImage="/images/stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
+  heroImageAlt="Alfa Laval Stainless Steel Centrifuge"
+  category="applications"
+  categoryLabel="Centrifuges"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Centrifuges</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Stainless Steel Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge supplies stainless steel disc stack centrifuge systems in 304 and 316L grades for food-grade processing, pharmaceutical applications, water-based fluids, and corrosive environments. Available in self-cleaning DMPX and manual-clean DMB series with FDA and 3A-compliant configurations.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <!-- AI Summary (30-50 words) -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies food-grade and chemical-grade stainless steel disc stack centrifuge systems in 304 and 316L grades. Operating at 7,000+ Gs, these FDA/3A-compliant separators process corrosive and sanitary fluids continuously down to 1 micron.</p>
+  </div>
+
+  <!-- Overview -->
+  <h2 id="overview">Overview</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Disc-Stack-Centrifuge-600.webp"
+        alt="Alfa Laval Stainless Steel Disc Stack Centrifuge"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
     </div>
-  </section>
+    <div>
+      <p>
+        Stainless steel centrifuges are specially designed disc-stack centrifuges for separating corrosive chemicals and food products. A pass-through feature allows continuous processing through stainless-steel centrifuges. A high centrifugal force of over 7,000 g separates fine sediment down to 1 micron.
+      </p>
+      <p>
+        The Alfa Laval stainless steel centrifuges are generally of the food-grade (sanitary) design configuration. This design means that all the fluid contact parts are made of high-grade stainless steel (316L).
+      </p>
+    </div>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <p>
+    Some centrifuges have a stainless steel sludge discharge chute as well. These machines are applicable where the separated solids are of value to the customer.
+  </p>
+  <p>
+    For example, the precipitate is a valuable extract that must have all stainless steel contact in food flavoring extraction.
+  </p>
+  <p>
+    These food-grade centrifuges are available in a three-phase configuration, making them suitable for <a href="/fish-processing-centrifuge/">fish oil</a>, rendering, and other similar applications.
+  </p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies food-grade and chemical-grade stainless steel disc stack centrifuge systems for separating corrosive or sanitary process fluids. Constructed with 316L stainless steel contact parts, these centrifuges operate at 7,000+ Gs, separating fine particles down to 1 micron with continuous pass-through processing. Applications include food and beverage, pharmaceutical, chemical, and marine algae processing. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of centrifugal separation experience.</p>
-      </div>
+  <!-- When to Specify Stainless Steel -->
+  <h2 id="when-to-specify">When to Specify Stainless Steel</h2>
 
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-4">
-          Stainless steel centrifuges are specially designed disc-stack centrifuges for separating corrosive chemicals and food products. A pass-through feature allows continuous processing through stainless-steel centrifuges. A high centrifugal force of over 7,000 g separates fine sediment down to 1 micron.
-        </p>
-        <p class="text-text-light mb-4">
-          The Alfa Laval stainless steel centrifuges are generally of the food-grade (sanitary) design configuration. This design means that all the fluid contact parts are made of high-grade stainless steel (316L).
-        </p>
-        <p class="text-text-light mb-4">
-          Some centrifuges have a stainless steel sludge discharge chute as well. These machines are applicable where the separated solids are of value to the customer.
-        </p>
-        <p class="text-text-light mb-4">
-          For example, the precipitate is a valuable extract that must have all stainless steel contact in food flavoring extraction.
-        </p>
-        <p class="text-text-light">
-          These food-grade centrifuges are available in a three-phase configuration, making them suitable for fish oil, rendering, and other similar applications.
-        </p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">When to Specify Stainless Steel</h2>
-      <p class="text-text-light mb-4">
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Food-Grade-Stainless-Steel-3-Phase-Disc-Centrifuge-400.webp"
+        alt="Alfa Laval Food Grade Stainless Steel 3 Phase Disc Centrifuge"
+        width="400"
+        height="300"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
+    </div>
+    <div>
+      <p>
         The material of construction for a centrifuge bowl and wetted parts is determined by the fluid being processed. The general rule is straightforward: water-based fluids require stainless steel, while petroleum-based fluids (oil, diesel, fuel oil) can run in carbon steel bowls. Choosing the wrong material leads to corrosion, product contamination, and premature component failure.
       </p>
-      <p class="text-text-light mb-8">
+      <p>
         Dolphin Centrifuge stocks both stainless steel and carbon steel disc stacks, bowls, and wetted components. Our engineers help customers select the correct material grade based on the process fluid, temperature, and any regulatory requirements specific to the application.
       </p>
+    </div>
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Material Selection Guide</h2>
-      <div class="overflow-x-auto mb-10">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Application</th>
-              <th class="text-left px-4 py-3 font-semibold">Recommended Material</th>
-              <th class="text-left px-4 py-3 font-semibold">Reason</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Food &amp; beverage</td>
-              <td class="px-4 py-3 text-text-light">316L stainless steel</td>
-              <td class="px-4 py-3 text-text-light">FDA/3A compliance, corrosion resistance to acids</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Pharmaceutical / biotech</td>
-              <td class="px-4 py-3 text-text-light">316L stainless steel</td>
-              <td class="px-4 py-3 text-text-light">cGMP compliance, electropolish capability</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Water-based coolants</td>
-              <td class="px-4 py-3 text-text-light">304 or 316L stainless</td>
-              <td class="px-4 py-3 text-text-light">Water causes rapid corrosion of carbon steel</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Wastewater</td>
-              <td class="px-4 py-3 text-text-light">304 or 316L stainless</td>
-              <td class="px-4 py-3 text-text-light">Water-based, may contain corrosive chemicals</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Diesel fuel / fuel oil</td>
-              <td class="px-4 py-3 text-text-light">Carbon steel</td>
-              <td class="px-4 py-3 text-text-light">Non-corrosive to carbon steel, lower cost</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Lube oil / hydraulic oil</td>
-              <td class="px-4 py-3 text-text-light">Carbon steel</td>
-              <td class="px-4 py-3 text-text-light">Oil protects against corrosion</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Waste oil (high water)</td>
-              <td class="px-4 py-3 text-text-light">304 stainless steel</td>
-              <td class="px-4 py-3 text-text-light">High water content accelerates corrosion</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Corrosive chemicals</td>
-              <td class="px-4 py-3 text-text-light">316L stainless steel</td>
-              <td class="px-4 py-3 text-text-light">Molybdenum content resists pitting and chloride attack</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Material Selection Guide -->
+  <h2 id="material-guide">Material Selection Guide</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Application</th>
+        <th>Recommended Material</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Food & beverage</strong></td><td>316L stainless steel</td><td>FDA/3A compliance, corrosion resistance to acids</td></tr>
+      <tr><td><strong>Pharmaceutical / biotech</strong></td><td>316L stainless steel</td><td>cGMP compliance, electropolish capability</td></tr>
+      <tr><td><strong>Water-based coolants</strong></td><td>304 or 316L stainless</td><td>Water causes rapid corrosion of carbon steel</td></tr>
+      <tr><td><strong><a href="/wastewater-centrifuge/">Wastewater</a></strong></td><td>304 or 316L stainless</td><td>Water-based, may contain corrosive chemicals</td></tr>
+      <tr><td><strong>Diesel fuel / fuel oil</strong></td><td>Carbon steel</td><td>Non-corrosive to carbon steel, lower cost</td></tr>
+      <tr><td><strong>Lube oil / hydraulic oil</strong></td><td>Carbon steel</td><td>Oil protects against corrosion</td></tr>
+      <tr><td><strong><a href="/waste-oil-centrifuge/">Waste oil</a> (high water)</strong></td><td>304 stainless steel</td><td>High water content accelerates corrosion</td></tr>
+      <tr><td><strong>Corrosive chemicals</strong></td><td>316L stainless steel</td><td>Molybdenum content resists pitting and chloride attack</td></tr>
+    </tbody>
+  </table>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Stainless Steel Grades: 304 vs. 316L</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">304 Stainless Steel</h3>
-          <p class="text-sm text-text-light mb-3">
-            The most common austenitic stainless steel grade. Offers good corrosion resistance for water-based fluids, moderate acids, and general industrial environments. Lower cost than 316L.
-          </p>
-          <ul class="text-sm space-y-1 text-text-muted">
-            <li>&#8226; Suitable for machining coolants, wash water</li>
-            <li>&#8226; Good for non-chloride environments</li>
-            <li>&#8226; Lower material cost than 316L</li>
-          </ul>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">316L Stainless Steel</h3>
-          <p class="text-sm text-text-light mb-3">
-            Contains 2-3% molybdenum for superior resistance to pitting, crevice corrosion, and chloride attack. The &ldquo;L&rdquo; designation indicates low carbon content for improved weldability and reduced sensitization.
-          </p>
-          <ul class="text-sm space-y-1 text-text-muted">
-            <li>&#8226; Required for food-grade and pharmaceutical use</li>
-            <li>&#8226; FDA/3A-compliant when electropolished</li>
-            <li>&#8226; Resists chlorides, acids, and salt solutions</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- AFPX 213 Stainless Steel Disc Stack Centrifuge -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">AFPX 213 Stainless Steel Disc Stack Centrifuge</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; Yeast Separation from Beer</li>
-          <li>&#8226; Wine Clarification</li>
-          <li>&#8226; Corrosive Chemical Clarification</li>
-          <li>&#8226; Fruit Juice Clarification</li>
-          <li>&#8226; Flavor Extraction</li>
-          <li>&#8226; Fish Oil, Meal Separation</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Model Type</td><td class="px-4 py-2 text-text-light">AFPX 213 XGD 14-60</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Maximum Capacity</td><td class="px-4 py-2 text-text-light">100 GPM on Water</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">50 GPM on Hemp Ethanol Polishing</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Sludge Space</td><td class="px-4 py-2 text-text-light">3.87 Gallons</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Speed</td><td class="px-4 py-2 text-text-light">4,600 RPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">G-Force</td><td class="px-4 py-2 text-text-light">7,200 Gs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Drive Motor</td><td class="px-4 py-2 text-text-light">15 HP</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Voltages</td><td class="px-4 py-2 text-text-light">230 / 460 V</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Size</td><td class="px-4 py-2 text-text-light">5' x 7' x 7' (H)</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- BRPX 313 Stainless Steel Disc Stack Centrifuge -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mt-10 mb-4">BRPX 313 Stainless Steel Disc Stack Centrifuge</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; CBD Oil from Hemp Water</li>
-          <li>&#8226; Fish Oil Separation from Stick-water</li>
-          <li>&#8226; Pork Fat (Lard) Separation from Water</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Model Type</td><td class="px-4 py-2 text-text-light">BRPX 313 SGT 24-60</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">50 GPM on CBD Ethanol Clarification</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Sludge Space</td><td class="px-4 py-2 text-text-light">3.87 Gallons</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor HP</td><td class="px-4 py-2 text-text-light">15 HP</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Voltages</td><td class="px-4 py-2 text-text-light">230 / 460 V</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- BRPX 309 Beer & Beverage Centrifuge -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mt-10 mb-4">BRPX 309 Beer &amp; Beverage Centrifuge</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <p class="text-text-light mb-6">
-          The BRPX 309 Centrifuge is a beer-clarifying centrifuge made of stainless steel and designed for the clarification of Beer, Wine, Cider, and other beverages. With a 10 HP Motor, the BRPX 309 centrifuge has a bowl RPM of 7,100 and can process 30 GPM of Beer for yeast separation.
-        </p>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Model Type</td><td class="px-4 py-2 text-text-light">BRPX 309 SGT 24-60</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">30 GPM on Beer, Wine, and Cider Clarification</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Sludge Space</td><td class="px-4 py-2 text-text-light">1.35 Gallons</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor HP</td><td class="px-4 py-2 text-text-light">10 HP</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Voltages</td><td class="px-4 py-2 text-text-light">230 / 460 V</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- AFPX 207 Three-Phase Food Grade Centrifuge -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mt-10 mb-4">AFPX 207 Three-Phase Food Grade Centrifuge</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-6">
-          The AFPX 207 Stainless-Steel contact centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase separation of animal fat (AF), fish oil, clarified butter, fish-stickwater, edible oils, and others. With a 10 HP Motor, the AFPX 207 centrifuge has a bowl RPM of 6,400 and can process 20 GPM of animal fat at 180 F.
-        </p>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Model Type</td><td class="px-4 py-2 text-text-light">AFPX 207 70S</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">20 GPM on Animal Fat Rendering @ 180 F</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Sludge Space</td><td class="px-4 py-2 text-text-light">1.12 Gallons</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor HP</td><td class="px-4 py-2 text-text-light">10 HP</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Voltages</td><td class="px-4 py-2 text-text-light">230 / 460 V</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">FDA &amp; 3A Compliance</h2>
-      <p class="text-text-light mb-4">
-        For food and beverage applications, Dolphin Centrifuge supplies systems built to FDA and 3A sanitary standards. This includes 316L stainless steel wetted surfaces, sanitary tri-clamp connections, electropolished bowl interiors (Ra &le; 32 &micro;in), and food-grade gaskets and seals. All materials are fully traceable with mill certificates available on request.
+  <!-- 304 vs 316L -->
+  <h2 id="grades">Stainless Steel Grades: 304 vs. 316L</h2>
+  <div class="grid md:grid-cols-2 gap-6 mb-6 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">304 Stainless Steel</h3>
+      <p class="text-sm text-text-light mb-3">
+        The most common austenitic stainless steel grade. Offers good corrosion resistance for water-based fluids, moderate acids, and general industrial environments. Lower cost than 316L.
       </p>
-      <p class="text-text-light mb-8">
-        Common food-grade centrifuge applications include <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">beer and wine clarification</a>, <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">edible oil polishing</a>, juice clarification, dairy processing, and <a href="/fish-processing-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">fish oil separation</a>.
+      <ul class="text-sm space-y-1 text-text-muted">
+        <li>&#8226; Suitable for <a href="/machine-coolant-centrifuge/" class="text-navy hover:text-gold transition-colors">machining coolants</a>, wash water</li>
+        <li>&#8226; Good for non-chloride environments</li>
+        <li>&#8226; Lower material cost than 316L</li>
+      </ul>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">316L Stainless Steel</h3>
+      <p class="text-sm text-text-light mb-3">
+        Contains 2-3% molybdenum for superior resistance to pitting, crevice corrosion, and chloride attack. The &ldquo;L&rdquo; designation indicates low carbon content for improved weldability and reduced sensitization.
       </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Stainless Steel Industrial Applications</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Food-grade centrifuge systems</a> &mdash; edible oils, dairy, juice, fats</li>
-        <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer and wine clarification</a> &mdash; yeast removal, cold stabilization</li>
-        <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Machining coolant recovery</a> &mdash; tramp oil and fines removal</li>
-        <li>&#8226; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Wastewater treatment</a> &mdash; oily water separation, sludge removal</li>
-        <li>&#8226; <a href="/algae-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Algae harvesting</a> &mdash; biomass concentration and dewatering</li>
-        <li>&#8226; Pharmaceutical clarification &mdash; cell debris removal, protein recovery</li>
-      </ul>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What stainless steel grades are available for Dolphin centrifuge systems?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications. Bowl components, frame, hood, and piping can all be specified in either grade.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Are Dolphin stainless steel centrifuges FDA or 3A compliant?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra ≤ 0.8 µm), and FDA-compliant elastomers. Specific documentation can be provided upon request.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What applications require stainless steel centrifuges?</h3>
-            <p class="text-text-light text-sm">Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids, and any application where metal contamination of the process fluid would be unacceptable.</p>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Parts &amp; Spares</a></li>
-        <li>&#8226; <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Control Systems</a></li>
-      </ul>
-
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-10 max-w-4xl">
-      <h2 class="text-xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2">
-        <li>&#8226; <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Food Grade Centrifuge</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/explosion-proof-stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Stainless Steel Centrifuge</a></li>
-        <li>&#8226; <a href="/alfa-laval-lapx-404-disc-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval LAPX 404 Food-Grade Centrifuge</a></li>
-        <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer &amp; Wine Centrifuge</a></li>
+      <ul class="text-sm space-y-1 text-text-muted">
+        <li>&#8226; Required for <a href="/food-grade-centrifuge/" class="text-navy hover:text-gold transition-colors">food-grade</a> and pharmaceutical use</li>
+        <li>&#8226; FDA/3A-compliant when electropolished</li>
+        <li>&#8226; Resists chlorides, acids, and salt solutions</li>
       </ul>
     </div>
-  </section>
+  </div>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need a Stainless Steel Centrifuge?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us about your process fluid, temperature, and regulatory requirements. We will specify the correct material grade and system configuration.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+  <!-- Centrifuge Models -->
+  <h2 id="centrifuge-models">Stainless Steel Centrifuge Models</h2>
+
+  <!-- AFPX 213 -->
+  <h3>AFPX 213 Stainless Steel Disc Stack Centrifuge</h3>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Food-Grade-Centrifuge-AFPX213.webp"
+        alt="Alfa Laval Food Grade Centrifuge AFPX213"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
     </div>
-  </section>
-</BaseLayout>
+    <div>
+      <p><strong>Applications:</strong> Yeast Separation from Beer, Wine Clarification, Corrosive Chemical Clarification, Fruit Juice Clarification, Flavor Extraction, Fish Oil &amp; Meal Separation</p>
+      <table>
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Model Type</td><td>AFPX 213 XGD 14-60</td></tr>
+          <tr><td>Maximum Capacity</td><td>100 GPM on Water</td></tr>
+          <tr><td>Sludge Space</td><td>3.87 Gallons</td></tr>
+          <tr><td>Bowl Speed</td><td>4,600 RPM</td></tr>
+          <tr><td>G-Force</td><td>7,200 Gs</td></tr>
+          <tr><td>Drive Motor</td><td>15 HP</td></tr>
+          <tr><td>Voltages</td><td>230 / 460 V</td></tr>
+          <tr><td>Size</td><td>5' x 7' x 7' (H)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BRPX 313 -->
+  <h3>BRPX 313 Stainless Steel Disc Stack Centrifuge</h3>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-Stainless-Steel-Explosion-Proof.webp"
+        alt="Alfa Laval Disc Stack Centrifuge Stainless Steel Explosion Proof"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
+    </div>
+    <div>
+      <p><strong>Applications:</strong> Fish Oil Separation from Stick-water, Pork Fat (Lard) Separation from Water, Chemical Clarification</p>
+      <table>
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Model Type</td><td>BRPX 313 SGT 24-60</td></tr>
+          <tr><td>Rated Capacity</td><td>50 GPM</td></tr>
+          <tr><td>Sludge Space</td><td>3.87 Gallons</td></tr>
+          <tr><td>Motor HP</td><td>15 HP</td></tr>
+          <tr><td>Voltages</td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BRPX 309 -->
+  <h3>BRPX 309 Beer & Beverage Centrifuge</h3>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-BRPX309-Stainless-Steel-Wine-Centrifuge.webp"
+        alt="Alfa Laval BRPX309 Stainless Steel Wine Centrifuge"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
+    </div>
+    <div>
+      <p>
+        The BRPX 309 Centrifuge is a <a href="/beer-wine-centrifuge/">beer-clarifying centrifuge</a> made of stainless steel and designed for the clarification of Beer, Wine, Cider, and other beverages. With a 10 HP Motor, the BRPX 309 centrifuge has a bowl RPM of 7,100 and can process 30 GPM of Beer for yeast separation.
+      </p>
+      <table>
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Model Type</td><td>BRPX 309 SGT 24-60</td></tr>
+          <tr><td>Rated Capacity</td><td>30 GPM on Beer, Wine, Cider</td></tr>
+          <tr><td>Sludge Space</td><td>1.35 Gallons</td></tr>
+          <tr><td>Motor HP</td><td>10 HP</td></tr>
+          <tr><td>Voltages</td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- AFPX 207 -->
+  <h3>AFPX 207 Three-Phase Food Grade Centrifuge</h3>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-AFPX207-Food-Grade-Centrifuge.webp"
+        alt="Alfa Laval AFPX207 Food Grade Centrifuge"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
+    </div>
+    <div>
+      <p>
+        The AFPX 207 Stainless-Steel contact centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase separation of animal fat (AF), fish oil, clarified butter, fish-stickwater, edible oils, and others. With a 10 HP Motor, the AFPX 207 centrifuge has a bowl RPM of 6,400 and can process 20 GPM of animal fat at 180 F.
+      </p>
+      <table>
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Model Type</td><td>AFPX 207 70S</td></tr>
+          <tr><td>Rated Capacity</td><td>20 GPM on Animal Fat @ 180 F</td></tr>
+          <tr><td>Sludge Space</td><td>1.12 Gallons</td></tr>
+          <tr><td>Motor HP</td><td>10 HP</td></tr>
+          <tr><td>Voltages</td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FDA & 3A Compliance -->
+  <h2 id="fda-compliance">FDA & 3A Compliance</h2>
+  <p>
+    For food and beverage applications, Dolphin Centrifuge supplies systems built to FDA and 3A sanitary standards. This includes 316L stainless steel wetted surfaces, sanitary tri-clamp connections, electropolished bowl interiors (Ra &le; 32 &micro;in), and food-grade gaskets and seals. All materials are fully traceable with mill certificates available on request.
+  </p>
+  <p>
+    Common food-grade centrifuge applications include <a href="/beer-wine-centrifuge/">beer and wine clarification</a>, <a href="/food-grade-centrifuge/">edible oil polishing</a>, juice clarification, dairy processing, and <a href="/fish-processing-centrifuge/">fish oil separation</a>.
+  </p>
+
+  <!-- Industrial Applications -->
+  <h2 id="applications">Stainless Steel Industrial Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-[40%] shrink-0">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Decanter-Centrifuge-Module-600.webp"
+        alt="Alfa Laval Stainless Steel Decanter Centrifuge Module"
+        width="600"
+        height="450"
+        loading="lazy"
+        class="rounded-lg shadow-sm w-full h-auto object-contain"
+      />
+    </div>
+    <div>
+      <ul>
+        <li><a href="/food-grade-centrifuge/">Food-grade centrifuge systems</a> &mdash; edible oils, dairy, juice, fats</li>
+        <li><a href="/beer-wine-centrifuge/">Beer and wine clarification</a> &mdash; yeast removal, cold stabilization</li>
+        <li><a href="/machine-coolant-centrifuge/">Machining coolant recovery</a> &mdash; tramp oil and fines removal</li>
+        <li><a href="/wastewater-centrifuge/">Wastewater treatment</a> &mdash; oily water separation, sludge removal</li>
+        <li><a href="/algae-centrifuge/">Algae harvesting</a> &mdash; biomass concentration and dewatering</li>
+        <li>Pharmaceutical clarification &mdash; cell debris removal, protein recovery</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

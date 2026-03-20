@@ -1,7 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is the Dolphin equivalent of the Alfa Laval MOPX 209 centrifuge?",
+    answer: "The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval MOPX 209 (or equivalent WHPX 409 / MAPX 309) centrifuge bowl. The DMPX-042 adds a complete system frame, PLC controls, electric heaters, feed pump, and piping to make a turnkey centrifuge module. Rated at 32–47 GPM on diesel depending on configuration."
+  },
+  {
+    question: "What is the flow rate of the Alfa Laval MOPX 209 centrifuge?",
+    answer: "The Alfa Laval MOPX 209 is rated at approximately 22 GPM on draw oil (mineral oil at 60 cSt) and 32–47 GPM on diesel at 13 cSt depending on separation requirement and model variant (MOPX 209, MOPX 310). The equivalent Dolphin DMPX-042 system capacity ranges from 32 to 47 GPM on diesel and 15–24 GPM on lube oil."
+  },
+  {
+    question: "What applications is the Alfa Laval MOPX 209 / DMPX-042 best suited for?",
+    answer: "The MOPX 209 / DMPX-042 is a mid-to-large capacity self-cleaning centrifuge well suited for: diesel fuel purification at 30–45 GPM, waste oil recovery, cutting oil and coolant clarification, lube oil purification in power plants and industrial facilities, and crude oil dehydration in oilfield applications."
+  },
+  {
+    question: "What is the motor horsepower of the Alfa Laval MOPX 209?",
+    answer: "The Alfa Laval MOPX 209 centrifuge uses a 15 HP main drive motor. The complete Dolphin DMPX-042 system module typically includes a 15 HP centrifuge motor plus additional pump motor (1–3 HP) and optional electric heaters (up to 60 kW)."
+  },
+  {
+    question: "Is the Alfa Laval MOPX 209 centrifuge available explosion-proof?",
+    answer: "Yes. The Dolphin DMPX-042 (built around the MOPX 209 bowl) is available in Class 1 Division 2 explosion-proof configuration for hazardous area installations. Contact Dolphin Centrifuge at <a href='tel:+12485222573' class='text-navy font-semibold hover:text-gold'>(248) 522-2573</a> for explosion-proof options."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval MOPX 209 Self-Cleaning Centrifuge",
@@ -9,234 +33,217 @@ const jsonLd = {
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-mopx-209-centrifuge/",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the Dolphin equivalent of the Alfa Laval MOPX 209 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval MOPX 209 (or equivalent WHPX 409 / MAPX 309) centrifuge bowl. The DMPX-042 adds a complete system frame, PLC controls, electric heaters, feed pump, and piping to make a turnkey centrifuge module. Rated at 32–47 GPM on diesel depending on configuration."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the flow rate of the Alfa Laval MOPX 209 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval MOPX 209 is rated at approximately 22 GPM on draw oil (mineral oil at 60 cSt) and 32–47 GPM on diesel at 13 cSt depending on separation requirement and model variant (MOPX 209, MOPX 310). The equivalent Dolphin DMPX-042 system capacity ranges from 32 to 47 GPM on diesel and 15–24 GPM on lube oil."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the Alfa Laval MOPX 209 / DMPX-042 best suited for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The MOPX 209 / DMPX-042 is a mid-to-large capacity self-cleaning centrifuge well suited for: diesel fuel purification at 30–45 GPM, waste oil recovery, cutting oil and coolant clarification, lube oil purification in power plants and industrial facilities, and crude oil dehydration in oilfield applications."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the motor horsepower of the Alfa Laval MOPX 209?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval MOPX 209 centrifuge uses a 15 HP main drive motor. The complete Dolphin DMPX-042 system module typically includes a 15 HP centrifuge motor plus additional pump motor (1–3 HP) and optional electric heaters (up to 60 kW)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Alfa Laval MOPX 209 centrifuge available explosion-proof?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The Dolphin DMPX-042 (built around the MOPX 209 bowl) is available in Class 1 Division 2 explosion-proof configuration for hazardous area installations. Contact Dolphin Centrifuge at (248) 522-2573 for explosion-proof options."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'MOPX 209 Total-Discharge Centrifuge' },
+  { id: 'specifications', label: 'MOPX 209 Specifications' },
+  { id: 'whpx-409', label: 'WHPX 409 Partial-Discharge' },
+  { id: 'mapx-309', label: 'MAPX 309 Full-Discharge' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+  { label: 'Diesel Fuel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+  { label: 'Crude Oil Centrifuge', href: '/crude-oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: '32–47 GPM diesel, MOPX 209 bowl' },
+  { label: 'DMPX-014 Self-Cleaning System', href: '/centrifuges/dmpx-014/', description: '13–16 GPM mid-range' },
+  { label: 'DMPX-070 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: '47–72 GPM large-scale' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval MOPX 209 Centrifuge"
-  description="Alfa Laval MOPX 209 self-cleaning disc stack centrifuge for diesel, waste oil, and cutting oil. 22 GPM on draw oil, 15 HP. Also covers WHPX 409 and MAPX 309."
+<ApplicationLayout
+  title="Alfa Laval MOPX 209 Self-Cleaning Centrifuge"
+  description="Alfa Laval MOPX 209 self-cleaning disc stack centrifuge — 22 GPM draw oil, 15 HP, total-discharge. Covers WHPX 409 and MAPX 309. Dolphin Centrifuge."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/alfa-laval-mopx-209-centrifuge/Alfa-Laval-MOPX209-Cutting-Oil-Centrifuge-300.webp"
+  heroImageAlt="Alfa Laval MOPX209 Cutting Oil Centrifuge"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-mopx-209-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'MOPX 209'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval MOPX 209 Self-Cleaning Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A heavy-duty total-discharge disc stack centrifuge with a 15 HP motor and 5,180 RPM bowl speed, designed for large-scale processing of waste oil, diesel fuel, aluminum drawing oil, and industrial fluids at up to 25 GPM.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval MOPX 209 is a self-cleaning total-discharge disc stack centrifuge rated at 22 GPM on draw oil with a 15 HP motor. Dolphin Centrifuge supplies it as the DMPX-042 turnkey module for waste oil recovery, cutting oil, and industrial fluid applications. Over 40 years of MOPX-series experience.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval MOPX 209 is a self-cleaning total-discharge (TGT) three-phase disc stack centrifuge rated at 52–70 GPM (32–47 GPM on diesel). Dolphin Centrifuge supplies the MOPX 209 as the DMPX-042 complete centrifuge module — ideal for waste oil recovery, aluminum drawing oil, and industrial fluid applications with moderate to heavy contamination. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in MOPX-series centrifuge systems.</p>
-      </div>
+  <h2 id="overview">MOPX 209 Total-Discharge Centrifuge</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">MOPX 209 Total-Discharge Centrifuge</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval MOPX 209 is a self-cleaning <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> designed for the continuous three-phase separation of fuels, including <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">diesel</a>, <a href="/biodiesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">biodiesel</a>, <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">waste oil</a>, and <a href="/fuel-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">fuel oil</a>.
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Alfa Laval MOPX 209 is a self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> designed for the continuous three-phase separation of fuels, including <a href="/diesel-centrifuge/">diesel</a>, <a href="/biodiesel-centrifuge/">biodiesel</a>, <a href="/waste-oil-centrifuge/">waste oil</a>, and <a href="/fuel-oil-centrifuge/">fuel oil</a>.
       </p>
-      <p class="text-text-light mb-8">
+      <p>
         With a total-discharge (TGT) bowl design, the MOPX 209 ejects all accumulated solids and separated water during each discharge cycle. This makes it particularly effective for applications with moderate to heavy contamination levels, such as aluminum drawing oil recovery and industrial waste oil processing.
       </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">MOPX 209 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval MOPX 209 TGT 20-60</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-              <td class="px-4 py-3 font-mono text-text-light">22 GPM on Aluminum Draw Oil</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-              <td class="px-4 py-3 font-mono text-text-light">2.00 Gallons</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-              <td class="px-4 py-3 font-mono text-text-light">15 HP</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Also Available: WHPX 409 Partial-Discharge</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval WHPX 409 is a partial-discharge centrifuge in the same frame class, designed for diesel, <a href="/crude-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">light crude oil</a>, and light fuel oil separation. With a 12.5 HP motor at 7,125 RPM, it processes 40 GPM of #2 diesel fuel.
-      </p>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval WHPX 409 TGD 24-60</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-              <td class="px-4 py-3 font-mono text-text-light">45 GPM on Kerosene</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-              <td class="px-4 py-3 font-mono text-text-light">1.30 Gallons</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-              <td class="px-4 py-3 font-mono text-text-light">12.5 HP</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Also Available: MAPX 309 Full-Discharge</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval MAPX 309 is a heavy-duty, full-discharge centrifuge for continuous separation of water and sludge from mineral oils and fuels. With a 10 HP motor at 5,200 RPM, it processes 24 GPM of steam turbine lube oil.
-      </p>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval MAPX 309 BGT-14</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-              <td class="px-4 py-3 font-mono text-text-light">24 GPM on Steam Turbine Lube Oil</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-              <td class="px-4 py-3 font-mono text-text-light">2.10 Gallons</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-              <td class="px-4 py-3 font-mono text-text-light">10 HP</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Aluminum machining oil recovery</a></li>
-          <li>&#8226; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Industrial waste oil processing</a></li>
-          <li>&#8226; <a href="/crude-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Crude oil dewatering</a></li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/lube-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Lube oil purification</a></li>
-          <li>&#8226; WVO / yellow grease purification</li>
-          <li>&#8226; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Used oil re-refining</a></li>
-        </ul>
-      </div>
-
-      <p class="text-text-light mb-8">
-        <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
-      </p>
-
-      <!-- FAQ Section -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-4">
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What is the Dolphin equivalent of the Alfa Laval MOPX 209?</summary>
-            <p class="text-text-light mt-3 text-sm">The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval MOPX 209 (or equivalent WHPX 409 / MAPX 309) centrifuge bowl. The DMPX-042 adds a complete system frame, PLC controls, electric heaters, feed pump, and piping to make a turnkey centrifuge module. Rated at 32–47 GPM on diesel depending on configuration.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What is the flow rate of the Alfa Laval MOPX 209?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval MOPX 209 is rated at approximately 22 GPM on draw oil (mineral oil at 60 cSt) and 32–47 GPM on diesel at 13 cSt depending on separation requirement and model variant. The equivalent Dolphin DMPX-042 system capacity ranges from 32 to 47 GPM on diesel and 15–24 GPM on lube oil.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What applications is the MOPX 209 / DMPX-042 best suited for?</summary>
-            <p class="text-text-light mt-3 text-sm">The MOPX 209 / DMPX-042 is a mid-to-large capacity self-cleaning centrifuge suited for: diesel fuel purification at 30–45 GPM, waste oil recovery, cutting oil and coolant clarification, lube oil purification in power plants, and crude oil dehydration in oilfield applications.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">Is the Alfa Laval MOPX 209 / DMPX-042 available explosion-proof?</summary>
-            <p class="text-text-light mt-3 text-sm">Yes. The Dolphin DMPX-042 (built around the MOPX 209 bowl) is available in Class 1 Division 2 explosion-proof configuration for hazardous area installations. Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> for explosion-proof options.</p>
-          </details>
-        </div>
-      </div>
-
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in This Centrifuge?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, availability, and system configuration options.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
     </div>
-  </section>
-</BaseLayout>
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Alfa-Laval-MOPX209-Cutting-Oil-Centrifuge-300.webp"
+      alt="Alfa Laval MOPX209 Cutting Oil Centrifuge"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <blockquote>
+    Dolphin Centrifuge supplies a range of self-cleaning fuel purifiers for diesel, heavy fuel, and waste oils &mdash; available as complete modules with pre-heaters, starters, and PLC control panels. <a href="/contact-for-alfa-laval-centrifuges/">Request a quote</a>.
+  </blockquote>
+
+  <h2 id="specifications">MOPX 209 Specifications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <table>
+        <tbody>
+          <tr><td><strong>Model Type</strong></td><td>Alfa Laval MOPX 209 TGT 20-60</td></tr>
+          <tr><td><strong>Rated Capacity</strong></td><td>22 GPM on Aluminum Draw Oil</td></tr>
+          <tr><td><strong>Sludge Space</strong></td><td>2.00 Gallons</td></tr>
+          <tr><td><strong>Motor HP</strong></td><td>15 HP</td></tr>
+          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Alfa-Laval-MOPX209-Machining-Oil-Centrifuge-e1615147323481.webp"
+      alt="Alfa Laval MOPX209 Machining Oil Centrifuge"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <h2 id="whpx-409">Also Available: WHPX 409 Partial-Discharge</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Waste-Oil-Centrifuge-Alfa-Laval-MOPX209-e1614023868488.webp"
+      alt="Waste Oil Centrifuge Alfa Laval MOPX209"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+    <div class="flex-1">
+      <p>
+        The Alfa Laval WHPX 409 is a partial-discharge centrifuge in the same frame class, designed for diesel, <a href="/crude-oil-centrifuge/">light crude oil</a>, and light fuel oil separation. With a 12.5 HP motor at 7,125 RPM, it processes 40 GPM of #2 diesel fuel.
+      </p>
+      <table>
+        <tbody>
+          <tr><td><strong>Model Type</strong></td><td>Alfa Laval WHPX 409 TGD 24-60</td></tr>
+          <tr><td><strong>Rated Capacity</strong></td><td>45 GPM on Kerosene</td></tr>
+          <tr><td><strong>Sludge Space</strong></td><td>1.30 Gallons</td></tr>
+          <tr><td><strong>Motor HP</strong></td><td>12.5 HP</td></tr>
+          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 id="mapx-309">Also Available: MAPX 309 Full-Discharge</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Alfa Laval MAPX 309 is a heavy-duty, full-discharge centrifuge for continuous separation of water and sludge from mineral oils and fuels. With a 10 HP motor at 5,200 RPM, it processes 24 GPM of steam turbine <a href="/lube-oil-centrifuge/">lube oil</a>.
+      </p>
+      <table>
+        <tbody>
+          <tr><td><strong>Model Type</strong></td><td>Alfa Laval MAPX 309 BGT-14</td></tr>
+          <tr><td><strong>Rated Capacity</strong></td><td>24 GPM on Steam Turbine Lube Oil</td></tr>
+          <tr><td><strong>Sludge Space</strong></td><td>2.10 Gallons</td></tr>
+          <tr><td><strong>Motor HP</strong></td><td>10 HP</td></tr>
+          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Alfa-Laval-MAPX309-Lube-Oil-Centrifuge-e1614024028815.webp"
+      alt="Alfa Laval MAPX309 Lube Oil Centrifuge"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <h2 id="applications">Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Reconditioned-Alfa-Laval-MOPX209-WVO-e1615147470906.webp"
+      alt="Reconditioned Alfa Laval MOPX209 WVO"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+    <div class="flex-1">
+      <ul>
+        <li><a href="/cutting-oil-centrifuge/">Aluminum machining oil recovery</a></li>
+        <li><a href="/waste-oil-centrifuge/">Industrial waste oil processing</a></li>
+        <li><a href="/crude-oil-centrifuge/">Crude oil dewatering</a></li>
+        <li><a href="/lube-oil-centrifuge/">Lube oil purification</a></li>
+        <li><a href="/wvo-centrifuge-separator/">WVO / yellow grease purification</a></li>
+        <li><a href="/used-oil-centrifuge/">Used oil re-refining</a></li>
+      </ul>
+      <p>
+        <a href="/disc-stack-centrifuge/">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <h3>Reconditioned MAPX 309 for Crude Oil</h3>
+      <p>
+        Dolphin Centrifuge also supplies fully reconditioned <a href="/alfa-laval-centrifuge-parts/">MAPX 309 centrifuges</a> for crude oil dewatering applications. Each unit is rebuilt with new seals, bearings, and wear components, and tested to factory specifications before shipment. Contact our team for <a href="/industrial-centrifuge-sample-testing/">free sample testing</a> to confirm suitability for your application.
+      </p>
+    </div>
+    <img
+      src="/images/alfa-laval-mopx-209-centrifuge/Reconditioned-Alfa-Laval-MAPX309-Crude-Oil-Dewatering-e1615147112982.webp"
+      alt="Reconditioned Alfa Laval MAPX309 Crude Oil Dewatering"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

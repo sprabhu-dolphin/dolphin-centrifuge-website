@@ -1,708 +1,618 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Alfa Laval MOPX 207 Self-Cleaning Centrifuge",
-  "description": "The Alfa Laval MOPX 207 is a self-cleaning disc-stack centrifuge with 7.5 HP motor, 6,325 RPM bowl speed, and 28 GPM diesel capacity. Ideal for fuel, lube oil, waste oil, and biodiesel separation.",
-  "brand": {
-    "@type": "Brand",
-    "name": "Alfa Laval"
-  },
-  "manufacturer": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  },
-  "offers": {
-    "@type": "Offer",
-    "seller": {
+const title = "Alfa Laval MOPX 207 Self-Cleaning Centrifuge";
+const description = "Alfa Laval MOPX 207 self-cleaning disc centrifuge: 28 GPM, 7.5 HP, 6,325 RPM. Full specs, applications, WHPX-407/WSPX-207 comparisons. Dolphin Centrifuge.";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alfa Laval MOPX 207 Self-Cleaning Centrifuge",
+    "description": "The Alfa Laval MOPX 207 is a self-cleaning disc-stack centrifuge with 7.5 HP motor, 6,325 RPM bowl speed, and 28 GPM diesel capacity. Ideal for fuel, lube oil, waste oil, and biodiesel separation.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Alfa Laval"
+    },
+    "manufacturer": {
       "@type": "Organization",
-      "name": "Dolphin Centrifuge"
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "seller": {
+        "@type": "Organization",
+        "name": "Dolphin Centrifuge"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://dolphincentrifuge.com/alfa-laval-mopx-207-centrifuge/"
     }
   },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://dolphincentrifuge.com/alfa-laval-mopx-207-centrifuge/"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the capacity of the Alfa Laval MOPX 207 centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Alfa Laval MOPX 207 can process 28 GPM of 13 cSt diesel fuel, 22 GPM of turbine lube oil, and 20 GPM of hydraulic oil. It can also process over 30 GPM of distillate and condensate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between the MOPX 207, WHPX 407, and WSPX 207?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The MOPX 207 is a full-discharge purifier designed for fuel and mineral oil separation. The WHPX 407 is a partial-discharge centrifuge with a 10 HP motor designed for fuel oils like light fuel oil (LFO). The WSPX 207 is a concentrator designed for water-based liquids such as machine coolants and washer fluids."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What materials is the MOPX 207 bowl made from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The MOPX 207 bowl body and bowl hood are constructed from 316L Duplex Stainless Steel. The disc stack is also 316L Duplex Stainless Steel. The distributor and top disc are Marine Grade Bronze, with 316 Stainless Steel available as a special order option."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the Alfa Laval MOPX 207 available in an explosion-proof configuration?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the Alfa Laval MOPX 207 is available in a Class 1 Division 2 explosion-proof configuration, making it suitable for hazardous environments where flammable fuels and solvents are processed."
+        }
+      }
+    ]
   }
-};
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the capacity of the Alfa Laval MOPX 207 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval MOPX 207 can process 28 GPM of 13 cSt diesel fuel, 22 GPM of turbine lube oil, and 20 GPM of hydraulic oil. It can also process over 30 GPM of distillate and condensate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between the MOPX 207, WHPX 407, and WSPX 207?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The MOPX 207 is a full-discharge purifier designed for fuel and mineral oil separation. The WHPX 407 is a partial-discharge centrifuge with a 10 HP motor designed for fuel oils like light fuel oil (LFO). The WSPX 207 is a concentrator designed for water-based liquids such as machine coolants and washer fluids."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What materials is the MOPX 207 bowl made from?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The MOPX 207 bowl body and bowl hood are constructed from 316L Duplex Stainless Steel. The disc stack is also 316L Duplex Stainless Steel. The distributor and top disc are Marine Grade Bronze, with 316 Stainless Steel available as a special order option."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Alfa Laval MOPX 207 available in an explosion-proof configuration?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, the Alfa Laval MOPX 207 is available in a Class 1 Division 2 explosion-proof configuration, making it suitable for hazardous environments where flammable fuels and solvents are processed."
-      }
-    }
-  ]
-};
+const toc = [
+  { id: 'operation', label: 'Operation — Alfa Laval MOPX 207' },
+  { id: 'applications-mopx', label: 'Applications — MOPX-207' },
+  { id: 'specifications-mopx', label: 'Specifications — MOPX-207' },
+  { id: 'material', label: 'Material of Construction' },
+  { id: 'whpx-407', label: 'Alfa Laval WHPX 407' },
+  { id: 'applications-whpx', label: 'WHPX-407 Applications' },
+  { id: 'specifications-whpx', label: 'WHPX-407 Specifications' },
+  { id: 'wspx-207', label: 'Alfa Laval WSPX 207' },
+  { id: 'applications-wspx', label: 'WSPX-207 Applications' },
+  { id: 'specifications-wspx', label: 'WSPX-207 Specifications' },
+  { id: 'gallery', label: 'MOPX 207 Modules & Gallery' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval MOPX 209 Centrifuge', href: '/alfa-laval-mopx-209-centrifuge/', description: 'Larger capacity MOPX-series model' },
+  { label: 'Diesel Fuel Purifier', href: '/diesel-fuel-purifier/', description: 'Diesel purification systems' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/', description: 'Used oil recovery systems' },
+];
+
+const relatedApplications = [
+  { label: 'Biodiesel Centrifuge', href: '/biodiesel-centrifuge/' },
+  { label: 'Fuel Oil Centrifuge', href: '/fuel-oil-centrifuge/' },
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+  { label: 'Quench Oil Centrifuge', href: '/quench-oil-centrifuge/' },
+  { label: 'Black Diesel Centrifuge', href: '/black-diesel-centrifuge/' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval MOPX 207 Centrifuge | Specs, Uses, Capacity"
-  description="Alfa Laval MOPX 207 self-cleaning disc centrifuge: 28 GPM, 7.5 HP, 6,325 RPM. Full specs, applications, WHPX-407/WSPX-207 comparisons. Dolphin Centrifuge."
+<ApplicationLayout
+  title={title}
+  description={description}
+  heroImage="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Diesel-Centrifuge-Skid-for-Diesel-Dewatering.webp"
+  heroImageAlt="Alfa Laval MOPX-207 Self-Cleaning Disc Stack Centrifuge Class 1 Div 2 — diesel centrifuge skid for dewatering"
+  category="products"
+  categoryLabel="Products"
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-mopx-207-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Alfa Laval MOPX-207'}]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-16 md:py-20">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <nav class="text-sm text-blue-300 mb-4" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-white">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/centrifuges/" class="hover:text-white">Products</a>
-        <span class="mx-2">/</span>
-        <span class="text-white">Alfa Laval MOPX-207</span>
-      </nav>
-      <div class="flex flex-col md:flex-row gap-10 items-center">
-        <div class="flex-1">
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-            Alfa Laval MOPX 207 Self-Cleaning Centrifuge
-          </h1>
-          <p class="text-lg text-blue-100 mb-2 font-medium">Self-Cleaning Disc Stack Centrifuge</p>
-          <p class="text-blue-200 mb-6 text-sm">Specs, Uses, Capacity &amp; Operation</p>
-          <div class="grid grid-cols-2 gap-3 mb-6 text-sm">
-            <div class="bg-white/10 rounded-lg p-3">
-              <div class="text-[#E8A317] font-bold text-lg font-mono">28 GPM</div>
-              <div class="text-blue-200">Diesel Capacity</div>
-            </div>
-            <div class="bg-white/10 rounded-lg p-3">
-              <div class="text-[#E8A317] font-bold text-lg font-mono">6,325 RPM</div>
-              <div class="text-blue-200">Bowl Speed</div>
-            </div>
-            <div class="bg-white/10 rounded-lg p-3">
-              <div class="text-[#E8A317] font-bold text-lg font-mono">7.5 HP</div>
-              <div class="text-blue-200">Motor Power</div>
-            </div>
-            <div class="bg-white/10 rounded-lg p-3">
-              <div class="text-[#E8A317] font-bold text-lg font-mono">1.00 Gal</div>
-              <div class="text-blue-200">Sludge Space</div>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-4">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-500 transition-colors">
-              Request a Quote
-            </a>
-            <a href="tel:+12485222573" class="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#1B3A5C] transition-colors">
-              (248) 522-2573
-            </a>
-          </div>
-        </div>
-        <div class="flex-shrink-0 w-full md:w-96">
-          <img
-            src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Diesel-Centrifuge-Skid-for-Diesel-Dewatering.jpg"
-            alt="Alfa Laval MOPX-207 Self-Cleaning Disc Stack Centrifuge Class 1 Div 2 — diesel centrifuge skid for dewatering"
-            width="600"
-            height="450"
-            loading="eager"
-            class="rounded-xl shadow-2xl w-full"
-          />
-          <p class="text-blue-200 text-sm text-center mt-2">Alfa Laval MOPX-207 Diesel Centrifuge Skid for Diesel Dewatering</p>
-        </div>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
+    <p class="text-sm font-semibold text-navy mb-1">AI Summary</p>
+    <p class="text-sm text-text-light leading-relaxed italic">
+      The Alfa Laval MOPX 207 is a self-cleaning disc-stack centrifuge processing up to 28 GPM of diesel fuel at 6,325 RPM. Dolphin Centrifuge supplies it as the DMPX-028 complete module for fuel oil, lube oil, and waste oil purification.
+    </p>
+  </div>
+
+  <!-- MOPX 207 Operation -->
+  <h2 id="operation">Alfa Laval MOPX 207 — Operation</h2>
+  <p>
+    The <a href="https://www.alfalaval.com/" target="_blank" rel="noopener noreferrer">Alfa Laval</a> MOPX 207 Centrifuge is a self-cleaning, <a href="/disc-stack-centrifuge/">disc-stack centrifuge</a> ideal for the continuous, three-phase separation of fuels and mineral oils.
+  </p>
+  <p>
+    With a <strong>7.5 HP Motor</strong>, the MOPX 207 centrifuge has a bowl RPM of <strong>6,325</strong> and can process <strong>32 GPM of Distillate</strong>.
+  </p>
+  <p>
+    The Alfa Laval MOPX-207 is a versatile, 'self-cleaning' centrifuge that is small enough to be manually serviced without the need for lifting devices (cranes, hoists, etc.)
+  </p>
+  <p>
+    However, it can process over 30 Gallons per Minute of condensate.
+  </p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-center not-prose">
+    <figure class="flex-shrink-0">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-600.webp"
+        alt="Alfa Laval MOPX207 Used Oil Centrifuge — self-cleaning disc stack separator for fuel and mineral oil separation"
+        width="450"
+        height="450"
+        loading="lazy"
+        class="rounded-lg"
+      />
+      <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval MOPX207 Used Oil Centrifuge</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold text-navy mb-3">Key Operational Highlights</h3>
+      <ul class="space-y-2 text-text text-sm">
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> Continuous three-phase separation (oil / water / solids)</li>
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> Self-cleaning bowl — automatic sludge ejection without stopping</li>
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> Small enough for manual service — no lifting equipment needed</li>
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> 316L duplex stainless steel bowl construction</li>
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> Available in standard and explosion-proof (Class 1 Div 2) configurations</li>
+        <li class="flex gap-2"><span class="text-gold">&#x2713;</span> Processes diesel, lube oil, waste oil, biodiesel, and more</li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <!-- FAQ banner -->
-  <section class="bg-[#E8A317] text-white py-3">
-    <div class="container mx-auto px-4 max-w-5xl text-center text-sm font-medium">
-      Read our <a href="/disc-stack-centrifuge-faq/" class="underline font-bold hover:text-[#1B3A5C]">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+  <!-- MOPX Applications -->
+  <h2 id="applications-mopx">Alfa Laval MOPX-207 — Applications</h2>
+  <p>
+    The MOPX-207 finds a variety of applications in fuel and lubrication purification applications. Some of the popular applications are:
+  </p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose">
+    <ul class="grid grid-cols-1 gap-2 flex-1 text-sm text-text">
+      <li><a href="/diesel-fuel-purifier/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Diesel Fuel</a></li>
+      <li><a href="/waste-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Waste Oil</a></li>
+      <li><a href="/black-diesel-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Black Diesel</a></li>
+      <li><a href="/wvo-centrifuge-separator/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> WVO or Yellow Grease</a></li>
+      <li><a href="/biodiesel-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Biodiesel Glycerol</a></li>
+      <li><a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Heavy Fuel Oil</a></li>
+      <li><a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Machining Coolant</a></li>
+      <li><a href="/quench-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Quenching Oil</a></li>
+      <li><a href="/crude-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Light Crude Oil</a></li>
+    </ul>
+    <figure class="flex-shrink-0">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600.webp"
+        alt="Alfa Laval MAPX-207 Explosion-Proof Centrifuge — Class 1 Div 2 configuration for hazardous environments"
+        width="360"
+        height="450"
+        loading="lazy"
+        class="rounded-lg"
+      />
+      <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval MAPX-207 — Explosion-Proof Centrifuge</figcaption>
+    </figure>
+  </div>
+
+  <!-- MOPX Specifications -->
+  <h2 id="specifications-mopx">Alfa Laval MOPX 207 — Specifications</h2>
+  <div class="overflow-x-auto not-prose">
+    <table class="w-full text-sm text-text border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
+          <th class="px-4 py-3 text-left font-semibold">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Centrifuge Model</td>
+          <td class="px-4 py-3 font-mono">Alfa Laval MOPX 207 TGT</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Capacity — Diesel</td>
+          <td class="px-4 py-3 font-mono">28 GPM on 13 cSt Diesel Fuel</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Capacity — Turbine Lube Oil</td>
+          <td class="px-4 py-3 font-mono">22 GPM</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Capacity — Hydraulic Oil</td>
+          <td class="px-4 py-3 font-mono">20 GPM</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Sludge Space</td>
+          <td class="px-4 py-3 font-mono">1.00 Gallons</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Bowl Speed</td>
+          <td class="px-4 py-3 font-mono">6,325 RPM</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Net Weight</td>
+          <td class="px-4 py-3 font-mono">1,800 Lbs.</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Dimensions</td>
+          <td class="px-4 py-3 font-mono">30" x 38" x 43" (Bare Centrifuge)</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Motor Power</td>
+          <td class="px-4 py-3 font-mono">7.5 HP</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Voltages</td>
+          <td class="px-4 py-3 font-mono">230 / 460 V; 3-Phase</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Material of Construction -->
+  <h2 id="material">Material of Construction</h2>
+  <p>
+    The Alfa Laval MOPX 207 is designed for mineral oil and fuel separation applications. Therefore, the material used in its construction is well suited for such uses. The following table lists the various components of the centrifuge and the material it is made of.
+  </p>
+  <div class="overflow-x-auto not-prose">
+    <table class="w-full text-sm text-text border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="px-4 py-3 text-left font-semibold w-1/2">Component</th>
+          <th class="px-4 py-3 text-left font-semibold">Material</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">Bowl Body &amp; Bowl Hood</td>
+          <td class="px-4 py-3 font-mono">316L Duplex Stainless Steel</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">Disc Stack</td>
+          <td class="px-4 py-3 font-mono">316L Duplex Stainless Steel</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">Distributor or Disc Carrier</td>
+          <td class="px-4 py-3 font-mono">Marine Grade Bronze or 316 Stainless Steel (Special Order)</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">Top Disc</td>
+          <td class="px-4 py-3 font-mono">Marine Grade Bronze or 316 Stainless Steel (Special Order)</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">Top Covers (Collecting)</td>
+          <td class="px-4 py-3 font-mono">Silium (Aluminum Alloy)</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3">Frame</td>
+          <td class="px-4 py-3 font-mono">Nodular Cast Iron</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAQ Banner -->
+  <div class="bg-navy text-white rounded-xl p-6 my-8 text-center not-prose">
+    <p class="text-sm">
+      If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into
+      <a href="/disc-stack-centrifuge-faq/" class="underline font-bold hover:text-gold">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+    </p>
+  </div>
+
+  <!-- WHPX 407 Section -->
+  <h2 id="whpx-407">Alfa Laval WHPX 407 — Partial-Discharge Disc-Stack Centrifuge</h2>
+  <p>
+    The Alfa Laval WHPX 407 Centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase separation of fuel oils, such as <a href="/fuel-oil-centrifuge/">light fuel oil</a> (LFO).
+  </p>
+  <p>
+    With a <strong>10 HP Motor</strong>, the WHPX 407 centrifuge has a bowl RPM of <strong>7,125</strong> and can process <strong>25 GPM of ISO 180 cSt Light Fuel Oil</strong>.
+  </p>
+  <p>
+    Also, the WHPX-407 is a <strong>partial-discharge centrifuge</strong>. This means that this centrifuge is capable of discharging only the accumulated sludge and minimizing <a href="/centrifuge-product-loss-during-discharge/">fluid loss</a>.
+  </p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-center not-prose">
+    <figure class="flex-shrink-0">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-WHPX510-DAF.webp"
+        alt="Alfa Laval WHPX 407 Centrifuge System with 60 kW Electric heater for light fuel oil separation"
+        width="450"
+        height="450"
+        loading="lazy"
+        class="rounded-lg"
+      />
+      <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval WHPX 407 Centrifuge System with 60 kW Electric heater</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3 id="applications-whpx" class="text-lg font-semibold text-navy mb-3">Alfa Laval WHPX-407 Applications</h3>
+      <p class="text-sm text-text mb-3">
+        Similar to the Alfa Laval MOPX-207, the WHPX-407 finds many applications in all kinds of 3-phase separation duties. Some of the popular applications are:
+      </p>
+      <ul class="space-y-1 text-sm">
+        <li><a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Light Fuel Oil</a></li>
+        <li><a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Machining Coolant</a></li>
+        <li><a href="/quench-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Quench Oil</a></li>
+        <li><a href="/cutting-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Cutting Oil</a></li>
+        <li><a href="/cutting-oil-centrifuge/#draw-oil" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Draw Oil</a></li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <!-- Table of Contents -->
-  <section class="bg-[#F5F5F0] py-8">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-lg font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-        <ul class="grid md:grid-cols-2 gap-1 text-sm">
-          <li><a href="#operation" class="text-[#1B3A5C] hover:text-[#E8A317]">Operation — Alfa Laval MOPX 207</a></li>
-          <li><a href="#applications-mopx" class="text-[#1B3A5C] hover:text-[#E8A317]">Applications — MOPX-207</a></li>
-          <li><a href="#specifications-mopx" class="text-[#1B3A5C] hover:text-[#E8A317]">Specifications — MOPX-207</a></li>
-          <li><a href="#material" class="text-[#1B3A5C] hover:text-[#E8A317]">Material of Construction</a></li>
-          <li><a href="#whpx-407" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval WHPX 407</a></li>
-          <li><a href="#applications-whpx" class="text-[#1B3A5C] hover:text-[#E8A317]">WHPX-407 Applications</a></li>
-          <li><a href="#specifications-whpx" class="text-[#1B3A5C] hover:text-[#E8A317]">WHPX-407 Specifications</a></li>
-          <li><a href="#wspx-207" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval WSPX 207</a></li>
-          <li><a href="#applications-wspx" class="text-[#1B3A5C] hover:text-[#E8A317]">WSPX-207 Applications</a></li>
-          <li><a href="#specifications-wspx" class="text-[#1B3A5C] hover:text-[#E8A317]">WSPX-207 Specifications</a></li>
-          <li><a href="#gallery" class="text-[#1B3A5C] hover:text-[#E8A317]">MOPX 207 Modules &amp; Gallery</a></li>
-          <li><a href="#faq" class="text-[#1B3A5C] hover:text-[#E8A317]">Frequently Asked Questions</a></li>
-        </ul>
-      </div>
+  <!-- WHPX Specifications -->
+  <h3 id="specifications-whpx">Alfa Laval WHPX-407 Specifications</h3>
+  <div class="overflow-x-auto not-prose">
+    <table class="w-full text-sm text-text border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
+          <th class="px-4 py-3 text-left font-semibold">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Model Type</td>
+          <td class="px-4 py-3 font-mono">Alfa Laval WHPX 407 TGD 24-60</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Rated Capacity</td>
+          <td class="px-4 py-3 font-mono">25 GPM on 180 cSt Light Fuel Oil</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Sludge Space</td>
+          <td class="px-4 py-3 font-mono">1.30 Gallons</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Motor HP</td>
+          <td class="px-4 py-3 font-mono">10 HP</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Voltages</td>
+          <td class="px-4 py-3 font-mono">230 / 460 V</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WSPX 207 Section -->
+  <h2 id="wspx-207">Alfa Laval WSPX 207 TGP — Partial-Discharge <a href="/disc-stack-centrifuge/">Disc-Stack Centrifuge</a></h2>
+  <p>
+    The Alfa Laval WSPX 207 Centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase concentration of water-based liquids such as machine coolants and washer liquids.
+  </p>
+  <p>
+    With a <strong>7.5 HP Motor</strong>, the <strong>WSPX 207</strong> centrifuge has a <strong>bowl RPM of 6,400</strong> and can <strong>process 20 GPM</strong> of water-based <strong>machining coolant</strong>.
+  </p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-center not-prose">
+    <figure class="flex-shrink-0 w-full md:w-auto">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Industrial-Centrifuge-Coolant-600.webp"
+        alt="Alfa Laval WSPX-207 Industrial Centrifuge for machining coolant separation and concentration"
+        width="600"
+        height="360"
+        loading="lazy"
+        class="rounded-lg w-full md:w-auto md:max-w-sm"
+      />
+      <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval Industrial Centrifuge — Machining Coolant Application</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3 id="applications-wspx" class="text-lg font-semibold text-navy mb-3">Alfa Laval WSPX-207 Applications</h3>
+      <p class="text-sm text-text mb-3">
+        The Alfa Laval WSPX-207 is very similar to the WHPX-407, except that this centrifuge is a <strong>concentrator</strong>. A concentrator centrifuge is designed to separate a small oil volume from a large volume of water or water-based fluid. Some of the popular applications are:
+      </p>
+      <ul class="space-y-1 text-sm">
+        <li><a href="/machining-coolant-recovery-pasteurizing-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Machining Coolant</a></li>
+        <li><a href="/industrial-washer-fluid-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-1.5 rounded hover:bg-gray-50"><span class="text-gold">&#x279C;</span> Parts Washer Fluid</a></li>
+        <li class="flex items-center gap-2 text-text p-1.5"><span class="text-gold">&#x279C;</span> Water-based Drawing Lubricant</li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0] pb-16">
-    <div class="container mx-auto px-4 max-w-4xl">
+  <!-- WSPX Specifications -->
+  <h3 id="specifications-wspx">Alfa Laval WSPX-207 Specifications</h3>
+  <div class="overflow-x-auto not-prose">
+    <table class="w-full text-sm text-text border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
+          <th class="px-4 py-3 text-left font-semibold">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Model Type</td>
+          <td class="px-4 py-3 font-mono">Alfa Laval WSPX 207 TGP 70</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Rated Capacity</td>
+          <td class="px-4 py-3 font-mono">20 GPM on Synthetic Machine Coolant</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Sludge Space</td>
+          <td class="px-4 py-3 font-mono">1.32 Gallons</td>
+        </tr>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Motor HP</td>
+          <td class="px-4 py-3 font-mono">7.5 HP</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-semibold">Voltages</td>
+          <td class="px-4 py-3 font-mono">230 / 460 V</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval MOPX 207 centrifuge is a self-cleaning three-phase disc stack centrifuge rated at 33–40 GPM (20–26 GPM on diesel). Dolphin Centrifuge supplies the MOPX 207 as the DMPX-028 complete centrifuge module — a fully integrated system processing fuel oil, lube oil, and waste oil continuously at 7,000–7,800 Gs. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in MOPX-series centrifuge systems and applications.</p>
-      </div>
+  <!-- Gallery -->
+  <h2 id="gallery">Alfa Laval MOPX 207 Centrifuge Modules</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 not-prose">
 
-      <!-- MOPX 207 Operation -->
-      <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MOPX 207 — Operation</h2>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          The <a href="https://www.alfalaval.com/" target="_blank" rel="noopener noreferrer" class="text-[#E8A317] hover:underline">Alfa Laval</a> MOPX 207 Centrifuge is a self-cleaning, <a href="/disc-stack-centrifuge/" class="text-[#E8A317] hover:underline">disc-stack centrifuge</a> ideal for the continuous, three-phase separation of fuels and mineral oils.
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          With a <strong>7.5 HP Motor</strong>, the MOPX 207 centrifuge has a bowl RPM of <strong>6,325</strong> and can process <strong>32 GPM of Distillate</strong>.
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          The Alfa Laval MOPX-207 is a versatile, 'self-cleaning' centrifuge that is small enough to be manually serviced without the need for lifting devices (cranes, hoists, etc.)
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-6">
-          However, it can process over 30 Gallons per Minute of condensate.
-        </p>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX-207-Diesel-Centrifuge-Skid-250.webp"
+        alt="Alfa Laval MOPX-207 Diesel Centrifuge Skid — packaged diesel fuel centrifuge module"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX-207 Diesel Centrifuge Skid</figcaption>
+    </figure>
 
-        <div class="flex flex-col md:flex-row gap-6 items-center">
-          <figure class="flex-shrink-0">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-600.jpg"
-              alt="Alfa Laval MOPX207 Used Oil Centrifuge — self-cleaning disc stack separator for fuel and mineral oil separation"
-              width="450"
-              height="450"
-              loading="lazy"
-              class="rounded-lg"
-            />
-            <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval MOPX207 Used Oil Centrifuge</figcaption>
-          </figure>
-          <div class="flex-1">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] mb-3">Key Operational Highlights</h3>
-            <ul class="space-y-2 text-[#2D2D2D] text-sm">
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> Continuous three-phase separation (oil / water / solids)</li>
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> Self-cleaning bowl — automatic sludge ejection without stopping</li>
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> Small enough for manual service — no lifting equipment needed</li>
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> 316L duplex stainless steel bowl construction</li>
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> Available in standard and explosion-proof (Class 1 Div 2) configurations</li>
-              <li class="flex gap-2"><span class="text-[#E8A317]">&#x2713;</span> Processes diesel, lube oil, waste oil, biodiesel, and more</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-System-for-Industrial-Oils-250.webp"
+        alt="Alfa Laval MOPX 207 System for Industrial Oils — complete packaged centrifuge system"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX 207 System for Industrial Oils</figcaption>
+    </figure>
 
-      <!-- MOPX Applications -->
-      <div id="applications-mopx" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MOPX-207 — Applications</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The MOPX-207 finds a variety of applications in fuel and lubrication purification applications. Some of the popular applications are:
-        </p>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Skid-e1613936125333.webp"
+        alt="Alfa Laval MOPX207 Used Oil Skid — waste oil centrifuge skid module"
+        width="243"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX 207 Used Oil Skid</figcaption>
+    </figure>
 
-        <div class="flex flex-col md:flex-row gap-6 items-start">
-          <ul class="grid grid-cols-1 gap-2 flex-1 text-sm text-[#2D2D2D]">
-            <li><a href="/diesel-fuel-purifier/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Diesel Fuel</a></li>
-            <li><a href="/waste-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Waste Oil</a></li>
-            <li><a href="/black-diesel-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Black Diesel</a></li>
-            <li><a href="/wvo-centrifuge-separator/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> WVO or Yellow Grease</a></li>
-            <li><a href="/biodiesel-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Biodiesel Glycerol</a></li>
-            <li><a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Heavy Fuel Oil</a></li>
-            <li><a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Machining Coolant</a></li>
-            <li><a href="/quench-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Quenching Oil</a></li>
-            <li><a href="/crude-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Light Crude Oil</a></li>
-          </ul>
-          <figure class="flex-shrink-0">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600.jpg"
-              alt="Alfa Laval MAPX-207 Explosion-Proof Centrifuge — Class 1 Div 2 configuration for hazardous environments"
-              width="360"
-              height="450"
-              loading="lazy"
-              class="rounded-lg"
-            />
-            <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval MAPX-207 — Explosion-Proof Centrifuge</figcaption>
-          </figure>
-        </div>
-      </div>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Biodiesel-Centrifuge-e1615144535939.webp"
+        alt="Alfa Laval MOPX-207 Biodiesel Centrifuge — biodiesel glycerol separation module"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX-207 Biodiesel Centrifuge</figcaption>
+    </figure>
 
-      <!-- MOPX Specifications -->
-      <div id="specifications-mopx" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MOPX 207 — Specifications</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm text-[#2D2D2D] border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
-                <th class="px-4 py-3 text-left font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Centrifuge Model</td>
-                <td class="px-4 py-3 font-mono">Alfa Laval MOPX 207 TGT</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Capacity — Diesel</td>
-                <td class="px-4 py-3 font-mono">28 GPM on 13 cSt Diesel Fuel</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Capacity — Turbine Lube Oil</td>
-                <td class="px-4 py-3 font-mono">22 GPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Capacity — Hydraulic Oil</td>
-                <td class="px-4 py-3 font-mono">20 GPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Sludge Space</td>
-                <td class="px-4 py-3 font-mono">1.00 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Bowl Speed</td>
-                <td class="px-4 py-3 font-mono">6,325 RPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Net Weight</td>
-                <td class="px-4 py-3 font-mono">1,800 Lbs.</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Dimensions</td>
-                <td class="px-4 py-3 font-mono">30" x 38" x 43" (Bare Centrifuge)</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Motor Power</td>
-                <td class="px-4 py-3 font-mono">7.5 HP</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-semibold">Voltages</td>
-                <td class="px-4 py-3 font-mono">230 / 460 V; 3-Phase</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-e1613936306277.webp"
+        alt="MOPX 207 Used Oil Purification Centrifuge — disc stack separator for waste oil recovery"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">MOPX 207 Used Oil Purification Centrifuge</figcaption>
+    </figure>
 
-      <!-- Material of Construction -->
-      <div id="material" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Material of Construction</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The Alfa Laval MOPX 207 is designed for mineral oil and fuel separation applications. Therefore, the material used in its construction is well suited for such uses. The following table lists the various components of the centrifuge and the material it is made of.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm text-[#2D2D2D] border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="px-4 py-3 text-left font-semibold w-1/2">Component</th>
-                <th class="px-4 py-3 text-left font-semibold">Material</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3">Bowl Body &amp; Bowl Hood</td>
-                <td class="px-4 py-3 font-mono">316L Duplex Stainless Steel</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3">Disc Stack</td>
-                <td class="px-4 py-3 font-mono">316L Duplex Stainless Steel</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3">Distributor or Disc Carrier</td>
-                <td class="px-4 py-3 font-mono">Marine Grade Bronze or 316 Stainless Steel (Special Order)</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3">Top Disc</td>
-                <td class="px-4 py-3 font-mono">Marine Grade Bronze or 316 Stainless Steel (Special Order)</td>
-              </tr>
-              <tr class="border-b border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3">Top Covers (Collecting)</td>
-                <td class="px-4 py-3 font-mono">Silium (Aluminum Alloy)</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3">Frame</td>
-                <td class="px-4 py-3 font-mono">Nodular Cast Iron</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Aluminum-Drawing-Oil-Centrifuge-MOPX207-e1613936190849.webp"
+        alt="Aluminum Drawing Oil Centrifuge MOPX-207 — draw oil and aluminum forming fluid centrifuge"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Aluminum Drawing Oil Centrifuge MOPX-207</figcaption>
+    </figure>
 
-      <!-- FAQ Banner -->
-      <div class="bg-[#1B3A5C] text-white rounded-xl p-6 mb-8 text-center">
-        <p class="text-sm">
-          If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into
-          <a href="/disc-stack-centrifuge-faq/" class="underline font-bold hover:text-[#E8A317]">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
-        </p>
-      </div>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Stainless-Steel-Disc-Stack-Centrifuge-600.webp"
+        alt="Alfa Laval Stainless Steel Disc Stack Centrifuge — all stainless construction for special applications"
+        width="300"
+        height="374"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval Stainless Steel Disc Stack Centrifuge</figcaption>
+    </figure>
 
-      <!-- WHPX 407 Section -->
-      <div id="whpx-407" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval WHPX 407 — Partial-Discharge Disc-Stack Centrifuge</h2>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          The Alfa Laval WHPX 407 Centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase separation of fuel oils, such as <a href="/fuel-oil-centrifuge/" class="text-[#E8A317] hover:underline">light fuel oil</a> (LFO).
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          With a <strong>10 HP Motor</strong>, the WHPX 407 centrifuge has a bowl RPM of <strong>7,125</strong> and can process <strong>25 GPM of ISO 180 cSt Light Fuel Oil</strong>.
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-6">
-          Also, the WHPX-407 is a <strong>partial-discharge centrifuge</strong>. This means that this centrifuge is capable of discharging only the accumulated sludge and minimizing <a href="/centrifuge-product-loss-during-discharge/" class="text-[#E8A317] hover:underline">fluid loss</a>.
-        </p>
+    <figure class="text-center">
+      <img
+        src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2.webp"
+        alt="Alfa Laval duplex diesel centrifuge Class 1 Div 2 — explosion-proof dual centrifuge system"
+        width="400"
+        height="300"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval Duplex Diesel Centrifuge — Class 1 Div 2</figcaption>
+    </figure>
 
-        <figure class="mb-6">
-          <img
-            src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-WHPX510-DAF.jpg"
-            alt="Alfa Laval WHPX 407 Centrifuge System with 60 kW Electric heater for light fuel oil separation"
-            width="450"
-            height="450"
-            loading="lazy"
-            class="rounded-lg mx-auto"
-          />
-          <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval WHPX 407 Centrifuge System with 60 kW Electric heater</figcaption>
-        </figure>
+  </div>
 
-        <div id="applications-whpx" class="mb-6">
-          <h3 class="text-xl font-semibold text-[#1B3A5C] mb-3">Alfa Laval WHPX-407 Applications</h3>
-          <p class="text-[#2D2D2D] text-sm mb-3">
-            Similar to the Alfa Laval MOPX-207, the WHPX-407 finds many applications in all kinds of 3-phase separation duties. Some of the popular applications are:
-          </p>
-          <ul class="space-y-1 text-sm">
-            <li><a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Light Fuel Oil</a></li>
-            <li><a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Machining Coolant</a></li>
-            <li><a href="/quench-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Quench Oil</a></li>
-            <li><a href="/cutting-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Cutting Oil</a></li>
-            <li><a href="/cutting-oil-centrifuge/#draw-oil" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Draw Oil</a></li>
-          </ul>
-        </div>
+  <!-- FAQ Section -->
+  <h2 id="faq">Frequently Asked Questions — Alfa Laval MOPX 207</h2>
 
-        <div id="specifications-whpx">
-          <h3 class="text-xl font-semibold text-[#1B3A5C] mb-3">Alfa Laval WHPX-407 Specifications</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm text-[#2D2D2D] border-collapse">
-              <thead>
-                <tr class="bg-[#1B3A5C] text-white">
-                  <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
-                  <th class="px-4 py-3 text-left font-semibold">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Model Type</td>
-                  <td class="px-4 py-3 font-mono">Alfa Laval WHPX 407 TGD 24-60</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Rated Capacity</td>
-                  <td class="px-4 py-3 font-mono">25 GPM on 180 cSt Light Fuel Oil</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Sludge Space</td>
-                  <td class="px-4 py-3 font-mono">1.30 Gallons</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Motor HP</td>
-                  <td class="px-4 py-3 font-mono">10 HP</td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Voltages</td>
-                  <td class="px-4 py-3 font-mono">230 / 460 V</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+  <div class="space-y-4 not-prose">
+    <details class="border border-gray-200 rounded-lg p-4 group" open>
+      <summary class="font-semibold text-navy cursor-pointer group-open:mb-3">What is the capacity of the Alfa Laval MOPX 207 centrifuge?</summary>
+      <p class="text-text text-sm leading-relaxed">
+        The Alfa Laval MOPX 207 can process 28 GPM of 13 cSt diesel fuel, 22 GPM of turbine lube oil, and 20 GPM of hydraulic oil. When processing distillate, the capacity increases to 32 GPM. It can also process over 30 Gallons per Minute of condensate, making it a highly versatile centrifuge for fuel and oil purification applications.
+      </p>
+    </details>
 
-      <!-- WSPX 207 Section -->
-      <div id="wspx-207" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval WSPX 207 TGP — Partial-Discharge <a href="/disc-stack-centrifuge/" class="text-[#E8A317] hover:underline">Disc-Stack Centrifuge</a></h2>
-        <p class="text-[#2D2D2D] leading-relaxed mb-4">
-          The Alfa Laval WSPX 207 Centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase concentration of water-based liquids such as machine coolants and washer liquids.
-        </p>
-        <p class="text-[#2D2D2D] leading-relaxed mb-6">
-          With a <strong>7.5 HP Motor</strong>, the <strong>WSPX 207</strong> centrifuge has a <strong>bowl RPM of 6,400</strong> and can <strong>process 20 GPM</strong> of water-based <strong>machining coolant</strong>.
-        </p>
+    <details class="border border-gray-200 rounded-lg p-4 group">
+      <summary class="font-semibold text-navy cursor-pointer group-open:mb-3">What is the difference between the MOPX 207, WHPX 407, and WSPX 207?</summary>
+      <p class="text-text text-sm leading-relaxed">
+        The MOPX 207 is a full-discharge purifier designed for fuel and mineral oil separation with a 7.5 HP motor and 6,325 RPM bowl speed. The WHPX 407 is a partial-discharge centrifuge with a larger 10 HP motor and 7,125 RPM bowl speed, designed for fuel oils like light fuel oil (LFO) at 25 GPM. The WSPX 207 is a concentrator designed for water-based liquids such as machine coolants and washer fluids, with a 7.5 HP motor and 6,400 RPM bowl speed processing 20 GPM. The partial-discharge models (WHPX and WSPX) minimize fluid loss during sludge ejection.
+      </p>
+    </details>
 
-        <figure class="mb-6">
-          <img
-            src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Industrial-Centrifuge-Coolant-600.jpg"
-            alt="Alfa Laval WSPX-207 Industrial Centrifuge for machining coolant separation and concentration"
-            width="600"
-            height="360"
-            loading="lazy"
-            class="rounded-lg w-full"
-          />
-          <figcaption class="text-center text-sm text-gray-500 mt-2">Alfa Laval Industrial Centrifuge — Machining Coolant Application</figcaption>
-        </figure>
+    <details class="border border-gray-200 rounded-lg p-4 group">
+      <summary class="font-semibold text-navy cursor-pointer group-open:mb-3">What materials is the MOPX 207 bowl made from?</summary>
+      <p class="text-text text-sm leading-relaxed">
+        The MOPX 207 bowl body and bowl hood are constructed from 316L Duplex Stainless Steel, as is the disc stack. The distributor (disc carrier) and top disc are made from Marine Grade Bronze, with 316 Stainless Steel available as a special order option. The top covers (collecting covers) are made from Silium, an aluminum alloy. The frame is Nodular Cast Iron. These materials are specifically selected for mineral oil and fuel separation applications.
+      </p>
+    </details>
 
-        <div id="applications-wspx" class="mb-6">
-          <h3 class="text-xl font-semibold text-[#1B3A5C] mb-3">Alfa Laval WSPX-207 Applications</h3>
-          <p class="text-[#2D2D2D] text-sm mb-3">
-            The Alfa Laval WSPX-207 is very similar to the WHPX-407, except that this centrifuge is a <strong>concentrator</strong>. A concentrator centrifuge is designed to separate a small oil volume from a large volume of water or water-based fluid. Some of the popular applications are:
-          </p>
-          <ul class="space-y-1 text-sm">
-            <li><a href="/machining-coolant-recovery-pasteurizing-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Machining Coolant</a></li>
-            <li><a href="/industrial-washer-fluid-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-1.5 rounded hover:bg-gray-50"><span class="text-[#E8A317]">&#x279C;</span> Parts Washer Fluid</a></li>
-            <li class="flex items-center gap-2 text-[#2D2D2D] p-1.5"><span class="text-[#E8A317]">&#x279C;</span> Water-based Drawing Lubricant</li>
-          </ul>
-        </div>
+    <details class="border border-gray-200 rounded-lg p-4 group">
+      <summary class="font-semibold text-navy cursor-pointer group-open:mb-3">Is the Alfa Laval MOPX 207 available in an explosion-proof configuration?</summary>
+      <p class="text-text text-sm leading-relaxed">
+        Yes, the Alfa Laval MOPX 207 is available in a Class 1 Division 2 explosion-proof configuration, making it suitable for hazardous environments where flammable fuels and solvents are processed. This explosion-proof variant, sometimes referred to as the MAPX-207, is commonly used in diesel fuel processing, biodiesel production, and other applications involving volatile hydrocarbons. Contact Dolphin Centrifuge for pricing and availability of explosion-proof MOPX 207 centrifuge systems.
+      </p>
+    </details>
+  </div>
 
-        <div id="specifications-wspx">
-          <h3 class="text-xl font-semibold text-[#1B3A5C] mb-3">Alfa Laval WSPX-207 Specifications</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm text-[#2D2D2D] border-collapse">
-              <thead>
-                <tr class="bg-[#1B3A5C] text-white">
-                  <th class="px-4 py-3 text-left font-semibold w-1/2">Parameter</th>
-                  <th class="px-4 py-3 text-left font-semibold">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Model Type</td>
-                  <td class="px-4 py-3 font-mono">Alfa Laval WSPX 207 TGP 70</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Rated Capacity</td>
-                  <td class="px-4 py-3 font-mono">20 GPM on Synthetic Machine Coolant</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Sludge Space</td>
-                  <td class="px-4 py-3 font-mono">1.32 Gallons</td>
-                </tr>
-                <tr class="border-b border-gray-100 hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Motor HP</td>
-                  <td class="px-4 py-3 font-mono">7.5 HP</td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-4 py-3 font-semibold">Voltages</td>
-                  <td class="px-4 py-3 font-mono">230 / 460 V</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+  <!-- Related Links -->
+  <h2>Related Articles &amp; Pages</h2>
+  <div class="grid md:grid-cols-2 gap-3 text-sm not-prose">
+    <a href="/disc-stack-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Disc Stack Centrifuge Guide
+    </a>
+    <a href="/disc-stack-centrifuge-faq/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> 101 FAQ: Disc Stack Centrifuges
+    </a>
+    <a href="/diesel-fuel-purifier/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Diesel Fuel Purifier
+    </a>
+    <a href="/waste-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Waste Oil Centrifuge
+    </a>
+    <a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Fuel Oil Centrifuge
+    </a>
+    <a href="/biodiesel-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Biodiesel Centrifuge
+    </a>
+    <a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Machine Coolant Centrifuge
+    </a>
+    <a href="/centrifuge-product-loss-during-discharge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Centrifuge Product Loss During Discharge
+    </a>
+    <a href="/alfa-laval-centrifuge-service/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Centrifuge Service &amp; Repair
+    </a>
+    <a href="/centrifuge-sample-testing/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Centrifuge Sample Testing
+    </a>
+    <a href="/alfa-laval-mopx-209-centrifuge/" class="flex items-center gap-2 text-navy hover:text-gold p-2 rounded hover:bg-gray-50">
+      <span class="text-gold">&#x279C;</span> Alfa Laval MOPX 209 Centrifuge
+    </a>
+  </div>
 
-      <!-- Gallery -->
-      <div id="gallery" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6">Alfa Laval MOPX 207 Centrifuge Modules</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX-207-Diesel-Centrifuge-Skid-250.jpg"
-              alt="Alfa Laval MOPX-207 Diesel Centrifuge Skid — packaged diesel fuel centrifuge module"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX-207 Diesel Centrifuge Skid</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-System-for-Industrial-Oils-250.jpg"
-              alt="Alfa Laval MOPX 207 System for Industrial Oils — complete packaged centrifuge system"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX 207 System for Industrial Oils</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Skid-e1613936125333.jpg"
-              alt="Alfa Laval MOPX207 Used Oil Skid — waste oil centrifuge skid module"
-              width="243"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX 207 Used Oil Skid</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Biodiesel-Centrifuge-e1615144535939.jpg"
-              alt="Alfa Laval MOPX-207 Biodiesel Centrifuge — biodiesel glycerol separation module"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval MOPX-207 Biodiesel Centrifuge</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-e1613936306277.jpg"
-              alt="MOPX 207 Used Oil Purification Centrifuge — disc stack separator for waste oil recovery"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">MOPX 207 Used Oil Purification Centrifuge</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Aluminum-Drawing-Oil-Centrifuge-MOPX207-e1613936190849.jpg"
-              alt="Aluminum Drawing Oil Centrifuge MOPX-207 — draw oil and aluminum forming fluid centrifuge"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Aluminum Drawing Oil Centrifuge MOPX-207</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-Stainless-Steel-Disc-Stack-Centrifuge-600.jpg"
-              alt="Alfa Laval Stainless Steel Disc Stack Centrifuge — all stainless construction for special applications"
-              width="300"
-              height="374"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval Stainless Steel Disc Stack Centrifuge</figcaption>
-          </figure>
-
-          <figure class="text-center">
-            <img
-              src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2.jpg"
-              alt="Alfa Laval duplex diesel centrifuge Class 1 Div 2 — explosion-proof dual centrifuge system"
-              width="400"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <figcaption class="text-xs text-gray-500 mt-1">Alfa Laval Duplex Diesel Centrifuge — Class 1 Div 2</figcaption>
-          </figure>
-
-        </div>
-      </div>
-
-      <!-- FAQ Section -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6">Frequently Asked Questions — Alfa Laval MOPX 207</h2>
-
-        <div class="space-y-4">
-          <details class="border border-gray-200 rounded-lg p-4 group" open>
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the capacity of the Alfa Laval MOPX 207 centrifuge?</summary>
-            <p class="text-[#2D2D2D] text-sm leading-relaxed">
-              The Alfa Laval MOPX 207 can process 28 GPM of 13 cSt diesel fuel, 22 GPM of turbine lube oil, and 20 GPM of hydraulic oil. When processing distillate, the capacity increases to 32 GPM. It can also process over 30 Gallons per Minute of condensate, making it a highly versatile centrifuge for fuel and oil purification applications.
-            </p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the difference between the MOPX 207, WHPX 407, and WSPX 207?</summary>
-            <p class="text-[#2D2D2D] text-sm leading-relaxed">
-              The MOPX 207 is a full-discharge purifier designed for fuel and mineral oil separation with a 7.5 HP motor and 6,325 RPM bowl speed. The WHPX 407 is a partial-discharge centrifuge with a larger 10 HP motor and 7,125 RPM bowl speed, designed for fuel oils like light fuel oil (LFO) at 25 GPM. The WSPX 207 is a concentrator designed for water-based liquids such as machine coolants and washer fluids, with a 7.5 HP motor and 6,400 RPM bowl speed processing 20 GPM. The partial-discharge models (WHPX and WSPX) minimize fluid loss during sludge ejection.
-            </p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What materials is the MOPX 207 bowl made from?</summary>
-            <p class="text-[#2D2D2D] text-sm leading-relaxed">
-              The MOPX 207 bowl body and bowl hood are constructed from 316L Duplex Stainless Steel, as is the disc stack. The distributor (disc carrier) and top disc are made from Marine Grade Bronze, with 316 Stainless Steel available as a special order option. The top covers (collecting covers) are made from Silium, an aluminum alloy. The frame is Nodular Cast Iron. These materials are specifically selected for mineral oil and fuel separation applications.
-            </p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">Is the Alfa Laval MOPX 207 available in an explosion-proof configuration?</summary>
-            <p class="text-[#2D2D2D] text-sm leading-relaxed">
-              Yes, the Alfa Laval MOPX 207 is available in a Class 1 Division 2 explosion-proof configuration, making it suitable for hazardous environments where flammable fuels and solvents are processed. This explosion-proof variant, sometimes referred to as the MAPX-207, is commonly used in diesel fuel processing, biodiesel production, and other applications involving volatile hydrocarbons. Contact Dolphin Centrifuge for pricing and availability of explosion-proof MOPX 207 centrifuge systems.
-            </p>
-          </details>
-        </div>
-      </div>
-
-      <!-- Related Links -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Articles &amp; Pages</h2>
-        <div class="grid md:grid-cols-2 gap-3 text-sm">
-          <a href="/disc-stack-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Disc Stack Centrifuge Guide
-          </a>
-          <a href="/disc-stack-centrifuge-faq/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> 101 FAQ: Disc Stack Centrifuges
-          </a>
-          <a href="/diesel-fuel-purifier/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Diesel Fuel Purifier
-          </a>
-          <a href="/waste-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Waste Oil Centrifuge
-          </a>
-          <a href="/fuel-oil-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Fuel Oil Centrifuge
-          </a>
-          <a href="/biodiesel-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Biodiesel Centrifuge
-          </a>
-          <a href="/machine-coolant-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Machine Coolant Centrifuge
-          </a>
-          <a href="/centrifuge-product-loss-during-discharge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Centrifuge Product Loss During Discharge
-          </a>
-          <a href="/alfa-laval-centrifuge-service/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Centrifuge Service &amp; Repair
-          </a>
-          <a href="/centrifuge-sample-testing/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Centrifuge Sample Testing
-          </a>
-          <a href="/alfa-laval-mopx-209-centrifuge/" class="flex items-center gap-2 text-[#1B3A5C] hover:text-[#E8A317] p-2 rounded hover:bg-gray-50">
-            <span class="text-[#E8A317]">&#x279C;</span> Alfa Laval MOPX 209 Centrifuge
-          </a>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-8 text-white text-center">
-        <h2 class="text-2xl font-bold mb-3">Need an MOPX 207 — New, Rebuilt, or on a System Skid?</h2>
-        <p class="text-blue-100 mb-6 max-w-xl mx-auto">
-          Dolphin Centrifuge supplies, services, and builds complete skid systems around the Alfa Laval MOPX 207, WHPX 407, and WSPX 207. Contact us for pricing, availability, and system design.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white px-8 py-3 rounded-lg font-semibold hover:bg-amber-500 transition-colors">
-            Request a Quote
-          </a>
-          <a href="tel:+12485222573" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#1B3A5C] transition-colors">
-            (248) 522-2573
-          </a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">sales@dolphincentrifuge.com &nbsp;|&nbsp; 24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-</BaseLayout>
+</ApplicationLayout>

@@ -1,254 +1,269 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is tramp oil in machining coolant?",
+    answer: "Tramp oil is hydraulic fluid, slideway oil, and spindle oil that leaks from machine tool systems into the coolant sump. Unlike cutting oil (which is water-soluble coolant concentrate), tramp oil is immiscible with water. It floats on the sump surface, fosters bacterial growth, causes dermatitis, and degrades coolant performance."
+  },
+  {
+    question: "How does a centrifuge remove tramp oil from coolant?",
+    answer: "A disc stack centrifuge spins the coolant at 7,000+ Gs, which forces the denser water and fines outward and allows the lighter tramp oil to migrate inward to a separate discharge port. The cleaned coolant returns to the sump continuously, with solids automatically ejected every 10&ndash;60 minutes."
+  },
+  {
+    question: "What size centrifuge do I need for tramp oil removal?",
+    answer: "Sizing depends on sump volume and machine count. A typical rule is to turn over the full sump volume every 1&ndash;2 hours. For a 500-gallon sump, a DMPX-010 (7 GPM) provides a 70-minute turnover. For larger central sump systems (2,000+ gallons), a DMPX-028 (20&ndash;26 GPM) or DMPX-042 (32&ndash;47 GPM) is more appropriate."
+  },
+  {
+    question: "What is the ROI of a tramp oil centrifuge?",
+    answer: "Typical payback is 12&ndash;24 months. Savings come from reduced coolant replacement, lower waste disposal costs, extended tool life (15&ndash;30% improvement is common), fewer bacterial treatment chemicals, and reduced machine maintenance. Contact Dolphin Centrifuge for a facility-specific ROI analysis."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Tramp Oil Removal Centrifuge: How It Works & ROI",
-  "description": "Tramp oil contaminates machining coolant, breeds bacteria, and shortens tool life. Learn how a disc stack centrifuge removes it and the ROI of doing so.",
-  "author": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "datePublished": "2020-06-01",
+  "@type": "Product",
+  "name": "Tramp Oil Removal Centrifuge",
   "url": "https://dolphincentrifuge.com/tramp-oil-centrifuge/",
+  "description": "Disc stack centrifuge systems for continuous tramp oil removal from metalworking coolant sumps. Operating at 7,000+ Gs to separate hydraulic and slideway oils from water-soluble coolant.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "category": "Industrial Centrifuges",
+  "image": "https://dolphincentrifuge.com/images/tramp-oil-centrifuge/Dolphin-Centrifuge.webp",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is tramp oil in machining coolant?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Tramp oil is hydraulic fluid, slideway oil, and spindle oil that leaks from machine tool systems into the coolant sump. Unlike cutting oil (which is water-soluble coolant concentrate), tramp oil is immiscible with water. It floats on the sump surface, fosters bacterial growth, causes dermatitis, and degrades coolant performance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a centrifuge remove tramp oil from coolant?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A disc stack centrifuge spins the coolant at 7,000+ Gs, which forces the denser water and fines outward and allows the lighter tramp oil to migrate inward to a separate discharge port. The cleaned coolant (minus tramp oil and solid particles) returns to the sump. The process is continuous, with solids automatically ejected every 10–60 minutes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What size centrifuge do I need for tramp oil removal?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sizing depends on sump volume and machine count. A typical rule is to turn over the full sump volume every 1–2 hours. For a 500-gallon sump, a DMPX-010 (7 GPM) provides a 70-minute turnover. For larger central sump systems (2,000+ gallons), a DMPX-028 (20–26 GPM) or DMPX-042 (32–47 GPM) is more appropriate. Dolphin Centrifuge provides free sizing consultation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the ROI of a tramp oil centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Typical payback is 12–24 months. Savings come from reduced coolant replacement (tramp oil-contaminated coolant must be dumped more frequently), lower waste disposal costs, extended tool life (15–30% improvement is common), fewer bacterial treatment chemicals, and reduced machine maintenance. Contact Dolphin Centrifuge for a facility-specific ROI analysis."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'what-is-tramp-oil', label: 'What Is Tramp Oil?' },
+  { id: 'why-remove', label: 'Why Tramp Oil Must Be Removed' },
+  { id: 'how-centrifuge-removes', label: 'How a Disc Centrifuge Removes It' },
+  { id: 'comparison', label: 'Comparison to Skimmers & Coalescers' },
+  { id: 'sizing', label: 'Flow Rates and Centrifuge Sizing' },
+  { id: 'roi', label: 'ROI of Tramp Oil Removal' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+  { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+  { label: 'Disc Stack Centrifuge Applications', href: '/disc-stack-centrifuge-applications/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-010', href: '/centrifuges/dmpx-010/', description: 'Small sump &mdash; 7 GPM' },
+  { label: 'DMPX-028', href: '/centrifuges/dmpx-028/', description: 'Medium sump &mdash; 20&ndash;26 GPM' },
+  { label: 'DMPX-042', href: '/centrifuges/dmpx-042/', description: 'Large sump &mdash; 32&ndash;47 GPM' },
+];
 ---
 
-<BaseLayout
-  title="Tramp Oil Removal Centrifuge | Dolphin Centrifuge"
-  description="Tramp oil contaminates machining coolant, breeds bacteria, and shortens tool life. Learn how a disc stack centrifuge removes it and the ROI of doing so."
+<ApplicationLayout
+  title="Tramp Oil Removal Centrifuge"
+  description="Disc stack centrifuges remove tramp oil from machining coolant at 7,000+ Gs, extending coolant life and cutting waste disposal costs. Dolphin Centrifuge, Warren MI."
+  category="applications"
+  categoryLabel="Applications"
+  heroImage="/images/tramp-oil-centrifuge/Dolphin-Centrifuge.webp"
+  heroImageAlt="Disc stack centrifuge for tramp oil removal from machine coolant"
   canonicalUrl="https://dolphincentrifuge.com/tramp-oil-centrifuge/"
-  breadcrumbs={[{label: 'Applications', href: '/disc-stack-centrifuge-applications/'}, {label: 'Tramp Oil Removal'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Applications</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Tramp Oil Removal Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Tramp oil contaminates coolant sumps, breeds bacteria, shortens tool life, and creates worker health hazards. A disc stack centrifuge removes it continuously and completely — extending coolant life and protecting your machining operation.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for tramp oil removal from metalworking coolant sumps. Operating at 7,000+ Gs, these self-cleaning separators continuously remove hydraulic and slideway oils while leaving water-soluble coolant intact.</p>
+  </div>
+
+  <!-- What Is Tramp Oil -->
+  <h2 id="what-is-tramp-oil">What Is Tramp Oil?</h2>
+
+  <div class="not-prose flex flex-col md:flex-row gap-6 items-start my-6">
+    <div>
+      <img
+        src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX-307-Water-Based-Coolant-Centrifuge.webp"
+        alt="Alfa Laval WSPX-307 Water-Based Coolant Centrifuge for tramp oil separation"
+        width="750"
+        height="505"
+        loading="lazy"
+        class="rounded-lg shadow-sm max-w-xs md:max-w-sm"
+      />
     </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for tramp oil removal from metalworking coolant sumps. Operating at 7,000+ Gs, these self-cleaning separators continuously remove hydraulic and slideway oils while leaving water-soluble coolant intact. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in coolant and machining fluid purification.</p>
-      </div>
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <img src="/images/tramp-oil-centrifuge/Dolphin-Centrifuge.png" alt="Disc stack centrifuge for tramp oil removal from machine coolant" width="1000" height="673" loading="eager" class="rounded-lg w-full mb-4" />
-        <p class="text-text-light leading-relaxed"><strong>Summary:</strong> Tramp oil removal is one of the clearest ROI applications for disc centrifuge technology in metalworking. A single centrifuge protecting a large coolant sump typically pays for itself in 12–24 months through reduced coolant replacement frequency, fewer machine downtime events, and lower waste disposal costs.</p>
-      </div>
-
-      <!-- What Is Tramp Oil -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">What Is Tramp Oil?</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX-307-Water-Based-Coolant-Centrifuge.jpg" alt="Alfa Laval WSPX-307 Water-Based Coolant Centrifuge for tramp oil separation" width="750" height="505" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>Tramp oil is petroleum-based lubricant that enters a metalworking coolant sump from sources other than the coolant itself. Unlike the water-soluble coolant concentrate intentionally mixed into the sump, tramp oil is an uninvited contaminant originating from:</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">Machine tool lubrication systems:</strong> Hydraulic oil, slideway oil, and spindle lubricants leak from machine tool components directly into the coolant sump over time. Even a well-maintained machine tool may contribute 1–5 liters of tramp oil per week.</li>
-            <li><strong class="text-navy">Parts transport oils:</strong> Residual machining oils from incoming workpieces drip into the coolant as parts are machined.</li>
-            <li><strong class="text-navy">Rust preventive oils:</strong> Anti-corrosion coatings applied to incoming material or fixtures dissolve partially into the coolant.</li>
-            <li><strong class="text-navy">Forklift and overhead crane drips:</strong> In facilities with busy material handling operations, petroleum drips reach coolant sumps.</li>
-          </ul>
-          <p>In a typical machining facility, an active coolant sump accumulates tramp oil at 0.5–3% of sump volume per week. A 2,000-liter sump may be gaining 10–60 liters of tramp oil per week — enough to cause serious contamination problems within days to weeks if not removed.</p>
-        </div>
-      </div>
-
-      <!-- Why It Must Be Removed -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Why Tramp Oil Must Be Removed</h2>
-        <div class="space-y-3 text-text-light">
-          <p>Tramp oil is more than an aesthetic problem. Its presence in the coolant system causes a cascade of degradation effects:</p>
-
-          <h3 class="font-semibold text-navy">Bacterial Growth and Coolant Degradation</h3>
-          <p>Tramp oil coats the surface of the coolant sump with an oxygen-limiting film. Beneath this film, anaerobic bacteria thrive — breaking down the coolant's biocide package, consuming emulsifiers, and producing sulfurous compounds that cause the characteristic rotten-egg smell of a failed coolant. A sump with high tramp oil content may require complete dump-and-recharge every 2–4 weeks rather than every 6–12 months, representing enormous coolant cost and disposal expense.</p>
-
-          <h3 class="font-semibold text-navy">Tool Wear and Surface Finish Degradation</h3>
-          <p>Effective coolant must reach the cutting zone as a uniform emulsion. Tramp oil disrupts the emulsion stability, causing inconsistent tool lubrication and cooling. The result is accelerated tool wear, shorter tool life, and degraded surface finish quality — all directly impacting production cost and reject rates.</p>
-
-          <h3 class="font-semibold text-navy">Foam Generation</h3>
-          <p>Tramp oil — particularly hydraulic oil — reacts with coolant emulsifiers to generate persistent foam. Foam reduces coolant flow, causes pump cavitation, makes sump level monitoring unreliable, and creates housekeeping problems as foam overflows sumps.</p>
-
-          <h3 class="font-semibold text-navy">Worker Health Hazards</h3>
-          <p>Tramp oil in coolant aerosol (mist) is a recognized occupational health hazard. The fine oil droplets generated during high-speed machining operations carry bacteria and irritating compounds that cause dermatitis and respiratory irritation. NIOSH and OSHA have established coolant mist exposure limits specifically because of this risk. Removing tramp oil significantly reduces mist toxicity.</p>
-
-          <h3 class="font-semibold text-navy">Machine Staining and Corrosion</h3>
-          <p>Tramp-oil-contaminated coolant loses its rust inhibitor effectiveness — leading to surface staining on machined parts and corrosion on machine tool surfaces. Rework and part rejection costs from corrosion-related issues can be significant.</p>
-        </div>
-      </div>
-
-      <!-- How a Disc Centrifuge Removes It -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">How a Disc Centrifuge Removes Tramp Oil</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX303-Coolant-Centrifuge.jpg" alt="Machine coolant centrifuge for tramp oil removal - WSPX303 model" width="400" height="400" loading="lazy" class="rounded-lg mx-auto mb-4" />
-          <p>Tramp oil separation is an ideal application for disc centrifuge technology because the separation challenge is purely a density difference between two liquids — exactly what disc centrifuges are engineered to exploit.</p>
-          <p>Petroleum-based tramp oils have specific gravities of approximately 0.85–0.90 g/cm³. Metalworking coolant (water-based emulsion at typical concentrations) has a specific gravity of approximately 0.99–1.00 g/cm³. This density difference of 0.09–0.15 g/cm³ is sufficient for disc centrifuge separation at 6,000–9,000× gravity.</p>
-          <p>The separation process:</p>
-          <ol class="list-decimal list-inside space-y-2 ml-2">
-            <li>Contaminated coolant is pumped from the sump to the centrifuge feed inlet at a controlled flow rate.</li>
-            <li>Inside the rotating disc stack, the density difference between tramp oil and coolant is amplified by centrifugal force. Coolant (denser) moves outward; tramp oil (lighter) concentrates in the inner zone.</li>
-            <li>Clarified coolant exits through the light phase outlet — in this application, the coolant is the "heavy" phase being clarified of even lighter tramp oil.</li>
-            <li>Concentrated tramp oil accumulates and is continuously discharged through the heavy-phase (actually light-density) outlet or via periodic bowl discharge.</li>
-            <li>Fine metal swarf particles present in the coolant are simultaneously removed as solids, accumulating in the bowl sludge space and discharged periodically.</li>
-          </ol>
-          <p>The result is coolant returning to the sump with tramp oil content reduced to below 0.1% — essentially free of tramp oil contamination on a continuous basis.</p>
-        </div>
-      </div>
-
-      <!-- Comparison to Alternatives -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Comparison to Skimmers and Coalescers</h2>
-        <div class="space-y-3 text-text-light">
-          <img src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX-307-Coolant-Centrifuge-600.jpg" alt="Alfa Laval WSPX-307 coolant centrifuge compared to conventional tramp oil removal methods" width="600" height="423" loading="lazy" class="rounded-lg w-full mb-4" />
-          <p>Tramp oil skimmers and gravity coalescers are simpler and less expensive than centrifuges, but they have significant limitations:</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">Belt/disk skimmers:</strong> Remove only the free-floating surface layer of tramp oil. Emulsified or finely dispersed tramp oil — which accounts for most of the contamination in an active sump — passes through completely untouched. Effectiveness: typically 20–40% tramp oil reduction.</li>
-            <li><strong class="text-navy">Gravity coalescers:</strong> Use media to coalesce small oil droplets into larger ones that float to the surface for skimming. More effective than skimmers alone, but still limited to droplets larger than approximately 50–100 microns. Fine emulsified oil passes through. Effectiveness: typically 40–70% tramp oil reduction. Also requires media replacement and cleaning.</li>
-            <li><strong class="text-navy">Disc centrifuge:</strong> Operates at 6,000–10,000× gravity, separating oil droplets down to 1–2 micron size. Removes both free and emulsified tramp oil simultaneously. Also removes fine metal fines as a bonus. Effectiveness: typically 90–99%+ tramp oil reduction.</li>
-          </ul>
-          <p>For sumps where tramp oil control is critical to coolant life and part quality, the centrifuge delivers results that skimmers and coalescers simply cannot match.</p>
-        </div>
-      </div>
-
-      <!-- Flow Rates and Sizing -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">Flow Rates and Centrifuge Sizing</h2>
-        <div class="space-y-3 text-text-light">
-          <p>Sizing a tramp oil centrifuge for a coolant sump application requires two inputs: the sump volume and the tramp oil ingress rate.</p>
-          <p>As a general rule, the centrifuge should be capable of processing the entire sump volume in 4–8 hours during continuous operation. This "turnover time" ensures that tramp oil entering the sump is captured before it builds to damaging concentrations.</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">Small sump (500–2,000 L):</strong> 200–500 L/hour centrifuge capacity typically sufficient</li>
-            <li><strong class="text-navy">Medium sump (2,000–10,000 L):</strong> 1,000–2,500 L/hour</li>
-            <li><strong class="text-navy">Large central sump or multiple machines (10,000–50,000 L):</strong> 3,000–10,000+ L/hour; may use multiple centrifuges or a larger industrial model</li>
-          </ul>
-          <p>For <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">machine coolant centrifuge</a> and <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">cutting oil centrifuge</a> applications, the same sizing logic applies with the separation parameters adjusted for the specific coolant and oil types involved.</p>
-        </div>
-      </div>
-
-      <!-- ROI -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-4">ROI of Tramp Oil Removal</h2>
-        <div class="space-y-3 text-text-light">
-          <p>The return on investment for a tramp oil centrifuge is typically faster than most capital equipment purchases. The savings come from multiple sources simultaneously:</p>
-          <ul class="list-disc list-inside space-y-2 ml-2">
-            <li><strong class="text-navy">Coolant extension:</strong> Sumps contaminated with tramp oil require dump-and-recharge every 2–8 weeks. Clean sumps typically run 6–18 months. For a 5,000-liter sump with coolant cost of $20/liter, avoiding even two extra dump cycles per year saves $200,000 annually.</li>
-            <li><strong class="text-navy">Reduced coolant concentrate usage:</strong> Bacteria-degraded coolant loses concentration faster, requiring more frequent concentrate additions to maintain the correct mixing ratio. Removing tramp oil stabilizes coolant concentration and reduces concentrate consumption 20–40%.</li>
-            <li><strong class="text-navy">Waste disposal cost reduction:</strong> Spent coolant is regulated waste with disposal costs of $0.20–$0.80 per liter. Halving the frequency of sump dumps halves the disposal cost.</li>
-            <li><strong class="text-navy">Tool life improvement:</strong> Facilities consistently report 15–30% improvement in tool life after implementing effective tramp oil removal, from restored coolant lubrication and cooling performance.</li>
-            <li><strong class="text-navy">Reduced maintenance and downtime:</strong> Cleaner sumps mean fewer pump clogs, cleaner filters, and less machine maintenance related to coolant degradation.</li>
-          </ul>
-          <p>Contact Dolphin Centrifuge to discuss a specific ROI analysis for your facility — the numbers are often compelling enough to justify expedited purchase approval.</p>
-        </div>
-      </div>
-
-      <p class="text-text-light leading-relaxed">Ready to discuss tramp oil removal for your facility? Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is tramp oil in machining coolant?</h3>
-            <p class="text-text-light text-sm">Tramp oil is hydraulic fluid, slideway oil, and spindle oil that leaks from machine tool systems into the coolant sump. Unlike cutting oil (which is water-soluble coolant concentrate), tramp oil is immiscible with water. It floats on the sump surface, fosters bacterial growth, causes dermatitis, and degrades coolant performance.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How does a centrifuge remove tramp oil from coolant?</h3>
-            <p class="text-text-light text-sm">A disc stack centrifuge spins the coolant at 7,000+ Gs, which forces the denser water and fines outward and allows the lighter tramp oil to migrate inward to a separate discharge port. The cleaned coolant returns to the sump continuously, with solids automatically ejected every 10–60 minutes.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What size centrifuge do I need for tramp oil removal?</h3>
-            <p class="text-text-light text-sm">Sizing depends on sump volume and machine count. A typical rule is to turn over the full sump volume every 1–2 hours. For a 500-gallon sump, a DMPX-010 (7 GPM) provides a 70-minute turnover. For larger central sump systems (2,000+ gallons), a DMPX-028 (20–26 GPM) or DMPX-042 (32–47 GPM) is more appropriate.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the ROI of a tramp oil centrifuge?</h3>
-            <p class="text-text-light text-sm">Typical payback is 12–24 months. Savings come from reduced coolant replacement, lower waste disposal costs, extended tool life (15–30% improvement is common), fewer bacterial treatment chemicals, and reduced machine maintenance. Contact Dolphin Centrifuge for a facility-specific ROI analysis.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Related Articles -->
-      <div class="mt-10">
-        <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="/machine-coolant-centrifuge/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Machine Coolant Centrifuge</span>
-            <p class="text-sm text-text-light mt-1">Centrifuge selection and sizing for metalworking coolant systems.</p>
-          </a>
-          <a href="/cutting-oil-centrifuge/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Cutting Oil Centrifuge</span>
-            <p class="text-sm text-text-light mt-1">Separating cutting oil from metalworking fluid and fines.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-efficiency/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Disc Stack Centrifuge Efficiency</span>
-            <p class="text-sm text-text-light mt-1">How separation efficiency is measured and maximized.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-lubrication/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Disc Stack Centrifuge Lubrication</span>
-            <p class="text-sm text-text-light mt-1">Oil grades, change intervals, and lubrication best practices.</p>
-          </a>
-        </div>
-      </div>
+    <div class="flex-1">
+      <p class="text-text leading-relaxed mb-4">
+        Tramp oil is petroleum-based lubricant that enters a metalworking coolant sump from sources other than the coolant itself. Unlike the water-soluble coolant concentrate intentionally mixed into the sump, tramp oil is an uninvited contaminant originating from:
+      </p>
+      <ul class="list-disc list-inside space-y-2 ml-2 text-text-light">
+        <li><strong class="text-navy">Machine tool lubrication systems:</strong> Hydraulic oil, slideway oil, and spindle lubricants leak from machine tool components directly into the coolant sump over time. Even a well-maintained machine tool may contribute 1&ndash;5 liters of tramp oil per week.</li>
+        <li><strong class="text-navy">Parts transport oils:</strong> Residual machining oils from incoming workpieces drip into the coolant as parts are machined.</li>
+        <li><strong class="text-navy">Rust preventive oils:</strong> Anti-corrosion coatings applied to incoming material or fixtures dissolve partially into the coolant.</li>
+        <li><strong class="text-navy">Forklift and overhead crane drips:</strong> In facilities with busy material handling operations, petroleum drips reach coolant sumps.</li>
+      </ul>
     </div>
-  </section>
+  </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <p>
+    In a typical machining facility, an active coolant sump accumulates tramp oil at 0.5&ndash;3% of sump volume per week. A 2,000-liter sump may be gaining 10&ndash;60 liters of tramp oil per week &mdash; enough to cause serious contamination problems within days to weeks if not removed.
+  </p>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Stop Losing Money to Tramp Oil</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Dolphin Centrifuge can help you select the right centrifuge for your coolant sump size and tramp oil load, and verify performance with a sample test before you commit.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+  <!-- Why It Must Be Removed -->
+  <h2 id="why-remove">Why Tramp Oil Must Be Removed</h2>
+
+  <p>
+    Tramp oil is more than an aesthetic problem. Its presence in the coolant system causes a cascade of degradation effects:
+  </p>
+
+  <h3>Bacterial Growth and Coolant Degradation</h3>
+  <p>
+    Tramp oil coats the surface of the coolant sump with an oxygen-limiting film. Beneath this film, anaerobic bacteria thrive &mdash; breaking down the coolant's biocide package, consuming emulsifiers, and producing sulfurous compounds that cause the characteristic rotten-egg smell of a failed coolant. A sump with high tramp oil content may require complete dump-and-recharge every 2&ndash;4 weeks rather than every 6&ndash;12 months, representing enormous coolant cost and disposal expense.
+  </p>
+
+  <h3>Tool Wear and Surface Finish Degradation</h3>
+  <p>
+    Effective coolant must reach the cutting zone as a uniform emulsion. Tramp oil disrupts the emulsion stability, causing inconsistent tool lubrication and cooling. The result is accelerated tool wear, shorter tool life, and degraded surface finish quality &mdash; all directly impacting production cost and reject rates.
+  </p>
+
+  <h3>Foam Generation</h3>
+  <p>
+    Tramp oil &mdash; particularly hydraulic oil &mdash; reacts with coolant emulsifiers to generate persistent foam. Foam reduces coolant flow, causes pump cavitation, makes sump level monitoring unreliable, and creates housekeeping problems as foam overflows sumps.
+  </p>
+
+  <h3>Worker Health Hazards</h3>
+  <p>
+    Tramp oil in coolant aerosol (mist) is a recognized occupational health hazard. The fine oil droplets generated during high-speed machining operations carry bacteria and irritating compounds that cause dermatitis and respiratory irritation. NIOSH and OSHA have established coolant mist exposure limits specifically because of this risk. Removing tramp oil significantly reduces mist toxicity.
+  </p>
+
+  <h3>Machine Staining and Corrosion</h3>
+  <p>
+    Tramp-oil-contaminated coolant loses its rust inhibitor effectiveness &mdash; leading to surface staining on machined parts and corrosion on machine tool surfaces. Rework and part rejection costs from corrosion-related issues can be significant.
+  </p>
+
+  <!-- How a Disc Centrifuge Removes It -->
+  <h2 id="how-centrifuge-removes">How a Disc Centrifuge Removes Tramp Oil</h2>
+
+  <div class="not-prose flex flex-col md:flex-row gap-6 items-start my-6">
+    <div>
+      <img
+        src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX303-Coolant-Centrifuge.webp"
+        alt="Machine coolant centrifuge for tramp oil removal - WSPX303 model"
+        width="400"
+        height="400"
+        loading="lazy"
+        class="rounded-lg shadow-sm max-w-xs"
+      />
     </div>
-  </section>
-</BaseLayout>
+    <div class="flex-1">
+      <p class="text-text leading-relaxed mb-4">
+        Tramp oil separation is an ideal application for <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">disc centrifuge technology</a> because the separation challenge is purely a density difference between two liquids &mdash; exactly what disc centrifuges are engineered to exploit.
+      </p>
+      <p class="text-text leading-relaxed">
+        Petroleum-based tramp oils have specific gravities of approximately 0.85&ndash;0.90 g/cm&sup3;. Metalworking coolant (water-based emulsion at typical concentrations) has a specific gravity of approximately 0.99&ndash;1.00 g/cm&sup3;. This density difference of 0.09&ndash;0.15 g/cm&sup3; is sufficient for disc centrifuge separation at 6,000&ndash;9,000&times; gravity.
+      </p>
+    </div>
+  </div>
+
+  <p>The separation process:</p>
+  <ol>
+    <li>Contaminated coolant is pumped from the sump to the centrifuge feed inlet at a controlled flow rate.</li>
+    <li>Inside the rotating disc stack, the density difference between tramp oil and coolant is amplified by centrifugal force. Coolant (denser) moves outward; tramp oil (lighter) concentrates in the inner zone.</li>
+    <li>Clarified coolant exits through the light phase outlet &mdash; in this application, the coolant is the &ldquo;heavy&rdquo; phase being clarified of even lighter tramp oil.</li>
+    <li>Concentrated tramp oil accumulates and is continuously discharged through the heavy-phase (actually light-density) outlet or via periodic bowl discharge.</li>
+    <li>Fine metal swarf particles present in the coolant are simultaneously removed as solids, accumulating in the bowl sludge space and discharged periodically.</li>
+  </ol>
+
+  <p>
+    The result is coolant returning to the sump with tramp oil content reduced to below 0.1% &mdash; essentially free of tramp oil contamination on a continuous basis.
+  </p>
+
+  <!-- Comparison to Alternatives -->
+  <h2 id="comparison">Comparison to Skimmers and Coalescers</h2>
+
+  <div class="not-prose flex flex-col md:flex-row gap-6 items-start my-6">
+    <div>
+      <img
+        src="/images/tramp-oil-centrifuge/Alfa-Laval-WSPX-307-Coolant-Centrifuge-600.webp"
+        alt="Alfa Laval WSPX-307 coolant centrifuge compared to conventional tramp oil removal methods"
+        width="600"
+        height="423"
+        loading="lazy"
+        class="rounded-lg shadow-sm max-w-xs md:max-w-sm"
+      />
+    </div>
+    <div class="flex-1">
+      <p class="text-text leading-relaxed mb-4">
+        Tramp oil skimmers and gravity coalescers are simpler and less expensive than centrifuges, but they have significant limitations:
+      </p>
+      <ul class="list-disc list-inside space-y-2 ml-2 text-text-light">
+        <li><strong class="text-navy">Belt/disk skimmers:</strong> Remove only the free-floating surface layer of tramp oil. Emulsified or finely dispersed tramp oil &mdash; which accounts for most of the contamination in an active sump &mdash; passes through completely untouched. Effectiveness: typically 20&ndash;40% tramp oil reduction.</li>
+        <li><strong class="text-navy">Gravity coalescers:</strong> Use media to coalesce small oil droplets into larger ones that float to the surface for skimming. More effective than skimmers alone, but still limited to droplets larger than approximately 50&ndash;100 microns. Effectiveness: typically 40&ndash;70% tramp oil reduction.</li>
+        <li><strong class="text-navy">Disc centrifuge:</strong> Operates at 6,000&ndash;10,000&times; gravity, separating oil droplets down to 1&ndash;2 micron size. Removes both free and emulsified tramp oil simultaneously. Also removes fine metal fines as a bonus. Effectiveness: typically 90&ndash;99%+ tramp oil reduction.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    For sumps where tramp oil control is critical to coolant life and part quality, the centrifuge delivers results that skimmers and coalescers simply cannot match.
+  </p>
+
+  <!-- Flow Rates and Sizing -->
+  <h2 id="sizing">Flow Rates and Centrifuge Sizing</h2>
+
+  <p>
+    Sizing a tramp oil centrifuge for a coolant sump application requires two inputs: the sump volume and the tramp oil ingress rate.
+  </p>
+  <p>
+    As a general rule, the centrifuge should be capable of processing the entire sump volume in 4&ndash;8 hours during continuous operation. This &ldquo;turnover time&rdquo; ensures that tramp oil entering the sump is captured before it builds to damaging concentrations.
+  </p>
+  <ul>
+    <li><strong>Small sump (500&ndash;2,000 L):</strong> 200&ndash;500 L/hour centrifuge capacity typically sufficient</li>
+    <li><strong>Medium sump (2,000&ndash;10,000 L):</strong> 1,000&ndash;2,500 L/hour</li>
+    <li><strong>Large central sump or multiple machines (10,000&ndash;50,000 L):</strong> 3,000&ndash;10,000+ L/hour; may use multiple centrifuges or a larger industrial model</li>
+  </ul>
+  <p>
+    For <a href="/machine-coolant-centrifuge/">machine coolant centrifuge</a> and <a href="/cutting-oil-centrifuge/">cutting oil centrifuge</a> applications, the same sizing logic applies with the separation parameters adjusted for the specific coolant and oil types involved. See also our guide on <a href="/disc-stack-centrifuge-lubrication/">disc stack centrifuge lubrication</a> for maintenance best practices.
+  </p>
+
+  <!-- ROI -->
+  <h2 id="roi">ROI of Tramp Oil Removal</h2>
+
+  <p>
+    The return on investment for a tramp oil centrifuge is typically faster than most capital equipment purchases. The savings come from multiple sources simultaneously:
+  </p>
+  <ul>
+    <li><strong>Coolant extension:</strong> Sumps contaminated with tramp oil require dump-and-recharge every 2&ndash;8 weeks. Clean sumps typically run 6&ndash;18 months. For a 5,000-liter sump with coolant cost of $20/liter, avoiding even two extra dump cycles per year saves $200,000 annually.</li>
+    <li><strong>Reduced coolant concentrate usage:</strong> Bacteria-degraded coolant loses concentration faster, requiring more frequent concentrate additions. Removing tramp oil stabilizes coolant concentration and reduces concentrate consumption 20&ndash;40%.</li>
+    <li><strong>Waste disposal cost reduction:</strong> Spent coolant is regulated waste with disposal costs of $0.20&ndash;$0.80 per liter. Halving the frequency of sump dumps halves the disposal cost.</li>
+    <li><strong>Tool life improvement:</strong> Facilities consistently report 15&ndash;30% improvement in tool life after implementing effective tramp oil removal, from restored coolant lubrication and cooling performance.</li>
+    <li><strong>Reduced maintenance and downtime:</strong> Cleaner sumps mean fewer pump clogs, cleaner filters, and less machine maintenance related to coolant degradation.</li>
+  </ul>
+  <p>
+    Contact Dolphin Centrifuge to discuss a specific ROI analysis for your facility &mdash; the numbers are often compelling enough to justify expedited purchase approval.
+  </p>
+  <p>
+    Ready to discuss tramp oil removal for your facility? Contact Dolphin Centrifuge at <a href="tel:+12485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a>. You can also explore our <a href="/industrial-centrifuge-sample-testing/">free sample testing service</a> to verify separation performance before purchasing.
+  </p>
+
+  <!-- FAQ -->
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>
