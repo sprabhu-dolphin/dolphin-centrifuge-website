@@ -21,6 +21,33 @@ const jsonLd = {
   "image": "https://dolphincentrifuge.com/images/centrifuge-clogged-bowl-discs/Alfa-Laval-Clogged-Bowl-1000.jpg",
   "mainEntityOfPage": "https://dolphincentrifuge.com/centrifuge-clogged-bowl-discs/"
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What causes a disc stack centrifuge bowl to clog?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The most common causes are excess sludge in the process fluid (often from a settled feed tank), a sludge discharge timer set too long, failure of the sludge discharge mechanism, or solids lighter than the process liquid that migrate into the disc stack rather than the sludge space." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I clean a clogged disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Two methods: (1) Complete bowl disassembly — stop the centrifuge, disassemble the bowl, and clean each disc individually (soaking in diesel overnight for severe clogging). (2) For minor clogging, run multiple timed discharge cycles with clean fluid to flush sludge out incrementally. If separation performance does not recover, full disassembly is required." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I prevent disc stack clogging?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Agitate the feed tank constantly to keep sludge in suspension, monitor process fluid sludge content regularly, install a centrate outlet pressure sensor with a feed shutoff interlock to detect flow loss early, and verify that sludge discharge cycles are completing normally at each shift." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the symptoms of a clogged disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Unexplained reduction in centrate flow rate, higher-than-normal vibration levels due to unbalanced sludge accumulation, and degraded separation quality with phase cross-contamination — light phase in the heavy phase outlet or vice versa." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -256,6 +283,30 @@ const jsonLd = {
           </a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What causes a disc stack centrifuge bowl to clog?</h3>
+            <p class="text-text-light text-sm">The most common causes are excess sludge in the process fluid (often from a settled feed tank), a sludge discharge timer set too long, failure of the sludge discharge mechanism, or solids lighter than the process liquid that migrate into the disc stack rather than the sludge space.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I clean a clogged disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">Two methods: (1) Complete bowl disassembly — stop the centrifuge, disassemble the bowl, and clean each disc individually (soaking in diesel overnight for severe clogging). (2) For minor clogging, run multiple timed discharge cycles with clean fluid to flush sludge out incrementally. If performance does not recover, full disassembly is required.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How can I prevent disc stack clogging?</h3>
+            <p class="text-text-light text-sm">Agitate the feed tank constantly to keep sludge in suspension, monitor process fluid sludge content regularly, install a centrate outlet pressure sensor with feed shutoff interlock, and verify that sludge discharge cycles are completing normally each shift.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What are the symptoms of a clogged disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">Unexplained reduction in centrate flow rate, higher-than-normal vibration levels due to unbalanced sludge accumulation, and degraded separation quality with phase cross-contamination — light phase in the heavy phase outlet or vice versa.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">

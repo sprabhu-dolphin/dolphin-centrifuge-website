@@ -18,6 +18,28 @@ const jsonLd = {
   "datePublished": "2021-06-01",
   "dateModified": "2024-06-01"
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a disc centrifuge friction clutch and what does it do?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup. Without the clutch, the motor would be required to start under the full inertia of the bowl assembly." }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does a disc centrifuge friction clutch last?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle." }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I replace the friction clutch on my centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -297,6 +319,26 @@ const jsonLd = {
         </div>
         <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is a disc centrifuge friction clutch and what does it do?</h3>
+            <p class="text-text-light text-sm">A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How long does a disc centrifuge friction clutch last?</h3>
+            <p class="text-text-light text-sm">Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">When should I replace the friction clutch on my centrifuge?</h3>
+            <p class="text-text-light text-sm">Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

@@ -11,6 +11,28 @@ const jsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/disc-centrifuge-backpressure/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is back pressure in a disc centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Back pressure is the positive pressure maintained at the light-phase (liquid) outlet of a disc centrifuge. It positions the liquid interface between the light and heavy phases at the correct radius within the bowl, preventing heavy phase from contaminating the light phase outlet or vice versa." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I set the correct back pressure in a disc centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Back pressure is set by selecting the correct gravity disc (interface disc) size. Larger gravity discs increase back pressure and move the interface inward; smaller discs decrease back pressure and move it outward. Match the gravity disc to the density difference between your light and heavy phases using the centrifuge manufacturer's gravity disc selection chart." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if centrifuge back pressure is incorrect?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Too low: the interface moves outward past the gravity disc, causing heavy phase (water, sludge) to flood the light phase outlet — the centrifuge 'loses its water seal.' Too high: the interface moves inward, causing light phase to spill over into the heavy phase outlet. Both conditions degrade separation quality and can damage downstream equipment." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -138,6 +160,26 @@ const jsonLd = {
       </div>
 
       <p class="text-text-light leading-relaxed">For back pressure setup assistance or gravity disc selection support, call Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is back pressure in a disc centrifuge?</h3>
+            <p class="text-text-light text-sm">Back pressure is the positive pressure maintained at the light-phase (liquid) outlet of a disc centrifuge. It positions the liquid interface between the light and heavy phases at the correct radius within the bowl, preventing heavy phase from contaminating the light phase outlet or vice versa.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I set the correct back pressure in a disc centrifuge?</h3>
+            <p class="text-text-light text-sm">Back pressure is set by selecting the correct gravity disc (interface disc) size. Larger gravity discs increase back pressure and move the interface inward; smaller discs decrease back pressure and move it outward. Match the gravity disc to the density difference between your light and heavy phases using the centrifuge manufacturer's gravity disc selection chart.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What happens if centrifuge back pressure is too high or too low?</h3>
+            <p class="text-text-light text-sm">Too low: the interface moves outward past the gravity disc, causing heavy phase (water, sludge) to flood the light phase outlet — the centrifuge loses its liquid seal. Too high: the interface moves inward, causing light phase to overflow into the heavy phase outlet. Both conditions degrade separation quality.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mt-10">
