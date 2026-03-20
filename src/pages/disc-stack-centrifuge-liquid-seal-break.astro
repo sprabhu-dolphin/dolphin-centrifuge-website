@@ -11,6 +11,33 @@ const jsonLd = {
   "datePublished": "2021-02-01",
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-liquid-seal-break/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is liquid seal break in a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Liquid seal break (also called breakover or loss of liquid seal) is when the rotating liquid ring that seals the centrifuge bowl collapses, allowing air to enter the bowl. This causes the separated light phase (oil or clean liquid) to be lost from the centrate outlet, process liquid to flood out of the machine, and immediate separation failure. The liquid seal is maintained by the balance between feed flow rate, gravity disc size, and back-pressure — any disruption can trigger a break." }
+    },
+    {
+      "@type": "Question",
+      "name": "What causes liquid seal break in a centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Common causes of liquid seal break include: (1) incorrect gravity disc size — too large a disc diameter reduces the seal, (2) low feed flow rate — insufficient liquid to maintain the seal ring, (3) high centrate back-pressure — excessive downstream resistance, (4) feed interruption or pump cavitation, (5) incorrect operating water volume during startup. Density changes in the process fluid (due to temperature swings or batch variation) can also destabilize the seal." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I detect liquid seal break?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Mechanical signs of liquid seal break include: liquid flooding from the centrate outlet and bowl hood, a sudden drop in centrate flow, and process fluid mixing between phases. Electronic detection methods include centrate conductivity probes (detects heavy phase in light phase outlet), flow meters on each outlet, and pressure sensors monitoring centrate back-pressure. Some installations use a turbidity probe to detect liquid loss in the centrate." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I fix a liquid seal break?",
+      "acceptedAnswer": { "@type": "Answer", "text": "To recover from a liquid seal break: (1) immediately stop feed flow, (2) maintain operating water supply to re-establish the liquid ring, (3) check that the gravity disc size is correct for the current fluid density, (4) reduce centrate back-pressure by checking downstream valves and piping for restrictions, (5) confirm feed flow rate is within the rated range. If the break recurs consistently, re-evaluate the gravity disc selection using the density difference calculation for your specific light and heavy phases." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -272,6 +299,30 @@ const jsonLd = {
           <a href="/industrial-centrifuge-sample-testing/" class="border border-navy text-navy font-semibold px-6 py-3 rounded-lg hover:bg-navy hover:text-white transition-colors">Sample Testing</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is liquid seal break in a disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">Liquid seal break occurs when the rotating liquid ring that seals the centrifuge bowl collapses, allowing air to enter. This causes the separated light phase to be lost from the centrate outlet, process liquid to flood out of the machine, and immediate separation failure. The seal is maintained by the balance between feed flow rate, gravity disc size, and back-pressure.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What causes liquid seal break in a centrifuge?</h3>
+            <p class="text-text-light text-sm">Common causes: incorrect gravity disc size (too large reduces the seal), low feed flow rate (insufficient liquid to maintain the ring), high centrate back-pressure, feed interruption or pump cavitation, or incorrect operating water volume during startup. Density changes in the process fluid due to temperature swings can also destabilize the seal.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I detect liquid seal break?</h3>
+            <p class="text-text-light text-sm">Mechanical signs include: liquid flooding from the centrate outlet and bowl hood, a sudden drop in centrate flow, and phase mixing. Electronic detection uses centrate conductivity probes, flow meters on each outlet, and centrate back-pressure sensors. Turbidity probes can also detect liquid loss in the centrate stream.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I fix a liquid seal break?</h3>
+            <p class="text-text-light text-sm">To recover: (1) immediately stop feed flow, (2) maintain operating water supply to re-establish the liquid ring, (3) check that the gravity disc size is correct for current fluid density, (4) reduce centrate back-pressure by checking downstream valves and piping, (5) confirm feed flow rate is within rated range. If the break recurs consistently, re-evaluate gravity disc selection using the density difference calculation for your specific fluid phases.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <h2 class="text-2xl font-bold font-heading text-navy mb-4">Related Articles</h2>

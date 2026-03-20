@@ -11,6 +11,33 @@ const jsonLd = {
   "datePublished": "2021-03-01",
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-sludge-ejection-cycle-time/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I calculate sludge ejection cycle time for a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sludge ejection cycle time is calculated by dividing the bowl sludge space volume (in gallons or liters) by the sludge generation rate (volume of sludge generated per hour of operation). The result gives the theoretical maximum time between ejections before the sludge space fills. In practice, safety factors of 50–70% are applied — ejections are triggered at 50–70% of theoretical full capacity to prevent sludge carryover into the disc stack. Initial cycle time is determined during commissioning by monitoring separation quality and sludge discharge volume." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if sludge ejection cycle time is set too long?",
+      "acceptedAnswer": { "@type": "Answer", "text": "If ejection intervals are too long, the sludge space overfills and sludge migrates into the disc stack, causing clogging, degraded separation quality, and increased vibration from uneven sludge distribution in the bowl. Severe overfilling can require complete bowl disassembly and manual cleaning — a 4–8 hour maintenance operation. In continuous production environments, a clogged centrifuge means unplanned downtime and product loss." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if sludge ejection cycle time is set too short?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ejections that are too frequent waste operating water, increase water consumption, cause brief flow interruptions that can disturb the liquid seal, and result in incomplete sludge discharge per cycle (the sludge is too liquid to properly expel). Overly short cycles also increase wear on the ejection mechanism (operating slides, nozzles, and bowl gaskets) and reduce the overall service life of the bowl assembly." }
+    },
+    {
+      "@type": "Question",
+      "name": "What factors affect disc centrifuge sludge ejection cycle time?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Key factors include: (1) sludge content of the feed liquid — higher solids means shorter required cycle time, (2) bowl sludge space volume — larger bowls hold more sludge before filling, (3) centrifuge throughput — higher flow rates generate more sludge per hour, (4) temperature — higher temperatures can reduce sludge compaction and increase volume, (5) sludge density — denser sludge occupies less volume. Cycle time must be re-evaluated whenever process conditions change significantly." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -304,6 +331,30 @@ const jsonLd = {
           <a href="/contact-for-alfa-laval-centrifuges/" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">Contact for Support</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I calculate sludge ejection cycle time for a disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">Divide the bowl sludge space volume by the sludge generation rate (volume generated per hour). Apply a 50–70% safety factor — trigger ejections at 50–70% of theoretical full capacity to prevent sludge carryover into the disc stack. Initial cycle time is determined during commissioning by monitoring separation quality and discharge volume.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What happens if sludge ejection cycle time is set too long?</h3>
+            <p class="text-text-light text-sm">The sludge space overfills and sludge migrates into the disc stack, causing clogging, degraded separation, and increased vibration from uneven sludge distribution. Severe overfilling requires complete bowl disassembly and manual cleaning — a 4–8 hour operation that causes unplanned production downtime.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What happens if sludge ejection cycle time is set too short?</h3>
+            <p class="text-text-light text-sm">Overly frequent ejections waste operating water, cause brief flow interruptions that disturb the liquid seal, and result in incomplete sludge discharge per cycle. Short intervals also increase wear on the ejection mechanism — operating slides, nozzles, and bowl gaskets — reducing bowl assembly service life.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What factors affect disc centrifuge sludge ejection cycle time?</h3>
+            <p class="text-text-light text-sm">Key factors: sludge content of the feed liquid (higher solids = shorter interval), bowl sludge space volume, centrifuge throughput, temperature (affects sludge compaction), and sludge density. Cycle time must be re-evaluated whenever process conditions change significantly.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
