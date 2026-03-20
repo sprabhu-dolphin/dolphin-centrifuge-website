@@ -16,6 +16,37 @@ const jsonLd = {
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What PLC platforms does Dolphin Centrifuge use for centrifuge controls?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Dolphin Centrifuge retrofit controls on an existing centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What standard features are included in a Dolphin centrifuge control panel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -174,6 +205,25 @@ const jsonLd = {
         </table>
       </div>
 
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What PLC platforms does Dolphin Centrifuge use for centrifuge controls?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can Dolphin Centrifuge retrofit controls on an existing centrifuge?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What standard features are included in a Dolphin centrifuge control panel?</h3>
+            <p class="text-text-light text-sm">Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration.</p>
+          </div>
+        </div>
+      </div>
+
       <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Products &amp; Services</h2>
       <ul class="text-text-light space-y-2 mb-8">
         <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Systems</a></li>
@@ -185,6 +235,8 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

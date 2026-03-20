@@ -10,6 +10,37 @@ const jsonLd = {
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-g2-40-decanter/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What separations can the G2-40 decanter centrifuge handle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The G2-40 is a high-performance horizontal scroll decanter designed for demanding two-phase (solid-liquid) and three-phase (oil-water-solid) separations. It is suited for high-solids applications including oily sludge dewatering, industrial wastewater treatment, food processing (starch, gluten, animal rendering), chemical slurries, and municipal biosolids."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the G2-40 compare to the NX-314 and NX-418 decanters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The G2-40 is Alfa Laval's larger and higher-throughput decanter platform compared to the NX-314 and NX-418. The G2-40 offers greater bowl volume and higher G-force capability for high-volume or high-solids applications. The NX-314 and NX-418 are well-suited for moderate-volume applications (10–80 GPM typical). Contact Dolphin Centrifuge to match the right model to your specific throughput and solids loading requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -119,6 +150,31 @@ const jsonLd = {
       </div>
     </div>
   </section>
+
+  <!-- FAQ -->
+  <section class="bg-warm-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What separations can the G2-40 decanter centrifuge handle?</h3>
+            <p class="text-text-light text-sm">The G2-40 is a high-performance horizontal scroll decanter for demanding two-phase and three-phase separations. It handles high-solids applications including oily sludge dewatering, industrial wastewater, food processing (starch, gluten, animal rendering), chemical slurries, and municipal biosolids.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does the G2-40 compare to the NX-314 and NX-418 decanters?</h3>
+            <p class="text-text-light text-sm">The G2-40 is Alfa Laval's larger and higher-throughput decanter platform offering greater bowl volume and higher G-force capability for high-volume or high-solids applications. The NX-314 and NX-418 are suited for moderate-volume applications (10–80 GPM typical). Contact us to match the right model to your requirements.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Related Resources -->
   <section class="bg-white border-t border-gray-200">

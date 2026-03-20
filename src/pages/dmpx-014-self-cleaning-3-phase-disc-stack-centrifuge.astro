@@ -17,6 +17,37 @@ const jsonLd = {
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the throughput of the DMPX-014 centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dolphin DMPX-014 self-cleaning disc stack centrifuge is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput. Contact Dolphin Centrifuge for application-specific sizing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often does the DMPX-014 need to be cleaned?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The DMPX-014 is a self-cleaning (automatic discharge) centrifuge — accumulated sludge is ejected automatically every 10–60 minutes depending on the sludge discharge timer setting and the solids loading of the feed. There is no need to stop the machine to clean the bowl. Manual bowl disassembly is only required for annual or bi-annual deep cleaning and inspection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What applications is the DMPX-014 best suited for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery applications requiring 10–15 GPM throughput. Its three-phase (liquid-liquid-solid) separation capability makes it versatile across oil, water, and solids applications."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -179,6 +210,25 @@ const jsonLd = {
         Its self-cleaning design makes it suitable for feeds with significant solids loading that would require frequent manual shutdowns on a simpler bowl centrifuge. Operators with experience on manual-clean machines who switch to the DMPX-014 consistently report that labor time drops dramatically while processing quality improves.
       </p>
 
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the throughput of the DMPX-014 centrifuge?</h3>
+            <p class="text-text-light text-sm">The DMPX-014 is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How often does the DMPX-014 need to be cleaned?</h3>
+            <p class="text-text-light text-sm">The DMPX-014 is self-cleaning — accumulated sludge is ejected automatically every 10–60 minutes depending on the discharge timer setting and solids loading. No machine stoppage is required. Manual bowl disassembly is only needed for annual or bi-annual deep cleaning and inspection.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What applications is the DMPX-014 best suited for?</h3>
+            <p class="text-text-light text-sm">The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery at 10–15 GPM. Its three-phase separation capability makes it versatile across oil, water, and solids applications.</p>
+          </div>
+        </div>
+      </div>
+
       <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
       <ul class="text-text-light space-y-2 mb-8">
         <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview (all DMPX models)</a></li>
@@ -190,6 +240,8 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

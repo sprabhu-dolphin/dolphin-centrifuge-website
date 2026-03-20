@@ -16,6 +16,37 @@ const jsonLd = {
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What stainless steel grades are available for Dolphin centrifuge systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications where higher corrosion resistance is required. Bowl components, frame, hood, and piping can all be specified in either grade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are Dolphin stainless steel centrifuges FDA or 3A compliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra ≤ 0.8 µm), and FDA-compliant elastomers. Specific documentation can be provided upon request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What applications require stainless steel centrifuges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids (acids, alkalis, saltwater), and any application where metal contamination of the process fluid would be unacceptable."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -289,6 +320,25 @@ const jsonLd = {
         <li>&#8226; Pharmaceutical clarification &mdash; cell debris removal, protein recovery</li>
       </ul>
 
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What stainless steel grades are available for Dolphin centrifuge systems?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications. Bowl components, frame, hood, and piping can all be specified in either grade.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Are Dolphin stainless steel centrifuges FDA or 3A compliant?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra ≤ 0.8 µm), and FDA-compliant elastomers. Specific documentation can be provided upon request.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What applications require stainless steel centrifuges?</h3>
+            <p class="text-text-light text-sm">Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids, and any application where metal contamination of the process fluid would be unacceptable.</p>
+          </div>
+        </div>
+      </div>
+
       <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
       <ul class="text-text-light space-y-2 mb-8">
         <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
@@ -299,6 +349,8 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

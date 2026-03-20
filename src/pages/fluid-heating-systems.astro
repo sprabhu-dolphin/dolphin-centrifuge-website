@@ -10,6 +10,37 @@ const jsonLd = {
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/fluid-heating-systems/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does a centrifuge need a fluid heating system?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Viscous fluids like waste engine oil, heavy fuel oil, and biodiesel must be heated to reduce viscosity before centrifuge processing. A disc stack centrifuge requires feed viscosity below approximately 14 cSt at the inlet for effective separation. For heavy oils that are solid or semi-solid at room temperature, preheating to 60–90°C reduces viscosity to the operating range and dramatically improves separation efficiency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of heaters does Dolphin Centrifuge offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge supplies electric immersion heaters (240V or 480V single- or three-phase), shell-and-tube steam heat exchangers, and oil-fired heat exchangers for centrifuge preheating applications. The right heater type depends on available utilities (electrical capacity, steam supply) and the required heat-up rate for your process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "At what temperature should viscous oil be processed in a disc centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most heavy oil applications run at 60–90°C (140–194°F). Used motor oil is typically processed at 80–90°C. Heavy fuel oil may require 60–70°C. The target is to reduce viscosity below 14 cSt at the centrifuge inlet. Dolphin Centrifuge engineers will calculate the required temperature based on your specific fluid's viscosity-temperature curve."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -135,6 +166,31 @@ const jsonLd = {
       </div>
     </div>
   </section>
+
+  <!-- FAQ -->
+  <section class="bg-warm-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Why does a centrifuge need a fluid heating system?</h3>
+            <p class="text-text-light text-sm">Viscous fluids like waste engine oil, heavy fuel oil, and biodiesel must be heated to reduce viscosity before centrifuge processing. A disc stack centrifuge requires feed viscosity below approximately 14 cSt at the inlet for effective separation. Preheating heavy oils to 60–90°C dramatically improves separation efficiency.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What types of heaters does Dolphin Centrifuge offer?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies electric immersion heaters (240V or 480V), shell-and-tube steam heat exchangers, and oil-fired heat exchangers for centrifuge preheating. The right heater type depends on available utilities (electrical capacity, steam supply) and the required heat-up rate for your process.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">At what temperature should viscous oil be processed in a disc centrifuge?</h3>
+            <p class="text-text-light text-sm">Most heavy oil applications run at 60–90°C (140–194°F). Used motor oil is typically processed at 80–90°C. Heavy fuel oil may require 60–70°C. The target is to reduce viscosity below 14 cSt at the centrifuge inlet. Dolphin engineers will calculate the required temperature for your specific fluid.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Related Resources -->
   <section class="bg-white border-t border-gray-200">

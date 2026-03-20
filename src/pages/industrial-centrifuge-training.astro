@@ -16,6 +16,37 @@ const jsonLd = {
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/industrial-centrifuge-training/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What topics are covered in Dolphin Centrifuge operator training?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge training programs cover centrifuge operating principles, startup and shutdown procedures, sludge discharge timing adjustment, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is centrifuge training available on-site at my facility?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training is particularly valuable for new centrifuge installations — we can train your operators during commissioning so they are fully capable from day one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What centrifuge brands and models does Dolphin Centrifuge training cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and Alfa Laval decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis. Contact us to discuss your specific equipment."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -212,6 +243,31 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <!-- FAQ -->
+  <section class="bg-warm-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What topics are covered in Dolphin Centrifuge operator training?</h3>
+            <p class="text-text-light text-sm">Training covers operating principles, startup/shutdown procedures, sludge discharge timing, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is centrifuge training available on-site at my facility?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training during commissioning ensures your operators are fully capable from day one.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What centrifuge brands and models does Dolphin training cover?</h3>
+            <p class="text-text-light text-sm">Training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Related Resources -->
   <section class="bg-white border-t border-gray-200">

@@ -16,6 +16,37 @@ const jsonLd = {
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge sell new or used Alfa Laval centrifuges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge supplies both new and remanufactured Alfa Laval centrifuge systems. New machines are available through our Dolphin DMPX (self-cleaning disc stack) and DMB (manual-clean) branded systems built on Alfa Laval platforms. Remanufactured units are fully rebuilt, tested, and backed by a Dolphin warranty. We maintain 200+ units in inventory at our Warren, Michigan facility."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What Alfa Laval centrifuge series does Dolphin Centrifuge stock?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge stocks Alfa Laval disc stack centrifuges including MAB series (manual-clean, 3-phase), MOPX/MAPX series (self-cleaning, oil purifiers), WSPX/WHPX series (self-cleaning, water-based fluids), BTPX series (biotech/pharma), and decanter centrifuges NX-314, NX-418, G2-40, and CHNX-418."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge provide service and parts for Alfa Laval centrifuges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge provides complete service and parts support for all Alfa Laval centrifuge models including bowl rebuilds, gasket kits, disc stacks, bearing sets, and complete overhaul services. Our Warren, Michigan facility has 50+ years of collective Alfa Laval rebuild experience."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -176,6 +207,25 @@ const jsonLd = {
         For applications where separation performance is uncertain, we offer paid sample testing at our Warren facility. Send us a representative sample of your feed stream and we will run it through the centrifuge, measure separation efficiency, and provide a sizing recommendation in writing before you commit to equipment purchase.
       </p>
 
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge sell new or used Alfa Laval centrifuges?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge supplies both new and remanufactured Alfa Laval centrifuge systems. New machines are available as Dolphin DMPX and DMB branded systems. Remanufactured units are fully rebuilt, tested, and backed by a Dolphin warranty. We maintain 200+ units in inventory at our Warren, Michigan facility.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What Alfa Laval centrifuge series does Dolphin Centrifuge stock?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge stocks Alfa Laval disc stack centrifuges including MAB series (manual-clean), MOPX/MAPX series (self-cleaning oil purifiers), WSPX/WHPX series (water-based fluids), BTPX series (biotech/pharma), and decanter centrifuges NX-314, NX-418, G2-40, and CHNX-418.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge provide service and parts for Alfa Laval centrifuges?</h3>
+            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge provides complete service and parts support for all Alfa Laval centrifuge models including bowl rebuilds, gasket kits, disc stacks, bearing sets, and complete overhaul services. Our Warren, Michigan facility has 50+ years of collective Alfa Laval rebuild experience.</p>
+          </div>
+        </div>
+      </div>
+
       <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
       <ul class="text-text-light space-y-2 mb-8">
         <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
@@ -188,6 +238,8 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

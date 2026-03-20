@@ -11,6 +11,45 @@ const jsonLd = {
   "datePublished": "2020-06-01",
   "url": "https://dolphincentrifuge.com/tramp-oil-centrifuge/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is tramp oil in machining coolant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tramp oil is hydraulic fluid, slideway oil, and spindle oil that leaks from machine tool systems into the coolant sump. Unlike cutting oil (which is water-soluble coolant concentrate), tramp oil is immiscible with water. It floats on the sump surface, fosters bacterial growth, causes dermatitis, and degrades coolant performance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a centrifuge remove tramp oil from coolant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A disc stack centrifuge spins the coolant at 7,000+ Gs, which forces the denser water and fines outward and allows the lighter tramp oil to migrate inward to a separate discharge port. The cleaned coolant (minus tramp oil and solid particles) returns to the sump. The process is continuous, with solids automatically ejected every 10–60 minutes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What size centrifuge do I need for tramp oil removal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sizing depends on sump volume and machine count. A typical rule is to turn over the full sump volume every 1–2 hours. For a 500-gallon sump, a DMPX-010 (7 GPM) provides a 70-minute turnover. For larger central sump systems (2,000+ gallons), a DMPX-028 (20–26 GPM) or DMPX-042 (32–47 GPM) is more appropriate. Dolphin Centrifuge provides free sizing consultation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the ROI of a tramp oil centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typical payback is 12–24 months. Savings come from reduced coolant replacement (tramp oil-contaminated coolant must be dumped more frequently), lower waste disposal costs, extended tool life (15–30% improvement is common), fewer bacterial treatment chemicals, and reduced machine maintenance. Contact Dolphin Centrifuge for a facility-specific ROI analysis."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -151,6 +190,29 @@ const jsonLd = {
 
       <p class="text-text-light leading-relaxed">Ready to discuss tramp oil removal for your facility? Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
 
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is tramp oil in machining coolant?</h3>
+            <p class="text-text-light text-sm">Tramp oil is hydraulic fluid, slideway oil, and spindle oil that leaks from machine tool systems into the coolant sump. Unlike cutting oil (which is water-soluble coolant concentrate), tramp oil is immiscible with water. It floats on the sump surface, fosters bacterial growth, causes dermatitis, and degrades coolant performance.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does a centrifuge remove tramp oil from coolant?</h3>
+            <p class="text-text-light text-sm">A disc stack centrifuge spins the coolant at 7,000+ Gs, which forces the denser water and fines outward and allows the lighter tramp oil to migrate inward to a separate discharge port. The cleaned coolant returns to the sump continuously, with solids automatically ejected every 10–60 minutes.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What size centrifuge do I need for tramp oil removal?</h3>
+            <p class="text-text-light text-sm">Sizing depends on sump volume and machine count. A typical rule is to turn over the full sump volume every 1–2 hours. For a 500-gallon sump, a DMPX-010 (7 GPM) provides a 70-minute turnover. For larger central sump systems (2,000+ gallons), a DMPX-028 (20–26 GPM) or DMPX-042 (32–47 GPM) is more appropriate.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the ROI of a tramp oil centrifuge?</h3>
+            <p class="text-text-light text-sm">Typical payback is 12–24 months. Savings come from reduced coolant replacement, lower waste disposal costs, extended tool life (15–30% improvement is common), fewer bacterial treatment chemicals, and reduced machine maintenance. Contact Dolphin Centrifuge for a facility-specific ROI analysis.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Related Articles -->
       <div class="mt-10">
         <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
@@ -175,6 +237,8 @@ const jsonLd = {
       </div>
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">

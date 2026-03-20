@@ -16,6 +16,37 @@ const jsonLd = {
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/industrial-centrifuge-sample-testing/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much fluid sample do I need to send for centrifuge testing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the centrifuge sample test report include?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is centrifuge sample testing free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on the complexity of the separation. Contact us to discuss your application and we will outline what is involved."
+      }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -189,6 +220,31 @@ const jsonLd = {
 
     </div>
   </section>
+
+  <!-- FAQ -->
+  <section class="bg-warm-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How much fluid sample do I need to send for centrifuge testing?</h3>
+            <p class="text-text-light text-sm">Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What does the centrifuge sample test report include?</h3>
+            <p class="text-text-light text-sm">The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is centrifuge sample testing free?</h3>
+            <p class="text-text-light text-sm">Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on complexity. Contact us to discuss your application and we will outline what is involved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   <!-- Bottom CTA -->
   <section class="bg-navy">
