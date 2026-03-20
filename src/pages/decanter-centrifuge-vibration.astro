@@ -11,6 +11,28 @@ const jsonLd = {
   "datePublished": "2021-02-01",
   "url": "https://dolphincentrifuge.com/decanter-centrifuge-vibration/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What causes vibration in a decanter centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I tell if decanter centrifuge vibration is getting worse?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run at less than 4–6 mm/s RMS during steady-state operation. An increasing trend over weeks indicates bearing wear or gradual imbalance buildup. Sudden increases warrant immediate shutdown and inspection." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can scroll wear cause decanter centrifuge vibration?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -187,6 +209,26 @@ const jsonLd = {
       <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
         <p class="text-sm text-text-light"><em>by Sanjay Prabhu MSME</em><br/><em>Engineering Manager, Dolphin Centrifuge</em></p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What causes vibration in a decanter centrifuge?</h3>
+            <p class="text-text-light text-sm">Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How do I monitor decanter centrifuge vibration?</h3>
+            <p class="text-text-light text-sm">Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run below 4–6 mm/s RMS at steady state. An increasing trend over weeks indicates bearing wear or gradual imbalance. Sudden increases warrant immediate shutdown and inspection.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can scroll wear cause decanter centrifuge vibration?</h3>
+            <p class="text-text-light text-sm">Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Related Articles</h2>

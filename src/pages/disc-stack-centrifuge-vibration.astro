@@ -11,6 +11,28 @@ const jsonLd = {
   "datePublished": "2021-05-01",
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-vibration/",
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What causes excessive vibration in a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The most common causes are: missing or misplaced discs in the bowl stack, spindle runout or bearing wear, sludge accumulation causing bowl imbalance, worn or damaged bowl bottom or hood, incorrect bowl reassembly after maintenance, or erosion/pitting of rotating components. Vibration that develops suddenly after maintenance usually points to an assembly error." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is some vibration normal in a disc centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A small amount of vibration is normal in any rotating machine. Most disc centrifuges have a vibration switch that triggers at 3–5 mm/s (RMS) or equivalent. Vibration that causes the safety switch to trip, that increases over time, or that correlates with bowl discharge cycles indicates a mechanical problem that needs investigation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I check if my disc centrifuge vibration increases suddenly?",
+      "acceptedAnswer": { "@type": "Answer", "text": "After any sudden vibration increase, check: (1) bowl disc count and placement, (2) bowl assembly torque and component seating, (3) bowl and spindle for visible damage, (4) bearing condition and lubrication level, (5) whether sludge buildup in the casing is contacting the rotating bowl. Always stop and inspect before resuming operation." }
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -232,6 +254,26 @@ const jsonLd = {
       <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
         <p class="text-sm text-text-light"><em>by Sanjay Prabhu MSME</em><br /><em>Engineering Manager, Dolphin Centrifuge</em></p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What causes excessive vibration in a disc stack centrifuge?</h3>
+            <p class="text-text-light text-sm">Common causes are: missing or misplaced discs in the bowl stack, spindle runout or bearing wear, sludge accumulation causing bowl imbalance, worn or damaged bowl bottom or hood, incorrect bowl reassembly after maintenance, or erosion/pitting of rotating components. Sudden vibration after maintenance usually points to an assembly error.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Is some vibration normal in a disc centrifuge?</h3>
+            <p class="text-text-light text-sm">A small amount of vibration is normal in any rotating machine. Most disc centrifuges have a vibration switch that triggers at 3–5 mm/s RMS. Vibration that causes the safety switch to trip, increases over time, or correlates with bowl discharge cycles indicates a mechanical problem that needs investigation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What should I check if my disc centrifuge vibration increases suddenly?</h3>
+            <p class="text-text-light text-sm">Check: (1) bowl disc count and placement, (2) bowl assembly torque and component seating, (3) bowl and spindle for visible damage, (4) bearing condition and lubrication level, (5) whether sludge buildup in the casing is contacting the rotating bowl. Always stop and inspect before resuming operation.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Related Articles</h2>
