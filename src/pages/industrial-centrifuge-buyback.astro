@@ -1,7 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What brands of centrifuge does Dolphin Centrifuge buy?",
+    answer: "Dolphin Centrifuge purchases used centrifuges of all brands including Alfa Laval, Westfalia, Sharples, Bird, GEA, Flottweg, Pieralisi, and others. We buy disc stack centrifuges, decanter centrifuges, basket centrifuges, and scroll centrifuges in any condition — working, non-working, complete, or for parts."
+  },
+  {
+    question: "How do I get an offer for my used centrifuge?",
+    answer: "Send photos of the machine, the model number (found on the nameplate), and basic information about the condition to sales@dolphincentrifuge.com or call (248) 522-2573. We typically respond with a preliminary offer within 1–2 business days. For larger lots or estate sales, we can arrange an on-site inspection."
+  },
+  {
+    question: "Does Dolphin Centrifuge offer pickup or handle removal?",
+    answer: "Yes. For purchased centrifuges, Dolphin Centrifuge can arrange freight pickup from your facility. We handle all logistics including rigging and trucking. This is especially convenient for facilities decommissioning equipment or clearing warehouse space."
+  },
+  {
+    question: "What condition does my centrifuge need to be in to sell it?",
+    answer: "We buy centrifuges in any condition — operational, non-operational, incomplete, or for parts. A machine that does not run can still have significant value in its bowl, discs, frame, drive components, or control panel. Send us photos and we will evaluate it."
+  }
+];
+
+const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Centrifuge Buyback & Trade-In Program",
@@ -20,245 +40,152 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What brands of centrifuge does Dolphin Centrifuge buy?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge purchases used centrifuges of all brands including Alfa Laval, Westfalia, Sharples, Bird, GEA, Flottweg, Pieralisi, and others. We buy disc stack centrifuges, decanter centrifuges, basket centrifuges, and scroll centrifuges in any condition — working, non-working, complete, or for parts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I get an offer for my used centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Send photos of the machine, the model number (found on the nameplate), and basic information about the condition to sales@dolphincentrifuge.com or call (248) 522-2573. We typically respond with a preliminary offer within 1–2 business days. For larger lots or estate sales, we can arrange an on-site inspection."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Dolphin Centrifuge offer pickup or handle removal?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. For purchased centrifuges, Dolphin Centrifuge can arrange freight pickup from your facility. We handle all logistics including rigging and trucking. This is especially convenient for facilities decommissioning equipment or clearing warehouse space."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What condition does my centrifuge need to be in to sell it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We buy centrifuges in any condition — operational, non-operational, incomplete, or for parts. A machine that does not run can still have significant value in its bowl, discs, frame, drive components, or control panel. Send us photos and we will evaluate it."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [serviceJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'buyback', label: 'Buyback Program' },
+  { id: 'consignment', label: 'Consignment Option' },
+  { id: 'what-we-buy', label: 'What We Buy' },
+  { id: 'process', label: 'How the Buyback Process Works' },
+  { id: 'trade-in', label: 'Trade-In Program' },
+  { id: 'info-needed', label: 'What Information We Need' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Centrifuge Rental', href: '/disc-stack-centrifuge-rental/' },
+  { label: 'Decanter Centrifuge Rental', href: '/decanter-centrifuge-rental/' },
+  { label: 'Centrifuge Service & Repair', href: '/centrifuge-service-and-repair/' },
+  { label: 'About Dolphin Centrifuge', href: '/about-dolphin-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval Centrifuges', href: '/alfa-laval-centrifuges/', description: 'Full inventory of models' },
+  { label: 'Centrifuge Parts', href: '/alfa-laval-centrifuge-parts/', description: 'OEM and aftermarket parts' },
+];
 ---
 
-<BaseLayout
-  title="Centrifuge Buyback & Trade-In Program"
-  description="We buy used industrial centrifuges in any condition. Sell your surplus Alfa Laval or other brand centrifuge equipment. Fast evaluation, fair offers, free pickup."
+<ApplicationLayout
+  title="Centrifuge Buyback & Trade-In"
+  description="Sell your used industrial centrifuge to Dolphin Centrifuge. We buy all brands and conditions with fast evaluation, fair offers, and free pickup nationwide."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-Warren-1000.webp"
+  heroImageAlt="Dolphin Centrifuge Shop Warren"
   canonicalUrl="https://dolphincentrifuge.com/industrial-centrifuge-buyback/"
-  breadcrumbs={[
-    { label: 'Services', href: '/industrial-centrifuge-design/' },
-    { label: 'Buyback & Trade-In' },
-  ]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Services</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Centrifuge Buyback &amp; Trade-In</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">
-        Dolphin Centrifuge purchases used industrial centrifuges of all types, brands, and conditions. Whether you have a surplus machine sitting idle, are decommissioning a facility, or want to trade in older equipment toward a new system, we make the process fast and straightforward.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get an Offer</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge purchases used industrial disc stack and decanter centrifuges of all makes, models, and conditions — including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. With 200+ units currently in inventory, Dolphin offers immediate evaluation and fair market offers. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in industrial centrifuge refurbishment and resale.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge purchases used industrial disc stack and decanter centrifuges of all makes, models, and conditions — including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. With 200+ units currently in inventory, Dolphin offers immediate evaluation and fair market offers. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in industrial centrifuge refurbishment and resale.</p>
-      </div>
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Buyback</h2>
-        <p class="text-text-light mb-4">
-          Industrial Centrifuge buyback by Dolphin Centrifuge is one way to monetize your used centrifuge inventory. Send us details &amp; photographs of your centrifuge, and we will get back to you with an offer.
-        </p>
-        <p class="text-text-light mb-6">
-          We can offer you credit for your old centrifuge towards purchasing a new system from Dolphin Centrifuge.
-        </p>
+  <h2 id="buyback">Buyback</h2>
+  <p>
+    Industrial Centrifuge buyback by Dolphin Centrifuge is one way to monetize your used centrifuge inventory. Send us details &amp; photographs of your centrifuge, and we will get back to you with an offer.
+  </p>
+  <p>
+    We can offer you credit for your old centrifuge towards purchasing a new system from Dolphin Centrifuge.
+  </p>
 
-        <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Consignment</h2>
-        <p class="text-text-light mb-4">
-          If a customer has a functional centrifuge system originally supplied by Dolphin Centrifuge or others, the customer may choose to send the centrifuge to Dolphin Centrifuge on consignment.
-        </p>
-        <p class="text-text-light">
-          The customer retains ownership of the equipment on consignment centrifuges, and Dolphin Centrifuge will offer the centrifuge to potential buyers.
-        </p>
-      </div>
+  <h2 id="consignment">Consignment</h2>
+  <p>
+    If a customer has a functional centrifuge system originally supplied by Dolphin Centrifuge or others, the customer may choose to send the centrifuge to Dolphin Centrifuge on consignment.
+  </p>
+  <p>
+    The customer retains ownership of the equipment on consignment centrifuges, and Dolphin Centrifuge will offer the centrifuge to potential buyers.
+  </p>
 
-      <!-- Additive Content -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Turn Idle Equipment Into Cash</h2>
-      <p class="text-text-muted mb-4">
-        Industrial centrifuges are high-value assets. If you have a centrifuge that is no longer in service&mdash;whether from a process change, plant closure, upgrade, or simply because it needs repair&mdash;Dolphin Centrifuge will buy it from you. We purchase disc stack separators, decanter centrifuges, and complete centrifuge systems from any manufacturer.
-      </p>
-      <p class="text-text-muted mb-8">
-        Because we operate a full-service <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge repair and rebuild facility</a>, we can refurbish equipment that other buyers would consider scrap. This means we can offer competitive prices for centrifuges in any condition&mdash;including non-functional units.
-      </p>
+  <h3>Turn Idle Equipment Into Cash</h3>
+  <p>
+    Industrial centrifuges are high-value assets. If you have a centrifuge that is no longer in service&mdash;whether from a process change, plant closure, upgrade, or simply because it needs repair&mdash;Dolphin Centrifuge will buy it from you. We purchase disc stack separators, decanter centrifuges, and complete centrifuge systems from any manufacturer.
+  </p>
+  <p>
+    Because we operate a full-service <a href="/industrial-disc-centrifuge-repair/">centrifuge repair and rebuild facility</a>, we can refurbish equipment that other buyers would consider scrap. This means we can offer competitive prices for centrifuges in any condition&mdash;including non-functional units.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What We Buy</h2>
-      <p class="text-text-muted mb-4">
-        We purchase centrifuge equipment in all conditions:
-      </p>
+  <h2 id="what-we-buy">What We Buy</h2>
 
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">Equipment Types</h3>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-6 ml-4">
-        <li><strong>Disc Stack Separators:</strong> Self-cleaning and manual-clean models from Alfa Laval, Westfalia, Mitsubishi, and others</li>
-        <li><strong>Decanter Centrifuges:</strong> Horizontal scroll decanters of all sizes and manufacturers</li>
-        <li><strong>Complete Systems:</strong> Centrifuge skids with pumps, controls, heaters, and piping</li>
-        <li><strong>Spare Parts &amp; Components:</strong> Bowl assemblies, disc stacks, spindles, gearboxes, and control panels</li>
-        <li><strong>Ancillary Equipment:</strong> Feed pumps, heat exchangers, control panels, and VFDs that were part of a centrifuge system</li>
-      </ul>
+  <h3>Equipment Types</h3>
+  <ul>
+    <li><strong>Disc Stack Separators:</strong> Self-cleaning and manual-clean models from Alfa Laval, Westfalia, Mitsubishi, and others</li>
+    <li><strong>Decanter Centrifuges:</strong> Horizontal scroll decanters of all sizes and manufacturers</li>
+    <li><strong>Complete Systems:</strong> Centrifuge skids with pumps, controls, heaters, and piping</li>
+    <li><strong>Spare Parts &amp; Components:</strong> Bowl assemblies, disc stacks, spindles, gearboxes, and control panels</li>
+    <li><strong>Ancillary Equipment:</strong> Feed pumps, heat exchangers, control panels, and VFDs that were part of a centrifuge system</li>
+  </ul>
 
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">Any Condition</h3>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Working:</strong> Operational centrifuges ready to run&mdash;highest value</li>
-        <li><strong>Needs Repair:</strong> Units with known issues such as bad bearings, worn seals, or vibration problems</li>
-        <li><strong>Non-Functional:</strong> Centrifuges that have not run in years or have unknown condition</li>
-        <li><strong>Incomplete:</strong> Missing parts, controls, or accessories&mdash;we still want the core rotating assembly</li>
-        <li><strong>Damaged:</strong> Crash-damaged bowls, corroded frames, or fire-damaged equipment</li>
-      </ul>
+  <h3>Any Condition</h3>
+  <ul>
+    <li><strong>Working:</strong> Operational centrifuges ready to run&mdash;highest value</li>
+    <li><strong>Needs Repair:</strong> Units with known issues such as bad bearings, worn seals, or vibration problems</li>
+    <li><strong>Non-Functional:</strong> Centrifuges that have not run in years or have unknown condition</li>
+    <li><strong>Incomplete:</strong> Missing parts, controls, or accessories&mdash;we still want the core rotating assembly</li>
+    <li><strong>Damaged:</strong> Crash-damaged bowls, corroded frames, or fire-damaged equipment</li>
+  </ul>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">How the Buyback Process Works</h2>
-      <ol class="list-decimal list-inside space-y-4 text-text-muted mb-8 ml-4">
-        <li>
-          <strong>Send Us Information:</strong> Email photos of the centrifuge (nameplate, bowl, frame, control panel) to <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> along with the model number, serial number (if visible), and a brief description of the condition and history. Alternatively, call <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> to discuss.
-        </li>
-        <li>
-          <strong>We Evaluate:</strong> Our technical team reviews the information and assesses the equipment value based on model, age, condition, and market demand. We typically provide an initial offer within 1&ndash;2 business days.
-        </li>
-        <li>
-          <strong>We Make an Offer:</strong> You receive a firm purchase offer. No obligation&mdash;accept or decline at your discretion.
-        </li>
-        <li>
-          <strong>We Arrange Pickup:</strong> Once you accept, we coordinate freight and rigging to pick up the equipment from your facility. We handle all logistics at no cost to you for most locations in the continental U.S.
-        </li>
-        <li>
-          <strong>You Get Paid:</strong> Payment is issued upon receipt and verification of the equipment at our Warren, MI facility.
-        </li>
-      </ol>
+  <h2 id="process">How the Buyback Process Works</h2>
+  <ol>
+    <li>
+      <strong>Send Us Information:</strong> Email photos of the centrifuge (nameplate, bowl, frame, control panel) to <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> along with the model number, serial number (if visible), and a brief description of the condition and history. Alternatively, call <a href="tel:2485222573">(248) 522-2573</a> to discuss.
+    </li>
+    <li>
+      <strong>We Evaluate:</strong> Our technical team reviews the information and assesses the equipment value based on model, age, condition, and market demand. We typically provide an initial offer within 1&ndash;2 business days.
+    </li>
+    <li>
+      <strong>We Make an Offer:</strong> You receive a firm purchase offer. No obligation&mdash;accept or decline at your discretion.
+    </li>
+    <li>
+      <strong>We Arrange Pickup:</strong> Once you accept, we coordinate freight and rigging to pick up the equipment from your facility. We handle all logistics at no cost to you for most locations in the continental U.S.
+    </li>
+    <li>
+      <strong>You Get Paid:</strong> Payment is issued upon receipt and verification of the equipment at our Warren, MI facility.
+    </li>
+  </ol>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Trade-In Program</h2>
-      <p class="text-text-muted mb-4">
-        Upgrading to a newer or larger centrifuge system? Apply the value of your existing equipment toward the purchase of a new Dolphin centrifuge system. Our trade-in program makes upgrading more affordable:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li>We credit the agreed trade-in value directly against your new system purchase price</li>
-        <li>We handle removal and shipping of your old equipment</li>
-        <li>Trade-in can be combined with our <a href="/disc-stack-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">rental program</a>&mdash;rent a unit while we build your new system, then trade in the old one at delivery</li>
-      </ul>
+  <h2 id="trade-in">Trade-In Program</h2>
+  <p>
+    Upgrading to a newer or larger centrifuge system? Apply the value of your existing equipment toward the purchase of a new Dolphin centrifuge system. Our trade-in program makes upgrading more affordable:
+  </p>
+  <ul>
+    <li>We credit the agreed trade-in value directly against your new system purchase price</li>
+    <li>We handle removal and shipping of your old equipment</li>
+    <li>Trade-in can be combined with our <a href="/disc-stack-centrifuge-rental/">rental program</a>&mdash;rent a unit while we build your new system, then trade in the old one at delivery</li>
+  </ul>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What Information Do We Need?</h2>
-      <p class="text-text-muted mb-4">
-        To provide an accurate offer, please gather the following if available:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Photos:</strong> Nameplate (with model and serial number), overall view, bowl, frame, and control panel</li>
-        <li><strong>Model &amp; Serial Number:</strong> Found on the nameplate, typically on the frame or bowl housing</li>
-        <li><strong>Condition Description:</strong> Is it running? When was it last operated? Any known issues?</li>
-        <li><strong>Location:</strong> City and state where the equipment is located (for freight estimation)</li>
-        <li><strong>Accessories:</strong> List any included items such as spare bowl, tools, manuals, spare parts, or control panel</li>
-      </ul>
-      <p class="text-text-muted mb-4">
-        Do not worry if you cannot provide all of this information. We can work with photos alone and will ask follow-up questions as needed.
-      </p>
+  <h2 id="info-needed">What Information Do We Need?</h2>
+  <p>
+    To provide an accurate offer, please gather the following if available:
+  </p>
+  <ul>
+    <li><strong>Photos:</strong> Nameplate (with model and serial number), overall view, bowl, frame, and control panel</li>
+    <li><strong>Model &amp; Serial Number:</strong> Found on the nameplate, typically on the frame or bowl housing</li>
+    <li><strong>Condition Description:</strong> Is it running? When was it last operated? Any known issues?</li>
+    <li><strong>Location:</strong> City and state where the equipment is located (for freight estimation)</li>
+    <li><strong>Accessories:</strong> List any included items such as spare bowl, tools, manuals, spare parts, or control panel</li>
+  </ul>
+  <p>
+    Do not worry if you cannot provide all of this information. We can work with photos alone and will ask follow-up questions as needed.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Not Ready to Sell?</h2>
-      <p class="text-text-muted mb-4">
-        If you are not ready to part with your centrifuge but it is sitting idle, consider our <a href="/disc-stack-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge rental program</a> as an alternative revenue source, or contact us about our <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">repair services</a> to get it back in operation.
-      </p>
+  <h3>Not Ready to Sell?</h3>
+  <p>
+    If you are not ready to part with your centrifuge but it is sitting idle, consider our <a href="/disc-stack-centrifuge-rental/">centrifuge rental program</a> as an alternative revenue source, or contact us about our <a href="/industrial-disc-centrifuge-repair/">repair services</a> to get it back in operation.
+  </p>
 
-    </div>
-  </section>
+  <FAQ items={faqItems} />
 
-  <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What brands of centrifuge does Dolphin Centrifuge buy?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge purchases used centrifuges of all brands including Alfa Laval, Westfalia, Sharples, Bird, GEA, Flottweg, Pieralisi, and others. We buy disc stack centrifuges, decanter centrifuges, basket centrifuges, and scroll centrifuges in any condition — working, non-working, complete, or for parts.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How do I get an offer for my used centrifuge?</h3>
-            <p class="text-text-light text-sm">Send photos of the machine, the model number (found on the nameplate), and basic information about the condition to sales@dolphincentrifuge.com or call (248) 522-2573. We typically respond with a preliminary offer within 1–2 business days. For larger lots or estate sales, we can arrange an on-site inspection.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge offer pickup or handle removal?</h3>
-            <p class="text-text-light text-sm">Yes. For purchased centrifuges, Dolphin Centrifuge can arrange freight pickup from your facility. We handle all logistics including rigging and trucking. This is especially convenient for facilities decommissioning equipment or clearing warehouse space.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What condition does my centrifuge need to be in to sell it?</h3>
-            <p class="text-text-light text-sm">We buy centrifuges in any condition — operational, non-operational, incomplete, or for parts. A machine that does not run can still have significant value in its bowl, discs, frame, drive components, or control panel. Send us photos and we will evaluate it.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/disc-stack-centrifuge-rental/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Rental</span>
-        </a>
-        <a href="/decanter-centrifuge-rental/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Rental</span>
-        </a>
-        <a href="/centrifuge-service-and-repair/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Centrifuge Service & Repair</span>
-        </a>
-        <a href="/alfa-laval-centrifuges/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Alfa Laval Centrifuges</span>
-        </a>
-        <a href="/about-dolphin-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">About Dolphin Centrifuge</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Have a Centrifuge to Sell?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Send us photos and basic information. We will respond with an offer within 1&ndash;2 business days. Any brand, any condition.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us Today</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>

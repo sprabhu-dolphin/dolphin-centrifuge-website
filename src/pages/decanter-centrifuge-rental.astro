@@ -1,11 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Decanter Centrifuge Rental",
-  "description": "Rent industrial decanter centrifuges for sludge dewatering, wastewater, and oil recovery. NX-314, NX-418, and G2-40 models available short or long term.",
+  "description": "Rent industrial decanter centrifuges for sludge dewatering, wastewater treatment, and oil recovery. NX-314, NX-418, and G2-40 models available for short or long-term rental from Dolphin Centrifuge.",
   "provider": {
     "@type": "Organization",
     "name": "Dolphin Centrifuge",
@@ -47,293 +47,223 @@ const faqJsonLd = {
     }
   ]
 };
+
+const toc = [
+  { id: 'overview', label: 'Rental Fleet Overview' },
+  { id: 'nx314', label: 'NX-314 Rental Decanter' },
+  { id: 'nx418', label: 'NX-418 Rental Decanter' },
+  { id: 'program', label: 'Rental Program Details' },
+  { id: 'applications', label: 'Rental Applications' },
+  { id: 'included', label: "What's Included" },
+  { id: 'terms', label: 'Rental Terms & Pricing' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge Rental', href: '/disc-stack-centrifuge-rental/' },
+  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Sample Testing Service', href: '/industrial-centrifuge-sample-testing/' },
+];
+
+const relatedProducts = [
+  { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: '40 GPM, wastewater & sludge' },
+  { label: 'NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: '80 GPM, industrial wastewater' },
+  { label: 'Centrifuge Buyback', href: '/industrial-centrifuge-buyback/', description: 'Sell or trade your centrifuge' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Decanter Centrifuge Rental"
-  description="Rent industrial decanter centrifuges for sludge dewatering, wastewater, and oil recovery. NX-314, NX-418, and G2-40 models available short or long term."
+  description="Rent industrial decanter centrifuges from Dolphin Centrifuge. NX-314 and NX-418 models for sludge dewatering, wastewater, and oil recovery — short or long-term."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/decanter-centrifuge-rental/Alfa-Laval-NX418.webp"
+  heroImageAlt="Alfa Laval NX418 decanter centrifuge available for rental from Dolphin Centrifuge"
   canonicalUrl="https://dolphincentrifuge.com/decanter-centrifuge-rental/"
-  breadcrumbs={[
-    { label: 'Services', href: '/industrial-centrifuge-design/' },
-    { label: 'Decanter Centrifuge Rental' },
-  ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, faqJsonLd]}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Services</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Decanter Centrifuge Rental</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">
-        Dolphin Centrifuge offers industrial decanter centrifuges for short-term and long-term rental. Our fleet includes NX-314, NX-418, and G2-40 decanters suited for sludge dewatering, wastewater treatment, crude oil recovery, and solids-heavy separation applications.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains a rental fleet of Alfa Laval NX-314 and NX-418 decanter centrifuges for process evaluation, emergency service, and short-term capacity augmentation. Rental decanters are available for wastewater dewatering, sludge processing, food rendering, and industrial solids/liquid separation applications. Based in Warren, Michigan — call (248) 522-2573 for rental availability and pricing.</p>
+  </div>
+
+  <!-- Legacy Content -->
+  <h2 id="overview">Rental Fleet Overview</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <p>Dolphin Centrifuge maintains a fleet of Alfa Laval Decanter Centrifuges for rent, which are suited for:</p>
+      <ul>
+        <li>Process Evaluation for your specific process</li>
+        <li>Emergency Service in case your decanter breaks down or is in service</li>
+        <li>Short-term process capacity augmentation</li>
+      </ul>
+      <p>In some cases, Dolphin Centrifuge can accommodate long-term rental requirements by building a decanter skid for specific customer applications.</p>
+      <p><strong>A rental contract requires a minimum rental period commitment, deposit, execution of a formal rental contract, and other standard conditions.</strong></p>
     </div>
-  </section>
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/decanter-centrifuge-rental/biomass-centrifuge-Alfa-Laval-NX314.webp" alt="biomass centrifuge Alfa Laval NX314" width="600" height="450" class="rounded-xl" />
+    </div>
+  </div>
 
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- NX-314 Rental Decanter -->
+  <h2 id="nx314">NX-314 Rental Decanter</h2>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains a rental fleet of Alfa Laval NX-314 and NX-418 decanter centrifuges for process evaluation, emergency service, and short-term capacity augmentation. Rental decanters are available for wastewater dewatering, sludge processing, food rendering, and industrial solids/liquid separation applications. Based in Warren, Michigan — call (248) 522-2573 for rental availability and pricing.</p>
-      </div>
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <h3>Applications</h3>
+      <ul>
+        <li>Wastewater Sludge Thickening</li>
+        <li>Crude Oil Tank Bottoms</li>
+        <li>Manure Dewatering</li>
+        <li>Paint Manufacturing Wastewater</li>
+        <li>and other 2-phase separation with &lt;35% solids (v/v).</li>
+      </ul>
+    </div>
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/decanter-centrifuge-rental/biomass-centrifuge-Alfa-Laval-NX314-e1614264203157.webp" alt="biomass centrifuge Alfa Laval NX314" width="600" height="400" class="rounded-xl" />
+    </div>
+  </div>
 
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-4">
-          Dolphin Centrifuge maintains a fleet of Alfa Laval Decanter Centrifuges for rent, which are suited for:
-        </p>
-        <ul class="text-text-light space-y-1 mb-4">
-          <li>&#8226; Process Evaluation for your specific process</li>
-          <li>&#8226; Emergency Service in case your decanter breaks down or is in service</li>
-          <li>&#8226; Short-term process capacity augmentation</li>
-        </ul>
-        <p class="text-text-light mb-6">
-          In some cases, Dolphin Centrifuge can accommodate long-term rental requirements by building a decanter skid for specific customer applications.
-        </p>
-        <p class="text-text-light font-semibold">
-          A rental contract requires a minimum rental period commitment, deposit, execution of a formal rental contract, and other standard conditions.
-        </p>
-      </div>
+  <h3>NX-314 Specifications</h3>
+  <table>
+    <thead>
+      <tr><th>Spec</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Rated Capacity</td><td>40 GPM</td></tr>
+      <tr><td>Motor</td><td>460V / 3Ph – 15 HP Motor</td></tr>
+      <tr><td>Skid Size</td><td>3' x 7' x 6' (H)</td></tr>
+      <tr><td>Weight</td><td>~ 2,500 Lbs</td></tr>
+      <tr><td>Power</td><td>460 VAC Power</td></tr>
+      <tr><td>Bowl Speed</td><td>4,000 RPM</td></tr>
+      <tr><td>RCF (Relative Centrifugal Force)</td><td>3,150 Gs</td></tr>
+      <tr><td>Included options</td><td>Remote Mounted VFD Control Panel W/ Over-Torque Alarms</td></tr>
+    </tbody>
+  </table>
 
-      <!-- NX-314 Rental Decanter -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">NX-314 Rental Decanter</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; Wastewater Sludge Thickening</li>
-          <li>&#8226; Crude Oil Tank Bottoms</li>
-          <li>&#8226; Manure Dewatering</li>
-          <li>&#8226; Paint Manufacturing Wastewater</li>
-          <li>&#8226; and other 2-phase separation with &lt;35% solids (v/v).</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">40 GPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor</td><td class="px-4 py-2 text-text-light">460V / 3Ph &ndash; 15 HP Motor</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Skid Size</td><td class="px-4 py-2 text-text-light">3&prime; x 7&prime; x 6&prime; (H)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Weight</td><td class="px-4 py-2 text-text-light">~ 2,500 Lbs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Power</td><td class="px-4 py-2 text-text-light">460 VAC Power</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Speed</td><td class="px-4 py-2 text-text-light">4,000 RPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">RCF (Relative Centrifugal Force)</td><td class="px-4 py-2 text-text-light">3,150 Gs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Included options</td><td class="px-4 py-2 text-text-light">Remote Mounted VFD Control Panel W/ Over-Torque Alarms</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <!-- NX-418 Rental Decanter -->
+  <h2 id="nx418">NX-418 Rental Decanter</h2>
 
-      <!-- NX-418 Rental Decanter -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mt-10 mb-4">NX-418 Rental Decanter</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; Industrial Wastewater</li>
-          <li>&#8226; Drilling Mud</li>
-          <li>&#8226; WVO, UCO, Grease Trap/Yellow Grease</li>
-          <li>&#8226; Paper Mill Wastewater</li>
-          <li>&#8226; and other 2-phase or 3-phase separation with &lt;35% solids (v/v).</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Rated Capacity</td><td class="px-4 py-2 text-text-light">80 GPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor</td><td class="px-4 py-2 text-text-light">460V / 3Ph &ndash; 25 HP Motor</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Skid Size</td><td class="px-4 py-2 text-text-light">3&prime; x 7&prime; x 6&prime; (H)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Weight</td><td class="px-4 py-2 text-text-light">~ 4,000 Lbs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Power</td><td class="px-4 py-2 text-text-light">460 VAC Power</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Speed</td><td class="px-4 py-2 text-text-light">4,000 RPM</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">RCF (Relative Centrifugal Force)</td><td class="px-4 py-2 text-text-light">3,150 Gs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Included options</td><td class="px-4 py-2 text-text-light">Remote Mounted VFD Control Panel W/ Vibration and Over-Torque Alarms</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <h3>Applications</h3>
+      <ul>
+        <li>Industrial Wastewater</li>
+        <li>Drilling Mud</li>
+        <li>WVO, UCO, Grease Trap/Yellow Grease</li>
+        <li>Paper Mill Wastewater</li>
+        <li>and other 2-phase or 3-phase separation with &lt;35% solids (v/v).</li>
+      </ul>
+    </div>
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/decanter-centrifuge-rental/Alfa-Laval-NX418-Decanter-C1D2-for-Hemp-Ethanol-Processing-1000.webp" alt="Alfa Laval NX418 Decanter C1D2 for Hemp Ethanol Processing" width="1000" height="600" class="rounded-xl" />
+    </div>
+  </div>
 
-      <!-- Additive Content -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Industrial Decanter Centrifuge Rental Program</h2>
-      <p class="text-text-muted mb-4">
-        Decanter centrifuges are the workhorse of solids-liquid separation. Unlike disc stack separators that handle fine particles and liquid-liquid separation, decanters are designed for high-solids feeds&mdash;slurries, sludges, and suspensions where the solid phase can represent 5% to 60% or more of the total volume.
-      </p>
-      <p class="text-text-muted mb-8">
-        Renting a decanter centrifuge from Dolphin Centrifuge gives you access to fully rebuilt, production-ready equipment without the capital expenditure. Every rental decanter is rebuilt in our <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">Warren, Michigan service facility</a> with new bearings, seals, and hard-facing as needed.
-      </p>
+  <h3>NX-418 Specifications</h3>
+  <table>
+    <thead>
+      <tr><th>Spec</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Rated Capacity</td><td>80 GPM</td></tr>
+      <tr><td>Motor</td><td>460V / 3Ph – 25 HP Motor</td></tr>
+      <tr><td>Skid Size</td><td>3' x 7' x 6' (H)</td></tr>
+      <tr><td>Weight</td><td>~ 4,000 Lbs</td></tr>
+      <tr><td>Power</td><td>460 VAC Power</td></tr>
+      <tr><td>Bowl Speed</td><td>4,000 RPM</td></tr>
+      <tr><td>RCF (Relative Centrifugal Force)</td><td>3,150 Gs</td></tr>
+      <tr><td>Included options</td><td>Remote Mounted VFD Control Panel W/ Vibration and Over-Torque Alarms</td></tr>
+    </tbody>
+  </table>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Available Decanter Models</h2>
+  <!-- Additive Content -->
+  <h2 id="program">Industrial Decanter Centrifuge Rental Program</h2>
+  <p>Decanter centrifuges are the workhorse of solids-liquid separation. Unlike disc stack separators that handle fine particles and liquid-liquid separation, decanters are designed for high-solids feeds — slurries, sludges, and suspensions where the solid phase can represent 5% to 60% or more of the total volume.</p>
+  <p>Renting a decanter centrifuge from Dolphin Centrifuge gives you access to fully rebuilt, production-ready equipment without the capital expenditure. Every rental decanter is rebuilt in our <a href="/industrial-disc-centrifuge-repair/">Warren, Michigan service facility</a> with new bearings, seals, and hard-facing as needed.</p>
 
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
-          <thead class="bg-navy text-white">
-            <tr>
-              <th class="px-4 py-3 font-semibold">Model</th>
-              <th class="px-4 py-3 font-semibold">Bowl Diameter</th>
-              <th class="px-4 py-3 font-semibold">Throughput</th>
-              <th class="px-4 py-3 font-semibold">Typical Applications</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200 text-text-muted">
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">NX-314</td>
-              <td class="px-4 py-3">14 inches</td>
-              <td class="px-4 py-3">Up to 30 GPM</td>
-              <td class="px-4 py-3">Wastewater sludge, oily water, drilling mud</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">NX-418</td>
-              <td class="px-4 py-3">18 inches</td>
-              <td class="px-4 py-3">Up to 80 GPM</td>
-              <td class="px-4 py-3">Municipal sludge, industrial wastewater, oil sludge</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">G2-40</td>
-              <td class="px-4 py-3">16 inches</td>
-              <td class="px-4 py-3">Up to 60 GPM</td>
-              <td class="px-4 py-3">High-G dewatering, fine solids, chemical sludge</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">CHNX-418</td>
-              <td class="px-4 py-3">18 inches</td>
-              <td class="px-4 py-3">Up to 80 GPM</td>
-              <td class="px-4 py-3">Food-grade, chemical, pharmaceutical</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <h3>Available Decanter Models</h3>
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Bowl Diameter</th><th>Throughput</th><th>Typical Applications</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>NX-314</td><td>14 inches</td><td>Up to 30 GPM</td><td>Wastewater sludge, oily water, drilling mud</td></tr>
+      <tr><td>NX-418</td><td>18 inches</td><td>Up to 80 GPM</td><td>Municipal sludge, industrial wastewater, oil sludge</td></tr>
+      <tr><td>G2-40</td><td>16 inches</td><td>Up to 60 GPM</td><td>High-G dewatering, fine solids, chemical sludge</td></tr>
+      <tr><td>CHNX-418</td><td>18 inches</td><td>Up to 80 GPM</td><td>Food-grade, chemical, pharmaceutical</td></tr>
+    </tbody>
+  </table>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Decanter Rental Applications</h2>
-      <p class="text-text-muted mb-4">
-        Our rental decanters serve a wide range of industries and use cases:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Wastewater Sludge Dewatering:</strong> Reduce sludge volume by 70&ndash;90% before disposal, cutting hauling and landfill costs</li>
+  <!-- Rental Applications -->
+  <h2 id="applications">Decanter Rental Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <p>Our rental decanters serve a wide range of industries and use cases:</p>
+      <ul>
+        <li><strong>Wastewater Sludge Dewatering:</strong> Reduce sludge volume by 70–90% before disposal, cutting hauling and landfill costs</li>
         <li><strong>Oily Water Treatment:</strong> Separate free oil from produced water, bilge water, or wash water for compliant discharge</li>
         <li><strong>Crude Oil Recovery:</strong> Recover oil from tank bottoms, pit cleanouts, and drilling waste</li>
-        <li><strong>Industrial Process:</strong> Clarify process liquids, recover valuable solids, or dewater slurries</li>
-        <li><strong>Emergency Response:</strong> Rapid deployment for spill cleanup, lagoon closure, or regulatory compliance deadlines</li>
-        <li><strong>Pilot Testing:</strong> Run your actual feed material through a full-scale decanter to generate reliable design data before purchasing</li>
       </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What's Included</h2>
-      <p class="text-text-muted mb-4">
-        Dolphin Centrifuge rental decanters are delivered as complete, ready-to-operate systems:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li>Fully rebuilt decanter centrifuge with new bearings, seals, and wear components</li>
-        <li>Drive motor, VFD (variable frequency drive), and control panel</li>
-        <li>Feed pump and polymer dosing system (if applicable)</li>
-        <li>Interconnecting piping and process connections</li>
-        <li>Operating manual with recommended parameters for your application</li>
-        <li>Remote or on-site startup and commissioning support</li>
-        <li>Technical support throughout the rental period</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Rental Terms &amp; Pricing</h2>
-      <p class="text-text-muted mb-4">
-        We structure rental agreements to fit your project requirements:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Short-Term (1&ndash;3 months):</strong> Ideal for project work, pilot testing, or emergency needs</li>
-        <li><strong>Long-Term (6&ndash;12+ months):</strong> Reduced monthly rates for extended commitments</li>
-        <li><strong>Rent-to-Own:</strong> Apply a portion of rental payments toward eventual purchase</li>
-        <li><strong>Mobilization:</strong> We coordinate trucking and delivery nationwide</li>
-        <li><strong>Insurance:</strong> Rental includes standard equipment coverage</li>
-      </ul>
-      <p class="text-text-muted mb-8">
-        Rental pricing depends on the model, duration, and application. Contact us at <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> or <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> for a detailed quote.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Need a Disc Stack Separator Instead?</h2>
-      <p class="text-text-muted mb-4">
-        If your application involves liquid-liquid separation, fine solids removal, or oil purification, a disc stack centrifuge may be a better fit. See our <a href="/disc-stack-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge rental program</a> for DMPX-series self-cleaning separators.
-      </p>
-      <p class="text-text-muted mb-4">
-        Not sure which type you need? Our <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold transition-colors">sample testing service</a> can determine the optimal centrifuge type and size for your specific material.
-      </p>
-
     </div>
-  </section>
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/decanter-centrifuge-rental/WasteWater-Decanter-300.webp" alt="WasteWater Decanter" width="300" height="225" class="rounded-xl" />
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>Industrial Process:</strong> Clarify process liquids, recover valuable solids, or dewater slurries</li>
+    <li><strong>Emergency Response:</strong> Rapid deployment for spill cleanup, lagoon closure, or regulatory compliance deadlines</li>
+    <li><strong>Pilot Testing:</strong> Run your actual feed material through a full-scale decanter to generate reliable design data before purchasing</li>
+  </ul>
+
+  <!-- What's Included -->
+  <h2 id="included">What's Included</h2>
+  <p>Dolphin Centrifuge rental decanters are delivered as complete, ready-to-operate systems:</p>
+  <ul>
+    <li>Fully rebuilt decanter centrifuge with new bearings, seals, and wear components</li>
+    <li>Drive motor, VFD (variable frequency drive), and control panel</li>
+    <li>Feed pump and polymer dosing system (if applicable)</li>
+    <li>Interconnecting piping and process connections</li>
+    <li>Operating manual with recommended parameters for your application</li>
+    <li>Remote or on-site startup and commissioning support</li>
+    <li>Technical support throughout the rental period</li>
+  </ul>
+
+  <!-- Rental Terms -->
+  <h2 id="terms">Rental Terms &amp; Pricing</h2>
+  <p>We structure rental agreements to fit your project requirements:</p>
+  <ul>
+    <li><strong>Short-Term (1–3 months):</strong> Ideal for project work, pilot testing, or emergency needs</li>
+    <li><strong>Long-Term (6–12+ months):</strong> Reduced monthly rates for extended commitments</li>
+    <li><strong>Rent-to-Own:</strong> Apply a portion of rental payments toward eventual purchase</li>
+    <li><strong>Mobilization:</strong> We coordinate trucking and delivery nationwide</li>
+    <li><strong>Insurance:</strong> Rental includes standard equipment coverage</li>
+  </ul>
+  <p>Rental pricing depends on the model, duration, and application. Contact us at <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> or <a href="tel:2485222573">(248) 522-2573</a> for a detailed quote.</p>
+
+  <h3>Need a Disc Stack Separator Instead?</h3>
+  <p>If your application involves liquid-liquid separation, fine solids removal, or oil purification, a disc stack centrifuge may be a better fit. See our <a href="/disc-stack-centrifuge-rental/">disc stack centrifuge rental program</a> for DMPX-series self-cleaning separators.</p>
+  <p>Not sure which type you need? Our <a href="/industrial-centrifuge-sample-testing/">sample testing service</a> can determine the optimal centrifuge type and size for your specific material.</p>
 
   <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What decanter centrifuge models does Dolphin Centrifuge have available for rental?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge offers rental of Alfa Laval NX-314 and NX-418 decanter centrifuges — horizontal scroll decanters suitable for sludge dewatering, oily water separation, industrial wastewater, and oil-based drilling mud recovery. Contact us for current rental inventory.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How long is the minimum rental period for a decanter centrifuge?</h3>
-            <p class="text-text-light text-sm">Rental terms are flexible based on your project timeline. Minimum rental periods typically start at 1 month for short-term pilot projects or emergency capacity situations. Long-term rentals (3–12 months) are available for extended projects or while capital equipment is on order.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Does the rental include delivery, setup, and support?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge rental packages include delivery to your site, on-site commissioning assistance, and phone/remote technical support during the rental period. We can also provide operator training. Contact us to discuss the level of support needed for your application.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">What decanter centrifuge models does Dolphin Centrifuge have available for rental?</summary>
+    <div class="px-5 pb-5 text-text-light">Dolphin Centrifuge offers rental of Alfa Laval NX-314 and NX-418 decanter centrifuges — horizontal scroll decanters suitable for sludge dewatering, oily water separation, industrial wastewater, and oil-based drilling mud recovery. Contact us for current rental inventory.</div>
+  </details>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">How long is the minimum rental period for a decanter centrifuge?</summary>
+    <div class="px-5 pb-5 text-text-light">Rental terms are flexible based on your project timeline. Minimum rental periods typically start at 1 month for short-term pilot projects or emergency capacity situations. Long-term rentals (3–12 months) are available for extended projects or while capital equipment is on order.</div>
+  </details>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">Does the rental include delivery, setup, and support?</summary>
+    <div class="px-5 pb-5 text-text-light">Yes. Dolphin Centrifuge rental packages include delivery to your site, on-site commissioning assistance, and phone/remote technical support during the rental period. We can also provide operator training. Contact us to discuss the level of support needed for your application.</div>
+  </details>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/disc-stack-centrifuge-rental/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Rental</span>
-        </a>
-        <a href="/decanter-centrifuge-applications/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Applications</span>
-        </a>
-        <a href="/alfa-laval-nx-314-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-314 Decanter</span>
-        </a>
-        <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-418 Decanter</span>
-        </a>
-        <a href="/industrial-centrifuge-buyback/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Industrial Centrifuge Buyback</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Rent a Decanter?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us about your application, volume, and timeline. We will match you with the right decanter and provide a rental quote within 24 hours.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us Today</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>

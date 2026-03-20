@@ -1,11 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What PLC platforms does Dolphin Centrifuge use for centrifuge controls?",
+    answer: "Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series."
+  },
+  {
+    question: "Can Dolphin Centrifuge retrofit controls on an existing centrifuge?",
+    answer: "Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components."
+  },
+  {
+    question: "What standard features are included in a Dolphin centrifuge control panel?",
+    answer: "Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Centrifuge Control Systems",
-  "description": "Custom PLC/HMI centrifuge control panels with auto-start, discharge timing, vibration monitoring, and data logging. Allen-Bradley and Siemens. Retrofit and turnkey.",
+  "description": "Custom PLC/HMI centrifuge control panels with auto-start, discharge timing, vibration monitoring, and data logging. Allen-Bradley and Siemens.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   "category": "Industrial Centrifuge Controls",
@@ -20,104 +36,118 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What PLC platforms does Dolphin Centrifuge use for centrifuge controls?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can Dolphin Centrifuge retrofit controls on an existing centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What standard features are included in a Dolphin centrifuge control panel?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'modern-controls', label: 'Modern Controls' },
+  { id: 'features', label: 'Standard Control Features' },
+  { id: 'plc-platforms', label: 'PLC Platforms' },
+  { id: 'retrofit', label: 'Retrofit Controls' },
+  { id: 'turnkey', label: 'Turnkey System Integration' },
+  { id: 'specifications', label: 'Panel Specifications' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge', href: '/disc-stack-centrifuge/' },
+  { label: 'Decanter Centrifuge', href: '/decanter-centrifuge/' },
+  { label: 'Explosion Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+  { label: 'Application Directory', href: '/disc-stack-centrifuge-applications/' },
+];
+
+const relatedProducts = [
+  { label: 'Centrifuge Parts & Spares', href: '/alfa-laval-centrifuge-parts/', description: 'OEM and aftermarket parts' },
+  { label: 'System Design & Engineering', href: '/industrial-centrifuge-design/', description: 'Custom turnkey systems' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Centrifuge Control Systems"
-  description="Custom PLC/HMI centrifuge control panels with auto-start, discharge timing, vibration monitoring, and data logging. Allen-Bradley and Siemens. Retrofit and turnkey."
+  description="Custom PLC and HMI centrifuge control panels by Dolphin Centrifuge. Auto-start, discharge timing, vibration monitoring, and data logging for any brand."
+  category="products"
+  categoryLabel="Controls & Automation"
+  heroImage="/images/industrial-centrifuge-controls/Centrifuge-Control-Panel-XP_1.webp"
+  heroImageAlt="Centrifuge Control Panel XP"
   canonicalUrl="https://dolphincentrifuge.com/industrial-centrifuge-controls/"
-  breadcrumbs={[{label: 'Centrifuges', href: '/alfa-laval-centrifuges/'}, {label: 'Control Systems'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Controls &amp; Automation</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Centrifuge Control Systems</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge designs and builds custom PLC/HMI control panels for industrial centrifuge systems. From retrofit controls for existing machines to fully integrated panels for turnkey installations, every system is engineered for reliable, automated centrifuge operation.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge designs, wires, programs, and tests industrial centrifuge control panels for DMPX and DMB disc stack systems as well as decanter centrifuge installations. Control packages range from basic 120V start/stop panels to fully automated PLC systems with remote monitoring and safety interlocks. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifuge automation and controls.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge designs, wires, programs, and tests industrial centrifuge control panels for DMPX and DMB disc stack systems as well as decanter centrifuge installations. Control packages range from basic 120V start/stop panels to fully automated PLC systems with remote monitoring and safety interlocks. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifuge automation and controls.</p>
-      </div>
+  <h2 id="modern-controls">Modern Controls for Industrial Centrifuges</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Modern Controls for Industrial Centrifuges</h2>
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
       <p class="text-text-light mb-4">
         A centrifuge is only as reliable as the controls that run it. Many older centrifuge installations rely on outdated relay-based panels, obsolete PLCs, or manual start/stop procedures that leave performance on the table and expose operators to unnecessary risk. Dolphin Centrifuge replaces these legacy systems with modern, fully programmable control panels that automate the entire centrifuge operation from startup through shutdown.
       </p>
-      <p class="text-text-light mb-8">
+      <p class="text-text-light">
         Every Dolphin control panel is designed, wired, programmed, and tested in our Warren, Michigan facility by engineers with 40+ years of centrifuge automation experience. We build panels for our own turnkey centrifuge systems and also supply retrofit control upgrades for existing installations running any brand of industrial centrifuge.
       </p>
+    </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/industrial-centrifuge-controls/Industrial-Centrifuge-Controls-200x300-1.webp"
+        alt="Industrial Centrifuge Controls"
+        width="200"
+        height="300"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
+    </div>
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Standard Control Features</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Auto Start / Stop</h3>
-          <p class="text-sm text-text-light">One-button startup sequencing: motor start, bowl acceleration, operating water, feed valve, and discharge timing &mdash; all automated with proper interlocks and delays.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Discharge Timing</h3>
-          <p class="text-sm text-text-light">Programmable solids discharge intervals and durations for self-cleaning centrifuges. Adjustable from the HMI to optimize for varying feed conditions without rewiring.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Temperature Monitoring</h3>
-          <p class="text-sm text-text-light">RTD sensors on feed, discharge, and bearing locations with high-temperature alarms and auto-shutdown protection. Critical for heated oil applications.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Vibration Monitoring</h3>
-          <p class="text-sm text-text-light">Accelerometer-based vibration sensing on the centrifuge frame with alarm and trip setpoints. Detects imbalance, bearing wear, or bowl issues before damage occurs.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Touch Screen HMI</h3>
-          <p class="text-sm text-text-light">Color touch screen operator interface displaying live process data, alarm history, trending graphs, and system status. Intuitive navigation for operators of all skill levels.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Data Logging</h3>
-          <p class="text-sm text-text-light">Continuous recording of temperatures, vibration levels, motor amps, discharge events, and alarm history. Data can be exported via USB or accessed remotely.</p>
-        </div>
-      </div>
+  <h2 id="features">Standard Control Features</h2>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Auto Start / Stop</h3>
+      <p class="text-sm text-text-light">One-button startup sequencing: motor start, bowl acceleration, operating water, feed valve, and discharge timing &mdash; all automated with proper interlocks and delays.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Discharge Timing</h3>
+      <p class="text-sm text-text-light">Programmable solids discharge intervals and durations for self-cleaning centrifuges. Adjustable from the HMI to optimize for varying feed conditions without rewiring.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Temperature Monitoring</h3>
+      <p class="text-sm text-text-light">RTD sensors on feed, discharge, and bearing locations with high-temperature alarms and auto-shutdown protection. Critical for heated oil applications.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Vibration Monitoring</h3>
+      <p class="text-sm text-text-light">Accelerometer-based vibration sensing on the centrifuge frame with alarm and trip setpoints. Detects imbalance, bearing wear, or bowl issues before damage occurs.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Touch Screen HMI</h3>
+      <p class="text-sm text-text-light">Color touch screen operator interface displaying live process data, alarm history, trending graphs, and system status. Intuitive navigation for operators of all skill levels.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Data Logging</h3>
+      <p class="text-sm text-text-light">Continuous recording of temperatures, vibration levels, motor amps, discharge events, and alarm history. Data can be exported via USB or accessed remotely.</p>
+    </div>
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">PLC Platforms</h2>
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge builds control panels on industry-standard PLC platforms. We match the PLC brand to the customer's existing plant infrastructure for seamless integration and standardized maintenance:
-      </p>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
+  <h2 id="plc-platforms">PLC Platforms</h2>
+  <p>
+    Dolphin Centrifuge builds control panels on industry-standard PLC platforms. We match the PLC brand to the customer's existing plant infrastructure for seamless integration and standardized maintenance:
+  </p>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <div class="grid gap-4">
         <div class="bg-white rounded-xl p-6 border border-gray-200">
           <h3 class="text-lg font-bold text-navy mb-2">Allen-Bradley (Rockwell)</h3>
           <p class="text-sm text-text-light mb-3">
@@ -143,110 +173,87 @@ const faqJsonLd = {
           </ul>
         </div>
       </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Retrofit Controls for Existing Centrifuges</h2>
-      <p class="text-text-light mb-4">
-        If you have a working centrifuge running on outdated controls, Dolphin Centrifuge can design and supply a drop-in replacement control panel. Retrofit panels are built to match the existing field wiring, motor specifications, and sensor inputs, minimizing installation time and cost. Benefits of a retrofit upgrade include:
-      </p>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; Automated operation replacing manual start/stop procedures</li>
-        <li>&#8226; Modern vibration and temperature protection preventing costly failures</li>
-        <li>&#8226; Touch screen HMI replacing push-button panels and analog gauges</li>
-        <li>&#8226; Data logging for process optimization and regulatory compliance</li>
-        <li>&#8226; Remote monitoring capability via Ethernet or cellular modem</li>
-        <li>&#8226; Reduced operator labor and training requirements</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Turnkey System Integration</h2>
-      <p class="text-text-light mb-4">
-        For new centrifuge installations, Dolphin Centrifuge designs the control panel as an integral part of the complete system. The panel manages not just the centrifuge but also the feed pump, heater, valves, and any auxiliary equipment on the skid. All systems are fully wired, programmed, and factory-tested before shipment so installation is limited to connecting utilities and process piping.
-      </p>
-      <p class="text-text-light mb-8">
-        Turnkey control panels are available in NEMA 4, NEMA 4X (stainless), NEMA 7/9 (<a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">explosion proof</a>), and NEMA 12 enclosure ratings to suit any installation environment.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Panel Specifications</h2>
-      <div class="overflow-x-auto mb-10">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Specification</th>
-              <th class="text-left px-4 py-3 font-semibold">Standard</th>
-              <th class="text-left px-4 py-3 font-semibold">Optional</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Power Supply</td>
-              <td class="px-4 py-3 text-text-light">480V 3-phase, 60Hz</td>
-              <td class="px-4 py-3 text-text-light">208V, 380V, 575V, 50Hz</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Enclosure</td>
-              <td class="px-4 py-3 text-text-light">NEMA 4 painted steel</td>
-              <td class="px-4 py-3 text-text-light">NEMA 4X SS, NEMA 7/9 XP</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Motor Starter</td>
-              <td class="px-4 py-3 text-text-light">Across-the-line or soft starter</td>
-              <td class="px-4 py-3 text-text-light">VFD (variable frequency drive)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Communication</td>
-              <td class="px-4 py-3 text-text-light">Ethernet (local HMI)</td>
-              <td class="px-4 py-3 text-text-light">Modbus, EtherNet/IP, cellular</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">I/O Expansion</td>
-              <td class="px-4 py-3 text-text-light">Spare I/O for future sensors</td>
-              <td class="px-4 py-3 text-text-light">Remote I/O racks, SCADA integration</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What PLC platforms does Dolphin Centrifuge use for centrifuge controls?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Can Dolphin Centrifuge retrofit controls on an existing centrifuge?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What standard features are included in a Dolphin centrifuge control panel?</h3>
-            <p class="text-text-light text-sm">Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration.</p>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Products &amp; Services</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Decanter Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Parts &amp; Spares</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">Application Directory</a></li>
-      </ul>
-
     </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need a Centrifuge Control Panel?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us about your centrifuge model, motor size, and automation requirements. We will design a control system tailored to your operation.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/industrial-centrifuge-controls/Industrial-Centrifuge-Controls-Screen.webp"
+        alt="Industrial Centrifuge Controls Screen"
+        width="600"
+        height="400"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <h2 id="retrofit">Retrofit Controls for Existing Centrifuges</h2>
+  <p>
+    If you have a working centrifuge running on outdated controls, Dolphin Centrifuge can design and supply a drop-in replacement control panel. Retrofit panels are built to match the existing field wiring, motor specifications, and sensor inputs, minimizing installation time and cost. Benefits of a retrofit upgrade include:
+  </p>
+  <ul>
+    <li>Automated operation replacing manual start/stop procedures</li>
+    <li>Modern vibration and temperature protection preventing costly failures</li>
+    <li>Touch screen HMI replacing push-button panels and analog gauges</li>
+    <li>Data logging for process optimization and regulatory compliance</li>
+    <li>Remote monitoring capability via Ethernet or cellular modem</li>
+    <li>Reduced operator labor and training requirements</li>
+  </ul>
+
+  <h2 id="turnkey">Turnkey System Integration</h2>
+  <p>
+    For new centrifuge installations, Dolphin Centrifuge designs the control panel as an integral part of the complete system. The panel manages not just the centrifuge but also the feed pump, heater, valves, and any auxiliary equipment on the skid. All systems are fully wired, programmed, and factory-tested before shipment so installation is limited to connecting utilities and process piping.
+  </p>
+  <p>
+    Turnkey control panels are available in NEMA 4, NEMA 4X (stainless), NEMA 7/9 (<a href="/explosion-proof-centrifuge/">explosion proof</a>), and NEMA 12 enclosure ratings to suit any installation environment.
+  </p>
+
+  <h2 id="specifications">Panel Specifications</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>Standard</th>
+        <th>Optional</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Power Supply</td>
+        <td>480V 3-phase, 60Hz</td>
+        <td>208V, 380V, 575V, 50Hz</td>
+      </tr>
+      <tr>
+        <td>Enclosure</td>
+        <td>NEMA 4 painted steel</td>
+        <td>NEMA 4X SS, NEMA 7/9 XP</td>
+      </tr>
+      <tr>
+        <td>Motor Starter</td>
+        <td>Across-the-line or soft starter</td>
+        <td>VFD (variable frequency drive)</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td>Ethernet (local HMI)</td>
+        <td>Modbus, EtherNet/IP, cellular</td>
+      </tr>
+      <tr>
+        <td>I/O Expansion</td>
+        <td>Spare I/O for future sensors</td>
+        <td>Remote I/O racks, SCADA integration</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <FAQ items={faqItems} />
+
+  <h2>Related Products &amp; Services</h2>
+  <ul>
+    <li><a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Systems</a></li>
+    <li><a href="/decanter-centrifuge/">Decanter Centrifuge Systems</a></li>
+    <li><a href="/explosion-proof-centrifuge/">Explosion Proof Centrifuge Systems</a></li>
+    <li><a href="/alfa-laval-centrifuge-parts/">Centrifuge Parts &amp; Spares</a></li>
+    <li><a href="/disc-stack-centrifuge-applications/">Application Directory</a></li>
+  </ul>
+
+</ApplicationLayout>

@@ -1,11 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What topics are covered in Dolphin Centrifuge operator training?",
+    answer: "Dolphin Centrifuge training programs cover centrifuge operating principles, startup and shutdown procedures, sludge discharge timing adjustment, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment."
+  },
+  {
+    question: "Is centrifuge training available on-site at my facility?",
+    answer: "Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training is particularly valuable for new centrifuge installations — we can train your operators during commissioning so they are fully capable from day one."
+  },
+  {
+    question: "What centrifuge brands and models does Dolphin Centrifuge training cover?",
+    answer: "Dolphin Centrifuge training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and Alfa Laval decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis. Contact us to discuss your specific equipment."
+  }
+];
+
+const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Centrifuge Operator Training",
-  "description": "Industrial centrifuge operator training programs. On-site and virtual training for operation, maintenance, troubleshooting, and bowl assembly. 40+ years expertise.",
+  "description": "Industrial centrifuge operator training programs. On-site and virtual training for operation, maintenance, troubleshooting, and bowl assembly.",
   "provider": {
     "@type": "Organization",
     "name": "Dolphin Centrifuge",
@@ -20,297 +36,226 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What topics are covered in Dolphin Centrifuge operator training?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge training programs cover centrifuge operating principles, startup and shutdown procedures, sludge discharge timing adjustment, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is centrifuge training available on-site at my facility?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training is particularly valuable for new centrifuge installations — we can train your operators during commissioning so they are fully capable from day one."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What centrifuge brands and models does Dolphin Centrifuge training cover?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and Alfa Laval decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis. Contact us to discuss your specific equipment."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [serviceJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'on-site-training', label: 'On-Site Startup Training' },
+  { id: 'in-house-training', label: 'In-House Training' },
+  { id: 'why-training', label: 'Why Training Matters' },
+  { id: 'programs', label: 'Training Programs' },
+  { id: 'delivery', label: 'Training Delivery Options' },
+  { id: 'attendees', label: 'Who Should Attend?' },
+  { id: 'materials', label: 'Training Materials' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Centrifuge Service & Repair', href: '/centrifuge-service-and-repair/' },
+  { label: 'Centrifuge Installation', href: '/disc-stack-centrifuge-installation/' },
+  { label: 'Parts Glossary', href: '/disc-centrifuge-parts-glossary/' },
+  { label: 'Centrifuge Lubrication', href: '/disc-stack-centrifuge-lubrication/' },
+];
+
+const relatedProducts = [
+  { label: 'System Design & Engineering', href: '/industrial-centrifuge-design/', description: 'Custom turnkey systems' },
+  { label: 'Top 10 Mechanical Issues', href: '/disc-stack-centrifuge-mechanical-issues-fixes/', description: 'Troubleshooting guide' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Centrifuge Operator Training"
-  description="Industrial centrifuge operator training programs. On-site and virtual training for operation, maintenance, troubleshooting, and bowl assembly. 40+ years expertise."
+  description="Industrial centrifuge operator training by Dolphin Centrifuge. On-site and virtual programs covering operation, maintenance, troubleshooting, and bowl assembly."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/industrial-centrifuge-training/Centrifuge-Training.webp"
+  heroImageAlt="Centrifuge Training"
   canonicalUrl="https://dolphincentrifuge.com/industrial-centrifuge-training/"
-  breadcrumbs={[
-    { label: 'Services', href: '/industrial-centrifuge-design/' },
-    { label: 'Operator Training' },
-  ]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Services</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Centrifuge Operator Training</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">
-        Dolphin Centrifuge provides hands-on operator training for disc stack separators and decanter centrifuges. Our training programs cover safe operation, routine maintenance, troubleshooting, and bowl assembly&mdash;delivered on-site at your facility or remotely via virtual sessions.
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides comprehensive operational training for Alfa Laval industrial centrifuges — covering startup procedures, normal operation, sludge ejection cycle adjustment, gravity disc selection, troubleshooting, and preventive maintenance. Training is available on-site at customer facilities or at Dolphin's Warren, Michigan facility. Certification training for centrifuge operators and maintenance technicians also available. Based in Warren, Michigan, with over 40 years of Alfa Laval centrifuge training experience.</p>
+  </div>
+
+  <h2 id="on-site-training">Startup Assistance and Centrifuge Training at Customer Site</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <p class="text-text-light mb-4">
+        Dolphin Centrifuge provides comprehensive operational training for Alfa Laval industrial centrifuges. We offer this training on-site or in-house at our facility in Warren, MI.
       </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Schedule Training</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+      <p class="text-text-light mb-4">
+        The on-site industrial centrifuge service and training are integral to our services. This training assures the customer of the best use of the centrifuge safely and efficiently.
+      </p>
+      <p class="text-text-light mb-4">
+        After delivery and site installation, our technicians check the entire centrifuge system. We involve the customer's operating staff in this inspection. This step familiarizes the operators with every aspect of the mechanical and electrical sub-systems.
+      </p>
+      <p class="text-text-light">Our industrial centrifuge startup and training include:</p>
     </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides comprehensive operational training for Alfa Laval industrial centrifuges — covering startup procedures, normal operation, sludge ejection cycle adjustment, gravity disc selection, troubleshooting, and preventive maintenance. Training is available on-site at customer facilities or at Dolphin's Warren, Michigan facility. Certification training for centrifuge operators and maintenance technicians also available. Based in Warren, Michigan, with over 40 years of Alfa Laval centrifuge training experience.</p>
-      </div>
-
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-6">
-          Dolphin Centrifuge provides comprehensive operational training for Alfa Laval industrial centrifuges. We offer this training on-site or in-house at our facility in Warren, MI.
-        </p>
-
-        <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Startup Assistance and Centrifuge Training at Customer Site</h2>
-        <p class="text-text-light mb-4">
-          The on-site industrial centrifuge service and training are integral to our services. This training assures the customer of the best use of the centrifuge safely and efficiently.
-        </p>
-        <p class="text-text-light mb-4">
-          After delivery and site installation, our technicians check the entire centrifuge system. We involve the customer's operating staff in this inspection. This step familiarizes the operators with every aspect of the mechanical and electrical sub-systems.
-        </p>
-        <p class="text-text-light mb-4">
-          Our industrial centrifuge startup and training include:
-        </p>
-        <ul class="text-text-light space-y-2 mb-6">
-          <li>&#8226; Complete mechanical &amp; electrical check of the centrifuge installation.</li>
-          <li>&#8226; Bowl Installation by site personnel under our technical supervision.</li>
-          <li>&#8226; Initial startup of the centrifuge and test run to check operating parameters.</li>
-          <li>&#8226; Process customer products through a centrifuge.</li>
-          <li>&#8226; Optimize centrifuge to customers' fluid characteristics for optimum efficiency.</li>
-          <li>&#8226; Monitor and record operating parameters for future reference.</li>
-          <li>&#8226; Comprehensive Dolphin Control System operation training.</li>
-          <li>&#8226; Test sub-system components (pumps, heaters, sludge handling system, etc.) and adjust as needed.</li>
-          <li>&#8226; Trigger various system alarms and train personnel on centrifuge troubleshooting.</li>
-          <li>&#8226; System shut-down sequence by site personnel under our tech's supervision.</li>
-          <li>&#8226; Bowl disassembly and re-assembly by site personnel under our tech's supervision.</li>
-        </ul>
-        <p class="text-text-light mb-8">
-          Dolphin Centrifuge also provides on-site centrifuge service options as part of a PM schedule or on an as-needed basis.
-        </p>
-
-        <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Industrial Centrifuge Operational Training (In-House)</h2>
-        <p class="text-text-light mb-4">
-          Dolphin offers free operator training when you buy a centrifuge system from us. Customer operator(s) sent to our workshop get hands-on training on the centrifuge system.
-        </p>
-        <p class="text-text-light mb-4">
-          The testing phase of our manufacturing process is the best time for this training. Due to licensing limitations, water is the testing fluid.
-        </p>
-        <p class="text-text-light mb-4">
-          Our in-house training covers above listed operational aspects of the centrifuge system. We encourage your personnel to operate the centrifuge and control system during training.
-        </p>
-        <p class="text-text-light mb-6">
-          We also train them to tear down &amp; rebuild the centrifuge bowl. This exercise familiarizes the operators with the inner mechanical details of the centrifuge system.
-        </p>
-        <p class="text-text-light">
-          Contact Dolphin Centrifuge for more information and to set up a centrifuge training session.
-        </p>
-      </div>
-
-      <!-- Additive Content -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Why Training Matters</h2>
-      <p class="text-text-muted mb-4">
-        An industrial centrifuge is a precision machine operating at extreme speeds. Proper operator training directly impacts separation performance, equipment lifespan, and workplace safety. A trained operator can identify developing problems before they become expensive failures, optimize separation parameters for changing feed conditions, and perform routine maintenance that prevents unplanned downtime.
-      </p>
-      <p class="text-text-muted mb-8">
-        Our training programs draw on over 40 years of field experience. Our instructors are the same technicians who <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">rebuild centrifuges</a> in our Warren, Michigan facility and commission <a href="/industrial-centrifuge-design/" class="text-navy font-semibold hover:text-gold transition-colors">turnkey systems</a> at customer sites worldwide. They teach what actually matters in real-world operation, not textbook theory.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Training Programs</h2>
-
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">New System Commissioning Training</h3>
-      <p class="text-text-muted mb-4">
-        Included with every new centrifuge system purchase from Dolphin Centrifuge. Conducted on-site during system startup, this training covers your specific equipment, process, and control system. Operators leave the session fully qualified to run the equipment independently.
-      </p>
-
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">Operator Fundamentals</h3>
-      <p class="text-text-muted mb-4">
-        A comprehensive 1&ndash;2 day program covering the principles and hands-on skills needed to operate an industrial centrifuge safely and effectively. Topics include:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-6 ml-4">
-        <li>Centrifuge operating principles (disc stack and/or decanter)</li>
-        <li>Pre-start inspection and startup procedures</li>
-        <li>Normal operating parameter monitoring</li>
-        <li>Shutdown and cleaning procedures</li>
-        <li>Safety hazards and lockout/tagout requirements</li>
-        <li>Control panel operation and alarm response</li>
-        <li>Feed preparation and temperature management</li>
-      </ul>
-
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">Maintenance &amp; Bowl Assembly</h3>
-      <p class="text-text-muted mb-4">
-        An advanced 1&ndash;2 day program for maintenance technicians who will perform routine service and preventive maintenance. This is a hands-on course that involves working with actual centrifuge components. Topics include:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-6 ml-4">
-        <li>Complete bowl disassembly and reassembly</li>
-        <li>Disc stack inspection, cleaning, and reinstallation</li>
-        <li>Seal and O-ring replacement</li>
-        <li>Bearing inspection and replacement criteria</li>
-        <li>Vibration monitoring and interpretation</li>
-        <li>Operating water system adjustment and testing (self-cleaning models)</li>
-        <li>Preventive maintenance schedules and checklists</li>
-        <li>Lubrication procedures and specifications</li>
-      </ul>
-
-      <h3 class="text-xl font-bold font-heading text-navy mb-3 mt-6">Troubleshooting &amp; Optimization</h3>
-      <p class="text-text-muted mb-4">
-        An advanced course for experienced operators and process engineers who want to maximize centrifuge performance and diagnose problems efficiently. Topics include:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-6 ml-4">
-        <li>Interpreting separation quality (effluent clarity, moisture content, solids dryness)</li>
-        <li>Adjusting gravity disc sizing and back-pressure for disc stack separators</li>
-        <li>Scroll differential speed and pond depth adjustment for decanters</li>
-        <li>Diagnosing common faults: vibration, foaming, poor separation, high motor current</li>
-        <li>Optimizing feed temperature, flow rate, and chemical dosing</li>
-        <li>Reading and acting on vibration analysis data</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Training Delivery Options</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
-          <thead class="bg-navy text-white">
-            <tr>
-              <th class="px-4 py-3 font-semibold">Format</th>
-              <th class="px-4 py-3 font-semibold">Duration</th>
-              <th class="px-4 py-3 font-semibold">Best For</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200 text-text-muted">
-            <tr>
-              <td class="px-4 py-3 font-semibold">On-Site at Your Facility</td>
-              <td class="px-4 py-3">1&ndash;3 days</td>
-              <td class="px-4 py-3">Hands-on training with your specific equipment and process</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">At Our Warren, MI Facility</td>
-              <td class="px-4 py-3">1&ndash;2 days</td>
-              <td class="px-4 py-3">Bowl assembly training with access to our full shop and parts inventory</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">Virtual / Remote</td>
-              <td class="px-4 py-3">Half-day sessions</td>
-              <td class="px-4 py-3">Refresher training, theory, control system operation, troubleshooting review</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Who Should Attend?</h2>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Operators:</strong> Personnel responsible for daily centrifuge operation and monitoring</li>
-        <li><strong>Maintenance Technicians:</strong> Staff performing preventive maintenance and repairs</li>
-        <li><strong>Process Engineers:</strong> Engineers responsible for optimizing separation performance</li>
-        <li><strong>Supervisors:</strong> Plant managers and shift leaders who oversee centrifuge operations</li>
-        <li><strong>New Hires:</strong> Replacement staff or new team members joining an existing centrifuge operation</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Training Materials</h2>
-      <p class="text-text-muted mb-4">
-        All training participants receive:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li>Printed training manual specific to your centrifuge model and application</li>
-        <li>Preventive maintenance checklists and schedules</li>
-        <li>Troubleshooting guide with common fault diagnosis</li>
-        <li>Certificate of completion for each attendee</li>
-      </ul>
-
-      <p class="text-text-muted mb-4">
-        To schedule training or request a customized training program, contact us at <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> or call <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a>.
-      </p>
-
+    <div class="md:w-1/2">
+      <img
+        src="/images/industrial-centrifuge-training/disc-stack-centrifuge-repair-600.webp"
+        alt="disc stack centrifuge repair"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
     </div>
-  </section>
+  </div>
 
-  <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What topics are covered in Dolphin Centrifuge operator training?</h3>
-            <p class="text-text-light text-sm">Training covers operating principles, startup/shutdown procedures, sludge discharge timing, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Is centrifuge training available on-site at my facility?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training during commissioning ensures your operators are fully capable from day one.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What centrifuge brands and models does Dolphin training cover?</h3>
-            <p class="text-text-light text-sm">Training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ul>
+    <li>Complete mechanical &amp; electrical check of the centrifuge installation.</li>
+    <li>Bowl Installation by site personnel under our technical supervision.</li>
+    <li>Initial startup of the centrifuge and test run to check operating parameters.</li>
+    <li>Process customer products through a centrifuge.</li>
+    <li>Optimize centrifuge to customers' fluid characteristics for optimum efficiency.</li>
+    <li>Monitor and record operating parameters for future reference.</li>
+    <li>Comprehensive Dolphin Control System operation training.</li>
+    <li>Test sub-system components (pumps, heaters, sludge handling system, etc.) and adjust as needed.</li>
+    <li>Trigger various system alarms and train personnel on centrifuge troubleshooting.</li>
+    <li>System shut-down sequence by site personnel under our tech's supervision.</li>
+    <li>Bowl disassembly and re-assembly by site personnel under our tech's supervision.</li>
+  </ul>
+  <p>Dolphin Centrifuge also provides on-site centrifuge service options as part of a PM schedule or on an as-needed basis.</p>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <h2 id="in-house-training">Industrial Centrifuge Operational Training (In-House)</h2>
+  <p>
+    Dolphin offers free operator training when you buy a centrifuge system from us. Customer operator(s) sent to our workshop get hands-on training on the centrifuge system.
+  </p>
+  <p>
+    The testing phase of our manufacturing process is the best time for this training. Due to licensing limitations, water is the testing fluid.
+  </p>
+  <p>
+    Our in-house training covers above listed operational aspects of the centrifuge system. We encourage your personnel to operate the centrifuge and control system during training.
+  </p>
+  <p>
+    We also train them to tear down &amp; rebuild the centrifuge bowl. This exercise familiarizes the operators with the inner mechanical details of the centrifuge system.
+  </p>
+  <p>
+    Contact Dolphin Centrifuge for more information and to set up a centrifuge training session.
+  </p>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/centrifuge-service-and-repair/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Centrifuge Service & Repair</span>
-        </a>
-        <a href="/disc-stack-centrifuge-installation/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Installation</span>
-        </a>
-        <a href="/disc-centrifuge-parts-glossary/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Centrifuge Parts Glossary</span>
-        </a>
-        <a href="/disc-stack-centrifuge-lubrication/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Lubrication</span>
-        </a>
-        <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Top 10 Mechanical Issues</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <h2 id="why-training">Why Training Matters</h2>
+  <p>
+    An industrial centrifuge is a precision machine operating at extreme speeds. Proper operator training directly impacts separation performance, equipment lifespan, and workplace safety. A trained operator can identify developing problems before they become expensive failures, optimize separation parameters for changing feed conditions, and perform routine maintenance that prevents unplanned downtime.
+  </p>
+  <p>
+    Our training programs draw on over 40 years of field experience. Our instructors are the same technicians who <a href="/industrial-disc-centrifuge-repair/">rebuild centrifuges</a> in our Warren, Michigan facility and commission <a href="/industrial-centrifuge-design/">turnkey systems</a> at customer sites worldwide. They teach what actually matters in real-world operation, not textbook theory.
+  </p>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Schedule Operator Training</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Invest in your team's capability. Trained operators reduce downtime, extend equipment life, and improve separation performance.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us Today</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  <h2 id="programs">Training Programs</h2>
+
+  <h3>New System Commissioning Training</h3>
+  <p>
+    Included with every new centrifuge system purchase from Dolphin Centrifuge. Conducted on-site during system startup, this training covers your specific equipment, process, and control system. Operators leave the session fully qualified to run the equipment independently.
+  </p>
+
+  <h3>Operator Fundamentals</h3>
+  <p>
+    A comprehensive 1&ndash;2 day program covering the principles and hands-on skills needed to operate an industrial centrifuge safely and effectively. Topics include:
+  </p>
+  <ul>
+    <li>Centrifuge operating principles (disc stack and/or decanter)</li>
+    <li>Pre-start inspection and startup procedures</li>
+    <li>Normal operating parameter monitoring</li>
+    <li>Shutdown and cleaning procedures</li>
+    <li>Safety hazards and lockout/tagout requirements</li>
+    <li>Control panel operation and alarm response</li>
+    <li>Feed preparation and temperature management</li>
+  </ul>
+
+  <h3>Maintenance &amp; Bowl Assembly</h3>
+  <p>
+    An advanced 1&ndash;2 day program for maintenance technicians who will perform routine service and preventive maintenance. This is a hands-on course that involves working with actual centrifuge components. Topics include:
+  </p>
+  <ul>
+    <li>Complete bowl disassembly and reassembly</li>
+    <li>Disc stack inspection, cleaning, and reinstallation</li>
+    <li>Seal and O-ring replacement</li>
+    <li>Bearing inspection and replacement criteria</li>
+    <li>Vibration monitoring and interpretation</li>
+    <li>Operating water system adjustment and testing (self-cleaning models)</li>
+    <li>Preventive maintenance schedules and checklists</li>
+    <li>Lubrication procedures and specifications</li>
+  </ul>
+
+  <h3>Troubleshooting &amp; Optimization</h3>
+  <p>
+    An advanced course for experienced operators and process engineers who want to maximize centrifuge performance and diagnose problems efficiently. Topics include:
+  </p>
+  <ul>
+    <li>Interpreting separation quality (effluent clarity, moisture content, solids dryness)</li>
+    <li>Adjusting gravity disc sizing and back-pressure for disc stack separators</li>
+    <li>Scroll differential speed and pond depth adjustment for decanters</li>
+    <li>Diagnosing common faults: vibration, foaming, poor separation, high motor current</li>
+    <li>Optimizing feed temperature, flow rate, and chemical dosing</li>
+    <li>Reading and acting on vibration analysis data</li>
+  </ul>
+
+  <h2 id="delivery">Training Delivery Options</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Format</th>
+        <th>Duration</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>On-Site at Your Facility</strong></td>
+        <td>1&ndash;3 days</td>
+        <td>Hands-on training with your specific equipment and process</td>
+      </tr>
+      <tr>
+        <td><strong>At Our Warren, MI Facility</strong></td>
+        <td>1&ndash;2 days</td>
+        <td>Bowl assembly training with access to our full shop and parts inventory</td>
+      </tr>
+      <tr>
+        <td><strong>Virtual / Remote</strong></td>
+        <td>Half-day sessions</td>
+        <td>Refresher training, theory, control system operation, troubleshooting review</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="attendees">Who Should Attend?</h2>
+  <ul>
+    <li><strong>Operators:</strong> Personnel responsible for daily centrifuge operation and monitoring</li>
+    <li><strong>Maintenance Technicians:</strong> Staff performing preventive maintenance and repairs</li>
+    <li><strong>Process Engineers:</strong> Engineers responsible for optimizing separation performance</li>
+    <li><strong>Supervisors:</strong> Plant managers and shift leaders who oversee centrifuge operations</li>
+    <li><strong>New Hires:</strong> Replacement staff or new team members joining an existing centrifuge operation</li>
+  </ul>
+
+  <h2 id="materials">Training Materials</h2>
+  <p>All training participants receive:</p>
+  <ul>
+    <li>Printed training manual specific to your centrifuge model and application</li>
+    <li>Preventive maintenance checklists and schedules</li>
+    <li>Troubleshooting guide with common fault diagnosis</li>
+    <li>Certificate of completion for each attendee</li>
+  </ul>
+
+  <p>
+    To schedule training or request a customized training program, contact us at <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> or call <a href="tel:2485222573">(248) 522-2573</a>.
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

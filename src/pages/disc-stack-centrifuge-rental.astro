@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -47,334 +47,217 @@ const faqJsonLd = {
     }
   ]
 };
+
+const toc = [
+  { id: 'overview', label: 'Rental Fleet Overview' },
+  { id: 'mapx207', label: 'MAPX 207 Rental Centrifuge' },
+  { id: 'mapx210', label: 'MAPX 210 Rental Centrifuge' },
+  { id: 'why-rent', label: 'Why Rent a Disc Stack Centrifuge?' },
+  { id: 'rental-apps', label: 'Rental Applications' },
+  { id: 'models', label: 'Available Rental Models' },
+  { id: 'included', label: "What's Included" },
+  { id: 'comparison', label: 'Rental vs. Purchase' },
+  { id: 'terms', label: 'Rental Terms' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Decanter Centrifuge Rental', href: '/decanter-centrifuge-rental/' },
+  { label: 'Disc Stack Applications', href: '/disc-stack-centrifuge-applications/' },
+  { label: 'Sample Testing Service', href: '/industrial-centrifuge-sample-testing/' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge', href: '/disc-stack-centrifuge/', description: 'Overview of disc stack technology' },
+  { label: 'Centrifuge Repair', href: '/industrial-disc-centrifuge-repair/', description: 'Rebuild and service' },
+  { label: 'Centrifuge Buyback', href: '/industrial-centrifuge-buyback/', description: 'Sell or trade your centrifuge' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Disc Stack Centrifuge Rental"
-  description="Rent industrial disc stack centrifuges for short-term or long-term use. DMPX self-cleaning separators available for pilot testing and temporary capacity."
+  description="Rent industrial disc stack centrifuges from Dolphin Centrifuge. DMPX self-cleaning separators for pilot testing, emergency backup, and temporary capacity needs."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/disc-stack-centrifuge-rental/Alfa-Laval-Disc-Centrifuge-Rental.webp"
+  heroImageAlt="Alfa Laval Disc Centrifuge Rental"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-rental/"
-  breadcrumbs={[
-    { label: 'Services', href: '/industrial-centrifuge-design/' },
-    { label: 'Disc Stack Centrifuge Rental' },
-  ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, faqJsonLd]}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Services</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Disc Stack Centrifuge Rental</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">
-        Dolphin Centrifuge offers industrial disc stack centrifuges for rent on flexible short-term and long-term schedules. Our rental fleet includes DMPX-series self-cleaning separators ready for immediate deployment across oil, fuel, wastewater, and specialty applications.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains a rental fleet of Alfa Laval disc stack centrifuges for process evaluation, emergency service, and short-term capacity augmentation. Rental disc centrifuges cover diesel fuel purification, coolant recovery, waste oil reclamation, lube oil clarification, and industrial liquid/solid separation. Based in Warren, Michigan — call (248) 522-2573 for rental availability and pricing.</p>
+  </div>
+
+  <!-- Legacy Content -->
+  <h2 id="overview">Rental Fleet Overview</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <p>Dolphin Centrifuge maintains a fleet of Rental Disc-stack Centrifuges that are suited for:</p>
+      <ul>
+        <li>Centrifuge Evaluation for your specific process</li>
+        <li>Emergency Service in case your centrifuge breaks down or is in service</li>
+        <li>Short-term process capacity augmentation</li>
+      </ul>
+      <p>In some cases, Dolphin Centrifuge can accommodate long-term rental requirements by building a skid for specific customer applications.</p>
+      <p><strong>A rental contract requires a minimum rental period commitment, deposit, execution of a formal rental contract, and other standard conditions.</strong></p>
     </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains a rental fleet of Alfa Laval disc stack centrifuges for process evaluation, emergency service, and short-term capacity augmentation. Rental disc centrifuges cover diesel fuel purification, coolant recovery, waste oil reclamation, lube oil clarification, and industrial liquid/solid separation. Based in Warren, Michigan — call (248) 522-2573 for rental availability and pricing.</p>
-      </div>
-
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-4">
-          Dolphin Centrifuge maintains a fleet of Rental Disc-stack Centrifuges that are suited for:
-        </p>
-        <ul class="text-text-light space-y-1 mb-4">
-          <li>&#8226; Centrifuge Evaluation for your specific process</li>
-          <li>&#8226; Emergency Service in case your centrifuge breaks down or is in service</li>
-          <li>&#8226; Short-term process capacity augmentation</li>
-        </ul>
-        <p class="text-text-light mb-6">
-          In some cases, Dolphin Centrifuge can accommodate long-term rental requirements by building a skid for specific customer applications.
-        </p>
-        <p class="text-text-light font-semibold">
-          A rental contract requires a minimum rental period commitment, deposit, execution of a formal rental contract, and other standard conditions.
-        </p>
-      </div>
-
-      <!-- MAPX 207 Disc Stack Centrifuge Rental -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">MAPX 207 Disc Stack Centrifuge Rental</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; Diesel Fuel</li>
-          <li>&#8226; Engine Oil</li>
-          <li>&#8226; Hydraulic Oil</li>
-          <li>&#8226; Light Crude Oil</li>
-          <li>&#8226; Waste Oil &ndash; Used Oil</li>
-          <li>&#8226; Industrial Oils</li>
-          <li>&#8226; WVO, UCO, Grease Trap/Yellow Grease</li>
-          <li>&#8226; and other 3-phase separation with &lt;5% solids (v/v).</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Capacity</td><td class="px-4 py-2 text-text-light">28 GPM on Diesel Fuel</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor</td><td class="px-4 py-2 text-text-light">460V / 3Ph &ndash; 7.5 HP Motor</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Skid Size</td><td class="px-4 py-2 text-text-light">5&prime; x 4&prime; x 6&prime; (H)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Weight</td><td class="px-4 py-2 text-text-light">~ 2,500 Lbs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Power</td><td class="px-4 py-2 text-text-light">460 VAC Power - 50 A Circuit</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Water</td><td class="px-4 py-2 text-text-light">Filtered, Potable through 3/4&Prime; Line @ 5 GPM and 30 psig</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Air</td><td class="px-4 py-2 text-text-light">100 psig, filtered, dry air</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Included options</td><td class="px-4 py-2 text-text-light">PC Touch-Screen Control System and Water Harness</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAPX 210 Disc Stack Centrifuge Rental -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mt-10 mb-4">MAPX 210 Disc Stack Centrifuge Rental</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <h3 class="text-lg font-bold text-navy mb-3">Applications</h3>
-        <ul class="text-text-light space-y-1 mb-6">
-          <li>&#8226; Diesel Fuel</li>
-          <li>&#8226; Engine Oil</li>
-          <li>&#8226; Hydraulic Oil</li>
-          <li>&#8226; Light Crude Oil</li>
-          <li>&#8226; Waste Oil &ndash; Used Oil</li>
-          <li>&#8226; Industrial Oils</li>
-          <li>&#8226; WVO, UCO, Grease Trap/Yellow Grease</li>
-          <li>&#8226; and other 3-phase separation with &lt;5% solids (v/v).</li>
-        </ul>
-        <h3 class="text-lg font-bold text-navy mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left px-4 py-3 font-semibold">Spec</th>
-                <th class="text-left px-4 py-3 font-semibold">Value</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Capacity</td><td class="px-4 py-2 text-text-light">42 GPM on Diesel Fuel</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Motor</td><td class="px-4 py-2 text-text-light">460V / 3Ph &ndash; 15 HP Motor</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Skid Size</td><td class="px-4 py-2 text-text-light">6&prime; x 6&prime; x 6&prime; (H)</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Weight</td><td class="px-4 py-2 text-text-light">~ 3,500 Lbs</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Power</td><td class="px-4 py-2 text-text-light">460 VAC Power - 50 A Circuit</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Water</td><td class="px-4 py-2 text-text-light">Filtered, Potable through 3/4&Prime; Line @ 5 GPM and 30 psig</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Air</td><td class="px-4 py-2 text-text-light">100 psig, filtered, dry air</td></tr>
-              <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Included options</td><td class="px-4 py-2 text-text-light">Sludge Tank, Sludge Pump, Feed Pump w/ VFD Control, PLC Touch-Screen Control System</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Additive Content -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Why Rent a Disc Stack Centrifuge?</h2>
-      <p class="text-text-muted mb-4">
-        Purchasing an industrial centrifuge is a significant capital investment. Renting gives you immediate access to high-performance separation equipment without the upfront cost, allowing you to validate your process, cover temporary needs, or bridge the gap while your own unit is being <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">repaired or rebuilt</a>.
-      </p>
-      <p class="text-text-muted mb-8">
-        Every rental centrifuge in our fleet has been fully rebuilt in our Warren, Michigan facility and tested on our high-speed test stand before deployment. You receive a production-ready machine&mdash;not a worn-out demo unit.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Rental Applications</h2>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Pilot Testing:</strong> Validate centrifuge performance on your specific fluid before committing to a purchase. Pair with our <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold transition-colors">sample testing service</a> for lab-scale data first</li>
-        <li><strong>Temporary Capacity:</strong> Cover seasonal demand spikes, plant turnarounds, or emergency spill response without purchasing additional equipment</li>
-        <li><strong>Trial Before Purchase:</strong> Run the centrifuge in your facility for weeks or months before deciding to buy</li>
-        <li><strong>Bridge During Repair:</strong> Keep your process running while your own centrifuge is in our shop for rebuild</li>
-        <li><strong>Project-Based Work:</strong> Short-duration contracts, remediation projects, or construction dewatering</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Available Rental Models</h2>
-      <p class="text-text-muted mb-4">
-        Our disc stack rental fleet includes self-cleaning DMPX-series separators covering a wide range of flow rates and applications:
-      </p>
-
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
-          <thead class="bg-navy text-white">
-            <tr>
-              <th class="px-4 py-3 font-semibold">Model</th>
-              <th class="px-4 py-3 font-semibold">Type</th>
-              <th class="px-4 py-3 font-semibold">Flow Rate</th>
-              <th class="px-4 py-3 font-semibold">Typical Applications</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200 text-text-muted">
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">DMPX-010</td>
-              <td class="px-4 py-3">Self-Cleaning</td>
-              <td class="px-4 py-3">Up to 8 GPM</td>
-              <td class="px-4 py-3">Small-volume oil, fuel, biodiesel</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">DMPX-014</td>
-              <td class="px-4 py-3">Self-Cleaning</td>
-              <td class="px-4 py-3">Up to 16 GPM</td>
-              <td class="px-4 py-3">Waste oil, lube oil, diesel</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">DMPX-028</td>
-              <td class="px-4 py-3">Self-Cleaning</td>
-              <td class="px-4 py-3">Up to 28 GPM</td>
-              <td class="px-4 py-3">Fuel oil, process water, food-grade</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">DMPX-042</td>
-              <td class="px-4 py-3">Self-Cleaning</td>
-              <td class="px-4 py-3">Up to 47 GPM</td>
-              <td class="px-4 py-3">Large-volume oil, wastewater, marine</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-mono font-semibold">DMPX-070</td>
-              <td class="px-4 py-3">Self-Cleaning</td>
-              <td class="px-4 py-3">Up to 72 GPM</td>
-              <td class="px-4 py-3">High-volume industrial, refinery</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-text-muted mb-8">
-        Manual-clean DMB-series separators are also available for applications with low solids loading. Contact us to discuss which model fits your process.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What's Included in a Rental</h2>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Fully Rebuilt Centrifuge:</strong> Every rental unit is rebuilt to OEM specifications with new bearings, seals, and O-rings</li>
-        <li><strong>Complete System:</strong> Centrifuge, feed pump, motor, starter, and basic piping connections</li>
-        <li><strong>Operating Manual:</strong> Process-specific setup guide and recommended operating parameters</li>
-        <li><strong>Technical Support:</strong> Phone and email support from our engineers during the rental period</li>
-        <li><strong>Startup Assistance:</strong> Remote or on-site commissioning support available</li>
-        <li><strong>Spare Parts Kit:</strong> Basic consumables included for the rental duration</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Rental vs. Purchase</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
-          <thead class="bg-navy text-white">
-            <tr>
-              <th class="px-4 py-3 font-semibold">Factor</th>
-              <th class="px-4 py-3 font-semibold">Rental</th>
-              <th class="px-4 py-3 font-semibold">Purchase</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200 text-text-muted">
-            <tr>
-              <td class="px-4 py-3 font-semibold">Upfront Cost</td>
-              <td class="px-4 py-3">Low monthly payments</td>
-              <td class="px-4 py-3">Full capital expenditure</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">Commitment</td>
-              <td class="px-4 py-3">Flexible&mdash;return when done</td>
-              <td class="px-4 py-3">Long-term ownership</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">Maintenance</td>
-              <td class="px-4 py-3">Included during rental</td>
-              <td class="px-4 py-3">Owner responsibility</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">Best For</td>
-              <td class="px-4 py-3">Testing, short-term, temporary needs</td>
-              <td class="px-4 py-3">Continuous, long-term operation</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 font-semibold">Rent-to-Own</td>
-              <td class="px-4 py-3" colspan="2">Available&mdash;rental payments can apply toward purchase price</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Rental Terms</h2>
-      <p class="text-text-muted mb-4">
-        We offer flexible rental terms tailored to your project timeline:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Short-Term:</strong> 1&ndash;3 months for pilot testing, emergency response, or project work</li>
-        <li><strong>Long-Term:</strong> 6&ndash;12+ months with reduced monthly rates</li>
-        <li><strong>Rent-to-Own:</strong> Apply rental payments toward eventual purchase</li>
-        <li><strong>Shipping:</strong> We arrange freight to and from your facility anywhere in the continental U.S.</li>
-      </ul>
-
-      <p class="text-text-muted mb-4">
-        Looking for a decanter centrifuge instead? See our <a href="/decanter-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge rental program</a> for NX and G2-series units.
-      </p>
-
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/disc-stack-centrifuge-rental/Alfa-Laval-28-GPM-Self-Cleaning-Centrifuge-Rental-600.webp" alt="Alfa Laval 28 GPM Self Cleaning Centrifuge Rental" width="600" height="450" class="rounded-xl" />
     </div>
-  </section>
+  </div>
+
+  <!-- MAPX 207 Disc Stack Centrifuge Rental -->
+  <h2 id="mapx207">MAPX 207 Disc Stack Centrifuge Rental</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start">
+    <div class="md:w-1/2">
+      <h3>Applications</h3>
+      <ul>
+        <li>Diesel Fuel</li>
+        <li>Engine Oil</li>
+        <li>Hydraulic Oil</li>
+        <li>Light Crude Oil</li>
+        <li>Waste Oil – Used Oil</li>
+        <li>Industrial Oils</li>
+        <li>WVO, UCO, Grease Trap/Yellow Grease</li>
+        <li>and other 3-phase separation with &lt;5% solids (v/v).</li>
+      </ul>
+    </div>
+    <div class="md:w-1/2">
+      <img loading="lazy" src="/images/disc-stack-centrifuge-rental/Alfa-Laval-42-GPM-Self-Cleaning-Rental-Centrifuge.webp" alt="Alfa Laval 42 GPM Self Cleaning Rental Centrifuge" width="600" height="450" class="rounded-xl" />
+    </div>
+  </div>
+
+  <h3>MAPX 207 Specifications</h3>
+  <table>
+    <thead>
+      <tr><th>Spec</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Capacity</td><td>28 GPM on Diesel Fuel</td></tr>
+      <tr><td>Motor</td><td>460V / 3Ph – 7.5 HP Motor</td></tr>
+      <tr><td>Skid Size</td><td>5' x 4' x 6' (H)</td></tr>
+      <tr><td>Weight</td><td>~ 2,500 Lbs</td></tr>
+      <tr><td>Power</td><td>460 VAC Power - 50 A Circuit</td></tr>
+      <tr><td>Water</td><td>Filtered, Potable through 3/4" Line @ 5 GPM and 30 psig</td></tr>
+      <tr><td>Air</td><td>100 psig, filtered, dry air</td></tr>
+      <tr><td>Included options</td><td>PC Touch-Screen Control System and Water Harness</td></tr>
+    </tbody>
+  </table>
+
+  <!-- MAPX 210 Disc Stack Centrifuge Rental -->
+  <h2 id="mapx210">MAPX 210 Disc Stack Centrifuge Rental</h2>
+  <h3>Applications</h3>
+  <ul>
+    <li>Diesel Fuel</li>
+    <li>Engine Oil</li>
+    <li>Hydraulic Oil</li>
+    <li>Light Crude Oil</li>
+    <li>Waste Oil – Used Oil</li>
+    <li>Industrial Oils</li>
+    <li>WVO, UCO, Grease Trap/Yellow Grease</li>
+    <li>and other 3-phase separation with &lt;5% solids (v/v).</li>
+  </ul>
+
+  <h3>MAPX 210 Specifications</h3>
+  <table>
+    <thead>
+      <tr><th>Spec</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Capacity</td><td>42 GPM on Diesel Fuel</td></tr>
+      <tr><td>Motor</td><td>460V / 3Ph – 15 HP Motor</td></tr>
+      <tr><td>Skid Size</td><td>6' x 6' x 6' (H)</td></tr>
+      <tr><td>Weight</td><td>~ 3,500 Lbs</td></tr>
+      <tr><td>Power</td><td>460 VAC Power - 50 A Circuit</td></tr>
+      <tr><td>Water</td><td>Filtered, Potable through 3/4" Line @ 5 GPM and 30 psig</td></tr>
+      <tr><td>Air</td><td>100 psig, filtered, dry air</td></tr>
+      <tr><td>Included options</td><td>Sludge Tank, Sludge Pump, Feed Pump w/ VFD Control, PLC Touch-Screen Control System</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Additive Content -->
+  <h2 id="why-rent">Why Rent a Disc Stack Centrifuge?</h2>
+  <p>Purchasing an industrial centrifuge is a significant capital investment. Renting gives you immediate access to high-performance separation equipment without the upfront cost, allowing you to validate your process, cover temporary needs, or bridge the gap while your own unit is being <a href="/industrial-disc-centrifuge-repair/">repaired or rebuilt</a>.</p>
+  <p>Every rental centrifuge in our fleet has been fully rebuilt in our Warren, Michigan facility and tested on our high-speed test stand before deployment. You receive a production-ready machine — not a worn-out demo unit.</p>
+
+  <h2 id="rental-apps">Rental Applications</h2>
+  <ul>
+    <li><strong>Pilot Testing:</strong> Validate centrifuge performance on your specific fluid before committing to a purchase. Pair with our <a href="/industrial-centrifuge-sample-testing/">sample testing service</a> for lab-scale data first</li>
+    <li><strong>Temporary Capacity:</strong> Cover seasonal demand spikes, plant turnarounds, or emergency spill response without purchasing additional equipment</li>
+    <li><strong>Trial Before Purchase:</strong> Run the centrifuge in your facility for weeks or months before deciding to buy</li>
+    <li><strong>Bridge During Repair:</strong> Keep your process running while your own centrifuge is in our shop for rebuild</li>
+    <li><strong>Project-Based Work:</strong> Short-duration contracts, remediation projects, or construction dewatering</li>
+  </ul>
+
+  <h2 id="models">Available Rental Models</h2>
+  <p>Our disc stack rental fleet includes self-cleaning DMPX-series separators covering a wide range of flow rates and applications:</p>
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Type</th><th>Flow Rate</th><th>Typical Applications</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>DMPX-010</td><td>Self-Cleaning</td><td>Up to 8 GPM</td><td>Small-volume oil, fuel, biodiesel</td></tr>
+      <tr><td>DMPX-014</td><td>Self-Cleaning</td><td>Up to 16 GPM</td><td>Waste oil, lube oil, diesel</td></tr>
+      <tr><td>DMPX-028</td><td>Self-Cleaning</td><td>Up to 28 GPM</td><td>Fuel oil, process water, food-grade</td></tr>
+      <tr><td>DMPX-042</td><td>Self-Cleaning</td><td>Up to 47 GPM</td><td>Large-volume oil, wastewater, marine</td></tr>
+      <tr><td>DMPX-070</td><td>Self-Cleaning</td><td>Up to 72 GPM</td><td>High-volume industrial, refinery</td></tr>
+    </tbody>
+  </table>
+  <p>Manual-clean DMB-series separators are also available for applications with low solids loading. Contact us to discuss which model fits your process.</p>
+
+  <h2 id="included">What's Included in a Rental</h2>
+  <ul>
+    <li><strong>Fully Rebuilt Centrifuge:</strong> Every rental unit is rebuilt to OEM specifications with new bearings, seals, and O-rings</li>
+    <li><strong>Complete System:</strong> Centrifuge, feed pump, motor, starter, and basic piping connections</li>
+    <li><strong>Operating Manual:</strong> Process-specific setup guide and recommended operating parameters</li>
+    <li><strong>Technical Support:</strong> Phone and email support from our engineers during the rental period</li>
+    <li><strong>Startup Assistance:</strong> Remote or on-site commissioning support available</li>
+    <li><strong>Spare Parts Kit:</strong> Basic consumables included for the rental duration</li>
+  </ul>
+
+  <h2 id="comparison">Rental vs. Purchase</h2>
+  <table>
+    <thead>
+      <tr><th>Factor</th><th>Rental</th><th>Purchase</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Upfront Cost</td><td>Low monthly payments</td><td>Full capital expenditure</td></tr>
+      <tr><td>Commitment</td><td>Flexible — return when done</td><td>Long-term ownership</td></tr>
+      <tr><td>Maintenance</td><td>Included during rental</td><td>Owner responsibility</td></tr>
+      <tr><td>Best For</td><td>Testing, short-term, temporary needs</td><td>Continuous, long-term operation</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Rent-to-Own:</strong> Rental payments can apply toward purchase price.</p>
+
+  <h2 id="terms">Rental Terms</h2>
+  <p>We offer flexible rental terms tailored to your project timeline:</p>
+  <ul>
+    <li><strong>Short-Term:</strong> 1–3 months for pilot testing, emergency response, or project work</li>
+    <li><strong>Long-Term:</strong> 6–12+ months with reduced monthly rates</li>
+    <li><strong>Rent-to-Own:</strong> Apply rental payments toward eventual purchase</li>
+    <li><strong>Shipping:</strong> We arrange freight to and from your facility anywhere in the continental U.S.</li>
+  </ul>
+  <p>Looking for a decanter centrifuge instead? See our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental program</a> for NX and G2-series units.</p>
 
   <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What disc stack centrifuge models are available for rental?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges ranging from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What are the common reasons to rent a disc stack centrifuge?</h3>
-            <p class="text-text-light text-sm">Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild, temporary capacity for seasonal production spikes, project work at a site without permanent equipment, and proving a new application before committing to permanent installation.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Can I rent a centrifuge to test my application before buying?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">What disc stack centrifuge models are available for rental?</summary>
+    <div class="px-5 pb-5 text-text-light">Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges ranging from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability.</div>
+  </details>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">What are the common reasons to rent a disc stack centrifuge?</summary>
+    <div class="px-5 pb-5 text-text-light">Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild, temporary capacity for seasonal production spikes, project work at a site without permanent equipment, and proving a new application before committing to permanent installation.</div>
+  </details>
+  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
+    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">Can I rent a centrifuge to test my application before buying?</summary>
+    <div class="px-5 pb-5 text-text-light">Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab.</div>
+  </details>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/decanter-centrifuge-rental/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Rental</span>
-        </a>
-        <a href="/disc-stack-centrifuge-applications/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge Applications</span>
-        </a>
-        <a href="/centrifuge-service-and-repair/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Centrifuge Service & Repair</span>
-        </a>
-        <a href="/industrial-centrifuge-buyback/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Industrial Centrifuge Buyback</span>
-        </a>
-        <a href="/disc-stack-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Disc Stack Centrifuge</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Rent a Centrifuge?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us about your application and timeline. We will recommend the right model and provide a rental quote within 24 hours.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us Today</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>

@@ -1,7 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is the throughput of the DMPX-014 centrifuge?",
+    answer: "The Dolphin DMPX-014 self-cleaning disc stack centrifuge is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput. Contact Dolphin Centrifuge for application-specific sizing."
+  },
+  {
+    question: "How often does the DMPX-014 need to be cleaned?",
+    answer: "The DMPX-014 is a self-cleaning (automatic discharge) centrifuge — accumulated sludge is ejected automatically every 10–60 minutes depending on the sludge discharge timer setting and the solids loading of the feed. There is no need to stop the machine to clean the bowl. Manual bowl disassembly is only required for annual or bi-annual deep cleaning and inspection."
+  },
+  {
+    question: "What applications is the DMPX-014 best suited for?",
+    answer: "The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery applications requiring 10–15 GPM throughput. Its three-phase (liquid-liquid-solid) separation capability makes it versatile across oil, water, and solids applications."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "DMPX-014 Self-Cleaning 3-Phase Disc Stack Centrifuge",
@@ -21,175 +37,193 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the throughput of the DMPX-014 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Dolphin DMPX-014 self-cleaning disc stack centrifuge is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput. Contact Dolphin Centrifuge for application-specific sizing."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How often does the DMPX-014 need to be cleaned?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMPX-014 is a self-cleaning (automatic discharge) centrifuge — accumulated sludge is ejected automatically every 10–60 minutes depending on the sludge discharge timer setting and the solids loading of the feed. There is no need to stop the machine to clean the bowl. Manual bowl disassembly is only required for annual or bi-annual deep cleaning and inspection."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the DMPX-014 best suited for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery applications requiring 10–15 GPM throughput. Its three-phase (liquid-liquid-solid) separation capability makes it versatile across oil, water, and solids applications."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'DMPX-014 Overview' },
+  { id: 'three-phase', label: 'How Three-Phase Separation Works' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'applications', label: 'Key Applications' },
+  { id: 'self-cleaning', label: 'Self-Cleaning Solids Ejection' },
+  { id: 'skid', label: 'Skid-Mounted System' },
+  { id: 'why-popular', label: 'Why Most Popular Mid-Range' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Biodiesel Centrifuge', href: '/biodiesel-centrifuge/' },
+  { label: 'Diesel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Explosion Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-042 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: '32–47 GPM three-phase separation' },
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/', description: 'All DMPX & DMB models' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="DMPX-014 3-Phase Disc Centrifuge"
-  description="DMPX-014 self-cleaning three-phase disc stack centrifuge by Dolphin Centrifuge. Separates two immiscible liquids plus solids in continuous operation."
+  description="DMPX-014 self-cleaning three-phase disc stack centrifuge by Dolphin Centrifuge. 13 GPM capacity for waste oil, biodiesel, and industrial separation."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/DMPX-014-Self-Cleaning-Centrifuge-modified-Alfa-Laval-Disc-Stack-Centrifuge-Hydraulic-Oil-600.webp"
+  heroImageAlt="DMPX-014 Self-Cleaning Centrifuge modified Alfa Laval Disc Stack Centrifuge Hydraulic Oil"
   canonicalUrl="https://dolphincentrifuge.com/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'DMPX-014 Centrifuge'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">DMPX Series &mdash; Dolphin Centrifuge</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">DMPX-014 Self-Cleaning Three-Phase Disc Stack Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The DMPX-014 is Dolphin Centrifuge&rsquo;s most popular mid-range self-cleaning disc stack centrifuge. Capable of separating two immiscible liquids plus solids simultaneously at approximately 13 GPM diesel throughput, it is the standard choice for waste oil reclamation, biodiesel production, fish oil processing, and continuous three-phase separation in industrial and commercial facilities.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the DMPX-014 — a self-cleaning three-phase disc stack centrifuge system for continuous oil-water-solids separation. Operating at 7,000–7,800 Gs with a 0.32–0.34 gallon bowl capacity, the DMPX-014 processes 13–16 GPM of diesel-viscosity fluids (22–24 GPM rated) with automatic solids ejection. Applications include waste oil recovery, biodiesel production, hydraulic oil purification, and edible oil processing. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc stack centrifuge systems.</p>
+  </div>
+
+  <h2 id="overview">DMPX-014 Self-Cleaning Three-Phase Disc Stack Centrifuge</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <p class="text-text-light mb-4">The DMPX-014 is Dolphin Centrifuge&rsquo;s most popular mid-range self-cleaning disc stack centrifuge. Capable of separating two immiscible liquids plus solids simultaneously at approximately 13 GPM diesel throughput, it is the standard choice for waste oil reclamation, biodiesel production, fish oil processing, and continuous three-phase separation in industrial and commercial facilities.</p>
     </div>
-  </section>
+    <div class="md:w-1/2">
+      <img
+        src="/images/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/Dolphin-Centrifuge-DMPX-014-Diesel-Centrifuge.webp"
+        alt="Dolphin Centrifuge DMPX-014 Diesel Centrifuge"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
+    </div>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <h2 id="three-phase">How Three-Phase Separation Works</h2>
+  <p>
+    Conventional two-phase centrifuges separate a single liquid phase from suspended solids. The DMPX-014 is a true three-phase separator: it simultaneously processes a feed stream containing two immiscible liquids (for example, oil and water) plus suspended solid particles, producing three separate output streams in a single continuous pass.
+  </p>
+  <p>
+    Inside the spinning bowl, centrifugal force stratifies the feed by density. The light liquid phase (oil, lower density) migrates inward and exits through the light-phase outlet. The heavy liquid phase (water or aqueous solution, higher density) migrates toward the bowl wall and exits through the heavy-phase outlet. Solid particles, being densest of all, accumulate at the bowl periphery and are ejected through hydraulically actuated discharge ports during programmed cleaning shots.
+  </p>
+  <p>
+    This three-phase capability eliminates the need for separate oil-water separators and filter systems downstream of the centrifuge. One machine does what previously required multiple process steps.
+  </p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the DMPX-014 — a self-cleaning three-phase disc stack centrifuge system for continuous oil-water-solids separation. Operating at 7,000–7,800 Gs with a 0.32–0.34 gallon bowl capacity, the DMPX-014 processes 13–16 GPM of diesel-viscosity fluids (22–24 GPM rated) with automatic solids ejection. Applications include waste oil recovery, biodiesel production, hydraulic oil purification, and edible oil processing. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc stack centrifuge systems.</p>
-      </div>
+  <h2 id="specifications">DMPX-014 Specifications</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Separation type</td>
+        <td>Three-phase (light liquid / heavy liquid / solids)</td>
+      </tr>
+      <tr>
+        <td>Diesel throughput</td>
+        <td>~13 GPM</td>
+      </tr>
+      <tr>
+        <td>Waste oil throughput</td>
+        <td>~10 GPM at 200&deg;F (93&deg;C)</td>
+      </tr>
+      <tr>
+        <td>Drive motor</td>
+        <td>7.5 HP (5.5 kW) standard; explosion proof available</td>
+      </tr>
+      <tr>
+        <td>Bowl construction</td>
+        <td>Carbon steel standard; 316L stainless steel available</td>
+      </tr>
+      <tr>
+        <td>Solids ejection</td>
+        <td>Hydraulic self-cleaning; PLC-controlled intervals</td>
+      </tr>
+      <tr>
+        <td>Skid dimensions (approx.)</td>
+        <td>36&quot; W &times; 60&quot; L &times; 60&quot; H (skid-mounted system)</td>
+      </tr>
+      <tr>
+        <td>Power supply</td>
+        <td>460V / 3-phase / 60 Hz standard (other voltages available)</td>
+      </tr>
+      <tr>
+        <td>Control system</td>
+        <td>PLC with HMI; programmable discharge intervals and alarms</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="text-sm italic">Throughput figures are for typical fluids at listed conditions. Actual capacity varies with feed viscosity, temperature, density difference, and solids loading. Contact Dolphin Centrifuge for application-specific confirmation.</p>
 
-      <div class="mb-8 text-center">
-        <img
-          src="/images/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/DMPX-014-Self-Cleaning-Centrifuge-modified-Alfa-Laval-Disc-Stack-Centrifuge-Hydraulic-Oil-600.webp"
-          alt="DMPX-014 self-cleaning three-phase disc stack centrifuge by Dolphin Centrifuge"
-          width="600"
-          height="600"
-          loading="eager"
-          class="rounded-xl shadow-md mx-auto block"
-        />
-      </div>
+  <h2 id="applications">Key Applications</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">How Three-Phase Separation Works</h2>
-      <p class="text-text-light mb-4">
-        Conventional two-phase centrifuges separate a single liquid phase from suspended solids. The DMPX-014 is a true three-phase separator: it simultaneously processes a feed stream containing two immiscible liquids (for example, oil and water) plus suspended solid particles, producing three separate output streams in a single continuous pass.
-      </p>
-      <p class="text-text-light mb-4">
-        Inside the spinning bowl, centrifugal force stratifies the feed by density. The light liquid phase (oil, lower density) migrates inward and exits through the light-phase outlet. The heavy liquid phase (water or aqueous solution, higher density) migrates toward the bowl wall and exits through the heavy-phase outlet. Solid particles, being densest of all, accumulate at the bowl periphery and are ejected through hydraulically actuated discharge ports during programmed cleaning shots.
-      </p>
-      <p class="text-text-light mb-8">
-        This three-phase capability eliminates the need for separate oil-water separators and filter systems downstream of the centrifuge. One machine does what previously required multiple process steps.
-      </p>
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <h3 class="text-lg font-bold text-navy mb-2">Waste Oil Reclamation</h3>
+      <p class="text-text-light mb-3">Used motor oil, transmission fluid, hydraulic oil, and industrial waste oils contain water, soot, and metal wear particles. The DMPX-014 separates all three phases continuously, producing dry solids discharge, clean water discharge, and reclaimed oil ready for re-use or re-refining. Operates at elevated temperature (180&ndash;200&deg;F) for optimal viscosity reduction.</p>
+      <a href="/waste-oil-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Waste Oil Centrifuge Details &rarr;</a>
+    </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/DMPX-014-Self-Cleaning-Centrifuge-for-Quench-Oil-Clarification-600.webp"
+        alt="DMPX-014 Self-Cleaning Centrifuge for Quench Oil Clarification"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
+    </div>
+  </div>
 
-      <!-- Specs Table -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">DMPX-014 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Parameter</th>
-              <th class="text-left px-4 py-3 font-semibold">Value</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Separation type</td>
-              <td class="px-4 py-3 text-text-light">Three-phase (light liquid / heavy liquid / solids)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Diesel throughput</td>
-              <td class="px-4 py-3 text-text-light">~13 GPM</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Waste oil throughput</td>
-              <td class="px-4 py-3 text-text-light">~10 GPM at 200&deg;F (93&deg;C)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Drive motor</td>
-              <td class="px-4 py-3 text-text-light">7.5 HP (5.5 kW) standard; explosion proof available</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Bowl construction</td>
-              <td class="px-4 py-3 text-text-light">Carbon steel standard; 316L stainless steel available</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Solids ejection</td>
-              <td class="px-4 py-3 text-text-light">Hydraulic self-cleaning; PLC-controlled intervals</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Skid dimensions (approx.)</td>
-              <td class="px-4 py-3 text-text-light">36&quot; W &times; 60&quot; L &times; 60&quot; H (skid-mounted system)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Power supply</td>
-              <td class="px-4 py-3 text-text-light">460V / 3-phase / 60 Hz standard (other voltages available)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Control system</td>
-              <td class="px-4 py-3 text-text-light">PLC with HMI; programmable discharge intervals and alarms</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-sm text-text-muted mb-8 italic">Throughput figures are for typical fluids at listed conditions. Actual capacity varies with feed viscosity, temperature, density difference, and solids loading. Contact Dolphin Centrifuge for application-specific confirmation.</p>
+  <div class="grid md:grid-cols-2 gap-6 mb-6 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Biodiesel Production &mdash; Glycerin Separation</h3>
+      <p class="text-sm text-text-light mb-3">Transesterification of vegetable or animal fats produces biodiesel (FAME) plus a glycerin-rich heavy phase containing methanol, soap, and catalyst residues. The three-phase DMPX-014 separates biodiesel, glycerin, and any solid impurities in a single step, replacing multiple wash tanks and settling vessels in the production sequence.</p>
+      <a href="/biodiesel-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Biodiesel Centrifuge Details &rarr;</a>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Fish Oil Processing</h3>
+      <p class="text-sm text-text-light">Fish oil separation requires simultaneous recovery of oil, clarification of stickwater, and removal of fine solid particulates. The DMPX-014 with stainless steel construction handles fish oil at food-grade quality levels, producing a clean oil phase and separated aqueous phase in continuous operation.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Emulsified Waste Oil with High Water Cut</h3>
+      <p class="text-sm text-text-light">Tank bottoms, oilfield slop, and industrial oily water with 20&ndash;60% water content require three-phase centrifugation to break the emulsion and recover usable oil. The DMPX-014 handles feeds with significant water cut that two-phase centrifuges cannot process efficiently.</p>
+    </div>
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Key Applications</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Waste Oil Reclamation</h3>
-          <p class="text-sm text-text-light mb-3">Used motor oil, transmission fluid, hydraulic oil, and industrial waste oils contain water, soot, and metal wear particles. The DMPX-014 separates all three phases continuously, producing dry solids discharge, clean water discharge, and reclaimed oil ready for re-use or re-refining. Operates at elevated temperature (180&ndash;200&deg;F) for optimal viscosity reduction.</p>
-          <a href="/waste-oil-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Waste Oil Centrifuge Details &rarr;</a>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Biodiesel Production &mdash; Glycerin Separation</h3>
-          <p class="text-sm text-text-light mb-3">Transesterification of vegetable or animal fats produces biodiesel (FAME) plus a glycerin-rich heavy phase containing methanol, soap, and catalyst residues. The three-phase DMPX-014 separates biodiesel, glycerin, and any solid impurities in a single step, replacing multiple wash tanks and settling vessels in the production sequence.</p>
-          <a href="/biodiesel-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Biodiesel Centrifuge Details &rarr;</a>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Fish Oil Processing</h3>
-          <p class="text-sm text-text-light mb-3">Fish oil separation requires simultaneous recovery of oil, clarification of stickwater, and removal of fine solid particulates. The DMPX-014 with stainless steel construction handles fish oil at food-grade quality levels, producing a clean oil phase and separated aqueous phase in continuous operation.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Emulsified Waste Oil with High Water Cut</h3>
-          <p class="text-sm text-text-light mb-3">Tank bottoms, oilfield slop, and industrial oily water with 20&ndash;60% water content require three-phase centrifugation to break the emulsion and recover usable oil. The DMPX-014 handles feeds with significant water cut that two-phase centrifuges cannot process efficiently.</p>
-        </div>
-      </div>
+  <h2 id="self-cleaning">Self-Cleaning Solids Ejection</h2>
+  <p>
+    The DMPX-014&rsquo;s self-cleaning mechanism uses hydraulic pressure to actuate piston ports at the bowl periphery. During a discharge (cleaning shot), the bowl periphery opens momentarily, ejecting accumulated solids as a wet sludge into the solids collection shroud. The entire discharge cycle takes less than one second and the machine immediately resumes full-speed separation.
+  </p>
+  <p>
+    Discharge frequency is programmed through the PLC based on the solids loading of the feed. Applications with heavy solids (waste oil, tank bottoms) typically use discharge intervals of 15&ndash;60 minutes. Low-solids applications (diesel polishing, biodiesel washing) may discharge every few hours. The PLC can also trigger partial discharges to avoid unnecessary dilution of the separated product.
+  </p>
+  <p>
+    Because solids ejection is automatic, the DMPX-014 runs unattended in continuous 24/7 operation without manual cleaning shutdowns &mdash; a key advantage over manual-clean centrifuge designs.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Self-Cleaning Solids Ejection</h2>
-      <p class="text-text-light mb-4">
-        The DMPX-014&rsquo;s self-cleaning mechanism uses hydraulic pressure to actuate piston ports at the bowl periphery. During a discharge (cleaning shot), the bowl periphery opens momentarily, ejecting accumulated solids as a wet sludge into the solids collection shroud. The entire discharge cycle takes less than one second and the machine immediately resumes full-speed separation.
-      </p>
-      <p class="text-text-light mb-4">
-        Discharge frequency is programmed through the PLC based on the solids loading of the feed. Applications with heavy solids (waste oil, tank bottoms) typically use discharge intervals of 15&ndash;60 minutes. Low-solids applications (diesel polishing, biodiesel washing) may discharge every few hours. The PLC can also trigger partial discharges to avoid unnecessary dilution of the separated product.
-      </p>
-      <p class="text-text-light mb-8">
-        Because solids ejection is automatic, the DMPX-014 runs unattended in continuous 24/7 operation without manual cleaning shutdowns &mdash; a key advantage over manual-clean centrifuge designs.
-      </p>
+  <h2 id="skid">Skid-Mounted System Option</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Skid-Mounted System Option</h2>
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
       <p class="text-text-light mb-4">
         Dolphin Centrifuge supplies the DMPX-014 as a complete, tested, skid-mounted system. The standard DMPX-014 skid includes:
       </p>
-      <ul class="text-text-light space-y-2 mb-6">
+      <ul class="text-text-light space-y-2 mb-4">
         <li>&#8226; DMPX-014 centrifuge with drive motor and frame</li>
         <li>&#8226; Feed pump (positive displacement or centrifugal) with variable speed control</li>
         <li>&#8226; Electric or steam heat exchanger / pre-heater (for viscous fluids)</li>
@@ -198,60 +232,31 @@ const faqJsonLd = {
         <li>&#8226; All process piping and instrumentation</li>
         <li>&#8226; Solids collection pan and clean-out port</li>
       </ul>
-      <p class="text-text-light mb-8">
-        The skid arrives ready to connect to feed supply, product outlets, utilities (power and water for hydraulic operation), and drains. Commissioning typically requires less than one day. Explosion proof skid configurations are available for Class I Division 1 and Division 2 hazardous locations.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Why the DMPX-014 Is Our Most Popular Mid-Range Model</h2>
-      <p class="text-text-light mb-4">
-        The DMPX-014 occupies the sweet spot between compact entry-level machines and large industrial units. At approximately 13 GPM diesel throughput, it handles the processing volumes required by most industrial waste oil operations, mid-scale biodiesel producers, and food oil processors without the higher capital cost or larger footprint of bigger machines.
-      </p>
-      <p class="text-text-light mb-8">
-        Its self-cleaning design makes it suitable for feeds with significant solids loading that would require frequent manual shutdowns on a simpler bowl centrifuge. Operators with experience on manual-clean machines who switch to the DMPX-014 consistently report that labor time drops dramatically while processing quality improves.
-      </p>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the throughput of the DMPX-014 centrifuge?</h3>
-            <p class="text-text-light text-sm">The DMPX-014 is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How often does the DMPX-014 need to be cleaned?</h3>
-            <p class="text-text-light text-sm">The DMPX-014 is self-cleaning — accumulated sludge is ejected automatically every 10–60 minutes depending on the discharge timer setting and solids loading. No machine stoppage is required. Manual bowl disassembly is only needed for annual or bi-annual deep cleaning and inspection.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What applications is the DMPX-014 best suited for?</h3>
-            <p class="text-text-light text-sm">The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery at 10–15 GPM. Its three-phase separation capability makes it versatile across oil, water, and solids applications.</p>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview (all DMPX models)</a></li>
-        <li>&#8226; <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Waste Oil Centrifuge</a></li>
-        <li>&#8226; <a href="/biodiesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Biodiesel Centrifuge</a></li>
-        <li>&#8226; <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion Proof Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Us for DMPX-014 Pricing</a></li>
-      </ul>
-
     </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Get Pricing on the DMPX-014</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us your fluid, throughput requirement, site conditions, and any special requirements. We will provide a detailed quote for the DMPX-014 centrifuge or complete skid system.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/DMPX-014-Duplex-Disc-Stack-Centrifuge-Skid-for-HFO-and-Diesel-ATEX-Zone-2-600.webp"
+        alt="DMPX-014 Duplex Disc Stack Centrifuge Skid for HFO and Diesel ATEX Zone 2"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <p>
+    The skid arrives ready to connect to feed supply, product outlets, utilities (power and water for hydraulic operation), and drains. Commissioning typically requires less than one day. Explosion proof skid configurations are available for Class I Division 1 and Division 2 hazardous locations.
+  </p>
+
+  <h2 id="why-popular">Why the DMPX-014 Is Our Most Popular Mid-Range Model</h2>
+  <p>
+    The DMPX-014 occupies the sweet spot between compact entry-level machines and large industrial units. At approximately 13 GPM diesel throughput, it handles the processing volumes required by most industrial waste oil operations, mid-scale biodiesel producers, and food oil processors without the higher capital cost or larger footprint of bigger machines.
+  </p>
+  <p>
+    Its self-cleaning design makes it suitable for feeds with significant solids loading that would require frequent manual shutdowns on a simpler bowl centrifuge. Operators with experience on manual-clean machines who switch to the DMPX-014 consistently report that labor time drops dramatically while processing quality improves.
+  </p>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

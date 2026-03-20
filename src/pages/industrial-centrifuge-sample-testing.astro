@@ -1,7 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "How much fluid sample do I need to send for centrifuge testing?",
+    answer: "Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples."
+  },
+  {
+    question: "What does the centrifuge sample test report include?",
+    answer: "The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application."
+  },
+  {
+    question: "Is centrifuge sample testing free?",
+    answer: "Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on the complexity of the separation. Contact us to discuss your application and we will outline what is involved."
+  }
+];
+
+const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Centrifuge Sample Testing",
@@ -20,245 +36,193 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How much fluid sample do I need to send for centrifuge testing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does the centrifuge sample test report include?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is centrifuge sample testing free?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on the complexity of the separation. Contact us to discuss your application and we will outline what is involved."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [serviceJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'Sample Testing Overview' },
+  { id: 'lab-centrifuge', label: 'What Is a Lab Scale Disc Centrifuge?' },
+  { id: 'batch-testing', label: 'Small Batch Testing' },
+  { id: 'specifications', label: 'Lab Centrifuge Specifications' },
+  { id: 'testing-process', label: 'Testing Process' },
+  { id: 'why-test', label: 'Why Test Before You Buy?' },
+  { id: 'report', label: 'What the Test Report Includes' },
+  { id: 'sample-requirements', label: 'Sample Requirements' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Oil Centrifuge', href: '/oil-centrifuge/' },
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Diesel Centrifuge', href: '/diesel-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'System Design & Engineering', href: '/industrial-centrifuge-design/', description: 'Custom turnkey systems' },
+  { label: 'Centrifuge Rental', href: '/disc-stack-centrifuge-rental/', description: 'Try before you buy' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Centrifuge Sample Testing"
-  description="Send your fluid sample for industrial centrifuge testing. We test, analyze, and recommend the right separator system. Fast turnaround on results."
+  description="Industrial centrifuge sample testing at Dolphin Centrifuge, Warren MI. Send your fluid sample for lab-scale separation testing and system recommendations."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/industrial-centrifuge-sample-testing/industrial-centrifuge-sample-testing-1024x371.webp"
+  heroImageAlt="industrial centrifuge sample testing"
   canonicalUrl="https://dolphincentrifuge.com/industrial-centrifuge-sample-testing/"
-  breadcrumbs={[
-    { label: 'Services', href: '/industrial-centrifuge-design/' },
-    { label: 'Sample Testing' },
-  ]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Services</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Centrifuge Sample Testing</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">
-        Dolphin Centrifuge offers professional lab-scale centrifuge testing for your fluid samples. Send us a sample of your material and we will run it through our test centrifuges, measure the separation results, and deliver a detailed report with system recommendations.
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides industrial centrifuge sample testing at our Warren, Michigan facility — processing customer fluid samples through a lab-scale Alfa Laval disc centrifuge to determine separation feasibility before full-scale system commitment. Sample testing quantifies water content, solids content, and separation efficiency at various G-forces and temperatures, providing the data needed to select the right centrifuge model and capacity for your application. Samples are typically processed within 48 hours. Based in Warren, Michigan, with over 40 years of centrifuge application testing experience.</p>
+  </div>
+
+  <h2 id="overview">Centrifuge Sample Testing</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <p class="text-text-light mb-4">
+        We process customer samples through our Alfa Laval Lab Scale Disc Centrifuge (manual clean type) to determine the applicability of centrifugation as a possible separation method. Lab-scale centrifuge sample testing lets Dolphin Centrifuge get a thorough understanding of your separation application and limitations if any.
       </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Send a Sample</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+      <p class="text-text-light mb-4">
+        The test results allow us to recommend the right industrial centrifuge which will work for your process. Our explosion-proof, lab-scale disc centrifuge performs 3-phase separation and 2-phase clarification.
+      </p>
+      <p class="text-text-light mb-4">
+        Based on this testing, Dolphin Centrifuge can make an informed recommendation as to: (a) Applicability &amp; limitations (if any) of an industrial centrifuge. (b) Type and centrifuge model best suited for customer's needs.
+      </p>
+      <p class="text-text-light">
+        The customer benefits by being able to evaluate centrifuge performance on their product. The customer may also run further laboratory analysis on the returned samples to verify separation efficiency.
+      </p>
     </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides industrial centrifuge sample testing at our Warren, Michigan facility — processing customer fluid samples through a lab-scale Alfa Laval disc centrifuge to determine separation feasibility before full-scale system commitment. Sample testing quantifies water content, solids content, and separation efficiency at various G-forces and temperatures, providing the data needed to select the right centrifuge model and capacity for your application. Samples are typically processed within 48 hours. Based in Warren, Michigan, with over 40 years of centrifuge application testing experience.</p>
-      </div>
-
-      <!-- Legacy Content (verbatim) -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-4">
-          We process customer samples through our Alfa Laval Lab Scale Disc Centrifuge (manual clean type) to determine the applicability of centrifugation as a possible separation method. Lab-scale centrifuge sample testing lets Dolphin Centrifuge get a thorough understanding of your separation application and limitations if any.
-        </p>
-        <p class="text-text-light mb-4">
-          The test results allow us to recommend the right industrial centrifuge which will work for your process. Our explosion-proof, lab-scale disc centrifuge performs 3-phase separation and 2-phase clarification.
-        </p>
-        <p class="text-text-light mb-4">
-          Based on this testing, Dolphin Centrifuge can make an informed recommendation as to: (a) Applicability &amp; limitations (if any) of an industrial centrifuge. (b) Type and centrifuge model best suited for customer's needs.
-        </p>
-        <p class="text-text-light">
-          The customer benefits by being able to evaluate centrifuge performance on their product. The customer may also run further laboratory analysis on the returned samples to verify separation efficiency.
-        </p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What is a Lab Scale Disc Centrifuge?</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light mb-4">
-          A small industrial centrifuge is known as a lab-scale disc centrifuge. This centrifuge is designed to exert the same gravitational force as the larger (production) scale centrifuges but can process a small sample (approximately 1 Gallon) for evaluation purposes. Lab-scale centrifuges have the same characteristics as the production models, such as continuous flow, disc-stack, 2-phase, or 3-phase separation.
-        </p>
-        <p class="text-text-light">
-          We can process larger samples based on customer requests. Contact us for details.
-        </p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Small Batch Customer Sample Testing</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-10">
-        <p class="text-text-light">
-          Dolphin Centrifuge does have the in-house capability to batch process a sample (up to 10 Gallons) through a small industrial-scale disc-stack centrifuge. Please call one of our centrifuge experts for details on this batch testing service.
-        </p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Lab Centrifuge Specifications</h2>
-      <div class="overflow-x-auto mb-10">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Spec</th>
-              <th class="text-left px-4 py-3 font-semibold">Value</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Centrifuge Type</td><td class="px-4 py-2 text-text-light">Alfa Laval Disc Stack Centrifuge (Flow Through)</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Speed</td><td class="px-4 py-2 text-text-light">12,000 RPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Type</td><td class="px-4 py-2 text-text-light">3-Phase Separation (Liquid / Liquid / Solids)</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Max. Centrifugal Force</td><td class="px-4 py-2 text-text-light">10,000 Gs</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Max. Flow-Rate</td><td class="px-4 py-2 text-text-light">0.1 GPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Max. Solids Concentration</td><td class="px-4 py-2 text-text-light">~ 8% (v/v)</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Type</td><td class="px-4 py-2 text-text-light">Solid Bowl; Manual Clean</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Bowl Material Of Construction</td><td class="px-4 py-2 text-text-light">316L Duplex Stainless Steel</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Feed Pressure</td><td class="px-4 py-2 text-text-light">Gravity Feed</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Discharge Pressure</td><td class="px-4 py-2 text-text-light">Light &amp; Heavy Phase - Gravity Discharge</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-2 font-medium text-navy">Max. Fluid Temperature</td><td class="px-4 py-2 text-text-light">210 F or 98 C</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Testing Process</h2>
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-4">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Phase analysis of incoming customer samples to understand the ratio of different phases.</li>
-          <li>&#8226; Thoroughly agitate and heat (if needed) the measured portion of the customer sample.</li>
-          <li>&#8226; Process the sample through the lab centrifuge and collect separated phases.</li>
-          <li>&#8226; Evaluate separation efficiency by spinning the separated liquid phase in a tube centrifuge.</li>
-          <li>&#8226; Create a test report for each customer sample.</li>
-          <li>&#8226; Upload a sample testing video for customer visuals.</li>
-          <li>&#8226; Ship separated sample phases back to the customer for review and analysis.</li>
-        </ul>
-      </div>
-      <p class="text-text-light mb-10">
-        A testing charge depends on the type and volume of fluid to be tested.
-      </p>
-
-      <!-- Additive Content -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Why Test Before You Buy?</h2>
-      <p class="text-text-muted mb-4">
-        Every fluid is different. Viscosity, temperature, particle size distribution, emulsion stability, and chemical composition all affect how well a centrifuge will separate your material. Lab-scale testing on an actual centrifuge eliminates the guesswork and gives you hard data before you invest in a full-scale system.
-      </p>
-      <p class="text-text-muted mb-8">
-        Our sample testing program helps you find the right separation solution with real data. We test hundreds of samples per year across industries including <a href="/oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">oil purification</a>, <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">wastewater treatment</a>, food processing, chemical manufacturing, and more.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What the Test Report Includes</h2>
-      <p class="text-text-muted mb-4">
-        Our test reports are thorough and designed to give you the confidence to make an informed purchasing decision:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Before &amp; After Photos:</strong> Visual comparison of your sample before and after centrifuge processing</li>
-        <li><strong>Separation Data:</strong> Measured water content, solids content, particle size removal, and clarity readings</li>
-        <li><strong>Optimal Parameters:</strong> Recommended bowl speed, flow rate, temperature, and discharge frequency</li>
-        <li><strong>Centrifuge Type Recommendation:</strong> Whether your application requires a disc stack separator, decanter, or both</li>
-        <li><strong>Model &amp; System Recommendation:</strong> Specific Dolphin centrifuge model, system configuration, and capacity</li>
-        <li><strong>ROI Considerations:</strong> Estimated operating costs, consumable savings vs. filters, and payback timeline</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Sample Requirements</h2>
-      <p class="text-text-muted mb-4">
-        To get the most useful results from testing, please follow these guidelines when shipping your sample:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Volume:</strong> 1&ndash;5 gallons is ideal. We can work with as little as 1 quart for initial screening</li>
-        <li><strong>Container:</strong> Use a sealed, leak-proof container. Plastic jugs or pails work well</li>
-        <li><strong>Labeling:</strong> Include your company name, contact information, and material description</li>
-        <li><strong>Temperature:</strong> Ship at ambient temperature. Note if the material needs to be heated for processing</li>
-        <li><strong>Safety Data:</strong> Include an SDS (Safety Data Sheet) if the material is hazardous</li>
-        <li><strong>Shipping:</strong> Standard ground shipping is fine. We can provide a UPS or FedEx label if needed</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Common Materials We Test</h2>
-      <p class="text-text-muted mb-4">
-        We have tested thousands of different fluids and slurries over 40+ years. Common materials include:
-      </p>
-      <div class="grid md:grid-cols-2 gap-4 mb-8">
-        <ul class="list-disc list-inside space-y-1 text-text-muted ml-4">
-          <li><a href="/waste-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Waste oil and used oil</a></li>
-          <li><a href="/diesel-centrifuge/" class="text-navy hover:text-gold transition-colors">Diesel fuel and biodiesel</a></li>
-          <li><a href="/hydraulic-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Hydraulic and lube oils</a></li>
-          <li><a href="/crude-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Crude oil and tank bottoms</a></li>
-          <li><a href="/cutting-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Cutting fluids and coolants</a></li>
-        </ul>
-        <ul class="list-disc list-inside space-y-1 text-text-muted ml-4">
-          <li>Wastewater and process water</li>
-          <li>Food-grade oils and fats</li>
-          <li>Chemical process liquids</li>
-          <li>Sludge and slurries for dewatering</li>
-          <li>Any fluid requiring clarification</li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What Happens After Testing?</h2>
-      <p class="text-text-muted mb-4">
-        Once you have your test results, you can use the data to:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-muted mb-8 ml-4">
-        <li><strong>Purchase a system:</strong> We provide a complete quotation for the recommended centrifuge and turnkey system from our <a href="/industrial-centrifuge-design/" class="text-navy font-semibold hover:text-gold transition-colors">design and engineering team</a></li>
-        <li><strong>Rent first:</strong> Start with a <a href="/disc-stack-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge rental</a> to validate performance at full scale in your facility</li>
-        <li><strong>Keep the data:</strong> The test report is yours. Use it for internal justification, budgeting, or comparison</li>
-      </ul>
-
+    <div class="md:w-1/2">
+      <img
+        src="/images/industrial-centrifuge-sample-testing/Industrial-Centrifuge-Pilot-Testing-Results.webp"
+        alt="Industrial Centrifuge Pilot Testing Results"
+        width="600"
+        height="400"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
     </div>
-  </section>
+  </div>
 
-  <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How much fluid sample do I need to send for centrifuge testing?</h3>
-            <p class="text-text-light text-sm">Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What does the centrifuge sample test report include?</h3>
-            <p class="text-text-light text-sm">The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Is centrifuge sample testing free?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on complexity. Contact us to discuss your application and we will outline what is involved.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <h2 id="lab-centrifuge">What is a Lab Scale Disc Centrifuge?</h2>
+  <p>
+    A small industrial centrifuge is known as a lab-scale disc centrifuge. This centrifuge is designed to exert the same gravitational force as the larger (production) scale centrifuges but can process a small sample (approximately 1 Gallon) for evaluation purposes. Lab-scale centrifuges have the same characteristics as the production models, such as continuous flow, disc-stack, 2-phase, or 3-phase separation.
+  </p>
+  <p>We can process larger samples based on customer requests. Contact us for details.</p>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <h2 id="batch-testing">Small Batch Customer Sample Testing</h2>
+  <p>
+    Dolphin Centrifuge does have the in-house capability to batch process a sample (up to 10 Gallons) through a small industrial-scale disc-stack centrifuge. Please call one of our centrifuge experts for details on this batch testing service.
+  </p>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Send Us Your Sample</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Ship 1&ndash;5 gallons to our lab and get a detailed separation report with system recommendations.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Arrange Sample Testing</a>
-        <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Call (248) 522-2573</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  <h2 id="specifications">Lab Centrifuge Specifications</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Spec</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Centrifuge Type</td><td>Alfa Laval Disc Stack Centrifuge (Flow Through)</td></tr>
+      <tr><td>Bowl Speed</td><td>12,000 RPM</td></tr>
+      <tr><td>Bowl Type</td><td>3-Phase Separation (Liquid / Liquid / Solids)</td></tr>
+      <tr><td>Max. Centrifugal Force</td><td>10,000 Gs</td></tr>
+      <tr><td>Max. Flow-Rate</td><td>0.1 GPM</td></tr>
+      <tr><td>Max. Solids Concentration</td><td>~ 8% (v/v)</td></tr>
+      <tr><td>Bowl Clean Type</td><td>Solid Bowl; Manual Clean</td></tr>
+      <tr><td>Bowl Material Of Construction</td><td>316L Duplex Stainless Steel</td></tr>
+      <tr><td>Feed Pressure</td><td>Gravity Feed</td></tr>
+      <tr><td>Discharge Pressure</td><td>Light &amp; Heavy Phase - Gravity Discharge</td></tr>
+      <tr><td>Max. Fluid Temperature</td><td>210 F or 98 C</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="testing-process">Testing Process</h2>
+  <ul>
+    <li>Phase analysis of incoming customer samples to understand the ratio of different phases.</li>
+    <li>Thoroughly agitate and heat (if needed) the measured portion of the customer sample.</li>
+    <li>Process the sample through the lab centrifuge and collect separated phases.</li>
+    <li>Evaluate separation efficiency by spinning the separated liquid phase in a tube centrifuge.</li>
+    <li>Create a test report for each customer sample.</li>
+    <li>Upload a sample testing video for customer visuals.</li>
+    <li>Ship separated sample phases back to the customer for review and analysis.</li>
+  </ul>
+  <p>A testing charge depends on the type and volume of fluid to be tested.</p>
+
+  <h2 id="why-test">Why Test Before You Buy?</h2>
+  <p>
+    Every fluid is different. Viscosity, temperature, particle size distribution, emulsion stability, and chemical composition all affect how well a centrifuge will separate your material. Lab-scale testing on an actual centrifuge eliminates the guesswork and gives you hard data before you invest in a full-scale system.
+  </p>
+  <p>
+    Our sample testing program helps you find the right separation solution with real data. We test hundreds of samples per year across industries including <a href="/oil-centrifuge/">oil purification</a>, <a href="/wastewater-centrifuge/">wastewater treatment</a>, food processing, chemical manufacturing, and more.
+  </p>
+
+  <h2 id="report">What the Test Report Includes</h2>
+  <p>Our test reports are thorough and designed to give you the confidence to make an informed purchasing decision:</p>
+  <ul>
+    <li><strong>Before &amp; After Photos:</strong> Visual comparison of your sample before and after centrifuge processing</li>
+    <li><strong>Separation Data:</strong> Measured water content, solids content, particle size removal, and clarity readings</li>
+    <li><strong>Optimal Parameters:</strong> Recommended bowl speed, flow rate, temperature, and discharge frequency</li>
+    <li><strong>Centrifuge Type Recommendation:</strong> Whether your application requires a disc stack separator, decanter, or both</li>
+    <li><strong>Model &amp; System Recommendation:</strong> Specific Dolphin centrifuge model, system configuration, and capacity</li>
+    <li><strong>ROI Considerations:</strong> Estimated operating costs, consumable savings vs. filters, and payback timeline</li>
+  </ul>
+
+  <h2 id="sample-requirements">Sample Requirements</h2>
+  <p>To get the most useful results from testing, please follow these guidelines when shipping your sample:</p>
+  <ul>
+    <li><strong>Volume:</strong> 1&ndash;5 gallons is ideal. We can work with as little as 1 quart for initial screening</li>
+    <li><strong>Container:</strong> Use a sealed, leak-proof container. Plastic jugs or pails work well</li>
+    <li><strong>Labeling:</strong> Include your company name, contact information, and material description</li>
+    <li><strong>Temperature:</strong> Ship at ambient temperature. Note if the material needs to be heated for processing</li>
+    <li><strong>Safety Data:</strong> Include an SDS (Safety Data Sheet) if the material is hazardous</li>
+    <li><strong>Shipping:</strong> Standard ground shipping is fine. We can provide a UPS or FedEx label if needed</li>
+  </ul>
+
+  <h3>Common Materials We Test</h3>
+  <p>We have tested thousands of different fluids and slurries over 40+ years. Common materials include:</p>
+  <div class="grid md:grid-cols-2 gap-4 not-prose mb-4">
+    <ul class="list-disc list-inside space-y-1 text-text-muted ml-4">
+      <li><a href="/waste-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Waste oil and used oil</a></li>
+      <li><a href="/diesel-centrifuge/" class="text-navy hover:text-gold transition-colors">Diesel fuel and biodiesel</a></li>
+      <li><a href="/hydraulic-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Hydraulic and lube oils</a></li>
+      <li><a href="/crude-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Crude oil and tank bottoms</a></li>
+      <li><a href="/cutting-oil-centrifuge/" class="text-navy hover:text-gold transition-colors">Cutting fluids and coolants</a></li>
+    </ul>
+    <ul class="list-disc list-inside space-y-1 text-text-muted ml-4">
+      <li>Wastewater and process water</li>
+      <li>Food-grade oils and fats</li>
+      <li>Chemical process liquids</li>
+      <li>Sludge and slurries for dewatering</li>
+      <li>Any fluid requiring clarification</li>
+    </ul>
+  </div>
+
+  <h3>What Happens After Testing?</h3>
+  <p>Once you have your test results, you can use the data to:</p>
+  <ul>
+    <li><strong>Purchase a system:</strong> We provide a complete quotation for the recommended centrifuge and turnkey system from our <a href="/industrial-centrifuge-design/">design and engineering team</a></li>
+    <li><strong>Rent first:</strong> Start with a <a href="/disc-stack-centrifuge-rental/">centrifuge rental</a> to validate performance at full scale in your facility</li>
+    <li><strong>Keep the data:</strong> The test report is yours. Use it for internal justification, budgeting, or comparison</li>
+  </ul>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>
