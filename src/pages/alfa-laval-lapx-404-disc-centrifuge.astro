@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -40,193 +40,232 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Alfa Laval LAPX 404 Disc Centrifuge",
-  "description": "Alfa Laval LAPX 404 three-phase stainless steel disc centrifuge for food, pharmaceutical and biotech applications.",
-  "brand": { "@type": "Brand", "name": "Alfa Laval" },
-  "manufacturer": { "@type": "Organization", "name": "Alfa Laval" },
-  "category": "Disc Stack Centrifuges",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alfa Laval LAPX 404 Disc Centrifuge",
+    "description": "Alfa Laval LAPX 404 three-phase stainless steel disc centrifuge for food, pharmaceutical, and biotech three-phase separation with CIP/SIP design.",
+    "brand": { "@type": "Brand", "name": "Alfa Laval" },
+    "manufacturer": { "@type": "Organization", "name": "Alfa Laval" },
+    "category": "Disc Stack Centrifuges",
+    "url": "https://dolphincentrifuge.com/alfa-laval-lapx-404-disc-centrifuge/",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD",
+      "seller": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    },
   },
-};
+  faqJsonLd,
+];
+
+const toc = [
+  { id: 'overview', label: 'LAPX 404 Overview' },
+  { id: 'technical-specifications', label: 'Technical Specifications' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'hygienic-design', label: 'Hygienic Design Advantages' },
+  { id: 'supply-and-service', label: 'Supply & Service' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/', description: 'Complete disc stack centrifuge systems' },
+  { label: 'Stainless Steel Centrifuges', href: '/stainless-steel-centrifuge/', description: 'Hygienic stainless steel models' },
+  { label: 'Alfa Laval Clara 20', href: '/alfa-laval-clara-20-food-grade-centrifuge/', description: 'Food grade centrifuge' },
+];
+
+const relatedApplications = [
+  { label: 'Food Grade Centrifuge Systems', href: '/food-grade-centrifuge/' },
+  { label: 'All Centrifuge Applications', href: '/disc-stack-centrifuge-applications/' },
+  { label: 'Centrifuge Parts & Spares', href: '/alfa-laval-centrifuge-parts/' },
+  { label: 'Pilot Sample Testing', href: '/industrial-centrifuge-sample-testing/' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval LAPX 404 Disc Centrifuge"
-  description="Alfa Laval LAPX 404 stainless steel disc centrifuge for food-grade, pharmaceutical, and biotech clarification. Dolphin Centrifuge supplies and services LAPX systems."
+  description="Alfa Laval LAPX 404 three-phase stainless steel disc centrifuge for food, pharma, and biotech separation. CIP/SIP compatible with 7,200+ Gs."
+  heroImage="/images/stainless-steel-centrifuge/Alfa-Laval-Food-Grade-Stainless-Steel-3-Phase-Disc-Centrifuge-400.webp"
+  heroImageAlt="Alfa Laval Food Grade Stainless Steel 3 Phase Disc Centrifuge"
+  category="products"
+  categoryLabel="Stainless Disc Centrifuges"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-lapx-404-disc-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/stainless-steel-centrifuge/'}, {label: 'LAPX 404 Centrifuge'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Stainless Disc Centrifuges</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval LAPX 404 Disc Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The Alfa Laval LAPX 404 is a three-phase self-cleaning disc stack centrifuge designed for food-grade and pharmaceutical separation. Built entirely from 316L stainless steel wetted parts with hygienic design, the LAPX 404 separates two immiscible liquid phases plus solids in continuous operation &mdash; ideal for vegetable oil, fish oil, pharmaceutical, and biotechnology applications. Dolphin Centrifuge supplies and services reconditioned LAPX 404 systems.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Inquire About Availability</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <!-- AI Summary — 30-50 words -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval LAPX 404 is a hermetically sealed, self-cleaning three-phase disc stack centrifuge with full 316L stainless steel construction for food, pharmaceutical, and biotech processing. Dolphin Centrifuge supplies and services reconditioned LAPX 404 systems from Warren, Michigan.</p>
+  </div>
+
+  <!-- Overview -->
+  <h2 id="overview">LAPX 404 Overview</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-1/2">
+      <p>
+        The LAPX 404 belongs to the LAPX family of hermetically sealed, self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuges</a> optimized for food and pharmaceutical processing. The &ldquo;LA&rdquo; designation indicates hygienic stainless steel construction; &ldquo;PX&rdquo; indicates self-cleaning (periodic solids ejection); and &ldquo;404&rdquo; designates the bowl size in the mid-range of the LAPX series.
+      </p>
     </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval LAPX 404 is a hermetically sealed, self-cleaning disc stack centrifuge with full hygienic stainless steel construction for food, beverage, and pharmaceutical processing. Dolphin Centrifuge supplies and services the LAPX 404 — with CIP-compatible design and FDA/3A-compliant materials for beer, wine, juice, dairy, enzyme, and biotech clarification. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in hygienic centrifuge systems.</p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">LAPX 404 Overview</h2>
-      <p class="text-text-light mb-4">
-        The LAPX 404 belongs to the LAPX family of hermetically sealed, self-cleaning disc stack centrifuges optimized for food and pharmaceutical processing. The &ldquo;LA&rdquo; designation indicates hygienic stainless steel construction; &ldquo;PX&rdquo; indicates self-cleaning (periodic solids ejection); and &ldquo;404&rdquo; designates the bowl size in the mid-range of the LAPX series.
-      </p>
-      <p class="text-text-light mb-4">
-        Unlike industrial-grade disc centrifuges designed for petroleum or heavy chemical applications, the LAPX 404 is engineered to the hygienic design requirements of the food and pharmaceutical industries. Internal surfaces are polished to minimize bacterial retention sites, and the machine is designed for full clean-in-place (CIP) and steam-in-place (SIP) procedures without disassembly.
-      </p>
-      <p class="text-text-light mb-8">
-        The LAPX 404 is a three-phase separator: it simultaneously separates a light liquid phase (such as oil), a heavy liquid phase (such as water or aqueous solution), and a solids fraction, all in a single continuous pass.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">LAPX 404 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Parameter</th>
-              <th class="text-left px-4 py-3 font-semibold">Value</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Separation type</td>
-              <td class="px-4 py-3 text-text-light">Three-phase (liquid-liquid-solid)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Typical flow capacity</td>
-              <td class="px-4 py-3 text-text-light">300&ndash;500 LPH (fluid-dependent; confirm for your specific application)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Wetted materials</td>
-              <td class="px-4 py-3 text-text-light">316L stainless steel (bowl, discs, frame covers, inlet/outlet)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Seals</td>
-              <td class="px-4 py-3 text-text-light">FDA-compliant EPDM or PTFE; Viton available</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Solids discharge</td>
-              <td class="px-4 py-3 text-text-light">Hydraulic self-ejecting; programmable intervals</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Design standard</td>
-              <td class="px-4 py-3 text-text-light">Hygienic / food-grade; CIP and SIP compatible</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Inlet/outlet connections</td>
-              <td class="px-4 py-3 text-text-light">Hermetic (pressure-tight) liquid inlet and outlets</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-sm text-text-muted mb-8 italic">Note: Capacity figures are indicative. Actual throughput depends on feed viscosity, density difference, solids loading, and required separation sharpness. Contact Dolphin Centrifuge for application-specific sizing.</p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Fish Oil Processing</h3>
-          <p class="text-sm text-text-light">Three-phase separation of fish oil, stickwater, and solids from fishmeal processing streams. The LAPX 404 recovers oil and clarifies the aqueous phase in one pass, reducing losses and improving yield.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Vegetable &amp; Olive Oil</h3>
-          <p class="text-sm text-text-light">Three-phase separation of olive oil, vegetation water, and olive solids after malaxation. Also suited for other vegetable oils requiring food-grade stainless steel construction and hygienic processing.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Pharmaceutical &amp; API</h3>
-          <p class="text-sm text-text-light">Separation of pharmaceutical intermediates and active pharmaceutical ingredients (APIs) requiring cGMP-compatible materials, CIP cleaning, and documented traceability. The hygienic stainless design meets FDA material requirements.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Biotechnology &amp; Fermentation</h3>
-          <p class="text-sm text-text-light">Recovery and clarification of cell culture broths, fermentation products, and bioreactor harvests. The LAPX 404 handles the shear-sensitive materials and sterile processing demands of biotech manufacturing.</p>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Hygienic Design Advantages</h2>
-      <p class="text-text-light mb-4">
-        The LAPX 404 design addresses the specific requirements of food, pharmaceutical, and biotechnology processing:
-      </p>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <strong>CIP-compatible:</strong> Full clean-in-place without bowl disassembly. Cleaning solution flows through all product-contact surfaces.</li>
-        <li>&#8226; <strong>SIP-capable:</strong> Steam sterilization of the product path for aseptic and sterile processing requirements.</li>
-        <li>&#8226; <strong>Hermetically sealed liquid path:</strong> The product never contacts the atmosphere during separation, preventing oxidation and contamination.</li>
-        <li>&#8226; <strong>316L stainless steel:</strong> Superior corrosion resistance compared to 304 SS; preferred material for FDA-regulated food and pharmaceutical contact applications.</li>
-        <li>&#8226; <strong>FDA-compliant seals:</strong> All sealing materials selected for compliance with FDA 21 CFR food-contact regulations.</li>
-        <li>&#8226; <strong>Sanitary surface finish:</strong> Internal bowl surfaces polished to minimize product adhesion and facilitate thorough cleaning.</li>
-      </ul>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Dolphin Centrifuge Supply &amp; Service</h2>
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge supplies reconditioned LAPX 404 units fully disassembled, inspected, and rebuilt to original specifications at our Warren, Michigan facility. Each unit is tested on our in-house test stand before shipment. We maintain inventory of common wear parts for rapid delivery.
-      </p>
-      <p class="text-text-light mb-8">
-        We also provide complete turnkey system integration: feed pump, product buffer tank, CIP skid, heat exchanger, and PLC controls packaged with the centrifuge on a single stainless steel skid. For applications requiring explosion proof electrical ratings in addition to stainless construction, see our <a href="/explosion-proof-stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">explosion proof stainless steel centrifuge</a> page.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Stainless Steel Centrifuge Systems</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Food Grade Centrifuge</a></li>
-        <li>&#8226; <a href="/alfa-laval-clara-20-food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval Clara 20 Food Grade Centrifuge</a></li>
-        <li>&#8226; <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Parts &amp; Spares</a></li>
-        <li>&#8226; <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Us for LAPX 404 Inquiry</a></li>
-      </ul>
-
-      <!-- FAQ Section -->
-      <div class="mt-12 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-4">
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval LAPX 404 used for?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 is a three-phase disc centrifuge designed for food, pharmaceutical, and biotech applications requiring stainless steel construction and CIP (clean-in-place) capability. Typical applications include edible oil clarification, algae oil extraction, pharmaceutical broth clarification, enzyme production, and fermentation processing.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">How does the LAPX 404 differ from the MOPX series?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 is constructed in all-stainless steel for food and pharmaceutical applications, with hygienic design, CIP compatibility, and FDA-compliant seals. The MOPX series uses carbon steel or standard construction for industrial oil/fuel applications. The LAPX generates similar G-force (7,000+ Gs) but is designed for product quality and sterility rather than industrial durability.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">Is the Alfa Laval LAPX 404 CIP-capable?</summary>
-            <p class="text-text-light mt-3 text-sm">Yes. The LAPX 404 features clean-in-place (CIP) design with all-stainless-steel product-contact surfaces, hygienic gaskets and seals, and fully enclosed bowl design that allows in-situ cleaning without full bowl disassembly. This makes it suitable for GMP (Good Manufacturing Practice) environments in pharmaceutical and food production.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What G-force does the Alfa Laval LAPX 404 generate?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 generates approximately 7,200+ Gs of centrifugal force at rated bowl speed. This high G-force enables effective separation of fine biological particles, cell debris, and product in pharmaceutical and biotech applications.</p>
-          </details>
-        </div>
-      </div>
-
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
+    <div class="md:w-1/2">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Disc-Stack-Centrifuge-600.webp"
+        alt="Alfa Laval Stainless Steel Disc Stack Centrifuge"
+        loading="lazy"
+        width="600"
+        height="450"
+        class="rounded-xl shadow-md w-full"
+      />
     </div>
-  </section>
+  </div>
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Inquire About the LAPX 404</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us your application, required throughput, and processing conditions. Our team will confirm availability, pricing, and system integration options.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
+  <p>
+    Unlike industrial-grade disc centrifuges designed for petroleum or heavy chemical applications, the LAPX 404 is engineered to the hygienic design requirements of the food and pharmaceutical industries. Internal surfaces are polished to minimize bacterial retention sites, and the machine is designed for full clean-in-place (CIP) and steam-in-place (SIP) procedures without disassembly.
+  </p>
+  <p>
+    The LAPX 404 is a three-phase separator: it simultaneously separates a light liquid phase (such as oil), a heavy liquid phase (such as water or aqueous solution), and a solids fraction, all in a single continuous pass.
+  </p>
+
+  <!-- Technical Specifications -->
+  <h2 id="technical-specifications">Technical Specifications</h2>
+  <div class="overflow-x-auto mb-8 not-prose">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Separation Type</td>
+          <td class="px-4 py-3 font-mono text-text-light">Three-phase (liquid-liquid-solid)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Typical Flow Capacity</td>
+          <td class="px-4 py-3 font-mono text-text-light">300&ndash;500 LPH (fluid-dependent)</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
+          <td class="px-4 py-3 font-mono text-text-light">7,200+ Gs</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Wetted Materials</td>
+          <td class="px-4 py-3 font-mono text-text-light">316L stainless steel (bowl, discs, frame covers, inlet/outlet)</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Seals</td>
+          <td class="px-4 py-3 font-mono text-text-light">FDA-compliant EPDM or PTFE; Viton available</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Solids Discharge</td>
+          <td class="px-4 py-3 font-mono text-text-light">Hydraulic self-ejecting; programmable intervals</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Design Standard</td>
+          <td class="px-4 py-3 font-mono text-text-light">Hygienic / food-grade; CIP and SIP compatible</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-3 font-semibold text-navy">Inlet/Outlet</td>
+          <td class="px-4 py-3 font-mono text-text-light">Hermetic (pressure-tight) liquid connections</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-sm text-text-muted italic">Note: Capacity figures are indicative. Actual throughput depends on feed viscosity, density difference, solids loading, and required separation sharpness. Contact Dolphin Centrifuge for application-specific sizing.</p>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-1/2">
+      <p>
+        The LAPX 404 three-phase design makes it well suited for processing applications where two immiscible liquid phases and a solids fraction must be separated in a single continuous pass. Its <a href="/stainless-steel-centrifuge/">stainless steel construction</a> and hygienic design enable use across food, pharmaceutical, and biotech industries.
+      </p>
     </div>
-  </section>
-</BaseLayout>
+    <div class="md:w-1/2">
+      <img
+        src="/images/stainless-steel-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
+        alt="Alfa Laval Stainless Steel Centrifuge"
+        loading="lazy"
+        width="600"
+        height="450"
+        class="rounded-xl shadow-md w-full"
+      />
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6 mb-8 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Fish Oil Processing</h3>
+      <p class="text-sm text-text-light">Three-phase separation of fish oil, stickwater, and solids from fishmeal processing streams. The LAPX 404 recovers oil and clarifies the aqueous phase in one pass, reducing losses and improving yield.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Vegetable &amp; Olive Oil</h3>
+      <p class="text-sm text-text-light">Three-phase separation of olive oil, vegetation water, and olive solids after malaxation. Also suited for other vegetable oils requiring <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">food-grade stainless steel</a> construction and hygienic processing.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Pharmaceutical &amp; API</h3>
+      <p class="text-sm text-text-light">Separation of pharmaceutical intermediates and active pharmaceutical ingredients (APIs) requiring cGMP-compatible materials, CIP cleaning, and documented traceability. The hygienic stainless design meets FDA material requirements.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Biotechnology &amp; Fermentation</h3>
+      <p class="text-sm text-text-light">Recovery and clarification of cell culture broths, fermentation products, and bioreactor harvests. The LAPX 404 handles shear-sensitive materials and sterile processing demands of biotech manufacturing.</p>
+    </div>
+  </div>
+
+  <!-- Hygienic Design Advantages -->
+  <h2 id="hygienic-design">Hygienic Design Advantages</h2>
+  <p>
+    The LAPX 404 design addresses the specific requirements of food, pharmaceutical, and biotechnology processing:
+  </p>
+  <ul>
+    <li><strong>CIP-compatible:</strong> Full clean-in-place without bowl disassembly. Cleaning solution flows through all product-contact surfaces.</li>
+    <li><strong>SIP-capable:</strong> Steam sterilization of the product path for aseptic and sterile processing requirements.</li>
+    <li><strong>Hermetically sealed liquid path:</strong> The product never contacts the atmosphere during separation, preventing oxidation and contamination.</li>
+    <li><strong>316L stainless steel:</strong> Superior corrosion resistance compared to 304 SS; preferred material for FDA-regulated food and pharmaceutical contact applications.</li>
+    <li><strong>FDA-compliant seals:</strong> All sealing materials selected for compliance with FDA 21 CFR food-contact regulations.</li>
+    <li><strong>Sanitary surface finish:</strong> Internal bowl surfaces polished to minimize product adhesion and facilitate thorough cleaning.</li>
+  </ul>
+
+  <!-- Supply & Service -->
+  <h2 id="supply-and-service">Dolphin Centrifuge Supply &amp; Service</h2>
+  <p>
+    Dolphin Centrifuge supplies reconditioned LAPX 404 units fully disassembled, inspected, and rebuilt to original specifications at our Warren, Michigan facility. Each unit is tested on our in-house test stand before shipment. We maintain inventory of common <a href="/alfa-laval-centrifuge-parts/">wear parts</a> for rapid delivery.
+  </p>
+  <p>
+    We also provide complete turnkey system integration: feed pump, product buffer tank, CIP skid, heat exchanger, and PLC controls packaged with the centrifuge on a single stainless steel skid. For applications requiring explosion proof electrical ratings in addition to stainless construction, see our <a href="/explosion-proof-stainless-steel-centrifuge/">explosion proof stainless steel centrifuge</a> page.
+  </p>
+
+  <!-- Mid-page CTA -->
+  <div class="bg-navy/5 border border-navy/10 rounded-xl p-6 my-8 text-center not-prose">
+    <p class="text-lg font-bold text-navy mb-2">Need a quote for the LAPX 404?</p>
+    <p class="text-sm text-text-light mb-4">Tell us your application, required throughput, and processing conditions.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-navy/20 hover:border-gold text-navy font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <div class="space-y-4 not-prose">
+    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+      <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval LAPX 404 used for?</summary>
+      <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 is a three-phase disc centrifuge designed for food, pharmaceutical, and biotech applications requiring stainless steel construction and CIP (clean-in-place) capability. Typical applications include edible oil clarification, algae oil extraction, pharmaceutical broth clarification, enzyme production, and fermentation processing.</p>
+    </details>
+    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+      <summary class="font-semibold text-navy cursor-pointer">How does the LAPX 404 differ from the MOPX series?</summary>
+      <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 is constructed in all-stainless steel for food and pharmaceutical applications, with hygienic design, CIP compatibility, and FDA-compliant seals. The MOPX series uses carbon steel or standard construction for industrial oil/fuel applications. The LAPX generates similar G-force (7,000+ Gs) but is designed for product quality and sterility rather than industrial durability.</p>
+    </details>
+    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+      <summary class="font-semibold text-navy cursor-pointer">Is the Alfa Laval LAPX 404 CIP-capable?</summary>
+      <p class="text-text-light mt-3 text-sm">Yes. The LAPX 404 features clean-in-place (CIP) design with all-stainless-steel product-contact surfaces, hygienic gaskets and seals, and fully enclosed bowl design that allows in-situ cleaning without full bowl disassembly. This makes it suitable for GMP (Good Manufacturing Practice) environments in pharmaceutical and food production.</p>
+    </details>
+    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+      <summary class="font-semibold text-navy cursor-pointer">What G-force does the Alfa Laval LAPX 404 generate?</summary>
+      <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX 404 generates approximately 7,200+ Gs of centrifugal force at rated bowl speed. This high G-force enables effective separation of fine biological particles, cell debris, and product in pharmaceutical and biotech applications.</p>
+    </details>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+</ApplicationLayout>

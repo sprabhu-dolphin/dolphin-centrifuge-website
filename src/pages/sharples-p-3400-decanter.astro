@@ -1,175 +1,212 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the main difference between the Sharples P-3400 and P-3000?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity." }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Dolphin Centrifuge stock parts for the P-3400?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines." }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Sharples P-3400 still supported by Alfa Laval?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel." }
-    }
-  ]
-};
+const faqItems = [
+  {
+    question: "What is the main difference between the Sharples P-3400 and P-3000?",
+    answer: "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity."
+  },
+  {
+    question: "Does Dolphin Centrifuge stock parts for the P-3400?",
+    answer: "Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines."
+  },
+  {
+    question: "Is the Sharples P-3400 still supported by Alfa Laval?",
+    answer: "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel."
+  }
+];
 
-const jsonLd = {
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Sharples P-3400 Decanter Centrifuge",
   "description": "Sharples P-3400 decanter centrifuge — specifications, applications and rebuild services from Dolphin Centrifuge.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "telephone": "(248) 522-2573",
+    "email": "sales@dolphincentrifuge.com",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "model": "P-3400",
   "url": "https://dolphincentrifuge.com/sharples-p-3400-decanter/",
+  "offers": {
+    "@type": "Offer",
+    "seller": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  }
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'about', label: 'About the Sharples P-3400' },
+  { id: 'specifications', label: 'P-3400 Specifications' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'p3400-vs-p3000', label: 'P-3400 vs. P-3000' },
+  { id: 'rebuild-service', label: 'Rebuild Service' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Dewatering Centrifuge', href: '/dewatering-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Sharples P-3000 Decanter', href: '/sharples-p-3000-decanter/', description: 'Standard-capacity Sharples decanter' },
+  { label: 'Alfa Laval NX 418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: '418 mm high-performance decanter' },
+  { label: 'Decanter Centrifuge Rental', href: '/decanter-centrifuge-rental/', description: 'Temporary units during rebuild' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Sharples P-3400 Decanter Centrifuge"
-  description="Sharples P-3400 decanter centrifuge — high-volume rebuild, parts and repair. Greater capacity than the P-3000 for heavy sludge applications. Dolphin Centrifuge."
+  description="Sharples P-3400 high-capacity decanter centrifuge — rebuild, parts, and repair services for heavy sludge dewatering applications. Dolphin Centrifuge, Warren MI."
+  heroImage="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
+  heroImageAlt="sharples-p3400-oilfield-decanter"
+  category="products"
+  categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/sharples-p-3400-decanter/"
-  breadcrumbs={[{label: 'Products', href: '/decanter-centrifuge/'}, {label: 'Sharples P-3400'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Sharples P-3400 Decanter Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The higher-capacity model in the Sharples industrial decanter series. Dolphin Centrifuge provides parts, mechanical rebuilds, and repair services for the P-3400 — a proven workhorse in wastewater, chemical, and industrial dewatering applications.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- AI Summary — 30-50 words -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Sharples P-3400 is a high-capacity two-phase horizontal decanter centrifuge for wastewater sludge dewatering and industrial separation. Offering greater throughput than the P-3000, it is now part of the Alfa Laval portfolio. Dolphin Centrifuge provides parts, rebuilds, and repair from Warren, Michigan.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides parts, mechanical rebuilds, and complete repair services for the Sharples P-3400 high-capacity horizontal decanter centrifuge — now part of the Alfa Laval portfolio. The P-3400 offers greater bowl volume than the P-3000 for higher-throughput wastewater, chemical, and industrial sludge dewatering applications. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of decanter centrifuge rebuild experience.</p>
-      </div>
+  <!-- About -->
+  <h2 id="about">About the Sharples P-3400</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">About the Sharples P-3400</h2>
-      <p class="text-text-light mb-4">
-        The Sharples P-3400 is the larger-capacity model in the Sharples industrial horizontal <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> series, offering greater throughput than the <a href="/sharples-p-3000-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">P-3000</a> while sharing the same proven platform architecture. The P-3400 is suited to higher-volume wastewater treatment plants, larger industrial process streams, and applications where the P-3000's capacity falls short of requirements.
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Sharples P-3400 is the larger-capacity model in the Sharples industrial horizontal <a href="/decanter-centrifuge/">decanter centrifuge</a> series, offering greater throughput than the <a href="/sharples-p-3000-decanter/">P-3000</a> while sharing the same proven platform architecture. The P-3400 is suited to higher-volume wastewater treatment plants, larger industrial process streams, and applications where the P-3000's capacity falls short of requirements.
       </p>
-      <p class="text-text-light mb-8">
+      <p>
         As with the P-3000, the Sharples brand is now part of Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, providing rebuild and repair services to plants across North America that continue to operate these machines.
       </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">P-3400 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Sharples P-3400</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Horizontal Decanter, Two-Phase</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Capacity vs. P-3000</td>
-              <td class="px-4 py-3 font-mono text-text-light">Higher (larger bowl volume)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Separation Configuration</td>
-              <td class="px-4 py-3 font-mono text-text-light">Liquid-Solid (Two-Phase)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Current Brand Ownership</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval (acquired)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Service Support</td>
-              <td class="px-4 py-3 font-mono text-text-light">Parts, Rebuild &amp; Repair — Dolphin Centrifuge</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Applications</td>
-              <td class="px-4 py-3 font-mono text-text-light">Wastewater, Chemical, Industrial Sludge</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <p class="text-text-light mb-4">The P-3400 handles the same <a href="/decanter-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge application</a> range as the P-3000, but at higher throughput:</p>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/wastewater-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Municipal wastewater sludge dewatering</a></li>
-          <li>&#8226; Large-volume industrial effluent treatment</li>
-          <li>&#8226; Chemical process sludge separation</li>
-          <li>&#8226; Biological sludge thickening</li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Food processing waste dewatering</li>
-          <li>&#8226; Mining and mineral slurry processing</li>
-          <li>&#8226; Paper and pulp mill sludge</li>
-          <li>&#8226; Rendering and industrial by-products</li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">P-3400 vs. P-3000: When to Choose the Larger Model</h2>
-      <p class="text-text-light mb-4">
-        The P-3400 is the logical choice over the <a href="/sharples-p-3000-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">P-3000</a> when plant throughput requirements exceed the smaller model's capacity. Higher daily sludge volumes, larger process flows, or the desire to operate a single larger unit instead of two smaller ones are the common drivers. Both models share the same Sharples design philosophy and are fully supported by Dolphin Centrifuge.
-      </p>
-      <p class="text-text-light mb-4">
-        For plants evaluating whether to rebuild an existing P-3400 or upgrade to a current-generation decanter, our team can provide a comparative analysis of rebuild cost versus replacement value, spare parts availability, and performance expectations. Explore current-generation <a href="/alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval centrifuges</a> as upgrade options. If you need a temporary unit during rebuilding, ask about our <a href="/decanter-centrifuge-rental/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge rental</a> program.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Dolphin Centrifuge P-3400 Rebuild Service</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; Complete bowl and scroll assembly inspection and reconditioning</li>
-        <li>&#8226; Bearing replacement and precision alignment</li>
-        <li>&#8226; Scroll wear surface hard-facing and replacement</li>
-        <li>&#8226; Gearbox inspection and rebuild</li>
-        <li>&#8226; Seal replacement and liquid end reconditioning</li>
-        <li>&#8226; <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">Full centrifuge repair and refurbishment services</a></li>
-      </ul>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the main difference between the Sharples P-3400 and P-3000?</h3>
-            <p class="text-text-light text-sm">The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge stock parts for the P-3400?</h3>
-            <p class="text-text-light text-sm">Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Is the Sharples P-3400 still supported by Alfa Laval?</h3>
-            <p class="text-text-light text-sm">Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">P-3400 Parts, Rebuild or Replacement?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for parts availability, rebuild quotes, and upgrade path recommendations for the Sharples P-3400.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
     </div>
-  </section>
-</BaseLayout>
+    <img
+      src="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
+      alt="sharples-p3400-oilfield-decanter"
+      width="300"
+      height="200"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <!-- Specifications -->
+  <h2 id="specifications">P-3400 Specifications</h2>
+
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
+          <td class="px-4 py-3 font-mono text-text-light">Sharples P-3400</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
+          <td class="px-4 py-3 font-mono text-text-light">Horizontal Decanter, Two-Phase</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Capacity vs. P-3000</td>
+          <td class="px-4 py-3 font-mono text-text-light">Higher (larger bowl volume)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Separation Configuration</td>
+          <td class="px-4 py-3 font-mono text-text-light">Liquid-Solid (Two-Phase)</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Current Brand Ownership</td>
+          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval (acquired)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Service Support</td>
+          <td class="px-4 py-3 font-mono text-text-light">Parts, Rebuild &amp; Repair — Dolphin Centrifuge</td>
+        </tr>
+        <tr class="bg-white">
+          <td class="px-4 py-3 font-semibold text-navy">Typical Applications</td>
+          <td class="px-4 py-3 font-mono text-text-light">Wastewater, Chemical, Industrial Sludge</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+
+  <p>The P-3400 handles the same <a href="/decanter-centrifuge-applications/">decanter centrifuge application</a> range as the P-3000, but at higher throughput:</p>
+  <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-6">
+    <ul class="space-y-2">
+      <li><a href="/wastewater-centrifuge/">Municipal wastewater sludge dewatering</a></li>
+      <li>Large-volume industrial effluent treatment</li>
+      <li>Chemical process sludge separation</li>
+      <li>Biological sludge thickening</li>
+    </ul>
+    <ul class="space-y-2">
+      <li>Food processing waste dewatering</li>
+      <li>Mining and mineral slurry processing</li>
+      <li>Paper and pulp mill sludge</li>
+      <li>Rendering and industrial by-products</li>
+    </ul>
+  </div>
+
+  <!-- P-3400 vs P-3000 -->
+  <h2 id="p3400-vs-p3000">P-3400 vs. P-3000: When to Choose the Larger Model</h2>
+
+  <p>
+    The P-3400 is the logical choice over the <a href="/sharples-p-3000-decanter/">P-3000</a> when plant throughput requirements exceed the smaller model's capacity. Higher daily sludge volumes, larger process flows, or the desire to operate a single larger unit instead of two smaller ones are the common drivers. Both models share the same Sharples design philosophy and are fully supported by Dolphin Centrifuge.
+  </p>
+  <p>
+    For plants evaluating whether to rebuild an existing P-3400 or upgrade to a current-generation decanter, our team can provide a comparative analysis of rebuild cost versus replacement value, spare parts availability, and performance expectations. Explore current-generation <a href="/alfa-laval-centrifuges/">Alfa Laval centrifuges</a> as upgrade options. If you need a temporary unit during rebuilding, ask about our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental</a> program.
+  </p>
+
+  <!-- Rebuild Service -->
+  <h2 id="rebuild-service">Dolphin Centrifuge P-3400 Rebuild Service</h2>
+
+  <ul>
+    <li>Complete bowl and scroll assembly inspection and reconditioning</li>
+    <li>Bearing replacement and precision alignment</li>
+    <li>Scroll wear surface hard-facing and replacement</li>
+    <li>Gearbox inspection and rebuild</li>
+    <li>Seal replacement and liquid end reconditioning</li>
+    <li><a href="/industrial-disc-centrifuge-repair/">Full centrifuge repair and refurbishment services</a></li>
+  </ul>
+
+  <!-- FAQ Section -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  <div class="space-y-4 not-prose">
+    {faqItems.map(item => (
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
+        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
+      </details>
+    ))}
+  </div>
+
+</ApplicationLayout>

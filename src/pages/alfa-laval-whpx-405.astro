@@ -1,7 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is the Dolphin equivalent of the Alfa Laval WHPX 405?",
+    answer: "The Dolphin DMPX-014 centrifuge system is built around the Alfa Laval WHPX 405 (or equivalent MOPX 205) centrifuge bowl. The DMPX-014 is a complete system module including frame, PLC controls, feed pump, heaters, and piping, rated at 13–16 GPM on diesel fuel."
+  },
+  {
+    question: "What is the difference between the WHPX 405 and MOPX 205?",
+    answer: "The Alfa Laval WHPX 405 and MOPX 205 are equivalent centrifuge bowls of the same size class (0.32–0.34 gallon bowl capacity). The WHPX designation indicates a partial-discharge (not full self-cleaning) bowl design. Both use the same Dolphin DMPX-014 system module and have similar capacity ratings of 13–16 GPM on diesel at 13 cSt."
+  },
+  {
+    question: "What applications is the WHPX 405 / DMPX-014 best suited for?",
+    answer: "The WHPX 405 / DMPX-014 is suited for small to medium throughput applications including diesel fuel polishing (10–15 GPM), pyrolysis oil dewatering, waste oil recovery, lube oil purification, and hydraulic oil cleaning. Its compact size makes it ideal for space-constrained installations."
+  },
+  {
+    question: "What G-force does the Alfa Laval WHPX 405 generate?",
+    answer: "The Alfa Laval WHPX 405 operates at approximately 7,200 Gs of centrifugal force at rated bowl speed. This high G-force enables separation of particles down to 0.5 microns and effective water removal from oil and fuel products."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval WHPX 405 Disc Centrifuge",
@@ -9,206 +29,216 @@ const jsonLd = {
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-405/",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the Dolphin equivalent of the Alfa Laval WHPX 405?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Dolphin DMPX-014 centrifuge system is built around the Alfa Laval WHPX 405 (or equivalent MOPX 205) centrifuge bowl. The DMPX-014 is a complete system module including frame, PLC controls, feed pump, heaters, and piping, rated at 13–16 GPM on diesel fuel."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between the WHPX 405 and MOPX 205?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval WHPX 405 and MOPX 205 are equivalent centrifuge bowls of the same size class (0.32–0.34 gallon bowl capacity). The WHPX designation indicates a partial-discharge (not full self-cleaning) bowl design. Both use the same Dolphin DMPX-014 system module and have similar capacity ratings of 13–16 GPM on diesel at 13 cSt."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the WHPX 405 / DMPX-014 best suited for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The WHPX 405 / DMPX-014 is suited for small to medium throughput applications including diesel fuel polishing (10–15 GPM), pyrolysis oil dewatering, waste oil recovery, lube oil purification, and hydraulic oil cleaning. Its compact size makes it ideal for space-constrained installations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the G-force of the Alfa Laval WHPX 405?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval WHPX 405 operates at approximately 7,200 Gs of centrifugal force at rated bowl speed. This high G-force enables separation of particles down to 0.5 microns and effective water removal from oil and fuel products."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'WHPX 405 Partial-Discharge Centrifuge' },
+  { id: 'specifications', label: 'WHPX 405 Specifications' },
+  { id: 'mopx-205', label: 'MOPX 205 Total-Discharge' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Diesel Fuel Centrifuge', href: '/diesel-centrifuge/' },
+  { label: 'Pyrolysis Oil Centrifuge', href: '/centrifuge-pyrolysis-oil/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Quench Oil Centrifuge', href: '/quench-oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMPX-014 Self-Cleaning System', href: '/centrifuges/dmpx-014/', description: '13–16 GPM diesel, WHPX 405 bowl' },
+  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: '32–47 GPM mid-to-large' },
+  { label: 'DMPX-070 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: '47–72 GPM large-scale' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval WHPX 405 Fuel Centrifuge"
-  description="Alfa Laval WHPX 405 partial-discharge disc stack centrifuge for diesel fuel, waste oil, and pyrolysis oil. 15 GPM capacity, 7,200 G-force, 5 HP."
+  description="Alfa Laval WHPX 405 partial-discharge disc stack centrifuge rated at 15 GPM for diesel, pyrolysis oil, and waste oil. 7,200 G-force, 5 HP. Dolphin Centrifuge."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/alfa-laval-whpx-405/Alfa-Laval-WHPX405-Centrifuge-300-e1615139982322.webp"
+  heroImageAlt="Alfa Laval WHPX405 Centrifuge 300"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-whpx-405/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'WHPX 405'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval WHPX 405 Disc Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A partial-discharge, self-cleaning disc stack centrifuge engineered for removing water and solid particles from light oil and fuel. Operating at 7,600 RPM with over 7,200 G-force, the WHPX 405 handles diesel, pyrolysis oil, and waste oil separation at up to 15 GPM.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval WHPX 405 is a partial-discharge disc stack centrifuge rated at 15 GPM on light crude oil with over 7,200 G-force. Dolphin Centrifuge supplies it as the DMPX-014 turnkey module for diesel, pyrolysis oil, and waste oil purification. Based in Warren, Michigan, with over 40 years of experience.</p>
+  </div>
+
+  <h2 id="overview">WHPX 405 Partial-Discharge Centrifuge</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Alfa Laval WHPX 405 is a partial-ejection <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> designed to remove water and solid particles from light oil and light fuel. The partial-discharge mechanism allows the centrifuge to purge only accumulated sludge while retaining process fluid in the bowl, minimizing product losses during each discharge cycle.
+      </p>
+      <p>
+        With an operating speed of 7,600 RPM generating over 7,200 G-force, the WHPX 405 achieves exceptional separation efficiency on light oils and fuels. <a href="/centrifuge-pyrolysis-oil/">Pyrolysis oil</a> and <a href="/waste-oil-centrifuge/">waste oil separation</a> are particularly well-suited applications for this centrifuge.
+      </p>
     </div>
-  </section>
+    <img
+      src="/images/alfa-laval-whpx-405/Alfa-Laval-WHPX405-Centrifuge-300-e1615139982322.webp"
+      alt="Alfa Laval WHPX405 Centrifuge 300"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <p>
+    The WHPX 405 is available in ATEX Zone 2 hazardous area configurations, making it suitable for installations in refineries, offshore platforms, and other environments where flammable vapors may be present.
+  </p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval WHPX 405 is a partial-discharge self-cleaning disc stack centrifuge rated at 15 GPM on light crude oil (approximately 20 GPM on diesel fuel). Dolphin Centrifuge supplies the WHPX 405 as the DMPX-014 complete centrifuge module — a fully integrated system with controls and piping for diesel, pyrolysis oil, waste oil, and light fuel oil purification at over 7,200 Gs. Available in ATEX Zone 2 explosion-proof configurations for hazardous area installations. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in WHPX-series centrifuge systems.</p>
-      </div>
+  <blockquote>
+    Dolphin Centrifuge supplies a range of partial-discharge fuel purifiers for diesel, pyrolysis oil, and waste oils &mdash; available as complete modules with pre-heaters, starters, and PLC control panels. <a href="/contact-for-alfa-laval-centrifuges/">Request a quote</a>.
+  </blockquote>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">WHPX 405 Partial-Discharge Centrifuge</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval WHPX 405 is a partial-ejection separator designed to remove water and solid particles from light oil and light fuel. The partial-discharge mechanism allows the centrifuge to purge only accumulated sludge while retaining process fluid in the bowl, minimizing product losses during each discharge cycle.
+  <h2 id="specifications">WHPX 405 Specifications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <table>
+        <tbody>
+          <tr><td><strong>Model Type</strong></td><td>Alfa Laval WHPX 405 TGD 24-60</td></tr>
+          <tr><td><strong>Rated Capacity</strong></td><td>15 GPM on 180 cSt Light Crude Oil</td></tr>
+          <tr><td><strong>Sludge Space</strong></td><td>0.36 Gallons</td></tr>
+          <tr><td><strong>Motor HP</strong></td><td>5 HP</td></tr>
+          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <img
+      src="/images/alfa-laval-whpx-405/Alfa-Laval-WHPX405-ATEX-Hazardous-Area-System-300.webp"
+      alt="Alfa Laval WHPX405 ATEX Hazardous Area System 300"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <h2 id="mopx-205">Also Available: MOPX 205 Total-Discharge</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <img
+      src="/images/alfa-laval-whpx-405/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-e1614261576568.webp"
+      alt="Alfa Laval MOPX205 Diesel Centrifuge Occidental"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+    <div class="flex-1">
+      <p>
+        The Alfa Laval MOPX 205 is a total-discharge disc stack centrifuge in the same size class, designed for three-phase separation of mineral oils and fuels. At 7,600 RPM with over 7,500 G-force, the MOPX 205 is well-suited for <a href="/diesel-centrifuge/">diesel fuel purification</a>, transformer oil, <a href="/quench-oil-centrifuge/">quench oil</a>, and <a href="/black-diesel-centrifuge/">black diesel</a> processing.
       </p>
-      <p class="text-text-light mb-4">
-        With an operating speed of 7,600 RPM generating over 7,200 G-force, the WHPX 405 achieves exceptional separation efficiency on light oils and fuels. <a href="/centrifuge-pyrolysis-oil/" class="text-navy font-semibold hover:text-gold transition-colors">Pyrolysis oil</a> and <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">waste oil separation</a> are particularly well-suited applications for this centrifuge.
+      <table>
+        <tbody>
+          <tr><td><strong>Model Type</strong></td><td>Alfa Laval MOPX 205 TGT 20-60</td></tr>
+          <tr><td><strong>Rated Capacity</strong></td><td>15 GPM on 13 cSt Diesel Fuel</td></tr>
+          <tr><td><strong>Sludge Space</strong></td><td>0.38 Gallons</td></tr>
+          <tr><td><strong>Motor HP</strong></td><td>4 HP</td></tr>
+          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <h3>MOPX 205 for Pyrolysis Oil and Explosion-Proof Installations</h3>
+      <p>
+        Dolphin Centrifuge supplies the MOPX 205 in explosion-proof configurations for <a href="/explosion-proof-centrifuge/">hazardous area installations</a>. The MOPX 205 is particularly effective for <a href="/centrifuge-pyrolysis-oil/">tire oil and pyrolysis oil</a> dewatering, where its total-discharge design handles heavy sludge loads efficiently.
       </p>
-      <p class="text-text-light mb-8">
-        The WHPX 405 is available in ATEX Zone 2 hazardous area configurations, making it suitable for installations in refineries, offshore platforms, and other environments where flammable vapors may be present.
-      </p>
+    </div>
+    <img
+      src="/images/alfa-laval-whpx-405/Alfa-Laval-MOPX205-Tire-Oil-Pyrolysis-Centrifuge-e1614259359680.webp"
+      alt="Alfa Laval MOPX205 Tire Oil Pyrolysis Centrifuge"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">WHPX 405 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval WHPX 405 TGD 24-60</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-              <td class="px-4 py-3 font-mono text-text-light">15 GPM on 180 cSt Light Crude Oil</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-              <td class="px-4 py-3 font-mono text-text-light">0.36 Gallons</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-              <td class="px-4 py-3 font-mono text-text-light">5 HP</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <h2 id="applications">Applications</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Also Available: MOPX 205 Total-Discharge</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval MOPX 205 is a total-discharge disc stack centrifuge in the same size class, designed for three-phase separation of mineral oils and fuels. At 7,600 RPM with over 7,500 G-force, the MOPX 205 is well-suited for <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">diesel fuel purification</a>, transformer oil, <a href="/quench-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">quench oil</a>, and <a href="/black-diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">black diesel</a> processing.
-      </p>
-
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval MOPX 205 TGT 20-60</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-              <td class="px-4 py-3 font-mono text-text-light">15 GPM on 13 cSt Diesel Fuel</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-              <td class="px-4 py-3 font-mono text-text-light">0.38 Gallons</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-              <td class="px-4 py-3 font-mono text-text-light">4 HP</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/fuel-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Fuel oil purification</a></li>
-          <li>&#8226; <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Offshore diesel purification</a></li>
-          <li>&#8226; <a href="/centrifuge-pyrolysis-oil/" class="text-navy font-semibold hover:text-gold transition-colors">Tire oil / pyrolysis oil</a></li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Machine coolant recovery</a></li>
-          <li>&#8226; <a href="/quench-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Quench oil purification</a></li>
-          <li>&#8226; <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Explosion-proof gasoline</a></li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2 mb-4">
-        <li>&#8226; <a href="/alfa-laval-centrifuge-selection-guide/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval Centrifuge Selection Guide</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Parts &amp; Spares</a></li>
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <img
+      src="/images/alfa-laval-whpx-405/Alfa-Laval-WHPX405-Centrifuge-Quench-Oil-250.webp"
+      alt="Alfa Laval WHPX405 Centrifuge Quench Oil 250"
+      width="250"
+      height="250"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+    <div class="flex-1">
+      <ul>
+        <li><a href="/fuel-oil-centrifuge/">Fuel oil purification</a></li>
+        <li><a href="/diesel-centrifuge/">Offshore diesel purification</a></li>
+        <li><a href="/centrifuge-pyrolysis-oil/">Tire oil / pyrolysis oil</a></li>
+        <li><a href="/machine-coolant-centrifuge/">Machine coolant recovery</a></li>
+        <li><a href="/quench-oil-centrifuge/">Quench oil purification</a></li>
+        <li><a href="/explosion-proof-centrifuge/">Explosion-proof gasoline</a></li>
       </ul>
-
-      <p class="text-text-light mb-8">
-        <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
+      <p>
+        <a href="/disc-stack-centrifuge/">Looking for a complete turnkey system? See our disc stack centrifuge systems &rarr;</a>
       </p>
-
-      <!-- FAQ Section -->
-      <div class="mt-12 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-4">
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What is the Dolphin equivalent of the Alfa Laval WHPX 405?</summary>
-            <p class="text-text-light mt-3 text-sm">The Dolphin DMPX-014 centrifuge system is built around the Alfa Laval WHPX 405 (or equivalent MOPX 205) centrifuge bowl. The DMPX-014 is a complete system module including frame, PLC controls, feed pump, heaters, and piping, rated at 13–16 GPM on diesel fuel.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What is the difference between the WHPX 405 and MOPX 205?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval WHPX 405 and MOPX 205 are equivalent centrifuge bowls of the same size class. The WHPX designation indicates a partial-discharge bowl design. Both use the same Dolphin DMPX-014 system module and have similar capacity ratings of 13–16 GPM on diesel at 13 cSt.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What applications is the WHPX 405 / DMPX-014 best suited for?</summary>
-            <p class="text-text-light mt-3 text-sm">The WHPX 405 / DMPX-014 is suited for small to medium throughput applications including diesel fuel polishing (10–15 GPM), pyrolysis oil dewatering, waste oil recovery, lube oil purification, and hydraulic oil cleaning. Its compact size makes it ideal for space-constrained installations.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What G-force does the Alfa Laval WHPX 405 generate?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval WHPX 405 operates at approximately 7,200 Gs of centrifugal force at rated bowl speed. This high G-force enables separation of particles down to 0.5 microns and effective water removal from oil and fuel products.</p>
-          </details>
-        </div>
-      </div>
-
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in This Centrifuge?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, availability, and system configuration options.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <h3>Explosion-Proof MOPX 205 Centrifuge Module</h3>
+      <p>
+        Dolphin Centrifuge supplies fully reconditioned <a href="/alfa-laval-centrifuge-parts/">MOPX 205 and WHPX 405 centrifuges</a> with explosion-proof motor and control panel options. Each unit is rebuilt with new seals, bearings, and wear components, and tested to factory specifications before shipment. Contact our team for <a href="/industrial-centrifuge-sample-testing/">free sample testing</a> to confirm suitability for your application.
+      </p>
+    </div>
+    <img
+      src="/images/alfa-laval-whpx-405/MOPX205-Explosion-Proof-Centrifugal-Separator-e1614261752989.webp"
+      alt="MOPX205 Explosion Proof Centrifugal Separator"
+      width="300"
+      height="300"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
+
+  <h3>Related Resources</h3>
+  <ul>
+    <li><a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval Centrifuge Selection Guide</a></li>
+    <li><a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Overview</a></li>
+    <li><a href="/alfa-laval-centrifuge-parts/">Centrifuge Parts &amp; Spares</a></li>
+  </ul>
+
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -40,178 +40,210 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Alfa Laval Clara 20 Food Grade Disc Centrifuge",
-  "description": "Alfa Laval Clara 20 disc centrifuge for food, beverage and fermentation applications. Hygienic stainless steel design.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/alfa-laval-clara-20-food-grade-centrifuge/",
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alfa Laval Clara 20 Food Grade Disc Centrifuge",
+    "description": "Alfa Laval Clara 20 disc centrifuge for food, beverage and fermentation applications. Hygienic stainless steel design.",
+    "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+    "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "url": "https://dolphincentrifuge.com/alfa-laval-clara-20-food-grade-centrifuge/",
+  },
+  faqJsonLd,
+];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'specifications', label: 'Specifications' },
+  { id: 'material-of-construction', label: 'Material of Construction' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/', description: 'Complete disc stack centrifuge systems' },
+  { label: 'Stainless Steel Centrifuges', href: '/stainless-steel-centrifuge/', description: 'Hygienic stainless steel models' },
+];
+
+const relatedApplications = [
+  { label: 'Food Grade Centrifuge Systems', href: '/food-grade-centrifuge/' },
+  { label: 'Beer & Wine Centrifuge', href: '/beer-wine-centrifuge/' },
+  { label: 'All Centrifuge Applications', href: '/disc-stack-centrifuge-applications/' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval Clara 20 Food Centrifuge"
   description="Alfa Laval Clara 20 disc centrifuge for food, beverage, and fermentation — hygienic 316L stainless design, FDA/3-A compliant. Dolphin Centrifuge, Warren MI."
+  heroImage="/images/alfa-laval-clara-20-food-grade-centrifuge/LAPX-404-Bowl-Cross-Section.webp"
+  heroImageAlt="LAPX 404 Bowl Cross Section"
+  category="products"
+  categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-clara-20-food-grade-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'Clara 20'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval Clara 20 Food-Grade Disc Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A hygienic self-cleaning disc centrifuge for food, beverage, and fermentation applications. The Clara 20 delivers continuous clarification and separation with 316L stainless steel wetted surfaces, CIP-compatible design, and FDA-compliant seals — in a compact footprint suited for pilot-scale and production installations alike.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <!-- AI Summary — 38 words -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval Clara 20 is a self-cleaning disc stack centrifuge from the Clara hygienic separator family, designed for food, beverage, and pharmaceutical processing at 100–500 LPH with 316L stainless steel wetted surfaces. Dolphin Centrifuge supplies and services Clara 20 units from Warren, Michigan.</p>
+  </div>
+
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-1/2">
+      <p>
+        The Alfa Laval Clara 20 is a self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> from the Clara series — Alfa Laval's family of hygienic separators for food, beverage, and pharmaceutical processing. Its self-cleaning bowl automatically ejects solids (yeast, cell mass, particulates) at programmable intervals while maintaining continuous liquid throughput, making it suitable for 24/7 production cycles.
+      </p>
     </div>
-  </section>
-
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval Clara 20 is a self-cleaning disc stack centrifuge from the Clara series — Alfa Laval's hygienic separator family for food, beverage, and pharmaceutical processing. Dolphin Centrifuge supplies and services the Clara 20 — fully stainless steel product-contact zone, CIP cleaning capability, and self-cleaning bowl for 24/7 continuous operation ideal for beer, wine, juice, dairy, and yeast removal. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in food-grade centrifuge systems.</p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval Clara 20 is a self-cleaning <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> from the Clara series — Alfa Laval's family of hygienic separators for food, beverage, and pharmaceutical processing. Its self-cleaning bowl automatically ejects solids (yeast, cell mass, particulates) at programmable intervals while maintaining continuous liquid throughput, making it suitable for 24/7 production cycles.
-      </p>
-      <p class="text-text-light mb-4">
-        Flow rates range from approximately 100–500 LPH depending on the application and feed characteristics. Beer and wine clarification, cider processing, and yeast removal fall at the lower end of this range due to higher solid loads; juice clarification and process water recovery can achieve higher throughput.
-      </p>
-      <p class="text-text-light mb-8">
-        All product-contact surfaces are 316L stainless steel, and the machine is designed for clean-in-place (CIP) sanitation — a critical requirement for food-grade operations. Seals and gaskets are FDA-compliant elastomers (EPDM or PTFE depending on configuration), and the control panel can be configured for automated CIP sequences. Explosion-proof motor options are available for fermentation environments with alcohol vapor present.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Clara 20 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval Clara 20</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
-              <td class="px-4 py-3 font-mono text-text-light">100–500 LPH (application-dependent)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Bowl Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Self-Cleaning (Automatic Discharge)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Wetted Material</td>
-              <td class="px-4 py-3 font-mono text-text-light">316L Stainless Steel</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Seals</td>
-              <td class="px-4 py-3 font-mono text-text-light">FDA-Compliant EPDM / PTFE</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Sanitation</td>
-              <td class="px-4 py-3 font-mono text-text-light">CIP Compatible</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Motor Options</td>
-              <td class="px-4 py-3 font-mono text-text-light">Standard; Explosion-Proof (EX) available</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V; 3-Phase</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Material of Construction</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Bowl Body &amp; Hood</td>
-              <td class="px-4 py-3 text-text-light">316L Stainless Steel</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Disc Stack</td>
-              <td class="px-4 py-3 text-text-light">316L Stainless Steel</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Inlet / Outlet Connections</td>
-              <td class="px-4 py-3 text-text-light">316L SS — Hygienic Tri-Clamp or DIN</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Seals &amp; Gaskets</td>
-              <td class="px-4 py-3 text-text-light">FDA-Compliant EPDM (standard); PTFE (optional)</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Frame</td>
-              <td class="px-4 py-3 text-text-light">Stainless Steel (exterior-polished)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer and ale clarification</a></li>
-          <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Wine clarification and stabilization</a></li>
-          <li>&#8226; Cider and hard seltzer clarification</li>
-          <li>&#8226; Yeast removal and harvesting</li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Juice and beverage clarification</a></li>
-          <li>&#8226; Fermentation broth processing</li>
-          <li>&#8226; Enzyme and cell culture separation</li>
-          <li>&#8226; <a href="/stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Pharmaceutical intermediate processing</a></li>
-        </ul>
-      </div>
-
-      <p class="text-text-light mb-8">
-        <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Learn more about hygienic centrifuge systems for food and beverage &rarr;</a>
-      </p>
-
-      <!-- FAQ Section -->
-      <div class="mt-12 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-4">
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval Clara 20 used for?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 is a food-grade disc centrifuge used for beer and ale clarification, wine clarification and stabilization, cider processing, yeast removal and harvesting, juice and beverage clarification, fermentation broth processing, enzyme and cell culture separation, and pharmaceutical intermediate processing. Its 316L stainless steel construction and CIP-compatible design make it suitable for hygienic food and beverage production environments.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What flow rate does the Clara 20 handle?</summary>
-            <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 handles approximately 100–500 LPH depending on the application and feed characteristics. Beer, wine, and high-solids applications operate at the lower end of this range; juice clarification and lower-solids process streams can achieve higher throughput. Contact Dolphin Centrifuge for application-specific sizing.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">Is the Clara 20 CIP compatible?</summary>
-            <p class="text-text-light mt-3 text-sm">Yes. The Alfa Laval Clara 20 features full clean-in-place (CIP) design with 316L stainless steel product-contact surfaces, FDA-compliant EPDM or PTFE seals and gaskets, and hygienic tri-clamp or DIN connections. The control panel can be configured for automated CIP sequences, making it suitable for 24/7 food and beverage production with scheduled in-situ cleaning cycles.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">Is an explosion-proof version of the Clara 20 available?</summary>
-            <p class="text-text-light mt-3 text-sm">Yes. Explosion-proof motor options are available for the Clara 20, designed for fermentation environments where alcohol vapor may be present. This is commonly required in brewery, winery, and distillery installations. Contact Dolphin Centrifuge to specify the appropriate hazardous area classification for your facility.</p>
-          </details>
-        </div>
-      </div>
-
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in the Clara 20?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, sanitary system configuration, and application review. Paid sample testing is available for qualifying applications.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/alfa-laval-clara-20-food-grade-centrifuge/LAPX-404-Bowl-Cross-Section.webp"
+        alt="LAPX 404 Bowl Cross Section"
+        loading="lazy"
+        width="300"
+        height="300"
+        class="rounded-xl shadow-md w-full"
+      />
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <p>
+    Flow rates range from approximately 100–500 LPH depending on the application and feed characteristics. Beer and wine clarification, cider processing, and yeast removal fall at the lower end of this range due to higher solid loads; juice clarification and process water recovery can achieve higher throughput.
+  </p>
+  <p>
+    All product-contact surfaces are 316L stainless steel, and the machine is designed for clean-in-place (CIP) sanitation — a critical requirement for <a href="/food-grade-centrifuge/">food-grade operations</a>. Seals and gaskets are FDA-compliant elastomers (EPDM or PTFE depending on configuration), and the control panel can be configured for automated CIP sequences. Explosion-proof motor options are available for fermentation environments with alcohol vapor present.
+  </p>
+
+  <!-- Specifications -->
+  <h2 id="specifications">Clara 20 Specifications</h2>
+  <div class="overflow-x-auto mb-8 not-prose">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
+          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval Clara 20</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
+          <td class="px-4 py-3 font-mono text-text-light">100–500 LPH (application-dependent)</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Bowl Type</td>
+          <td class="px-4 py-3 font-mono text-text-light">Self-Cleaning (Automatic Discharge)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Wetted Material</td>
+          <td class="px-4 py-3 font-mono text-text-light">316L Stainless Steel</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Seals</td>
+          <td class="px-4 py-3 font-mono text-text-light">FDA-Compliant EPDM / PTFE</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Sanitation</td>
+          <td class="px-4 py-3 font-mono text-text-light">CIP Compatible</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Motor Options</td>
+          <td class="px-4 py-3 font-mono text-text-light">Standard; Explosion-Proof (EX) available</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
+          <td class="px-4 py-3 font-mono text-text-light">230 / 460 V; 3-Phase</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Material of Construction -->
+  <h2 id="material-of-construction">Material of Construction</h2>
+  <div class="overflow-x-auto mb-8 not-prose">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Bowl Body &amp; Hood</td>
+          <td class="px-4 py-3 text-text-light">316L Stainless Steel</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Disc Stack</td>
+          <td class="px-4 py-3 text-text-light">316L Stainless Steel</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Inlet / Outlet Connections</td>
+          <td class="px-4 py-3 text-text-light">316L SS — Hygienic Tri-Clamp or DIN</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Seals &amp; Gaskets</td>
+          <td class="px-4 py-3 text-text-light">FDA-Compliant EPDM (standard); PTFE (optional)</td>
+        </tr>
+        <tr class="bg-white">
+          <td class="px-4 py-3 font-semibold text-navy">Frame</td>
+          <td class="px-4 py-3 text-text-light">Stainless Steel (exterior-polished)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+  <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8 not-prose">
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Beer and ale clarification</a></li>
+      <li>&#8226; <a href="/beer-wine-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Wine clarification and stabilization</a></li>
+      <li>&#8226; Cider and hard seltzer clarification</li>
+      <li>&#8226; Yeast removal and harvesting</li>
+    </ul>
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Juice and beverage clarification</a></li>
+      <li>&#8226; Fermentation broth processing</li>
+      <li>&#8226; Enzyme and cell culture separation</li>
+      <li>&#8226; <a href="/stainless-steel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Pharmaceutical intermediate processing</a></li>
+    </ul>
+  </div>
+
+  <p>
+    <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Learn more about hygienic centrifuge systems for food and beverage &rarr;</a>
+  </p>
+
+  <!-- FAQ Section -->
+  <div id="faq" class="mt-12 mb-8">
+    <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-4 not-prose">
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval Clara 20 used for?</summary>
+        <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 is a food-grade disc centrifuge used for beer and ale clarification, wine clarification and stabilization, cider processing, yeast removal and harvesting, juice and beverage clarification, fermentation broth processing, enzyme and cell culture separation, and pharmaceutical intermediate processing. Its 316L stainless steel construction and CIP-compatible design make it suitable for hygienic food and beverage production environments.</p>
+      </details>
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">What flow rate does the Clara 20 handle?</summary>
+        <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 handles approximately 100–500 LPH depending on the application and feed characteristics. Beer, wine, and high-solids applications operate at the lower end of this range; juice clarification and lower-solids process streams can achieve higher throughput. Contact Dolphin Centrifuge for application-specific sizing.</p>
+      </details>
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">Is the Clara 20 CIP compatible?</summary>
+        <p class="text-text-light mt-3 text-sm">Yes. The Alfa Laval Clara 20 features full clean-in-place (CIP) design with 316L stainless steel product-contact surfaces, FDA-compliant EPDM or PTFE seals and gaskets, and hygienic tri-clamp or DIN connections. The control panel can be configured for automated CIP sequences, making it suitable for 24/7 food and beverage production with scheduled in-situ cleaning cycles.</p>
+      </details>
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">Is an explosion-proof version of the Clara 20 available?</summary>
+        <p class="text-text-light mt-3 text-sm">Yes. Explosion-proof motor options are available for the Clara 20, designed for fermentation environments where alcohol vapor may be present. This is commonly required in brewery, winery, and distillery installations. Contact Dolphin Centrifuge to specify the appropriate hazardous area classification for your facility.</p>
+      </details>
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <!-- Bottom CTA -->
+  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
+    <h2 class="text-2xl font-bold text-white mb-3">Interested in the Clara 20?</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, sanitary system configuration, and application review. Paid sample testing is available for qualifying applications.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+</ApplicationLayout>

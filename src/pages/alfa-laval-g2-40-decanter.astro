@@ -1,215 +1,214 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What separations can the G2-40 decanter centrifuge handle?",
+    answer: "The G2-40 is a high-performance horizontal scroll decanter designed for demanding two-phase (solid-liquid) and three-phase (oil-water-solid) separations. It is suited for high-solids applications including oily sludge dewatering, industrial wastewater treatment, food processing (starch, gluten, animal rendering), chemical slurries, and municipal biosolids."
+  },
+  {
+    question: "How does the G2-40 compare to the NX-314 and NX-418 decanters?",
+    answer: "The G2-40 is Alfa Laval's larger and higher-throughput decanter platform compared to the NX-314 and NX-418. The G2-40 offers greater bowl volume and higher G-force capability for high-volume or high-solids applications. The NX-314 and NX-418 are well-suited for moderate-volume applications (10–80 GPM typical). Contact Dolphin Centrifuge to match the right model to your specific throughput and solids loading requirements."
+  },
+  {
+    question: "Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?",
+    answer: "Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing."
+  }
+];
+
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval G2-40 Decanter Centrifuge",
   "description": "Alfa Laval G2-40 high-performance decanter centrifuge for industrial liquid-solid and 3-phase separation.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "telephone": "(248) 522-2573",
+    "email": "sales@dolphincentrifuge.com",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "model": "G2-40",
   "url": "https://dolphincentrifuge.com/alfa-laval-g2-40-decanter/",
+  "offers": {
+    "@type": "Offer",
+    "seller": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  }
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What separations can the G2-40 decanter centrifuge handle?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The G2-40 is a high-performance horizontal scroll decanter designed for demanding two-phase (solid-liquid) and three-phase (oil-water-solid) separations. It is suited for high-solids applications including oily sludge dewatering, industrial wastewater treatment, food processing (starch, gluten, animal rendering), chemical slurries, and municipal biosolids."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the G2-40 compare to the NX-314 and NX-418 decanters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The G2-40 is Alfa Laval's larger and higher-throughput decanter platform compared to the NX-314 and NX-418. The G2-40 offers greater bowl volume and higher G-force capability for high-volume or high-solids applications. The NX-314 and NX-418 are well-suited for moderate-volume applications (10–80 GPM typical). Contact Dolphin Centrifuge to match the right model to your specific throughput and solids loading requirements."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'specifications', label: 'G2-40 Specifications' },
+  { id: 'key-features', label: 'Key Features' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Three-Phase Decanter', href: '/three-phase-decanter/' },
+  { label: 'Decanter vs Disc Stack', href: '/difference-between-decanter-centrifuge-disc-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval CHNX 418 Decanter', href: '/alfa-laval-chnx-418-decanter/', description: 'Nitrogen-purged hazardous duty decanter' },
+  { label: 'Alfa Laval NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: '314 mm compact decanter' },
+  { label: 'Alfa Laval NX 418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: '418 mm industrial decanter' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval G2-40 Decanter"
+<ApplicationLayout
+  title="Alfa Laval G2-40 Decanter Centrifuge"
   description="Alfa Laval G2-40 decanter centrifuge for solid-liquid and three-phase separation — sludge dewatering, wastewater, food, and chemical processing. Dolphin Centrifuge."
+  heroImage="/images/alfa-laval-g2-40-decanter/Decanter-Cross-Section-600.webp"
+  heroImageAlt="Decanter Cross Section"
+  category="products"
+  categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-g2-40-decanter/"
-  breadcrumbs={[{label: 'Products', href: '/decanter-centrifuge/'}, {label: 'G2-40'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval G2-40 Decanter Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A high-performance decanter centrifuge with advanced variable frequency drive and optimized scroll geometry. The G2-40 handles demanding two-phase and three-phase separation in food processing, fish meal, olive oil, industrial slurries, and produced water applications.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- AI Summary — 30-50 words -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval G2-40 is a second-generation high-performance horizontal decanter centrifuge for demanding industrial separation — dewatering sludges, slurries, and high-solids process streams. Available in two-phase and three-phase configurations. Dolphin Centrifuge supplies and services the G2-40 from Warren, Michigan.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval G2-40 is a second-generation high-performance horizontal decanter centrifuge for demanding industrial separation — dewatering sludges, slurries, and high-solids process streams at high throughput. The G2 design features optimized scroll geometry, higher G-force bowl, and energy-efficient VFD operation. Dolphin Centrifuge supplies and services the G2-40 for oilfield waste, industrial wastewater, food processing, and chemical dewatering applications. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of decanter centrifuge experience.</p>
-      </div>
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval G2-40 is a high-performance horizontal <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> designed for the most demanding industrial separation tasks. The G2 generation design incorporates an optimized scroll geometry for improved solids conveyance, a high-G-force bowl capable of generating greater centrifugal acceleration than previous generation decanters, and an energy-efficient variable frequency drive system that reduces operating costs in high-throughput applications.
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Alfa Laval G2-40 is a high-performance horizontal <a href="/decanter-centrifuge/">decanter centrifuge</a> designed for the most demanding industrial separation tasks. The G2 generation design incorporates an optimized scroll geometry for improved solids conveyance, a high-G-force bowl capable of generating greater centrifugal acceleration than previous generation decanters, and an energy-efficient variable frequency drive system that reduces operating costs in high-throughput applications.
       </p>
-      <p class="text-text-light mb-8">
-        The G2-40 is available in both two-phase (liquid-solid) and <a href="/three-phase-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">three-phase (liquid-liquid-solid)</a> configurations, making it suitable for a wide range of process industries. The three-phase version adds a second liquid discharge and adjustable pond depth control to enable simultaneous separation of two immiscible liquids and a solid phase — essential for applications such as olive oil extraction, fish processing, and produced water treatment.
+      <p>
+        The G2-40 is available in both two-phase (liquid-solid) and <a href="/three-phase-decanter/">three-phase (liquid-liquid-solid)</a> configurations, making it suitable for a wide range of process industries. The three-phase version adds a second liquid discharge and adjustable pond depth control to enable simultaneous separation of two immiscible liquids and a solid phase — essential for applications such as olive oil extraction, fish processing, and produced water treatment.
       </p>
+    </div>
+    <img
+      src="/images/alfa-laval-g2-40-decanter/Decanter-Cross-Section-600.webp"
+      alt="Decanter Cross Section"
+      width="300"
+      height="200"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">G2-40 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval G2-40</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">High-Performance Horizontal Decanter</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Separation Configuration</td>
-              <td class="px-4 py-3 font-mono text-text-light">Two-Phase or Three-Phase (model dependent)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Drive System</td>
-              <td class="px-4 py-3 font-mono text-text-light">Energy-Efficient VFD (Variable Frequency Drive)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Scroll Design</td>
-              <td class="px-4 py-3 font-mono text-text-light">Optimized G2 Generation Geometry</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
-              <td class="px-4 py-3 font-mono text-text-light">High G-Force Bowl</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Applications</td>
-              <td class="px-4 py-3 font-mono text-text-light">Food, Fish, Olive Oil, Industrial Slurries, Produced Water</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 font-semibold text-navy">Polymer Feed</td>
-              <td class="px-4 py-3 font-mono text-text-light">Compatible</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Specifications -->
+  <h2 id="specifications">G2-40 Specifications</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Key Features</h2>
-      <ul class="text-text-light space-y-3 mb-8">
-        <li><span class="font-semibold text-navy">High G-force bowl:</span> Greater centrifugal acceleration enables effective separation of difficult-to-separate phases and finer particles that lower G-force machines cannot capture.</li>
-        <li><span class="font-semibold text-navy">Energy-efficient VFD drive:</span> Variable frequency drive on both the main motor and back drive reduces energy consumption compared to mechanical back drive systems, particularly at partial load.</li>
-        <li><span class="font-semibold text-navy">Optimized scroll geometry:</span> The G2 generation scroll design improves solids conveyance efficiency, reducing scroll wear and improving cake dryness at a given differential speed.</li>
-        <li><span class="font-semibold text-navy">Two- and three-phase configurations:</span> Available as a two-phase dewatering decanter or a three-phase unit for simultaneous oil-water-solids separation.</li>
-      </ul>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
+          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval G2-40</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
+          <td class="px-4 py-3 font-mono text-text-light">High-Performance Horizontal Decanter</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Separation Configuration</td>
+          <td class="px-4 py-3 font-mono text-text-light">Two-Phase or Three-Phase (model dependent)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Drive System</td>
+          <td class="px-4 py-3 font-mono text-text-light">Energy-Efficient VFD (Variable Frequency Drive)</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Scroll Design</td>
+          <td class="px-4 py-3 font-mono text-text-light">Optimized G2 Generation Geometry</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
+          <td class="px-4 py-3 font-mono text-text-light">High G-Force Bowl</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Typical Applications</td>
+          <td class="px-4 py-3 font-mono text-text-light">Food, Fish, Olive Oil, Industrial Slurries, Produced Water</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-3 font-semibold text-navy">Polymer Feed</td>
+          <td class="px-4 py-3 font-mono text-text-light">Compatible</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Olive oil extraction (two-phase and three-phase)</li>
-          <li>&#8226; Fish meal and fish oil processing</li>
-          <li>&#8226; <a href="/three-phase-decanter/" class="text-navy font-semibold hover:text-gold transition-colors">Three-phase liquid-liquid-solid separation</a></li>
-          <li>&#8226; Industrial slurry dewatering</li>
+  <!-- Key Features -->
+  <h2 id="key-features">Key Features</h2>
+
+  <ul class="space-y-3 mb-8">
+    <li><strong>High G-force bowl:</strong> Greater centrifugal acceleration enables effective separation of difficult-to-separate phases and finer particles that lower G-force machines cannot capture.</li>
+    <li><strong>Energy-efficient VFD drive:</strong> Variable frequency drive on both the main motor and back drive reduces energy consumption compared to mechanical back drive systems, particularly at partial load.</li>
+    <li><strong>Optimized scroll geometry:</strong> The G2 generation scroll design improves solids conveyance efficiency, reducing scroll wear and improving cake dryness at a given differential speed.</li>
+    <li><strong>Two- and three-phase configurations:</strong> Available as a two-phase dewatering decanter or a three-phase unit for simultaneous oil-water-solids separation.</li>
+  </ul>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2">
+        <ul class="space-y-2">
+          <li>Olive oil extraction (two-phase and three-phase)</li>
+          <li>Fish meal and fish oil processing</li>
+          <li><a href="/three-phase-decanter/">Three-phase liquid-liquid-solid separation</a></li>
+          <li>Industrial slurry dewatering</li>
         </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Produced water treatment</li>
-          <li>&#8226; Starch and gluten processing</li>
-          <li>&#8226; Chemical and polymer slurries</li>
-          <li>&#8226; <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Municipal and industrial sludge</a></li>
+        <ul class="space-y-2">
+          <li>Produced water treatment</li>
+          <li>Starch and gluten processing</li>
+          <li>Chemical and polymer slurries</li>
+          <li><a href="/decanter-centrifuge/">Municipal and industrial sludge</a></li>
         </ul>
       </div>
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in This Decanter?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, availability, and application engineering support for the G2-40.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
     </div>
-  </section>
+    <img
+      src="/images/alfa-laval-g2-40-decanter/Alfa-Laval-Decanter-Rotating-Assembly-600.webp"
+      alt="Alfa Laval Decanter Rotating Assembly"
+      width="300"
+      height="200"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-  <!-- FAQ -->
-  <section class="bg-warm-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What separations can the G2-40 decanter centrifuge handle?</h3>
-            <p class="text-text-light text-sm">The G2-40 is a high-performance horizontal scroll decanter for demanding two-phase and three-phase separations. It handles high-solids applications including oily sludge dewatering, industrial wastewater, food processing (starch, gluten, animal rendering), chemical slurries, and municipal biosolids.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How does the G2-40 compare to the NX-314 and NX-418 decanters?</h3>
-            <p class="text-text-light text-sm">The G2-40 is Alfa Laval's larger and higher-throughput decanter platform offering greater bowl volume and higher G-force capability for high-volume or high-solids applications. The NX-314 and NX-418 are suited for moderate-volume applications (10–80 GPM typical). Contact us to match the right model to your requirements.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- FAQ Section -->
+  <h2 id="faq">Frequently Asked Questions</h2>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <div class="space-y-4 not-prose">
+    {faqItems.map(item => (
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
+        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
+      </details>
+    ))}
+  </div>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/decanter-centrifuge-applications/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Applications</span>
-        </a>
-        <a href="/alfa-laval-chnx-418-decanter/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">CHNX-418 Decanter</span>
-        </a>
-        <a href="/alfa-laval-nx-314-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-314 Decanter</span>
-        </a>
-        <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-418 Decanter</span>
-        </a>
-        <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter vs Disc Stack</span>
-        </a>
-        <a href="/decanter-centrifuge-differential-speed/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Differential Speed</span>
-        </a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>

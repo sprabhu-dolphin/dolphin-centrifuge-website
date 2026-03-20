@@ -1,219 +1,218 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What does the 'CH' designation mean in CHNX 418?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The 'CH' in CHNX 418 stands for 'Chemical Hazardous' — indicating this is a nitrogen-purged, ATEX-certified variant of the standard NX 418 decanter centrifuge designed for processing flammable, explosive, or otherwise hazardous sludges and slurries. The continuous inert gas purging system maintains a non-ignitable atmosphere throughout operation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does the CHNX 418 use nitrogen purging instead of explosion-proof motors?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Explosion-proof motors alone do not protect the bowl interior from ignitable vapor concentrations. The CHNX 418 uses continuous nitrogen purging because the high-speed rotating bowl can aerosolize volatile organic compounds and create ignitable mixtures inside the casing. Nitrogen displacement eliminates oxygen from the bowl cavity and discharge areas, preventing combustible mixtures regardless of the electrical rating of the motor."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What industries use the Alfa Laval CHNX 418?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The CHNX 418 is used in solvent recovery and recycling, pharmaceutical manufacturing waste processing, chemical plant sludge with flammable content, petrochemical refinery slurries, paint and coatings waste, ink and resin waste dewatering, and adhesive and polymer slurry separation — any application where the feed contains flammable solvents or vapors requiring ATEX-classified equipment."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the CHNX 418 compare to the standard NX 418?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The CHNX 418 retains all the separation performance of the standard NX 418 — 418 mm bowl diameter, variable speed drive, 5–20 m³/hr throughput — while adding continuous nitrogen purging, ATEX certification, explosion-proof motors, and sealed casing with inert gas inlet and vent connections. The separation characteristics (G-force, scroll speed differential, pond depth) are unchanged from the base NX 418 decanter."
-      }
-    }
-  ]
-};
+const faqItems = [
+  {
+    question: "What does the 'CH' designation mean in CHNX 418?",
+    answer: "The 'CH' in CHNX 418 stands for 'Chemical Hazardous' — indicating this is a nitrogen-purged, ATEX-certified variant of the standard NX 418 decanter centrifuge designed for processing flammable, explosive, or otherwise hazardous sludges and slurries. The continuous inert gas purging system maintains a non-ignitable atmosphere throughout operation."
+  },
+  {
+    question: "Why does the CHNX 418 use nitrogen purging instead of explosion-proof motors?",
+    answer: "Explosion-proof motors alone do not protect the bowl interior from ignitable vapor concentrations. The CHNX 418 uses continuous nitrogen purging because the high-speed rotating bowl can aerosolize volatile organic compounds and create ignitable mixtures inside the casing. Nitrogen displacement eliminates oxygen from the bowl cavity and discharge areas, preventing combustible mixtures regardless of the electrical rating of the motor."
+  },
+  {
+    question: "What industries use the Alfa Laval CHNX 418?",
+    answer: "The CHNX 418 is used in solvent recovery and recycling, pharmaceutical manufacturing waste processing, chemical plant sludge with flammable content, petrochemical refinery slurries, paint and coatings waste, ink and resin waste dewatering, and adhesive and polymer slurry separation — any application where the feed contains flammable solvents or vapors requiring ATEX-classified equipment."
+  },
+  {
+    question: "How does the CHNX 418 compare to the standard NX 418?",
+    answer: "The CHNX 418 retains all the separation performance of the standard NX 418 — 418 mm bowl diameter, variable speed drive, 5–20 m³/hr throughput — while adding continuous nitrogen purging, ATEX certification, explosion-proof motors, and sealed casing with inert gas inlet and vent connections. The separation characteristics (G-force, scroll speed differential, pond depth) are unchanged from the base NX 418 decanter."
+  }
+];
 
-const jsonLd = {
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval CHNX 418 Decanter Centrifuge",
   "description": "Alfa Laval CHNX 418 decanter centrifuge with inert gas purging for hazardous and solvent-laden sludge processing.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "telephone": "(248) 522-2573",
+    "email": "sales@dolphincentrifuge.com",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "model": "CHNX 418",
   "url": "https://dolphincentrifuge.com/alfa-laval-chnx-418-decanter/",
+  "offers": {
+    "@type": "Offer",
+    "seller": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  }
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'operation', label: 'Operation' },
+  { id: 'specifications', label: 'CHNX 418 Specifications' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'nitrogen-purging', label: 'Why Nitrogen Purging?' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Explosion-Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+  { label: 'Decanter vs Disc Stack', href: '/difference-between-decanter-centrifuge-disc-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval NX 418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'Standard 418 mm decanter centrifuge' },
+  { label: 'Alfa Laval NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: '314 mm compact decanter' },
+  { label: 'Alfa Laval G2-40 Decanter', href: '/alfa-laval-g2-40-decanter/', description: 'High-capacity industrial decanter' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval CHNX 418 Decanter"
+<ApplicationLayout
+  title="Alfa Laval CHNX 418 Decanter Centrifuge"
   description="Alfa Laval CHNX 418 nitrogen-purged decanter for flammable sludge — ATEX certified, continuous inert gas purging. Dolphin Centrifuge, Warren Michigan."
+  heroImage="/images/alfa-laval-chnx-418-decanter/Decanter-Cross-Section-600.webp"
+  heroImageAlt="Decanter Cross Section"
+  category="products"
+  categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-chnx-418-decanter/"
-  breadcrumbs={[{label: 'Products', href: '/decanter-centrifuge/'}, {label: 'CHNX 418'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval CHNX 418 Decanter Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. The explosion-safe variant of the NX 418 decanter centrifuge, featuring continuous nitrogen purging of the bowl cavity. ATEX certified for solvent recovery, pharmaceutical waste, and chemical sludge processing where flammable content presents a hazard.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- AI Summary — 30-50 words -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval CHNX 418 is a nitrogen-purged horizontal decanter centrifuge for processing flammable and hazardous sludges. ATEX certified with continuous inert gas purging, it handles 5–20 m³/hr. Dolphin Centrifuge supplies and services the CHNX 418 from Warren, Michigan.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval CHNX 418 is a nitrogen-purged horizontal decanter centrifuge — a specialized variant of the NX-418 designed for processing flammable, explosive, or hazardous sludges and slurries. Continuous inert gas purging maintains a non-ignitable atmosphere throughout operation for ATEX-compliant solvent recovery, oilfield waste, and chemical processing. Dolphin Centrifuge supplies and services the CHNX 418 for hazardous area installations. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of decanter centrifuge experience.</p>
-      </div>
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval CHNX 418 is a specialized variant of the <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">NX 418 decanter centrifuge</a>, engineered for processing sludges and slurries that contain flammable, explosive, or otherwise hazardous constituents. The defining feature of the CHNX 418 is its continuous inert gas (nitrogen) purging system, which maintains a non-ignitable atmosphere within the bowl cavity, mechanical seal areas, and casing throughout operation.
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <p>
+        The Alfa Laval CHNX 418 is a specialized variant of the <a href="/alfa-laval-nx-418-decanter-centrifuge/">NX 418 decanter centrifuge</a>, engineered for processing sludges and slurries that contain flammable, explosive, or otherwise hazardous constituents. The defining feature of the CHNX 418 is its continuous inert gas (nitrogen) purging system, which maintains a non-ignitable atmosphere within the bowl cavity, mechanical seal areas, and casing throughout operation.
       </p>
-      <p class="text-text-light mb-8">
+      <p>
         This purging approach eliminates the risk of ignition from centrifugally generated aerosols, vapor-laden off-gas, or residual flammable liquid in the bowl. The CHNX 418 retains all the separation performance characteristics of the standard NX 418 — 418 mm bowl diameter, variable speed drive, 5–20 m&sup3;/hr throughput — while adding the engineering safeguards required for hazardous process environments. It is ATEX certified for use in classified hazardous locations.
       </p>
+    </div>
+    <img
+      src="/images/alfa-laval-chnx-418-decanter/Decanter-Cross-Section-600.webp"
+      alt="Decanter Cross Section"
+      width="300"
+      height="200"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">CHNX 418 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval CHNX 418</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Horizontal Decanter, Two-Phase, Inert Gas Purged</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Bowl Diameter</td>
-              <td class="px-4 py-3 font-mono text-text-light">418 mm</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
-              <td class="px-4 py-3 font-mono text-text-light">5&ndash;20 m&sup3;/hr</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Inert Gas Purging</td>
-              <td class="px-4 py-3 font-mono text-text-light">Continuous Nitrogen (N&sup2;)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Safety Certification</td>
-              <td class="px-4 py-3 font-mono text-text-light">ATEX Certified</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Drive Configuration</td>
-              <td class="px-4 py-3 font-mono text-text-light">Variable Speed (VFD), Explosion-Proof Motor</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 font-semibold text-navy">Base Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">NX 418 with hazardous duty modifications</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Specifications -->
+  <h2 id="specifications">CHNX 418 Specifications</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Solvent recovery and recycling</li>
-          <li>&#8226; Pharmaceutical manufacturing waste</li>
-          <li>&#8226; Chemical plant sludge with flammable content</li>
-          <li>&#8226; Petrochemical refinery slurries</li>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <tbody>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
+          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval CHNX 418</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
+          <td class="px-4 py-3 font-mono text-text-light">Horizontal Decanter, Two-Phase, Inert Gas Purged</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Bowl Diameter</td>
+          <td class="px-4 py-3 font-mono text-text-light">418 mm</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
+          <td class="px-4 py-3 font-mono text-text-light">5&ndash;20 m&sup3;/hr</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Inert Gas Purging</td>
+          <td class="px-4 py-3 font-mono text-text-light">Continuous Nitrogen (N&sup2;)</td>
+        </tr>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Safety Certification</td>
+          <td class="px-4 py-3 font-mono text-text-light">ATEX Certified</td>
+        </tr>
+        <tr class="bg-white border-b border-gray-200">
+          <td class="px-4 py-3 font-semibold text-navy">Drive Configuration</td>
+          <td class="px-4 py-3 font-mono text-text-light">Variable Speed (VFD), Explosion-Proof Motor</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="px-4 py-3 font-semibold text-navy">Base Model</td>
+          <td class="px-4 py-3 font-mono text-text-light">NX 418 with hazardous duty modifications</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="flex-1">
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2">
+        <ul class="space-y-2">
+          <li>Solvent recovery and recycling</li>
+          <li>Pharmaceutical manufacturing waste</li>
+          <li>Chemical plant sludge with flammable content</li>
+          <li>Petrochemical refinery slurries</li>
         </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Paint and coatings waste processing</li>
-          <li>&#8226; <a href="/explosion-proof-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Hazardous area classified installations</a></li>
-          <li>&#8226; Ink and resin waste dewatering</li>
-          <li>&#8226; Adhesive and polymer slurry separation</li>
+        <ul class="space-y-2">
+          <li>Paint and coatings waste processing</li>
+          <li><a href="/explosion-proof-centrifuge/">Hazardous area classified installations</a></li>
+          <li>Ink and resin waste dewatering</li>
+          <li>Adhesive and polymer slurry separation</li>
         </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Why Nitrogen Purging?</h2>
-      <p class="text-text-light mb-4">
-        When a centrifuge processes sludge containing flammable solvents, the high-speed rotating bowl creates centrifugal aerosolization and off-gassing of volatile organic compounds. In standard centrifuges, these vapors can accumulate to ignitable concentrations inside the casing. The CHNX 418 addresses this risk by continuously flowing inert nitrogen gas through the bowl cavity and discharge areas, displacing any oxygen and preventing combustible mixtures from forming.
-      </p>
-      <p class="text-text-light mb-8">
-        This approach is recognized by ATEX standards as an effective protective measure for centrifuge applications in Zone 1 and Zone 2 hazardous locations. Contact our engineering team to discuss whether the CHNX 418 or another explosion-proof configuration is appropriate for your specific solvents and process conditions. See also our <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> overview for broader context.
-      </p>
-
-      <!-- FAQ Section -->
-      <div class="mt-12 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-4">
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What does the 'CH' designation mean in CHNX 418?</summary>
-            <p class="text-text-light mt-3 text-sm">The 'CH' in CHNX 418 stands for 'Chemical Hazardous' — indicating this is a nitrogen-purged, ATEX-certified variant of the standard NX 418 decanter centrifuge designed for processing flammable, explosive, or otherwise hazardous sludges and slurries. The continuous inert gas purging system maintains a non-ignitable atmosphere throughout operation.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">Why does the CHNX 418 use nitrogen purging instead of explosion-proof motors?</summary>
-            <p class="text-text-light mt-3 text-sm">Explosion-proof motors alone do not protect the bowl interior from ignitable vapor concentrations. The CHNX 418 uses continuous nitrogen purging because the high-speed rotating bowl can aerosolize volatile organic compounds and create ignitable mixtures inside the casing. Nitrogen displacement eliminates oxygen from the bowl cavity and discharge areas, preventing combustible mixtures regardless of the electrical rating of the motor.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">What industries use the Alfa Laval CHNX 418?</summary>
-            <p class="text-text-light mt-3 text-sm">The CHNX 418 is used in solvent recovery and recycling, pharmaceutical manufacturing waste processing, chemical plant sludge with flammable content, petrochemical refinery slurries, paint and coatings waste, ink and resin waste dewatering, and adhesive and polymer slurry separation — any application where the feed contains flammable solvents or vapors requiring ATEX-classified equipment.</p>
-          </details>
-          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-            <summary class="font-semibold text-navy cursor-pointer">How does the CHNX 418 compare to the standard NX 418?</summary>
-            <p class="text-text-light mt-3 text-sm">The CHNX 418 retains all the separation performance of the standard NX 418 — 418 mm bowl diameter, variable speed drive, 5–20 m³/hr throughput — while adding continuous nitrogen purging, ATEX certification, explosion-proof motors, and sealed casing with inert gas inlet and vent connections. The separation characteristics (G-force, scroll speed differential, pond depth) are unchanged from the base NX 418 decanter.</p>
-          </details>
-        </div>
-      </div>
-
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in This Centrifuge?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, availability, and hazardous-area application engineering support.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
       </div>
     </div>
-  </section>
+    <img
+      src="/images/alfa-laval-chnx-418-decanter/Alfa-Laval-Decanter-Rotating-Assembly-600.webp"
+      alt="Alfa Laval Decanter Rotating Assembly"
+      width="300"
+      height="200"
+      loading="lazy"
+      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
+    />
+  </div>
 
-  <!-- Related Resources -->
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-      <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <a href="/alfa-laval-g2-40-decanter/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">G2-40 Decanter</span>
-        </a>
-        <a href="/alfa-laval-nx-314-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-314 Decanter</span>
-        </a>
-        <a href="/alfa-laval-nx-418-decanter-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">NX-418 Decanter</span>
-        </a>
-        <a href="/decanter-centrifuge-applications/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter Centrifuge Applications</span>
-        </a>
-        <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="group flex items-center gap-3 p-4 bg-warm-white rounded-lg hover:bg-gray-100 transition">
-          <svg class="w-5 h-5 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          <span class="text-navy font-medium group-hover:text-gold transition-colors">Decanter vs Disc Stack</span>
-        </a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  <!-- Why Nitrogen Purging -->
+  <h2 id="nitrogen-purging">Why Nitrogen Purging?</h2>
+
+  <p>
+    When a centrifuge processes sludge containing flammable solvents, the high-speed rotating bowl creates centrifugal aerosolization and off-gassing of volatile organic compounds. In standard centrifuges, these vapors can accumulate to ignitable concentrations inside the casing. The CHNX 418 addresses this risk by continuously flowing inert nitrogen gas through the bowl cavity and discharge areas, displacing any oxygen and preventing combustible mixtures from forming.
+  </p>
+  <p>
+    This approach is recognized by ATEX standards as an effective protective measure for centrifuge applications in Zone 1 and Zone 2 hazardous locations. Contact our engineering team to discuss whether the CHNX 418 or another explosion-proof configuration is appropriate for your specific solvents and process conditions. See also our <a href="/decanter-centrifuge/">decanter centrifuge</a> overview for broader context.
+  </p>
+
+  <!-- FAQ Section -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  <div class="space-y-4 not-prose">
+    {faqItems.map(item => (
+      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
+        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
+      </details>
+    ))}
+  </div>
+
+</ApplicationLayout>

@@ -1,56 +1,46 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+
+const faqItems = [
+  {
+    question: "Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?",
+    answer: "Yes. Dolphin Centrifuge maintains inventory of common Alfa Laval centrifuge parts including disc stacks, bowl gaskets, bearings, seals, and operating water components for MOPX, WHPX, MAPX, MAB, and WSB series centrifuges. Contact <a href='tel:+12485222573' class='text-navy font-semibold hover:text-gold'>(248) 522-2573</a> with your model number and serial number for availability."
+  },
+  {
+    question: "What is the most frequently replaced part on an Alfa Laval disc centrifuge?",
+    answer: "The most frequently replaced consumable parts are bowl gaskets (O-rings and seals), operating water valve seats, and bearing sets. Disc stacks are replaced less frequently (every 3\u20137 years depending on application) but are the highest-cost components. Gravity discs are replaced or swapped when processing fluid specific gravity changes."
+  },
+  {
+    question: "Can Dolphin supply aftermarket replacement parts for Alfa Laval centrifuges?",
+    answer: "Yes. Dolphin Centrifuge supplies both OEM Alfa Laval parts and high-quality aftermarket equivalents for disc centrifuges. Aftermarket parts meet or exceed OEM specifications and are typically 20\u201340% less expensive. Critical safety components (bowl parts, operating water valves) should use OEM specifications \u2014 consult with our engineers for guidance."
+  },
+  {
+    question: "What information do I need to order Alfa Laval centrifuge parts?",
+    answer: "To order parts, you need: (1) Centrifuge model number (e.g., MOPX 207, MAB 206); (2) Serial number from the nameplate; (3) Part name or description (e.g., 'bowl gasket kit', 'gravity disc 80mm', 'main bearing set'); and (4) Quantity needed. Dolphin Centrifuge can also cross-reference parts using the AL parts manual if you have the drawing or part number."
+  },
+  {
+    question: "How long does it take to receive Alfa Laval centrifuge parts from Dolphin?",
+    answer: "Parts in stock typically ship within 24\u201348 hours from our Warren, MI warehouse. Non-stock parts may require 1\u20134 weeks depending on availability. For emergency situations, contact <a href='tel:+12485222573' class='text-navy font-semibold hover:text-gold'>(248) 522-2573</a> directly \u2014 we can often source critical parts faster through our supplier network."
+  }
+];
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge maintains inventory of common Alfa Laval centrifuge parts including disc stacks, bowl gaskets, bearings, seals, and operating water components for MOPX, WHPX, MAPX, MAB, and WSB series centrifuges. Contact (248) 522-2573 or sales@dolphincentrifuge.com with your model number and serial number for availability."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the most frequently replaced part on an Alfa Laval disc centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The most frequently replaced consumable parts are bowl gaskets (O-rings and seals), operating water valve seats, and bearing sets. Disc stacks are replaced less frequently (every 3–7 years depending on application) but are the highest-cost components. Gravity discs are replaced or swapped when processing fluid specific gravity changes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can Dolphin supply aftermarket replacement parts for Alfa Laval centrifuges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge supplies both OEM Alfa Laval parts and high-quality aftermarket equivalents for disc centrifuges. Aftermarket parts meet or exceed OEM specifications and are typically 20–40% less expensive. Critical safety components (bowl parts, operating water valves) should use OEM specifications — consult with our engineers for guidance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What information do I need to order Alfa Laval centrifuge parts?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To order parts, you need: (1) Centrifuge model number (e.g., MOPX 207, MAB 206); (2) Serial number from the nameplate; (3) Part name or description (e.g., 'bowl gasket kit', 'gravity disc 80mm', 'main bearing set'); and (4) Quantity needed. Dolphin Centrifuge can also cross-reference parts using the AL parts manual if you have the drawing or part number."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does it take to receive Alfa Laval centrifuge parts from Dolphin?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Parts in stock typically ship within 24–48 hours from our Warren, MI warehouse. Non-stock parts may require 1–4 weeks depending on availability. For emergency situations, contact (248) 522-2573 directly — we can often source critical parts faster through our supplier network."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
-  ]
+  }))
 };
 
-const jsonLd = {
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
+  "url": "https://dolphincentrifuge.com/alfa-laval-centrifuge-parts/",
   "name": "Alfa Laval Centrifuge Parts",
   "description": "Alfa Laval centrifuge parts and spares: disc stacks, bearings, seals, gaskets, bowl components. OEM and aftermarket options with fast shipping from Warren, MI.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
@@ -63,226 +53,286 @@ const jsonLd = {
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
 };
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'parts-we-stock', label: 'Centrifuge Parts We Stock' },
+  { id: 'parts-categories', label: 'Parts Categories' },
+  { id: 'oem-vs-aftermarket', label: 'OEM vs. Aftermarket Parts' },
+  { id: 'supported-models', label: 'Supported Models' },
+  { id: 'fast-shipping', label: 'Fast Shipping from Warren, MI' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/' },
+  { label: 'Decanter Centrifuge Overview', href: '/decanter-centrifuge/' },
+  { label: 'Application Directory', href: '/disc-stack-centrifuge-applications/' },
+  { label: 'Parts Glossary', href: '/disc-centrifuge-parts-glossary/' },
+];
+
+const relatedProducts = [
+  { label: 'Centrifuge Control Systems', href: '/industrial-centrifuge-controls/', description: 'PLC-based control panels for disc & decanter centrifuges' },
+  { label: 'Centrifuge Accessories', href: '/alfa-laval-disc-centrifuge-accessories/', description: 'Heaters, strainers, pumps & ancillary equipment' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval Centrifuge Parts"
   description="Alfa Laval centrifuge parts and spares: disc stacks, bearings, seals, gaskets, bowl components. OEM and aftermarket options with fast shipping from Warren, MI."
+  category="products"
+  categoryLabel="Parts & Spares"
+  heroImage="/images/alfa-laval-centrifuge-parts/alfa-laval-centrifuge-parts-1024x370.webp"
+  heroImageAlt="Alfa Laval centrifuge parts"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-centrifuge-parts/"
-  breadcrumbs={[{label: 'Centrifuges', href: '/alfa-laval-centrifuges/'}, {label: 'Centrifuge Parts'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero — split layout: navy text left, parts image right -->
-  <section class="bg-navy text-white overflow-hidden">
-    <div class="container-dolphin">
-      <div class="grid lg:grid-cols-2 gap-0 items-center min-h-[420px]">
 
-        <!-- Left: Text -->
-        <div class="py-14 lg:py-16 pr-0 lg:pr-10">
-          <span class="text-gold text-xs font-bold tracking-wider uppercase">Parts &amp; Spares</span>
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4 leading-tight">
-            Alfa Laval<br class="hidden sm:block" /> Centrifuge Parts
-          </h1>
-          <p class="text-gray-300 text-base lg:text-lg max-w-xl mb-6 leading-relaxed">
-            OEM and precision aftermarket parts for disc stack and decanter centrifuges. Disc stacks, bearings, seals, bowl components — stocked and shipped fast from our Warren, MI facility.
-          </p>
-          <!-- Trust chips -->
-          <div class="flex flex-wrap gap-2 mb-7">
-            <span class="bg-white/10 text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full">✓ 40+ Years Experience</span>
-            <span class="bg-white/10 text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full">✓ OEM &amp; Aftermarket</span>
-            <span class="bg-white/10 text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full">✓ Fast Nationwide Shipping</span>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-yellow-400 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-              Request Parts Quote
-            </a>
-            <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-              (248) 522-2573
-            </a>
-          </div>
-        </div>
+  <!-- AI Summary — 30-50 words -->
+  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-[#555] leading-relaxed italic">Dolphin Centrifuge stocks OEM and aftermarket replacement parts for Alfa Laval disc stack and decanter centrifuges, including disc stacks, bearings, seals, gaskets, and bowl components. Based in Warren, Michigan, with over 40 years of parts inventory experience.</p>
+  </div>
 
-        <!-- Right: Parts render image -->
-        <div class="hidden lg:flex items-end justify-center h-full pt-6">
-          <picture>
-            <source srcset="/images/alfa-laval-centrifuge-parts/parts-hero.webp" type="image/webp" />
-            <img
-              src="/images/alfa-laval-centrifuge-parts/parts-hero.webp"
-              alt="Dolphin Centrifuge Major Service Kit — bearings, gears, seals, and centrifuge shaft components"
-              class="w-full max-w-[580px] object-contain drop-shadow-2xl"
-              loading="eager"
-              decoding="async"
-              width="580"
-              height="323"
-            />
-          </picture>
-        </div>
+  <h2 id="parts-we-stock">Centrifuge Parts We Stock</h2>
 
-      </div>
+  <img
+    src="/images/alfa-laval-centrifuge-parts/centrifuge-disc-stack-250.webp"
+    alt="centrifuge disc stack"
+    width="250"
+    height="250"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[250px] md:float-right md:ml-6 md:mb-4"
+  />
+
+  <p>
+    With 40+ years specializing in Alfa Laval centrifuge equipment, Dolphin Centrifuge stocks a comprehensive inventory of replacement parts for both current and legacy models. We carry OEM (original equipment manufacturer) components as well as precision-manufactured aftermarket alternatives that meet or exceed OEM specifications at reduced cost.
+  </p>
+  <p>
+    Whether you need a single O-ring for a scheduled service or a complete disc stack for a bowl rebuild, our parts team can identify the correct component by machine model and serial number. Call us at <a href="tel:2485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> with your requirements.
+  </p>
+
+  <div class="clear-both"></div>
+
+  <h2 id="parts-categories">Parts Categories</h2>
+
+  <div class="not-prose grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/centrifuge-disc-stack-250.webp"
+        alt="centrifuge disc stack"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Disc Stacks</h3>
+      <p class="text-sm text-text-light">Complete disc stack sets in carbon steel or stainless steel (304, 316L). Available for all Alfa Laval separator models. Individual discs also available.</p>
     </div>
-  </section>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-gravity-disc-250.webp"
+        alt="disc centrifuge gravity disc"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Gravity Discs</h3>
+      <p class="text-sm text-text-light">Precision-machined gravity discs for setting the separation interface. Available in various bore diameters to match your process fluid specific gravity.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-paring-disc-250.webp"
+        alt="disc centrifuge paring disc"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Paring Discs &amp; Pumps</h3>
+      <p class="text-sm text-text-light">Stationary paring discs for light and heavy phase outlets. Built-in centripetal pump components for pressurized discharge.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-nylon-seal-ring-250.webp"
+        alt="disc centrifuge nylon seal ring"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Seals &amp; O-Rings</h3>
+      <p class="text-sm text-text-light">Mechanical shaft seals, paring disc seals, bowl hood seals, operating water seals, and all O-ring kits. Viton, Buna-N, EPDM, and PTFE materials.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-large-lock-ring-250.webp"
+        alt="disc centrifuge large lock ring"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Bowl Components</h3>
+      <p class="text-sm text-text-light">Bowl bodies, bowl hoods, sliding bowl bottoms, piston rings, discharge slides, distributor assemblies, and lock rings.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-distributor-250.webp"
+        alt="disc centrifuge distributor"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Distributors</h3>
+      <p class="text-sm text-text-light">Feed distributor assemblies and distributing covers that direct process fluid into the disc stack for uniform separation across all disc channels.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-sludge-ports-250.webp"
+        alt="disc centrifuge sludge ports"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Sludge Ports &amp; Slides</h3>
+      <p class="text-sm text-text-light">Sludge discharge ports, sliding pistons, and operating slides for the self-cleaning bowl mechanism. Critical for proper sludge ejection.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <img
+        src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-top-disc-250.webp"
+        alt="disc centrifuge top disc"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="rounded-lg w-full mb-3"
+      />
+      <h3 class="text-lg font-bold text-navy mb-2">Top Discs</h3>
+      <p class="text-sm text-text-light">Top disc (distributor) sits atop the disc stack and directs separated phases to their respective outlets. Available in various configurations.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Bearings</h3>
+      <p class="text-sm text-text-light">Main spindle bearings, top bearings, and thrust bearings. OEM-spec precision bearings matched to machine model for proper fit and balance.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Gaskets</h3>
+      <p class="text-sm text-text-light">Bowl body gaskets, hood gaskets, sight glass gaskets, and piping gaskets. Full gasket kits for major overhauls.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Drive Components</h3>
+      <p class="text-sm text-text-light">Spindles, worm gears, worm wheels, friction clutch pads, brake linings, and coupling components.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Decanter Parts</h3>
+      <p class="text-sm text-text-light">Scroll assemblies, scroll tiles, weir plates, bearings, seals, gearbox components, and feed tubes for Alfa Laval decanter centrifuges.</p>
+    </div>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <h2 id="oem-vs-aftermarket">OEM vs. Aftermarket Parts</h2>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge stocks OEM and aftermarket replacement parts for Alfa Laval disc stack and decanter centrifuges — including disc stacks, bowl seals, O-rings, gaskets, paring discs, operating slides, sludge ports, bearings, friction pads, and complete rebuild kits. Parts are available for current and legacy Alfa Laval models including WHPX, WSPX, MAB, MOPX, FOPX, NX-314, NX-418, and G2-40 series. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of parts inventory experience.</p>
-      </div>
+  <img
+    src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-sliding-piston-250.webp"
+    alt="disc centrifuge sliding piston"
+    width="250"
+    height="250"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[250px] md:float-right md:ml-6 md:mb-4"
+  />
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Centrifuge Parts We Stock</h2>
-      <p class="text-text-light mb-4">
-        With 40+ years specializing in Alfa Laval centrifuge equipment, Dolphin Centrifuge stocks a comprehensive inventory of replacement parts for both current and legacy models. We carry OEM (original equipment manufacturer) components as well as precision-manufactured aftermarket alternatives that meet or exceed OEM specifications at reduced cost.
+  <div class="not-prose grid md:grid-cols-2 gap-6 mb-10">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">OEM Parts</h3>
+      <p class="text-sm text-text-light mb-3">
+        Genuine Alfa Laval replacement parts manufactured to the original factory specifications. Required by some customers for warranty compliance or quality programs. Dolphin Centrifuge is an authorized source for OEM Alfa Laval parts.
       </p>
-      <p class="text-text-light mb-8">
-        Whether you need a single O-ring for a scheduled service or a complete disc stack for a bowl rebuild, our parts team can identify the correct component by machine model and serial number. Call us at <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> with your requirements.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Parts Categories</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Disc Stacks</h3>
-          <p class="text-sm text-text-light">Complete disc stack sets in carbon steel or stainless steel (304, 316L). Available for all Alfa Laval separator models. Individual discs also available.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Bearings</h3>
-          <p class="text-sm text-text-light">Main spindle bearings, top bearings, and thrust bearings. OEM-spec precision bearings matched to machine model for proper fit and balance.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Seals &amp; O-Rings</h3>
-          <p class="text-sm text-text-light">Mechanical shaft seals, paring disc seals, bowl hood seals, operating water seals, and all O-ring kits. Viton, Buna-N, EPDM, and PTFE materials.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Gaskets</h3>
-          <p class="text-sm text-text-light">Bowl body gaskets, hood gaskets, sight glass gaskets, and piping gaskets. Full gasket kits for major overhauls.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Bowl Components</h3>
-          <p class="text-sm text-text-light">Bowl bodies, bowl hoods, sliding bowl bottoms, piston rings, discharge slides, distributor assemblies, and lock rings.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Drive Components</h3>
-          <p class="text-sm text-text-light">Spindles, worm gears, worm wheels, friction clutch pads, brake linings, and coupling components.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Paring Discs &amp; Pumps</h3>
-          <p class="text-sm text-text-light">Stationary paring discs for light and heavy phase outlets. Built-in centripetal pump components for pressurized discharge.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Frame &amp; Housing</h3>
-          <p class="text-sm text-text-light">Frame tops, frame bottoms, bowl hoods, sight glasses, inlet/outlet connections, and cyclone assemblies.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <h3 class="text-lg font-bold text-navy mb-2">Decanter Parts</h3>
-          <p class="text-sm text-text-light">Scroll assemblies, scroll tiles, weir plates, bearings, seals, gearbox components, and feed tubes for Alfa Laval decanter centrifuges.</p>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">OEM vs. Aftermarket Parts</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">OEM Parts</h3>
-          <p class="text-sm text-text-light mb-3">
-            Genuine Alfa Laval replacement parts manufactured to the original factory specifications. Required by some customers for warranty compliance or quality programs. Dolphin Centrifuge is an authorized source for OEM Alfa Laval parts.
-          </p>
-          <ul class="text-sm space-y-1 text-text-muted">
-            <li>&#8226; Factory-original specifications</li>
-            <li>&#8226; Full material traceability</li>
-            <li>&#8226; Warranty compliance</li>
-          </ul>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Aftermarket Parts</h3>
-          <p class="text-sm text-text-light mb-3">
-            Precision-manufactured replacement components built to meet or exceed OEM specifications. Aftermarket parts offer significant cost savings (typically 30-50% less) without compromising performance or reliability.
-          </p>
-          <ul class="text-sm space-y-1 text-text-muted">
-            <li>&#8226; Meets or exceeds OEM specs</li>
-            <li>&#8226; 30-50% cost savings</li>
-            <li>&#8226; Same materials and tolerances</li>
-          </ul>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Supported Models</h2>
-      <p class="text-text-light mb-4">
-        We stock parts for all current and legacy Alfa Laval disc stack separator and decanter centrifuge models. If you have a model number, serial number, or part number, our team can identify and quote the correct replacement component. Common model families include:
-      </p>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; MOPX, MAPX, MRPX, MFPX series separators</li>
-          <li>&#8226; WHPX, WSPX, WOPX series separators</li>
-          <li>&#8226; BRPX, BTPX, BRGX series separators</li>
-          <li>&#8226; MMB, MAB, MAB-T clarifiers</li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; NX, CHNX decanter series</li>
-          <li>&#8226; G2 decanter series</li>
-          <li>&#8226; VNPX, VOPX, AFPX series separators</li>
-          <li>&#8226; Legacy and discontinued models</li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Fast Shipping from Warren, MI</h2>
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge maintains a substantial parts inventory at our 24248 Gibson Dr, Warren, MI 48089 facility. In-stock parts typically ship the same day or next business day. For critical breakdowns, we offer expedited shipping options to minimize your downtime.
-      </p>
-      <p class="text-text-light mb-8">
-        For parts identification or pricing, contact our parts team at <a href="tel:2485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>. Please have the machine model, serial number, and part description ready for fastest service.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Services &amp; Resources</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Decanter Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">Centrifuge Control Systems</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge-applications/" class="text-navy font-semibold hover:text-gold transition-colors">Application Directory</a></li>
-        <li>&#8226; <a href="/disc-centrifuge-parts-glossary/" class="text-navy font-semibold hover:text-gold transition-colors">Parts Glossary</a></li>
+      <ul class="text-sm space-y-1 text-text-muted">
+        <li>&#8226; Factory-original specifications</li>
+        <li>&#8226; Full material traceability</li>
+        <li>&#8226; Warranty compliance</li>
       </ul>
-
     </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="bg-warm-white py-12">
-    <div class="container-dolphin max-w-4xl">
-      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge maintains inventory of common Alfa Laval centrifuge parts including disc stacks, bowl gaskets, bearings, seals, and operating water components for MOPX, WHPX, MAPX, MAB, and WSB series centrifuges. Contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> with your model number and serial number for availability.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What is the most frequently replaced part on an Alfa Laval disc centrifuge?</summary>
-          <p class="text-text-light mt-3 text-sm">The most frequently replaced consumable parts are bowl gaskets (O-rings and seals), operating water valve seats, and bearing sets. Disc stacks are replaced less frequently (every 3–7 years depending on application) but are the highest-cost components. Gravity discs are replaced or swapped when processing fluid specific gravity changes.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Can Dolphin supply aftermarket replacement parts for Alfa Laval centrifuges?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge supplies both OEM Alfa Laval parts and high-quality aftermarket equivalents for disc centrifuges. Aftermarket parts meet or exceed OEM specifications and are typically 20–40% less expensive. Critical safety components (bowl parts, operating water valves) should use OEM specifications — consult with our engineers for guidance.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What information do I need to order Alfa Laval centrifuge parts?</summary>
-          <p class="text-text-light mt-3 text-sm">To order parts, you need: (1) Centrifuge model number (e.g., MOPX 207, MAB 206); (2) Serial number from the nameplate; (3) Part name or description (e.g., 'bowl gasket kit', 'gravity disc 80mm', 'main bearing set'); and (4) Quantity needed. Dolphin Centrifuge can also cross-reference parts using the AL parts manual if you have the drawing or part number.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How long does it take to receive Alfa Laval centrifuge parts from Dolphin?</summary>
-          <p class="text-text-light mt-3 text-sm">Parts in stock typically ship within 24–48 hours from our Warren, MI warehouse. Non-stock parts may require 1–4 weeks depending on availability. For emergency situations, contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> directly — we can often source critical parts faster through our supplier network.</p>
-        </details>
-      </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2">Aftermarket Parts</h3>
+      <p class="text-sm text-text-light mb-3">
+        Precision-manufactured replacement components built to meet or exceed OEM specifications. Aftermarket parts offer significant cost savings (typically 30-50% less) without compromising performance or reliability.
+      </p>
+      <ul class="text-sm space-y-1 text-text-muted">
+        <li>&#8226; Meets or exceeds OEM specs</li>
+        <li>&#8226; 30-50% cost savings</li>
+        <li>&#8226; Same materials and tolerances</li>
+      </ul>
     </div>
-  </section>
+  </div>
+
+  <div class="clear-both"></div>
+
+  <h2 id="supported-models">Supported Models</h2>
+
+  <img
+    src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-control-paring-disc-250.webp"
+    alt="disc centrifuge control paring disc"
+    width="250"
+    height="250"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[250px] md:float-right md:ml-6 md:mb-4"
+  />
+
+  <p>
+    We stock parts for all current and legacy Alfa Laval disc stack separator and decanter centrifuge models. If you have a model number, serial number, or part number, our team can identify and quote the correct replacement component. Common model families include:
+  </p>
+  <div class="not-prose grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; MOPX, MAPX, MRPX, MFPX series separators</li>
+      <li>&#8226; WHPX, WSPX, WOPX series separators</li>
+      <li>&#8226; BRPX, BTPX, BRGX series separators</li>
+      <li>&#8226; MMB, MAB, MAB-T clarifiers</li>
+    </ul>
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; NX, CHNX decanter series</li>
+      <li>&#8226; G2 decanter series</li>
+      <li>&#8226; VNPX, VOPX, AFPX series separators</li>
+      <li>&#8226; Legacy and discontinued models</li>
+    </ul>
+  </div>
+
+  <div class="clear-both"></div>
+
+  <h2 id="fast-shipping">Fast Shipping from Warren, MI</h2>
+
+  <img
+    src="/images/alfa-laval-centrifuge-parts/disc-centrifuge-distributing-ring-250.webp"
+    alt="disc centrifuge distributing ring"
+    width="250"
+    height="250"
+    loading="lazy"
+    class="rounded-lg w-full md:w-auto md:max-w-[250px] md:float-right md:ml-6 md:mb-4"
+  />
+
+  <p>
+    Dolphin Centrifuge maintains a substantial parts inventory at our 24248 Gibson Dr, Warren, MI 48089 facility. In-stock parts typically ship the same day or next business day. For critical breakdowns, we offer expedited shipping options to minimize your downtime.
+  </p>
+  <p>
+    For parts identification or pricing, contact our parts team at <a href="tel:2485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a>. Please have the machine model, serial number, and part description ready for fastest service.
+  </p>
+
+  <div class="clear-both"></div>
+
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <div class="not-prose space-y-4">
+    {faqItems.map((item) => (
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
+        <p class="text-text-light mt-3 text-sm" set:html={item.answer} />
+      </details>
+    ))}
+  </div>
 
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need Centrifuge Parts?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Provide your machine model, serial number, and the parts you need. We will identify the correct components and ship from our Warren, MI inventory.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>

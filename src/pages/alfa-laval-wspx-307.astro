@@ -1,29 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the flow capacity of the Alfa Laval WSPX 307?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 307 processes 400–800 LPH of water-based coolant or metalworking fluid, making it a high-volume self-cleaning disc centrifuge for large central coolant systems serving dozens of machining centers simultaneously. It is supplied by Dolphin Centrifuge as the DMPX-021C coolant centrifuge module." }
-    },
-    {
-      "@type": "Question",
-      "name": "What industries use the WSPX 307 coolant centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 307 is used in automotive powertrain machining, aerospace structural component manufacturing, precision grinding, and other high-volume metalworking environments where a central coolant system serves many machines and requires continuous high-throughput coolant recirculation and purification." }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the WSPX 307 compare to the WSPX 207 and WSPX 407?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 207 (100–200 LPH) is for individual machine point-of-use. The WSPX 307 (400–800 LPH) is the mid-range model for large central systems. The WSPX 407 (800+ LPH) is the highest-capacity model for the largest central coolant plants. All three use the same automatic self-cleaning bowl technology." }
-    }
-  ]
-};
+const faqItems = [
+  {
+    question: "What is the flow capacity of the Alfa Laval WSPX 307?",
+    answer: "The WSPX 307 processes 400–800 LPH of water-based coolant or metalworking fluid, making it a high-volume self-cleaning disc centrifuge for large central coolant systems serving dozens of machining centers simultaneously. It is supplied by Dolphin Centrifuge as the DMPX-021C coolant centrifuge module."
+  },
+  {
+    question: "What industries use the WSPX 307 coolant centrifuge?",
+    answer: "The WSPX 307 is used in automotive powertrain machining, aerospace structural component manufacturing, precision grinding, and other high-volume metalworking environments where a central coolant system serves many machines and requires continuous high-throughput coolant recirculation and purification."
+  },
+  {
+    question: "How does the WSPX 307 compare to the WSPX 207 and WSPX 407?",
+    answer: "The WSPX 207 (100–200 LPH) is for individual machine point-of-use. The WSPX 307 (400–800 LPH) is the mid-range model for large central systems. The WSPX 407 (800+ LPH) is the highest-capacity model for the largest central coolant plants. All three use the same automatic self-cleaning bowl technology."
+  }
+];
 
-const jsonLd = {
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval WSPX 307 Coolant Centrifuge",
@@ -31,145 +25,155 @@ const jsonLd = {
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-wspx-307/",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'WSPX 307 Operation' },
+  { id: 'specifications', label: 'WSPX 307 Specifications' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'wspx-series', label: 'WSPX Series Positioning' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+  { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'WSPX 207 Centrifuge', href: '/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/', description: '100–200 LPH entry-level' },
+  { label: 'WSPX 303 Centrifuge', href: '/alfa-laval-wspx-303-centrifuge/', description: '200–400 LPH mid-size' },
+  { label: 'WSPX 407 Centrifuge', href: '/alfa-laval-wspx-407/', description: '800+ LPH highest capacity' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval WSPX 307 Coolant Centrifuge"
-  description="Alfa Laval WSPX 307 self-cleaning disc centrifuge for high-volume metalworking coolant recovery and tramp oil removal. Dolphin Centrifuge, Warren Michigan."
+<ApplicationLayout
+  title="Alfa Laval WSPX 307 Self-Cleaning Coolant Centrifuge"
+  description="Alfa Laval WSPX 307 self-cleaning disc centrifuge for high-volume metalworking coolant recovery and tramp oil removal at 400–800 LPH. Dolphin Centrifuge."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/alfa-laval-wspx-307/Alfa-Laval-WSPX-307-Water-Based-Coolant-Centrifuge.webp"
+  heroImageAlt="Alfa Laval WSPX 307 Water Based Coolant Centrifuge"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-wspx-307/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'WSPX 307'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval WSPX 307 Self-Cleaning Coolant Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A high-capacity self-cleaning disc centrifuge for continuous coolant recovery in demanding automotive and aerospace machining environments. The WSPX 307 processes 400–800 LPH, making it the workhorse choice for large central coolant systems.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval WSPX 307 is a mid-range self-cleaning disc stack centrifuge for high-volume coolant processing at 400–800 LPH. Dolphin Centrifuge supplies the WSPX 307 as the DMPX-021C coolant centrifuge module — removing sub-micron metal fines and tramp oil from water-based machining fluids in central coolant systems serving multiple machining centers. Continuous automatic sludge discharge enables 24/7 production operation. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in WSPX-series coolant centrifuge systems.</p>
+  </div>
+
+  <h2 id="overview">WSPX 307 Operation</h2>
+
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-1/2">
+      <p>
+        The Alfa Laval WSPX 307 is a self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> engineered for high-volume coolant processing in production machining facilities. With a flow capacity of 400–800 LPH, it is designed to handle the full output of large central coolant systems serving dozens of machining centers simultaneously.
+      </p>
+      <p>
+        Like all WSPX models, the WSPX 307 uses automatic (self-cleaning) sludge discharge to maintain continuous operation without manual bowl maintenance. The centrifugal force generated by its high-speed bowl removes sub-micron metal particles and separates tramp oil that would otherwise degrade coolant chemistry and promote bacterial growth.
+      </p>
     </div>
-  </section>
-
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval WSPX 307 is a mid-range self-cleaning disc stack centrifuge for high-volume coolant processing at 400–800 LPH. Dolphin Centrifuge supplies the WSPX 307 as the DMPX-021C coolant centrifuge module — removing sub-micron metal fines and tramp oil from water-based machining fluids in central coolant systems serving multiple machining centers. Continuous automatic sludge discharge enables 24/7 production operation. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in WSPX-series coolant centrifuge systems.</p>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval WSPX 307 is a self-cleaning <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> engineered for high-volume coolant processing in production machining facilities. With a flow capacity of 400–800 LPH, it is designed to handle the full output of large central coolant systems serving dozens of machining centers simultaneously.
-      </p>
-      <p class="text-text-light mb-8">
-        Like all WSPX models, the WSPX 307 uses automatic (self-cleaning) sludge discharge to maintain continuous operation without manual bowl maintenance. The centrifugal force generated by its high-speed bowl removes sub-micron metal particles and separates tramp oil that would otherwise degrade coolant chemistry and promote bacterial growth. This is a proven solution in automotive powertrain machining, aerospace structural component manufacturing, and other high-volume metalworking operations.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">WSPX 307 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval WSPX 307</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
-              <td class="px-4 py-3 font-mono text-text-light">400–800 LPH (application-dependent)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Bowl Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Self-Cleaning (Automatic Discharge)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Separation Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Concentrator (Liquid-Solid)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Ideal For</td>
-              <td class="px-4 py-3 font-mono text-text-light">High-volume central coolant systems</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Industries</td>
-              <td class="px-4 py-3 font-mono text-text-light">Automotive, Aerospace, Heavy Machining</td>
-            </tr>
-            <tr class="bg-white">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V; 3-Phase</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">High-volume central coolant recovery</a></li>
-          <li>&#8226; Automotive powertrain machining lines</li>
-          <li>&#8226; Aerospace structural component machining</li>
-          <li>&#8226; Large transfer line coolant systems</li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">High-volume cutting fluid recycling</a></li>
-          <li>&#8226; Grinding fluid clarification</li>
-          <li>&#8226; Metal fines and swarf removal</li>
-          <li>&#8226; Tramp oil separation at scale</li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">WSPX Series — Where the 307 Fits</h2>
-      <p class="text-text-light mb-4">
-        The WSPX 307 is the larger of the two high-capacity WSPX models. For even higher flow requirements, the <a href="/alfa-laval-wspx-407/" class="text-navy font-semibold hover:text-gold transition-colors">WSPX 407</a> delivers 800+ LPH. For smaller systems, the <a href="/alfa-laval-wspx-303-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">WSPX 303</a> handles 200–400 LPH.
-      </p>
-      <div class="grid md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-303-centrifuge/" class="text-navy hover:text-gold transition-colors">WSPX 303</a></h3>
-          <p class="text-sm text-text-light">200–400 LPH. Central coolant and multi-machine circuits.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border-2 border-gold">
-          <h3 class="text-lg font-bold text-navy mb-2">WSPX 307 — Current</h3>
-          <p class="text-sm text-text-light">400–800 LPH. Automotive and aerospace machining facilities.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-407/" class="text-navy hover:text-gold transition-colors">WSPX 407</a></h3>
-          <p class="text-sm text-text-light">800+ LPH. Large central coolant plants.</p>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the flow capacity of the Alfa Laval WSPX 307?</h3>
-            <p class="text-text-light text-sm">The WSPX 307 processes 400–800 LPH of water-based coolant or metalworking fluid, making it a high-volume self-cleaning disc centrifuge for large central coolant systems serving dozens of machining centers simultaneously. It is supplied by Dolphin Centrifuge as the DMPX-021C coolant centrifuge module.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What industries use the WSPX 307 coolant centrifuge?</h3>
-            <p class="text-text-light text-sm">The WSPX 307 is used in automotive powertrain machining, aerospace structural component manufacturing, precision grinding, and other high-volume metalworking environments where a central coolant system serves many machines and requires continuous high-throughput coolant recirculation and purification.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How does the WSPX 307 compare to the WSPX 207 and WSPX 407?</h3>
-            <p class="text-text-light text-sm">The WSPX 207 (100–200 LPH) is for individual machine point-of-use. The WSPX 307 (400–800 LPH) is the mid-range model for large central systems. The WSPX 407 (800+ LPH) is the highest-capacity model for the largest central coolant plants. All three use the same automatic self-cleaning bowl technology.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in the WSPX 307?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, system design support, and application evaluation. Paid sample testing is available for qualifying projects.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
+    <div class="md:w-1/2">
+      <img
+        src="/images/alfa-laval-wspx-307/Alfa-Laval-WSPX-307-Water-Based-Coolant-Centrifuge.webp"
+        alt="Alfa Laval WSPX 307 Water Based Coolant Centrifuge"
+        width="600"
+        height="400"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <p>
+    This is a proven solution in automotive powertrain machining, aerospace structural component manufacturing, and other high-volume metalworking operations.
+  </p>
+
+  <h2 id="specifications">WSPX 307 Specifications</h2>
+
+  <table>
+    <tbody>
+      <tr><td><strong>Centrifuge Model</strong></td><td>Alfa Laval WSPX 307</td></tr>
+      <tr><td><strong>Typical Flow Rate</strong></td><td>400–800 LPH (application-dependent)</td></tr>
+      <tr><td><strong>Bowl Type</strong></td><td>Self-Cleaning (Automatic Discharge)</td></tr>
+      <tr><td><strong>Separation Type</strong></td><td>Concentrator (Liquid-Solid)</td></tr>
+      <tr><td><strong>Ideal For</strong></td><td>High-volume central coolant systems</td></tr>
+      <tr><td><strong>Industries</strong></td><td>Automotive, Aerospace, Heavy Machining</td></tr>
+      <tr><td><strong>Voltages</strong></td><td>230 / 460 V; 3-Phase</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="applications">Applications</h2>
+
+  <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8 not-prose">
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">High-volume central coolant recovery</a></li>
+      <li>&#8226; Automotive powertrain machining lines</li>
+      <li>&#8226; Aerospace structural component machining</li>
+      <li>&#8226; Large transfer line coolant systems</li>
+    </ul>
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">High-volume cutting fluid recycling</a></li>
+      <li>&#8226; Grinding fluid clarification</li>
+      <li>&#8226; Metal fines and swarf removal</li>
+      <li>&#8226; Tramp oil separation at scale</li>
+    </ul>
+  </div>
+
+  <h2 id="wspx-series">WSPX Series — Where the 307 Fits</h2>
+
+  <p>
+    The WSPX 307 is the larger of the two high-capacity WSPX models. For even higher flow requirements, the <a href="/alfa-laval-wspx-407/">WSPX 407</a> delivers 800+ LPH. For smaller systems, the <a href="/alfa-laval-wspx-303-centrifuge/">WSPX 303</a> handles 200–400 LPH.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 mb-8 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-303-centrifuge/" class="text-navy hover:text-gold transition-colors">WSPX 303</a></h3>
+      <p class="text-sm text-text-light">200–400 LPH. Central coolant and multi-machine circuits.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border-2 border-gold">
+      <h3 class="text-lg font-bold text-navy mb-2">WSPX 307 — Current</h3>
+      <p class="text-sm text-text-light">400–800 LPH. Automotive and aerospace machining facilities.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-407/" class="text-navy hover:text-gold transition-colors">WSPX 407</a></h3>
+      <p class="text-sm text-text-light">800+ LPH. Large central coolant plants.</p>
+    </div>
+  </div>
+
+  <FAQ items={faqItems} />
+
+  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
+    <h2 class="text-2xl font-bold text-white mb-3">Interested in the WSPX 307?</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, system design support, and application evaluation. Paid sample testing is available for qualifying projects.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+</ApplicationLayout>

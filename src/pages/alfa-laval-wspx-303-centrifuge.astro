@@ -1,29 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the rated capacity of the Alfa Laval WSPX 303 centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 303 delivers 200–400 LPH throughput depending on coolant type and contamination load. It is a mid-size self-cleaning disc centrifuge suited for central coolant systems serving multiple CNC machines or grinding operations in mid-size machining facilities." }
-    },
-    {
-      "@type": "Question",
-      "name": "What does a coolant centrifuge remove from metalworking fluid?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A coolant centrifuge removes metal fines (chips, grinding swarf, particles down to 1 micron), tramp oil (hydraulic and machine oils that contaminate coolant), and other dense solid contaminants. Removing these contaminants extends coolant life, reduces biocide consumption, and prevents surface finish degradation on machined parts." }
-    },
-    {
-      "@type": "Question",
-      "name": "How often does the WSPX 303 need to discharge sludge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles." }
-    }
-  ]
-};
+const faqItems = [
+  {
+    question: "What is the rated capacity of the Alfa Laval WSPX 303 centrifuge?",
+    answer: "The WSPX 303 delivers 200–400 LPH throughput depending on coolant type and contamination load. It is a mid-size self-cleaning disc centrifuge suited for central coolant systems serving multiple CNC machines or grinding operations in mid-size machining facilities."
+  },
+  {
+    question: "What does a coolant centrifuge remove from metalworking fluid?",
+    answer: "A coolant centrifuge removes metal fines (chips, grinding swarf, particles down to 1 micron), tramp oil (hydraulic and machine oils that contaminate coolant), and other dense solid contaminants. Removing these contaminants extends coolant life, reduces biocide consumption, and prevents surface finish degradation on machined parts."
+  },
+  {
+    question: "How often does the WSPX 303 need to discharge sludge?",
+    answer: "The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles."
+  }
+];
 
-const jsonLd = {
+const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval WSPX 303 Coolant Centrifuge",
@@ -31,141 +25,150 @@ const jsonLd = {
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/alfa-laval-wspx-303-centrifuge/",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  },
 };
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const jsonLd = [productJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'overview', label: 'WSPX 303 Operation' },
+  { id: 'specifications', label: 'WSPX 303 Specifications' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'wspx-series', label: 'Related WSPX Models' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
+];
+
+const relatedApplications = [
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+  { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'WSPX 207 Centrifuge', href: '/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/', description: '100–200 LPH entry-level' },
+  { label: 'WSPX 307 Centrifuge', href: '/alfa-laval-wspx-307/', description: '400–800 LPH high-volume' },
+  { label: 'WSPX 407 Centrifuge', href: '/alfa-laval-wspx-407/', description: '800+ LPH highest capacity' },
+];
 ---
 
-<BaseLayout
-  title="Alfa Laval WSPX 303 Coolant Centrifuge"
-  description="Alfa Laval WSPX 303 self-cleaning disc centrifuge for coolant clarification and tramp oil removal, 200–400 LPH. Dolphin Centrifuge supply and service, Warren MI."
+<ApplicationLayout
+  title="Alfa Laval WSPX 303 Self-Cleaning Coolant Centrifuge"
+  description="Alfa Laval WSPX 303 self-cleaning disc centrifuge for coolant clarification and tramp oil removal at 200–400 LPH. Dolphin Centrifuge supply and service."
+  category="products"
+  categoryLabel="Products"
+  heroImage="/images/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/Alfa-Laval-Industrial-Centrifuge-Coolant-1000.webp"
+  heroImageAlt="Alfa Laval Industrial Centrifuge Coolant 1000"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-wspx-303-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'WSPX 303'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Products</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval WSPX 303 Self-Cleaning Coolant Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">A mid-size self-cleaning disc centrifuge for continuous coolant recovery in central coolant systems and large machining operations. The WSPX 303 delivers 200–400 LPH throughput while continuously removing metal fines and tramp oil from water-based fluids.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Specs & Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the Alfa Laval WSPX 303 self-cleaning disc stack centrifuge — a three-phase separator rated at 200–400 LPH for metalworking coolant clarification, tramp oil removal, and industrial wastewater polishing. The WSPX 303 operates at 7,200+ RPM generating 7,000+ Gs to remove sub-micron particles and free oil from process fluids. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in coolant centrifuge systems.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the Alfa Laval WSPX 303 self-cleaning disc stack centrifuge — a three-phase separator rated at 200–400 LPH for metalworking coolant clarification, tramp oil removal, and industrial wastewater polishing. The WSPX 303 operates at 7,200+ RPM generating 7,000+ Gs to remove sub-micron particles and free oil from process fluids. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in coolant centrifuge systems.</p>
-      </div>
+  <h2 id="overview">WSPX 303 Operation</h2>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Operation</h2>
-      <p class="text-text-light mb-4">
-        The Alfa Laval WSPX 303 is a self-cleaning <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> designed for the mid-range demands of central coolant systems in industrial metalworking facilities. Its automatic sludge discharge cycle allows continuous unattended operation — eliminating the manual bowl-cleaning intervals required by manual-discharge centrifuges.
+  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+    <div class="md:w-1/2">
+      <p>
+        The Alfa Laval WSPX 303 is a self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> designed for the mid-range demands of central coolant systems in industrial metalworking facilities. Its automatic sludge discharge cycle allows continuous unattended operation — eliminating the manual bowl-cleaning intervals required by manual-discharge centrifuges.
       </p>
-      <p class="text-text-light mb-8">
+      <p>
         At 200–400 LPH, the WSPX 303 is well matched to multi-machine coolant circuits serving groups of CNC machining centers, transfer lines, or grinding cells. It removes sub-micron metal fines and separates tramp oil, extending coolant service life and reducing both disposal frequency and fluid replacement cost.
       </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">WSPX 303 Specifications</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 font-mono text-text-light">Alfa Laval WSPX 303</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Typical Flow Rate</td>
-              <td class="px-4 py-3 font-mono text-text-light">200–400 LPH (application-dependent)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Bowl Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Self-Cleaning (Automatic Discharge)</td>
-            </tr>
-            <tr class="bg-gray-50 border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Separation Type</td>
-              <td class="px-4 py-3 font-mono text-text-light">Concentrator (Liquid-Solid)</td>
-            </tr>
-            <tr class="bg-white border-b border-gray-200">
-              <td class="px-4 py-3 font-semibold text-navy">Ideal For</td>
-              <td class="px-4 py-3 font-mono text-text-light">Central coolant systems, multi-machine circuits</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-              <td class="px-4 py-3 font-mono text-text-light">230 / 460 V; 3-Phase</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Applications</h2>
-      <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Central coolant system recovery</a></li>
-          <li>&#8226; <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Cutting and grinding fluid clarification</a></li>
-          <li>&#8226; Multi-machine CNC coolant circuits</li>
-          <li>&#8226; Transfer line coolant recycling</li>
-        </ul>
-        <ul class="text-text-light space-y-2">
-          <li>&#8226; Metal fines and swarf removal</li>
-          <li>&#8226; Tramp oil separation</li>
-          <li>&#8226; Honing fluid recovery</li>
-          <li>&#8226; Washer and parts-cleaning fluid clarification</li>
-        </ul>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related WSPX Models</h2>
-      <p class="text-text-light mb-4">
-        The WSPX 303 fits between the smaller <a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">WSPX 207</a> and the higher-capacity <a href="/alfa-laval-wspx-307/" class="text-navy font-semibold hover:text-gold transition-colors">WSPX 307</a>. Dolphin Centrifuge can help you size the correct model based on your system flow rate and contamination profile.
-      </p>
-      <div class="grid md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">WSPX 207</h3>
-          <p class="text-sm text-text-light">100–200 LPH. Individual machine or small cell installations.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border-2 border-gold">
-          <h3 class="text-lg font-bold text-navy mb-2">WSPX 303 — Current</h3>
-          <p class="text-sm text-text-light">200–400 LPH. Central coolant and multi-machine circuits.</p>
-        </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-307/" class="text-navy hover:text-gold transition-colors">WSPX 307</a></h3>
-          <p class="text-sm text-text-light">400–800 LPH. High-volume automotive and aerospace facilities.</p>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the rated capacity of the Alfa Laval WSPX 303 centrifuge?</h3>
-            <p class="text-text-light text-sm">The WSPX 303 delivers 200–400 LPH throughput depending on coolant type and contamination load. It is a mid-size self-cleaning disc centrifuge suited for central coolant systems serving multiple CNC machines or grinding operations in mid-size machining facilities.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What does a coolant centrifuge remove from metalworking fluid?</h3>
-            <p class="text-text-light text-sm">A coolant centrifuge removes metal fines (chips, grinding swarf, particles down to 1 micron), tramp oil (hydraulic and machine oils that contaminate coolant), and other dense solid contaminants. Removing these contaminants extends coolant life, reduces biocide consumption, and prevents surface finish degradation on machined parts.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How often does the WSPX 303 need to discharge sludge?</h3>
-            <p class="text-text-light text-sm">The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Bottom CTA -->
-      <div class="bg-navy rounded-xl p-8 text-center mt-12">
-        <h2 class="text-2xl font-bold text-white mb-3">Interested in the WSPX 303?</h2>
-        <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, system integration support, and application evaluation. Paid sample testing is available.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-          <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-        </div>
-      </div>
     </div>
-  </section>
-</BaseLayout>
+    <div class="md:w-1/2">
+      <img
+        src="/images/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
+        alt="Alfa Laval Stainless Steel Centrifuge 600"
+        width="600"
+        height="400"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+    </div>
+  </div>
+
+  <h2 id="specifications">WSPX 303 Specifications</h2>
+
+  <table>
+    <tbody>
+      <tr><td><strong>Centrifuge Model</strong></td><td>Alfa Laval WSPX 303</td></tr>
+      <tr><td><strong>Typical Flow Rate</strong></td><td>200–400 LPH (application-dependent)</td></tr>
+      <tr><td><strong>Bowl Type</strong></td><td>Self-Cleaning (Automatic Discharge)</td></tr>
+      <tr><td><strong>Separation Type</strong></td><td>Concentrator (Liquid-Solid)</td></tr>
+      <tr><td><strong>Ideal For</strong></td><td>Central coolant systems, multi-machine circuits</td></tr>
+      <tr><td><strong>Voltages</strong></td><td>230 / 460 V; 3-Phase</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="applications">Applications</h2>
+
+  <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8 not-prose">
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; <a href="/machine-coolant-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Central coolant system recovery</a></li>
+      <li>&#8226; <a href="/cutting-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Cutting and grinding fluid clarification</a></li>
+      <li>&#8226; Multi-machine CNC coolant circuits</li>
+      <li>&#8226; Transfer line coolant recycling</li>
+    </ul>
+    <ul class="text-text-light space-y-2">
+      <li>&#8226; Metal fines and swarf removal</li>
+      <li>&#8226; Tramp oil separation</li>
+      <li>&#8226; Honing fluid recovery</li>
+      <li>&#8226; Washer and parts-cleaning fluid clarification</li>
+    </ul>
+  </div>
+
+  <h2 id="wspx-series">Related WSPX Models</h2>
+
+  <p>
+    The WSPX 303 fits between the smaller <a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/">WSPX 207</a> and the higher-capacity <a href="/alfa-laval-wspx-307/">WSPX 307</a>. Dolphin Centrifuge can help you size the correct model based on your system flow rate and contamination profile.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 mb-8 not-prose">
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/" class="text-navy hover:text-gold transition-colors">WSPX 207</a></h3>
+      <p class="text-sm text-text-light">100–200 LPH. Individual machine or small cell installations.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border-2 border-gold">
+      <h3 class="text-lg font-bold text-navy mb-2">WSPX 303 — Current</h3>
+      <p class="text-sm text-text-light">200–400 LPH. Central coolant and multi-machine circuits.</p>
+    </div>
+    <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-307/" class="text-navy hover:text-gold transition-colors">WSPX 307</a></h3>
+      <p class="text-sm text-text-light">400–800 LPH. High-volume automotive and aerospace facilities.</p>
+    </div>
+  </div>
+
+  <FAQ items={faqItems} />
+
+  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
+    <h2 class="text-2xl font-bold text-white mb-3">Interested in the WSPX 303?</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, system integration support, and application evaluation. Paid sample testing is available.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+</ApplicationLayout>
