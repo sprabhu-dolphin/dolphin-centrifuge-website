@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -60,624 +60,593 @@ const faqJsonLd = {
 };
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Decanter vs. Disc Centrifuge: Technical Comparison"
-  description="Decanter vs disc centrifuge — G-force, particle size, solids capacity, design, and maintenance compared. Expert selection guide from Dolphin Centrifuge."
+  description="Decanter vs disc centrifuge compared: G-force (4,000 vs 10,000 Gs), particle size, solids capacity, design, and maintenance. Expert selection guide from Dolphin Centrifuge."
+  heroImage="/images/difference-between-decanter-centrifuge-disc-centrifuge/disc-centrifuge-alfa-laval-whpx-510-300.webp"
+  heroImageAlt="Disc centrifuge system Alfa Laval WHPX 510"
+  category="knowledge"
+  categoryLabel="Technical Comparison"
   canonicalUrl="https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Decanter vs. Disc Centrifuge'}]}
-  jsonLd={jsonLd}
+  toc={[
+    { id: "overview", label: "Overview of Decanter and Disc Centrifuge Operation" },
+    { id: "physical", label: "Physical Characteristics (Orientation, Dimensions, Power, MOC)" },
+    { id: "separation", label: "Separation Features and Capabilities" },
+    { id: "operating", label: "Operating Considerations (Solids Discharge, Design, Controls)" },
+    { id: "maintenance", label: "Operation and Maintenance Factors" },
+    { id: "summary", label: "Summary" },
+  ]}
+  relatedApplications={[
+    { label: "Disc Stack Centrifuge FAQ", href: "/disc-stack-centrifuge-faq/" },
+    { label: "Disc Stack Centrifuge Applications", href: "/disc-stack-centrifuge-applications/" },
+    { label: "Picking the Right Industrial Centrifuge", href: "/picking-the-right-industrial-centrifuge/" },
+    { label: "Industrial Centrifuge Controls", href: "/industrial-centrifuge-controls/" },
+  ]}
+  relatedProducts={[
+    { label: "Decanter Centrifuge (NX-314 / NX-418)", href: "/decanter-centrifuge/", description: "Up to 4,000 Gs — high-solids sludge dewatering" },
+    { label: "Disc Stack Centrifuges (DMPX Series)", href: "/disc-stack-centrifuge/", description: "7,000–10,000 Gs — fine particle & liquid-liquid separation" },
+  ]}
+  jsonLd={[jsonLd, faqJsonLd]}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Technical Comparison</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Difference Between Decanter and Disc Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">A comprehensive technical comparison of decanter and disc-stack centrifuges — physical characteristics, separation capabilities, operating considerations, and maintenance factors.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-      <div class="grid sm:grid-cols-2 gap-4 mt-6 max-w-2xl">
-        <div class="text-center">
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/decanter-centrifuge-alfa-laval-nx-418.webp" alt="Alfa Laval decanter centrifuge NX-418 horizontal unit" width="600" height="600" loading="eager" class="rounded-xl w-full mb-2" />
-          <span class="text-sm text-gray-300 font-medium">Decanter Centrifuge</span>
-        </div>
-        <div class="text-center">
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/disc-centrifuge-alfa-laval-whpx-510-300.webp" alt="Disc centrifuge system Alfa Laval WHPX 510" width="400" height="400" loading="eager" class="rounded-xl w-full mb-2" />
-          <span class="text-sm text-gray-300 font-medium">Disc Centrifuge System</span>
-        </div>
+
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies both decanter centrifuges (NX-314, NX-418, G2-40 series — up to 4,000 Gs for high-solids applications) and disc stack centrifuges (DMPX series — 7,000+ Gs for liquid-liquid and fine solids separation). Selection depends on solids concentration, particle size, and required separation quality. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in both centrifuge technologies.</p>
+  </div>
+
+  <!-- 30-Second Take-Away -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-4">30-Second Take-Away</h2>
+    <p class="text-text leading-relaxed mb-4">The main differences between a decanter and disc-stack centrifuge are:</p>
+    <ul class="space-y-3 mb-4">
+      <li class="flex gap-3">
+        <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
+        <span class="text-text leading-relaxed">A decanter centrifuge's axis of rotation is <strong>horizontal</strong>, whereas a disc-stack centrifuge bowl rotates around a <strong>vertical axis</strong>.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
+        <span class="text-text leading-relaxed">Decanter centrifuges typically exert around <strong>3,000 Gs</strong> compared to <strong>8,000+ Gs</strong> generated by a disc-stack centrifuge.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
+        <span class="text-text leading-relaxed">Sludge handling capacity is much higher for a decanter centrifuge compared to a disc-stack centrifuge. A decanter centrifuge can handle <strong>up to 50% sludge</strong>, while a disc-stack centrifuge is limited to <strong>8% sludge</strong> by volume.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
+        <span class="text-text leading-relaxed">With a higher G-force, a disc-stack centrifuge can separate particles down to a <strong>0.5-micron level</strong>. A decanter centrifuge typically separates particles <strong>100 microns or larger</strong>.</span>
+      </li>
+    </ul>
+    <p class="text-text leading-relaxed">This article compares the different technical aspects of decanter centrifuges and disc centrifuges. We will compare all the factors important to the end-user. These will include physical, operational, performance, and maintenance factors between these centrifuge types.</p>
+  </div>
+
+  <!-- Overview Section -->
+  <div id="overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Overview of Decanter and Disc Centrifuge Operation</h2>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Decanter Centrifuge</h3>
+    <div class="mb-6">
+      <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/decanter-bowl-scroll-rotation-400.webp" alt="Decanter bowl cross section showing conveyor scroll rotation inside the horizontal bowl" width="400" height="163" loading="lazy" class="rounded-lg mb-2 w-full max-w-lg" />
+      <p class="text-sm text-gray-500 italic mb-4">Decanter Bowl Cross Section</p>
+      <p class="text-text leading-relaxed mb-4">A decanter centrifuge is an industrial machine designed to separate solids from liquids continuously. This process is also known as de-watering or sludge thickening.</p>
+      <p class="text-text leading-relaxed mb-4">Accelerated sedimentation is the key to the operation of all centrifuges. A decanter centrifuge <strong>exerts a force up to 4,000 times that of gravity</strong> to affect this settling. High-speed rotation is the cause of this force multiplier effect. This differential centrifugation is a widely used physical phenomenon.</p>
+      <p class="text-text leading-relaxed mb-4">As shown in the image above, the rapid rotation of the bowl causes a high centrifugal force in a radially outward direction, i.e., away from the rotating axis of the bowl. This force causes the denser solid particles to move towards the bowl wall (outward) while displacing the liquid inward.</p>
+      <p class="text-text leading-relaxed mb-4">The auger (also known as screw, scroll, or conveyor) rotates within the bowl at a speed different than that of the bowl. A planetary gearbox attached to the decanter bowl rotates the auger.</p>
+      <p class="text-text leading-relaxed mb-4">The auger scrapes or pushes the collected solids towards the tapered end of the decanter. Here the solids are pushed up the 'beach' and exit the bowl through the solids' discharge ports.</p>
+      <p class="text-text leading-relaxed mb-4">The path of the solids along the 'beach' is against the centrifugal force, which is directed radially outwards. This force causes the liquid to separate from the solids causing dry solids to exit the bowl.</p>
+      <p class="text-text leading-relaxed mb-4">The separated liquid(s) create a 'pond' inside the accumulated solids layer around the bowl periphery. Liquid discharge ports located at the far end of the bowl allow the separated liquids to exit the bowl.</p>
+      <p class="text-text leading-relaxed">A detailed writeup on decanter centrifuges is on our blog <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors underline">Decanter Centrifuge details, including uses, benefits, capacities, price-range, etc.</a></p>
+    </div>
+
+    <!-- NX416 Decanter Photo -->
+    <div class="my-6">
+      <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/alfa-laval-decanter-centrifuge-NX416-op6dx368c3ttxix1m81x56xt7zl05q59p69e4347ts.webp" alt="Alfa Laval NX416 decanter centrifuge used in industrial separation applications" width="400" height="400" loading="lazy" class="rounded-lg w-full max-w-md" />
+      <p class="text-sm text-gray-500 italic mt-1">Decanter Centrifuge</p>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Disc Centrifuge</h3>
+    <div>
+      <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp" alt="Alfa Laval disc stack centrifuge bowl cross section showing internal components and separation zones" width="400" height="222" loading="lazy" class="rounded-lg mb-2 w-full max-w-lg" />
+      <p class="text-sm text-gray-500 italic mb-4">Alfa Laval Disc Stack Centrifuge Bowl Section</p>
+      <p class="text-text leading-relaxed mb-4">Similar to the decanter centrifuge described above, a disc centrifuge is an industrial fluid separating machine. It is designed to separate liquids from solids and liquids from liquid continuously.</p>
+      <p class="text-text leading-relaxed mb-4">A disc or disk centrifuge is also known as a conical plate, cone, disc bowl centrifuge. You can read more about disc centrifuges on <a href="https://en.wikipedia.org/wiki/Conical_plate_centrifuge" target="_blank" rel="noopener noreferrer" class="text-navy font-semibold hover:text-gold transition-colors underline">Wikipedia</a>.</p>
+      <p class="text-text leading-relaxed mb-4">Fast rotation of the disc centrifuge bowl generates very high centrifugal forces within the centrifuge bowl. These high centrifugal forces cause differential settling of the different liquid phases within the process fluid. A disc centrifuge can generate up to <strong>10,000 times the force of gravity.</strong></p>
+      <p class="text-text leading-relaxed mb-4">The disc centrifuge bowl cross-section shown above helps explain the operation of this type of centrifugal separator.</p>
+      <p class="text-text leading-relaxed mb-4">The bowl rotation causes a centrifugal force to act on the liquids and solids inside the bowl. This force acts in the horizontal direction away from the bowl axis of rotation.</p>
+
+      <!-- FAQ Callout -->
+      <div class="bg-gold/10 border border-gold/30 rounded-lg p-4 my-6">
+        <p class="text-text font-semibold italic">Read our <a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition-colors underline">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></p>
+      </div>
+
+      <p class="text-text leading-relaxed mb-4">As in the case of the decanter above, the solids are pushed towards the bowl wall. The lighter liquid phases are displaced inwards towards the center of the bowl. If two immiscible liquids are present, the denser liquid settles towards the solids replacing the lighter fluid towards the bowl center.</p>
+      <p class="text-text leading-relaxed mb-4">A disc centrifuge bowl has separate liquid discharge passages built into the bowl. The separated liquid phases flow through these passages to exit the centrifuge. This separation of liquids is a continuous process while the centrifuge is operating.</p>
+      <p class="text-text leading-relaxed mb-4">Self-cleaning disc centrifuges incorporate a moving part in the bowl bottom. A hydraulic mechanism causes this 'sliding piston' to move vertically. The downward movement of the sliding piston opens ports around the bowl periphery.</p>
+      <p class="text-text leading-relaxed mb-4">The high centrifugal force causes the accumulated solids to eject out through these ports. This solids ejection constitutes the sludge-ejection part of the self-cleaning bowl. One should note that the process of sludge ejection occurs while the bowl is rotating at operating speed.</p>
+      <p class="text-text leading-relaxed">A <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors underline">PLC-based control system</a> triggers the sludge ejection process at predetermined time intervals.</p>
+    </div>
+  </div>
+
+  <!-- Physical Characteristics -->
+  <div id="physical" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Comparison of Decanter and Disc Centrifuges</h2>
+    <p class="text-text leading-relaxed mb-6">In the following sections, we will compare the features, capabilities, and operating considerations of the decanter and disk centrifuges. We have summarized the factors in tables in each section below. This comparison should help the user select the right centrifuge, given the user's intended use and operating conditions.</p>
+    <h3 class="text-xl font-bold text-navy mb-4">Physical Characteristics</h3>
+    <p class="text-text leading-relaxed mb-6">The basic physical characteristics of each centrifuge type give the user an idea of the overall sizing, weight, layout, etc. This should help envision the centrifuge in an existing plant layout or to plan a new application setup.</p>
+
+    <h4 class="text-lg font-bold text-navy mb-3">Orientation</h4>
+    <p class="text-text leading-relaxed mb-4">There is a primary difference between the orientation of the decanter and the disc centrifuge. The orientation of the centrifuge influences the inlet &amp; outlet connection locations as well as the footprint of the system.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Decanter Centrifuge Orientation</h5>
+        <p class="text-text text-sm leading-relaxed">Decanter centrifuges are also known as <strong>horizontal centrifuges</strong>. The bowl of the decanter centrifuge rotates around a horizontal axis. The inlet-outlet on the centrifuge is, therefore, at either end of this rotating assembly. The horizontal orientation is the reason for decanters to have a long footprint and comparatively short vertical dimension or height.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Disc Centrifuge Orientation</h5>
+        <p class="text-text text-sm leading-relaxed">Disc centrifuges are also known as <strong>vertical centrifuges</strong>. The bowl of the disc centrifuge rotates around a vertical axis. The inlet-outlet from and to the centrifuge is located at the top of the disc centrifuges. The vertical orientation is the reason for disc centrifuges to have a relatively smaller footprint compared to a decanter centrifuge of similar capacity.</p>
       </div>
     </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+    <h4 class="text-lg font-bold text-navy mb-3">Centrifuge Dimensions and Weights</h4>
+    <p class="text-text leading-relaxed mb-4">It is important to note that the sizes and weights mentioned below are rough estimates and could vary considerably based on the manufacture, vintage, and accessories (if any) attached to the centrifuge.</p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies both decanter centrifuges (NX-314, NX-418, G2-40 series — up to 4,000 Gs for high-solids applications) and disc stack centrifuges (DMPX series — 7,000+ Gs for liquid-liquid and fine solids separation). Selection depends on solids concentration, particle size, and required separation quality. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in both centrifuge technologies.</p>
-      </div>
-      <!-- 30-Second Take-Away -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-4">30-Second Take-Away</h2>
-        <p class="text-text leading-relaxed mb-4">The main differences between a decanter and disc-stack centrifuge are:</p>
-        <ul class="space-y-3 mb-4">
-          <li class="flex gap-3">
-            <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
-            <span class="text-text leading-relaxed">A decanter centrifuge's axis of rotation is <strong>horizontal</strong>, whereas a disc-stack centrifuge bowl rotates around a <strong>vertical axis</strong>.</span>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
-            <span class="text-text leading-relaxed">Decanter centrifuges typically exert around <strong>3,000 Gs</strong> compared to <strong>8,000+ Gs</strong> generated by a disc-stack centrifuge.</span>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
-            <span class="text-text leading-relaxed">Sludge handling capacity is much higher for a decanter centrifuge compared to a disc-stack centrifuge. A decanter centrifuge can handle <strong>up to 50% sludge</strong>, while a disc-stack centrifuge is limited to <strong>8% sludge</strong> by volume.</span>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-gold font-bold shrink-0 mt-0.5">•</span>
-            <span class="text-text leading-relaxed">With a higher G-force, a disc-stack centrifuge can separate particles down to a <strong>0.5-micron level</strong>. A decanter centrifuge typically separates particles <strong>100 microns or larger</strong>.</span>
-          </li>
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Decanter Centrifuges – Dimensions &amp; Weights</h5>
+        <p class="text-text text-sm leading-relaxed mb-2">Due to their horizontal orientation, decanter centrifuges tend to have one long dimension and relatively shorter height.</p>
+        <ul class="text-text text-sm space-y-1">
+          <li>• Small (~5 GPM): 5' (L) × 2' (W) × 3' (H) — ~800 lbs</li>
+          <li>• Large (~1,000 GPM): 18' (L) × 8' (W) × 6' (H) — over 20,000 lbs</li>
         </ul>
-        <p class="text-text leading-relaxed">This article compares the different technical aspects of decanter centrifuges and disc centrifuges. We will compare all the factors important to the end-user. These will include physical, operational, performance, and maintenance factors between these centrifuge types.</p>
       </div>
-
-      <!-- Table of Contents -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
-        <h2 class="text-lg font-bold text-navy mb-3">Table of Contents</h2>
-        <ol class="space-y-1 text-sm">
-          <li><a href="#overview" class="text-navy hover:text-gold transition-colors">1. Overview of Decanter and Disc Centrifuge Operation</a></li>
-          <li><a href="#physical" class="text-navy hover:text-gold transition-colors">2. Physical Characteristics (Orientation, Dimensions, Power, MOC)</a></li>
-          <li><a href="#separation" class="text-navy hover:text-gold transition-colors">3. Separation Features and Capabilities</a></li>
-          <li><a href="#operating" class="text-navy hover:text-gold transition-colors">4. Operating Considerations (Solids Discharge, Design, Controls)</a></li>
-          <li><a href="#maintenance" class="text-navy hover:text-gold transition-colors">5. Operation and Maintenance Factors</a></li>
-          <li><a href="#summary" class="text-navy hover:text-gold transition-colors">6. Summary</a></li>
-        </ol>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Disc Centrifuges – Dimensions &amp; Weights</h5>
+        <p class="text-text text-sm leading-relaxed mb-2">Due to their vertical orientation, disc centrifuges tend to have a smaller footprint with a taller dimensional profile.</p>
+        <ul class="text-text text-sm space-y-1">
+          <li>• Small (~5 GPM): 3' (L) × 3' (W) × 5' (H) — ~1,000 lbs</li>
+          <li>• Large (~300 GPM): 6' (L) × 5' (W) × 8' (H) — over 4,000 lbs</li>
+        </ul>
       </div>
-
-      <!-- Overview Section -->
-      <div id="overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-6">Overview of Decanter and Disc Centrifuge Operation</h2>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Decanter Centrifuge</h3>
-        <div class="mb-6">
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/decanter-bowl-scroll-rotation-400.webp" alt="Decanter bowl cross section showing conveyor scroll rotation inside the horizontal bowl" width="400" height="163" loading="lazy" class="rounded-lg mb-2 w-full max-w-lg" />
-          <p class="text-sm text-gray-500 italic mb-4">Decanter Bowl Cross Section</p>
-          <p class="text-text leading-relaxed mb-4">A decanter centrifuge is an industrial machine designed to separate solids from liquids continuously. This process is also known as de-watering or sludge thickening.</p>
-          <p class="text-text leading-relaxed mb-4">Accelerated sedimentation is the key to the operation of all centrifuges. A decanter centrifuge <strong>exerts a force up to 4,000 times that of gravity</strong> to affect this settling. High-speed rotation is the cause of this force multiplier effect. This differential centrifugation is a widely used physical phenomenon.</p>
-          <p class="text-text leading-relaxed mb-4">As shown in the image above, the rapid rotation of the bowl causes a high centrifugal force in a radially outward direction, i.e., away from the rotating axis of the bowl. This force causes the denser solid particles to move towards the bowl wall (outward) while displacing the liquid inward.</p>
-          <p class="text-text leading-relaxed mb-4">The auger (also known as screw, scroll, or conveyor) rotates within the bowl at a speed different than that of the bowl. A planetary gearbox attached to the decanter bowl rotates the auger.</p>
-          <p class="text-text leading-relaxed mb-4">The auger scrapes or pushes the collected solids towards the tapered end of the decanter. Here the solids are pushed up the 'beach' and exit the bowl through the solids' discharge ports.</p>
-          <p class="text-text leading-relaxed mb-4">The path of the solids along the 'beach' is against the centrifugal force, which is directed radially outwards. This force causes the liquid to separate from the solids causing dry solids to exit the bowl.</p>
-          <p class="text-text leading-relaxed mb-4">The separated liquid(s) create a 'pond' inside the accumulated solids layer around the bowl periphery. Liquid discharge ports located at the far end of the bowl allow the separated liquids to exit the bowl.</p>
-          <p class="text-text leading-relaxed">A detailed writeup on decanter centrifuges is on our blog <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors underline">Decanter Centrifuge details, including uses, benefits, capacities, price-range, etc.</a></p>
-        </div>
-
-        <!-- NX416 Decanter Photo -->
-        <div class="my-6">
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/alfa-laval-decanter-centrifuge-NX416-op6dx368c3ttxix1m81x56xt7zl05q59p69e4347ts.webp" alt="Alfa Laval NX416 decanter centrifuge used in industrial separation applications" width="400" height="400" loading="lazy" class="rounded-lg w-full max-w-md" />
-          <p class="text-sm text-gray-500 italic mt-1">Decanter Centrifuge</p>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Disc Centrifuge</h3>
-        <div>
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp" alt="Alfa Laval disc stack centrifuge bowl cross section showing internal components and separation zones" width="400" height="222" loading="lazy" class="rounded-lg mb-2 w-full max-w-lg" />
-          <p class="text-sm text-gray-500 italic mb-4">Alfa Laval Disc Stack Centrifuge Bowl Section</p>
-          <p class="text-text leading-relaxed mb-4">Similar to the decanter centrifuge described above, a disc centrifuge is an industrial fluid separating machine. It is designed to separate liquids from solids and liquids from liquid continuously.</p>
-          <p class="text-text leading-relaxed mb-4">A disc or disk centrifuge is also known as a conical plate, cone, disc bowl centrifuge. You can read more about disc centrifuges on <a href="https://en.wikipedia.org/wiki/Conical_plate_centrifuge" target="_blank" rel="noopener noreferrer" class="text-navy font-semibold hover:text-gold transition-colors underline">Wikipedia</a>.</p>
-          <p class="text-text leading-relaxed mb-4">Fast rotation of the disc centrifuge bowl generates very high centrifugal forces within the centrifuge bowl. These high centrifugal forces cause differential settling of the different liquid phases within the process fluid. A disc centrifuge can generate up to <strong>10,000 times the force of gravity.</strong></p>
-          <p class="text-text leading-relaxed mb-4">The disc centrifuge bowl cross-section shown above helps explain the operation of this type of centrifugal separator.</p>
-          <p class="text-text leading-relaxed mb-4">The bowl rotation causes a centrifugal force to act on the liquids and solids inside the bowl. This force acts in the horizontal direction away from the bowl axis of rotation.</p>
-
-          <!-- FAQ Callout -->
-          <div class="bg-gold/10 border border-gold/30 rounded-lg p-4 my-6">
-            <p class="text-text font-semibold italic">Read our <a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition-colors underline">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></p>
-          </div>
-
-          <p class="text-text leading-relaxed mb-4">As in the case of the decanter above, the solids are pushed towards the bowl wall. The lighter liquid phases are displaced inwards towards the center of the bowl. If two immiscible liquids are present, the denser liquid settles towards the solids replacing the lighter fluid towards the bowl center.</p>
-          <p class="text-text leading-relaxed mb-4">A disc centrifuge bowl has separate liquid discharge passages built into the bowl. The separated liquid phases flow through these passages to exit the centrifuge. This separation of liquids is a continuous process while the centrifuge is operating.</p>
-          <p class="text-text leading-relaxed mb-4">Self-cleaning disc centrifuges incorporate a moving part in the bowl bottom. A hydraulic mechanism causes this 'sliding piston' to move vertically. The downward movement of the sliding piston opens ports around the bowl periphery.</p>
-          <p class="text-text leading-relaxed mb-4">The high centrifugal force causes the accumulated solids to eject out through these ports. This solids ejection constitutes the sludge-ejection part of the self-cleaning bowl. One should note that the process of sludge ejection occurs while the bowl is rotating at operating speed.</p>
-          <p class="text-text leading-relaxed">A <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors underline">PLC-based control system</a> triggers the sludge ejection process at predetermined time intervals.</p>
-        </div>
-      </div>
-
-      <!-- Physical Characteristics -->
-      <div id="physical" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-4">Comparison of Decanter and Disc Centrifuges</h2>
-        <p class="text-text leading-relaxed mb-6">In the following sections, we will compare the features, capabilities, and operating considerations of the decanter and disk centrifuges. We have summarized the factors in tables in each section below. This comparison should help the user select the right centrifuge, given the user's intended use and operating conditions.</p>
-        <h3 class="text-xl font-bold text-navy mb-4">Physical Characteristics</h3>
-        <p class="text-text leading-relaxed mb-6">The basic physical characteristics of each centrifuge type give the user an idea of the overall sizing, weight, layout, etc. This should help envision the centrifuge in an existing plant layout or to plan a new application setup.</p>
-
-        <h4 class="text-lg font-bold text-navy mb-3">Orientation</h4>
-        <p class="text-text leading-relaxed mb-4">There is a primary difference between the orientation of the decanter and the disc centrifuge. The orientation of the centrifuge influences the inlet &amp; outlet connection locations as well as the footprint of the system.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Decanter Centrifuge Orientation</h5>
-            <p class="text-text text-sm leading-relaxed">Decanter centrifuges are also known as <strong>horizontal centrifuges</strong>. The bowl of the decanter centrifuge rotates around a horizontal axis. The inlet-outlet on the centrifuge is, therefore, at either end of this rotating assembly. The horizontal orientation is the reason for decanters to have a long footprint and comparatively short vertical dimension or height.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Disc Centrifuge Orientation</h5>
-            <p class="text-text text-sm leading-relaxed">Disc centrifuges are also known as <strong>vertical centrifuges</strong>. The bowl of the disc centrifuge rotates around a vertical axis. The inlet-outlet from and to the centrifuge is located at the top of the disc centrifuges. The vertical orientation is the reason for disc centrifuges to have a relatively smaller footprint compared to a decanter centrifuge of similar capacity.</p>
-          </div>
-        </div>
-
-        <h4 class="text-lg font-bold text-navy mb-3">Centrifuge Dimensions and Weights</h4>
-        <p class="text-text leading-relaxed mb-4">It is important to note that the sizes and weights mentioned below are rough estimates and could vary considerably based on the manufacture, vintage, and accessories (if any) attached to the centrifuge.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Decanter Centrifuges – Dimensions &amp; Weights</h5>
-            <p class="text-text text-sm leading-relaxed mb-2">Due to their horizontal orientation, decanter centrifuges tend to have one long dimension and relatively shorter height.</p>
-            <ul class="text-text text-sm space-y-1">
-              <li>• Small (~5 GPM): 5' (L) × 2' (W) × 3' (H) — ~800 lbs</li>
-              <li>• Large (~1,000 GPM): 18' (L) × 8' (W) × 6' (H) — over 20,000 lbs</li>
-            </ul>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Disc Centrifuges – Dimensions &amp; Weights</h5>
-            <p class="text-text text-sm leading-relaxed mb-2">Due to their vertical orientation, disc centrifuges tend to have a smaller footprint with a taller dimensional profile.</p>
-            <ul class="text-text text-sm space-y-1">
-              <li>• Small (~5 GPM): 3' (L) × 3' (W) × 5' (H) — ~1,000 lbs</li>
-              <li>• Large (~300 GPM): 6' (L) × 5' (W) × 8' (H) — over 4,000 lbs</li>
-            </ul>
-          </div>
-        </div>
-
-        <h4 class="text-lg font-bold text-navy mb-3">Centrifuge Power Ratings</h4>
-        <p class="text-text leading-relaxed mb-4">Power ratings for centrifuges are based on the drive motor horsepower of the machine. Accessories such as inline electric heaters can add additional power load, often more than the centrifuge motor. For this comparison, we compare the main motor power between the two types of centrifuges.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Decanter Centrifuge Power</h5>
-            <p class="text-text text-sm leading-relaxed">The smallest decanter centrifuge operates on a 10 HP motor. Large capacity decanters (municipal wastewater) are driven by motors rated over 500 HP. Like most industrial systems, these operate on 460 V, 3-phase power.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">Disc Centrifuge Power</h5>
-            <p class="text-text text-sm leading-relaxed mb-2">Disc centrifuges have smaller processing capacities as compared to the smallest decanter centrifuges. The smallest disc centrifuge (~2 GPM) has a 1.5 HP motor drive. Disc bowl centrifuges also operate on 460 V, 3-phase power.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">For customer-specific needs, small disc centrifuges can be modified to be driven by low-voltage, single-phase motors. This adaptation requires centrifuge frame modifications.</p>
-            <p class="text-text text-sm leading-relaxed">Small decanters cannot be modified to operate on single-phase power.</p>
-          </div>
-        </div>
-
-        <h4 class="text-lg font-bold text-navy mb-3">Material of Construction (MOC)</h4>
-        <p class="text-text leading-relaxed mb-4">The material of the centrifuge bowl is of primary concern to centrifuge users. The frame components are mostly made of cast iron or a carbon steel welded frame. The bowl parts are the ones in contact with the process fluid and are therefore of interest.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">MOC of Decanter Centrifuges</h5>
-            <p class="text-text text-sm leading-relaxed">Decanter centrifuges manufactured by reputed companies almost always have stainless steel bowls — typically 316L duplex stainless steel. The scroll (auger) is also made of 316L stainless steel. However, scroll flights are spray-coated with tungsten carbide hard-surfacing for erosion protection. Sludge discharge nozzles and other areas subject to wear have stellite or similar erosion resisting inserts installed.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h5 class="font-bold text-navy mb-2">MOC of Disc Centrifuges</h5>
-            <p class="text-text text-sm leading-relaxed mb-2">Self-cleaning disc centrifuges also have 316L stainless steel as the main bowl material. The user needs to be aware that not all stainless steel is the same.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">Some centrifuges have known instances of having bowls referred to as stainless steel, which could be technically correct. However, low-grade stainless steels are not suitable for centrifuges and corrode easily in use.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">Disc centrifuges are also equipped with liners to protect the bowl parts, which are likely to erode. Replaceable bowl liners help protect high wear areas of the bowls.</p>
-            <p class="text-text text-sm leading-relaxed">Marine-grade centrifuges also have some bowl parts made of 'red metal', a copper alloy with a significant amount of tin to ensure durability.</p>
-          </div>
-        </div>
-
-        <!-- Physical Characteristics Summary Table -->
-        <p class="text-text leading-relaxed mb-4">The following table summarizes all the above-mentioned characteristics.</p>
-        <h4 class="text-lg font-bold text-navy mb-3">Summary of Physical Characteristics</h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left p-3 font-bold rounded-tl-lg">Physical Characteristic</th>
-                <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
-                <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Axis of Rotation</td>
-                <td class="p-3 text-text">Horizontal</td>
-                <td class="p-3 text-text">Vertical</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Footprint (Size)</td>
-                <td class="p-3 text-text">4′ × 2′ × 4′ (H) (Small 5 GPM) to 20′ × 5′ × 15′ (H) (1000 GPM Municipal)</td>
-                <td class="p-3 text-text">2′ × 2′ × 2′ (Small Diesel Unit) to 40′ Shipping Containers (multi-unit skids)</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Drive Power</td>
-                <td class="p-3 text-text">5 HP (small 5 GPM) to 500+ HP (large municipal)</td>
-                <td class="p-3 text-text">1 HP (small unit) to 100 HP (large disc centrifuge)</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Material of Construction</td>
-                <td class="p-3 text-text">Frame: Cast Iron. Bowls: Stainless Steel with erosion protection of wear parts</td>
-                <td class="p-3 text-text">Frame: Cast Iron. Bowls: Stainless Steel with some non-ferrous parts</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Separation Features -->
-      <div id="separation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-6">Separation Features and Capabilities</h2>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Particle Separation Efficiency</h3>
-        <p class="text-text leading-relaxed mb-4">Particle separation efficiency is defined as the minimum particle size a centrifuge can separate under normal operating conditions. Of course, this efficiency changes with the residence time of the fluid inside the bowl. Higher residence time (i.e., lower flow rate) will lead to the separation of smaller particles. Lower fluid viscosity also will have a similar effect.</p>
-
-        <div class="my-6">
-          <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/decanter-disc-centrifuge-particle-size-efficiency-300x231-1.webp" alt="Decanter and disc centrifuge particle size efficiency comparison chart showing separation range differences" width="300" height="231" loading="lazy" class="rounded-lg" />
-          <p class="text-sm text-gray-500 italic mt-1">Decanter and Disc Centrifuge Particle Size Efficiency</p>
-        </div>
-
-        <p class="text-text leading-relaxed mb-6">For this comparison, we will assume that all external factors are equal.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter – Particle Separation Efficiency</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">Particle separation efficiency for a decanter centrifuge is in the range of <strong>50 microns and above</strong>. This particle size is an approximate range suggested by the OEM. However, based on our field experience, the actual particle size separated by decanters seems to be in the <strong>100+ micron range</strong>.</p>
-            <p class="text-text text-sm leading-relaxed">The largest particle size separated by the decanter is defined by the size of the internal fluid pathways and sludge ejection ports. The maximum particle size for the decanters is approximately <strong>12 mm (½")</strong>.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge – Particle Separation Efficiency</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge can separate metal particles down to a <strong>0.5-micron level</strong> and organic and inorganic particles down to a <strong>1-micron level</strong> based on OEM data. These separations are dependent on the fluid being processed, specifically the viscosity of the process fluid.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">The largest particle size separated by a disc centrifuge is defined by the spacing between the conical plates (disk stack) in the centrifuge bowl. The solid particles pass through these discs, and therefore the particle size cannot be larger than the inter-disc spacing.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">The <strong>particle limit recommended for the disc-stack centrifuge is around 250 microns.</strong> The typical inter-disc spacing is 500 microns in a disc centrifuge bowl.</p>
-            <p class="text-text text-sm leading-relaxed">Particles larger than the inter-disc spacing or close to the inter-disc spacing can cause the conical discs to be plugged with solids and make the centrifuge ineffective.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Feed Solids Concentration</h3>
-        <p class="text-text leading-relaxed mb-4">Feed solids concentration refers to the amount of solids present in the incoming fluid feed. Different centrifuge types have varying abilities to handle solids loading. Solids concentrations allowable in the centrifuge feed are defined by the sludge ejection mechanism used in the centrifuge. Higher solids concentration requires a continuous sludge ejection mechanism, while intermittent ejections can handle smaller solids concentrations.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter – Allowable Feed Solids</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">The decanter centrifuge has the auger pushing out the separated solids continuously through the sludge ports. This continuous evacuation of solids allows for the handling of high levels of solids concentration in the feed.</p>
-            <p class="text-text text-sm leading-relaxed mb-2"><strong>A decanter centrifuge can handle up to 50% solids concentration by volume.</strong> Other considerations that affect this limit include the type and density of solids. Denser, heavier solids create a higher resistance to the auger pushing the solids.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">This resistance, in turn, causes higher torque on the gearbox, which has a defined torque limit. This means that the heavier solids should be at a lower concentration than lighter solids to prevent damaging the gearbox.</p>
-            <p class="text-text text-sm leading-relaxed italic">For example, a decanter may handle up to 50% concentration of light solids but not more than 15% concentration of very heavy solids.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge – Allowable Feed Solids Concentration</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge bowl has a pre-defined sludge holding space. Once this space gets filled up with separated solids, the sludge needs to be discharged. The separated solids are ejected intermittently by operating the sludge discharge mechanism.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">The fixed sludge space and intermittent nature of the discharge imply that higher solids concentration leads to frequent sludge discharge cycles.</p>
-            <p class="text-text text-sm leading-relaxed mb-1">Each sludge discharge cycle is accompanied by:</p>
-            <ul class="text-text text-sm space-y-1 mb-2 ml-4">
-              <li>&#8226; A surge in the drive motor current.</li>
-              <li>&#8226; Some process liquid loss (depending on the type of centrifuge).</li>
-              <li>&#8226; Minute wear on the sealing gaskets in the bowl.</li>
-            </ul>
-            <p class="text-text text-sm leading-relaxed mb-2">Based on the above factors, it is advisable to minimize the frequency of the sludge discharge cycles, limiting the allowable solids concentration. <strong>The maximum solids concentration allowable in a disc centrifuge is around 5% by volume in real terms.</strong></p>
-            <p class="text-text text-sm leading-relaxed">If the anticipated concentration of solids is slightly higher, a larger capacity centrifuge may be better suited. A larger capacity centrifuge bowl has a larger sludge holding capacity, which reduces the sludge discharge frequency.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Phase Separation Capabilities</h3>
-
-        <div class="space-y-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Liquid-Liquid Separation Applications</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">Phases are the different constituents of the process fluid. For example, fluid in a diesel storage tank has 3-phases: diesel fuel (liquid phase), water (liquid phase), and sludge (solid phase).</p>
-            <p class="text-text text-sm leading-relaxed mb-2">In the case of liquid-liquid separation, a disc centrifuge is recommended. This recommendation is because a disc centrifuge generates a much higher g-force (than a decanter), essential for liquid-liquid separation.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">If the liquids have very similar specific gravities, the disc centrifuge can magnify this specific gravity differential to affect good separation.</p>
-            <p class="text-text text-sm leading-relaxed">A decanter centrifuge has limited applicability in liquid-liquid separation due to its lower centrifugal force. Especially if there are no solids or minimal solids, a disc centrifuge would be the obvious choice.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Liquid-Solid Separation Applications</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">In cases involving the separation of liquids and solids, centrifuge choice depends on the solids' concentration and particle size.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">A high solids concentration (over 10%) rules out the standard 'self-cleaning' disc centrifuge, as explained above. In such cases, a decanter centrifuge is an obvious choice. Decanter centrifuges are often the only solution for high solids concentration fluids such as oil sludge.</p>
-            <p class="text-text text-sm leading-relaxed">However, if the solids concentration is within the disc centrifuge's allowable limits, the disc centrifuge would be recommended. This suggestion is due to the disc centrifuge's better separation efficiency, which will produce a much clearer centrate than a decanter centrifuge.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Liquid-Liquid-Solid Separation Applications</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">The separation of contaminated diesel fuel is an example of a liquid-liquid-solid application. Typically, the solids concentration is low in this application, and water could be as high as 50%. Since the disc centrifuge discharges the separated water continuously, high water levels do not impede a disc centrifuge.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">In cases where the process fluid has a high level of solids, a 3-phase decanter (also known as a tricanter) is recommended. The tricanter is a decanter centrifuge with the addition of an additional liquid phase outlet.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">As explained above, the tricanter has a lower centrifugal force leading to a lower liquid-liquid separation ability. The lower centrifugal force also allows smaller (&lt; 100-micron level) particles to pass through the tricanter.</p>
-            <p class="text-text text-sm leading-relaxed">Therefore, it follows that in an ideal setup, a downstream disc centrifuge processes the centrate from the tricanter. The disc centrifuge separates the finer particles and clarifies the tricanter effluent under the higher g-force.</p>
-          </div>
-        </div>
-
-        <!-- Separation Capabilities Summary Table -->
-        <p class="text-text leading-relaxed mb-4">The following table summarizes all the factors mentioned earlier.</p>
-        <h4 class="text-lg font-bold text-navy mb-3">Summary of Separation Capabilities and Features</h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left p-3 font-bold rounded-tl-lg">Separation Capability</th>
-                <th class="text-left p-3 font-bold">Decanter</th>
-                <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Particle Separation Efficiency</td>
-                <td class="p-3 text-text">From 50 µ to 10+ mm</td>
-                <td class="p-3 text-text">From &lt;0.5 µ to 1 mm</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Feed Solids Concentration</td>
-                <td class="p-3 text-text">Up to 50% (v/v)</td>
-                <td class="p-3 text-text">Not &gt; 8% (v/v)</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Liquid-Liquid Separation</td>
-                <td class="p-3 text-text">Somewhat Effective</td>
-                <td class="p-3 text-text">Highly Effective</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Liquid-Solid Separation</td>
-                <td class="p-3 text-text">Effective for Bulk Solids</td>
-                <td class="p-3 text-text">Effective for Small Particles</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Centrifugal Force (RCF)</td>
-                <td class="p-3 text-text">2,500 Gs to 4,000 Gs</td>
-                <td class="p-3 text-text">7,000 Gs to 10,000+ Gs</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Operating Considerations -->
-      <div id="operating" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-6">Operating Considerations</h2>
-        <p class="text-text leading-relaxed mb-6">Prospective users of centrifuges will want to consider the following operating factors for each type of centrifuge. These factors play an essential role in further differentiating the decanter centrifuge from the disc centrifuge.</p>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Separated Solids Discharge Mode</h3>
-        <p class="text-text leading-relaxed mb-4">The solids discharge mode is the method by which a centrifuge ejects or discharges the separated solids. It is an essential consideration because it affects the process layout upstream and downstream of the centrifuge. Therefore it should be considered before finalizing the centrifuge and its placement in the overall process flow.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Solids Discharge</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">One of the main advantages of the decanter centrifuge is the ability to eject the separated solids <strong>continuously</strong>. The scroll (auger) scrapes and pushes the solids towards and out through the solids' discharge ports.</p>
-            <p class="text-text text-sm leading-relaxed">This specific feature allows installing the decanter centrifuge in the primary process loop in series with upstream and downstream equipment. Of course, it is always advisable to have a redundant (backup) unit in a parallel circuit to avoid process disruptions in machine breakdown or maintenance.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge Solids Discharge</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">A self-cleaning disc centrifuge has an <strong>intermittent solids discharge</strong> characteristic. This type of disc centrifuge accumulates the solids and periodically discharges them based on a programmable timer. The operator sets the sludge discharge time interval based on the incoming fluid solids concentration and bowl sludge capacity.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">It is important to note that many self-cleaning disc centrifuges cannot process fluid during this sludge discharge cycle. Process flow needs to be interrupted during this period.</p>
-            <p class="text-text text-sm leading-relaxed">Therefore a disc centrifuge of this type (self-cleaning) cannot be installed in the primary process flow loop. It should be installed in a 'kidney loop' configuration or with pre and post centrifuge surge tanks to accommodate for the loss of flow during the discharge cycle.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Design Complexity</h3>
-        <p class="text-text leading-relaxed mb-4">The basic design of the centrifuges involves several rotating parts. There are some intricacies involved in constructing these centrifuges, which are essential to their functioning. These design characteristics also add to the respective mechanical complexity of the machines.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Design Complexity</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">A decanter centrifuge has a more straightforward construction compared to the disc centrifuge. It is essentially a rotating drum with an internal rotating auger with relatively fewer parts and no moving interfaces between these parts.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">The most complicated part of a decanter centrifuge is the planetary gearbox. Most of these gearboxes are 2-stage with sets of planetary gears on rotating hubs.</p>
-            <p class="text-text text-sm leading-relaxed">The more straightforward design of decanter centrifuges leads to more accessible and quicker service. It also means fewer replacement parts compared to disc centrifuges.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge Design Complexity</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">The 'self-cleaning' disc centrifuges have an added internal system that facilitates the sludge discharge process. This system is a hydraulic mechanism that uses water to operate the movement of the sliding piston shown in the section above.</p>
-            <p class="text-text text-sm leading-relaxed">This additional mechanism, which is not present in decanter centrifuges, adds a certain degree of complexity to the disc centrifuge. It also means that the bowl has extra serviceable parts.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Control Systems</h3>
-        <p class="text-text leading-relaxed mb-4"><a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors underline">Centrifuge control systems</a> are essential for the reliable and efficient operation of centrifuges. Centrifuge design characteristics define these control systems. Some control features are application-specific and are applicable across different centrifuge types.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Control System</h4>
-            <p class="text-text text-sm leading-relaxed">Basic controls for decanter centrifuges involve motor control and monitoring of field sensors. These are relatively simple controls without the need for a logic controller (PLCs). The essential operation of the decanter centrifuge is a simple sequence of motors. Some additional control logic may be added based on instrument and sensor feedback to prevent malfunction or system overload.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge Control Systems</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge control system is slightly more sophisticated as compared to the decanter control system. As previously mentioned, the disc centrifuge has an additional sub-system for sludge ejection. This system requires an extra water manifold to operate the hydraulically operated piston.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">There is a sequence of operations associated with the sludge ejection system. A programmable controller (PLC) is the best option to operate this system.</p>
-            <p class="text-text text-sm leading-relaxed">Other functional and alarm systems, similar to the ones for the decanter centrifuge, are also incorporated into the disc centrifuge control system.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Auxiliary Systems</h3>
-        <p class="text-text leading-relaxed mb-4">The addition of auxiliary systems enhances centrifuge performance. Such add-on systems include fluid heaters, filters, heat exchangers, etc. However, the operation of centrifuges requires some auxiliary systems. In this section, we discuss these 'required' systems briefly.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Auxiliary Systems for Decanter Centrifuges</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">Some decanter centrifuges need auxiliary systems for regular operation. These systems are essential for operating the centrifuge. These systems include hydraulic packs for decanter centrifuge back-drive control. Additionally, they need a lubrication system for decanter centrifuge bearings and an electric motor for auger speed control.</p>
-            <p class="text-text text-sm leading-relaxed">However, depending on the design, one can operate some decanter centrifuges without any auxiliary systems. In such cases, the bearings are grease lubricated, and the back-drive is 'locked' to give a fixed differential speed.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Auxiliary Systems for Disc Centrifuges</h4>
-            <p class="text-text text-sm leading-relaxed">A disc centrifuge (self-cleaning type) requires a hydraulic system to operate the sludge ejection mechanism. A disc centrifuge cannot function without the operating water system controlled by this auxiliary system. Other auxiliary systems such as alarm systems, temperature and pressure indicators, etc. are useful but not essential for the operation of the disc centrifuge.</p>
-          </div>
-        </div>
-
-        <!-- Operating Considerations Summary Table -->
-        <p class="text-text leading-relaxed mb-4">The following table summarizes all the factors mentioned above.</p>
-        <h4 class="text-lg font-bold text-navy mb-3">Summary of Operating Considerations</h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left p-3 font-bold rounded-tl-lg">Property</th>
-                <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
-                <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Solids Discharge / Ejection</td>
-                <td class="p-3 text-text">Continuous Mode</td>
-                <td class="p-3 text-text">Batch Mode (Self-Cleaning type)</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Design Complexity</td>
-                <td class="p-3 text-text">Less Complex, Simpler Construction</td>
-                <td class="p-3 text-text">More Complex, More Moving Parts</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Control System</td>
-                <td class="p-3 text-text">VFD Control for Main Drive Motors. Safety Devices Monitoring System.</td>
-                <td class="p-3 text-text">PLC Based Control System with Operating Sequence Logic.</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Auxiliary Systems Required</td>
-                <td class="p-3 text-text">Lubrication Pack and Hydraulic Unit for Backdrive Control (large units)</td>
-                <td class="p-3 text-text">Operating Water System (Self-Cleaning type)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Maintenance Factors -->
-      <div id="maintenance" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-6">Operation and Maintenance Factors</h2>
-        <p class="text-text leading-relaxed mb-6">The operation and maintenance (O&amp;M) of centrifuges is an essential factor in return on investment (ROI) considerations of these capital-intensive machines. Lifespan, durability, ease, frequency, and maintenance cost are key factors to be considered.</p>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Centrifuge Durability</h3>
-        <p class="text-text leading-relaxed mb-4">Centrifuge equipment durability is an essential factor to consider when choosing centrifuges. A comparison of centrifuges with other forms of separation equipment is common. These include filters, filter presses, screw presses, belt presses, etc. Durability is the useful lifespan of capital equipment combined with the need and frequency of maintenance.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Durability</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">Decanter centrifuges are possibly some of the most durable processing equipment available. Some of the well-known manufacturers (Alfa Laval, Sharples, and Westfalia) are globally popular primarily due to the durability of their machines.</p>
-            <p class="text-text text-sm leading-relaxed"><strong>It is not uncommon to find a functioning decanter centrifuge which is over 50 years old!</strong> Decanter centrifuges from these manufacturers are well known for their heavy-duty design and unusually long service lives.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge Durability</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">Although disc centrifuges are more sophisticated in their construction than decanter centrifuges, they are equally durable and long-lasting. Disc centrifuges manufactured by established brands are known for their durability.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">The durability of these machines is attributed to their design and material of construction. Amongst disc centrifuges, the older generation machines are even more durable than some of the newer versions. This durability is mainly due to the heavy-duty gear transmissions in the older disc centrifuges.</p>
-            <p class="text-text text-sm leading-relaxed">Users prefer gear-driven disc centrifuges despite their age. Their simple construction leads to a longer, dependable service life. In other words, they have a lesser number of parts compared to the newer disc centrifuges, which means less frequent breakdowns and longer up-time.</p>
-          </div>
-        </div>
-
-        <h3 class="text-xl font-bold text-navy mb-4">Maintenance Frequency and Expense</h3>
-        <p class="text-text leading-relaxed mb-4">As with all mechanical systems, periodic maintenance is another crucial factor to consider during the selection process. We have summarized the scope and related expenses for the centrifuges of interest. Maintenance frequency is dependent on the use of the equipment. We intend to provide a summary of recommended maintenance under normal operating conditions.</p>
-
-        <div class="grid sm:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Maintenance</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">The gearbox is one of the critical components of the decanter centrifuge. Preventative maintenance of the gearbox has an impact on trouble-free operation. Changing the oil is the best way to ensure the longevity of the gearbox and the equipment.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">Lubrication (greasing) of the bearing housings on the decanter is the other crucial preventative maintenance to be performed regularly.</p>
-            <p class="text-text text-sm leading-relaxed">Replacement of the seals, gaskets, and bearings is typically required once every few years (2–3 years), depending on the severity of service duty. The maintenance cost for decanters is relatively meager, given there are no consumable parts or media to be replaced frequently.</p>
-          </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h4 class="font-bold text-navy mb-2">Disc Centrifuge Maintenance</h4>
-            <p class="text-text text-sm leading-relaxed mb-2">One of the keys to maintaining a disc centrifuge, similar to the decanter centrifuge, is to keep the transmission gearbox lubricant clean. A disc centrifuge has a soft-metal bull gear that wears and releases fine metal particles in the oil.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">Changing the oil frequently ensures the longevity of the bearings. The recommended oil change frequency for many disc centrifuges is 1,000 operating hours after the first oil change.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">It is worth noting that it is easy to replace the oil than to change bearings more frequently than necessary.</p>
-            <p class="text-text text-sm leading-relaxed mb-2">For disc centrifuges, it is recommended to perform a bowl service (replace all seals) on a set schedule, depending on the type of centrifuge and the service application. This period could be as frequent as every other week for abrasive fluids, or once every few months for benign applications.</p>
-            <p class="text-text text-sm leading-relaxed">The cost of maintenance parts for disc centrifuge is low, considering the fluid volume processed between servicing. Also, there are no filter media to be replaced, which helps lower maintenance costs.</p>
-          </div>
-        </div>
-
-        <!-- O&M Summary Table -->
-        <p class="text-text leading-relaxed mb-4">The table below is a summary of all these factors to be considered.</p>
-        <h4 class="text-lg font-bold text-navy mb-3">Operation &amp; Maintenance Factors</h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-navy text-white">
-                <th class="text-left p-3 font-bold rounded-tl-lg">Factor</th>
-                <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
-                <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Durability</td>
-                <td class="p-3 text-text">Highly Durable with Regular PM. 50+ Years Service Life Common.</td>
-                <td class="p-3 text-text">Very Durable with Regular PM. 50+ Years Service Life Common.</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Maintenance Cost</td>
-                <td class="p-3 text-text">Very Low. Bearings Replacement Over Long Periods.</td>
-                <td class="p-3 text-text">Low. Inexpensive Seal Kit Periodically Replaced.</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="p-3 font-semibold text-navy">Maintenance Scope</td>
-                <td class="p-3 text-text">Grease Bearings, Replace Gearbox Oil.</td>
-                <td class="p-3 text-text">Replace Bowl Seals &amp; Oil in Gear Housing.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Summary -->
-      <div id="summary" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
-        <h2 class="text-2xl font-bold font-heading text-navy mb-4">Summary</h2>
-        <p class="text-text leading-relaxed mb-4">Based on all the above-listed considerations, we can summarize the differences as follows.</p>
-        <p class="text-text leading-relaxed mb-4"><strong>Decanter centrifuges</strong> can handle fluids with high sludge content with large particle sizes. They are the <em>first line of defense</em> in any industrial fluid separation application with heavy sludge.</p>
-        <p class="text-text leading-relaxed mb-4"><strong>Disc Centrifuges</strong> can separate fluids with two immiscible liquids continuously. With a higher centrifugal force, a disc centrifuge is ideal for removing fine particles as well.</p>
-        <p class="text-text leading-relaxed mb-4">We should also mention that a decanter centrifuge can separate fine solids given enough retention time. In other words, a low flow rate. But the flow rate to achieve that level of separation defeats the purpose of the decanter centrifuge.</p>
-        <p class="text-text leading-relaxed"><a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors underline">Contact Dolphin Centrifuge</a> to consult with our centrifuge experts to discuss your application. You can always call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> to reach us.</p>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-navy rounded-xl p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-white mb-2">Not Sure Which Centrifuge Is Right for Your Application?</h2>
-        <p class="text-gray-300 mb-4">Contact Dolphin Centrifuge to consult with our centrifuge experts. We help you select between decanter and disc-stack centrifuges based on your specific process requirements.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="tel:+12485222573" class="bg-gold hover:bg-yellow-400 text-navy font-bold px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-          <a href="/contact-for-alfa-laval-centrifuges/" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">Contact Us</a>
-        </div>
-        <p class="text-gray-400 text-sm mt-3">Email: <a href="mailto:sales@dolphincentrifuge.com" class="text-gold hover:text-yellow-300 transition-colors">sales@dolphincentrifuge.com</a></p>
-      </div>
-
-      <!-- Related Articles -->
-      <div>
-        <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <a href="/decanter-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
-            <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Centrifuge Overview</h3>
-            <p class="text-gray-600 text-sm">Complete guide to decanter centrifuges — uses, benefits, capacities, and pricing.</p>
-          </a>
-          <a href="/disc-stack-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
-            <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Disc Stack Centrifuge Guide</h3>
-            <p class="text-gray-600 text-sm">Everything about disc stack centrifuges — how they work, applications, and selection.</p>
-          </a>
-          <a href="/picking-the-right-industrial-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
-            <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Picking the Right Industrial Centrifuge</h3>
-            <p class="text-gray-600 text-sm">How to select the right centrifuge for your specific industrial application.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-faq/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
-            <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Disc Stack Centrifuge FAQ</h3>
-            <p class="text-gray-600 text-sm">20 frequently asked questions about disc stack centrifuges answered by experts.</p>
-          </a>
-        </div>
-      </div>
-
     </div>
-  </section>
+
+    <h4 class="text-lg font-bold text-navy mb-3">Centrifuge Power Ratings</h4>
+    <p class="text-text leading-relaxed mb-4">Power ratings for centrifuges are based on the drive motor horsepower of the machine. Accessories such as inline electric heaters can add additional power load, often more than the centrifuge motor. For this comparison, we compare the main motor power between the two types of centrifuges.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Decanter Centrifuge Power</h5>
+        <p class="text-text text-sm leading-relaxed">The smallest decanter centrifuge operates on a 10 HP motor. Large capacity decanters (municipal wastewater) are driven by motors rated over 500 HP. Like most industrial systems, these operate on 460 V, 3-phase power.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">Disc Centrifuge Power</h5>
+        <p class="text-text text-sm leading-relaxed mb-2">Disc centrifuges have smaller processing capacities as compared to the smallest decanter centrifuges. The smallest disc centrifuge (~2 GPM) has a 1.5 HP motor drive. Disc bowl centrifuges also operate on 460 V, 3-phase power.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">For customer-specific needs, small disc centrifuges can be modified to be driven by low-voltage, single-phase motors. This adaptation requires centrifuge frame modifications.</p>
+        <p class="text-text text-sm leading-relaxed">Small decanters cannot be modified to operate on single-phase power.</p>
+      </div>
+    </div>
+
+    <h4 class="text-lg font-bold text-navy mb-3">Material of Construction (MOC)</h4>
+    <p class="text-text leading-relaxed mb-4">The material of the centrifuge bowl is of primary concern to centrifuge users. The frame components are mostly made of cast iron or a carbon steel welded frame. The bowl parts are the ones in contact with the process fluid and are therefore of interest.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">MOC of Decanter Centrifuges</h5>
+        <p class="text-text text-sm leading-relaxed">Decanter centrifuges manufactured by reputed companies almost always have stainless steel bowls — typically 316L duplex stainless steel. The scroll (auger) is also made of 316L stainless steel. However, scroll flights are spray-coated with tungsten carbide hard-surfacing for erosion protection. Sludge discharge nozzles and other areas subject to wear have stellite or similar erosion resisting inserts installed.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h5 class="font-bold text-navy mb-2">MOC of Disc Centrifuges</h5>
+        <p class="text-text text-sm leading-relaxed mb-2">Self-cleaning disc centrifuges also have 316L stainless steel as the main bowl material. The user needs to be aware that not all stainless steel is the same.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">Some centrifuges have known instances of having bowls referred to as stainless steel, which could be technically correct. However, low-grade stainless steels are not suitable for centrifuges and corrode easily in use.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">Disc centrifuges are also equipped with liners to protect the bowl parts, which are likely to erode. Replaceable bowl liners help protect high wear areas of the bowls.</p>
+        <p class="text-text text-sm leading-relaxed">Marine-grade centrifuges also have some bowl parts made of 'red metal', a copper alloy with a significant amount of tin to ensure durability.</p>
+      </div>
+    </div>
+
+    <!-- Physical Characteristics Summary Table -->
+    <p class="text-text leading-relaxed mb-4">The following table summarizes all the above-mentioned characteristics.</p>
+    <h4 class="text-lg font-bold text-navy mb-3">Summary of Physical Characteristics</h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="text-left p-3 font-bold rounded-tl-lg">Physical Characteristic</th>
+            <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
+            <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Axis of Rotation</td>
+            <td class="p-3 text-text">Horizontal</td>
+            <td class="p-3 text-text">Vertical</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Footprint (Size)</td>
+            <td class="p-3 text-text">4′ × 2′ × 4′ (H) (Small 5 GPM) to 20′ × 5′ × 15′ (H) (1000 GPM Municipal)</td>
+            <td class="p-3 text-text">2′ × 2′ × 2′ (Small Diesel Unit) to 40′ Shipping Containers (multi-unit skids)</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Drive Power</td>
+            <td class="p-3 text-text">5 HP (small 5 GPM) to 500+ HP (large municipal)</td>
+            <td class="p-3 text-text">1 HP (small unit) to 100 HP (large disc centrifuge)</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Material of Construction</td>
+            <td class="p-3 text-text">Frame: Cast Iron. Bowls: Stainless Steel with erosion protection of wear parts</td>
+            <td class="p-3 text-text">Frame: Cast Iron. Bowls: Stainless Steel with some non-ferrous parts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Separation Features -->
+  <div id="separation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Separation Features and Capabilities</h2>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Particle Separation Efficiency</h3>
+    <p class="text-text leading-relaxed mb-4">Particle separation efficiency is defined as the minimum particle size a centrifuge can separate under normal operating conditions. Of course, this efficiency changes with the residence time of the fluid inside the bowl. Higher residence time (i.e., lower flow rate) will lead to the separation of smaller particles. Lower fluid viscosity also will have a similar effect.</p>
+
+    <div class="my-6">
+      <img src="/images/difference-between-decanter-centrifuge-disc-centrifuge/decanter-disc-centrifuge-particle-size-efficiency-300x231-1.webp" alt="Decanter and disc centrifuge particle size efficiency comparison chart showing separation range differences" width="300" height="231" loading="lazy" class="rounded-lg" />
+      <p class="text-sm text-gray-500 italic mt-1">Decanter and Disc Centrifuge Particle Size Efficiency</p>
+    </div>
+
+    <p class="text-text leading-relaxed mb-6">For this comparison, we will assume that all external factors are equal.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter – Particle Separation Efficiency</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">Particle separation efficiency for a decanter centrifuge is in the range of <strong>50 microns and above</strong>. This particle size is an approximate range suggested by the OEM. However, based on our field experience, the actual particle size separated by decanters seems to be in the <strong>100+ micron range</strong>.</p>
+        <p class="text-text text-sm leading-relaxed">The largest particle size separated by the decanter is defined by the size of the internal fluid pathways and sludge ejection ports. The maximum particle size for the decanters is approximately <strong>12 mm (½")</strong>.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge – Particle Separation Efficiency</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge can separate metal particles down to a <strong>0.5-micron level</strong> and organic and inorganic particles down to a <strong>1-micron level</strong> based on OEM data. These separations are dependent on the fluid being processed, specifically the viscosity of the process fluid.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">The largest particle size separated by a disc centrifuge is defined by the spacing between the conical plates (disk stack) in the centrifuge bowl. The solid particles pass through these discs, and therefore the particle size cannot be larger than the inter-disc spacing.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">The <strong>particle limit recommended for the disc-stack centrifuge is around 250 microns.</strong> The typical inter-disc spacing is 500 microns in a disc centrifuge bowl.</p>
+        <p class="text-text text-sm leading-relaxed">Particles larger than the inter-disc spacing or close to the inter-disc spacing can cause the conical discs to be plugged with solids and make the centrifuge ineffective.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Feed Solids Concentration</h3>
+    <p class="text-text leading-relaxed mb-4">Feed solids concentration refers to the amount of solids present in the incoming fluid feed. Different centrifuge types have varying abilities to handle solids loading. Solids concentrations allowable in the centrifuge feed are defined by the sludge ejection mechanism used in the centrifuge. Higher solids concentration requires a continuous sludge ejection mechanism, while intermittent ejections can handle smaller solids concentrations.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter – Allowable Feed Solids</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">The decanter centrifuge has the auger pushing out the separated solids continuously through the sludge ports. This continuous evacuation of solids allows for the handling of high levels of solids concentration in the feed.</p>
+        <p class="text-text text-sm leading-relaxed mb-2"><strong>A decanter centrifuge can handle up to 50% solids concentration by volume.</strong> Other considerations that affect this limit include the type and density of solids. Denser, heavier solids create a higher resistance to the auger pushing the solids.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">This resistance, in turn, causes higher torque on the gearbox, which has a defined torque limit. This means that the heavier solids should be at a lower concentration than lighter solids to prevent damaging the gearbox.</p>
+        <p class="text-text text-sm leading-relaxed italic">For example, a decanter may handle up to 50% concentration of light solids but not more than 15% concentration of very heavy solids.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge – Allowable Feed Solids Concentration</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge bowl has a pre-defined sludge holding space. Once this space gets filled up with separated solids, the sludge needs to be discharged. The separated solids are ejected intermittently by operating the sludge discharge mechanism.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">The fixed sludge space and intermittent nature of the discharge imply that higher solids concentration leads to frequent sludge discharge cycles.</p>
+        <p class="text-text text-sm leading-relaxed mb-1">Each sludge discharge cycle is accompanied by:</p>
+        <ul class="text-text text-sm space-y-1 mb-2 ml-4">
+          <li>&#8226; A surge in the drive motor current.</li>
+          <li>&#8226; Some process liquid loss (depending on the type of centrifuge).</li>
+          <li>&#8226; Minute wear on the sealing gaskets in the bowl.</li>
+        </ul>
+        <p class="text-text text-sm leading-relaxed mb-2">Based on the above factors, it is advisable to minimize the frequency of the sludge discharge cycles, limiting the allowable solids concentration. <strong>The maximum solids concentration allowable in a disc centrifuge is around 5% by volume in real terms.</strong></p>
+        <p class="text-text text-sm leading-relaxed">If the anticipated concentration of solids is slightly higher, a larger capacity centrifuge may be better suited. A larger capacity centrifuge bowl has a larger sludge holding capacity, which reduces the sludge discharge frequency.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Phase Separation Capabilities</h3>
+
+    <div class="space-y-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Liquid-Liquid Separation Applications</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">Phases are the different constituents of the process fluid. For example, fluid in a diesel storage tank has 3-phases: diesel fuel (liquid phase), water (liquid phase), and sludge (solid phase).</p>
+        <p class="text-text text-sm leading-relaxed mb-2">In the case of liquid-liquid separation, a disc centrifuge is recommended. This recommendation is because a disc centrifuge generates a much higher g-force (than a decanter), essential for liquid-liquid separation.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">If the liquids have very similar specific gravities, the disc centrifuge can magnify this specific gravity differential to affect good separation.</p>
+        <p class="text-text text-sm leading-relaxed">A decanter centrifuge has limited applicability in liquid-liquid separation due to its lower centrifugal force. Especially if there are no solids or minimal solids, a disc centrifuge would be the obvious choice.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Liquid-Solid Separation Applications</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">In cases involving the separation of liquids and solids, centrifuge choice depends on the solids' concentration and particle size.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">A high solids concentration (over 10%) rules out the standard 'self-cleaning' disc centrifuge, as explained above. In such cases, a decanter centrifuge is an obvious choice. Decanter centrifuges are often the only solution for high solids concentration fluids such as oil sludge.</p>
+        <p class="text-text text-sm leading-relaxed">However, if the solids concentration is within the disc centrifuge's allowable limits, the disc centrifuge would be recommended. This suggestion is due to the disc centrifuge's better separation efficiency, which will produce a much clearer centrate than a decanter centrifuge.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Liquid-Liquid-Solid Separation Applications</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">The separation of contaminated diesel fuel is an example of a liquid-liquid-solid application. Typically, the solids concentration is low in this application, and water could be as high as 50%. Since the disc centrifuge discharges the separated water continuously, high water levels do not impede a disc centrifuge.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">In cases where the process fluid has a high level of solids, a 3-phase decanter (also known as a tricanter) is recommended. The tricanter is a decanter centrifuge with the addition of an additional liquid phase outlet.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">As explained above, the tricanter has a lower centrifugal force leading to a lower liquid-liquid separation ability. The lower centrifugal force also allows smaller (&lt; 100-micron level) particles to pass through the tricanter.</p>
+        <p class="text-text text-sm leading-relaxed">Therefore, it follows that in an ideal setup, a downstream disc centrifuge processes the centrate from the tricanter. The disc centrifuge separates the finer particles and clarifies the tricanter effluent under the higher g-force.</p>
+      </div>
+    </div>
+
+    <!-- Separation Capabilities Summary Table -->
+    <p class="text-text leading-relaxed mb-4">The following table summarizes all the factors mentioned earlier.</p>
+    <h4 class="text-lg font-bold text-navy mb-3">Summary of Separation Capabilities and Features</h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="text-left p-3 font-bold rounded-tl-lg">Separation Capability</th>
+            <th class="text-left p-3 font-bold">Decanter</th>
+            <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Particle Separation Efficiency</td>
+            <td class="p-3 text-text">From 50 µ to 10+ mm</td>
+            <td class="p-3 text-text">From &lt;0.5 µ to 1 mm</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Feed Solids Concentration</td>
+            <td class="p-3 text-text">Up to 50% (v/v)</td>
+            <td class="p-3 text-text">Not &gt; 8% (v/v)</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Liquid-Liquid Separation</td>
+            <td class="p-3 text-text">Somewhat Effective</td>
+            <td class="p-3 text-text">Highly Effective</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Liquid-Solid Separation</td>
+            <td class="p-3 text-text">Effective for Bulk Solids</td>
+            <td class="p-3 text-text">Effective for Small Particles</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Centrifugal Force (RCF)</td>
+            <td class="p-3 text-text">2,500 Gs to 4,000 Gs</td>
+            <td class="p-3 text-text">7,000 Gs to 10,000+ Gs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Operating Considerations -->
+  <div id="operating" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Operating Considerations</h2>
+    <p class="text-text leading-relaxed mb-6">Prospective users of centrifuges will want to consider the following operating factors for each type of centrifuge. These factors play an essential role in further differentiating the decanter centrifuge from the disc centrifuge.</p>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Separated Solids Discharge Mode</h3>
+    <p class="text-text leading-relaxed mb-4">The solids discharge mode is the method by which a centrifuge ejects or discharges the separated solids. It is an essential consideration because it affects the process layout upstream and downstream of the centrifuge. Therefore it should be considered before finalizing the centrifuge and its placement in the overall process flow.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Solids Discharge</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">One of the main advantages of the decanter centrifuge is the ability to eject the separated solids <strong>continuously</strong>. The scroll (auger) scrapes and pushes the solids towards and out through the solids' discharge ports.</p>
+        <p class="text-text text-sm leading-relaxed">This specific feature allows installing the decanter centrifuge in the primary process loop in series with upstream and downstream equipment. Of course, it is always advisable to have a redundant (backup) unit in a parallel circuit to avoid process disruptions in machine breakdown or maintenance.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge Solids Discharge</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">A self-cleaning disc centrifuge has an <strong>intermittent solids discharge</strong> characteristic. This type of disc centrifuge accumulates the solids and periodically discharges them based on a programmable timer. The operator sets the sludge discharge time interval based on the incoming fluid solids concentration and bowl sludge capacity.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">It is important to note that many self-cleaning disc centrifuges cannot process fluid during this sludge discharge cycle. Process flow needs to be interrupted during this period.</p>
+        <p class="text-text text-sm leading-relaxed">Therefore a disc centrifuge of this type (self-cleaning) cannot be installed in the primary process flow loop. It should be installed in a 'kidney loop' configuration or with pre and post centrifuge surge tanks to accommodate for the loss of flow during the discharge cycle.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Design Complexity</h3>
+    <p class="text-text leading-relaxed mb-4">The basic design of the centrifuges involves several rotating parts. There are some intricacies involved in constructing these centrifuges, which are essential to their functioning. These design characteristics also add to the respective mechanical complexity of the machines.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Design Complexity</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">A decanter centrifuge has a more straightforward construction compared to the disc centrifuge. It is essentially a rotating drum with an internal rotating auger with relatively fewer parts and no moving interfaces between these parts.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">The most complicated part of a decanter centrifuge is the planetary gearbox. Most of these gearboxes are 2-stage with sets of planetary gears on rotating hubs.</p>
+        <p class="text-text text-sm leading-relaxed">The more straightforward design of decanter centrifuges leads to more accessible and quicker service. It also means fewer replacement parts compared to disc centrifuges.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge Design Complexity</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">The 'self-cleaning' disc centrifuges have an added internal system that facilitates the sludge discharge process. This system is a hydraulic mechanism that uses water to operate the movement of the sliding piston shown in the section above.</p>
+        <p class="text-text text-sm leading-relaxed">This additional mechanism, which is not present in decanter centrifuges, adds a certain degree of complexity to the disc centrifuge. It also means that the bowl has extra serviceable parts.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Control Systems</h3>
+    <p class="text-text leading-relaxed mb-4"><a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors underline">Centrifuge control systems</a> are essential for the reliable and efficient operation of centrifuges. Centrifuge design characteristics define these control systems. Some control features are application-specific and are applicable across different centrifuge types.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Control System</h4>
+        <p class="text-text text-sm leading-relaxed">Basic controls for decanter centrifuges involve motor control and monitoring of field sensors. These are relatively simple controls without the need for a logic controller (PLCs). The essential operation of the decanter centrifuge is a simple sequence of motors. Some additional control logic may be added based on instrument and sensor feedback to prevent malfunction or system overload.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge Control Systems</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">A disc centrifuge control system is slightly more sophisticated as compared to the decanter control system. As previously mentioned, the disc centrifuge has an additional sub-system for sludge ejection. This system requires an extra water manifold to operate the hydraulically operated piston.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">There is a sequence of operations associated with the sludge ejection system. A programmable controller (PLC) is the best option to operate this system.</p>
+        <p class="text-text text-sm leading-relaxed">Other functional and alarm systems, similar to the ones for the decanter centrifuge, are also incorporated into the disc centrifuge control system.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Auxiliary Systems</h3>
+    <p class="text-text leading-relaxed mb-4">The addition of auxiliary systems enhances centrifuge performance. Such add-on systems include fluid heaters, filters, heat exchangers, etc. However, the operation of centrifuges requires some auxiliary systems. In this section, we discuss these 'required' systems briefly.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Auxiliary Systems for Decanter Centrifuges</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">Some decanter centrifuges need auxiliary systems for regular operation. These systems are essential for operating the centrifuge. These systems include hydraulic packs for decanter centrifuge back-drive control. Additionally, they need a lubrication system for decanter centrifuge bearings and an electric motor for auger speed control.</p>
+        <p class="text-text text-sm leading-relaxed">However, depending on the design, one can operate some decanter centrifuges without any auxiliary systems. In such cases, the bearings are grease lubricated, and the back-drive is 'locked' to give a fixed differential speed.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Auxiliary Systems for Disc Centrifuges</h4>
+        <p class="text-text text-sm leading-relaxed">A disc centrifuge (self-cleaning type) requires a hydraulic system to operate the sludge ejection mechanism. A disc centrifuge cannot function without the operating water system controlled by this auxiliary system. Other auxiliary systems such as alarm systems, temperature and pressure indicators, etc. are useful but not essential for the operation of the disc centrifuge.</p>
+      </div>
+    </div>
+
+    <!-- Operating Considerations Summary Table -->
+    <p class="text-text leading-relaxed mb-4">The following table summarizes all the factors mentioned above.</p>
+    <h4 class="text-lg font-bold text-navy mb-3">Summary of Operating Considerations</h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="text-left p-3 font-bold rounded-tl-lg">Property</th>
+            <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
+            <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Solids Discharge / Ejection</td>
+            <td class="p-3 text-text">Continuous Mode</td>
+            <td class="p-3 text-text">Batch Mode (Self-Cleaning type)</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Design Complexity</td>
+            <td class="p-3 text-text">Less Complex, Simpler Construction</td>
+            <td class="p-3 text-text">More Complex, More Moving Parts</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Control System</td>
+            <td class="p-3 text-text">VFD Control for Main Drive Motors. Safety Devices Monitoring System.</td>
+            <td class="p-3 text-text">PLC Based Control System with Operating Sequence Logic.</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Auxiliary Systems Required</td>
+            <td class="p-3 text-text">Lubrication Pack and Hydraulic Unit for Backdrive Control (large units)</td>
+            <td class="p-3 text-text">Operating Water System (Self-Cleaning type)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Maintenance Factors -->
+  <div id="maintenance" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Operation and Maintenance Factors</h2>
+    <p class="text-text leading-relaxed mb-6">The operation and maintenance (O&amp;M) of centrifuges is an essential factor in return on investment (ROI) considerations of these capital-intensive machines. Lifespan, durability, ease, frequency, and maintenance cost are key factors to be considered.</p>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Centrifuge Durability</h3>
+    <p class="text-text leading-relaxed mb-4">Centrifuge equipment durability is an essential factor to consider when choosing centrifuges. A comparison of centrifuges with other forms of separation equipment is common. These include filters, filter presses, screw presses, belt presses, etc. Durability is the useful lifespan of capital equipment combined with the need and frequency of maintenance.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Durability</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">Decanter centrifuges are possibly some of the most durable processing equipment available. Some of the well-known manufacturers (Alfa Laval, Sharples, and Westfalia) are globally popular primarily due to the durability of their machines.</p>
+        <p class="text-text text-sm leading-relaxed"><strong>It is not uncommon to find a functioning decanter centrifuge which is over 50 years old!</strong> Decanter centrifuges from these manufacturers are well known for their heavy-duty design and unusually long service lives.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge Durability</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">Although disc centrifuges are more sophisticated in their construction than decanter centrifuges, they are equally durable and long-lasting. Disc centrifuges manufactured by established brands are known for their durability.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">The durability of these machines is attributed to their design and material of construction. Amongst disc centrifuges, the older generation machines are even more durable than some of the newer versions. This durability is mainly due to the heavy-duty gear transmissions in the older disc centrifuges.</p>
+        <p class="text-text text-sm leading-relaxed">Users prefer gear-driven disc centrifuges despite their age. Their simple construction leads to a longer, dependable service life. In other words, they have a lesser number of parts compared to the newer disc centrifuges, which means less frequent breakdowns and longer up-time.</p>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold text-navy mb-4">Maintenance Frequency and Expense</h3>
+    <p class="text-text leading-relaxed mb-4">As with all mechanical systems, periodic maintenance is another crucial factor to consider during the selection process. We have summarized the scope and related expenses for the centrifuges of interest. Maintenance frequency is dependent on the use of the equipment. We intend to provide a summary of recommended maintenance under normal operating conditions.</p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Decanter Centrifuge Maintenance</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">The gearbox is one of the critical components of the decanter centrifuge. Preventative maintenance of the gearbox has an impact on trouble-free operation. Changing the oil is the best way to ensure the longevity of the gearbox and the equipment.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">Lubrication (greasing) of the bearing housings on the decanter is the other crucial preventative maintenance to be performed regularly.</p>
+        <p class="text-text text-sm leading-relaxed">Replacement of the seals, gaskets, and bearings is typically required once every few years (2–3 years), depending on the severity of service duty. The maintenance cost for decanters is relatively meager, given there are no consumable parts or media to be replaced frequently.</p>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-4">
+        <h4 class="font-bold text-navy mb-2">Disc Centrifuge Maintenance</h4>
+        <p class="text-text text-sm leading-relaxed mb-2">One of the keys to maintaining a disc centrifuge, similar to the decanter centrifuge, is to keep the transmission gearbox lubricant clean. A disc centrifuge has a soft-metal bull gear that wears and releases fine metal particles in the oil.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">Changing the oil frequently ensures the longevity of the bearings. The recommended oil change frequency for many disc centrifuges is 1,000 operating hours after the first oil change.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">It is worth noting that it is easy to replace the oil than to change bearings more frequently than necessary.</p>
+        <p class="text-text text-sm leading-relaxed mb-2">For disc centrifuges, it is recommended to perform a bowl service (replace all seals) on a set schedule, depending on the type of centrifuge and the service application. This period could be as frequent as every other week for abrasive fluids, or once every few months for benign applications.</p>
+        <p class="text-text text-sm leading-relaxed">The cost of maintenance parts for disc centrifuge is low, considering the fluid volume processed between servicing. Also, there are no filter media to be replaced, which helps lower maintenance costs.</p>
+      </div>
+    </div>
+
+    <!-- O&M Summary Table -->
+    <p class="text-text leading-relaxed mb-4">The table below is a summary of all these factors to be considered.</p>
+    <h4 class="text-lg font-bold text-navy mb-3">Operation &amp; Maintenance Factors</h4>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="text-left p-3 font-bold rounded-tl-lg">Factor</th>
+            <th class="text-left p-3 font-bold">Decanter Centrifuge</th>
+            <th class="text-left p-3 font-bold rounded-tr-lg">Disc Centrifuge</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Durability</td>
+            <td class="p-3 text-text">Highly Durable with Regular PM. 50+ Years Service Life Common.</td>
+            <td class="p-3 text-text">Very Durable with Regular PM. 50+ Years Service Life Common.</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Maintenance Cost</td>
+            <td class="p-3 text-text">Very Low. Bearings Replacement Over Long Periods.</td>
+            <td class="p-3 text-text">Low. Inexpensive Seal Kit Periodically Replaced.</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="p-3 font-semibold text-navy">Maintenance Scope</td>
+            <td class="p-3 text-text">Grease Bearings, Replace Gearbox Oil.</td>
+            <td class="p-3 text-text">Replace Bowl Seals &amp; Oil in Gear Housing.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div id="summary" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 scroll-mt-24">
+    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Summary</h2>
+    <p class="text-text leading-relaxed mb-4">Based on all the above-listed considerations, we can summarize the differences as follows.</p>
+    <p class="text-text leading-relaxed mb-4"><strong>Decanter centrifuges</strong> can handle fluids with high sludge content with large particle sizes. They are the <em>first line of defense</em> in any industrial fluid separation application with heavy sludge.</p>
+    <p class="text-text leading-relaxed mb-4"><strong>Disc Centrifuges</strong> can separate fluids with two immiscible liquids continuously. With a higher centrifugal force, a disc centrifuge is ideal for removing fine particles as well.</p>
+    <p class="text-text leading-relaxed mb-4">We should also mention that a decanter centrifuge can separate fine solids given enough retention time. In other words, a low flow rate. But the flow rate to achieve that level of separation defeats the purpose of the decanter centrifuge.</p>
+    <p class="text-text leading-relaxed mb-4">Need help choosing? See our guide on <a href="/picking-the-right-industrial-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors underline">picking the right industrial centrifuge</a> for your specific application.</p>
+    <p class="text-text leading-relaxed"><a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors underline">Contact Dolphin Centrifuge</a> to consult with our centrifuge experts to discuss your application. You can always call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> to reach us.</p>
+  </div>
+
+  <!-- Related Articles -->
+  <div>
+    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Related Resources</h2>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <a href="/decanter-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
+        <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Decanter Centrifuge Overview</h3>
+        <p class="text-gray-600 text-sm">Complete guide to decanter centrifuges — uses, benefits, capacities, and pricing.</p>
+      </a>
+      <a href="/disc-stack-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
+        <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Disc Stack Centrifuge Guide</h3>
+        <p class="text-gray-600 text-sm">Everything about disc stack centrifuges — how they work, applications, and selection.</p>
+      </a>
+      <a href="/picking-the-right-industrial-centrifuge/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
+        <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Picking the Right Industrial Centrifuge</h3>
+        <p class="text-gray-600 text-sm">How to select the right centrifuge for your specific industrial application.</p>
+      </a>
+      <a href="/disc-stack-centrifuge-faq/" class="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:border-gold transition-colors group">
+        <h3 class="font-bold text-navy group-hover:text-gold transition-colors mb-1">Disc Stack Centrifuge FAQ</h3>
+        <p class="text-gray-600 text-sm">20 frequently asked questions about disc stack centrifuges answered by experts.</p>
+      </a>
+    </div>
+  </div>
 
   <!-- FAQ Section -->
-  <section class="bg-warm-white py-12">
-    <div class="container-dolphin max-w-4xl">
-      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What is the main difference between a decanter centrifuge and a disc stack centrifuge?</summary>
-          <p class="text-text-light mt-3 text-sm">The primary difference is particle size capability and solids handling capacity. Decanter centrifuges operate at 3,000+ Gs and can handle particles down to 100 microns and high solids volumes (up to 40% solids by volume) — they excel at sludge dewatering. Disc stack centrifuges operate at 7,000+ Gs and separate particles from 0.5 microns, but have much smaller solids-holding capacity and are better for liquid-liquid separation (oil-water) with low solids.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">When should I choose a disc stack centrifuge vs. a decanter centrifuge?</summary>
-          <p class="text-text-light mt-3 text-sm">Choose a disc stack centrifuge when: separating liquids of different densities (oil and water), the solids content is low (&lt;1–2%), very fine particle removal is required (0.5–10 microns), or three-phase separation (oil/water/solids simultaneously) is needed. Choose a decanter when: dewatering high-solids sludge, handling slurries with &gt;5% solids, large solids (&gt;100 microns), or continuous solids discharge is required without stopping.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Which centrifuge generates higher G-force — decanter or disc stack?</summary>
-          <p class="text-text-light mt-3 text-sm">Disc stack centrifuges generate significantly higher G-force — typically 7,000 to 10,000 Gs — compared to decanter centrifuges which typically operate at 2,000 to 4,000 Gs. The higher G-force in disc stack centrifuges enables separation of much finer particles and tighter liquid-liquid separation.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Can a decanter centrifuge separate oil and water?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes, decanters can perform three-phase separation (oil, water, solids) but are less efficient at liquid-liquid separation than disc stack centrifuges. Decanters require a larger density difference between the two liquid phases to achieve effective separation. They are commonly used for oily sludge and crude oil tank bottom recovery where high solids content makes disc stack centrifuges impractical.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Which centrifuge is easier to maintain — decanter or disc stack?</summary>
-          <p class="text-text-light mt-3 text-sm">Decanter centrifuges have fewer components overall and simpler bowl design, but the auger wear liners and gearbox require periodic service. Disc stack centrifuges have more internal parts (disc stack, distributor, operating water system) but self-cleaning models require minimal operator intervention during normal operation. Both have similar maintenance intervals of 2,000–8,000 hours depending on application severity.</p>
-        </details>
-      </div>
+  <div class="mt-12">
+    <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">What is the main difference between a decanter centrifuge and a disc stack centrifuge?</summary>
+        <p class="text-text-light mt-3 text-sm">The primary difference is particle size capability and solids handling capacity. Decanter centrifuges operate at 3,000+ Gs and can handle particles down to 100 microns and high solids volumes (up to 40% solids by volume) — they excel at sludge dewatering. Disc stack centrifuges operate at 7,000+ Gs and separate particles from 0.5 microns, but have much smaller solids-holding capacity and are better for liquid-liquid separation (oil-water) with low solids.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">When should I choose a disc stack centrifuge vs. a decanter centrifuge?</summary>
+        <p class="text-text-light mt-3 text-sm">Choose a disc stack centrifuge when: separating liquids of different densities (oil and water), the solids content is low (&lt;1–2%), very fine particle removal is required (0.5–10 microns), or three-phase separation (oil/water/solids simultaneously) is needed. Choose a decanter when: dewatering high-solids sludge, handling slurries with &gt;5% solids, large solids (&gt;100 microns), or continuous solids discharge is required without stopping.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">Which centrifuge generates higher G-force — decanter or disc stack?</summary>
+        <p class="text-text-light mt-3 text-sm">Disc stack centrifuges generate significantly higher G-force — typically 7,000 to 10,000 Gs — compared to decanter centrifuges which typically operate at 2,000 to 4,000 Gs. The higher G-force in disc stack centrifuges enables separation of much finer particles and tighter liquid-liquid separation.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">Can a decanter centrifuge separate oil and water?</summary>
+        <p class="text-text-light mt-3 text-sm">Yes, decanters can perform three-phase separation (oil, water, solids) but are less efficient at liquid-liquid separation than disc stack centrifuges. Decanters require a larger density difference between the two liquid phases to achieve effective separation. They are commonly used for oily sludge and crude oil tank bottom recovery where high solids content makes disc stack centrifuges impractical.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <summary class="font-semibold text-navy cursor-pointer">Which centrifuge is easier to maintain — decanter or disc stack?</summary>
+        <p class="text-text-light mt-3 text-sm">Decanter centrifuges have fewer components overall and simpler bowl design, but the auger wear liners and gearbox require periodic service. Disc stack centrifuges have more internal parts (disc stack, distributor, operating water system) but self-cleaning models require minimal operator intervention during normal operation. Both have similar maintenance intervals of 2,000–8,000 hours depending on application severity.</p>
+      </details>
     </div>
-  </section>
+  </div>
 
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-</BaseLayout>
+</ApplicationLayout>

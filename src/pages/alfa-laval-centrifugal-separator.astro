@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,855 +23,795 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Alfa Laval Centrifugal Separator: Working, Uses, Benefits, Types & Specs",
-  "description": "Complete guide to Alfa Laval centrifugal separators covering working principle, efficiency, applications, advantages, disadvantages, types, and specifications.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  "datePublished": "2020-04-01",
-  "mainEntityOfPage": "https://dolphincentrifuge.com/alfa-laval-centrifugal-separator/"
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Alfa Laval Centrifugal Separator: Working, Uses, Benefits, Types & Specs",
+    "description": "Complete guide to Alfa Laval centrifugal separators covering working principle, efficiency, applications, advantages, disadvantages, types, and specifications.",
+    "author": { "@type": "Person", "name": "Sanjay Prabhu" },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "datePublished": "2020-04-01",
+    "mainEntityOfPage": "https://dolphincentrifuge.com/alfa-laval-centrifugal-separator/"
+  },
+  faqJsonLd
+];
+
+const toc = [
+  { id: "working-principle", label: "Working Principle" },
+  { id: "efficiency", label: "Efficiency" },
+  { id: "particle-size-efficiency", label: "Particle Size Efficiency" },
+  { id: "application-examples", label: "Application Examples" },
+  { id: "biofuels", label: "Biofuels" },
+  { id: "chemicals", label: "Chemicals" },
+  { id: "environmental", label: "Environmental" },
+  { id: "food-industry", label: "Food Industry" },
+  { id: "fuel", label: "Fuel" },
+  { id: "industrial-fluids", label: "Industrial Fluids" },
+  { id: "lubricants", label: "Lubricants" },
+  { id: "petroleum", label: "Petroleum" },
+  { id: "pharmaceutical", label: "Pharmaceutical" },
+  { id: "advantages", label: "Advantages" },
+  { id: "disadvantages", label: "Disadvantages" },
+  { id: "types-of-centrifugal-separators", label: "Types of Centrifugal Separators" },
+  { id: "specifications", label: "Specifications" },
+];
+
+const relatedProducts = [
+  { label: "Disc Stack Centrifuge", href: "/disc-stack-centrifuge/", description: "Up to 12,000 Gs, 0.5-micron separation" },
+  { label: "Decanter Centrifuge", href: "/decanter-centrifuge/", description: "High-solids applications, ~3,000 Gs" },
+  { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/", description: "Engine & turbine oil purification" },
+  { label: "Crude Oil Tank Bottom Recovery", href: "/crude-oil-tank-bottom-recovery-centrifuge/", description: "Slop oil & tank bottoms processing" },
+];
+
+const relatedApplications = [
+  { label: "Machining Coolant Recovery", href: "/machining-coolant-recovery-centrifuge/" },
+  { label: "Algae Harvesting", href: "/algae-centrifuge/" },
+  { label: "Disc Stack Applications", href: "/disc-stack-centrifuge-applications/" },
+  { label: "Industrial Centrifuges FAQ", href: "/industrial-centrifuges-faq/" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval Centrifugal Separator | Working, Uses & Types"
   description="Complete guide to Alfa Laval centrifugal separators — working principle, efficiency, 10+ applications, advantages, disadvantages, types & specifications."
+  heroImage="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Centrifuge-Separator-Type-MAPX-210.webp"
+  heroImageAlt="Alfa Laval MAPX-210 centrifugal separator used in industrial liquid-solid separation"
+  category="applications"
+  categoryLabel="Knowledge Center"
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-centrifugal-separator/"
-  breadcrumbs={[{label: 'Knowledge', href: '/industrial-centrifuge-blog/'}, {label: 'Alfa Laval Centrifugal Separator'}]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero Section — background image with overlay -->
-  <section class="relative overflow-hidden min-h-[420px] md:min-h-[480px] flex items-center">
-    <!-- Background image — right-aligned, scaled to cover -->
-    <div class="absolute inset-0">
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies Alfa Laval centrifugal separators — disc stack and decanter centrifuge systems operating at 2,000 to 12,000+ Gs — for continuous three-phase separation across oil and gas, food, pharmaceutical, and environmental industries. Systems process 4 GPM to 280+ GPM. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience supplying and servicing Alfa Laval centrifugal separators.</p>
+  </div>
+
+  <!-- Working Principle -->
+  <div id="working-principle" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6 font-heading">Working Principle</h2>
+
+    <div class="mb-6">
       <img
-        src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Centrifuge-Separator-Type-MAPX-210.webp"
-        alt="Alfa Laval MAPX-210 centrifugal separator used in industrial liquid-solid separation"
-        aria-hidden="true"
-        class="absolute inset-0 w-full h-full object-cover object-right"
+        src="/images/alfa-laval-centrifugal-separator/Decanter-Cross-Section-600.webp"
+        alt="Decanter Cross Section showing internal components of an Alfa Laval centrifugal separator"
         width="600"
-        height="400"
-        loading="eager"
+        height="223"
+        loading="lazy"
+        class="rounded-lg w-full"
       />
-      <!-- Navy overlay — gradient from solid left to semi-transparent right -->
-      <div class="absolute inset-0 bg-gradient-to-r from-[#1B3A5C] via-[#1B3A5C]/90 to-[#1B3A5C]/50"></div>
+      <p class="text-sm text-gray-500 mt-2 text-center">Decanter Cross Section</p>
     </div>
-    <!-- Hero content -->
-    <div class="relative z-10 container mx-auto px-4 py-14 md:py-20">
-      <div class="max-w-2xl">
-        <span class="inline-block text-[#E8A317] text-xs font-bold tracking-wider uppercase mb-3">Knowledge Center</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold font-heading leading-tight mb-4 text-white">
-          Alfa Laval Centrifugal Separator
-        </h1>
-        <p class="text-lg md:text-xl text-gray-200 mb-4">
-          Working Principle, Uses, Benefits, Types & Specifications
-        </p>
-        <p class="text-gray-300 mb-6 max-w-xl">
-          An Alfa Laval centrifugal separator is a mechanical device that leverages high centrifugal force to separate liquids from solids. This separating machine's design allows it to separate large volumes of fluids from sludge continuously. These centrifugal separators find various applications in all industries that use fluids.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="tel:+12485222573" class="inline-flex items-center bg-[#E8A317] text-white font-semibold px-6 py-3 rounded-lg hover:bg-amber-600 transition shadow-lg">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-            (248) 522-2573
-          </a>
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center border-2 border-white/70 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition backdrop-blur-sm">
-            Request a Quote
-          </a>
-        </div>
-      </div>
+
+    <p class="text-text mb-4 font-semibold text-lg leading-relaxed">
+      The working principle of an Alfa Laval centrifugal separator is the gravitational force up to 12,000 Gs within bowls rotating at 10,000 RPM. This force separates particles as small as 1 micron from fluids such as oil and water. A flow-through design enables the continuous flow of the separated fluids and solids through discrete outlets.
+    </p>
+
+    <p class="text-text mb-4 leading-relaxed">
+      For example, the effluent from a mining operation is mainly water contaminated with soil and sand particles. The mine operator could reuse this water if there were a reliable way to separate the soil and sand particles.
+    </p>
+
+    <p class="text-text mb-4 leading-relaxed">
+      Conventional filters and other media separation devices are unsuitable for this kind of high volume, small particle size separation application. The fine particles will clog the filter media quickly, requiring frequent media replacement.
+    </p>
+
+    <p class="text-text mb-4 leading-relaxed">
+      The cost and labor involved in this process eliminate filtration as a possible solution.
+    </p>
+
+    <p class="text-text mb-4 leading-relaxed">
+      A high-efficiency Alfa Laval centrifugal separator will continuously separate the sediment from the water. With a rated efficiency of 0.5-micron particle separation, the centrifugal filtration machine is ideal for this application.
+    </p>
+
+    <p class="text-text leading-relaxed">
+      The clarified water produced by the centrifuge is clear and reusable.
+    </p>
+  </div>
+
+  <!-- Efficiency -->
+  <div id="efficiency" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6 font-heading">Efficiency</h2>
+
+    <div class="mb-6">
+      <img
+        src="/images/alfa-laval-centrifugal-separator/decanter-disc-centrifuge-particle-size-efficiency-300.webp"
+        alt="Decanter and Disc Centrifuge Particle Size Efficiency Chart"
+        width="300"
+        height="231"
+        loading="lazy"
+        class="rounded-lg w-full max-w-md mx-auto"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center">Centrifugal Separator Particle Efficiency Chart</p>
     </div>
-  </section>
 
-  <!-- Table of Contents -->
-  <section class="bg-[#F5F5F0]">
-    <div class="container mx-auto px-4 py-12 md:py-16 max-w-4xl">
-      <div class="bg-navy/5 border-l-4 border-[#E8A317] rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-[#555] leading-relaxed italic">Dolphin Centrifuge supplies Alfa Laval centrifugal separators — disc stack and decanter centrifuge systems operating at 2,000 to 12,000+ Gs — for continuous three-phase separation across oil and gas, food, pharmaceutical, and environmental industries. Systems process 4 GPM to 100+ GPM. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience supplying and servicing Alfa Laval centrifugal separators.</p>
+    <p class="text-text mb-4 leading-relaxed">
+      The efficiency of Alfa Laval separators is calculated based on the properties of the fluid being processed, the type and size of solids, and the centrifugal force generated by the centrifuge.
+    </p>
+
+    <p class="text-text mb-6 leading-relaxed">
+      The centrifugal force exerted by the disc-stack separator is much higher than that of the decanter-type separator leading to higher separation efficiencies. The efficiency chart above shows the effective efficiency of each of these Alfa Laval separators.
+    </p>
+
+    <h3 id="particle-size-efficiency" class="text-xl font-bold text-navy mb-4 font-heading">Particle Size Efficiency</h3>
+
+    <p class="text-text mb-4 leading-relaxed">
+      The following table lists the particle size efficiency of typical Alfa Laval centrifugal separators.
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse mb-4">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading"></th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Decanter Separator</th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Disc-Stack Separator</th>
+          </tr>
+        </thead>
+        <tbody class="text-text">
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Min. Particle Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 50 Microns</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 0.5 Microns</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Max. Particle Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 10 mm</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 250 Microns</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Application Examples -->
+  <div id="application-examples" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4 font-heading">Application Examples</h2>
+
+    <p class="text-text mb-8 leading-relaxed">
+      Alfa Laval centrifugal separators find a wide range of applications with their ability to separate solids from liquids and liquids from other liquids. The following list highlights some of the typical industrial applications of centrifugal separators.
+    </p>
+
+    <!-- Biofuels -->
+    <div id="biofuels" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Biofuels</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/algae-biomass-concentrate-400-edited.webp"
+          alt="Algae Biomass Concentrate - Algae Cell Harvesting using centrifugal separator"
+          width="400"
+          height="225"
+          loading="lazy"
+          class="rounded-lg w-full max-w-md"
+        />
+        <p class="text-sm text-gray-500 mt-2">Algae Cell Harvesting</p>
       </div>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4 font-heading">Table of Contents</h2>
-        <nav class="grid md:grid-cols-2 gap-x-8 gap-y-1">
-          <ul class="space-y-1 text-[#2D2D2D]">
-            <li><a href="#working-principle" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Working Principle</a></li>
-            <li><a href="#efficiency" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Efficiency</a></li>
-            <li class="pl-4"><a href="#particle-size-efficiency" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Particle Size Efficiency</a></li>
-            <li><a href="#application-examples" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Application Examples</a></li>
-            <li class="pl-4"><a href="#biofuels" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Biofuels</a></li>
-            <li class="pl-4"><a href="#chemicals" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Chemicals</a></li>
-            <li class="pl-4"><a href="#environmental" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Environmental</a></li>
-            <li class="pl-4"><a href="#food-industry" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Food Industry</a></li>
-            <li class="pl-4"><a href="#fuel" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Fuel</a></li>
-            <li class="pl-4"><a href="#industrial-fluids" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Industrial Fluids</a></li>
-            <li class="pl-4"><a href="#lubricants" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Lubricants</a></li>
-            <li class="pl-4"><a href="#petroleum" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Petroleum</a></li>
-            <li class="pl-4"><a href="#pharmaceutical" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Pharmaceutical</a></li>
-          </ul>
-          <ul class="space-y-1 text-[#2D2D2D]">
-            <li><a href="#advantages" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Advantages</a></li>
-            <li class="pl-4"><a href="#continuous-processing" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Continuous Processing</a></li>
-            <li class="pl-4"><a href="#minimum-labor" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Minimum Labor</a></li>
-            <li class="pl-4"><a href="#low-operating-cost" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Low Operating Cost</a></li>
-            <li class="pl-4"><a href="#high-separation-efficiency" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">High Separation Efficiency</a></li>
-            <li class="pl-4"><a href="#compact-size" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Compact Size</a></li>
-            <li><a href="#disadvantages" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Disadvantages</a></li>
-            <li class="pl-4"><a href="#capital-cost" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Capital Cost</a></li>
-            <li class="pl-4"><a href="#long-lead-times" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Long Lead Times</a></li>
-            <li class="pl-4"><a href="#system-sophistication" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">System Sophistication</a></li>
-            <li class="pl-4"><a href="#control-systems" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Control Systems</a></li>
-            <li class="pl-4"><a href="#mechanical-separation" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Mechanical Separation</a></li>
-            <li><a href="#types-of-centrifugal-separators" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Types of Centrifugal Separators</a></li>
-            <li class="pl-4"><a href="#decanter-centrifuge" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Decanter Centrifuge</a></li>
-            <li class="pl-4"><a href="#disc-stack-separators" class="text-[#1B3A5C] hover:text-[#E8A317] transition text-sm">Disc Stack Separators</a></li>
-            <li><a href="#specifications" class="text-[#1B3A5C] hover:text-[#E8A317] transition">Specifications</a></li>
-          </ul>
-        </nav>
+      <p class="text-text mb-4 leading-relaxed">
+        Biofuels are the new generation of fuels produced using renewable sources. Biodiesel is one such fuel that is a direct replacement for diesel fuel. The tri-esterification of used vegetable oil produces biodiesel. Alfa Laval centrifugal separators separate the biodiesel from glycerin during this process.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Ethanol produced from corn is blended with gasoline to produce E85 fuel used in gasoline engines. Alfa Laval decanters are mechanical separators that separate corn mush from ethanol.
+      </p>
+      <p class="text-text leading-relaxed">
+        Algae oil is the upcoming biofuel. Again, the <a href="/algae-centrifuge/" class="text-navy hover:text-gold underline">harvesting of algae cells</a> from water is through the use of Alfa Laval disc-stack separators. Alfa Laval separators also separate the water from algae oil which is then used to produce biodiesel.
+      </p>
+    </div>
+
+    <!-- Chemicals -->
+    <div id="chemicals" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Chemicals</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
+          alt="Alfa Laval NX-314 Decanter Centrifuge Module for chemical processing"
+          width="600"
+          height="510"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Alfa Laval NX-314 Decanter Centrifuge Module</p>
       </div>
+      <p class="text-text mb-4 leading-relaxed">
+        The chemical industry often needs to separate immiscible fluids. Gravity settling is not a feasible option due to time constraints. An Alfa Laval centrifuge exerts a centrifugal force that is several thousand times the force of gravity.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        This force causes instant separation of the liquid chemical phases that are essential for high-efficiency, continuous separation.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Chemical precipitation requires separating the solid (precipitate) phase from the liquid broth. The small particle sizes prevent the use of filters for this process.
+      </p>
+      <p class="text-text leading-relaxed">
+        An Alfa Laval liquid-solid clarifying separator uses high centrifugal force to separate the smallest particles from the fluid to produce the thickened precipitate.
+      </p>
+    </div>
 
-      <!-- Working Principle -->
-      <div id="working-principle" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-6 font-heading">Working Principle</h2>
+    <!-- Environmental -->
+    <div id="environmental" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Environmental</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/WasteWater-Decanter-300.webp"
+          alt="Wastewater Decanter centrifuge for environmental water treatment"
+          width="300"
+          height="300"
+          loading="lazy"
+          class="rounded-lg w-full max-w-sm"
+        />
+        <p class="text-sm text-gray-500 mt-2">Wastewater Decanter</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        Environmental pollution is primarily the result of water contamination. Contaminated water is also known as wastewater. Separating the contaminants from wastewater can often lead to the recovery of usable water while reducing environmental impacts.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Alfa Laval decanter separators can process large volumes of wastewater to separate and thicken the sludge.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Waste oil is another environmental issue that is apt for centrifugal separator processing. Water and sludge contaminate waste oil. Alfa Laval disc-stack centrifuges exert over 7,000 Gs of centrifugal force to continuously separate the water and sludge from waste oil.
+      </p>
+      <p class="text-text leading-relaxed">
+        The clean oil produced by centrifugal machines is the feedstock for lubricating oil re-blending.
+      </p>
+    </div>
 
-        <div class="mb-6">
+    <!-- Food Industry -->
+    <div id="food-industry" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Food Industry</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-BRPX313-Beer-Wine-Centrifuge.webp"
+          alt="Alfa Laval BRPX313 Beer and Wine Centrifuge for food processing"
+          width="600"
+          height="600"
+          loading="lazy"
+          class="rounded-lg w-full max-w-md"
+        />
+        <p class="text-sm text-gray-500 mt-2">Beer Centrifuge</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        The food processing industry is a big user of Alfa Laval centrifugal separators. The beverage industry, i.e., beer and wine, uses centrifugal separators to clarify yeast and must, respectively.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Animal fat rendering related to the cattle industry separates the animal fat from process water using Alfa Laval fat rendering centrifuges.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Frier oil clarification uses centrifugal separators in a wide range of the fried foods industry.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Standardization of milk occurs through the regulated separation of milk fat from fresh milk through Alfa Laval milk separators. The separated fat is then re-introduced into the milk to produce set fat-level milk.
+      </p>
+      <p class="text-text leading-relaxed">
+        Palm oil separation from the palm fruit pulp, the separation of orange juice from the orange pulp, and various other juice separation applications are examples of centrifugal separation in the food industry.
+      </p>
+    </div>
+
+    <!-- Fuel -->
+    <div id="fuel" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Fuel</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Diesel-Centrifuge.webp"
+          alt="Alfa Laval Duplex Diesel Centrifuge ATEX Zone 2 for fuel purification"
+          width="300"
+          height="300"
+          loading="lazy"
+          class="rounded-lg w-full max-w-sm"
+        />
+        <p class="text-sm text-gray-500 mt-2">Duplex Diesel Centrifuge ATEX Zone 2</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        Alfa Laval centrifugal separators are the most common type of separation device used to purify fuels. Stored diesel gets contaminated with water from condensation and sludge from storage tanks.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        A centrifugal separator easily separates the water and sludge to ensure access to clean diesel for emergency generators.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        All ocean-faring ships use fuel oil or bunker fuel as the primary fuel for their engines. Sludge and water are common contaminants based on the source of the fuel oil. These contaminants can cause premature engine failures and service interruptions.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Alfa Laval fuel oil separators feature unique designs for efficiently separating fuel oil from sludge and water.
+      </p>
+      <p class="text-text leading-relaxed">
+        Aviation fuel has a similar problem related to condensed moisture. Large volumes of aviation fuel are routinely separated from water and fine particulate matter using an Alfa Laval centrifugal machine.
+      </p>
+    </div>
+
+    <!-- Industrial Fluids -->
+    <div id="industrial-fluids" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Industrial Fluids</h3>
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div>
           <img
-            src="/images/alfa-laval-centrifugal-separator/Decanter-Cross-Section-600.webp"
-            alt="Decanter Cross Section showing internal components of an Alfa Laval centrifugal separator"
-            width="600"
-            height="223"
+            src="/images/alfa-laval-centrifugal-separator/disc-centrifuge-alfa-laval-whpx-510-300.webp"
+            alt="Alfa Laval WHPX510 Self-Cleaning Coolant Centrifuge"
+            width="400"
+            height="400"
             loading="lazy"
             class="rounded-lg w-full"
           />
-          <p class="text-sm text-gray-500 mt-2 text-center">Decanter Cross Section</p>
+          <p class="text-sm text-gray-500 mt-2">Alfa Laval WHPX510 Self-Cleaning Coolant Separator</p>
         </div>
-
-        <p class="text-[#2D2D2D] mb-4 font-semibold text-lg leading-relaxed">
-          The working principle of an Alfa Laval centrifugal separator is the gravitational force up to 12,000 Gs within bowls rotating at 10,000 RPM. This force separates particles as small as 1 micron from fluids such as oil and water. A flow-through design enables the continuous flow of the separated fluids and solids through discrete outlets.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          For example, the effluent from a mining operation is mainly water contaminated with soil and sand particles. The mine operator could reuse this water if there were a reliable way to separate the soil and sand particles.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          Conventional filters and other media separation devices are unsuitable for this kind of high volume, small particle size separation application. The fine particles will clog the filter media quickly, requiring frequent media replacement.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          The cost and labor involved in this process eliminate filtration as a possible solution.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          A high-efficiency Alfa Laval centrifugal separator will continuously separate the sediment from the water. With a rated efficiency of 0.5-micron particle separation, the centrifugal filtration machine is ideal for this application.
-        </p>
-
-        <p class="text-[#2D2D2D] leading-relaxed">
-          The clarified water produced by the centrifuge is clear and reusable.
-        </p>
-      </div>
-
-      <!-- Efficiency -->
-      <div id="efficiency" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-6 font-heading">Efficiency</h2>
-
-        <div class="mb-6">
+        <div>
           <img
-            src="/images/alfa-laval-centrifugal-separator/decanter-disc-centrifuge-particle-size-efficiency-300.webp"
-            alt="Decanter and Disc Centrifuge Particle Size Efficiency Chart"
-            width="300"
-            height="231"
+            src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Disc-Stack-Centrifugal-Separator-for-Hydraulic-Oil-600.webp"
+            alt="Alfa Laval Disc Stack Centrifugal Separator for Hydraulic Oil"
+            width="600"
+            height="683"
             loading="lazy"
-            class="rounded-lg w-full max-w-md mx-auto"
+            class="rounded-lg w-full"
           />
-          <p class="text-sm text-gray-500 mt-2 text-center">Centrifugal Separator Particle Efficiency Chart</p>
-        </div>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          The efficiency of Alfa Laval separators is calculated based on the properties of the fluid being processed, the type and size of solids, and the centrifugal force generated by the centrifuge.
-        </p>
-
-        <p class="text-[#2D2D2D] mb-6 leading-relaxed">
-          The centrifugal force exerted by the disc-stack separator is much higher than that of the decanter-type separator leading to higher separation efficiencies. The efficiency chart above shows the effective efficiency of each of these Alfa Laval separators.
-        </p>
-
-        <h3 id="particle-size-efficiency" class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Particle Size Efficiency</h3>
-
-        <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-          The following table lists the particle size efficiency of typical Alfa Laval centrifugal separators.
-        </p>
-
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse mb-4">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading"></th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Decanter Separator</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Disc-Stack Separator</th>
-              </tr>
-            </thead>
-            <tbody class="text-[#2D2D2D]">
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Min. Particle Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 50 Microns</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 0.5 Microns</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Max. Particle Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 10 mm</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 250 Microns</td>
-              </tr>
-            </tbody>
-          </table>
+          <p class="text-sm text-gray-500 mt-2">Alfa Laval Disc Stack Centrifugal Separator for Hydraulic Oil</p>
         </div>
       </div>
-
-      <!-- Application Examples -->
-      <div id="application-examples" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4 font-heading">Application Examples</h2>
-
-        <p class="text-[#2D2D2D] mb-8 leading-relaxed">
-          Alfa Laval centrifugal separators find a wide range of applications with their ability to separate solids from liquids and liquids from other liquids. The following list highlights some of the typical industrial applications of centrifugal separators.
-        </p>
-
-        <!-- Biofuels -->
-        <div id="biofuels" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Biofuels</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/algae-biomass-concentrate-400-edited.webp"
-              alt="Algae Biomass Concentrate - Algae Cell Harvesting using centrifugal separator"
-              width="400"
-              height="225"
-              loading="lazy"
-              class="rounded-lg w-full max-w-md"
-            />
-            <p class="text-sm text-gray-500 mt-2">Algae Cell Harvesting</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Biofuels are the new generation of fuels produced using renewable sources. Biodiesel is one such fuel that is a direct replacement for diesel fuel. The tri-esterification of used vegetable oil produces biodiesel. Alfa Laval centrifugal separators separate the biodiesel from glycerin during this process.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Ethanol produced from corn is blended with gasoline to produce E85 fuel used in gasoline engines. Alfa Laval decanters are mechanical separators that separate corn mush from ethanol.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Algae oil is the upcoming biofuel. Again, the <a href="/algae-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] underline">harvesting of algae cells</a> from water is through the use of Alfa Laval disc-stack separators. Alfa Laval separators also separate the water from algae oil which is then used to produce biodiesel.
-          </p>
-        </div>
-
-        <!-- Chemicals -->
-        <div id="chemicals" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Chemicals</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
-              alt="Alfa Laval NX-314 Decanter Centrifuge Module for chemical processing"
-              width="600"
-              height="510"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Alfa Laval NX-314 Decanter Centrifuge Module</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The chemical industry often needs to separate immiscible fluids. Gravity settling is not a feasible option due to time constraints. An Alfa Laval centrifuge exerts a centrifugal force that is several thousand times the force of gravity.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            This force causes instant separation of the liquid chemical phases that are essential for high-efficiency, continuous separation.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Chemical precipitation requires separating the solid (precipitate) phase from the liquid broth. The small particle sizes prevent the use of filters for this process.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            An Alfa Laval liquid-solid clarifying separator uses high centrifugal force to separate the smallest particles from the fluid to produce the thickened precipitate.
-          </p>
-        </div>
-
-        <!-- Environmental -->
-        <div id="environmental" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Environmental</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/WasteWater-Decanter-300.webp"
-              alt="Wastewater Decanter centrifuge for environmental water treatment"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full max-w-sm"
-            />
-            <p class="text-sm text-gray-500 mt-2">Wastewater Decanter</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Environmental pollution is primarily the result of water contamination. Contaminated water is also known as wastewater. Separating the contaminants from wastewater can often lead to the recovery of usable water while reducing environmental impacts.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Alfa Laval decanter separators can process large volumes of wastewater to separate and thicken the sludge.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Waste oil is another environmental issue that is apt for centrifugal separator processing. Water and sludge contaminate waste oil. Alfa Laval disc-stack centrifuges exert over 7,000 Gs of centrifugal force to continuously separate the water and sludge from waste oil.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            The clean oil produced by centrifugal machines is the feedstock for lubricating oil re-blending.
-          </p>
-        </div>
-
-        <!-- Food Industry -->
-        <div id="food-industry" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Food Industry</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-BRPX313-Beer-Wine-Centrifuge.webp"
-              alt="Alfa Laval BRPX313 Beer and Wine Centrifuge for food processing"
-              width="600"
-              height="600"
-              loading="lazy"
-              class="rounded-lg w-full max-w-md"
-            />
-            <p class="text-sm text-gray-500 mt-2">Beer Centrifuge</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The food processing industry is a big user of Alfa Laval centrifugal separators. The beverage industry, i.e., beer and wine, uses centrifugal separators to clarify yeast and must, respectively.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Animal fat rendering related to the cattle industry separates the animal fat from process water using Alfa Laval fat rendering centrifuges.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Frier oil clarification uses centrifugal separators in a wide range of the fried foods industry.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Standardization of milk occurs through the regulated separation of milk fat from fresh milk through Alfa Laval milk separators. The separated fat is then re-introduced into the milk to produce set fat-level milk.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Palm oil separation from the palm fruit pulp, the separation of orange juice from the orange pulp, and various other juice separation applications are examples of centrifugal separation in the food industry.
-          </p>
-        </div>
-
-        <!-- Fuel -->
-        <div id="fuel" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Fuel</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Diesel-Centrifuge.webp"
-              alt="Alfa Laval Duplex Diesel Centrifuge ATEX Zone 2 for fuel purification"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full max-w-sm"
-            />
-            <p class="text-sm text-gray-500 mt-2">Duplex Diesel Centrifuge ATEX Zone 2</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Alfa Laval centrifugal separators are the most common type of separation device used to purify fuels. Stored diesel gets contaminated with water from condensation and sludge from storage tanks.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            A centrifugal separator easily separates the water and sludge to ensure access to clean diesel for emergency generators.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            All ocean-faring ships use fuel oil or bunker fuel as the primary fuel for their engines. Sludge and water are common contaminants based on the source of the fuel oil. These contaminants can cause premature engine failures and service interruptions.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Alfa Laval fuel oil separators feature unique designs for efficiently separating fuel oil from sludge and water.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Aviation fuel has a similar problem related to condensed moisture. Large volumes of aviation fuel are routinely separated from water and fine particulate matter using an Alfa Laval centrifugal machine.
-          </p>
-        </div>
-
-        <!-- Industrial Fluids -->
-        <div id="industrial-fluids" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Industrial Fluids</h3>
-          <div class="grid md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <img
-                src="/images/alfa-laval-centrifugal-separator/disc-centrifuge-alfa-laval-whpx-510-300.webp"
-                alt="Alfa Laval WHPX510 Self-Cleaning Coolant Centrifuge"
-                width="400"
-                height="400"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2">Alfa Laval WHPX510 Self-Cleaning Coolant Separator</p>
-            </div>
-            <div>
-              <img
-                src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-Disc-Stack-Centrifugal-Separator-for-Hydraulic-Oil-600.webp"
-                alt="Alfa Laval Disc Stack Centrifugal Separator for Hydraulic Oil"
-                width="600"
-                height="683"
-                loading="lazy"
-                class="rounded-lg w-full"
-              />
-              <p class="text-sm text-gray-500 mt-2">Alfa Laval Disc Stack Centrifugal Separator for Hydraulic Oil</p>
-            </div>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Industrial fluids cover a wide range of fluids used in the manufacturing industry. Machining coolants are one of the most common fluids in the metalworking industry. Tramp oil is a common contaminant in water-based <a href="/machining-coolant-recovery-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] underline">machining coolants</a>.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The separation of tramp oil is essential before the reuse of machining coolants. Alfa Laval coolant separators offer a robust and continuous method to separate tramp oil using centrifugal forces.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Machining oils such as cutting oil, quenching oil, drawing oil, and rolling oil have metal debris as solid contaminants. Centrifugal separation machines from Alfa Laval offer a quick and cost-efficient way to recover machining oils.
-          </p>
-        </div>
-
-        <!-- Lubricants -->
-        <div id="lubricants" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Lubricants</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-MAB103-ATEX-Zone-2-Lube-Oil-Centrifuge-250.webp"
-              alt="Alfa Laval MAB103 ATEX Zone 2 Lube Oil Centrifuge"
-              width="250"
-              height="250"
-              loading="lazy"
-              class="rounded-lg w-full max-w-xs"
-            />
-            <p class="text-sm text-gray-500 mt-2">Alfa Laval MAB 103 Oil Separator</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Lubricating oils used in engines and turbines need to be clean for engines and turbines' reliable performance. Engine oil accumulates metal particles that affect engine performance. A disc-stack type separator removes these tiny particles to ensure reliable engine operation.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Steam turbines are an essential component of electric power generation systems. Steam condensation introduces water as a contaminant in the <a href="/lube-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] underline">turbine oil</a>, and water deteriorates the lube oil's lubricating properties.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            A high-speed centrifugal separator can simultaneously separate the water and sediment from the turbine lube oil.
-          </p>
-        </div>
-
-        <!-- Petroleum -->
-        <div id="petroleum" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Petroleum</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Crude-Oil-Tank-Bottom-Recovery-System.webp"
-              alt="Crude Oil Tank Bottom Recovery System using Alfa Laval centrifugal separator"
-              width="800"
-              height="290"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Alfa Laval Crude Oil Centrifugal Separator</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The petroleum or crude oil industry faces salt-water and sludge contaminants at every stage of crude oil production. The volume of crude oil requires continuous separation machinery to ensure clean crude oil production for refineries.
-          </p>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Alfa Laval crude oil separators are robust separation machines that continuously de-sludge and de-water the crude oil.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            From refinery slop oil to <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] underline">crude oil tank bottoms</a>, Alfa Laval centrifuges are an essential piece of equipment that handles all types of fluid streams.
-          </p>
-        </div>
-
-        <!-- Pharmaceutical -->
-        <div id="pharmaceutical" class="mb-8">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Pharmaceutical</h3>
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/Biotech-Pharmaceutical-Industrial-Centrifuge-600.webp"
-              alt="Biotech Pharmaceutical Industrial Centrifuge for pharma applications"
-              width="600"
-              height="500"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Biotech Pharmaceutical Industrial Centrifuge</p>
-          </div>
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The pharma industry uses sanitary Alfa Laval separators to harvest broth cell cultures. Specifically, designed biotechnology centrifuges from Alfa Laval are an essential part of any pharmaceutical process, from vaccine development to drug ingredient production.
-          </p>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Sanitary centrifuges with CIP (Clean-In-Place) features have all stainless steel fluid contact parts designed to discourage bacterial growth.
-          </p>
-        </div>
-      </div>
-
-      <!-- Advantages -->
-      <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4 font-heading">Advantages</h2>
-
-        <p class="text-[#2D2D2D] mb-6 leading-relaxed">
-          Alfa Laval centrifugal separators offer a range of advantages over conventional filtration and gravity-based separation systems. Some of the advantages are listed below.
-        </p>
-
-        <div id="continuous-processing" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Continuous Processing</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Filtration and other media-based separation equipment require periodic media replacement once the media saturates with solids. A centrifugal separator has a 'self-ejection' feature that ejects out the separated solids intermittently. Thus, there is no need for a stoppage related to media replacement with industrial filtration, allowing for continuous processing.
-          </p>
-        </div>
-
-        <div id="minimum-labor" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Minimum Labor</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Since all Alfa Laval centrifugal separators have sludge ejection as a built-in feature, this eliminates labor related to filter media replacement. The automation of these centrifugal separators makes these separation machines highly desirable for continuous, reliable production requirements.
-          </p>
-        </div>
-
-        <div id="low-operating-cost" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Low Operating Cost</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Alfa Laval centrifugal separators eliminate the cost of filter media and associated labor to replace the same. The only cost related to these centrifugal machines is the power required to drive the electric motor. Therefore, centrifugal separators offer tremendous savings in operating costs.
-          </p>
-        </div>
-
-        <div id="high-separation-efficiency" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">High Separation Efficiency</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            As previously mentioned, the centrifugal separator affects the separation using centrifugal forces that are thousands of magnitudes higher than gravity. The separation efficiency thus created allows these devices to separate particles down to 0.5-micron level. In comparison, a filter with such a low particle separation rating will saturate quickly, requiring frequent replacement making filtration not feasible for such applications.
-          </p>
-        </div>
-
-        <div id="compact-size">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Compact Size</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            A centrifugal separator, by design, amplifies the force of gravity several folds. In the case of disc-stack separators, the discs, in conjunction with the high centrifugal force, are equivalent to several football fields' settling areas. This amplification of separation effectiveness results in the centrifugal separator size being minimized for high throughput flow rates.
-          </p>
-        </div>
-      </div>
-
-      <!-- Disadvantages -->
-      <div id="disadvantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4 font-heading">Disadvantages</h2>
-
-        <p class="text-[#2D2D2D] mb-6 leading-relaxed">
-          Alfa Laval centrifugal separators have some inherent disadvantages as compared to other separation technologies. The following are some of the main drawbacks.
-        </p>
-
-        <div id="capital-cost" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Capital Cost</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Compared to API gravity separators or static filters, Alfa Laval centrifugal separators are capital-intensive. Though the initial cost pays back quickly, the investment is a drawback.
-          </p>
-        </div>
-
-        <div id="long-lead-times" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Long Lead Times</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Unlike filters or other low-technology separation devices, centrifugal separators from Alfa Laval have a longer lead time. The delivery period depends on the complexity of the separator system but can be in the 2 to 8 months or longer period.
-          </p>
-        </div>
-
-        <div id="system-sophistication" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">System Sophistication</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Centrifugal separation systems, in general, have precisely balanced bowls and other components with high tolerances. These separators are more sophisticated than static separation systems such as gravity tanks, filters, or API separators. More complexity of the equipment implies regular maintenance and trained operators.
-          </p>
-        </div>
-
-        <div id="control-systems" class="mb-6 pb-6 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Control Systems</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Automatic control systems are a part of a centrifugal separator system. The primary purpose of the control system is for speed monitoring and operational sequence, as in the case of disc stack centrifuges or decanter centrifuges. This requirement of control systems adds to the initial cost and operational complexity.
-          </p>
-        </div>
-
-        <div id="mechanical-separation">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-3 font-heading">Mechanical Separation (Not Absolute Separation)</h3>
-          <p class="text-[#2D2D2D] leading-relaxed">
-            Unlike filters or filter presses, centrifugal separators use the amplified force of gravity to affect the separation of liquids and solids. Therefore, these separators are mechanical in nature, meaning they do not offer absolute separation to a specific particle grade.
-          </p>
-        </div>
-      </div>
-
-      <!-- Types of Centrifugal Separators -->
-      <div id="types-of-centrifugal-separators" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4 font-heading">Types of Centrifugal Separators</h2>
-
-        <p class="text-[#2D2D2D] mb-8 leading-relaxed">
-          Alfa Laval centrifugal separators are categorized as decanters and disc-stack separators. The following is a brief description of each of these separators.
-        </p>
-
-        <!-- Decanter Centrifuge -->
-        <div id="decanter-centrifuge" class="mb-8 pb-8 border-b border-gray-100">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">
-            <a href="/decanter-centrifuge/" class="hover:text-[#E8A317] transition">Decanter Centrifuge</a>
-          </h3>
-
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/decanter-bowl-scroll-rotation-400.webp"
-              alt="Conveyor Rotation inside Decanter Bowl Diagram"
-              width="400"
-              height="163"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Conveyor Rotation inside Decanter Bowl Diagram</p>
-          </div>
-
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Alfa Laval decanters are horizontal separators that generate around 3,000 Gs of centrifugal force. These separators have an internal auger (conveyor) that rotates at a differential speed to the bowl.
-          </p>
-
-          <h4 class="text-lg font-bold text-[#1B3A5C] mb-3 font-heading">Decanter Centrifuge Operation</h4>
-
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The centrifugal force causes sedimentation of the sludge along the bowl wall. The rotating auger pushes this separated sludge towards and out of the sludge discharge ports.
-          </p>
-
-          <div class="mb-4">
-            <img
-              src="/images/shared/Dewatering-Centrifuge-Animation.gif"
-              alt="Dewatering Centrifuge Animation showing how decanter centrifuge operates"
-              width="533"
-              height="188"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Dewatering Centrifuge Animation</p>
-          </div>
-
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            The lighter fluid floats on top of the sludge layer and escapes through a liquid outlet on the other side of the rotating bowl.
-          </p>
-
-          <p class="text-[#2D2D2D] leading-relaxed">
-            The continuous ejection of separated solids enables these separators to handle high-sludge applications.
-          </p>
-        </div>
-
-        <!-- Disc Stack Separators -->
-        <div id="disc-stack-separators">
-          <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">
-            <a href="/disc-stack-centrifuge/" class="hover:text-[#E8A317] transition">Disc Stack Separators</a>
-          </h3>
-
-          <div class="mb-4">
-            <img
-              src="/images/alfa-laval-centrifugal-separator/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp"
-              alt="Alfa Laval Disc Stack Centrifuge Bowl Cross Section Diagram"
-              width="400"
-              height="222"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Alfa Laval Disc Stack Separator Bowl Diagram</p>
-          </div>
-
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            Disc-stack centrifugal separators are also known as high-speed disc centrifuges. These machines rotate at a much faster rate of up to 10,000 RPM generating up to 12,000 g-forces.
-          </p>
-
-          <h4 class="text-lg font-bold text-[#1B3A5C] mb-3 font-heading">Disc Stack Separator Operation</h4>
-
-          <p class="text-[#2D2D2D] mb-4 leading-relaxed">
-            This high centrifugal force can continuously separate tiny particles, making these disc stack separating machines well-suited for separating small amounts of microscopic particles.
-          </p>
-
-          <div class="mb-4">
-            <img
-              src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif"
-              alt="Disc Centrifuge Separator Self-Cleaning Animation"
-              width="599"
-              height="460"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-sm text-gray-500 mt-2">Disc Centrifuge Separator Self-Cleaning Animation</p>
-          </div>
-
-          <p class="text-[#2D2D2D] leading-relaxed">
-            These machines accumulate and periodically eject the separated solids, as shown in the animation above. These separators are more suited for low-sludge applications due to the intermittent sludge ejection.
-          </p>
-        </div>
-      </div>
-
-      <!-- Specifications -->
-      <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#1B3A5C] mb-4 font-heading">Specifications</h2>
-
-        <p class="text-[#2D2D2D] mb-6 leading-relaxed">
-          Centrifugal separators manufactured by Alfa Laval are available in various sizes and capacities. The following tables list the specifications of some of these separators.
-        </p>
-
-        <!-- Decanter Specs -->
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Alfa Laval Decanter Separator Specifications</h3>
-
-        <div class="overflow-x-auto mb-8">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Model Type</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval NX-309</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval Aldec 406</th>
-              </tr>
-            </thead>
-            <tbody class="text-[#2D2D2D]">
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Speed</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5,800 RPM</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4,000 RPM</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Gravitational Force</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3,200 Gs</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3,150 Gs</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">10" Diameter</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">14" Diameter</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Rated Capacity</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5 GPM</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">100 GPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Drive Motor</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5 HP</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">25 HP</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Separator Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">2' x 5' x 4' (H)</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3' x 9' x 5' (H)</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Weight</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 1,500 Lbs</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 4,000 Lbs</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Disc-Stack Specs -->
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-4 font-heading">Alfa Laval Disc-Stack Separator Specifications</h3>
-
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Model Type</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval WSPX-303</th>
-                <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval BRPX-417</th>
-              </tr>
-            </thead>
-            <tbody class="text-[#2D2D2D]">
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Speed</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">9,200 RPM</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4,000 RPM</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Gravitational Force</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">8,000 Gs</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">7,500 Gs</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~10" Diameter</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~30"</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Rated Capacity</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4 GPM</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">280 GPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Drive Motor</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4 HP</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">50 HP</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Separator Size</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3' x 4' x 4' (H)</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4' x 7' x 7' (H)</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="border border-gray-200 px-4 py-3 font-semibold">Weight</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~1,000 Lbs</td>
-                <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~4,000 Lbs</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Author & CTA -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-6">
-          <div class="w-16 h-16 bg-[#1B3A5C] rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">SP</div>
-          <div>
-            <p class="font-semibold text-[#2D2D2D]">by Sanjay Prabhu MSME</p>
-            <p class="text-gray-600">Engineering Manager, Dolphin Centrifuge</p>
-          </div>
-        </div>
-
-        <div class="bg-[#1B3A5C] rounded-xl p-6 md:p-8 text-white text-center">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 font-heading">Need Help Selecting the Right Centrifugal Separator?</h3>
-          <p class="text-gray-200 mb-6 max-w-2xl mx-auto">
-            Contact our engineering team for expert guidance on selecting and configuring the ideal Alfa Laval centrifugal separator for your application.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:+12485222573" class="inline-flex items-center justify-center bg-[#E8A317] text-white font-semibold px-8 py-3 rounded-lg hover:bg-amber-600 transition">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-              (248) 522-2573
-            </a>
-            <a href="mailto:sales@dolphincentrifuge.com" class="inline-flex items-center justify-center border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-              Email Us
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is an Alfa Laval centrifugal separator?</h3>
-            <p class="text-text-light text-sm">An Alfa Laval centrifugal separator is a disc stack centrifuge that separates liquids from solids or separates immiscible liquids of different densities. Alfa Laval is the world's leading manufacturer of centrifugal separators, with disc stack models covering oil purification, food processing, pharmaceutical production, water treatment, and industrial fluid applications.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between a centrifugal purifier and a centrifugal clarifier?</h3>
-            <p class="text-text-light text-sm">A centrifugal purifier separates two immiscible liquid phases plus solids (three-phase) — for example, oil, water, and sludge. A centrifugal clarifier separates solids from a single liquid phase only (two-phase). The key hardware difference is that a purifier uses a gravity disc to maintain a liquid-liquid interface; a clarifier does not use a gravity disc.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How is the gravity disc selected for a centrifugal separator?</h3>
-            <p class="text-text-light text-sm">The gravity disc inner diameter is selected based on the density of the process liquid being separated. A nomogram or formula in the Alfa Laval service manual relates feed density and throughput to gravity disc size. Selecting the wrong gravity disc causes liquid carryover into the heavy phase or contamination of the light liquid phase with water.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-6 font-heading">Related Articles</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-          <a href="/disc-stack-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Disc Stack Centrifuge</h3>
-            <p class="text-sm text-gray-600">Complete guide to disc stack centrifuge technology, operation, and applications.</p>
-          </a>
-          <a href="/decanter-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Decanter Centrifuge</h3>
-            <p class="text-sm text-gray-600">Learn about decanter centrifuge working principle, types, and industrial uses.</p>
-          </a>
-          <a href="/industrial-centrifuges-faq/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Industrial Centrifuges FAQ</h3>
-            <p class="text-sm text-gray-600">Frequently asked questions about industrial centrifuge selection, operation, and maintenance.</p>
-          </a>
-          <a href="/disc-stack-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Centrifuge Technology</h3>
-            <p class="text-sm text-gray-600">Overview of centrifuge technology principles and engineering fundamentals.</p>
-          </a>
-          <a href="/lube-oil-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Lube Oil Centrifuge</h3>
-            <p class="text-sm text-gray-600">How centrifugal separators purify lubricating oils for engines and turbines.</p>
-          </a>
-          <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
-            <h3 class="text-lg font-semibold text-[#1B3A5C] group-hover:text-[#E8A317] transition mb-2 font-heading">Crude Oil Tank Bottom Recovery</h3>
-            <p class="text-sm text-gray-600">Centrifuge systems for recovering valuable crude oil from tank bottom sludge.</p>
-          </a>
-        </div>
-      </div>
-
+      <p class="text-text mb-4 leading-relaxed">
+        Industrial fluids cover a wide range of fluids used in the manufacturing industry. Machining coolants are one of the most common fluids in the metalworking industry. Tramp oil is a common contaminant in water-based <a href="/machining-coolant-recovery-centrifuge/" class="text-navy hover:text-gold underline">machining coolants</a>.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        The separation of tramp oil is essential before the reuse of machining coolants. Alfa Laval coolant separators offer a robust and continuous method to separate tramp oil using centrifugal forces.
+      </p>
+      <p class="text-text leading-relaxed">
+        Machining oils such as cutting oil, quenching oil, drawing oil, and rolling oil have metal debris as solid contaminants. Centrifugal separation machines from Alfa Laval offer a quick and cost-efficient way to recover machining oils.
+      </p>
     </div>
-  </section>
 
-</BaseLayout>
+    <!-- Lubricants -->
+    <div id="lubricants" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Lubricants</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Alfa-Laval-MAB103-ATEX-Zone-2-Lube-Oil-Centrifuge-250.webp"
+          alt="Alfa Laval MAB103 ATEX Zone 2 Lube Oil Centrifuge"
+          width="250"
+          height="250"
+          loading="lazy"
+          class="rounded-lg w-full max-w-xs"
+        />
+        <p class="text-sm text-gray-500 mt-2">Alfa Laval MAB 103 Oil Separator</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        Lubricating oils used in engines and turbines need to be clean for engines and turbines' reliable performance. Engine oil accumulates metal particles that affect engine performance. A disc-stack type separator removes these tiny particles to ensure reliable engine operation.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Steam turbines are an essential component of electric power generation systems. Steam condensation introduces water as a contaminant in the <a href="/lube-oil-centrifuge/" class="text-navy hover:text-gold underline">turbine oil</a>, and water deteriorates the lube oil's lubricating properties.
+      </p>
+      <p class="text-text leading-relaxed">
+        A high-speed centrifugal separator can simultaneously separate the water and sediment from the turbine lube oil.
+      </p>
+    </div>
+
+    <!-- Petroleum -->
+    <div id="petroleum" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Petroleum</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Crude-Oil-Tank-Bottom-Recovery-System.webp"
+          alt="Crude Oil Tank Bottom Recovery System using Alfa Laval centrifugal separator"
+          width="800"
+          height="290"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Alfa Laval Crude Oil Centrifugal Separator</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        The petroleum or crude oil industry faces salt-water and sludge contaminants at every stage of crude oil production. The volume of crude oil requires continuous separation machinery to ensure clean crude oil production for refineries.
+      </p>
+      <p class="text-text mb-4 leading-relaxed">
+        Alfa Laval crude oil separators are robust separation machines that continuously de-sludge and de-water the crude oil.
+      </p>
+      <p class="text-text leading-relaxed">
+        From refinery slop oil to <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy hover:text-gold underline">crude oil tank bottoms</a>, Alfa Laval centrifuges are an essential piece of equipment that handles all types of fluid streams.
+      </p>
+    </div>
+
+    <!-- Pharmaceutical -->
+    <div id="pharmaceutical" class="mb-8">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">Pharmaceutical</h3>
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/Biotech-Pharmaceutical-Industrial-Centrifuge-600.webp"
+          alt="Biotech Pharmaceutical Industrial Centrifuge for pharma applications"
+          width="600"
+          height="500"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Biotech Pharmaceutical Industrial Centrifuge</p>
+      </div>
+      <p class="text-text mb-4 leading-relaxed">
+        The pharma industry uses sanitary Alfa Laval separators to harvest broth cell cultures. Specifically, designed biotechnology centrifuges from Alfa Laval are an essential part of any pharmaceutical process, from vaccine development to drug ingredient production.
+      </p>
+      <p class="text-text leading-relaxed">
+        Sanitary centrifuges with CIP (Clean-In-Place) features have all stainless steel fluid contact parts designed to discourage bacterial growth.
+      </p>
+    </div>
+  </div>
+
+  <!-- Advantages -->
+  <div id="advantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4 font-heading">Advantages</h2>
+
+    <p class="text-text mb-6 leading-relaxed">
+      Alfa Laval centrifugal separators offer a range of advantages over conventional filtration and gravity-based separation systems. Some of the advantages are listed below.
+    </p>
+
+    <div id="continuous-processing" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Continuous Processing</h3>
+      <p class="text-text leading-relaxed">
+        Filtration and other media-based separation equipment require periodic media replacement once the media saturates with solids. A centrifugal separator has a 'self-ejection' feature that ejects out the separated solids intermittently. Thus, there is no need for a stoppage related to media replacement with industrial filtration, allowing for continuous processing.
+      </p>
+    </div>
+
+    <div id="minimum-labor" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Minimum Labor</h3>
+      <p class="text-text leading-relaxed">
+        Since all Alfa Laval centrifugal separators have sludge ejection as a built-in feature, this eliminates labor related to filter media replacement. The automation of these centrifugal separators makes these separation machines highly desirable for continuous, reliable production requirements.
+      </p>
+    </div>
+
+    <div id="low-operating-cost" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Low Operating Cost</h3>
+      <p class="text-text leading-relaxed">
+        Alfa Laval centrifugal separators eliminate the cost of filter media and associated labor to replace the same. The only cost related to these centrifugal machines is the power required to drive the electric motor. Therefore, centrifugal separators offer tremendous savings in operating costs.
+      </p>
+    </div>
+
+    <div id="high-separation-efficiency" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">High Separation Efficiency</h3>
+      <p class="text-text leading-relaxed">
+        As previously mentioned, the centrifugal separator affects the separation using centrifugal forces that are thousands of magnitudes higher than gravity. The separation efficiency thus created allows these devices to separate particles down to 0.5-micron level. In comparison, a filter with such a low particle separation rating will saturate quickly, requiring frequent replacement making filtration not feasible for such applications.
+      </p>
+    </div>
+
+    <div id="compact-size">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Compact Size</h3>
+      <p class="text-text leading-relaxed">
+        A centrifugal separator, by design, amplifies the force of gravity several folds. In the case of disc-stack separators, the discs, in conjunction with the high centrifugal force, are equivalent to several football fields' settling areas. This amplification of separation effectiveness results in the centrifugal separator size being minimized for high throughput flow rates.
+      </p>
+    </div>
+  </div>
+
+  <!-- Disadvantages -->
+  <div id="disadvantages" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4 font-heading">Disadvantages</h2>
+
+    <p class="text-text mb-6 leading-relaxed">
+      Alfa Laval centrifugal separators have some inherent disadvantages as compared to other separation technologies. The following are some of the main drawbacks.
+    </p>
+
+    <div id="capital-cost" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Capital Cost</h3>
+      <p class="text-text leading-relaxed">
+        Compared to API gravity separators or static filters, Alfa Laval centrifugal separators are capital-intensive. Though the initial cost pays back quickly, the investment is a drawback.
+      </p>
+    </div>
+
+    <div id="long-lead-times" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Long Lead Times</h3>
+      <p class="text-text leading-relaxed">
+        Unlike filters or other low-technology separation devices, centrifugal separators from Alfa Laval have a longer lead time. The delivery period depends on the complexity of the separator system but can be in the 2 to 8 months or longer period.
+      </p>
+    </div>
+
+    <div id="system-sophistication" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">System Sophistication</h3>
+      <p class="text-text leading-relaxed">
+        Centrifugal separation systems, in general, have precisely balanced bowls and other components with high tolerances. These separators are more sophisticated than static separation systems such as gravity tanks, filters, or API separators. More complexity of the equipment implies regular maintenance and trained operators.
+      </p>
+    </div>
+
+    <div id="control-systems" class="mb-6 pb-6 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Control Systems</h3>
+      <p class="text-text leading-relaxed">
+        Automatic control systems are a part of a centrifugal separator system. The primary purpose of the control system is for speed monitoring and operational sequence, as in the case of disc stack centrifuges or decanter centrifuges. This requirement of control systems adds to the initial cost and operational complexity.
+      </p>
+    </div>
+
+    <div id="mechanical-separation">
+      <h3 class="text-xl font-bold text-navy mb-3 font-heading">Mechanical Separation (Not Absolute Separation)</h3>
+      <p class="text-text leading-relaxed">
+        Unlike filters or filter presses, centrifugal separators use the amplified force of gravity to affect the separation of liquids and solids. Therefore, these separators are mechanical in nature, meaning they do not offer absolute separation to a specific particle grade.
+      </p>
+    </div>
+  </div>
+
+  <!-- Types of Centrifugal Separators -->
+  <div id="types-of-centrifugal-separators" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4 font-heading">Types of Centrifugal Separators</h2>
+
+    <p class="text-text mb-8 leading-relaxed">
+      Alfa Laval centrifugal separators are categorized as decanters and disc-stack separators. The following is a brief description of each of these separators.
+    </p>
+
+    <!-- Decanter Centrifuge -->
+    <div id="decanter-centrifuge" class="mb-8 pb-8 border-b border-gray-100">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">
+        <a href="/decanter-centrifuge/" class="hover:text-gold transition">Decanter Centrifuge</a>
+      </h3>
+
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/decanter-bowl-scroll-rotation-400.webp"
+          alt="Conveyor Rotation inside Decanter Bowl Diagram"
+          width="400"
+          height="163"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Conveyor Rotation inside Decanter Bowl Diagram</p>
+      </div>
+
+      <p class="text-text mb-4 leading-relaxed">
+        Alfa Laval decanters are horizontal separators that generate around 3,000 Gs of centrifugal force. These separators have an internal auger (conveyor) that rotates at a differential speed to the bowl.
+      </p>
+
+      <h4 class="text-lg font-bold text-navy mb-3 font-heading">Decanter Centrifuge Operation</h4>
+
+      <p class="text-text mb-4 leading-relaxed">
+        The centrifugal force causes sedimentation of the sludge along the bowl wall. The rotating auger pushes this separated sludge towards and out of the sludge discharge ports.
+      </p>
+
+      <div class="mb-4">
+        <img
+          src="/images/shared/Dewatering-Centrifuge-Animation.gif"
+          alt="Dewatering Centrifuge Animation showing how decanter centrifuge operates"
+          width="533"
+          height="188"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Dewatering Centrifuge Animation</p>
+      </div>
+
+      <p class="text-text mb-4 leading-relaxed">
+        The lighter fluid floats on top of the sludge layer and escapes through a liquid outlet on the other side of the rotating bowl.
+      </p>
+
+      <p class="text-text leading-relaxed">
+        The continuous ejection of separated solids enables these separators to handle high-sludge applications.
+      </p>
+    </div>
+
+    <!-- Disc Stack Separators -->
+    <div id="disc-stack-separators">
+      <h3 class="text-xl font-bold text-navy mb-4 font-heading">
+        <a href="/disc-stack-centrifuge/" class="hover:text-gold transition">Disc Stack Separators</a>
+      </h3>
+
+      <div class="mb-4">
+        <img
+          src="/images/alfa-laval-centrifugal-separator/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp"
+          alt="Alfa Laval Disc Stack Centrifuge Bowl Cross Section Diagram"
+          width="400"
+          height="222"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Alfa Laval Disc Stack Separator Bowl Diagram</p>
+      </div>
+
+      <p class="text-text mb-4 leading-relaxed">
+        Disc-stack centrifugal separators are also known as high-speed disc centrifuges. These machines rotate at a much faster rate of up to 10,000 RPM generating up to 12,000 g-forces.
+      </p>
+
+      <h4 class="text-lg font-bold text-navy mb-3 font-heading">Disc Stack Separator Operation</h4>
+
+      <p class="text-text mb-4 leading-relaxed">
+        This high centrifugal force can continuously separate tiny particles, making these disc stack separating machines well-suited for separating small amounts of microscopic particles.
+      </p>
+
+      <div class="mb-4">
+        <img
+          src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif"
+          alt="Disc Centrifuge Separator Self-Cleaning Animation"
+          width="599"
+          height="460"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-sm text-gray-500 mt-2">Disc Centrifuge Separator Self-Cleaning Animation</p>
+      </div>
+
+      <p class="text-text leading-relaxed">
+        These machines accumulate and periodically eject the separated solids, as shown in the animation above. These separators are more suited for low-sludge applications due to the intermittent sludge ejection.
+      </p>
+    </div>
+  </div>
+
+  <!-- Specifications -->
+  <div id="specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4 font-heading">Specifications</h2>
+
+    <p class="text-text mb-6 leading-relaxed">
+      Centrifugal separators manufactured by Alfa Laval are available in various sizes and capacities. The following tables list the specifications of some of these separators.
+    </p>
+
+    <!-- Decanter Specs -->
+    <h3 class="text-xl font-bold text-navy mb-4 font-heading">Alfa Laval Decanter Separator Specifications</h3>
+
+    <div class="overflow-x-auto mb-8">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Model Type</th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval NX-309</th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval Aldec 406</th>
+          </tr>
+        </thead>
+        <tbody class="text-text">
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Speed</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5,800 RPM</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4,000 RPM</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Gravitational Force</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3,200 Gs</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3,150 Gs</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">10" Diameter</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">14" Diameter</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Rated Capacity</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5 GPM</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">100 GPM</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Drive Motor</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">5 HP</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">25 HP</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Separator Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">2' x 5' x 4' (H)</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3' x 9' x 5' (H)</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Weight</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 1,500 Lbs</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~ 4,000 Lbs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Disc-Stack Specs -->
+    <h3 class="text-xl font-bold text-navy mb-4 font-heading">Alfa Laval Disc-Stack Separator Specifications</h3>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Model Type</th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval WSPX-303</th>
+            <th class="border border-gray-300 px-4 py-3 text-left font-heading">Alfa Laval BRPX-417</th>
+          </tr>
+        </thead>
+        <tbody class="text-text">
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Speed</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">9,200 RPM</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4,000 RPM</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Gravitational Force</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">8,000 Gs</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">7,500 Gs</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Bowl Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~10" Diameter</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~30"</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Rated Capacity</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4 GPM</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">280 GPM</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Drive Motor</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4 HP</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">50 HP</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Separator Size</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">3' x 4' x 4' (H)</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">4' x 7' x 7' (H)</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="border border-gray-200 px-4 py-3 font-semibold">Weight</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~1,000 Lbs</td>
+            <td class="border border-gray-200 px-4 py-3 font-mono text-sm">~4,000 Lbs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Author -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4">
+      <div class="w-16 h-16 bg-navy rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">SP</div>
+      <div>
+        <p class="font-semibold text-text">by Sanjay Prabhu MSME</p>
+        <p class="text-text-light">Engineering Manager, Dolphin Centrifuge</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What is an Alfa Laval centrifugal separator?</h3>
+        <p class="text-text-light text-sm">An Alfa Laval centrifugal separator is a disc stack centrifuge that separates liquids from solids or separates immiscible liquids of different densities. Alfa Laval is the world's leading manufacturer of centrifugal separators, with disc stack models covering oil purification, food processing, pharmaceutical production, water treatment, and industrial fluid applications.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What is the difference between a centrifugal purifier and a centrifugal clarifier?</h3>
+        <p class="text-text-light text-sm">A centrifugal purifier separates two immiscible liquid phases plus solids (three-phase) — for example, oil, water, and sludge. A centrifugal clarifier separates solids from a single liquid phase only (two-phase). The key hardware difference is that a purifier uses a gravity disc to maintain a liquid-liquid interface; a clarifier does not use a gravity disc.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">How is the gravity disc selected for a centrifugal separator?</h3>
+        <p class="text-text-light text-sm">The gravity disc inner diameter is selected based on the density of the process liquid being separated. A nomogram or formula in the Alfa Laval service manual relates feed density and throughput to gravity disc size. Selecting the wrong gravity disc causes liquid carryover into the heavy phase or contamination of the light liquid phase with water.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Articles -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+    <h2 class="text-2xl font-bold text-navy mb-6 font-heading">Related Articles</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <a href="/disc-stack-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Disc Stack Centrifuge</h3>
+        <p class="text-sm text-gray-600">Complete guide to disc stack centrifuge technology, operation, and applications.</p>
+      </a>
+      <a href="/decanter-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Decanter Centrifuge</h3>
+        <p class="text-sm text-gray-600">Learn about decanter centrifuge working principle, types, and industrial uses.</p>
+      </a>
+      <a href="/industrial-centrifuges-faq/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Industrial Centrifuges FAQ</h3>
+        <p class="text-sm text-gray-600">Frequently asked questions about industrial centrifuge selection, operation, and maintenance.</p>
+      </a>
+      <a href="/lube-oil-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Lube Oil Centrifuge</h3>
+        <p class="text-sm text-gray-600">How centrifugal separators purify lubricating oils for engines and turbines.</p>
+      </a>
+      <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Crude Oil Tank Bottom Recovery</h3>
+        <p class="text-sm text-gray-600">Centrifuge systems for recovering valuable crude oil from tank bottom sludge.</p>
+      </a>
+      <a href="/machining-coolant-recovery-centrifuge/" class="group block bg-gray-50 rounded-lg p-5 hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-navy group-hover:text-gold transition mb-2 font-heading">Machining Coolant Recovery</h3>
+        <p class="text-sm text-gray-600">Centrifuge solutions for tramp oil removal and coolant recovery in metalworking.</p>
+      </a>
+    </div>
+  </div>
+
+</ApplicationLayout>

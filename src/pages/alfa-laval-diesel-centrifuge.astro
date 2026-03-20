@@ -1,252 +1,230 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Alfa Laval Diesel Centrifuge: Large Scale Case Study",
-  "description": "Case study on large-scale diesel fuel purification using an Alfa Laval WHPX 510 centrifuge for railcar wash diesel recovery. $2M+ annual savings.",
-  "author": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com",
-  "datePublished": "2019-10-01" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/alfa-laval-diesel-centrifuge/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What contamination can an Alfa Laval diesel centrifuge remove?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Alfa Laval diesel centrifuges (WHPX and MOPX series) remove water (free and emulsified), solid particulates down to 0.5 microns, sludge, biological growth, and oxidation byproducts from diesel fuel. The three-phase separation process simultaneously removes both water and solids in a single pass, restoring off-spec diesel to ASTM D975 specification."
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Alfa Laval Diesel Centrifuge: Large Scale Case Study",
+    "description": "Case study on large-scale diesel fuel purification using an Alfa Laval WHPX 510 centrifuge for railcar wash diesel recovery. $2M+ annual savings.",
+    "author": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com",
+    "datePublished": "2019-10-01" },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "url": "https://dolphincentrifuge.com/alfa-laval-diesel-centrifuge/",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What contamination can an Alfa Laval diesel centrifuge remove?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Alfa Laval diesel centrifuges (WHPX and MOPX series) remove water (free and emulsified), solid particulates down to 0.5 microns, sludge, biological growth, and oxidation byproducts from diesel fuel. The three-phase separation process simultaneously removes both water and solids in a single pass, restoring off-spec diesel to ASTM D975 specification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What flow rate do Alfa Laval diesel centrifuges handle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010) up to 72 GPM (DMPX-070) on diesel at 13 cSt. Larger capacity can be achieved with parallel centrifuge installations. The case study on this page demonstrates a DMPX-070 class system processing contaminated diesel at high throughput for a major fleet operation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much diesel fuel can be recovered with centrifuge purification?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Recovery rates depend on initial contamination level. In the railcar wash facility case study on this page, centrifuge purification recovered over $2 million in diesel fuel annually that was previously classified as waste. Typical recovery rates for contaminated diesel range from 85% to 99% of the original fuel volume."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the Alfa Laval WHPX 510 centrifuge explosion-proof?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Alfa Laval WHPX series centrifuges (including the WHPX 510, equivalent to Dolphin DMPX-070) are available with Class 1 Division 2 explosion-proof motors and controls, suitable for diesel fuel environments classified as hazardous areas under NFPA 497 or NEC 500-516."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does centrifuge diesel purification compare to filter systems?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Centrifuge purification has significantly lower operating costs than filter-based systems for high-volume applications: no filter media replacement (eliminates $20,000–$100,000+/year in cartridge costs for large systems), no media disposal, continuous operation without filter change downtime, and simultaneous water and solids removal. The payback period for a centrifuge system is typically 6–18 months versus filter costs."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "What flow rate do Alfa Laval diesel centrifuges handle?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010) up to 72 GPM (DMPX-070) on diesel at 13 cSt. Larger capacity can be achieved with parallel centrifuge installations. The case study on this page demonstrates a DMPX-070 class system processing contaminated diesel at high throughput for a major fleet operation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much diesel fuel can be recovered with centrifuge purification?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Recovery rates depend on initial contamination level. In the railcar wash facility case study on this page, centrifuge purification recovered over $2 million in diesel fuel annually that was previously classified as waste. Typical recovery rates for contaminated diesel range from 85% to 99% of the original fuel volume."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Alfa Laval WHPX 510 centrifuge explosion-proof?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Alfa Laval WHPX series centrifuges (including the WHPX 510, equivalent to Dolphin DMPX-070) are available with Class 1 Division 2 explosion-proof motors and controls, suitable for diesel fuel environments classified as hazardous areas under NFPA 497 or NEC 500-516."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does centrifuge diesel purification compare to filter systems?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Centrifuge purification has significantly lower operating costs than filter-based systems for high-volume applications: no filter media replacement (eliminates $20,000–$100,000+/year in cartridge costs for large systems), no media disposal, continuous operation without filter change downtime, and simultaneous water and solids removal. The payback period for a centrifuge system is typically 6–18 months versus filter costs."
-      }
-    }
-  ]
-};
+    ]
+  }
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval Diesel Centrifuge Case Study"
   description="Case study on large-scale diesel fuel purification using an Alfa Laval WHPX 510 centrifuge for railcar wash diesel recovery. $2M+ annual savings."
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-diesel-centrifuge/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Diesel Centrifuge Case Study'}]}
+  category="applications"
+  categoryLabel="Applications"
+  heroImage="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Calss-1-Div-2-Explosion-Proof-600.webp"
+  heroImageAlt="Alfa Laval diesel centrifuge system with Class 1 Division 2 explosion-proof rating for hazardous area fuel purification"
   jsonLd={jsonLd}
+  relatedProducts={[
+    { label: "DMPX-070 Diesel Centrifuge", href: "/diesel-centrifuge/", description: "59–72 GPM, Class 1 Div 2 rated" },
+    { label: "Disc Stack Centrifuge Systems", href: "/disc-stack-centrifuge/", description: "Full product line overview" },
+    { label: "Alfa Laval WHPX 510", href: "/alfa-laval-whpx-510-centrifuge/", description: "3-phase self-cleaning model" },
+  ]}
+  relatedApplications={[
+    { label: "Black Diesel Purification", href: "/black-diesel-centrifuge/" },
+    { label: "Industrial Centrifuge Testing", href: "/industrial-centrifuge-sample-testing/" },
+    { label: "Centrifuge Controls & Automation", href: "/industrial-centrifuge-controls/" },
+  ]}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Case Study</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Alfa Laval Diesel Centrifuge: Large-Scale Fuel Recovery</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">How an Alfa Laval WHPX 510 disc stack centrifuge saved over $2 million annually by recovering spent diesel fuel used to wash crude oil railcars, paying for itself within the first month of operation.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-    </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Calss-1-Div-2-Explosion-Proof-600.webp" alt="Alfa Laval diesel centrifuge system with Class 1 Division 2 explosion-proof rating for hazardous area fuel purification" width="600" height="450" loading="eager" class="rounded-lg w-full mb-8" />
 
-      <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Calss-1-Div-2-Explosion-Proof-600.webp" alt="Alfa Laval diesel centrifuge system with Class 1 Division 2 explosion-proof rating for hazardous area fuel purification" width="600" height="450" loading="eager" class="rounded-lg w-full mb-8" />
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for diesel purification, removing sludge, water, and solids at up to 8,000 Gs. The DMPX-070 (Alfa Laval WHPX 510 equivalent) delivers 59–72 GPM with Class 1 Division 2 explosion-proof certification. Over 40 years of diesel fuel centrifuge experience.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies Alfa Laval disc stack centrifuge systems configured for diesel fuel purification — removing sludge, rust, biological contamination, and all free water from diesel at up to 8,000 Gs. Available models include the WHPX 510 (DMPX-070, 59–72 GPM) and smaller configurations, with Class 1 Division 2 explosion-proof certification for fuel depots and marine engine rooms. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of diesel fuel centrifuge experience.</p>
-      </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
+    <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A facility using 10,000 gallons of fresh diesel daily to wash crude oil railcars partnered with Dolphin Centrifuge to build a 40 GPM <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">diesel fuel purification</a> system based on the Alfa Laval WHPX 510 centrifuge. Pilot testing proved the centrifuge could reduce impurities to under 0.12%, making the diesel fully reusable. The system enabled each batch of diesel to be reused 2 to 3 times before replacement, saving over $2 million annually.</p>
+  </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A facility using 10,000 gallons of fresh diesel daily to wash crude oil railcars partnered with Dolphin Centrifuge to build a 40 GPM <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">diesel fuel purification</a> system based on the Alfa Laval WHPX 510 centrifuge. Pilot testing proved the centrifuge could reduce impurities to under 0.12%, making the diesel fully reusable. The system enabled each batch of diesel to be reused 2 to 3 times before replacement, saving over $2 million annually.</p>
-      </div>
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">The Source of Contaminated Diesel</h2>
+  <p class="text-text-light mb-4">
+    Railcars transporting crude oil require periodic cleaning to remove accumulated sludge, wax, and other residues. Diesel fuel is commonly used as the washing fluid for railcar cleaning operations due to its effective solvency. This particular facility consumed approximately 10,000 gallons of fresh diesel every day for this purpose.
+  </p>
+  <p class="text-text-light mb-8">
+    The spent diesel, now contaminated with crude oil residues, water, and sludge (often called "<a href="/black-diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">black diesel</a>"), could not be reused in its contaminated state. The facility owner, familiar with Alfa Laval centrifuge technology from naval service, contacted Dolphin Centrifuge to explore centrifugal purification of the spent diesel.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">The Source of Contaminated Diesel</h2>
-      <p class="text-text-light mb-4">
-        Railcars transporting crude oil require periodic cleaning to remove accumulated sludge, wax, and other residues. Diesel fuel is commonly used as the washing fluid for railcar cleaning operations due to its effective solvency. This particular facility consumed approximately 10,000 gallons of fresh diesel every day for this purpose.
-      </p>
-      <p class="text-text-light mb-8">
-        The spent diesel, now contaminated with crude oil residues, water, and sludge (often called "<a href="/black-diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">black diesel</a>"), could not be reused in its contaminated state. The facility owner, familiar with Alfa Laval centrifuge technology from naval service, contacted Dolphin Centrifuge to explore centrifugal purification of the spent diesel.
-      </p>
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">The Previous Purification Approach</h2>
+  <p class="text-text-light mb-8">
+    Before contacting Dolphin Centrifuge, the facility had tried a chemical additive approach. A chemical was mixed into the contaminated diesel to precipitate impurities into a heavy "black phase" that would settle out over time. This settling-based method was slow, required large tank capacity for extended settling times, and demanded significant manual labor to decant the separated phases. It could not keep pace with the 10,000 gallon daily diesel consumption.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">The Previous Purification Approach</h2>
-      <p class="text-text-light mb-8">
-        Before contacting Dolphin Centrifuge, the facility had tried a chemical additive approach. A chemical was mixed into the contaminated diesel to precipitate impurities into a heavy "black phase" that would settle out over time. This settling-based method was slow, required large tank capacity for extended settling times, and demanded significant manual labor to decant the separated phases. It could not keep pace with the 10,000 gallon daily diesel consumption.
-      </p>
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Pilot-Scale Testing</h2>
+  <img src="/images/alfa-laval-diesel-centrifuge/Industrial-Centrifuge-Pilot-Testing-Setup-300.webp" alt="Industrial centrifuge pilot testing setup for diesel fuel purification — testing contaminated diesel before full-scale system design" width="300" height="300" loading="lazy" class="rounded-lg mb-6" />
+  <p class="text-text-light mb-4">
+    Dolphin Centrifuge recommended testing the chemical-diesel mixture through a pilot-scale <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> at our in-house <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold transition-colors">testing facility</a>. The customer-provided chemical was mixed into the black diesel at the specified ratio, and the mixture was processed through the centrifuge.
+  </p>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">Parameter</th>
+          <th class="text-left px-4 py-3 font-semibold">Before Centrifuge</th>
+          <th class="text-left px-4 py-3 font-semibold">After Centrifuge</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Water Content</td>
+          <td class="px-4 py-3 text-text-light">12% (v/v)</td>
+          <td class="px-4 py-3 text-text-light">0.05% (v/v)</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Sludge Content</td>
+          <td class="px-4 py-3 text-text-light">5.8% (v/v)</td>
+          <td class="px-4 py-3 text-text-light">0.06% (v/v)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-text-light mb-8">
+    The centrifuge separated the heavy contaminated phase cleanly, producing a stream of clear diesel with less than 0.12% total impurities &mdash; well within reusable specifications for railcar washing. Based on these results, the customer contracted Dolphin Centrifuge to build a full-scale 40 GPM diesel purification system.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Pilot-Scale Testing</h2>
-      <img src="/images/alfa-laval-diesel-centrifuge/Industrial-Centrifuge-Pilot-Testing-Setup-300.webp" alt="Industrial centrifuge pilot testing setup for diesel fuel purification — testing contaminated diesel before full-scale system design" width="300" height="300" loading="lazy" class="rounded-lg mb-6" />
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge recommended testing the chemical-diesel mixture through a pilot-scale <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> at our in-house <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold transition-colors">testing facility</a>. The customer-provided chemical was mixed into the black diesel at the specified ratio, and the mixture was processed through the centrifuge.
-      </p>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Parameter</th>
-              <th class="text-left px-4 py-3 font-semibold">Before Centrifuge</th>
-              <th class="text-left px-4 py-3 font-semibold">After Centrifuge</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Water Content</td>
-              <td class="px-4 py-3 text-text-light">12% (v/v)</td>
-              <td class="px-4 py-3 text-text-light">0.05% (v/v)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Sludge Content</td>
-              <td class="px-4 py-3 text-text-light">5.8% (v/v)</td>
-              <td class="px-4 py-3 text-text-light">0.06% (v/v)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-text-light mb-8">
-        The centrifuge separated the heavy contaminated phase cleanly, producing a stream of clear diesel with less than 0.12% total impurities &mdash; well within reusable specifications for railcar washing. Based on these results, the customer contracted Dolphin Centrifuge to build a full-scale 40 GPM diesel purification system.
-      </p>
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Full-Scale System Design</h2>
+  <div class="grid md:grid-cols-2 gap-4 mb-6">
+    <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-WHPX510-Used-Engine-Oil-Centrifuge.webp" alt="Alfa Laval WHPX 510 three-phase self-cleaning disc stack centrifuge used in the large-scale diesel purification system" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
+    <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2.webp" alt="Alfa Laval duplex diesel centrifuge system with Class 1 Division 2 explosion-proof rating for continuous fuel polishing" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
+  </div>
+  <p class="text-text-light mb-4">
+    Dolphin Centrifuge engineered and manufactured a complete diesel purification module built around the Alfa Laval WHPX 510 three-phase self-cleaning disc stack centrifuge. The system included several custom features designed by Dolphin's engineering team:
+  </p>
+  <ul class="list-disc list-inside space-y-2 text-text-light mb-8 ml-4">
+    <li>Chemical injection port with metering pump for precise additive dosing</li>
+    <li>Dynamic inline mixing system on the centrifuge feed line for thorough chemical/diesel blending</li>
+    <li>Flow meters on both diesel and chemical lines with PID loop control for consistent mix ratios</li>
+    <li>VFD-controlled positive displacement feed pump</li>
+    <li>Fully automatic <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">PLC/touch-screen control panel</a></li>
+    <li>Sludge tank with integrated disposal system</li>
+    <li>Clean diesel tank with return pump</li>
+    <li>Class 1, Division 2 explosion-proof rating for hazardous area operation</li>
+  </ul>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Full-Scale System Design</h2>
-      <div class="grid md:grid-cols-2 gap-4 mb-6">
-        <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-WHPX510-Used-Engine-Oil-Centrifuge.webp" alt="Alfa Laval WHPX 510 three-phase self-cleaning disc stack centrifuge used in the large-scale diesel purification system" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
-        <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2.webp" alt="Alfa Laval duplex diesel centrifuge system with Class 1 Division 2 explosion-proof rating for continuous fuel polishing" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
-      </div>
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge engineered and manufactured a complete diesel purification module built around the Alfa Laval WHPX 510 three-phase self-cleaning disc stack centrifuge. The system included several custom features designed by Dolphin's engineering team:
-      </p>
-      <ul class="list-disc list-inside space-y-2 text-text-light mb-8 ml-4">
-        <li>Chemical injection port with metering pump for precise additive dosing</li>
-        <li>Dynamic inline mixing system on the centrifuge feed line for thorough chemical/diesel blending</li>
-        <li>Flow meters on both diesel and chemical lines with PID loop control for consistent mix ratios</li>
-        <li>VFD-controlled positive displacement feed pump</li>
-        <li>Fully automatic <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">PLC/touch-screen control panel</a></li>
-        <li>Sludge tank with integrated disposal system</li>
-        <li>Clean diesel tank with return pump</li>
-        <li>Class 1, Division 2 explosion-proof rating for hazardous area operation</li>
-      </ul>
+  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Field Results &amp; Savings</h2>
+  <p class="text-text-light mb-4">
+    Dolphin Centrifuge's engineering team performed the on-site installation and commissioning. The system was configured to process the daily volume of spent diesel during the night shift, making recovered diesel available each morning for the day's railcar washing operations.
+  </p>
+  <p class="text-text-light mb-4">
+    With the centrifuge system in operation, the customer was able to reuse each batch of wash diesel 2 to 3 times before the stock needed to be refreshed. This directly reduced fresh diesel purchases from 10,000 gallons per day to a fraction of that volume.
+  </p>
+  <p class="text-text-light mb-8">
+    The result: <strong>annual savings exceeding $2 million</strong>. The diesel centrifuge module paid for itself within the first month of operation.
+  </p>
 
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Field Results &amp; Savings</h2>
-      <p class="text-text-light mb-4">
-        Dolphin Centrifuge's engineering team performed the on-site installation and commissioning. The system was configured to process the daily volume of spent diesel during the night shift, making recovered diesel available each morning for the day's railcar washing operations.
-      </p>
-      <p class="text-text-light mb-4">
-        With the centrifuge system in operation, the customer was able to reuse each batch of wash diesel 2 to 3 times before the stock needed to be refreshed. This directly reduced fresh diesel purchases from 10,000 gallons per day to a fraction of that volume.
-      </p>
-      <p class="text-text-light mb-8">
-        The result: <strong>annual savings exceeding $2 million</strong>. The diesel centrifuge module paid for itself within the first month of operation.
-      </p>
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">System Specification</th>
+          <th class="text-left px-4 py-3 font-semibold">Details</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Centrifuge Model</td>
+          <td class="px-4 py-3 text-text-light"><a href="/alfa-laval-whpx-510-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval WHPX 510</a> &mdash; 3-Phase, Self-Cleaning Disc Stack</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Processing Capacity</td>
+          <td class="px-4 py-3 text-text-light">40 GPM</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Hazardous Area Rating</td>
+          <td class="px-4 py-3 text-text-light">Class 1, Division 2</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-3 font-medium text-navy">Key Accessories</td>
+          <td class="px-4 py-3 text-text-light">Chemical mixer, dosing pump, flow meters, PLC controls, sludge system</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">System Specification</th>
-              <th class="text-left px-4 py-3 font-semibold">Details</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Centrifuge Model</td>
-              <td class="px-4 py-3 text-text-light"><a href="/alfa-laval-whpx-510-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval WHPX 510</a> &mdash; 3-Phase, Self-Cleaning Disc Stack</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Processing Capacity</td>
-              <td class="px-4 py-3 text-text-light">40 GPM</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Hazardous Area Rating</td>
-              <td class="px-4 py-3 text-text-light">Class 1, Division 2</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Key Accessories</td>
-              <td class="px-4 py-3 text-text-light">Chemical mixer, dosing pump, flow meters, PLC controls, sludge system</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="grid md:grid-cols-2 gap-4 mb-8">
+    <img src="/images/alfa-laval-diesel-centrifuge/Dolphin-Centrifuge-DMPX-014-Diesel-Centrifuge.webp" alt="Dolphin Centrifuge DMPX-014 diesel centrifuge system for continuous fuel purification and polishing" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
+    <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-300x300-1.webp" alt="Disc stack centrifuge for diesel fuel purification — removing water, sludge, and contaminants from diesel fuel at industrial facilities" width="300" height="300" loading="lazy" class="rounded-lg w-full" />
+  </div>
 
-      <div class="grid md:grid-cols-2 gap-4 mb-8">
-        <img src="/images/alfa-laval-diesel-centrifuge/Dolphin-Centrifuge-DMPX-014-Diesel-Centrifuge.webp" alt="Dolphin Centrifuge DMPX-014 diesel centrifuge system for continuous fuel purification and polishing" width="600" height="450" loading="lazy" class="rounded-lg w-full" />
-        <img src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-300x300-1.webp" alt="Disc stack centrifuge for diesel fuel purification — removing water, sludge, and contaminants from diesel fuel at industrial facilities" width="300" height="300" loading="lazy" class="rounded-lg w-full" />
-      </div>
+  <p class="text-text-light leading-relaxed">Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> for pricing on diesel fuel centrifuge systems. We maintain a large inventory of Alfa Laval diesel centrifuges ready for immediate delivery.</p>
 
-      <p class="text-text-light leading-relaxed">Contact Dolphin Centrifuge at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> for pricing on diesel fuel centrifuge systems. We maintain a large inventory of Alfa Laval diesel centrifuges ready for immediate delivery.</p>
-    </div>
-  </section>
+  <h2 class="text-2xl font-bold text-navy mb-6 mt-10">Frequently Asked Questions</h2>
+  <div class="space-y-4">
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">What contamination can an Alfa Laval diesel centrifuge remove?</summary>
+      <p class="text-text-light mt-3 text-sm">Alfa Laval diesel centrifuges (WHPX and MOPX series) remove water (free and emulsified), solid particulates down to 0.5 microns, sludge, biological growth, and oxidation byproducts from diesel fuel. The three-phase separation process simultaneously removes both water and solids in a single pass, restoring off-spec diesel to ASTM D975 specification.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">What flow rate do Alfa Laval diesel centrifuges handle?</summary>
+      <p class="text-text-light mt-3 text-sm">Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010) up to 72 GPM (DMPX-070) on diesel at 13 cSt. Larger capacity can be achieved with parallel centrifuge installations.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">How much diesel fuel can be recovered with centrifuge purification?</summary>
+      <p class="text-text-light mt-3 text-sm">Recovery rates depend on initial contamination level. In the railcar wash facility case study on this page, centrifuge purification recovered over $2 million in diesel fuel annually that was previously classified as waste. Typical recovery rates for contaminated diesel range from 85% to 99% of the original fuel volume.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">Is the Alfa Laval WHPX centrifuge available in explosion-proof configuration?</summary>
+      <p class="text-text-light mt-3 text-sm">Yes. Alfa Laval WHPX series centrifuges are available with Class 1 Division 2 explosion-proof motors and controls, suitable for diesel fuel environments classified as hazardous areas under NFPA 497 or NEC 500-516.</p>
+    </details>
+    <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <summary class="font-semibold text-navy cursor-pointer">How does centrifuge diesel purification compare to filter systems?</summary>
+      <p class="text-text-light mt-3 text-sm">Centrifuge purification has significantly lower operating costs than filter-based systems for high-volume applications: no filter media replacement, no media disposal, continuous operation without downtime, and simultaneous water and solids removal. The payback period for a centrifuge system is typically 6–18 months versus ongoing filter costs.</p>
+    </details>
+  </div>
 
-  <!-- FAQ Section -->
-  <section class="bg-warm-white py-12">
-    <div class="container-dolphin max-w-4xl">
-      <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-4">
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What contamination can an Alfa Laval diesel centrifuge remove?</summary>
-          <p class="text-text-light mt-3 text-sm">Alfa Laval diesel centrifuges (WHPX and MOPX series) remove water (free and emulsified), solid particulates down to 0.5 microns, sludge, biological growth, and oxidation byproducts from diesel fuel. The three-phase separation process simultaneously removes both water and solids in a single pass, restoring off-spec diesel to ASTM D975 specification.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">What flow rate do Alfa Laval diesel centrifuges handle?</summary>
-          <p class="text-text-light mt-3 text-sm">Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010) up to 72 GPM (DMPX-070) on diesel at 13 cSt. Larger capacity can be achieved with parallel centrifuge installations.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How much diesel fuel can be recovered with centrifuge purification?</summary>
-          <p class="text-text-light mt-3 text-sm">Recovery rates depend on initial contamination level. In the railcar wash facility case study on this page, centrifuge purification recovered over $2 million in diesel fuel annually that was previously classified as waste. Typical recovery rates for contaminated diesel range from 85% to 99% of the original fuel volume.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">Is the Alfa Laval WHPX centrifuge available in explosion-proof configuration?</summary>
-          <p class="text-text-light mt-3 text-sm">Yes. Alfa Laval WHPX series centrifuges are available with Class 1 Division 2 explosion-proof motors and controls, suitable for diesel fuel environments classified as hazardous areas under NFPA 497 or NEC 500-516.</p>
-        </details>
-        <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <summary class="font-semibold text-navy cursor-pointer">How does centrifuge diesel purification compare to filter systems?</summary>
-          <p class="text-text-light mt-3 text-sm">Centrifuge purification has significantly lower operating costs than filter-based systems for high-volume applications: no filter media replacement, no media disposal, continuous operation without downtime, and simultaneous water and solids removal. The payback period for a centrifuge system is typically 6–18 months versus ongoing filter costs.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Need a Diesel Fuel Centrifuge?</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Dolphin Centrifuge supplies turnkey diesel purification systems from 5 GPM to 70+ GPM for fuel recovery, polishing, and contamination removal.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/diesel-centrifuge/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Diesel Centrifuges</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+</ApplicationLayout>
