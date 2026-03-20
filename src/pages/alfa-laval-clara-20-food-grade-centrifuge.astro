@@ -1,6 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What applications is the Alfa Laval Clara 20 used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval Clara 20 is a food-grade disc centrifuge used for beer and ale clarification, wine clarification and stabilization, cider processing, yeast removal and harvesting, juice and beverage clarification, fermentation broth processing, enzyme and cell culture separation, and pharmaceutical intermediate processing. Its 316L stainless steel construction and CIP-compatible design make it suitable for hygienic food and beverage production environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What flow rate does the Clara 20 handle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Alfa Laval Clara 20 handles approximately 100–500 LPH depending on the application and feed characteristics. Beer, wine, and high-solids applications operate at the lower end of this range; juice clarification and lower-solids process streams can achieve higher throughput. Contact Dolphin Centrifuge for application-specific sizing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Clara 20 CIP compatible?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Alfa Laval Clara 20 features full clean-in-place (CIP) design with 316L stainless steel product-contact surfaces, FDA-compliant EPDM or PTFE seals and gaskets, and hygienic tri-clamp or DIN connections. The control panel can be configured for automated CIP sequences, making it suitable for 24/7 food and beverage production with scheduled in-situ cleaning cycles."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is an explosion-proof version of the Clara 20 available?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Explosion-proof motor options are available for the Clara 20, designed for fermentation environments where alcohol vapor may be present. This is commonly required in brewery, winery, and distillery installations. Contact Dolphin Centrifuge to specify the appropriate hazardous area classification for your facility."
+      }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -138,6 +177,31 @@ const jsonLd = {
       <p class="text-text-light mb-8">
         <a href="/food-grade-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Learn more about hygienic centrifuge systems for food and beverage &rarr;</a>
       </p>
+
+      <!-- FAQ Section -->
+      <div class="mt-12 mb-8">
+        <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval Clara 20 used for?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 is a food-grade disc centrifuge used for beer and ale clarification, wine clarification and stabilization, cider processing, yeast removal and harvesting, juice and beverage clarification, fermentation broth processing, enzyme and cell culture separation, and pharmaceutical intermediate processing. Its 316L stainless steel construction and CIP-compatible design make it suitable for hygienic food and beverage production environments.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">What flow rate does the Clara 20 handle?</summary>
+            <p class="text-text-light mt-3 text-sm">The Alfa Laval Clara 20 handles approximately 100–500 LPH depending on the application and feed characteristics. Beer, wine, and high-solids applications operate at the lower end of this range; juice clarification and lower-solids process streams can achieve higher throughput. Contact Dolphin Centrifuge for application-specific sizing.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">Is the Clara 20 CIP compatible?</summary>
+            <p class="text-text-light mt-3 text-sm">Yes. The Alfa Laval Clara 20 features full clean-in-place (CIP) design with 316L stainless steel product-contact surfaces, FDA-compliant EPDM or PTFE seals and gaskets, and hygienic tri-clamp or DIN connections. The control panel can be configured for automated CIP sequences, making it suitable for 24/7 food and beverage production with scheduled in-situ cleaning cycles.</p>
+          </details>
+          <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+            <summary class="font-semibold text-navy cursor-pointer">Is an explosion-proof version of the Clara 20 available?</summary>
+            <p class="text-text-light mt-3 text-sm">Yes. Explosion-proof motor options are available for the Clara 20, designed for fermentation environments where alcohol vapor may be present. This is commonly required in brewery, winery, and distillery installations. Contact Dolphin Centrifuge to specify the appropriate hazardous area classification for your facility.</p>
+          </details>
+        </div>
+      </div>
+
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Bottom CTA -->
       <div class="bg-navy rounded-xl p-8 text-center mt-12">

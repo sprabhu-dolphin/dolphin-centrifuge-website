@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much oil can a disc stack centrifuge recover from waste oil?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A properly sized disc stack centrifuge can recover 95–99% of usable oil from waste oil streams. In the Guam case study, the DMPX-028 disc stack centrifuge achieved 20% higher oil recovery versus the previous heating-and-settling method, adding $380,000 per year in recoverable oil value." }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of waste oil can a disc stack centrifuge process?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Disc stack centrifuges process marine waste oil (bilge oil, slop oil, fuel sludge), industrial lubricating oil, transformer oil, cutting oil, and coolant oil. The centrifuge removes water, fine solids, and contaminants without the long residence time and heat losses associated with gravity separation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the ROI for a waste oil centrifuge system?",
+      "acceptedAnswer": { "@type": "Answer", "text": "ROI depends on waste oil volume and recovered oil value. The Guam facility with 4.8 million gallons per year capacity recovered $380,000 per year in additional oil value using a DMPX-028 centrifuge. Payback periods for disc stack waste oil recovery systems typically range from 12–36 months depending on throughput and oil pricing." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -292,6 +314,26 @@ const jsonLd = {
         <p class="text-text-light leading-relaxed mb-4">The centrifuge enhanced oil purity, increased recovery rates by 20%, and reduced annual costs by $380,000. These improvements led to more efficient operations and substantial environmental benefits.</p>
         <p class="text-text-light leading-relaxed">By adopting the <strong>DMPX-028</strong> centrifuge, <strong>Dolphin Centrifuge</strong> enabled the waste oil processor in Guam to achieve greater sustainability, lower operational expenses, and optimized waste management. This implementation highlights the effectiveness of disc stack centrifuges in transforming waste oil recovery in the maritime industry.</p>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How much oil can a disc stack centrifuge recover from waste oil?</h3>
+            <p class="text-text-light text-sm">A properly sized disc stack centrifuge can recover 95–99% of usable oil from waste oil streams. In the Guam case study, the DMPX-028 disc stack centrifuge achieved 20% higher oil recovery versus the previous heating-and-settling method, adding $380,000 per year in recoverable oil value.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What types of waste oil can a disc stack centrifuge process?</h3>
+            <p class="text-text-light text-sm">Disc stack centrifuges process marine waste oil (bilge oil, slop oil, fuel sludge), industrial lubricating oil, transformer oil, cutting oil, and coolant oil. The centrifuge removes water, fine solids, and contaminants without the long residence time and heat losses associated with gravity separation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the ROI for a waste oil centrifuge system?</h3>
+            <p class="text-text-light text-sm">ROI depends on waste oil volume and recovered oil value. The Guam facility with 4.8 million gallons per year capacity recovered $380,000 per year in additional oil value using a DMPX-028 centrifuge. Payback periods for disc stack waste oil recovery systems typically range from 12–36 months depending on throughput and oil pricing.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">

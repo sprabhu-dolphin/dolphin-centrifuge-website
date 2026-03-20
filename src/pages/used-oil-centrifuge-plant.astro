@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What centrifuges are used in a used oil re-refining plant?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A used oil centrifuge plant typically uses two centrifuge types in sequence: decanter centrifuges for primary sludge removal (heavy solids, water, and bottom sediment), followed by disc stack centrifuges for polishing to remove fine particles and remaining water. This two-stage configuration achieves API-quality base oil specifications." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the capacity of a typical used oil centrifuge plant?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Small used oil centrifuge plants handle 1–3 million gallons per year (MGY). Mid-size plants handle 6–10 MGY using multiple centrifuge trains operating in parallel. Large re-refining facilities exceed 30 MGY and require high-capacity decanter and disc stack centrifuges running continuously." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a used oil centrifuge plant improve oil recovery compared to settling tanks?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Centrifuge-based plants achieve 95–98% oil recovery vs. 70–80% for gravity settling, reduce processing time from days to minutes, and produce consistent output quality. Dolphin Centrifuge estimates that a 6 MGY centrifuge plant generates $300,000–500,000 per year in additional recovered oil compared to settling-based operations." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -363,6 +385,26 @@ const jsonLd = {
           <a href="mailto:sales@dolphincentrifuge.com" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">sales@dolphincentrifuge.com</a>
         </div>
       </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What centrifuges are used in a used oil re-refining plant?</h3>
+            <p class="text-text-light text-sm">A used oil centrifuge plant typically uses two centrifuge types in sequence: decanter centrifuges for primary sludge removal (heavy solids, water, and bottom sediment), followed by disc stack centrifuges for polishing to remove fine particles and remaining water. This two-stage configuration achieves API-quality base oil specifications.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What is the capacity of a typical used oil centrifuge plant?</h3>
+            <p class="text-text-light text-sm">Small used oil centrifuge plants handle 1–3 million gallons per year (MGY). Mid-size plants handle 6–10 MGY using multiple centrifuge trains operating in parallel. Large re-refining facilities exceed 30 MGY and require high-capacity decanter and disc stack centrifuges running continuously.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does a used oil centrifuge plant improve recovery compared to settling tanks?</h3>
+            <p class="text-text-light text-sm">Centrifuge-based plants achieve 95–98% oil recovery vs. 70–80% for gravity settling, reduce processing time from days to minutes, and produce consistent output quality. Dolphin Centrifuge estimates that a 6 MGY centrifuge plant generates $300,000–500,000 per year in additional recovered oil compared to settling-based operations.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
       <!-- Related Articles -->
       <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>

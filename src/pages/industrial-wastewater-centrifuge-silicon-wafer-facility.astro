@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can a centrifuge replace ultra-filtration for industrial wastewater treatment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, for many industrial wastewater streams containing suspended solids (silica, metal grinding sludge, cutting oil). Disc stack centrifuges provide continuous clarification without membrane fouling, at lower operating cost than ultra-filtration. At the silicon wafer facility case study, replacing UF with a disc stack centrifuge saved $1.28 million per year in operating costs." }
+    },
+    {
+      "@type": "Question",
+      "name": "What contaminants can a disc stack centrifuge remove from industrial wastewater?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Disc stack centrifuges remove suspended solids (silica, metal particles, abrasive compounds), suspended oils and emulsified hydrocarbons, bacteria and biological solids, and fine particles down to 0.5–2 microns depending on G-force and residence time. Dissolved solids and ionic contaminants require additional treatment beyond centrifugation." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a centrifuge enable wastewater reuse in semiconductor manufacturing?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Centrifugal clarification removes suspended silica and grinding debris from cooling and slurry water, returning it to process quality. The centrate (clarified water) meets conductivity and particle count specs for re-use in wafer grinding circuits. Solids are concentrated into a small-volume sludge for disposal, dramatically reducing wastewater discharge volume." }
+    }
+  ]
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -164,6 +186,30 @@ const jsonLd = {
           <span class="text-navy font-medium group-hover:text-gold transition-colors">Contact Us</span>
         </a>
       </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-warm-white border-t border-gray-200">
+    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">Can a centrifuge replace ultra-filtration for industrial wastewater treatment?</h3>
+            <p class="text-text-light text-sm">Yes, for many industrial wastewater streams containing suspended solids (silica, metal grinding sludge, cutting oil). Disc stack centrifuges provide continuous clarification without membrane fouling, at lower operating cost than ultra-filtration. At the silicon wafer facility, replacing UF with a disc stack centrifuge saved $1.28 million per year in operating costs.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">What contaminants can a disc stack centrifuge remove from industrial wastewater?</h3>
+            <p class="text-text-light text-sm">Disc stack centrifuges remove suspended solids (silica, metal particles, abrasive compounds), suspended oils and emulsified hydrocarbons, bacteria and biological solids, and fine particles down to 0.5–2 microns depending on G-force and residence time. Dissolved solids and ionic contaminants require additional treatment beyond centrifugation.</p>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-navy mb-2">How does a centrifuge enable wastewater reuse in semiconductor manufacturing?</h3>
+            <p class="text-text-light text-sm">Centrifugal clarification removes suspended silica and grinding debris from cooling and slurry water, returning it to process quality. The centrate (clarified water) meets conductivity and particle count specs for re-use in wafer grinding circuits. Solids are concentrated into a small-volume sludge for disposal, dramatically reducing wastewater discharge volume.</p>
+          </div>
+        </div>
+      </div>
+      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     </div>
   </section>
 
