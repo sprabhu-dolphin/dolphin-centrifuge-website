@@ -1,328 +1,215 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "DMPX-028 Self-Cleaning 3-Phase Disc Stack Centrifuge",
-  "description": "The DMPX-028 is a mid-range self-cleaning three-phase disc stack centrifuge processing 20–26 GPM of diesel and handling HFO, biodiesel, waste oil, and lube oil in continuous industrial service.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  "category": "Disc Stack Centrifuges",
-  "model": "DMPX-028",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
-  }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the throughput of the DMPX-028 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMPX-028 processes approximately 20–26 GPM of diesel fuel at actual operating conditions, with a rated capacity of 33–40 GPM under ideal low-viscosity conditions. Lube oil (R&O) throughput is 10–14 GPM and steam turbine oil is 21–26 GPM."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the DMPX-028 used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMPX-028 is widely used for biodiesel production finishing, industrial waste oil reclamation, HFO purification on medium-sized marine vessels and power generators, hydraulic and lube oil maintenance, and light crude oil dewatering. Its 1.03-gallon sludge bowl supports continuous operation in moderately contaminated streams."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the DMPX-028 compare to the DMPX-014?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMPX-028 delivers roughly twice the diesel throughput of the DMPX-014 (20–26 GPM vs. 13–16 GPM) and features a significantly larger 1.03-gallon sludge bowl versus the DMPX-014's smaller bowl. This makes it better suited for industrial waste oil and HFO applications with higher solids loading, while the DMPX-014 is preferred for lighter marine and small industrial duties."
-      }
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "DMPX-028 Self-Cleaning 3-Phase Disc Stack Centrifuge",
+    "description": "The DMPX-028 is a mid-range self-cleaning three-phase disc stack centrifuge processing 20–26 GPM of diesel and handling HFO, biodiesel, waste oil, and lube oil in continuous industrial service.",
+    "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+    "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "category": "Disc Stack Centrifuges",
+    "model": "DMPX-028",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD",
+      "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
     }
-  ]
-};
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the throughput of the DMPX-028 centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DMPX-028 processes approximately 20–26 GPM of diesel fuel at actual operating conditions, with a rated capacity of 33–40 GPM under ideal low-viscosity conditions. Lube oil (R&O) throughput is 10–14 GPM and steam turbine oil is 21–26 GPM."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What applications is the DMPX-028 used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DMPX-028 is widely used for biodiesel production finishing, industrial waste oil reclamation, HFO purification on medium-sized marine vessels and power generators, hydraulic and lube oil maintenance, and light crude oil dewatering. Its 1.03-gallon sludge bowl supports continuous operation in moderately contaminated streams."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the DMPX-028 compare to the DMPX-014?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DMPX-028 delivers roughly twice the diesel throughput of the DMPX-014 (20–26 GPM vs. 13–16 GPM) and features a significantly larger 1.03-gallon sludge bowl versus the DMPX-014's smaller bowl. This makes it better suited for industrial waste oil and HFO applications with higher solids loading, while the DMPX-014 is preferred for lighter marine and small industrial duties."
+        }
+      }
+    ]
+  }
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="DMPX-028 Self-Cleaning 3-Phase Disc Stack Centrifuge | Dolphin Centrifuge"
   description="DMPX-028 self-cleaning disc stack centrifuge: 20–26 GPM diesel. Mid-range unit for waste oil, HFO purification, biodiesel, and lube oil applications. Get a quote."
   canonicalUrl="https://dolphincentrifuge.com/centrifuges/dmpx-028/"
-  breadcrumbs={[{label: "Centrifuges", href: "/disc-stack-centrifuge/"}, {label: "DMPX-028"}]}
+  heroImage="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-600.webp"
+  heroImageAlt="Dolphin Centrifuge DMPX-028 self-cleaning three-phase disc stack centrifuge"
+  category="products"
+  categoryLabel="Dolphin Disc Centrifuges"
+  toc={[
+    { id: "technical-specifications", label: "Technical Specifications" },
+    { id: "capacity-by-fluid-type", label: "Capacity by Fluid Type" },
+    { id: "key-applications", label: "Key Applications" },
+    { id: "dmpx-series-comparison", label: "DMPX Series Comparison" },
+    { id: "frequently-asked-questions", label: "Frequently Asked Questions" },
+  ]}
+  relatedApplications={[
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-010 (~7 GPM)", href: "/centrifuges/dmpx-010/" },
+    { label: "DMPX-042 (~32–47 GPM)", href: "/centrifuges/dmpx-042/" },
+    { label: "DMPX-070 (~59–72 GPM)", href: "/centrifuges/dmpx-070/" },
+    { label: "DMB-019 Purifier", href: "/centrifuges/dmb-019/" },
+  ]}
   jsonLd={jsonLd}
 >
 
-  <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-  <section class="bg-navy text-white py-16 px-4">
-    <div class="max-w-5xl mx-auto text-center">
-      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4">
-        DMPX-028 Self-Cleaning Disc Stack Centrifuge
-      </h1>
-      <p class="text-xl text-gold font-semibold mb-3">
-        20–26 GPM Diesel · 1.03-Gallon Sludge Bowl · Biodiesel, HFO &amp; Waste Oil
-      </p>
-      <p class="text-lg text-white/80 max-w-3xl mx-auto mb-8">
-        The DMPX-028 is the workhorse of medium industrial oil-separation: processing diesel, HFO, waste oil, and biodiesel continuously with a self-cleaning bowl that never shuts down for manual desludging.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact-for-alfa-laval-centrifuges/"
-           class="bg-gold text-navy font-bold px-8 py-3 rounded hover:brightness-110 transition">
-          Request a Quote
-        </a>
-        <a href="/industrial-centrifuge-sample-testing/"
-           class="border-2 border-white text-white font-bold px-8 py-3 rounded hover:bg-white hover:text-navy transition">
-          Submit Oil Sample
-        </a>
-      </div>
-    </div>
-  </section>
+  <article class="prose-dolphin max-w-none">
 
-  <!-- ── AI SUMMARY CALLOUT ────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto my-10 px-4">
-    <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-6">
+    <!-- AI Summary -->
+    <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-6 not-prose mb-8">
       <p class="text-base italic text-gray-700 leading-relaxed">
-        <strong>AI Summary:</strong> The DMPX-028 is a mid-range self-cleaning three-phase disc stack centrifuge from Dolphin Centrifuge, rated at 20–26 GPM for diesel fuel and capable of processing heavy fuel oil up to 180 cSt at 10–12 GPM. With a 1.03-gallon automatic sludge bowl and a 10–15 HP motor, it operates continuously without manual desludging — making it the preferred choice for industrial waste oil reclamation, biodiesel production, HFO purification on medium vessels, and hydraulic oil maintenance systems where higher throughput than the DMPX-014 is required.
+        <strong>AI Summary:</strong> The Dolphin Centrifuge DMPX-028 is a mid-range self-cleaning three-phase disc stack centrifuge rated at 20–26 GPM for diesel fuel, with a 1.03-gallon sludge bowl and 10–15 HP motor. Purpose-built for industrial waste oil reclamation, biodiesel finishing, and HFO purification up to 180 cSt.
       </p>
     </div>
-  </section>
 
-  <!-- ── PRODUCT IMAGE ─────────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12 flex justify-center">
-    <figure class="text-center">
+    <!-- Product Image -->
+    <figure class="text-center my-8">
       <img
         src="/images/alfa-laval-mopx-207-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Centrifuge-600.webp"
         alt="Dolphin Centrifuge DMPX-028 self-cleaning three-phase disc stack centrifuge"
         width="600"
         height="600"
         loading="eager"
-        class="rounded-lg shadow-lg max-w-full"
+        class="rounded-lg shadow-lg max-w-full mx-auto"
       />
       <figcaption class="text-sm text-gray-500 mt-2">
         DMPX-028 — Mid-Range Self-Cleaning 3-Phase Disc Stack Centrifuge
       </figcaption>
     </figure>
-  </section>
 
-  <!-- ── SPECS TABLE ───────────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Technical Specifications</h2>
+    <!-- Technical Specifications -->
+    <h2 id="technical-specifications">Technical Specifications</h2>
     <div class="overflow-x-auto">
-      <table class="w-full border-collapse text-sm">
+      <table>
         <thead>
-          <tr class="bg-navy text-white">
-            <th class="px-4 py-3 text-left font-semibold">Parameter</th>
-            <th class="px-4 py-3 text-left font-semibold">DMPX-028 Value</th>
+          <tr>
+            <th>Parameter</th>
+            <th>DMPX-028 Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Diesel Throughput (Actual)</td>
-            <td class="px-4 py-3 text-gray-900">~20–26 GPM</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">Diesel Throughput (Rated)</td>
-            <td class="px-4 py-3 text-gray-900">~33–40 GPM</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Bowl Sludge Capacity</td>
-            <td class="px-4 py-3 text-gray-900">1.03 gallons</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">Motor Power</td>
-            <td class="px-4 py-3 text-gray-900">~10–15 HP</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Separation Type</td>
-            <td class="px-4 py-3 text-gray-900">Three-phase (oil / water / solids)</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">Desludging</td>
-            <td class="px-4 py-3 text-gray-900">Automatic self-cleaning (hydraulic ejection)</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Process</td>
-            <td class="px-4 py-3 text-gray-900">Continuous, unattended operation</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">Lube Oil (R&amp;O) Throughput</td>
-            <td class="px-4 py-3 text-gray-900">10–14 GPM</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Steam Turbine Oil Throughput</td>
-            <td class="px-4 py-3 text-gray-900">21–26 GPM</td>
-          </tr>
-          <tr class="bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">DMPX Series Position</td>
-            <td class="px-4 py-3 text-gray-900">Mid-range (28 bowl equiv.)</td>
-          </tr>
+          <tr><td>Diesel Throughput (Actual)</td><td>~20–26 GPM</td></tr>
+          <tr><td>Diesel Throughput (Rated)</td><td>~33–40 GPM</td></tr>
+          <tr><td>Bowl Sludge Capacity</td><td>1.03 gallons</td></tr>
+          <tr><td>Motor Power</td><td>~10–15 HP</td></tr>
+          <tr><td>Separation Type</td><td>Three-phase (oil / water / solids)</td></tr>
+          <tr><td>Desludging</td><td>Automatic self-cleaning (hydraulic ejection)</td></tr>
+          <tr><td>Process</td><td>Continuous, unattended operation</td></tr>
+          <tr><td>Lube Oil (R&amp;O) Throughput</td><td>10–14 GPM</td></tr>
+          <tr><td>Steam Turbine Oil Throughput</td><td>21–26 GPM</td></tr>
+          <tr><td>DMPX Series Position</td><td>Mid-range (28 bowl equiv.)</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
 
-  <!-- ── CAPACITY BY FLUID TABLE ───────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Capacity by Fluid Type</h2>
+    <!-- Capacity by Fluid Type -->
+    <h2 id="capacity-by-fluid-type">Capacity by Fluid Type</h2>
     <div class="overflow-x-auto">
-      <table class="w-full border-collapse text-sm">
+      <table>
         <thead>
-          <tr class="bg-navy text-white">
-            <th class="px-4 py-3 text-left font-semibold">Fluid Type</th>
-            <th class="px-4 py-3 text-left font-semibold">Approx. Throughput (GPM)</th>
+          <tr>
+            <th>Fluid Type</th>
+            <th>Approx. Throughput (GPM)</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Diesel / Light Fuel Oil</td>
-            <td class="px-4 py-3 text-gray-900">20–26</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">HFO 30 cSt</td>
-            <td class="px-4 py-3 text-gray-900">20–25</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">HFO 60 cSt</td>
-            <td class="px-4 py-3 text-gray-900">15–18</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">HFO 100 cSt</td>
-            <td class="px-4 py-3 text-gray-900">15–18</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">HFO 180 cSt</td>
-            <td class="px-4 py-3 text-gray-900">10–12</td>
-          </tr>
-          <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-            <td class="px-4 py-3 font-medium text-gray-700">HFO 380 cSt</td>
-            <td class="px-4 py-3 text-gray-900">8–10</td>
-          </tr>
-          <tr class="bg-white hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">Lube Oil (R&amp;O) / Steam Turbine</td>
-            <td class="px-4 py-3 text-gray-900">10–14 / 21–26 GPM</td>
-          </tr>
+          <tr><td>Diesel / Light Fuel Oil</td><td>20–26</td></tr>
+          <tr><td>HFO 30 cSt</td><td>20–25</td></tr>
+          <tr><td>HFO 60 cSt</td><td>15–18</td></tr>
+          <tr><td>HFO 100 cSt</td><td>15–18</td></tr>
+          <tr><td>HFO 180 cSt</td><td>10–12</td></tr>
+          <tr><td>HFO 380 cSt</td><td>8–10</td></tr>
+          <tr><td>Lube Oil (R&amp;O) / Steam Turbine</td><td>10–14 / 21–26 GPM</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="text-xs text-gray-500 mt-2">
-      * Throughput values are at typical process temperature (194°F / 90°C). Actual flow rates vary with temperature, contamination level, and desired separation efficiency.
+    <p class="text-xs text-gray-500">
+      * Throughput values are at typical process temperature (194&deg;F / 90&deg;C). Actual flow rates vary with temperature, contamination level, and desired separation efficiency.
     </p>
-  </section>
 
-  <!-- ── APPLICATIONS GRID ─────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Key Applications</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-        <h3 class="font-bold text-navy text-lg mb-2">Waste Oil Reclamation</h3>
-        <p class="text-gray-600 text-sm">
-          At 20–26 GPM, the DMPX-028 can continuously process industrial used oil streams — including used motor oil, hydraulic oil, and gear oil — separating water and particulate solids to produce reclaimed base oil suitable for reuse or resale. See our <a href="/waste-oil-centrifuge/" class="text-gold underline">waste oil centrifuge</a> application page for details.
-        </p>
-      </div>
-      <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-        <h3 class="font-bold text-navy text-lg mb-2">Biodiesel Production</h3>
-        <p class="text-gray-600 text-sm">
-          The DMPX-028 is widely used in biodiesel finishing: removing residual methanol, water, and glycerin from biodiesel after transesterification. Continuous operation at 20–26 GPM supports mid-scale biodiesel production without manual centrifuge downtime. Learn more on our <a href="/biodiesel-centrifuge/" class="text-gold underline">biodiesel centrifuge</a> page.
-        </p>
-      </div>
-      <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-        <h3 class="font-bold text-navy text-lg mb-2">HFO Purification</h3>
-        <p class="text-gray-600 text-sm">
-          Capable of processing HFO up to 380 cSt at 8–10 GPM, the DMPX-028 handles heavy fuel oil purification on medium marine vessels, shore-based power generators, and industrial boiler fuel systems. Three-phase separation removes both water and catalyst fines in a single pass.
-        </p>
-      </div>
-      <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-        <h3 class="font-bold text-navy text-lg mb-2">Hydraulic &amp; Lube Oil Maintenance</h3>
-        <p class="text-gray-600 text-sm">
-          The DMPX-028 processes 10–14 GPM of R&amp;O lube oil, making it appropriate for larger industrial gearbox oil systems, compressor lube circuits, and hydraulic power units where the DMPX-010 or DMPX-014 is undersized. Continuous operation eliminates the need for batch filtering or oil changes.
-        </p>
-      </div>
-    </div>
-  </section>
+    <!-- Key Applications -->
+    <h2 id="key-applications">Key Applications</h2>
 
-  <!-- ── CROSS-MODEL COMPARISON ────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Where the DMPX-028 Fits in the DMPX Series</h2>
-    <p class="text-gray-700 leading-relaxed">
+    <h3>Waste Oil Reclamation</h3>
+    <p>
+      At 20–26 GPM, the DMPX-028 can continuously process industrial used oil streams — including used motor oil, hydraulic oil, and gear oil — separating water and particulate solids to produce reclaimed base oil suitable for reuse or resale. See our <a href="/waste-oil-centrifuge/">waste oil centrifuge</a> application page for details.
+    </p>
+
+    <h3>Biodiesel Production</h3>
+    <p>
+      The DMPX-028 is widely used in <a href="/biodiesel-centrifuge/">biodiesel</a> finishing: removing residual methanol, water, and glycerin from biodiesel after transesterification. Continuous operation at 20–26 GPM supports mid-scale biodiesel production without manual centrifuge downtime.
+    </p>
+
+    <h3>HFO Purification</h3>
+    <p>
+      Capable of processing HFO up to 380 cSt at 8–10 GPM, the DMPX-028 handles <a href="/fuel-oil-centrifuge/">heavy fuel oil</a> purification on medium marine vessels, shore-based power generators, and industrial boiler fuel systems. Three-phase separation removes both water and catalyst fines in a single pass.
+    </p>
+
+    <h3>Hydraulic &amp; Lube Oil Maintenance</h3>
+    <p>
+      The DMPX-028 processes 10–14 GPM of R&amp;O <a href="/lube-oil-centrifuge/">lube oil</a>, making it appropriate for larger industrial gearbox oil systems, compressor lube circuits, and hydraulic power units where the DMPX-010 or DMPX-014 is undersized. Continuous operation eliminates the need for batch filtering or oil changes.
+    </p>
+
+    <!-- DMPX Series Comparison -->
+    <h2 id="dmpx-series-comparison">Where the DMPX-028 Fits in the DMPX Series</h2>
+    <p>
       The DMPX-028 sits at the middle of the Dolphin DMPX product range. For lighter-duty applications, the
-      <a href="/centrifuges/dmpx-010/" class="text-gold underline font-medium">DMPX-010</a>
+      <a href="/centrifuges/dmpx-010/">DMPX-010</a>
       (~7 GPM) and
-      <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/" class="text-gold underline font-medium">DMPX-014</a>
+      <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/">DMPX-014</a>
       (~13 GPM) offer more compact and lower-power alternatives. For higher-volume industrial applications, the
-      <a href="/centrifuges/dmpx-042/" class="text-gold underline font-medium">DMPX-042</a>
+      <a href="/centrifuges/dmpx-042/">DMPX-042</a>
       (~32–47 GPM) and
-      <a href="/centrifuges/dmpx-070/" class="text-gold underline font-medium">DMPX-070</a>
+      <a href="/centrifuges/dmpx-070/">DMPX-070</a>
       (~59–72 GPM) provide the throughput needed for large-scale crude oil, refinery, or power-plant fuel treatment. All DMPX models use the same automatic self-cleaning bowl design.
-      Visit our <a href="/disc-stack-centrifuge/" class="text-gold underline font-medium">Disc Stack Centrifuge overview</a> to compare all models.
+      Visit our <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge overview</a> to compare all models.
     </p>
-  </section>
 
-  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-6">
-      <div class="border border-gray-200 rounded-lg p-5">
-        <h3 class="font-bold text-navy text-base mb-2">What is the throughput of the DMPX-028 centrifuge?</h3>
-        <p class="text-gray-700 text-sm">
-          The DMPX-028 processes approximately 20–26 GPM of diesel fuel at actual operating conditions, with a rated capacity of 33–40 GPM under ideal low-viscosity conditions. Lube oil (R&amp;O) throughput is 10–14 GPM and steam turbine oil is 21–26 GPM.
-        </p>
-      </div>
-      <div class="border border-gray-200 rounded-lg p-5">
-        <h3 class="font-bold text-navy text-base mb-2">What applications is the DMPX-028 used for?</h3>
-        <p class="text-gray-700 text-sm">
-          The DMPX-028 is used for <a href="/biodiesel-centrifuge/" class="text-gold underline">biodiesel</a> production finishing, industrial <a href="/waste-oil-centrifuge/" class="text-gold underline">waste oil</a> reclamation, HFO purification on medium marine vessels and power generators, hydraulic and lube oil maintenance, and light crude oil dewatering. Its 1.03-gallon sludge bowl supports continuous operation even with moderately contaminated oil streams.
-        </p>
-      </div>
-      <div class="border border-gray-200 rounded-lg p-5">
-        <h3 class="font-bold text-navy text-base mb-2">How does the DMPX-028 compare to the DMPX-014?</h3>
-        <p class="text-gray-700 text-sm">
-          The DMPX-028 delivers roughly twice the diesel throughput of the <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/" class="text-gold underline">DMPX-014</a> (20–26 GPM vs. 13–16 GPM) and features a significantly larger 1.03-gallon sludge bowl, making it better suited for industrial waste oil and HFO applications with higher solids loading. The DMPX-014 is preferred for lighter marine and small industrial duties.
-        </p>
-      </div>
-    </div>
-  </section>
+    <!-- FAQ -->
+    <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 
-  <!-- ── RELATED RESOURCES ─────────────────────────────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-4 mb-12">
-    <h2 class="text-2xl font-bold font-heading text-navy mb-4">Related Resources</h2>
-    <ul class="space-y-2 text-sm">
-      <li><a href="/disc-stack-centrifuge/" class="text-gold underline">Disc Stack Centrifuge Overview — All DMPX Models</a></li>
-      <li><a href="/centrifuges/dmpx-010/" class="text-gold underline">DMPX-010 Product Page (~7 GPM)</a></li>
-      <li><a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/" class="text-gold underline">DMPX-014 Product Page (~13 GPM)</a></li>
-      <li><a href="/centrifuges/dmpx-042/" class="text-gold underline">DMPX-042 Product Page (~32–47 GPM)</a></li>
-      <li><a href="/centrifuges/dmpx-070/" class="text-gold underline">DMPX-070 Product Page (~59–72 GPM)</a></li>
-      <li><a href="/waste-oil-centrifuge/" class="text-gold underline">Waste Oil Centrifuge Applications</a></li>
-      <li><a href="/biodiesel-centrifuge/" class="text-gold underline">Biodiesel Production Centrifuges</a></li>
-      <li><a href="/explosion-proof-centrifuge/" class="text-gold underline">Explosion-Proof Centrifuge Options</a></li>
-      <li><a href="/industrial-centrifuge-sample-testing/" class="text-gold underline">Free Oil Sample Testing Program</a></li>
-    </ul>
-  </section>
+    <h3>What is the throughput of the DMPX-028 centrifuge?</h3>
+    <p>
+      The DMPX-028 processes approximately 20–26 GPM of diesel fuel at actual operating conditions, with a rated capacity of 33–40 GPM under ideal low-viscosity conditions. Lube oil (R&amp;O) throughput is 10–14 GPM and steam turbine oil is 21–26 GPM.
+    </p>
 
-  <!-- ── BOTTOM CTA ─────────────────────────────────────────────────────────── -->
-  <section class="bg-navy text-white py-14 px-4 mt-8">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl font-bold font-heading mb-4">Ready to Spec the DMPX-028?</h2>
-      <p class="text-white/80 text-lg mb-8">
-        Our engineers will verify the DMPX-028 is sized correctly for your fluid type, contamination level, and throughput requirement — or recommend the optimal model from the full DMPX series.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact-for-alfa-laval-centrifuges/"
-           class="bg-gold text-navy font-bold px-8 py-3 rounded hover:brightness-110 transition">
-          Contact Us
-        </a>
-        <a href="/industrial-centrifuge-sample-testing/"
-           class="border-2 border-white text-white font-bold px-8 py-3 rounded hover:bg-white hover:text-navy transition">
-          Sample Testing
-        </a>
-      </div>
-    </div>
-  </section>
+    <h3>What applications is the DMPX-028 used for?</h3>
+    <p>
+      The DMPX-028 is used for <a href="/biodiesel-centrifuge/">biodiesel</a> production finishing, industrial <a href="/waste-oil-centrifuge/">waste oil</a> reclamation, HFO purification on medium marine vessels and power generators, hydraulic and lube oil maintenance, and light crude oil dewatering. Its 1.03-gallon sludge bowl supports continuous operation even with moderately contaminated oil streams.
+    </p>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <h3>How does the DMPX-028 compare to the DMPX-014?</h3>
+    <p>
+      The DMPX-028 delivers roughly twice the diesel throughput of the <a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/">DMPX-014</a> (20–26 GPM vs. 13–16 GPM) and features a significantly larger 1.03-gallon sludge bowl, making it better suited for industrial waste oil and HFO applications with higher solids loading. The DMPX-014 is preferred for lighter marine and small industrial duties.
+    </p>
 
-</BaseLayout>
+  </article>
+
+</ApplicationLayout>

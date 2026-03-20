@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,808 +23,737 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "9 Steps to Picking The Right Industrial Centrifuge",
-  "description": "A 9-step guide to selecting the right industrial centrifuge covering fluid analysis, centrifuge types, capacity, options, new vs remanufactured, supplier selection, and post-purchase support.",
-  "author": {
-    "@type": "Person",
-    "name": "Sanjay Prabhu MSME",
-    "jobTitle": "Engineering Manager",
-    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "9 Steps to Picking The Right Industrial Centrifuge",
+    "description": "A 9-step guide to selecting the right industrial centrifuge covering fluid analysis, centrifuge types, capacity, options, new vs remanufactured, supplier selection, and post-purchase support.",
+    "author": {
+      "@type": "Person",
+      "name": "Sanjay Prabhu MSME",
+      "jobTitle": "Engineering Manager",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com"
+    },
+    "datePublished": "2021-01-01",
+    "dateModified": "2026-01-01",
+    "mainEntityOfPage": "https://dolphincentrifuge.com/picking-the-right-industrial-centrifuge/"
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  },
-  "datePublished": "2021-01-01",
-  "dateModified": "2026-01-01",
-  "mainEntityOfPage": "https://dolphincentrifuge.com/picking-the-right-industrial-centrifuge/"
-};
+  faqJsonLd
+];
+
+const toc = [
+  { id: 'step-1', label: 'Know the Fluid Contaminants' },
+  { id: 'step-2', label: 'Identify the Right Type of Centrifuge' },
+  { id: 'step-3', label: 'Understand Throughput Capacity' },
+  { id: 'step-4', label: 'Select the Right Options' },
+  { id: 'step-5', label: 'New vs Remanufactured Centrifuge' },
+  { id: 'step-6', label: 'Remanufactured Brand vs New Generic' },
+  { id: 'step-7', label: 'Choosing a Remanufactured Centrifuge' },
+  { id: 'step-8', label: 'Selecting a Supplier' },
+  { id: 'step-9', label: 'Post Purchase Considerations' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuges', href: '/disc-stack-centrifuge/', description: 'Self-cleaning disc centrifuges for liquid/liquid and liquid/solid separation' },
+  { label: 'Decanter Centrifuges', href: '/decanter-centrifuge/', description: 'Continuous solids discharge for high-solids sludge dewatering' },
+  { label: 'Sample Testing Service', href: '/industrial-centrifuge-sample-testing/', description: 'Test your process fluid before you buy' },
+];
+
+const relatedApplications = [
+  { label: 'Industrial Centrifuge FAQ', href: '/industrial-centrifuges-faq/' },
+  { label: 'Disc Stack Centrifuge FAQ', href: '/disc-stack-centrifuge-faq/' },
+  { label: 'Decanter vs Disc Stack Comparison', href: '/difference-between-decanter-centrifuge-disc-centrifuge/' },
+  { label: 'Centrifuge Repair Service', href: '/industrial-disc-centrifuge-repair/' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="9 Steps to Picking The Right Industrial Centrifuge"
-  description="9-step guide to choosing an industrial centrifuge — fluid analysis, type selection, capacity, options, new vs remanufactured, and supplier vetting."
+  description="9-step guide to choosing an industrial centrifuge — fluid analysis, type selection, capacity sizing, new vs remanufactured, and supplier vetting by Dolphin Centrifuge."
+  heroImage="/images/picking-the-right-industrial-centrifuge/industrial-centrifuge-buyers-guide.webp"
+  heroImageAlt="Industrial Centrifuge Buyer's Guide — 9 steps to selecting the right centrifuge"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  toc={toc}
+  relatedProducts={relatedProducts}
+  relatedApplications={relatedApplications}
   canonicalUrl="https://dolphincentrifuge.com/picking-the-right-industrial-centrifuge/"
-  breadcrumbs={[
-    { label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/' },
-    { label: '9 Steps to Picking the Right Industrial Centrifuge' }
-  ]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-navy text-white py-14 md:py-20">
-    <div class="container-dolphin max-w-5xl">
-      <div class="md:flex md:items-center md:gap-10">
-        <div class="md:w-1/2">
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">
-            9 Steps to Picking The Right Industrial Centrifuge
-          </h1>
-          <p class="text-blue-200 text-base leading-relaxed">
-            Industrial centrifuges are significant capital investments. With 40 years of expertise, we've distilled the selection process into nine key steps — and the questions every buyer must ask before committing.
-          </p>
-          <p class="text-sm text-blue-300 mt-4 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-        </div>
-        <div class="md:w-1/2 mt-8 md:mt-0">
-          <img
-            src="/images/picking-the-right-industrial-centrifuge/industrial-centrifuge-buyers-guide.webp"
-            alt="Industrial Centrifuge Buyer's Guide — 9 steps to selecting the right centrifuge"
-            width="800" height="500"
-            loading="eager"
-            class="rounded-xl w-full object-cover shadow-lg"
-          />
-        </div>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge's 9-step industrial centrifuge buyer's guide covers fluid analysis, centrifuge type selection, capacity sizing up to 150 GPM, G-force requirements to 10,000 × g, new vs. remanufactured options, and supplier vetting criteria.</p>
+  </div>
+
+  <!-- Intro -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <p class="text-gray-700 leading-relaxed text-lg mb-4">
+      <strong>Considering purchasing an industrial centrifuge but unsure where to begin?</strong> Even after thorough research, it's common to have lingering doubts and questions. Industrial centrifuges are significant capital investments that require meticulous consideration.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      With our 40 years of expertise in the industrial centrifuge sector, we guide prospective buyers toward making informed decisions. We've distilled the centrifuge selection process into nine key steps to ensure you choose the appropriate industrial centrifuge.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-0">
+      Additionally, we've compiled a list of essential questions you should pose to your potential supplier.
+    </p>
+  </div>
+
+  <!-- What are Industrial Centrifuges -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-navy mb-4">What are Industrial Centrifuges?</h2>
+    <p class="text-gray-700 leading-relaxed">
+      <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">Industrial centrifuges</a> are high-speed mechanical separation devices that use centrifugal force — up to 10,000 times the force of gravity — to separate liquids from other liquids, or liquids from solids. They are used across all manufacturing and processing industries where filters, settling tanks, or presses cannot achieve the required separation efficiency or throughput.
+    </p>
+  </div>
+
+  <!-- Step 1 -->
+  <div id="step-1" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">1</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Know the Fluid Contaminants</h2>
     </div>
-  </section>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      As they say, <em><strong>'Defining a problem is half the solution.'</strong></em> Having a clear understanding of your separation needs and expected results is essential. To define your separation needs, you first need to understand the type of fluid and the type and amount of contaminants.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      This necessary information is critical for us to understand your requirements and offer the right centrifuge.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      In this initial stage, you have probably considered various separation technologies such as settling, filtration, hydro-cyclones, filter presses, screw presses, and other similar separation equipment. These technologies have a specific niche in the field, but few apply to a wide range of applications.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      Having a good understanding of your specific requirements helps narrow down the available options.
+    </p>
+  </div>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- Step 2 -->
+  <div id="step-2" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">2</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Identify the Right Type of Centrifuge for Your Application</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      If you have already eliminated media-based separation (filters, presses, membranes, etc.) from your possible solutions, either a low or a high centrifugal force centrifuge may be appropriate.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      If low g-force (&lt; 1000 Gs of centrifugal force) centrifuges are not feasible due to particle size and fluid properties, higher speed and higher centrifugal force centrifuges may be worth considering.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Furthermore, many high g-force alternatives are appropriate for various applications. We have written a detailed article about the <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy underline hover:text-gold">difference between decanter centrifuges and disc centrifuges</a>. That article will help you narrow down the choice between <a href="/decanter-centrifuge/" class="text-navy underline hover:text-gold">decanter</a> and <a href="/disc-stack-centrifuge/" class="text-navy underline hover:text-gold">high-speed disc centrifuges</a>.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Another often ignored resource in the selection process is industry contacts. It is easy to reach out to colleagues or contacts within your industry to get recommendations on centrifuge types. In addition to referrals, you might even get to know the pitfalls and indirect advantages of various industrial centrifuges.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      A centrifuge supplier can also be an excellent resource for identifying the right centrifuge for your application. Of course, you must know a supplier's natural bias and ensure that the selection satisfies the process requirements, standard vs. auxiliary equipment, financial considerations, vendor experience/expertise, and technical support/customer service.
+    </p>
+    <p class="text-gray-700 leading-relaxed mt-3">
+      We discuss the selection criteria for your centrifuge suppliers in a later section.
+    </p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides a nine-step industrial centrifuge selection guide covering application analysis, fluid properties, flow rate sizing, G-force requirements, bowl type selection (self-cleaning vs. manual), three-phase vs. two-phase separation, footprint constraints, power requirements, and supplier evaluation. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of centrifuge application engineering experience across fuel, coolant, lube oil, and industrial fluid processing.</p>
-      </div>
+  <!-- Step 3 -->
+  <div id="step-3" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">3</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Understand the Throughput Capacity of Industrial Centrifuges</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      As with all industrial equipment, centrifuges come in various sizes or capacities. Industrial centrifuge throughput capacities quite often confuse and mislead customers.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      In other words, <strong>process capacity</strong> is the actual throughput a user can expect for their process fluid. <strong>Maximum capacity</strong>, also known as swallowing or hydraulic capacity, is the maximum flow rate the centrifuge can handle with water.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      It is not uncommon for different vendors to quote vastly different capacities for the same centrifuge model. There are a few reasons for this anomaly.
+    </p>
+    <ul class="list-disc list-outside ml-5 space-y-2 text-gray-700 mb-4">
+      <li>The seller may not have a large centrifuge to handle your requirement. In that case, the 'swallowing' capacity (i.e., the hydraulic capacity) is misrepresented as the centrifuge's process capacity.</li>
+      <li>If the buyer is on a tight budget, the seller may try to sell a smaller capacity centrifuge by overstating the maximum capacity as potential process capacity.</li>
+      <li>The seller does not possess the knowledge/experience to understand the buyer's application. In this case, the seller may mention the OEM published capacity (max. swallowing ability) as the processing capacity.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-3">
+      It is important to note that a specific centrifuge's processing capacity depends on multiple factors, including:
+    </p>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700 mb-4">
+      <li>Physical properties of the process fluid (Viscosity, Sp. Gravity)</li>
+      <li>Processing temperature</li>
+      <li>The difference in the specific gravity of the fluid phases (in the case of Liq/Liq Separation)</li>
+      <li>The percentage and particle size of solids in the fluid</li>
+      <li>The specific gravity of the separated solid particles</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed">
+      Based on the above, it is more important to understand how the centrifuge capacities are rated. It is equally important to ask the potential supplier to estimate the process flow rate for your fluid mix. If in doubt, the buyer may warrant additional research and search for a more informed supplier.
+    </p>
+  </div>
 
-      <!-- Intro -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <p class="text-gray-700 leading-relaxed text-lg mb-4">
-          <strong>Considering purchasing an industrial centrifuge but unsure where to begin?</strong> Even after thorough research, it's common to have lingering doubts and questions. Industrial centrifuges are significant capital investments that require meticulous consideration.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          With our 40 years of expertise in the industrial centrifuge sector, we guide prospective buyers toward making informed decisions. We've distilled the centrifuge selection process into nine key steps to ensure you choose the appropriate industrial centrifuge.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          Additionally, we've compiled a list of essential questions you should pose to your potential supplier.
-        </p>
+  <!-- Step 4 -->
+  <div id="step-4" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">4</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Select the Right Options for Your Centrifuge</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Auxiliary equipment integral to centrifuge systems is also known as options. The main reason for adding options is to augment the working of the centrifuge to get maximum efficiency from the centrifuge.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Typical centrifuge options include pumps, sludge collection receptacles, in-line heaters, pre and post-filters, clean fluid collection and pumping systems, and other accessories.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      It is important to note that what some suppliers consider standard (included) accessories, other suppliers may consider optional equipment.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      For example, a control system, water harness (for sludge ejection controls), base platform (skid), gauges, instruments, and sensors, are standard accessories supplied with all centrifuges sold by Dolphin Centrifuge.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Some suppliers may consider these accessories as chargeable options. In other words, their scope of supply for a given price point may include a bare centrifuge with a motor. Therefore it is essential to make an 'apples-to-apples' comparison between different sellers' scope of supply.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Depending on the application, there are specific options that we encourage our buyers to consider. For example, if a customer intends to process thick, used oil, we would strongly suggest an optional heater because lower viscosity (higher temperature) is key to efficient centrifugation of thick oils.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      One of the most common complaints we hear from our customers is the lack of adequate heating capacity! It is much easier and cheaper to add a heating system during the centrifuge build process than to add one post-installation. Therefore we encourage our customers to err on the side of extra heat capacity.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Another example that illustrates the need for some optional equipment follows. Many centrifuges discharge the separated sludge through the bottom of the centrifuge frame. Customers may choose to install these centrifuges on elevated platforms to allow for sludge collection underneath.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      However, adding the optional skid-integrated sludge collection and disposal system allows the skid to be flexible, i.e., mobile. It also eliminates the need for the customer to build a permanent platform.
+    </p>
+    <p class="text-gray-700 leading-relaxed mt-3">
+      In summary, we suggest evaluating and choosing the right options for your particular application from the start. The right choices can make the difference between average centrifuge performance and excellent centrifuge performance.
+    </p>
+  </div>
 
-        <!-- Table of Contents -->
-        <div class="bg-gray-50 rounded-lg p-5">
-          <h2 class="text-base font-semibold text-navy mb-3">The 9 Steps</h2>
-          <ol class="space-y-1 text-sm">
-            <li><a href="#step-1" class="text-navy hover:text-gold">1. Know the Fluid Contaminants</a></li>
-            <li><a href="#step-2" class="text-navy hover:text-gold">2. Identify the Right Type of Centrifuge</a></li>
-            <li><a href="#step-3" class="text-navy hover:text-gold">3. Understand Throughput Capacity</a></li>
-            <li><a href="#step-4" class="text-navy hover:text-gold">4. Select the Right Options</a></li>
-            <li><a href="#step-5" class="text-navy hover:text-gold">5. Reputed-Brand Centrifuge — New vs Remanufactured</a></li>
-            <li><a href="#step-6" class="text-navy hover:text-gold">6. Remanufactured Reputed-Brand vs New Generic Centrifuge</a></li>
-            <li><a href="#step-7" class="text-navy hover:text-gold">7. Considerations in Choosing a Remanufactured Centrifuge</a></li>
-            <li><a href="#step-8" class="text-navy hover:text-gold">8. Selecting a Remanufactured Centrifuge Supplier</a></li>
-            <li><a href="#step-9" class="text-navy hover:text-gold">9. Post Purchase Considerations</a></li>
-          </ol>
-          <div class="mt-3 pt-3 border-t border-gray-200">
-            <a href="#summary" class="text-navy hover:text-gold text-sm font-medium">Summary &amp; Buyer/Supplier Question Checklists →</a>
-          </div>
-        </div>
-      </div>
+  <!-- Step 5 -->
+  <div id="step-5" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">5</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Reputed-Brand Centrifuge — New versus Remanufactured</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      Every buyer would like a new centrifuge if it was not for budgetary or time constraints. For this discussion, we are discussing only centrifuges from established, brand-name manufacturers like Alfa Laval. We look at this consideration from 4 different aspects.
+    </p>
 
-      <!-- What are Industrial Centrifuges -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-4">What are Industrial Centrifuges?</h2>
+    <div class="space-y-6">
+      <div class="bg-blue-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Price of New versus Remanufactured Centrifuge</h3>
         <p class="text-gray-700 leading-relaxed">
-          <a href="/industrial-centrifuge/" class="text-navy underline hover:text-gold">Industrial centrifuges</a> are high-speed mechanical separation devices that use centrifugal force — up to 10,000 times the force of gravity — to separate liquids from other liquids, or liquids from solids. They are used across all manufacturing and processing industries where filters, settling tanks, or presses cannot achieve the required separation efficiency or throughput.
+          A <strong>remanufactured</strong> centrifuge can <strong>save a buyer up to 50%</strong> compared to a new centrifuge. This cost savings is highly subjective and depends on the type, make, and centrifuge model.
         </p>
       </div>
 
-      <!-- Step 1 -->
-      <div id="step-1" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">1</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Know the Fluid Contaminants</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          As they say, <em><strong>'Defining a problem is half the solution.'</strong></em> Having a clear understanding of your separation needs and expected results is essential. To define your separation needs, you first need to understand the type of fluid and the type and amount of contaminants.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          This necessary information is critical for us to understand your requirements and offer the right centrifuge.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          In this initial stage, you have probably considered various separation technologies such as settling, filtration, hydro-cyclones, filter presses, screw presses, and other similar separation equipment. These technologies have a specific niche in the field, but few apply to a wide range of applications.
-        </p>
+      <div class="bg-blue-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Typical Delivery Time of New and Remanufactured Centrifuges</h3>
         <p class="text-gray-700 leading-relaxed">
-          Having a good understanding of your specific requirements helps narrow down the available options.
+          Lead time also plays a vital role in this decision of new versus remanufactured. Typical lead times for <strong>new centrifuge systems can be 8 to 18 months</strong> compared to those for <strong>remanufactured</strong> centrifuge systems, around <strong>2 to 5 months</strong>.
         </p>
       </div>
 
-      <!-- Step 2 -->
-      <div id="step-2" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">2</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Identify the Right Type of Centrifuge for Your Application</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          If you have already eliminated media-based separation (filters, presses, membranes, etc.) from your possible solutions, either a low or a high centrifugal force centrifuge may be appropriate.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          If low g-force (&lt; 1000 Gs of centrifugal force) centrifuges are not feasible due to particle size and fluid properties, higher speed and higher centrifugal force centrifuges may be worth considering.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Furthermore, many high g-force alternatives are appropriate for various applications. We have written a detailed article about the <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy underline hover:text-gold">difference between decanter centrifuges and disc centrifuges</a>. That article will help you narrow down the choice between decanter and high-speed disc centrifuges.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Another often ignored resource in the selection process is industry contacts. It is easy to reach out to colleagues or contacts within your industry to get recommendations on centrifuge types. In addition to referrals, you might even get to know the pitfalls and indirect advantages of various industrial centrifuges.
-        </p>
+      <div class="bg-blue-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Accessories Available for New versus Remanufactured Centrifuges</h3>
         <p class="text-gray-700 leading-relaxed">
-          A centrifuge supplier can also be an excellent resource for identifying the right centrifuge for your application. Of course, you must know a supplier's natural bias and ensure that the selection satisfies the process requirements, standard vs. auxiliary equipment, financial considerations, vendor experience/expertise, and technical support/customer service.
+          Accessories (heaters, pumps, sludge systems, and filters) are important considerations for choosing between new and remanufactured centrifuges. New centrifuges from OEM generally come with proprietary accessories. This factor is important because the buyer depends on the OEM for these accessories' parts and services.
         </p>
         <p class="text-gray-700 leading-relaxed mt-3">
-          We discuss the selection criteria for your centrifuge suppliers in a later section.
+          For example, control systems from centrifuge OEMs are proprietary for their particular centrifuges. The control system program cannot be accessed or modified by the user. The OEMs cannot change the programs or control systems to suit buyers' needs.
         </p>
       </div>
 
-      <!-- Step 3 -->
-      <div id="step-3" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">3</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Understand the Throughput Capacity of Industrial Centrifuges</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          As with all industrial equipment, centrifuges come in various sizes or capacities. Industrial centrifuge throughput capacities quite often confuse and mislead customers.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          In other words, <strong>process capacity</strong> is the actual throughput a user can expect for their process fluid. <strong>Maximum capacity</strong>, also known as swallowing or hydraulic capacity, is the maximum flow rate the centrifuge can handle with water.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          It is not uncommon for different vendors to quote vastly different capacities for the same centrifuge model. There are a few reasons for this anomaly.
-        </p>
-        <ul class="list-disc list-outside ml-5 space-y-2 text-gray-700 mb-4">
-          <li>The seller may not have a large centrifuge to handle your requirement. In that case, the 'swallowing' capacity (i.e., the hydraulic capacity) is misrepresented as the centrifuge's process capacity.</li>
-          <li>If the buyer is on a tight budget, the seller may try to sell a smaller capacity centrifuge by overstating the maximum capacity as potential process capacity.</li>
-          <li>The seller does not possess the knowledge/experience to understand the buyer's application. In this case, the seller may mention the OEM published capacity (max. swallowing ability) as the processing capacity.</li>
-        </ul>
-        <p class="text-gray-700 leading-relaxed mb-3">
-          It is important to note that a specific centrifuge's processing capacity depends on multiple factors, including:
-        </p>
-        <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700 mb-4">
-          <li>Physical properties of the process fluid (Viscosity, Sp. Gravity)</li>
-          <li>Processing temperature</li>
-          <li>The difference in the specific gravity of the fluid phases (in the case of Liq/Liq Separation)</li>
-          <li>The percentage and particle size of solids in the fluid</li>
-          <li>The specific gravity of the separated solid particles</li>
-        </ul>
+      <div class="bg-blue-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Customization of New Centrifuges versus Remanufactured</h3>
         <p class="text-gray-700 leading-relaxed">
-          Based on the above, it is more important to understand how the centrifuge capacities are rated. It is equally important to ask the potential supplier to estimate the process flow rate for your fluid mix. If in doubt, the buyer may warrant additional research and search for a more informed supplier.
-        </p>
-      </div>
-
-      <!-- Step 4 -->
-      <div id="step-4" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">4</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Select the Right Options for Your Centrifuge</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Auxiliary equipment integral to centrifuge systems is also known as options. The main reason for adding options is to augment the working of the centrifuge to get maximum efficiency from the centrifuge.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Typical centrifuge options include pumps, sludge collection receptacles, in-line heaters, pre and post-filters, clean fluid collection and pumping systems, and other accessories.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          It is important to note that what some suppliers consider standard (included) accessories, other suppliers may consider optional equipment.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          For example, a control system, water harness (for sludge ejection controls), base platform (skid), gauges, instruments, and sensors, are standard accessories supplied with all centrifuges sold by Dolphin Centrifuge.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Some suppliers may consider these accessories as chargeable options. In other words, their scope of supply for a given price point may include a bare centrifuge with a motor. Therefore it is essential to make an 'apples-to-apples' comparison between different sellers' scope of supply.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Depending on the application, there are specific options that we encourage our buyers to consider. For example, if a customer intends to process thick, used oil, we would strongly suggest an optional heater because lower viscosity (higher temperature) is key to efficient centrifugation of thick oils.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          One of the most common complaints we hear from our customers is the lack of adequate heating capacity! It is much easier and cheaper to add a heating system during the centrifuge build process than to add one post-installation. Therefore we encourage our customers to err on the side of extra heat capacity.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Another example that illustrates the need for some optional equipment follows. Many centrifuges discharge the separated sludge through the bottom of the centrifuge frame. Customers may choose to install these centrifuges on elevated platforms to allow for sludge collection underneath.
-        </p>
-        <p class="text-gray-700 leading-relaxed">
-          However, adding the optional skid-integrated sludge collection and disposal system allows the skid to be flexible, i.e., mobile. It also eliminates the need for the customer to build a permanent platform.
+          The OEMs' inability to customize is understandable, given many OEM systems, making customization impractical. This fact leads to other restrictions when dealing with new centrifuges from OEMs. The accessories (heaters, pumps, sludge systems) offered with new centrifuges are also proprietary. Parts and services of these additions are also highly dependent on the OEMs.
         </p>
         <p class="text-gray-700 leading-relaxed mt-3">
-          In summary, we suggest evaluating and choosing the right options for your particular application from the start. The right choices can make the difference between average centrifuge performance and excellent centrifuge performance.
+          Non-OEM centrifuge suppliers with thorough knowledge and experience in centrifuges can address this issue. Dolphin Centrifuge is one of the few companies capable of bringing a high customization level to remanufactured centrifuges. We can use state-of-the-art technology to extract maximum performance from remanufactured OEM centrifuges.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-5 p-4 bg-navy text-white rounded-lg">
+      <p class="font-medium">
+        <strong>In summary:</strong> A prospective buyer can see cost and lead-time benefits from choosing the remanufactured centrifuge option. Accessories and the ability to customize systems for unique applications also play a role in the final decision.
+      </p>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div id="step-6" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">6</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Remanufactured, Reputed-Brand Centrifuge versus New, Generic Centrifuge</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      This section discusses another option available to centrifuge buyers, which is new, generic centrifuges. New, generic centrifuges refer to copies of brand-name centrifuges produced by third parties. The bulk of these centrifuges are manufactured in China and sold under various brands worldwide.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      The primary reason for considering these generic centrifuges is their price point compared to new, reputed-brand centrifuges. However, the equation changes when comparing these generic centrifuges to remanufactured reputed-brand (like Alfa Laval) centrifuges.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      In other words, a customer can source an Alfa Laval centrifuge, which is remanufactured in the US at a similar price point to a new, generic centrifuge. At the same price level, the advantages of the remanufactured, branded centrifuge are apparent.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Quality</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Reputed brand centrifuges such as <strong>Alfa Laval have more than 100 years</strong> of manufacturing experience. They are well known for their material quality and robust design. These branded centrifuges are commonly known to last over 50 years. Generic centrifuge manufacturers cannot easily make such claims.
         </p>
       </div>
 
-      <!-- Step 5 -->
-      <div id="step-5" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">5</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Reputed-Brand Centrifuge — New versus Remanufactured</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          Every buyer would like a new centrifuge if it was not for budgetary or time constraints. For this discussion, we are discussing only centrifuges from established, brand-name manufacturers like Alfa Laval. We look at this consideration from 4 different aspects.
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Design</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          R&amp;D is a significant part of all branded centrifuge manufacturing operations. R&amp;D allows manufacturers like Alfa Laval to incorporate the latest learnings and technologies into their evolving centrifuges.
         </p>
-
-        <div class="space-y-6">
-          <div class="bg-blue-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Price of New versus Remanufactured Centrifuge</h3>
-            <p class="text-gray-700 leading-relaxed">
-              A <strong>remanufactured</strong> centrifuge can <strong>save a buyer up to 50%</strong> compared to a new centrifuge. This cost savings is highly subjective and depends on the type, make, and centrifuge model.
-            </p>
-          </div>
-
-          <div class="bg-blue-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Typical Delivery Time of New and Remanufactured Centrifuges</h3>
-            <p class="text-gray-700 leading-relaxed">
-              Lead time also plays a vital role in this decision of new versus remanufactured. Typical lead times for <strong>new centrifuge systems can be 8 to 18 months</strong> compared to those for <strong>remanufactured</strong> centrifuge systems, around <strong>2 to 5 months</strong>.
-            </p>
-          </div>
-
-          <div class="bg-blue-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Accessories Available for New versus Remanufactured Centrifuges</h3>
-            <p class="text-gray-700 leading-relaxed">
-              Accessories (heaters, pumps, sludge systems, and filters) are important considerations for choosing between new and remanufactured centrifuges. New centrifuges from OEM generally come with proprietary accessories. This factor is important because the buyer depends on the OEM for these accessories' parts and services.
-            </p>
-            <p class="text-gray-700 leading-relaxed mt-3">
-              For example, control systems from centrifuge OEMs are proprietary for their particular centrifuges. The control system program cannot be accessed or modified by the user. The OEMs cannot change the programs or control systems to suit buyers' needs.
-            </p>
-          </div>
-
-          <div class="bg-blue-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Customization of New Centrifuges versus Remanufactured</h3>
-            <p class="text-gray-700 leading-relaxed">
-              The OEMs' inability to customize is understandable, given many OEM systems, making customization impractical. This fact leads to other restrictions when dealing with new centrifuges from OEMs. The accessories (heaters, pumps, sludge systems) offered with new centrifuges are also proprietary. Parts and services of these additions are also highly dependent on the OEMs.
-            </p>
-            <p class="text-gray-700 leading-relaxed mt-3">
-              Non-OEM centrifuge suppliers with thorough knowledge and experience in centrifuges can address this issue. Dolphin Centrifuge is one of the few companies capable of bringing a high customization level to remanufactured centrifuges. We can use state-of-the-art technology to extract maximum performance from remanufactured OEM centrifuges.
-            </p>
-          </div>
-        </div>
-
-        <div class="mt-5 p-4 bg-navy text-white rounded-lg">
-          <p class="font-medium">
-            <strong>In summary:</strong> A prospective buyer can see cost and lead-time benefits from choosing the remanufactured centrifuge option. Accessories and the ability to customize systems for unique applications also play a role in the final decision.
-          </p>
-        </div>
+        <p class="text-gray-700 text-sm leading-relaxed mt-2">
+          Generic centrifuge manufacturers do not typically have any R&amp;D but rely on their low price point as the primary selling feature.
+        </p>
       </div>
 
-      <!-- Step 6 -->
-      <div id="step-6" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">6</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Remanufactured, Reputed-Brand Centrifuge versus New, Generic Centrifuge</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          This section discusses another option available to centrifuge buyers, which is new, generic centrifuges. New, generic centrifuges refer to copies of brand-name centrifuges produced by third parties. The bulk of these centrifuges are manufactured in China and sold under various brands worldwide.
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Spare Parts</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Branded centrifuges have been around long enough to create their spare parts ecosystem. Consequently, genuine and aftermarket parts for branded centrifuges are readily available worldwide.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          The primary reason for considering these generic centrifuges is their price point compared to new, reputed-brand centrifuges. However, the equation changes when comparing these generic centrifuges to remanufactured reputed-brand (like Alfa Laval) centrifuges.
+        <p class="text-gray-700 text-sm leading-relaxed mt-2">
+          Generic manufacturers use parts specific to only their centrifuges. Getting spare parts for these centrifuges can not be assured.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          In other words, a customer can source an Alfa Laval centrifuge, which is remanufactured in the US at a similar price point to a new, generic centrifuge. At the same price level, the advantages of the remanufactured, branded centrifuge are apparent.
-        </p>
-
-        <div class="grid md:grid-cols-2 gap-5">
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Quality</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              Reputed brand centrifuges such as <strong>Alfa Laval have more than 100 years</strong> of manufacturing experience. They are well known for their material quality and robust design. These branded centrifuges are commonly known to last over 50 years. Generic centrifuge manufacturers cannot easily make such claims.
-            </p>
-          </div>
-
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Design</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              R&amp;D is a significant part of all branded centrifuge manufacturing operations. R&amp;D allows manufacturers like Alfa Laval to incorporate the latest learnings and technologies into their evolving centrifuges.
-            </p>
-            <p class="text-gray-700 text-sm leading-relaxed mt-2">
-              Generic centrifuge manufacturers do not typically have any R&amp;D but rely on their low price point as the primary selling feature.
-            </p>
-          </div>
-
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Spare Parts</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              Branded centrifuges have been around long enough to create their spare parts ecosystem. Consequently, genuine and aftermarket parts for branded centrifuges are readily available worldwide.
-            </p>
-            <p class="text-gray-700 text-sm leading-relaxed mt-2">
-              Generic manufacturers use parts specific to only their centrifuges. Getting spare parts for these centrifuges can not be assured.
-            </p>
-          </div>
-
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-2">Serviceability</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              With thousands of units in operation worldwide, branded centrifuges are familiar to centrifuge technicians worldwide. Therefore servicing of branded centrifuges is readily available in most locations.
-            </p>
-            <p class="text-gray-700 text-sm leading-relaxed mt-2">
-              Generic centrifuge copies are not as widely prevalent as their branded counterparts. Experienced service technicians can be hard or impossible to find outside of the manufacturer's technicians.
-            </p>
-          </div>
-        </div>
       </div>
 
-      <!-- Step 7 -->
-      <div id="step-7" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">7</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Considerations in Choosing a Remanufactured Centrifuge</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Remanufactured is a loosely used term, the scope of which is dependent on the remanufacturer. A remanufactured centrifuge from a used equipment dealer could mean a paint coat on a barely functional centrifuge compared to a complete, 'rebuilt from scratch centrifuge' from a reputed centrifuge company.
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-2">Serviceability</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          With thousands of units in operation worldwide, branded centrifuges are familiar to centrifuge technicians worldwide. Therefore servicing of branded centrifuges is readily available in most locations.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Some of the other factors to consider in a remanufactured centrifuge are the <strong>centrifuge's prior use</strong> and <strong>present location</strong>. Following is an explanation of each of these factors.
+        <p class="text-gray-700 text-sm leading-relaxed mt-2">
+          Generic centrifuge copies are not as widely prevalent as their branded counterparts. Experienced service technicians can be hard or impossible to find outside of the manufacturer's technicians.
         </p>
-        <div class="space-y-4">
-          <div class="bg-yellow-50 border-l-4 border-gold p-4 rounded-r-lg">
-            <h3 class="font-semibold text-navy mb-2">Prior Use</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              The prior use of the centrifuge refers to the previous application of the centrifuge in its earlier life. For example, a centrifuge from a highly abrasive application like sand or drilling mud needs careful inspection before consideration. It is not easy to revive centrifuge bowl components with excessive wear. A worn-out bowl limits the useful life of the centrifuge.
-            </p>
-          </div>
-          <div class="bg-yellow-50 border-l-4 border-gold p-4 rounded-r-lg">
-            <h3 class="font-semibold text-navy mb-2">Present Location</h3>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              The present location of the centrifuge under consideration is essential if the centrifuge is in a distant geographical area from the seller. In such cases, it is difficult for the seller to perform a thorough inspection of the centrifuge before buying.
-            </p>
-            <p class="text-gray-700 text-sm leading-relaxed mt-2">
-              Ideally, the seller should have the centrifuge on offer physically inspected and available for the prospective buyer's inspection before purchase.
-            </p>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
 
-      <!-- Step 8 -->
-      <div id="step-8" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">8</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Selecting a Remanufactured Centrifuge Supplier — OEM, Specialized Centrifuge Company, or Centrifuge Traders</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          OEMs, specialized centrifuge companies, and centrifuge traders all sell 'remanufactured' centrifuges. Selecting the right supplier is one of the most critical choices facing a potential buyer — whom should you buy from?
+  <!-- Step 7 -->
+  <div id="step-7" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">7</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Considerations in Choosing a Remanufactured Centrifuge</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Remanufactured is a loosely used term, the scope of which is dependent on the remanufacturer. A remanufactured centrifuge from a used equipment dealer could mean a paint coat on a barely functional centrifuge compared to a complete, 'rebuilt from scratch centrifuge' from a reputed centrifuge company.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Some of the other factors to consider in a remanufactured centrifuge are the <strong>centrifuge's prior use</strong> and <strong>present location</strong>. Following is an explanation of each of these factors.
+    </p>
+    <div class="space-y-4">
+      <div class="bg-yellow-50 border-l-4 border-gold p-4 rounded-r-lg">
+        <h3 class="font-semibold text-navy mb-2">Prior Use</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          The prior use of the centrifuge refers to the previous application of the centrifuge in its earlier life. For example, a centrifuge from a highly abrasive application like sand or drilling mud needs careful inspection before consideration. It is not easy to revive centrifuge bowl components with excessive wear. A worn-out bowl limits the useful life of the centrifuge.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          We will break down this selection step into factors worth considering while choosing the right supplier for your industrial centrifuge.
+      </div>
+      <div class="bg-yellow-50 border-l-4 border-gold p-4 rounded-r-lg">
+        <h3 class="font-semibold text-navy mb-2">Present Location</h3>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          The present location of the centrifuge under consideration is essential if the centrifuge is in a distant geographical area from the seller. In such cases, it is difficult for the seller to perform a thorough inspection of the centrifuge before buying.
         </p>
+        <p class="text-gray-700 text-sm leading-relaxed mt-2">
+          Ideally, the seller should have the centrifuge on offer physically inspected and available for the prospective buyer's inspection before purchase.
+        </p>
+      </div>
+    </div>
+  </div>
 
-        <!-- Types of Suppliers -->
-        <h3 class="text-xl font-semibold text-navy mb-4">Types of Established and Experienced Centrifuge Suppliers</h3>
-        <div class="space-y-4 mb-8">
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h4 class="font-semibold text-navy mb-2">Branded OEMs</h4>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              A branded OEM is an established company. For example, Alfa Laval, the gold standard in centrifuges, has been around for over 100 years. They should be the first choice for any buyer looking for a remanufactured centrifuge. However, as noted in Step 5, this is often not feasible due to cost concerns.
-            </p>
-          </div>
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h4 class="font-semibold text-navy mb-2">Super Specialized Centrifuge Companies</h4>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              Finally, super-specialized centrifuge companies specialize in certain types of centrifuges and cater only to that specific market. <strong>Dolphin Centrifuge is one such company</strong> that specializes in decanter and disc centrifuges. Within that sub-category, we specialize in Alfa Laval branded centrifuges.
-            </p>
-          </div>
-          <div class="border border-gray-100 rounded-lg p-5">
-            <h4 class="font-semibold text-navy mb-2">Generalized Centrifuge Companies</h4>
-            <p class="text-gray-700 text-sm leading-relaxed">
-              Generalized centrifuge companies sell all different types and brands of remanufactured centrifuges. Some of these companies have been in business for over 25 years. There are a few different types of companies within this category.
-            </p>
-            <p class="text-gray-700 text-sm leading-relaxed mt-2">
-              Centrifuge traders buy and sell all varieties of industrial centrifuges, from basket centrifuges to pusher centrifuges to decanter and disc centrifuges. Then, centrifuge repair companies specialize in repairing and ultimately selling used centrifuges of different types.
-            </p>
-          </div>
-        </div>
+  <!-- Step 8 -->
+  <div id="step-8" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">8</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Selecting a Remanufactured Centrifuge Supplier — OEM, Specialized Centrifuge Company, or Centrifuge Traders</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      OEMs, specialized centrifuge companies, and centrifuge traders all sell 'remanufactured' centrifuges. Selecting the right supplier is one of the most critical choices facing a potential buyer — whom should you buy from?
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      We will break down this selection step into factors worth considering while choosing the right supplier for your industrial centrifuge.
+    </p>
 
-        <!-- Application Experience -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Application Experience of Centrifuge Supplier</h3>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The application experience is a critical differentiating factor worth considering. As discussed in the previous point, generalized centrifuge traders cater to all markets and applications. They offer a wide selection; however, they may lack in-depth application experience. These traders tend to be more generalized and could be a good source for buyers with in-house centrifuge expertise.
+    <!-- Types of Suppliers -->
+    <h3 class="text-xl font-semibold text-navy mb-4">Types of Established and Experienced Centrifuge Suppliers</h3>
+    <div class="space-y-4 mb-8">
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h4 class="font-semibold text-navy mb-2">Branded OEMs</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          A branded OEM is an established company. For example, Alfa Laval, the gold standard in centrifuges, has been around for over 100 years. They should be the first choice for any buyer looking for a remanufactured centrifuge. However, as noted in Step 5, this is often not feasible due to cost concerns.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          On the other hand, OEMs have various divisions within their company, each with in-depth application experience catering to specific sectors.
+      </div>
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h4 class="font-semibold text-navy mb-2">Super Specialized Centrifuge Companies</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Finally, super-specialized centrifuge companies specialize in certain types of centrifuges and cater only to that specific market. <strong>Dolphin Centrifuge is one such company</strong> that specializes in decanter and disc centrifuges. Within that sub-category, we specialize in Alfa Laval branded centrifuges.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          Centrifuge suppliers specializing in specific types of centrifuges tend to have in-depth application experience. This fact is especially true for specialized centrifuge suppliers. They are established and have been in the business long enough to have experience with practically all applications of their specific machines.
+      </div>
+      <div class="border border-gray-100 rounded-lg p-5">
+        <h4 class="font-semibold text-navy mb-2">Generalized Centrifuge Companies</h4>
+        <p class="text-gray-700 text-sm leading-relaxed">
+          Generalized centrifuge companies sell all different types and brands of remanufactured centrifuges. Some of these companies have been in business for over 25 years. There are a few different types of companies within this category.
         </p>
+        <p class="text-gray-700 text-sm leading-relaxed mt-2">
+          Centrifuge traders buy and sell all varieties of industrial centrifuges, from basket centrifuges to pusher centrifuges to decanter and disc centrifuges. Then, centrifuge repair companies specialize in repairing and ultimately selling used centrifuges of different types.
+        </p>
+      </div>
+    </div>
 
-        <!-- Owned Inventory -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Centrifuge Supplier's Owned Inventory</h3>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Centrifuge supplier's owned inventory refers to the stock of centrifuges owned by the potential supplier. This owned inventory is an essential consideration for potential buyers for the reasons explained below.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          The main component of the centrifuge is the rotating bowl, which is the heart of the centrifuge. While frame and transmission parts can be repaired or replaced, the centrifuge bowl is not recoverable from excessive wear.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Some established centrifuge suppliers buy and stock gently used centrifuges whenever and wherever they are available. This inventory of pre-selected centrifuges offers the supplier the advantage of providing centrifuges with minimal wear bowls.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          OEMs have a similar advantage of having a stock of gently used centrifuges, which they receive as trade-ins.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Suppliers who don't have their stock of pre-selected centrifuges often seek used centrifuges once they have a buyer's purchase commitment. At this point, it is not always possible to find centrifuges having bowls without significant wear. There is also the likelihood of procuring the least cost centrifuge at this point in the transaction.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          In summary, it is worth inquiring about the ownership of the proposed centrifuge for the reasons above.
-        </p>
+    <!-- Application Experience -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Application Experience of Centrifuge Supplier</h3>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      The application experience is a critical differentiating factor worth considering. As discussed in the previous point, generalized centrifuge traders cater to all markets and applications. They offer a wide selection; however, they may lack in-depth application experience. These traders tend to be more generalized and could be a good source for buyers with in-house centrifuge expertise.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      On the other hand, OEMs have various divisions within their company, each with in-depth application experience catering to specific sectors.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      Centrifuge suppliers specializing in specific types of centrifuges tend to have in-depth application experience. This fact is especially true for specialized centrifuge suppliers. They are established and have been in the business long enough to have experience with practically all applications of their specific machines.
+    </p>
 
-        <!-- Remanufacturing In-House or Subcontracted -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Remanufacturing, Controls, Assembly &amp; Testing — In-House or Subcontracted</h3>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          A remanufactured centrifuge system involves certain sub-activities that are critical to the long-term trouble-free operation of the centrifuge.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-3">These activities cover the following main areas:</p>
-        <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700 mb-4">
-          <li>Remanufacture of the centrifuge machine</li>
-          <li>Design and assembly of the control system</li>
-          <li>Fabrication of the skid components</li>
-          <li>Assembly, wiring, and testing of the complete system</li>
-        </ul>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          OEMs have specific remanufactured centrifuge divisions which integrate all of the above under one roof. The result is a fully integrated centrifuge system with an assured durable operation.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Few specialized centrifuge suppliers can perform all of these activities in-house. Dolphin Centrifuge is one such dedicated centrifuge supplier.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Generalized centrifuge traders cannot have all these facilities in-house because of their broad scope of supply. Therefore, it is not uncommon to see the centrifuge seller, the remanufacturer, the controls builder, and the system integrator being separate, independent companies or individuals. The expertise and knowledge are lost if there isn't a single entity ownership or diverged focus.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          The advantage of this process is the potential time savings from leveraged independent resources. However, there is no single point of contact or knowledgeable source for support in post-sales issues or technical support.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          There is no corporate memory to implement the "lessons learned" into future centrifuge systems under these circumstances. These learnings relate to inter-component issues, such as specific control features modified based on certain centrifuge features particular to the application.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Finally, the system build location becomes critical if imported subsystems are involved. The system's origin is crucial due to the difference between North American and European/Asian engineering standards.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          For example, control panel components, motors, fasteners, and other components adhere to different standards depending on the location. These differences can be a significant issue when users cannot find a simple fastener or electrical component anywhere in the local market.
-        </p>
+    <!-- Owned Inventory -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Centrifuge Supplier's Owned Inventory</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Centrifuge supplier's owned inventory refers to the stock of centrifuges owned by the potential supplier. This owned inventory is an essential consideration for potential buyers for the reasons explained below.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      The main component of the centrifuge is the rotating bowl, which is the heart of the centrifuge. While frame and transmission parts can be repaired or replaced, the centrifuge bowl is not recoverable from excessive wear.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Some established centrifuge suppliers buy and stock gently used centrifuges whenever and wherever they are available. This inventory of pre-selected centrifuges offers the supplier the advantage of providing centrifuges with minimal wear bowls.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      OEMs have a similar advantage of having a stock of gently used centrifuges, which they receive as trade-ins.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Suppliers who don't have their stock of pre-selected centrifuges often seek used centrifuges once they have a buyer's purchase commitment. At this point, it is not always possible to find centrifuges having bowls without significant wear. There is also the likelihood of procuring the least cost centrifuge at this point in the transaction.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      In summary, it is worth inquiring about the ownership of the proposed centrifuge for the reasons above.
+    </p>
 
-        <!-- Spare Parts -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Spare Parts and Spare Assemblies Availability</h3>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          As mentioned in step 6 above, spare parts availability is one of the advantages of choosing a branded centrifuge OEM. However, specialized centrifuge suppliers can also afford to carry a large spare parts inventory. The availability of spare parts is due to their narrow focus on specific centrifuges.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          On the other hand, generalized centrifuge traders cannot carry all the spare parts for the different brands and types of centrifuges. Of course, there are other sources of generic spare parts for branded centrifuges. But then the buyer has to find and source spare parts independently.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Spare parts are not always 'spare'! Often the centrifuge operator is looking for parts when there is a breakdown. At this point is a time-sensitive situation, and a centrifuge supplier who also carries parts for the centrifuges they sell is beneficial.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          Spare assemblies refer primarily to bowl assemblies. It is easier to find used bowl assemblies for branded centrifuges, which are prevalent in the market.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          A specialized centrifuge supplier with a stock of centrifuges is your first choice for spare centrifuge bowl assemblies. They can offer sound, reusable bowl assemblies from their pre-selected stock. This availability also applies to frame assemblies and other large, expensive parts.
-        </p>
+    <!-- Remanufacturing In-House or Subcontracted -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Remanufacturing, Controls, Assembly &amp; Testing — In-House or Subcontracted</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      A remanufactured centrifuge system involves certain sub-activities that are critical to the long-term trouble-free operation of the centrifuge.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-3">These activities cover the following main areas:</p>
+    <ul class="list-disc list-outside ml-5 space-y-1 text-gray-700 mb-4">
+      <li>Remanufacture of the centrifuge machine</li>
+      <li>Design and assembly of the control system</li>
+      <li>Fabrication of the skid components</li>
+      <li>Assembly, wiring, and testing of the complete system</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      OEMs have specific remanufactured centrifuge divisions which integrate all of the above under one roof. The result is a fully integrated centrifuge system with an assured durable operation.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Few specialized centrifuge suppliers can perform all of these activities in-house. Dolphin Centrifuge is one such dedicated centrifuge supplier.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Generalized centrifuge traders cannot have all these facilities in-house because of their broad scope of supply. Therefore, it is not uncommon to see the centrifuge seller, the remanufacturer, the controls builder, and the system integrator being separate, independent companies or individuals. The expertise and knowledge are lost if there isn't a single entity ownership or diverged focus.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      The advantage of this process is the potential time savings from leveraged independent resources. However, there is no single point of contact or knowledgeable source for support in post-sales issues or technical support.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      There is no corporate memory to implement the "lessons learned" into future centrifuge systems under these circumstances. These learnings relate to inter-component issues, such as specific control features modified based on certain centrifuge features particular to the application.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Finally, the system build location becomes critical if imported subsystems are involved. The system's origin is crucial due to the difference between North American and European/Asian engineering standards.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      For example, control panel components, motors, fasteners, and other components adhere to different standards depending on the location. These differences can be a significant issue when users cannot find a simple fastener or electrical component anywhere in the local market.
+    </p>
 
-        <!-- Sample Testing -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Sample Testing Service</h3>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          OEMs offer a <a href="/industrial-centrifuge-sample-testing/" class="text-navy underline hover:text-gold">sample testing service</a> wherein they process a small sample of the potential customers' fluid through a pilot-scale, high-speed centrifuge to evaluate centrifuges' applicability.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Few other centrifuge suppliers offer this service. However, it is recommended since it can provide additional assurance of centrifuge applicability to the customer.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
-          Some specialized centrifuge suppliers can process a customer sample and provide a detailed test report. Based on their experience, they can also make centrifuge recommendations depending on the test results.
-        </p>
-        <p class="text-gray-700 leading-relaxed mb-8">
-          The ability to test your sample is a question worth asking all your potential centrifuge suppliers.
-        </p>
+    <!-- Spare Parts -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Spare Parts and Spare Assemblies Availability</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      As mentioned in step 6 above, spare parts availability is one of the advantages of choosing a branded centrifuge OEM. However, specialized centrifuge suppliers can also afford to carry a large spare parts inventory. The availability of spare parts is due to their narrow focus on specific centrifuges.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      On the other hand, generalized centrifuge traders cannot carry all the spare parts for the different brands and types of centrifuges. Of course, there are other sources of generic spare parts for branded centrifuges. But then the buyer has to find and source spare parts independently.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Spare parts are not always 'spare'! Often the centrifuge operator is looking for parts when there is a breakdown. At this point is a time-sensitive situation, and a centrifuge supplier who also carries parts for the centrifuges they sell is beneficial.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      Spare assemblies refer primarily to bowl assemblies. It is easier to find used bowl assemblies for branded centrifuges, which are prevalent in the market.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      A specialized centrifuge supplier with a stock of centrifuges is your first choice for spare centrifuge bowl assemblies. They can offer sound, reusable bowl assemblies from their pre-selected stock. This availability also applies to frame assemblies and other large, expensive parts.
+    </p>
 
-        <!-- Warranty -->
-        <h3 class="text-xl font-semibold text-navy mb-3">Centrifuge Warranty</h3>
+    <!-- Sample Testing -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Sample Testing Service</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      OEMs offer a <a href="/industrial-centrifuge-sample-testing/" class="text-navy underline hover:text-gold">sample testing service</a> wherein they process a small sample of the potential customers' fluid through a pilot-scale, high-speed centrifuge to evaluate centrifuges' applicability.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Few other centrifuge suppliers offer this service. However, it is recommended since it can provide additional assurance of centrifuge applicability to the customer.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Some specialized centrifuge suppliers can process a customer sample and provide a detailed test report. Based on their experience, they can also make centrifuge recommendations depending on the test results.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-8">
+      The ability to test your sample is a question worth asking all your potential centrifuge suppliers.
+    </p>
+
+    <!-- Warranty -->
+    <h3 class="text-xl font-semibold text-navy mb-3">Centrifuge Warranty</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      <em>A warranty is only as good as the company behind the warranty.</em> One important consideration with a centrifuge warranty is that it is a mechanical warranty.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      Given that a centrifuge is a mechanical separation device, it is impossible to provide a process warranty. This inability to provide a process warranty is because different fluid properties, operating conditions, and machine settings will produce differing results. Therefore there is no way to predict and guarantee process results.
+    </p>
+  </div>
+
+  <!-- Step 9 -->
+  <div id="step-9" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <div class="flex items-start gap-4 mb-4">
+      <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">9</div>
+      <h2 class="text-2xl font-bold text-navy pt-1">Post Purchase Considerations</h2>
+    </div>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      This final step will discuss the importance of some post-purchase factors that the buyer should consider before making the final purchase decision. We have divided this section into three important after-sales factors.
+    </p>
+
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-xl font-semibold text-navy mb-3">Factory Acceptance Test (FAT)</h3>
         <p class="text-gray-700 leading-relaxed mb-4">
-          <em>A warranty is only as good as the company behind the warranty.</em> One important consideration with a centrifuge warranty is that it is a mechanical warranty.
+          The factory acceptance test is an opportunity for the buyer to visit the supplier's factory and witness the final testing of the centrifuge they purchased. FAT is an excellent opportunity for the buyer to inspect and see their centrifuge system operating.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          FAT is routinely offered by OEMs, especially when their customers have the FAT as part of the buying process.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Specialized centrifuge companies, such as Dolphin Centrifuge, offer FAT and see it as an opportunity to familiarize their customers with the centrifuge. It is also a chance for the customer's operators to get some hands-on experience with the equipment under the supplier's guidance.
         </p>
         <p class="text-gray-700 leading-relaxed">
-          Given that a centrifuge is a mechanical separation device, it is impossible to provide a process warranty. This inability to provide a process warranty is because different fluid properties, operating conditions, and machine settings will produce differing results. Therefore there is no way to predict and guarantee process results.
+          Some generalized centrifuge traders may offer FAT if specifically requested. It will depend upon the system integrator's actual testing location and availability, who may not be the seller.
         </p>
       </div>
 
-      <!-- Step 9 -->
-      <div id="step-9" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-10 h-10 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">9</div>
-          <h2 class="text-2xl font-bold text-navy pt-1">Post Purchase Considerations</h2>
-        </div>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          This final step will discuss the importance of some post-purchase factors that the buyer should consider before making the final purchase decision. We have divided this section into three important after-sales factors.
+      <div class="pt-4 border-t border-gray-100">
+        <h3 class="text-xl font-semibold text-navy mb-3">Technical Support</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Centrifuges are durable machines, but they are not filters! In other words, they are machines, and machinery needs to be maintained to ensure reliable operation. Also, centrifuges are not familiar machines.
         </p>
-
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-xl font-semibold text-navy mb-3">Factory Acceptance Test (FAT)</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              The factory acceptance test is an opportunity for the buyer to visit the supplier's factory and witness the final testing of the centrifuge they purchased. FAT is an excellent opportunity for the buyer to inspect and see their centrifuge system operating.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              FAT is routinely offered by OEMs, especially when their customers have the FAT as part of the buying process.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Specialized centrifuge companies, such as Dolphin Centrifuge, offer FAT and see it as an opportunity to familiarize their customers with the centrifuge. It is also a chance for the customer's operators to get some hands-on experience with the equipment under the supplier's guidance.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-              Some generalized centrifuge traders may offer FAT if specifically requested. It will depend upon the system integrator's actual testing location and availability, who may not be the seller.
-            </p>
-          </div>
-
-          <div class="pt-4 border-t border-gray-100">
-            <h3 class="text-xl font-semibold text-navy mb-3">Technical Support</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Centrifuges are durable machines, but they are not filters! In other words, they are machines, and machinery needs to be maintained to ensure reliable operation. Also, centrifuges are not familiar machines.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              As a result, after-sales technical support is all the more critical for centrifuges. In-depth centrifuge knowledge and experience are required to offer technical support.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Specialized centrifuge suppliers are well-equipped to provide reliable technical support and maintenance. Their ability to offer tech support is due to their narrow focus on the centrifuges they specialize in. Their dedicated focus gives them a deep understanding of centrifuge products and helps in unique situations.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-              It is worth mentioning here that <strong><em>Dolphin Centrifuge offers lifetime technical support</em></strong> to all our customers.
-            </p>
-          </div>
-
-          <div class="pt-4 border-t border-gray-100">
-            <h3 class="text-xl font-semibold text-navy mb-3">Factory and On-Site Startup Training</h3>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              As mentioned above, under the FAT section, customers can send their operators to the supplier during the FAT to get initial training. OEMs and certain specialized centrifuge manufacturers offer FAT. One can consider FAT as factory training.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Though the OEMs typically charge for FAT, specialized centrifuge suppliers (such as Dolphin Centrifuge) include this service without an additional charge.
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-4">
-              Both OEMs and specialized centrifuge remanufacturers offer on-site training. This training helps the customer fine-tune the centrifuge on their actual process fluid on continuous flow. The customer's operators can understand the centrifuge, control system, and servicing procedures.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-              Most generalized centrifuge traders offer on-site training as well. But again, depending on the centrifuge trader, a generic centrifuge technician may not have the in-depth knowledge to answer all questions. This lack of knowledge is especially the case if the technician is unfamiliar with the centrifuge and the controls are from a 3rd party.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Summary & Checklists -->
-      <div id="summary" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-navy mb-4">Summary</h2>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          Selecting the correct centrifuge for your needs is a significant decision. It would be best to consider many factors to choose a centrifuge that works efficiently; it can be easily serviced and at an appropriate price point.
+        <p class="text-gray-700 leading-relaxed mb-4">
+          As a result, after-sales technical support is all the more critical for centrifuges. In-depth centrifuge knowledge and experience are required to offer technical support.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-6">
-          We can summarize the steps mentioned earlier in the form of questions that a prospective centrifuge buyer should ask as they go about selecting a centrifuge and vendor. The answers to these questions will give the customer enough information to make an informed buying decision.
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Specialized centrifuge suppliers are well-equipped to provide reliable technical support and maintenance. Their ability to offer tech support is due to their narrow focus on the centrifuges they specialize in. Their dedicated focus gives them a deep understanding of centrifuge products and helps in unique situations.
         </p>
-
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- Buyer Questions -->
-          <div class="bg-blue-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-4">Questions You (the Buyer) Should Have Answers For:</h3>
-            <ul class="space-y-2 text-gray-700 text-sm">
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>What are the properties of your process fluid? (Viscosity, Specific Gravity of All Fluids, Operating Temperature, Solid Particle Size)</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>Is this Liquid/Liquid, Liquid/Solid, or Liquid/Liquid/Solid separation?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>What is your capacity requirement? How many gallons per minute?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>What is the % of each phase in your process fluid?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>Which phase(s) are you trying to recover? (i.e., Valuable Phase)</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-gold font-bold mt-0.5">→</span>
-                <span>Do you need equipment for hazardous areas or Explosion Proof classified?</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Supplier Questions -->
-          <div class="bg-gray-50 rounded-lg p-5">
-            <h3 class="text-lg font-semibold text-navy mb-4">Questions to Ask the Potential Centrifuge Supplier:</h3>
-            <ul class="space-y-2 text-gray-700 text-sm">
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>What data do you need from us to recommend a centrifuge for our application?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>What are the rated capacity and expected process capacity on our process fluid?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>How should we pre-treat our process fluid to get the maximum out of the centrifuge?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>What accessories do you include with the centrifuge?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Do you recommend any additional options? If so, why?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Can you offer the same or a similar centrifuge as a new one? Price and delivery time difference?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Who is the original manufacturer? Where was it manufactured, and is the manufacturer still operational?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Are spare parts readily available? Can you refer us to a US-based source?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>What was this centrifuge used for in its prior use?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Where is this centrifuge presently located? Is it available for inspection before we decide to buy?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>How long have you been in business? Can you share a portfolio of centrifuges you have supplied?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Have you previously supplied a centrifuge for this application?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Do you currently own the centrifuge you are offering?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Who will remanufacture the centrifuge? Where? Who will build the control system?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Where will the complete system be integrated, wired, and tested?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Do you carry spare parts for this centrifuge? What about additional bowl assemblies?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Can you test a sample of our process fluid and give us your recommendation?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>What kind of warranty do you offer? Can we see your warranty statement?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Can we witness the testing of the centrifuge?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>If we need technical assistance — with the centrifuge or control system — whom do we call?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>Can you train our operators at your facility on our centrifuge?</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-navy font-bold mt-0.5">→</span>
-                <span>If we need on-site startup assistance, who will provide that support?</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <p class="text-gray-700 leading-relaxed mt-6">
-          We hope this article will help prospective centrifuge buyers to make an informed decision on their centrifuge purchase.
+        <p class="text-gray-700 leading-relaxed">
+          It is worth mentioning here that <strong><em>Dolphin Centrifuge offers lifetime technical support</em></strong> to all our customers.
         </p>
-        <p class="text-sm text-gray-500 mt-4 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
       </div>
 
-      <!-- Dolphin Centrifuge Image -->
-      <div class="mb-8">
-        <img
-          src="/images/picking-the-right-industrial-centrifuge/Dolphin-Centrifuge.webp"
-          alt="Dolphin Centrifuge — US-based centrifuge specialists with 40 years of experience"
-          width="800" height="400"
-          loading="lazy"
-          class="rounded-xl w-full"
-        />
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-navy rounded-xl p-6 md:p-8 mb-8 text-white text-center">
-        <h2 class="text-2xl font-bold mb-3">Ready to Talk to a Centrifuge Specialist?</h2>
-        <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-          Feel free to contact Dolphin Centrifuge to ask any of the questions above or other questions you may have. Our US-based engineers have 40+ years of centrifuge experience across every application.
+      <div class="pt-4 border-t border-gray-100">
+        <h3 class="text-xl font-semibold text-navy mb-3">Factory and On-Site Startup Training</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          As mentioned above, under the FAT section, customers can send their operators to the supplier during the FAT to get initial training. OEMs and certain specialized centrifuge manufacturers offer FAT. One can consider FAT as factory training.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+12485222573" class="inline-flex items-center justify-center gap-2 bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-yellow-400 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            (248) 522-2573
-          </a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="inline-flex items-center justify-center gap-2 bg-white text-navy font-bold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            sales@dolphincentrifuge.com
-          </a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089 · US-based specialists</p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Though the OEMs typically charge for FAT, specialized centrifuge suppliers (such as Dolphin Centrifuge) include this service without an additional charge.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Both OEMs and specialized centrifuge remanufacturers offer on-site training. This training helps the customer fine-tune the centrifuge on their actual process fluid on continuous flow. The customer's operators can understand the centrifuge, control system, and servicing procedures.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          Most generalized centrifuge traders offer on-site training as well. But again, depending on the centrifuge trader, a generic centrifuge technician may not have the in-depth knowledge to answer all questions. This lack of knowledge is especially the case if the technician is unfamiliar with the centrifuge and the controls are from a 3rd party.
+        </p>
       </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the first step in selecting an industrial centrifuge?</h3>
-            <p class="text-text-light text-sm">The first step is fluid analysis — characterizing the mixture to be separated: phase compositions, particle size distribution, density difference, viscosity, temperature, and required flow rate. Without accurate fluid data, centrifuge sizing and type selection cannot be done reliably.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How do I choose between a disc stack centrifuge and a decanter centrifuge?</h3>
-            <p class="text-text-light text-sm">Use a disc stack centrifuge for separating fine particles from liquid-continuous feeds at low solids concentrations (typically under 3% by volume). Use a decanter centrifuge for dewatering high-solids sludges (3–40% solids) where continuous solids discharge is required. Fluid testing can confirm which technology achieves the required separation quality.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Is a remanufactured centrifuge a good alternative to a new one?</h3>
-            <p class="text-text-light text-sm">A remanufactured centrifuge can deliver 80–90% of new machine performance at 40–60% of the cost, provided it is fully rebuilt with new bearings, seals, and wear components and properly balanced. Dolphin Centrifuge offers fully refurbished disc stack and decanter centrifuges with performance documentation.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-        <h2 class="text-xl font-bold text-navy mb-5">Related Articles</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-          <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors">
-            <h3 class="font-semibold text-navy mb-1">Decanter vs. Disc Stack Centrifuge</h3>
-            <p class="text-sm text-gray-600">Technical comparison to help you choose the right centrifuge type.</p>
-          </a>
-          <a href="/alfa-laval-centrifuge-selection-guide/" class="block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors">
-            <h3 class="font-semibold text-navy mb-1">Alfa Laval Centrifuge Selection Guide</h3>
-            <p class="text-sm text-gray-600">Step-by-step guide to selecting the right Alfa Laval centrifuge model.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-faq/" class="block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors">
-            <h3 class="font-semibold text-navy mb-1">Disc Stack Centrifuge FAQ</h3>
-            <p class="text-sm text-gray-600">Frequently asked questions about disc stack centrifuges.</p>
-          </a>
-          <a href="/industrial-centrifuges-faq/" class="block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors">
-            <h3 class="font-semibold text-navy mb-1">Industrial Centrifuges FAQ</h3>
-            <p class="text-sm text-gray-600">Answers to common industrial centrifuge questions.</p>
-          </a>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
 
-</BaseLayout>
+  <!-- Summary & Checklists -->
+  <div id="summary" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+    <h2 class="text-2xl font-bold text-navy mb-4">Summary</h2>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      Selecting the correct centrifuge for your needs is a significant decision. It would be best to consider many factors to choose a centrifuge that works efficiently; it can be easily serviced and at an appropriate price point.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-6">
+      We can summarize the steps mentioned earlier in the form of questions that a prospective centrifuge buyer should ask as they go about selecting a centrifuge and vendor. The answers to these questions will give the customer enough information to make an informed buying decision.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Buyer Questions -->
+      <div class="bg-blue-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-4">Questions You (the Buyer) Should Have Answers For:</h3>
+        <ul class="space-y-2 text-gray-700 text-sm">
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>What are the properties of your process fluid? (Viscosity, Specific Gravity of All Fluids, Operating Temperature, Solid Particle Size)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>Is this Liquid/Liquid, Liquid/Solid, or Liquid/Liquid/Solid separation?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>What is your capacity requirement? How many gallons per minute?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>What is the % of each phase in your process fluid?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>Which phase(s) are you trying to recover? (i.e., Valuable Phase)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-gold font-bold mt-0.5">→</span>
+            <span>Do you need equipment for hazardous areas or Explosion Proof classified?</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Supplier Questions -->
+      <div class="bg-gray-50 rounded-lg p-5">
+        <h3 class="text-lg font-semibold text-navy mb-4">Questions to Ask the Potential Centrifuge Supplier:</h3>
+        <ul class="space-y-2 text-gray-700 text-sm">
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>What data do you need from us to recommend a centrifuge for our application?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>What are the rated capacity and expected process capacity on our process fluid?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>How should we pre-treat our process fluid to get the maximum out of the centrifuge?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>What accessories do you include with the centrifuge?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Do you recommend any additional options? If so, why?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Can you offer the same or a similar centrifuge as a new one? Price and delivery time difference?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Who is the original manufacturer? Where was it manufactured, and is the manufacturer still operational?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Are spare parts readily available? Can you refer us to a US-based source?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>What was this centrifuge used for in its prior use?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Where is this centrifuge presently located? Is it available for inspection before we decide to buy?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>How long have you been in business? Can you share a portfolio of centrifuges you have supplied?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Have you previously supplied a centrifuge for this application?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Do you currently own the centrifuge you are offering?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Who will remanufacture the centrifuge? Where? Who will build the control system?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Where will the complete system be integrated, wired, and tested?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Do you carry spare parts for this centrifuge? What about additional bowl assemblies?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Can you test a sample of our process fluid and give us your recommendation?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>What kind of warranty do you offer? Can we see your warranty statement?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Can we witness the testing of the centrifuge?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>If we need technical assistance — with the centrifuge or control system — whom do we call?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>Can you train our operators at your facility on our centrifuge?</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-navy font-bold mt-0.5">→</span>
+            <span>If we need on-site startup assistance, who will provide that support?</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="text-gray-700 leading-relaxed mt-6">
+      We hope this article will help prospective centrifuge buyers to make an informed decision on their centrifuge purchase.
+    </p>
+    <p class="text-sm text-gray-500 mt-4 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
+  </div>
+
+  <!-- Dolphin Centrifuge Image -->
+  <div class="mb-8">
+    <img
+      src="/images/picking-the-right-industrial-centrifuge/Dolphin-Centrifuge.webp"
+      alt="Dolphin Centrifuge — US-based centrifuge specialists with 40 years of experience"
+      width="800" height="400"
+      loading="lazy"
+      class="rounded-xl w-full"
+    />
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What is the first step in selecting an industrial centrifuge?</h3>
+        <p class="text-text-light text-sm">The first step is fluid analysis — characterizing the mixture to be separated: phase compositions, particle size distribution, density difference, viscosity, temperature, and required flow rate. Without accurate fluid data, centrifuge sizing and type selection cannot be done reliably.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">How do I choose between a disc stack centrifuge and a decanter centrifuge?</h3>
+        <p class="text-text-light text-sm">Use a disc stack centrifuge for separating fine particles from liquid-continuous feeds at low solids concentrations (typically under 3% by volume). Use a decanter centrifuge for dewatering high-solids sludges (3–40% solids) where continuous solids discharge is required. Fluid testing can confirm which technology achieves the required separation quality.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Is a remanufactured centrifuge a good alternative to a new one?</h3>
+        <p class="text-text-light text-sm">A remanufactured centrifuge can deliver 80–90% of new machine performance at 40–60% of the cost, provided it is fully rebuilt with new bearings, seals, and wear components and properly balanced. Dolphin Centrifuge offers fully refurbished disc stack and decanter centrifuges with performance documentation.</p>
+      </div>
+    </div>
+  </div>
+
+</ApplicationLayout>

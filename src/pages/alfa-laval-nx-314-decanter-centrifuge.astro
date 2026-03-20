@@ -1,713 +1,644 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Alfa Laval NX 314 Decanter Centrifuge",
-  "description": "The Alfa Laval NX 314 is a horizontal two-phase decanter centrifuge for wastewater dewatering, sludge thickening, waste oil de-sludging, and industrial separation at 3,157 Gs with a 10 HP motor.",
-  "brand": {
-    "@type": "Brand",
-    "name": "Alfa Laval"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alfa Laval NX 314 Decanter Centrifuge",
+    "description": "The Alfa Laval NX 314 is a horizontal two-phase decanter centrifuge for wastewater dewatering, sludge thickening, waste oil de-sludging, and industrial separation at 3,157 Gs with a 10 HP motor.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Alfa Laval"
+    },
+    "offers": {
+      "@type": "Offer",
+      "seller": {
+        "@type": "Organization",
+        "name": "Dolphin Centrifuge",
+        "telephone": "+12485222573",
+        "email": "sales@dolphincentrifuge.com"
+      }
+    },
+    "additionalProperty": [
+      { "@type": "PropertyValue", "name": "Bowl Diameter", "value": "14 inches (353 mm)" },
+      { "@type": "PropertyValue", "name": "Bowl Speed", "value": "4000 RPM" },
+      { "@type": "PropertyValue", "name": "Centrifugal Force", "value": "3,157 G" },
+      { "@type": "PropertyValue", "name": "Drive Motor Power", "value": "10 HP" },
+      { "@type": "PropertyValue", "name": "Bowl Length", "value": "34 inches (860 mm)" },
+      { "@type": "PropertyValue", "name": "AE (Area Equivalent)", "value": "780" },
+      { "@type": "PropertyValue", "name": "Gearbox Ratio", "value": "1:159 (2.5 kN-M)" },
+      { "@type": "PropertyValue", "name": "Rated Capacity", "value": "25 GPM on Hemp Ethanol Slurry" },
+      { "@type": "PropertyValue", "name": "Conveyor Protection", "value": "Carbide Tile or Tungsten Carbide Hard-Surfacing" }
+    ]
   },
-  "offers": {
-    "@type": "Offer",
-    "seller": {
-      "@type": "Organization",
-      "name": "Dolphin Centrifuge",
-      "telephone": "+12485222573",
-      "email": "sales@dolphincentrifuge.com"
-    }
-  },
-  "additionalProperty": [
-    { "@type": "PropertyValue", "name": "Bowl Diameter", "value": "14 inches (353 mm)" },
-    { "@type": "PropertyValue", "name": "Bowl Speed", "value": "4000 RPM" },
-    { "@type": "PropertyValue", "name": "Centrifugal Force", "value": "3,157 G" },
-    { "@type": "PropertyValue", "name": "Drive Motor Power", "value": "10 HP" },
-    { "@type": "PropertyValue", "name": "Bowl Length", "value": "34 inches (860 mm)" },
-    { "@type": "PropertyValue", "name": "AE (Area Equivalent)", "value": "780" },
-    { "@type": "PropertyValue", "name": "Gearbox Ratio", "value": "1:159 (2.5 kN-M)" },
-    { "@type": "PropertyValue", "name": "Rated Capacity", "value": "25 GPM on Hemp Ethanol Slurry" },
-    { "@type": "PropertyValue", "name": "Conveyor Protection", "value": "Carbide Tile or Tungsten Carbide Hard-Surfacing" }
-  ]
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the capacity of the Alfa Laval NX 314 decanter centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Alfa Laval NX 314 decanter centrifuge has a rated capacity of 25 GPM on hemp ethanol slurry. It is driven by a 10 HP motor with a bowl speed of 4,000 RPM, generating 3,157 Gs of centrifugal force for effective two-phase solid/liquid separation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What applications is the NX 314 decanter used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The NX 314 decanter is used for hemp solvent extraction, ethanol extraction, waste oil de-sludging, crude oil tank bottom sludge recovery, municipal wastewater treatment, pyrolysis sludge separation, liquid humus fertilizer processing, and sludge thickening and dewatering."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between the NX 314, AVNX 414, and NX 416 decanters?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The NX 314 is a two-phase decanter with a 10 HP motor and 34-inch bowl length. The AVNX 414 is a three-phase decanter with a 15 HP motor designed for industrial wastewater and WVO desludging. The NX 416 is a larger two-phase decanter with a 20 HP motor, a 46-inch bowl length, and a higher AE of 1,170, capable of processing 40 GPM of UCO at 180 degrees Fahrenheit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the NX 314 be supplied as a modular packaged unit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the Alfa Laval NX-314 decanter can be supplied as a complete modular packaged unit. This plug and play system includes ancillary equipment such as a sludge conveyor, clean fluid tank with transfer pump, feed pump, and electric pre-heater for efficient standalone operation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What type of conveyor protection does the NX 314 decanter have?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Alfa Laval NX 314 decanter features carbide tile or tungsten carbide hard-surfacing on the conveyor (auger) for protection against abrasive wear. This extends the service life of the conveyor in demanding applications such as sludge dewatering and tank bottom recovery."
+        }
+      }
+    ]
+  }
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the capacity of the Alfa Laval NX 314 decanter centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval NX 314 decanter centrifuge has a rated capacity of 25 GPM on hemp ethanol slurry. It is driven by a 10 HP motor with a bowl speed of 4,000 RPM, generating 3,157 Gs of centrifugal force for effective two-phase solid/liquid separation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the NX 314 decanter used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The NX 314 decanter is used for hemp solvent extraction, ethanol extraction, waste oil de-sludging, crude oil tank bottom sludge recovery, municipal wastewater treatment, pyrolysis sludge separation, liquid humus fertilizer processing, and sludge thickening and dewatering."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between the NX 314, AVNX 414, and NX 416 decanters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The NX 314 is a two-phase decanter with a 10 HP motor and 34-inch bowl length. The AVNX 414 is a three-phase decanter with a 15 HP motor designed for industrial wastewater and WVO desludging. The NX 416 is a larger two-phase decanter with a 20 HP motor, a 46-inch bowl length, and a higher AE of 1,170, capable of processing 40 GPM of UCO at 180 degrees Fahrenheit."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can the NX 314 be supplied as a modular packaged unit?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, the Alfa Laval NX-314 decanter can be supplied as a complete modular packaged unit. This plug and play system includes ancillary equipment such as a sludge conveyor, clean fluid tank with transfer pump, feed pump, and electric pre-heater for efficient standalone operation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What type of conveyor protection does the NX 314 decanter have?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval NX 314 decanter features carbide tile or tungsten carbide hard-surfacing on the conveyor (auger) for protection against abrasive wear. This extends the service life of the conveyor in demanding applications such as sludge dewatering and tank bottom recovery."
-      }
-    }
-  ]
-};
+const toc = [
+  { id: "nx-314-overview", label: "NX 314 B31-G Two-Phase Decanter" },
+  { id: "applications", label: "Applications" },
+  { id: "nx314-specifications", label: "NX-314 Specifications" },
+  { id: "modularized-unit", label: "Modularized NX-314 Units" },
+  { id: "avnx-414", label: "Alfa Laval AVNX 414 B-31" },
+  { id: "nx-416", label: "Alfa Laval NX 416 B-31" },
+  { id: "nx314-gallery", label: "Photo Gallery" },
+  { id: "faq", label: "Frequently Asked Questions" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval NX 314 Decanter | Wastewater Dewatering Centrifuge"
   description="Alfa Laval NX 314 B31-G two-phase decanter centrifuge. 10 HP, 4,000 RPM, 3,157 Gs. Handles wastewater, sludge, waste oil, tank bottoms, and biomass at 25 GPM."
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-nx-314-decanter-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Alfa Laval NX-314'}]}
+  heroImage="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-600.webp"
+  heroImageAlt="Alfa Laval NX-314 Decanter Centrifuge"
+  category="products"
+  categoryLabel="Decanter Centrifuges"
+  toc={toc}
+  relatedApplications={[
+    { label: "Wastewater Centrifuge", href: "/wastewater-centrifuge/" },
+    { label: "Industrial Wastewater Treatment", href: "/industrial-wastewater-treatment-centrifuge/" },
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Crude Oil Centrifuge", href: "/crude-oil-centrifuge/" },
+    { label: "Pyrolysis Oil Centrifuge", href: "/pyrolysis-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "Alfa Laval NX-418 Decanter", href: "/alfa-laval-nx-418-decanter-centrifuge/" },
+    { label: "Three Phase Decanter", href: "/three-phase-decanter/" },
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+  ]}
   jsonLd={jsonLd}
 >
 
-  <!-- FAQ Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <article class="prose-dolphin max-w-none">
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-16 md:py-20">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <div class="flex flex-col md:flex-row gap-10 items-center">
-        <div class="md:w-1/2">
-          <p class="text-[#E8A317] font-semibold uppercase tracking-widest text-sm mb-3">Decanter Centrifuge</p>
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-5">Alfa Laval NX 314 Decanter<br/>Wastewater Dewatering Centrifuge</h1>
-          <p class="text-lg text-white/85 mb-8">Dolphin Centrifuge provides expert service, genuine parts, and fully reconditioned units for this model. A horizontal two-phase decanter centrifuge engineered for industrial sludge dewatering, wastewater treatment, waste oil de-sludging, and biomass separation. The NX 314 is driven by a 10 HP motor, operates at a bowl speed of 4,000 RPM, and generates 3,157 Gs of centrifugal force for efficient solid/liquid separation at up to 25 GPM.</p>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white font-bold px-8 py-3 rounded-lg hover:bg-amber-600 transition text-center">Get a Quote</a>
-            <a href="tel:+12485222573" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition text-center">(248) 522-2573</a>
-          </div>
-        </div>
-        <div class="md:w-1/2">
-          <img
-            src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-600.webp"
-            alt="Alfa Laval NX-314 Decanter Centrifuge"
-            width="600"
-            height="428"
-            loading="eager"
-            class="rounded-xl shadow-xl w-full"
-          />
-        </div>
-      </div>
+    <!-- AI Summary -->
+    <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the Alfa Laval NX-314, a two-phase horizontal decanter centrifuge generating 3,157 Gs at 4,000 RPM with a 10 HP motor. Rated at 25 GPM for hemp ethanol slurry, it serves <a href="/wastewater-centrifuge/">wastewater dewatering</a>, <a href="/waste-oil-centrifuge/">waste oil de-sludging</a>, and industrial sludge separation applications.</p>
     </div>
-  </section>
 
-  <!-- TOC -->
-  <section class="bg-[#F5F5F0] py-8 border-b border-gray-200">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <h2 class="text-lg font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-        <li><a href="#nx-314-overview" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Alfa Laval NX 314 B31-G Two-Phase Decanter</a></li>
-        <li><a href="#applications" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Applications</a></li>
-        <li><a href="#nx314-specifications" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; NX-314 Specifications</a></li>
-        <li><a href="#modularized-unit" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Modularized NX-314 Units</a></li>
-        <li><a href="#avnx-414" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Alfa Laval AVNX 414 B-31</a></li>
-        <li><a href="#nx-416" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Alfa Laval NX 416 B-31</a></li>
-        <li><a href="#nx314-gallery" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Photo Gallery</a></li>
-        <li><a href="#faq" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">&#8594; Frequently Asked Questions</a></li>
-      </ul>
-    </div>
-  </section>
+    <!-- NX-314 Overview -->
+    <h2 id="nx-314-overview">Alfa Laval NX 314 B31-G Two-Phase Decanter Centrifuge</h2>
 
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0] py-12 md:py-16">
-    <div class="container mx-auto px-4 max-w-4xl">
+    <img
+      src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
+      alt="Alfa Laval Decanter Centrifuge System - Class 1 Div 2 for Herbal Extraction"
+      width="600"
+      height="400"
+      loading="lazy"
+    />
+    <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval Decanter Centrifuge System — Class 1 Div 2 for Herbal Extraction</p>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval NX-314 is a two-phase horizontal decanter centrifuge rated at approximately 30 GPM, designed for separating solids from liquids in applications including hemp/botanical extraction, WVO processing, crude oil tank bottoms, and wastewater sludge. Dolphin Centrifuge supplies the NX-314 as a complete configured system with controls and optional Class 1 Division 2 explosion-proof certification. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of decanter centrifuge experience.</p>
-      </div>
+    <p>
+      The Alfa Laval NX 314 <a href="/decanter-centrifuge/">Decanter Centrifuge</a> is a horizontal de-sludging centrifuge built for the two-phase separation of wastewater, crude oil tank bottoms, municipal sludge-thickening, industrial sludge dewatering, paint sludge handling, etc. With a 10 HP Motor, the NX 314 decanter has a bowl RPM of 4,000 and can process 25 GPM of ethanol hemp biomass slurry.
+    </p>
 
-      <!-- NX-314 Overview -->
-      <div id="nx-314-overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Alfa Laval NX 314 B31-G Two-Phase Decanter Centrifuge</h2>
+    <p>
+      The NX 314 is one of the most versatile decanter centrifuges in the Alfa Laval product line. Its compact 14-inch bowl diameter and 34-inch bowl length make it suitable for a wide range of industrial applications, from municipal <a href="/wastewater-centrifuge/">wastewater sludge dewatering</a> to edible oil desludging and waste oil recovery. Dolphin Centrifuge supplies fully reconditioned NX 314 decanter centrifuges with complete inspection, testing, and warranty coverage. Each unit undergoes thorough mechanical and process testing before delivery to ensure reliable performance in the field.
+    </p>
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
         <img
-          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
-          alt="Alfa Laval Decanter Centrifuge System - Class 1 Div 2 for Herbal Extraction"
-          width="600"
-          height="400"
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp"
+          alt="Alfa Laval Decanter for WVO De-Sludging"
+          width="320"
+          height="337"
           loading="lazy"
-          class="rounded-lg w-full mb-4"
+          class="rounded-lg w-full mb-2"
         />
-        <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval Decanter Centrifuge System — Class 1 Div 2 for Herbal Extraction</p>
-
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The Alfa Laval NX 314 <a href="/decanter-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium underline">Decanter Centrifuge</a> is a horizontal de-sludging centrifuge built for the two-phase separation of wastewater, crude oil tank bottoms, municipal sludge-thickening, industrial sludge dewatering, paint sludge handling, etc. With a 10 HP Motor, the NX 314 decanter has a bowl RPM of 4,000 and can process 25 GPM of ethanol hemp biomass slurry.
-        </p>
-
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The NX 314 is one of the most versatile decanter centrifuges in the Alfa Laval product line. Its compact 14-inch bowl diameter and 34-inch bowl length make it suitable for a wide range of industrial applications, from municipal wastewater sludge dewatering to edible oil desludging and waste oil recovery. Dolphin Centrifuge supplies fully reconditioned NX 314 decanter centrifuges with complete inspection, testing, and warranty coverage. Each unit undergoes thorough mechanical and process testing before delivery to ensure reliable performance in the field.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp"
-              alt="Alfa Laval Decanter for WVO De-Sludging"
-              width="320"
-              height="337"
-              loading="lazy"
-              class="rounded-lg w-full mb-2"
-            />
-            <p class="text-xs text-gray-500 italic">Alfa Laval Decanter for WVO De-Sludging</p>
-          </div>
-          <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
-              alt="Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging"
-              width="300"
-              height="340"
-              loading="lazy"
-              class="rounded-lg w-full mb-2"
-            />
-            <p class="text-xs text-gray-500 italic">Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging</p>
-          </div>
-          <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314.webp"
-              alt="Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full mb-2"
-            />
-            <p class="text-xs text-gray-500 italic">Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering</p>
-          </div>
-        </div>
+        <p class="text-xs text-gray-500 italic">Alfa Laval Decanter for WVO De-Sludging</p>
       </div>
-
-      <!-- Applications -->
-      <div id="applications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Applications</h2>
-        <p class="text-gray-700 leading-relaxed mb-4">The Alfa Laval NX 314 decanter centrifuge is suited for a wide range of two-phase solid/liquid separation applications across multiple industries. Its robust construction and adjustable differential speed allow it to handle varying solids concentrations and fluid viscosities effectively.</p>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <span class="text-gray-700">Hemp Solvent Extraction</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/ethanol-extraction-centrifuges-technical-comparison/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Ethanol Extraction Centrifuge</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/waste-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Waste Oil De-sludging</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/crude-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Crude Oil Tank Bottom Sludge</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/wastewater-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Municipal Wastewater</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/pyrolysis-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Pyrolysis Sludge Separation</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/liquid-humus-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Liquid Humus Fertilizer</a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
-            <a href="/wastewater-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium">Sludge Thickening &amp; Dewatering</a>
-          </li>
-        </ul>
+      <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
+          alt="Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging"
+          width="300"
+          height="340"
+          loading="lazy"
+          class="rounded-lg w-full mb-2"
+        />
+        <p class="text-xs text-gray-500 italic">Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging</p>
       </div>
-
-      <!-- NX-314 Specifications -->
-      <div id="nx314-specifications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Alfa Laval NX 314 B31-G Specifications</h2>
-        <p class="text-gray-700 leading-relaxed mb-6">The following table lists the complete technical specifications for the Alfa Laval NX 314 B31-G two-phase decanter centrifuge. The rated capacity is based on hemp ethanol slurry processing. Actual throughput varies depending on the application, feed solids concentration, and required separation efficiency.</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono text-gray-700">Alfa Laval NX 314 B31-G</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono text-gray-700">25 GPM on Hemp Ethanol Slurry</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
-                <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
-                <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
-                <td class="py-3 font-mono text-gray-700">34" (860 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
-                <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
-                <td class="py-3 font-mono text-gray-700">10 HP</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
-                <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
-                <td class="py-3 font-mono text-gray-700">780</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
-                <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317]">RCF</a></td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
-                <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
-                <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="bg-[#F5F5F0] rounded-lg p-4 text-center">
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314.webp"
+          alt="Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering"
+          width="300"
+          height="300"
+          loading="lazy"
+          class="rounded-lg w-full mb-2"
+        />
+        <p class="text-xs text-gray-500 italic">Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering</p>
       </div>
+    </div>
 
-      <!-- Modularized Units -->
-      <div id="modularized-unit" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Modularized NX-314 Decanter Units</h2>
-        <p class="text-gray-700 leading-relaxed mb-6">A complete Alfa Laval NX-314 Decanter can be supplied as a modular packaged unit as shown below.</p>
+    <!-- Applications -->
+    <h2 id="applications">Applications</h2>
+    <p>The Alfa Laval NX 314 decanter centrifuge is suited for a wide range of two-phase solid/liquid separation applications across multiple industries. Its robust construction and adjustable differential speed allow it to handle varying solids concentrations and fluid viscosities effectively.</p>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 list-none pl-0">
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <span>Hemp Solvent Extraction</span>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/ethanol-extraction-centrifuges-technical-comparison/">Ethanol Extraction Centrifuge</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/waste-oil-centrifuge/">Waste Oil De-sludging</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/crude-oil-centrifuge/">Crude Oil Tank Bottom Sludge</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/wastewater-centrifuge/">Municipal Wastewater</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/pyrolysis-oil-centrifuge/">Pyrolysis Sludge Separation</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/liquid-humus-centrifuge/">Liquid Humus Fertilizer</a>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-[#E8A317] font-bold mt-1">&#10003;</span>
+        <a href="/wastewater-centrifuge/">Sludge Thickening &amp; Dewatering</a>
+      </li>
+    </ul>
 
+    <!-- NX-314 Specifications -->
+    <h2 id="nx314-specifications">Alfa Laval NX 314 B31-G Specifications</h2>
+    <p>The following table lists the complete technical specifications for the Alfa Laval NX 314 B31-G two-phase decanter centrifuge. The rated capacity is based on hemp ethanol slurry processing. Actual throughput varies depending on the application, feed solids concentration, and required separation efficiency.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
+            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 314 B31-G</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
+            <td class="py-3 font-mono text-gray-700">25 GPM on Hemp Ethanol Slurry</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
+            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
+            <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
+            <td class="py-3 font-mono text-gray-700">34" (860 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
+            <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
+            <td class="py-3 font-mono text-gray-700">10 HP</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
+            <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
+            <td class="py-3 font-mono text-gray-700">780</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
+            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
+            <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
+            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modularized Units -->
+    <h2 id="modularized-unit">Modularized NX-314 Decanter Units</h2>
+    <p>A complete Alfa Laval NX-314 Decanter can be supplied as a modular packaged unit as shown below.</p>
+
+    <img
+      src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
+      alt="Alfa Laval NX-314 Decanter Centrifuge Module"
+      width="600"
+      height="510"
+      loading="lazy"
+    />
+    <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-314 Decanter Centrifuge Module</p>
+
+    <p>This system is a plug &amp; play design that includes all ancillary equipment required to operate the decanter centrifuge as a standalone processing station. The modularized design simplifies installation and reduces on-site engineering requirements, allowing operators to begin processing within hours of delivery.</p>
+
+    <h3>Waste Oil / De-Sludging Module Features</h3>
+    <div class="overflow-x-auto mb-8">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-[#1B3A5C] text-white">
+            <th class="py-3 px-4 text-left font-semibold">Feature / Option</th>
+            <th class="py-3 px-4 text-left font-semibold">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 px-4 font-medium text-gray-800">Sludge Conveyor</td>
+            <td class="py-3 px-4 text-gray-700">Transfer Separated Sludge to Roll-Off Bin</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 px-4 font-medium text-gray-800">Clean Fluid Tank w/ Transfer Pump</td>
+            <td class="py-3 px-4 text-gray-700">Collect &amp; Transfer De-Sludged Oil</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 px-4 font-medium text-gray-800">Feed Pump</td>
+            <td class="py-3 px-4 text-gray-700">Transfer Contaminated Oil from the Supply Tank to the Decanter</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-4 font-medium text-gray-800">Electric Pre-Heater (Circulation Type)</td>
+            <td class="py-3 px-4 text-gray-700">Heat Incoming Contaminated Oil for Efficient Separation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Sunflower Oil Desludging Module</h3>
+    <img
+      src="/images/alfa-laval-nx-314-decanter-centrifuge/Sunflower-Oil-Desludging-Decanter-Centrifuge-600.webp"
+      alt="Sunflower Oil Desludging Decanter Centrifuge"
+      width="600"
+      height="595"
+      loading="lazy"
+    />
+    <p class="text-sm text-gray-500 italic mb-6 text-center">Sunflower Oil Desludging Decanter Centrifuge</p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-[#1B3A5C] text-white">
+            <th class="py-3 px-4 text-left font-semibold">Feature / Option</th>
+            <th class="py-3 px-4 text-left font-semibold">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 px-4 font-medium text-gray-800">Stainless Steel Collection Tank</td>
+            <td class="py-3 px-4 text-gray-700">Collect De-Sludged Sunflower Oil</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 px-4 font-medium text-gray-800">Feed Pump</td>
+            <td class="py-3 px-4 text-gray-700">Transfer Fresh Sunflower Oil from the Expeller to the Decanter</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 px-4 font-medium text-gray-800">Clean Oil Transfer Pump</td>
+            <td class="py-3 px-4 text-gray-700">Transfer De-Sludged Oil to Storage Tanks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AVNX 414 -->
+    <h2 id="avnx-414">Alfa Laval AVNX 414 B-31 Decanter Centrifuge</h2>
+
+    <p>
+      The Alfa Laval AVNX 414 Decanter is a <a href="/three-phase-decanter/">three-phase decanter</a> centrifuge specially built for the 2-phase separation of industrial wastewater, municipal sludge thickening, crude oil slop, tank bottom recovery, <a href="/wvo-centrifuge-separator/">WVO desludging</a>, etc. With a 15 HP Motor, the AVNX 414 decanter centrifuge has a bowl RPM of 4,000 and can process 25 GPM of solvent biomass separation.
+    </p>
+
+    <img
+      src="/images/alfa-laval-nx-314-decanter-centrifuge/wastewater-decanter-centrifuge.webp"
+      alt="Alfa Laval NX-414 Wastewater Centrifuge for Food Industry"
+      width="600"
+      height="600"
+      loading="lazy"
+    />
+    <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-414 Wastewater Centrifuge for Food Industry</p>
+
+    <h3>AVNX 414 Specifications</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
+            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 414 B31-G</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
+            <td class="py-3 font-mono text-gray-700">25 GPM on Solvent Biomass Separation</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
+            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
+            <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
+            <td class="py-3 font-mono text-gray-700">34" (860 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
+            <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
+            <td class="py-3 font-mono text-gray-700">10 HP</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
+            <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
+            <td class="py-3 font-mono text-gray-700">780</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
+            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
+            <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
+            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NX-416 -->
+    <h2 id="nx-416">Alfa Laval NX 416 B-31 Decanter Centrifuge</h2>
+
+    <p>
+      The Alfa Laval NX 416 Decanter is a two-phase decanter centrifuge for the 2-phase separation of wastewater, municipal sludge thickening, crude oil tank bottom recovery, <a href="/wvo-centrifuge-separator/">UCO desludging</a>, etc. With a 20 HP Motor, the NX 416 decanter centrifuge has a bowl RPM of 4,000 and can process 40 GPM of UCO @ 180 F.
+    </p>
+
+    <p>
+      The NX 416 features a longer 46-inch bowl compared to the NX 314's 34-inch bowl, providing a higher Area Equivalent (AE) of 1,170 versus 780 for the NX 314. This increased separation area allows the NX 416 to handle higher flow rates and achieve better clarification on difficult-to-separate feed streams. The more powerful 15 HP drive motor and larger processing capacity make the NX 416 the preferred choice for higher-volume operations such as used cooking oil recycling facilities and large-scale <a href="/industrial-wastewater-treatment-centrifuge/">industrial wastewater treatment</a> plants.
+    </p>
+
+    <img
+      src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX416-Decanter.webp"
+      alt="Alfa Laval NX-416 Decanter Centrifuge for Used Cooking Oil"
+      width="450"
+      height="450"
+      loading="lazy"
+      class="mx-auto block"
+    />
+    <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-416 Decanter Centrifuge for Used Cooking Oil</p>
+
+    <h3>NX 416 Specifications</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <tbody>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
+            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 416 B31-G</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
+            <td class="py-3 font-mono text-gray-700">40 GPM on UCO @ 180 F</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
+            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
+            <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
+            <td class="py-3 font-mono text-gray-700">46" (1,160 mm)</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
+            <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
+            <td class="py-3 font-mono text-gray-700">15 HP</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
+            <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
+            <td class="py-3 font-mono text-gray-700">1,170</td>
+          </tr>
+          <tr class="border-b border-gray-100 bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
+            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
+          </tr>
+          <tr class="border-b border-gray-100">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
+            <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
+            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Photo Gallery -->
+    <h2 id="nx314-gallery">Used Alfa Laval NX 314 Photo Gallery</h2>
+    <p>Browse our gallery of Alfa Laval NX 314 and related decanter centrifuge units. These images show various configurations including standalone decanters, modular systems, and application-specific setups for waste oil de-sludging, biomass dewatering, and sunflower oil desludging.</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div>
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-600.webp"
+          alt="Alfa Laval NX-314 Decanter Centrifuge"
+          width="300"
+          height="214"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval NX-314 Decanter Centrifuge</p>
+      </div>
+      <div>
         <img
           src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
           alt="Alfa Laval NX-314 Decanter Centrifuge Module"
-          width="600"
-          height="510"
+          width="300"
+          height="255"
           loading="lazy"
-          class="rounded-lg w-full mb-4"
+          class="rounded-lg w-full"
         />
-        <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-314 Decanter Centrifuge Module</p>
-
-        <p class="text-gray-700 leading-relaxed mb-6">This system is a plug &amp; play design that includes all ancillary equipment required to operate the decanter centrifuge as a standalone processing station. The modularized design simplifies installation and reduces on-site engineering requirements, allowing operators to begin processing within hours of delivery.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-3">Waste Oil / De-Sludging Module Features</h3>
-        <div class="overflow-x-auto mb-8">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="py-3 px-4 text-left font-semibold">Feature / Option</th>
-                <th class="py-3 px-4 text-left font-semibold">Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 px-4 font-medium text-gray-800">Sludge Conveyor</td>
-                <td class="py-3 px-4 text-gray-700">Transfer Separated Sludge to Roll-Off Bin</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 px-4 font-medium text-gray-800">Clean Fluid Tank w/ Transfer Pump</td>
-                <td class="py-3 px-4 text-gray-700">Collect &amp; Transfer De-Sludged Oil</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 px-4 font-medium text-gray-800">Feed Pump</td>
-                <td class="py-3 px-4 text-gray-700">Transfer Contaminated Oil from the Supply Tank to the Decanter</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="py-3 px-4 font-medium text-gray-800">Electric Pre-Heater (Circulation Type)</td>
-                <td class="py-3 px-4 text-gray-700">Heat Incoming Contaminated Oil for Efficient Separation</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-3">Sunflower Oil Desludging Module</h3>
+        <p class="text-xs text-gray-500 italic mt-1 text-center">NX-314 Decanter Centrifuge Module</p>
+      </div>
+      <div>
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp"
+          alt="Alfa Laval Decanter for WVO De-Sludging"
+          width="300"
+          height="315"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval Decanter for WVO De-Sludging</p>
+      </div>
+      <div>
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
+          alt="Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging"
+          width="300"
+          height="340"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-xs text-gray-500 italic mt-1 text-center">NX-314 for Waste Oil De-Sludging</p>
+      </div>
+      <div>
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314.webp"
+          alt="Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering"
+          width="300"
+          height="300"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-xs text-gray-500 italic mt-1 text-center">NX 314 for Biomass Dewatering</p>
+      </div>
+      <div>
         <img
           src="/images/alfa-laval-nx-314-decanter-centrifuge/Sunflower-Oil-Desludging-Decanter-Centrifuge-600.webp"
           alt="Sunflower Oil Desludging Decanter Centrifuge"
-          width="600"
-          height="595"
+          width="300"
+          height="298"
           loading="lazy"
-          class="rounded-lg w-full mb-4"
+          class="rounded-lg w-full"
         />
-        <p class="text-sm text-gray-500 italic mb-6 text-center">Sunflower Oil Desludging Decanter Centrifuge</p>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="py-3 px-4 text-left font-semibold">Feature / Option</th>
-                <th class="py-3 px-4 text-left font-semibold">Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 px-4 font-medium text-gray-800">Stainless Steel Collection Tank</td>
-                <td class="py-3 px-4 text-gray-700">Collect De-Sludged Sunflower Oil</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 px-4 font-medium text-gray-800">Feed Pump</td>
-                <td class="py-3 px-4 text-gray-700">Transfer Fresh Sunflower Oil from the Expeller to the Decanter</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="py-3 px-4 font-medium text-gray-800">Clean Oil Transfer Pump</td>
-                <td class="py-3 px-4 text-gray-700">Transfer De-Sludged Oil to Storage Tanks</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Sunflower Oil Desludging Decanter Centrifuge</p>
       </div>
-
-      <!-- AVNX 414 -->
-      <div id="avnx-414" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Alfa Laval AVNX 414 B-31 Decanter Centrifuge</h2>
-
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The Alfa Laval AVNX 414 Decanter is a <a href="/three-phase-decanter/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium underline">three-phase decanter</a> centrifuge specially built for the 2-phase separation of industrial wastewater, municipal sludge thickening, crude oil slop, tank bottom recovery, <a href="/wvo-centrifuge-separator/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium underline">WVO desludging</a>, etc. With a 15 HP Motor, the AVNX 414 decanter centrifuge has a bowl RPM of 4,000 and can process 25 GPM of solvent biomass separation.
-        </p>
-
+      <div>
+        <img
+          src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
+          alt="Alfa Laval Decanter Centrifuge System - Class 1 Div 2 for Herbal Extraction"
+          width="300"
+          height="200"
+          loading="lazy"
+          class="rounded-lg w-full"
+        />
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Class 1 Div 2 System for Herbal Extraction</p>
+      </div>
+      <div>
         <img
           src="/images/alfa-laval-nx-314-decanter-centrifuge/wastewater-decanter-centrifuge.webp"
-          alt="Alfa Laval NX-414 Wastewater Centrifuge for Food Industry"
-          width="600"
-          height="600"
+          alt="Alfa Laval Wastewater Decanter Centrifuge for Food Industry"
+          width="300"
+          height="300"
           loading="lazy"
-          class="rounded-lg w-full mb-4"
+          class="rounded-lg w-full"
         />
-        <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-414 Wastewater Centrifuge for Food Industry</p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-4">AVNX 414 Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono text-gray-700">Alfa Laval NX 414 B31-G</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono text-gray-700">25 GPM on Solvent Biomass Separation</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
-                <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
-                <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
-                <td class="py-3 font-mono text-gray-700">34" (860 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
-                <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
-                <td class="py-3 font-mono text-gray-700">10 HP</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
-                <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
-                <td class="py-3 font-mono text-gray-700">780</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
-                <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317]">RCF</a></td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
-                <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
-                <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Wastewater Decanter for Food Industry</p>
       </div>
-
-      <!-- NX-416 -->
-      <div id="nx-416" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Alfa Laval NX 416 B-31 Decanter Centrifuge</h2>
-
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The Alfa Laval NX 416 Decanter is a two-phase decanter centrifuge for the 2-phase separation of wastewater, municipal sludge thickening, crude oil tank bottom recovery, <a href="/wvo-centrifuge-separator/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium underline">UCO desludging</a>, etc. With a 20 HP Motor, the NX 416 decanter centrifuge has a bowl RPM of 4,000 and can process 40 GPM of UCO @ 180 F.
-        </p>
-
-        <p class="text-gray-700 leading-relaxed mb-6">
-          The NX 416 features a longer 46-inch bowl compared to the NX 314's 34-inch bowl, providing a higher Area Equivalent (AE) of 1,170 versus 780 for the NX 314. This increased separation area allows the NX 416 to handle higher flow rates and achieve better clarification on difficult-to-separate feed streams. The more powerful 15 HP drive motor and larger processing capacity make the NX 416 the preferred choice for higher-volume operations such as used cooking oil recycling facilities and large-scale wastewater treatment plants.
-        </p>
-
+      <div>
         <img
           src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX416-Decanter.webp"
-          alt="Alfa Laval NX-416 Decanter Centrifuge for Used Cooking Oil"
-          width="450"
-          height="450"
+          alt="Alfa Laval NX-416 Decanter Centrifuge"
+          width="300"
+          height="300"
           loading="lazy"
-          class="rounded-lg mb-4 mx-auto block"
+          class="rounded-lg w-full"
         />
-        <p class="text-sm text-gray-500 italic mb-6 text-center">Alfa Laval NX-416 Decanter Centrifuge for Used Cooking Oil</p>
-
-        <h3 class="text-xl font-bold text-[#1B3A5C] mb-4">NX 416 Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono text-gray-700">Alfa Laval NX 416 B31-G</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono text-gray-700">40 GPM on UCO @ 180 F</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Auger Differential Speed</td>
-                <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Diameter</td>
-                <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Length</td>
-                <td class="py-3 font-mono text-gray-700">46" (1,160 mm)</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Beach Angle (Half Cone)</td>
-                <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Drive Motor Power</td>
-                <td class="py-3 font-mono text-gray-700">15 HP</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Gearbox Ratio</td>
-                <td class="py-3 font-mono text-gray-700">1:159 (2.5 kN-M)</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">AE (Area Equivalent)</td>
-                <td class="py-3 font-mono text-gray-700">1,170</td>
-              </tr>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Centrifugal Force</td>
-                <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317]">RCF</a></td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Bowl Speed</td>
-                <td class="py-3 font-mono text-gray-700">4,000 RPM</td>
-              </tr>
-              <tr class="bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Conveyor Protection</td>
-                <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval NX-416 Decanter</p>
       </div>
-
-      <!-- Photo Gallery -->
-      <div id="nx314-gallery" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Used Alfa Laval NX 314 Photo Gallery</h2>
-        <p class="text-gray-700 leading-relaxed mb-6">Browse our gallery of Alfa Laval NX 314 and related decanter centrifuge units. These images show various configurations including standalone decanters, modular systems, and application-specific setups for waste oil de-sludging, biomass dewatering, and sunflower oil desludging.</p>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-600.webp"
-              alt="Alfa Laval NX-314 Decanter Centrifuge"
-              width="300"
-              height="214"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval NX-314 Decanter Centrifuge</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
-              alt="Alfa Laval NX-314 Decanter Centrifuge Module"
-              width="300"
-              height="255"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">NX-314 Decanter Centrifuge Module</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-for-WVO-De-Sludging-1000.webp"
-              alt="Alfa Laval Decanter for WVO De-Sludging"
-              width="300"
-              height="315"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval Decanter for WVO De-Sludging</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-for-Waste-Oil-De-Sludging-600.webp"
-              alt="Alfa Laval NX-314 Decanter Centrifuge for Waste Oil De-Sludging"
-              width="300"
-              height="340"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">NX-314 for Waste Oil De-Sludging</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/biomass-centrifuge-Alfa-Laval-NX314.webp"
-              alt="Alfa Laval Decanter Centrifuge NX 314 for Biomass Dewatering"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">NX 314 for Biomass Dewatering</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Sunflower-Oil-Desludging-Decanter-Centrifuge-600.webp"
-              alt="Sunflower Oil Desludging Decanter Centrifuge"
-              width="300"
-              height="298"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Sunflower Oil Desludging Decanter Centrifuge</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-Decanter-Centrifuge-System-Class-1-Div-2-for-Herbal-Extraction-600.webp"
-              alt="Alfa Laval Decanter Centrifuge System - Class 1 Div 2 for Herbal Extraction"
-              width="300"
-              height="200"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Class 1 Div 2 System for Herbal Extraction</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/wastewater-decanter-centrifuge.webp"
-              alt="Alfa Laval Wastewater Decanter Centrifuge for Food Industry"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Wastewater Decanter for Food Industry</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-nx-314-decanter-centrifuge/Alfa-Laval-NX416-Decanter.webp"
-              alt="Alfa Laval NX-416 Decanter Centrifuge"
-              width="300"
-              height="300"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 italic mt-1 text-center">Alfa Laval NX-416 Decanter</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-5">Frequently Asked Questions</h2>
-
-        <div class="space-y-4">
-          <details class="border border-gray-200 rounded-lg p-4 group" open>
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the capacity of the Alfa Laval NX 314 decanter centrifuge?</summary>
-            <p class="text-gray-700 leading-relaxed">The Alfa Laval NX 314 decanter centrifuge has a rated capacity of 25 GPM on hemp ethanol slurry. It is driven by a 10 HP motor with a bowl speed of 4,000 RPM, generating 3,157 Gs of centrifugal force for effective two-phase solid/liquid separation. Actual throughput varies depending on the specific application, feed solids concentration, and required separation efficiency.</p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What applications is the NX 314 decanter used for?</summary>
-            <p class="text-gray-700 leading-relaxed">The NX 314 decanter is used for hemp solvent extraction, ethanol extraction, waste oil de-sludging, crude oil tank bottom sludge recovery, municipal wastewater treatment, pyrolysis sludge separation, liquid humus fertilizer processing, and sludge thickening and dewatering. Its versatile design and adjustable auger differential speed make it adaptable to a wide variety of industrial separation tasks.</p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the difference between the NX 314, AVNX 414, and NX 416 decanters?</summary>
-            <p class="text-gray-700 leading-relaxed">The NX 314 is a two-phase decanter with a 10 HP motor and 34-inch bowl length, ideal for mid-range applications at 25 GPM. The AVNX 414 is a three-phase decanter centrifuge with a 15 HP motor designed for industrial wastewater, crude oil slop, and WVO desludging applications. The NX 416 is a larger two-phase decanter with a 20 HP motor, a 46-inch bowl length, and a higher Area Equivalent (AE) of 1,170, making it capable of processing 40 GPM of used cooking oil at 180 degrees Fahrenheit.</p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">Can the NX 314 be supplied as a modular packaged unit?</summary>
-            <p class="text-gray-700 leading-relaxed">Yes, the Alfa Laval NX-314 decanter can be supplied as a complete modular packaged unit. This plug and play system includes all ancillary equipment needed for standalone operation, including a sludge conveyor, clean fluid tank with transfer pump, feed pump, and electric pre-heater (circulation type) for efficient separation. Dolphin Centrifuge also builds custom sunflower oil desludging modules with stainless steel collection tanks and dedicated transfer pumps.</p>
-          </details>
-
-          <details class="border border-gray-200 rounded-lg p-4 group">
-            <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What type of conveyor protection does the NX 314 decanter have?</summary>
-            <p class="text-gray-700 leading-relaxed">The Alfa Laval NX 314 decanter features carbide tile or tungsten carbide hard-surfacing on the conveyor (auger) for protection against abrasive wear. This extends the service life of the conveyor in demanding applications such as sludge dewatering, tank bottom recovery, and paint sludge handling where high-solids feeds can cause significant wear on unprotected surfaces.</p>
-          </details>
-        </div>
-      </div>
-
-      <!-- Related Links -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Resources</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-          <a href="/decanter-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Decanter Centrifuge Overview</a>
-          <a href="/three-phase-decanter/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Three-Phase Decanter Centrifuge</a>
-          <a href="/waste-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Waste Oil Centrifuge</a>
-          <a href="/wastewater-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Wastewater Centrifuge</a>
-          <a href="/crude-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Crude Oil Centrifuge</a>
-          <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Centrifuge RCF/RPM Calculator</a>
-          <a href="/wvo-centrifuge-separator/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; WVO Centrifuge Separator</a>
-          <a href="/liquid-humus-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Liquid Humus Centrifuge</a>
-          <a href="/ethanol-extraction-centrifuges-technical-comparison/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Ethanol Extraction Centrifuges</a>
-          <a href="/pyrolysis-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] font-medium flex items-center gap-2">&#8594; Pyrolysis Oil Centrifuge</a>
-        </div>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-8 text-center text-white">
-        <h2 class="text-2xl font-bold mb-3">Request NX 314 Pricing &amp; Availability</h2>
-        <p class="text-white/85 mb-6 max-w-2xl mx-auto">Contact Dolphin Centrifuge for pricing, availability, and application consultation on the Alfa Laval NX 314, AVNX 414, and NX 416 decanter centrifuge product line. Our engineers can help you select the right decanter model and configuration for your specific separation requirements.</p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] text-white font-bold px-8 py-3 rounded-lg hover:bg-amber-600 transition">Request a Quote</a>
-          <a href="tel:+12485222573" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition">(248) 522-2573</a>
-        </div>
-        <p class="text-white/70 text-sm mt-4">sales@dolphincentrifuge.com &nbsp;|&nbsp; 24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
     </div>
-  </section>
 
-</BaseLayout>
+    <!-- FAQ -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <div class="space-y-4">
+      <details class="border border-gray-200 rounded-lg p-4 group" open>
+        <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the capacity of the Alfa Laval NX 314 decanter centrifuge?</summary>
+        <p class="text-gray-700 leading-relaxed">The Alfa Laval NX 314 decanter centrifuge has a rated capacity of 25 GPM on hemp ethanol slurry. It is driven by a 10 HP motor with a bowl speed of 4,000 RPM, generating 3,157 Gs of centrifugal force for effective two-phase solid/liquid separation. Actual throughput varies depending on the specific application, feed solids concentration, and required separation efficiency.</p>
+      </details>
+
+      <details class="border border-gray-200 rounded-lg p-4 group">
+        <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What applications is the NX 314 decanter used for?</summary>
+        <p class="text-gray-700 leading-relaxed">The NX 314 decanter is used for hemp solvent extraction, ethanol extraction, waste oil de-sludging, crude oil tank bottom sludge recovery, municipal wastewater treatment, pyrolysis sludge separation, liquid humus fertilizer processing, and sludge thickening and dewatering. Its versatile design and adjustable auger differential speed make it adaptable to a wide variety of industrial separation tasks.</p>
+      </details>
+
+      <details class="border border-gray-200 rounded-lg p-4 group">
+        <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What is the difference between the NX 314, AVNX 414, and NX 416 decanters?</summary>
+        <p class="text-gray-700 leading-relaxed">The NX 314 is a two-phase decanter with a 10 HP motor and 34-inch bowl length, ideal for mid-range applications at 25 GPM. The AVNX 414 is a three-phase decanter centrifuge with a 15 HP motor designed for industrial wastewater, crude oil slop, and WVO desludging applications. The NX 416 is a larger two-phase decanter with a 20 HP motor, a 46-inch bowl length, and a higher Area Equivalent (AE) of 1,170, making it capable of processing 40 GPM of used cooking oil at 180 degrees Fahrenheit.</p>
+      </details>
+
+      <details class="border border-gray-200 rounded-lg p-4 group">
+        <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">Can the NX 314 be supplied as a modular packaged unit?</summary>
+        <p class="text-gray-700 leading-relaxed">Yes, the Alfa Laval NX-314 decanter can be supplied as a complete modular packaged unit. This plug and play system includes all ancillary equipment needed for standalone operation, including a sludge conveyor, clean fluid tank with transfer pump, feed pump, and electric pre-heater (circulation type) for efficient separation. Dolphin Centrifuge also builds custom sunflower oil desludging modules with stainless steel collection tanks and dedicated transfer pumps.</p>
+      </details>
+
+      <details class="border border-gray-200 rounded-lg p-4 group">
+        <summary class="font-semibold text-[#1B3A5C] cursor-pointer group-open:mb-3">What type of conveyor protection does the NX 314 decanter have?</summary>
+        <p class="text-gray-700 leading-relaxed">The Alfa Laval NX 314 decanter features carbide tile or tungsten carbide hard-surfacing on the conveyor (auger) for protection against abrasive wear. This extends the service life of the conveyor in demanding applications such as sludge dewatering, tank bottom recovery, and paint sludge handling where high-solids feeds can cause significant wear on unprotected surfaces.</p>
+      </details>
+    </div>
+
+  </article>
+
+</ApplicationLayout>

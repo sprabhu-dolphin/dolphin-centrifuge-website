@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Waste Vegetable Oil (WVO) Centrifuge Applications";
 const description = "Industrial centrifuge systems for waste vegetable oil purification, yellow grease processing, and biodiesel production. Proven solutions from Dolphin Centrifuge.";
@@ -48,82 +48,96 @@ const applications = [
     icon,
   },
 ];
+
+const toc = [
+  { id: "wvo-applications", label: "WVO Centrifuge Applications" },
+  { id: "how-it-works", label: "How Centrifugal WVO Purification Works" },
+  { id: "why-dolphin", label: "Why Dolphin Centrifuge for WVO" },
+];
 ---
-<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications", href: "/applications/" }, { label: "Waste Vegetable Oil (WVO)" }]} jsonLd={jsonLd}>
+<ApplicationLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://dolphincentrifuge.com/applications/waste-veggie-oil/"
+  category="applications"
+  categoryLabel="Waste Vegetable Oil Applications"
+  heroImage="/images/wvo-centrifuge-separator/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-WVO-Water-Separation-600.webp"
+  heroImageAlt="Self-cleaning disc stack centrifuge for waste vegetable oil separation"
+  toc={toc}
+  relatedApplications={[
+    { label: "WVO Centrifuge Separator", href: "/wvo-centrifuge-separator/" },
+    { label: "Yellow Grease Centrifuge", href: "/yellow-grease-purification-centrifuge/" },
+    { label: "Biodiesel Centrifuge", href: "/biodiesel-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="prose-dolphin max-w-none">
+    <p>
+      Turn waste cooking oil and yellow grease into clean, profitable feedstock. Our
+      <a href="/disc-stack-centrifuge/">disc stack centrifuges</a> process WVO continuously —
+      removing water, food particles, and free fatty acids to meet biodiesel or resale specifications.
+    </p>
 
-  {/* Hero */}
-  <section class="relative bg-navy text-white overflow-hidden">
-    <img
-      src="/images/wvo-centrifuge-separator/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-WVO-Water-Separation-600.webp"
-      alt="Self-cleaning disc stack centrifuge for waste vegetable oil separation"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-      loading="eager"
-    />
-    <div class="relative z-10 container-dolphin py-12 md:py-16 lg:py-20">
-      <div class="max-w-3xl">
-        <span class="inline-block text-gold text-xs font-bold tracking-wider uppercase mb-3">Applications</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-4">Waste Vegetable Oil (WVO) Centrifuge Applications</h1>
-        <p class="text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl">Turn waste cooking oil and yellow grease into clean, profitable feedstock. Our disc stack centrifuges process WVO continuously — removing water, food particles, and free fatty acids to meet biodiesel or resale specifications.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-            Get a Free Quote
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-          <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <h2 id="wvo-applications">WVO Centrifuge Applications</h2>
+    <p>
+      Dolphin Centrifuge provides purpose-built centrifuge systems for every stage of waste vegetable oil
+      processing. Whether you are a <a href="/wvo-centrifuge-separator/">WVO collector</a> preparing
+      feedstock for resale or a <a href="/biodiesel-centrifuge/">biodiesel producer</a> polishing fuel
+      to ASTM D6751, we have proven solutions.
+    </p>
 
-  {/* Application Tiles */}
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {applications.map((app) => (
-          <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
-            <div class="flex items-start gap-4 w-full mb-4">
-              <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h2 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h2>
-                <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
-              </div>
-              {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
+    <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
+      {applications.map((app) => (
+        <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
+          <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
+          <div class="flex items-start gap-4 w-full mb-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
+              </svg>
             </div>
-            <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
-            <div class="mt-5">
-              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </span>
+            <div class="flex-1">
+              <h3 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h3>
+              <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
             </div>
-            {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
-          </a>
-        ))}
-      </div>
+            {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
+          </div>
+          <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
+          <div class="mt-5">
+            <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
+              Learn More
+              <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </span>
+          </div>
+          {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
+        </a>
+      ))}
     </div>
-  </section>
 
-  {/* Bottom CTA */}
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Processing waste cooking oil or grease?</h3>
-          <p class="text-gray-300 text-sm">We've engineered centrifuge systems for WVO collectors and biodiesel producers nationwide.</p>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    <h2 id="how-it-works">How Centrifugal WVO Purification Works</h2>
+    <p>
+      A <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> generates up to 8,000 G-force,
+      separating water, solids, and free fatty acids from waste vegetable oil in a single continuous pass.
+      Unlike bag filters or settling tanks, centrifugal separation handles high-solids feedstock without
+      clogging and requires minimal operator intervention.
+    </p>
+    <p>
+      The self-cleaning bowl automatically ejects accumulated solids at timed intervals, allowing
+      uninterrupted processing at flow rates from 10 to 40 GPM. This makes centrifuges ideal for
+      high-volume WVO operations where downtime costs money.
+    </p>
+
+    <h2 id="why-dolphin">Why Dolphin Centrifuge for WVO</h2>
+    <ul>
+      <li><strong>40+ years of centrifuge expertise</strong> — deep application knowledge in oil-water-solids separation</li>
+      <li><strong>150+ centrifuges in stock</strong> — fast delivery on <a href="/centrifuge-reconditioning/">reconditioned systems</a></li>
+      <li><strong>Free sample testing</strong> — send us your oil and we'll prove separation results before you buy (<a href="/industrial-centrifuge-sample-testing/">request sample testing</a>)</li>
+      <li><strong>Complete turnkey systems</strong> — centrifuge, heater, pumps, controls, and skid-mounted packaging</li>
+      <li><strong>Nationwide support</strong> — <a href="/centrifuge-repair-and-service/">field service</a> and parts for every system we sell</li>
+    </ul>
+  </article>
+</ApplicationLayout>

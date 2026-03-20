@@ -1,574 +1,418 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Alfa Laval MAB Series Centrifuge",
-  "description": "Alfa Laval MAB series solid-retaining disc-stack centrifuges for continuous three-phase separation of diesel, biodiesel, turbine lube oil, and hydraulic oil. Models MAB 204, 205, 206, 207, 209.",
-  "brand": {
-    "@type": "Brand",
-    "name": "Alfa Laval"
-  },
-  "manufacturer": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "telephone": "(248) 522-2573",
-    "email": "sales@dolphincentrifuge.com"
-  },
-  "offers": {
-    "@type": "Offer",
-    "seller": {
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Alfa Laval MAB Series Centrifuge",
+    "description": "Alfa Laval MAB series solid-retaining disc-stack centrifuges for continuous three-phase separation of diesel, biodiesel, turbine lube oil, and hydraulic oil. Models MAB 204, 205, 206, 207, 209.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Alfa Laval"
+    },
+    "manufacturer": {
       "@type": "Organization",
-      "name": "Dolphin Centrifuge"
+      "name": "Dolphin Centrifuge",
+      "telephone": "(248) 522-2573",
+      "email": "sales@dolphincentrifuge.com"
     },
-    "availability": "https://schema.org/InStock"
-  }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the difference between the Alfa Laval MAB and MOPX centrifuge series?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Alfa Laval MAB series are solid-retaining (manual-clean) disc-stack centrifuges, meaning accumulated solids must be manually removed by stopping the centrifuge. The MOPX series are self-cleaning centrifuges that automatically eject separated solids during operation without stopping. MAB centrifuges are simpler and more economical for applications with lower solids loading."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What fluids can an Alfa Laval MAB centrifuge process?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Alfa Laval MAB centrifuges are designed for three-phase separation of mineral oils and fuels including diesel fuel, biodiesel, turbine lube oil, hydraulic oil, and engine oil. They purify these fluids by removing water and solid contaminants."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How often does an Alfa Laval MAB centrifuge need to be cleaned?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cleaning frequency depends on the solids loading of the process fluid. For relatively clean fluids like turbine lube oil, cleaning intervals may be several days. For dirtier fluids with higher particulate content, the bowl may need manual cleaning every few hours. The sludge space capacity of each model (ranging from 0.40 gallons on the MAB 204 to 2.00 gallons on the MAB 209) also affects cleaning intervals."
-      }
+    "offers": {
+      "@type": "Offer",
+      "seller": {
+        "@type": "Organization",
+        "name": "Dolphin Centrifuge"
+      },
+      "availability": "https://schema.org/InStock"
     }
-  ]
-};
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between the Alfa Laval MAB and MOPX centrifuge series?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Alfa Laval MAB series are solid-retaining (manual-clean) disc-stack centrifuges, meaning accumulated solids must be manually removed by stopping the centrifuge. The MOPX series are self-cleaning centrifuges that automatically eject separated solids during operation without stopping. MAB centrifuges are simpler and more economical for applications with lower solids loading."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What fluids can an Alfa Laval MAB centrifuge process?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Alfa Laval MAB centrifuges are designed for three-phase separation of mineral oils and fuels including diesel fuel, biodiesel, turbine lube oil, hydraulic oil, and engine oil. They purify these fluids by removing water and solid contaminants."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often does an Alfa Laval MAB centrifuge need to be cleaned?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cleaning frequency depends on the solids loading of the process fluid. For relatively clean fluids like turbine lube oil, cleaning intervals may be several days. For dirtier fluids with higher particulate content, the bowl may need manual cleaning every few hours. The sludge space capacity of each model (ranging from 0.40 gallons on the MAB 204 to 2.00 gallons on the MAB 209) also affects cleaning intervals."
+        }
+      }
+    ]
+  }
+];
+
+const toc = [
+  { id: "overview", label: "Overview" },
+  { id: "applications", label: "Applications" },
+  { id: "operation", label: "Operation" },
+  { id: "mab-204", label: "Alfa Laval MAB 204 Centrifuge" },
+  { id: "mab-205", label: "Alfa Laval MAB 205 Centrifuge" },
+  { id: "mab-206", label: "Alfa Laval MAB 206 Centrifuge" },
+  { id: "mab-207", label: "Alfa Laval MAB 207 Centrifuge" },
+  { id: "mab-209", label: "Alfa Laval MAB 209 Centrifuge" },
+  { id: "comparison", label: "MAB Series Model Comparison" },
+  { id: "faq", label: "Frequently Asked Questions" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Alfa Laval MAB Centrifuges for Diesel, Lube & Hydraulic Oil"
   description="Alfa Laval MAB series disc-stack centrifuges. Solid-bowl, three-phase separation of diesel, lube oil, and hydraulic oil. Models MAB 204–209. Specs and capacities."
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-mab-centrifuge/"
-  breadcrumbs={[{label: 'Products', href: '/centrifuges/'}, {label: 'Alfa Laval MAB Centrifuge'}]}
+  heroImage="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Package.webp"
+  heroImageAlt="Alfa Laval MAB 206S diesel centrifuge package by Dolphin Centrifuge"
+  category="products"
+  categoryLabel="Alfa Laval Centrifuges"
+  toc={toc}
+  relatedApplications={[
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+    { label: "Alfa Laval MOPX Centrifuge", href: "/alfa-laval-mopx-centrifuge/" },
+    { label: "Alfa Laval Centrifuge Selection Guide", href: "/alfa-laval-centrifuge-selection-guide/" },
+  ]}
   jsonLd={jsonLd}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-14 md:py-20">
-    <div class="container-dolphin max-w-5xl">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <div class="text-[#E8A317] text-sm font-semibold uppercase tracking-wider mb-3">Product Guide</div>
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-5">
-            Alfa Laval MAB Centrifuges for Diesel, Lube &amp; Hydraulic Oil
-          </h1>
-          <p class="text-lg text-gray-200 mb-6">
-            The Alfa Laval MAB Series — solid-retaining (manual-clean) disc-stack centrifuges for continuous three-phase separation of diesel fuel, turbine lube oil, biodiesel, and hydraulic oil. Available in five models from 15 GPM to 78 GPM capacity on diesel fuel.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request Quote</a>
-            <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-        </div>
-        <div>
-          <img
-            src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Package.webp"
-            alt="Alfa Laval MAB-206 Diesel Centrifuge Package"
-            width="450" height="450"
-            loading="eager"
-            class="rounded-xl w-full shadow-lg"
-          />
-          <p class="text-sm text-gray-300 mt-2 text-center">Alfa Laval MAB 206S Oil Separator Package</p>
-        </div>
-      </div>
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies Alfa Laval MAB series solid-retaining disc-stack centrifuges (models MAB 204–209) for three-phase separation of diesel, lube oil, and hydraulic oil. Rated capacities range from 15 GPM to 78 GPM on diesel fuel, with motor sizes from 4 HP to 15 HP.</p>
+  </div>
+
+  <!-- Overview -->
+  <h2 id="overview">Overview</h2>
+  <p>
+    Alfa Laval MAB series centrifuges are <a href="/disc-stack-centrifuge/">disc-stack-type centrifuges</a> with a solid bowl. A solid-bowl centrifuge implies that the separated solids must be manually removed periodically.
+  </p>
+  <p>
+    These are very simple centrifuges, with the main disadvantage of MAB-type centrifuges being the manual cleaning operation that requires the centrifuge to be stopped.
+  </p>
+  <p>
+    The Alfa Laval MAB Series Centrifuges are solid-retaining (also known as solid bowl or manual-clean) disc centrifuges ideal for the continuous, three-phase separation of fuels, such as <a href="/diesel-centrifuge/">diesel</a>, <a href="/biodiesel-centrifuge/">biodiesel</a>, <a href="/lube-oil-centrifuge/">turbine lube oil</a>, and hydraulic oil.
+  </p>
+  <p>
+    The MAB series is available in five models — MAB 204, MAB 205, MAB 206, MAB 207, and MAB 209 — with capacities ranging from 15 GPM to 78 GPM on diesel fuel. Motor sizes range from 4 HP on the smallest MAB 204 to 15 HP on the largest MAB 209. Each model operates on standard 230 or 460 volt power supply.
+  </p>
+
+  <!-- Applications -->
+  <h2 id="applications">Applications</h2>
+  <p>
+    The Alfa Laval MAB centrifuge is a purifier version of a disc-stack centrifuge. It is specifically designed to purify water from mineral oils and fuels such as diesel fuel, turbine lube oil, hydraulic oil, engine oil, etc.
+  </p>
+  <p>
+    Because of their three-phase separation capability, MAB centrifuges simultaneously remove both water and solid contaminants from the process fluid in a single pass. This makes them well-suited for applications where both water contamination and particulate removal are critical, including power generation facilities, marine vessels, industrial manufacturing plants, and fuel storage terminals.
+  </p>
+
+  <!-- Operation -->
+  <h2 id="operation">Operation</h2>
+  <div class="grid md:grid-cols-2 gap-6 items-start">
+    <div>
+      <p>
+        The process fluid is fed to the rotating centrifuge bowl from the top <strong>(1)</strong> and is sped up in the distributor <strong>(2)</strong>. It then enters the disc stack <strong>(3)</strong>, and it is between the discs that the separation occurs.
+      </p>
+      <p>
+        The high centrifugal force pushes the water and heavy solids to the bowl wall. The solids accumulate here, and the water fluid travels over the top disc <strong>(4)</strong> and exits the bowl through the open outlet <strong>(5)</strong>. The oil (light phase) is moved towards the bowl center and exits the bowl through the open outlet <strong>(6)</strong>.
+      </p>
+      <p>
+        The centrifuge needs to be periodically stopped for manual removal of separated solids. The rotating bowl assembly is mounted on a vertical bowl-spindle <strong>(7)</strong>. A horizontally mounted motor rotates the spindle via a worm gear.
+      </p>
     </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="bg-[#F5F5F0] py-12 md:py-16">
-    <div class="container-dolphin max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-[#E8A317] rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-[#555] leading-relaxed italic">The Alfa Laval MAB series disc-stack centrifuges — available as Dolphin DMB-013 through DMB-062 complete system modules — are solid-retaining (manual-clean) three-phase separators for diesel fuel, turbine lube oil, and hydraulic oil. Rated capacities range from 19 GPM (DMB-013/MAB 204) to 92 GPM (DMB-062/MAB 209) on diesel. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience with MAB series centrifuges.</p>
-      </div>
-      <!-- Table of Contents -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-lg font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-        <nav>
-          <ul class="space-y-1 text-sm">
-            <li><a href="#overview" class="text-[#1B3A5C] hover:text-[#E8A317]">Overview</a></li>
-            <li><a href="#applications" class="text-[#1B3A5C] hover:text-[#E8A317]">Applications</a></li>
-            <li><a href="#operation" class="text-[#1B3A5C] hover:text-[#E8A317]">Operation</a></li>
-            <li><a href="#mab-204" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 204 Centrifuge</a></li>
-            <li><a href="#mab-205" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 205 Centrifuge</a></li>
-            <li><a href="#mab-206" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 206 Centrifuge</a></li>
-            <li><a href="#mab-207" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 207 Centrifuge</a></li>
-            <li><a href="#mab-209" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 209 Centrifuge</a></li>
-            <li><a href="#comparison" class="text-[#1B3A5C] hover:text-[#E8A317]">MAB Series Model Comparison</a></li>
-            <li><a href="#faq" class="text-[#1B3A5C] hover:text-[#E8A317]">Frequently Asked Questions</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <!-- Overview -->
-      <div id="overview" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Overview</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          Alfa Laval MAB series centrifuges are <a href="/disc-stack-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">disc-stack-type centrifuges</a> with a solid bowl. A solid-bowl centrifuge implies that the separated solids must be manually removed periodically.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          These are very simple centrifuges, with the main disadvantage of MAB-type centrifuges being the manual cleaning operation that requires the centrifuge to be stopped.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The Alfa Laval MAB Series Centrifuges are solid-retaining (also known as solid bowl or manual-clean) disc centrifuges ideal for the continuous, three-phase separation of fuels, such as <a href="/diesel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">diesel</a>, <a href="/biodiesel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">biodiesel</a>, <a href="/lube-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">turbine lube oil</a>, and hydraulic oil.
-        </p>
-        <p class="text-[#2D2D2D]">
-          The MAB series is available in five models — MAB 204, MAB 205, MAB 206, MAB 207, and MAB 209 — with capacities ranging from 15 GPM to 78 GPM on diesel fuel. Motor sizes range from 4 HP on the smallest MAB 204 to 15 HP on the largest MAB 209. Each model operates on standard 230 or 460 volt power supply.
-        </p>
-      </div>
-
-      <!-- Applications -->
-      <div id="applications" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Applications</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The Alfa Laval MAB centrifuge is a purifier version of a disc-stack centrifuge. It is specifically designed to purify water from mineral oils and fuels such as diesel fuel, turbine lube oil, hydraulic oil, engine oil, etc.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Because of their three-phase separation capability, MAB centrifuges simultaneously remove both water and solid contaminants from the process fluid in a single pass. This makes them well-suited for applications where both water contamination and particulate removal are critical, including power generation facilities, marine vessels, industrial manufacturing plants, and fuel storage terminals.
-        </p>
-      </div>
-
-      <!-- Operation -->
-      <div id="operation" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Operation</h2>
-        <div class="grid md:grid-cols-2 gap-6 items-start">
-          <div>
-            <p class="text-[#2D2D2D] mb-4">
-              The process fluid is fed to the rotating centrifuge bowl from the top <strong>(1)</strong> and is sped up in the distributor <strong>(2)</strong>. It then enters the disc stack <strong>(3)</strong>, and it is between the discs that the separation occurs.
-            </p>
-            <p class="text-[#2D2D2D] mb-4">
-              The high centrifugal force pushes the water and heavy solids to the bowl wall. The solids accumulate here, and the water fluid travels over the top disc <strong>(4)</strong> and exits the bowl through the open outlet <strong>(5)</strong>. The oil (light phase) is moved towards the bowl center and exits the bowl through the open outlet <strong>(6)</strong>.
-            </p>
-            <p class="text-[#2D2D2D]">
-              The centrifuge needs to be periodically stopped for manual removal of separated solids. The rotating bowl assembly is mounted on a vertical bowl-spindle <strong>(7)</strong>. A horizontally mounted motor rotates the spindle via a worm gear.
-            </p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-WSB-203-Centrifuge-Bowl-251x300-1.webp"
-              alt="Alfa Laval WSB-203 Centrifuge Bowl Cross Section showing disc stack, distributor, and outlet configuration"
-              width="251" height="300"
-              loading="lazy"
-              class="rounded-lg mx-auto w-full max-w-xs"
-            />
-            <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Centrifuge Bowl Cross Section</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- MAB 204 -->
-      <div id="mab-204" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB 204 Centrifuge</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The MAB 204 is the smallest model in the Alfa Laval MAB series, rated at 15 GPM on diesel fuel and equipped with a 4 HP motor. With a sludge space of 0.40 gallons, this compact centrifuge is well suited for lower-volume purification applications.
-        </p>
-        <h3 class="text-lg font-semibold text-[#2D2D2D] mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono">Alfa Laval MAB 204S-24-60</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono">15 GPM on Diesel Fuel<br/>13 GPM on Turbine Lube Oil<br/>8 GPM on Hydraulic Oil</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Sludge Space</td>
-                <td class="py-3 font-mono">0.40 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Motor HP</td>
-                <td class="py-3 font-mono">4 HP</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Voltages</td>
-                <td class="py-3 font-mono">230 / 460 V</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAB 205 -->
-      <div id="mab-205" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB 205 Centrifuge</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The MAB 205 offers increased capacity over the MAB 204, rated at 25 GPM on diesel fuel with a 5 HP motor. Its 0.48 gallon sludge space provides additional solids holding capacity for medium-volume oil purification applications.
-        </p>
-        <h3 class="text-lg font-semibold text-[#2D2D2D] mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono">Alfa Laval MAB 205S-24-60</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono">25 GPM on Diesel Fuel<br/>20 GPM on Turbine Lube Oil<br/>13 GPM on Hydraulic Oil</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Sludge Space</td>
-                <td class="py-3 font-mono">0.48 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Motor HP</td>
-                <td class="py-3 font-mono">5 HP</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Voltages</td>
-                <td class="py-3 font-mono">230 / 460 V</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAB 206 -->
-      <div id="mab-206" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB 206 Centrifuge</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The MAB 206 is one of the most popular models in the Alfa Laval MAB series, rated at 36 GPM on diesel fuel with a 7.5 HP motor. This model is frequently configured as an explosion-proof unit for Class 1, Division 2 hazardous area installations, making it ideal for fuel polishing and diesel purification in refineries, fuel terminals, and other classified environments.
-        </p>
-
-        <div class="grid md:grid-cols-3 gap-4 mb-6">
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Package.webp"
-              alt="Alfa Laval MAB 206S Oil Separator centrifuge package"
-              width="450" height="450"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB 206S Oil Separator</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp"
-              alt="Alfa Laval MAB-206 Disc Stack Centrifuge Explosion Proof Class 1 Div 2"
-              width="450" height="601"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Disc Stack Centrifuge Explosion Proof</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Skid-600.webp"
-              alt="Alfa Laval MAB-206 Diesel Centrifuge Skid"
-              width="450" height="641"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Diesel Centrifuge Skid</p>
-          </div>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Disc-Centrifuge-for-Diesel-Fuel-Polishing-Class-1-Div-2.webp"
-              alt="Alfa Laval MAB-206 Disc Stack Centrifuge - Class 1 Division 2 for Hazardous Areas"
-              width="423" height="600"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Disc Stack Centrifuge - Class 1 Division 2 for Hazardous Areas</p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Class1-Div-2-Diesel-Centrifuge-for-Hazardous-Areas-600.webp"
-              alt="Alfa Laval MAB-206 Class 1 Div 2 Centrifuge for hazardous area diesel fuel purification"
-              width="410" height="571"
-              loading="lazy"
-              class="rounded-lg w-full"
-            />
-            <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Class 1 Div 2 Centrifuge</p>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <img
-            src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-for-Diesel-Explosion-Proof.webp"
-            alt="Alfa Laval Disc Stack Centrifuge for Diesel — Explosion Proof"
-            width="600" height="887"
-            loading="lazy"
-            class="rounded-lg max-w-sm w-full mx-auto"
-          />
-          <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Disc Stack Centrifuge for Diesel — Explosion Proof</p>
-        </div>
-
-        <h3 class="text-lg font-semibold text-[#2D2D2D] mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono">Alfa Laval MAB 206S-24-60</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono">36 GPM on Diesel Fuel<br/>28 GPM on Turbine Lube Oil<br/>19 GPM on Hydraulic Oil</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Sludge Space</td>
-                <td class="py-3 font-mono">0.88 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Motor HP</td>
-                <td class="py-3 font-mono">7.5 HP</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Voltages</td>
-                <td class="py-3 font-mono">230 / 460 V</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAB 207 -->
-      <div id="mab-207" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB 207 Centrifuge</h2>
-        <div class="grid md:grid-cols-2 gap-6 items-start mb-6">
-          <div>
-            <p class="text-[#2D2D2D] mb-4">
-              The MAB 207 is a high-capacity model rated at 48 GPM on diesel fuel, with a 10 HP motor and 1.10 gallon sludge space. In addition to diesel, lube oil, and hydraulic oil purification, the MAB 207 is also rated for biodiesel glycerin separation at 32 GPM, making it a popular choice for biodiesel production facilities.
-            </p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB207-Biodiesel-300x300.webp"
-              alt="Alfa Laval MAB-207 50 GPM Biodiesel Separation Centrifuge"
-              width="300" height="300"
-              loading="lazy"
-              class="rounded-lg mx-auto"
-            />
-            <p class="text-sm text-gray-500 mt-2 text-center">50 GPM Biodiesel Separation</p>
-          </div>
-        </div>
-        <h3 class="text-lg font-semibold text-[#2D2D2D] mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono">Alfa Laval MAB 207S-24-60</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono">48 GPM on Diesel Fuel<br/>40 GPM on Turbine Lube Oil<br/>32 GPM on Biodiesel Glycerin Separation<br/>25 GPM on Hydraulic Oil</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Sludge Space</td>
-                <td class="py-3 font-mono">1.10 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Motor HP</td>
-                <td class="py-3 font-mono">10 HP</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Voltages</td>
-                <td class="py-3 font-mono">230 / 460 V</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAB 209 -->
-      <div id="mab-209" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB 209 Centrifuge</h2>
-        <div class="grid md:grid-cols-2 gap-6 items-start mb-6">
-          <div>
-            <p class="text-[#2D2D2D] mb-4">
-              The MAB 209 is the largest model in the Alfa Laval MAB series, rated at 78 GPM on diesel fuel with a 15 HP motor and the largest sludge space in the series at 2.00 gallons. Like the MAB 207, the MAB 209 is also rated for biodiesel glycerin separation at 52 GPM, making it suitable for high-throughput biodiesel production operations.
-            </p>
-          </div>
-          <div>
-            <img
-              src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB209-Biodiesel-Centrifuge.webp"
-              alt="Alfa Laval MAB 209 Biodiesel Glycerol Centrifuge"
-              width="450" height="450"
-              loading="lazy"
-              class="rounded-lg mx-auto"
-            />
-            <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval MAB 209 Biodiesel Glycerol Centrifuge</p>
-          </div>
-        </div>
-        <h3 class="text-lg font-semibold text-[#2D2D2D] mb-3">Specifications</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C] w-1/2">Model Type</td>
-                <td class="py-3 font-mono">Alfa Laval MAB 209S-24-60</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Rated Capacity</td>
-                <td class="py-3 font-mono">78 GPM on Diesel Fuel<br/>65 GPM on Turbine Lube Oil<br/>52 GPM on Biodiesel Glycerin Separation<br/>40 GPM on Hydraulic Oil</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Sludge Space</td>
-                <td class="py-3 font-mono">2.00 Gallons</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Motor HP</td>
-                <td class="py-3 font-mono">15 HP</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-semibold text-[#1B3A5C]">Voltages</td>
-                <td class="py-3 font-mono">230 / 460 V</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAB Model Comparison -->
-      <div id="comparison" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Alfa Laval MAB Series — Model Comparison</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The table below provides a side-by-side comparison of all five Alfa Laval MAB series centrifuge models, showing rated capacities across different fluid types and motor horsepower requirements.
-        </p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="bg-[#1B3A5C] text-white">
-                <th class="py-3 px-3 text-left font-semibold">Model</th>
-                <th class="py-3 px-3 text-left font-semibold">Diesel (GPM)</th>
-                <th class="py-3 px-3 text-left font-semibold">Lube Oil (GPM)</th>
-                <th class="py-3 px-3 text-left font-semibold">Hydraulic Oil (GPM)</th>
-                <th class="py-3 px-3 text-left font-semibold">Motor (HP)</th>
-                <th class="py-3 px-3 text-left font-semibold">Sludge (Gal)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 px-3 font-mono font-semibold text-[#1B3A5C]">MAB 204S</td>
-                <td class="py-3 px-3 font-mono">15</td>
-                <td class="py-3 px-3 font-mono">13</td>
-                <td class="py-3 px-3 font-mono">8</td>
-                <td class="py-3 px-3 font-mono">4</td>
-                <td class="py-3 px-3 font-mono">0.40</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 px-3 font-mono font-semibold text-[#1B3A5C]">MAB 205S</td>
-                <td class="py-3 px-3 font-mono">25</td>
-                <td class="py-3 px-3 font-mono">20</td>
-                <td class="py-3 px-3 font-mono">13</td>
-                <td class="py-3 px-3 font-mono">5</td>
-                <td class="py-3 px-3 font-mono">0.48</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-3 px-3 font-mono font-semibold text-[#1B3A5C]">MAB 206S</td>
-                <td class="py-3 px-3 font-mono">36</td>
-                <td class="py-3 px-3 font-mono">28</td>
-                <td class="py-3 px-3 font-mono">19</td>
-                <td class="py-3 px-3 font-mono">7.5</td>
-                <td class="py-3 px-3 font-mono">0.88</td>
-              </tr>
-              <tr class="border-b border-gray-200 bg-gray-50">
-                <td class="py-3 px-3 font-mono font-semibold text-[#1B3A5C]">MAB 207S</td>
-                <td class="py-3 px-3 font-mono">48</td>
-                <td class="py-3 px-3 font-mono">40</td>
-                <td class="py-3 px-3 font-mono">25</td>
-                <td class="py-3 px-3 font-mono">10</td>
-                <td class="py-3 px-3 font-mono">1.10</td>
-              </tr>
-              <tr>
-                <td class="py-3 px-3 font-mono font-semibold text-[#1B3A5C]">MAB 209S</td>
-                <td class="py-3 px-3 font-mono">78</td>
-                <td class="py-3 px-3 font-mono">65</td>
-                <td class="py-3 px-3 font-mono">40</td>
-                <td class="py-3 px-3 font-mono">15</td>
-                <td class="py-3 px-3 font-mono">2.00</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-[#2D2D2D] mb-2">What is the difference between the Alfa Laval MAB and MOPX centrifuge series?</h3>
-            <p class="text-[#2D2D2D] text-sm">
-              The Alfa Laval MAB series are solid-retaining (manual-clean) disc-stack centrifuges, meaning accumulated solids must be manually removed by stopping the centrifuge. The MOPX series are self-cleaning centrifuges that automatically eject separated solids during operation without stopping. MAB centrifuges are simpler and more economical for applications with lower solids loading.
-            </p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-[#2D2D2D] mb-2">What fluids can an Alfa Laval MAB centrifuge process?</h3>
-            <p class="text-[#2D2D2D] text-sm">
-              Alfa Laval MAB centrifuges are designed for three-phase separation of mineral oils and fuels including diesel fuel, biodiesel, turbine lube oil, hydraulic oil, and engine oil. They purify these fluids by removing water and solid contaminants simultaneously.
-            </p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-[#2D2D2D] mb-2">How often does an Alfa Laval MAB centrifuge need to be cleaned?</h3>
-            <p class="text-[#2D2D2D] text-sm">
-              Cleaning frequency depends on the solids loading of the process fluid. For relatively clean fluids like turbine lube oil, cleaning intervals may be several days. For dirtier fluids with higher particulate content, the bowl may need manual cleaning every few hours. The sludge space capacity of each model — ranging from 0.40 gallons on the MAB 204 to 2.00 gallons on the MAB 209 — also affects cleaning intervals.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Related Links -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Products &amp; Articles</h2>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/diesel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Diesel Fuel Centrifuge</a></li>
-          <li><a href="/lube-oil-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Turbine Lube Oil Centrifuge</a></li>
-          <li><a href="/biodiesel-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Biodiesel Centrifuge</a></li>
-          <li><a href="/disc-stack-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Disc Stack Centrifuge — How It Works</a></li>
-          <li><a href="/alfa-laval-mab-103-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">Alfa Laval MAB 103 Centrifuge</a></li>
-          <li><a href="/disc-stack-centrifuge-faq/" class="text-[#1B3A5C] hover:text-[#E8A317]">101 FAQs about Disc Stack Centrifuges</a></li>
-          <li><a href="/picking-the-right-industrial-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317]">9 Steps to Selecting the Right Industrial Centrifuge</a></li>
-        </ul>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] rounded-xl p-6 md:p-8 text-center text-white">
-        <h2 class="text-2xl font-bold mb-3">Get Pricing on Alfa Laval MAB Centrifuges</h2>
-        <p class="text-gray-200 mb-6">
-          Contact Dolphin Centrifuge for pricing, availability, and technical support on all Alfa Laval MAB series centrifuges. We supply new and remanufactured units with full service support including installation, commissioning, and ongoing maintenance.
-        </p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-8 py-3 rounded-lg transition">Email Us</a>
-          <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-8 py-3 rounded-lg transition">(248) 522-2573</a>
-        </div>
-        <p class="text-sm text-gray-300 mt-4">24248 Gibson Dr, Warren MI 48089 · sales@dolphincentrifuge.com</p>
-      </div>
-
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-WSB-203-Centrifuge-Bowl-251x300-1.webp"
+        alt="Alfa Laval WSB-203 Centrifuge Bowl Cross Section showing disc stack, distributor, and outlet configuration"
+        width="251" height="300"
+        loading="lazy"
+        class="rounded-lg mx-auto w-full max-w-xs"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Centrifuge Bowl Cross Section</p>
     </div>
-  </section>
+  </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <!-- MAB 204 -->
+  <h2 id="mab-204">Alfa Laval MAB 204 Centrifuge</h2>
+  <p>
+    The MAB 204 is the smallest model in the Alfa Laval MAB series, rated at 15 GPM on diesel fuel and equipped with a 4 HP motor. With a sludge space of 0.40 gallons, this compact centrifuge is well suited for lower-volume purification applications.
+  </p>
+  <h3>Specifications</h3>
+  <div class="overflow-x-auto">
+    <table>
+      <tbody>
+        <tr><td class="font-semibold w-1/2">Model Type</td><td class="font-mono">Alfa Laval MAB 204S-24-60</td></tr>
+        <tr><td class="font-semibold">Rated Capacity</td><td class="font-mono">15 GPM on Diesel Fuel<br/>13 GPM on Turbine Lube Oil<br/>8 GPM on Hydraulic Oil</td></tr>
+        <tr><td class="font-semibold">Sludge Space</td><td class="font-mono">0.40 Gallons</td></tr>
+        <tr><td class="font-semibold">Motor HP</td><td class="font-mono">4 HP</td></tr>
+        <tr><td class="font-semibold">Voltages</td><td class="font-mono">230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-</BaseLayout>
+  <!-- MAB 205 -->
+  <h2 id="mab-205">Alfa Laval MAB 205 Centrifuge</h2>
+  <p>
+    The MAB 205 offers increased capacity over the MAB 204, rated at 25 GPM on diesel fuel with a 5 HP motor. Its 0.48 gallon sludge space provides additional solids holding capacity for medium-volume oil purification applications.
+  </p>
+  <h3>Specifications</h3>
+  <div class="overflow-x-auto">
+    <table>
+      <tbody>
+        <tr><td class="font-semibold w-1/2">Model Type</td><td class="font-mono">Alfa Laval MAB 205S-24-60</td></tr>
+        <tr><td class="font-semibold">Rated Capacity</td><td class="font-mono">25 GPM on Diesel Fuel<br/>20 GPM on Turbine Lube Oil<br/>13 GPM on Hydraulic Oil</td></tr>
+        <tr><td class="font-semibold">Sludge Space</td><td class="font-mono">0.48 Gallons</td></tr>
+        <tr><td class="font-semibold">Motor HP</td><td class="font-mono">5 HP</td></tr>
+        <tr><td class="font-semibold">Voltages</td><td class="font-mono">230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MAB 206 -->
+  <h2 id="mab-206">Alfa Laval MAB 206 Centrifuge</h2>
+  <p>
+    The MAB 206 is one of the most popular models in the Alfa Laval MAB series, rated at 36 GPM on diesel fuel with a 7.5 HP motor. This model is frequently configured as an explosion-proof unit for Class 1, Division 2 hazardous area installations, making it ideal for <a href="/fuel-oil-centrifuge/">fuel polishing</a> and diesel purification in refineries, fuel terminals, and other classified environments.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-4 mb-6">
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Package.webp"
+        alt="Alfa Laval MAB 206S Oil Separator centrifuge package"
+        width="450" height="450"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB 206S Oil Separator</p>
+    </div>
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Disc-Stack-Centrifuge-Explosion-Proof-Class-1-Div-2.webp"
+        alt="Alfa Laval MAB-206 Disc Stack Centrifuge Explosion Proof Class 1 Div 2"
+        width="450" height="601"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Disc Stack Centrifuge Explosion Proof</p>
+    </div>
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Diesel-Centrifuge-Skid-600.webp"
+        alt="Alfa Laval MAB-206 Diesel Centrifuge Skid"
+        width="450" height="641"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Diesel Centrifuge Skid</p>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4 mb-6">
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Disc-Centrifuge-for-Diesel-Fuel-Polishing-Class-1-Div-2.webp"
+        alt="Alfa Laval MAB-206 Disc Stack Centrifuge - Class 1 Division 2 for Hazardous Areas"
+        width="423" height="600"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Disc Stack Centrifuge - Class 1 Division 2 for Hazardous Areas</p>
+    </div>
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB-206-Class1-Div-2-Diesel-Centrifuge-for-Hazardous-Areas-600.webp"
+        alt="Alfa Laval MAB-206 Class 1 Div 2 Centrifuge for hazardous area diesel fuel purification"
+        width="410" height="571"
+        loading="lazy"
+        class="rounded-lg w-full"
+      />
+      <p class="text-xs text-gray-500 mt-1 text-center">Alfa Laval MAB-206 Class 1 Div 2 Centrifuge</p>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <img
+      src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-for-Diesel-Explosion-Proof.webp"
+      alt="Alfa Laval Disc Stack Centrifuge for Diesel — Explosion Proof"
+      width="600" height="887"
+      loading="lazy"
+      class="rounded-lg max-w-sm w-full mx-auto"
+    />
+    <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval Disc Stack Centrifuge for Diesel — Explosion Proof</p>
+  </div>
+
+  <h3>Specifications</h3>
+  <div class="overflow-x-auto">
+    <table>
+      <tbody>
+        <tr><td class="font-semibold w-1/2">Model Type</td><td class="font-mono">Alfa Laval MAB 206S-24-60</td></tr>
+        <tr><td class="font-semibold">Rated Capacity</td><td class="font-mono">36 GPM on Diesel Fuel<br/>28 GPM on Turbine Lube Oil<br/>19 GPM on Hydraulic Oil</td></tr>
+        <tr><td class="font-semibold">Sludge Space</td><td class="font-mono">0.88 Gallons</td></tr>
+        <tr><td class="font-semibold">Motor HP</td><td class="font-mono">7.5 HP</td></tr>
+        <tr><td class="font-semibold">Voltages</td><td class="font-mono">230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MAB 207 -->
+  <h2 id="mab-207">Alfa Laval MAB 207 Centrifuge</h2>
+  <div class="grid md:grid-cols-2 gap-6 items-start mb-6">
+    <div>
+      <p>
+        The MAB 207 is a high-capacity model rated at 48 GPM on diesel fuel, with a 10 HP motor and 1.10 gallon sludge space. In addition to diesel, lube oil, and hydraulic oil purification, the MAB 207 is also rated for <a href="/biodiesel-centrifuge/">biodiesel glycerin separation</a> at 32 GPM, making it a popular choice for biodiesel production facilities.
+      </p>
+    </div>
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB207-Biodiesel-300x300.webp"
+        alt="Alfa Laval MAB-207 50 GPM Biodiesel Separation Centrifuge"
+        width="300" height="300"
+        loading="lazy"
+        class="rounded-lg mx-auto"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center">50 GPM Biodiesel Separation</p>
+    </div>
+  </div>
+  <h3>Specifications</h3>
+  <div class="overflow-x-auto">
+    <table>
+      <tbody>
+        <tr><td class="font-semibold w-1/2">Model Type</td><td class="font-mono">Alfa Laval MAB 207S-24-60</td></tr>
+        <tr><td class="font-semibold">Rated Capacity</td><td class="font-mono">48 GPM on Diesel Fuel<br/>40 GPM on Turbine Lube Oil<br/>32 GPM on Biodiesel Glycerin Separation<br/>25 GPM on Hydraulic Oil</td></tr>
+        <tr><td class="font-semibold">Sludge Space</td><td class="font-mono">1.10 Gallons</td></tr>
+        <tr><td class="font-semibold">Motor HP</td><td class="font-mono">10 HP</td></tr>
+        <tr><td class="font-semibold">Voltages</td><td class="font-mono">230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MAB 209 -->
+  <h2 id="mab-209">Alfa Laval MAB 209 Centrifuge</h2>
+  <div class="grid md:grid-cols-2 gap-6 items-start mb-6">
+    <div>
+      <p>
+        The MAB 209 is the largest model in the Alfa Laval MAB series, rated at 78 GPM on diesel fuel with a 15 HP motor and the largest sludge space in the series at 2.00 gallons. Like the MAB 207, the MAB 209 is also rated for biodiesel glycerin separation at 52 GPM, making it suitable for high-throughput biodiesel production operations.
+      </p>
+    </div>
+    <div>
+      <img
+        src="/images/alfa-laval-mab-centrifuge/Alfa-Laval-MAB209-Biodiesel-Centrifuge.webp"
+        alt="Alfa Laval MAB 209 Biodiesel Glycerol Centrifuge"
+        width="450" height="450"
+        loading="lazy"
+        class="rounded-lg mx-auto"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center">Alfa Laval MAB 209 Biodiesel Glycerol Centrifuge</p>
+    </div>
+  </div>
+  <h3>Specifications</h3>
+  <div class="overflow-x-auto">
+    <table>
+      <tbody>
+        <tr><td class="font-semibold w-1/2">Model Type</td><td class="font-mono">Alfa Laval MAB 209S-24-60</td></tr>
+        <tr><td class="font-semibold">Rated Capacity</td><td class="font-mono">78 GPM on Diesel Fuel<br/>65 GPM on Turbine Lube Oil<br/>52 GPM on Biodiesel Glycerin Separation<br/>40 GPM on Hydraulic Oil</td></tr>
+        <tr><td class="font-semibold">Sludge Space</td><td class="font-mono">2.00 Gallons</td></tr>
+        <tr><td class="font-semibold">Motor HP</td><td class="font-mono">15 HP</td></tr>
+        <tr><td class="font-semibold">Voltages</td><td class="font-mono">230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MAB Model Comparison -->
+  <h2 id="comparison">Alfa Laval MAB Series — Model Comparison</h2>
+  <p>
+    The table below provides a side-by-side comparison of all five Alfa Laval MAB series centrifuge models, showing rated capacities across different fluid types and motor horsepower requirements.
+  </p>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Diesel (GPM)</th>
+          <th>Lube Oil (GPM)</th>
+          <th>Hydraulic Oil (GPM)</th>
+          <th>Motor (HP)</th>
+          <th>Sludge (Gal)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-mono font-semibold">MAB 204S</td>
+          <td class="font-mono">15</td>
+          <td class="font-mono">13</td>
+          <td class="font-mono">8</td>
+          <td class="font-mono">4</td>
+          <td class="font-mono">0.40</td>
+        </tr>
+        <tr>
+          <td class="font-mono font-semibold">MAB 205S</td>
+          <td class="font-mono">25</td>
+          <td class="font-mono">20</td>
+          <td class="font-mono">13</td>
+          <td class="font-mono">5</td>
+          <td class="font-mono">0.48</td>
+        </tr>
+        <tr>
+          <td class="font-mono font-semibold">MAB 206S</td>
+          <td class="font-mono">36</td>
+          <td class="font-mono">28</td>
+          <td class="font-mono">19</td>
+          <td class="font-mono">7.5</td>
+          <td class="font-mono">0.88</td>
+        </tr>
+        <tr>
+          <td class="font-mono font-semibold">MAB 207S</td>
+          <td class="font-mono">48</td>
+          <td class="font-mono">40</td>
+          <td class="font-mono">25</td>
+          <td class="font-mono">10</td>
+          <td class="font-mono">1.10</td>
+        </tr>
+        <tr>
+          <td class="font-mono font-semibold">MAB 209S</td>
+          <td class="font-mono">78</td>
+          <td class="font-mono">65</td>
+          <td class="font-mono">40</td>
+          <td class="font-mono">15</td>
+          <td class="font-mono">2.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAQ -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  <h3>What is the difference between the Alfa Laval MAB and MOPX centrifuge series?</h3>
+  <p>
+    The Alfa Laval MAB series are solid-retaining (manual-clean) <a href="/disc-stack-centrifuge/">disc-stack centrifuges</a>, meaning accumulated solids must be manually removed by stopping the centrifuge. The <a href="/alfa-laval-mopx-centrifuge/">MOPX series</a> are self-cleaning centrifuges that automatically eject separated solids during operation without stopping. MAB centrifuges are simpler and more economical for applications with lower solids loading.
+  </p>
+
+  <h3>What fluids can an Alfa Laval MAB centrifuge process?</h3>
+  <p>
+    Alfa Laval MAB centrifuges are designed for three-phase separation of mineral oils and fuels including <a href="/diesel-centrifuge/">diesel fuel</a>, biodiesel, turbine lube oil, hydraulic oil, and engine oil. They purify these fluids by removing water and solid contaminants simultaneously.
+  </p>
+
+  <h3>How often does an Alfa Laval MAB centrifuge need to be cleaned?</h3>
+  <p>
+    Cleaning frequency depends on the solids loading of the process fluid. For relatively clean fluids like turbine lube oil, cleaning intervals may be several days. For dirtier fluids with higher particulate content, the bowl may need manual cleaning every few hours. The sludge space capacity of each model — ranging from 0.40 gallons on the MAB 204 to 2.00 gallons on the MAB 209 — also affects cleaning intervals.
+  </p>
+
+</ApplicationLayout>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Wastewater Centrifuge Applications";
 const description = "Disc stack and decanter centrifuge systems for wastewater treatment, algae, manure, and biodiesel applications. Proven solutions from Dolphin Centrifuge.";
@@ -12,6 +12,26 @@ const jsonLd = {
   "url": "https://dolphincentrifuge.com/applications/wastewater/",
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
 };
+
+const toc = [
+  { id: "overview", label: "Overview" },
+  { id: "municipal-industrial-wastewater", label: "Municipal & Industrial Wastewater" },
+  { id: "algae-harvesting", label: "Algae Harvesting" },
+  { id: "manure-separation", label: "Manure Separation" },
+  { id: "liquid-humus-production", label: "Liquid Humus Production" },
+  { id: "biodiesel-processing", label: "Biodiesel Processing" },
+  { id: "choosing-the-right-centrifuge", label: "Choosing the Right Centrifuge" },
+];
+
+const relatedApplications = [
+  { label: "Wastewater Centrifuge", href: "/wastewater-centrifuge/" },
+  { label: "Industrial Wastewater Treatment", href: "/industrial-wastewater-treatment-centrifuge/" },
+];
+
+const relatedProducts = [
+  { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+  { label: "Alfa Laval NX-418 Decanter", href: "/alfa-laval-nx-418-decanter-centrifuge/" },
+];
 
 const accent = "#8aad6e";
 const icon = "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064";
@@ -69,81 +89,238 @@ const applications = [
   },
 ];
 ---
-<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications", href: "/applications/" }, { label: "Wastewater" }]} jsonLd={jsonLd}>
+<ApplicationLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://dolphincentrifuge.com/applications/wastewater/"
+  category="applications"
+  categoryLabel="Wastewater Applications"
+  heroImage="/images/wastewater-centrifuge/DMPX-028-Self-Cleaning-Disc-Stack-Centrifuge-for-WasteWater-600.webp"
+  heroImageAlt="Self-cleaning disc stack centrifuge for wastewater treatment"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  jsonLd={jsonLd}
+>
+  <article class="prose-dolphin max-w-none">
 
-  {/* Hero */}
-  <section class="relative bg-navy text-white overflow-hidden">
-    <img
-      src="/images/wastewater-centrifuge/DMPX-028-Self-Cleaning-Disc-Stack-Centrifuge-for-WasteWater-600.webp"
-      alt="Self-cleaning disc stack centrifuge for wastewater treatment"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-      loading="eager"
-    />
-    <div class="relative z-10 container-dolphin py-12 md:py-16 lg:py-20">
-      <div class="max-w-3xl">
-        <span class="inline-block text-gold text-xs font-bold tracking-wider uppercase mb-3">Applications</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-4">Wastewater Centrifuge Applications</h1>
-        <p class="text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl">From municipal sludge dewatering to algae harvesting and manure processing, our disc stack and decanter centrifuges deliver reliable solids–liquid separation for the toughest wastewater streams.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-            Get a Free Quote
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-          <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <h2 id="overview">Overview</h2>
+    <p>
+      From municipal sludge dewatering to algae harvesting and manure processing, our
+      <a href="/disc-stack-centrifuge-applications/">disc stack</a> and
+      <a href="/decanter-centrifuge/">decanter centrifuges</a> deliver reliable solids–liquid
+      separation for the toughest wastewater streams. Dolphin Centrifuge provides turnkey systems
+      backed by 40+ years of field experience and over 150 centrifuges in stock.
+    </p>
 
-  {/* Application Tiles */}
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {applications.map((app) => (
-          <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
-            <div class="flex items-start gap-4 w-full mb-4">
-              <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h2 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h2>
-                <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
-              </div>
-              {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
+    <h2 id="municipal-industrial-wastewater">Municipal &amp; Industrial Wastewater</h2>
+    <p>
+      Our <a href="/wastewater-centrifuge/">wastewater centrifuge systems</a> handle municipal
+      and industrial wastewater treatment at flow rates of 20–80 GPM. They remove suspended solids,
+      oils, and sludge to help facilities meet discharge permit requirements. Both disc stack and
+      decanter configurations are available depending on particle size and solids concentration.
+    </p>
+
+    {/* Application Tiles */}
+    <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
+      {applications.map((app) => (
+        <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
+          <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
+          <div class="flex items-start gap-4 w-full mb-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
+              </svg>
             </div>
-            <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
-            <div class="mt-5">
-              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </span>
+            <div class="flex-1">
+              <h3 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h3>
+              <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
             </div>
-            {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
-          </a>
-        ))}
-      </div>
+            {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
+          </div>
+          <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
+          <div class="mt-5">
+            <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
+              Learn More
+              <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </span>
+          </div>
+          {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
+        </a>
+      ))}
     </div>
-  </section>
 
-  {/* Bottom CTA */}
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Not sure which centrifuge fits your process?</h3>
-          <p class="text-gray-300 text-sm">Send us a sample — our engineers will test it and recommend the right system.</p>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    <h2 id="algae-harvesting">Algae Harvesting</h2>
+    <p>
+      <a href="/algae-centrifuge/">Algae harvesting centrifuges</a> use self-cleaning disc stack
+      technology to continuously separate algae cells from water at flow rates of 5–100+ GPM.
+      Automatic biomass ejection keeps the process running without manual intervention, making
+      these systems ideal for large-scale biofuel and nutraceutical operations.
+    </p>
+
+    <h2 id="manure-separation">Manure Separation</h2>
+    <p>
+      <a href="/manure-centrifuge-separator/">Manure centrifuge separators</a> use decanter
+      centrifuge technology to split manure into dry solids and nutrient-rich liquid. This reduces
+      storage volumes, controls odor, and produces high-value fertilizer — a critical tool for
+      modern dairy and livestock operations processing 25+ GPM.
+    </p>
+
+    <h2 id="liquid-humus-production">Liquid Humus Production</h2>
+    <p>
+      For commercial humus production, <a href="/liquid-humus-centrifuge/">liquid humus centrifuges</a>
+      separate humus biomass from nutrient-rich water at 15–40 GPM. Decanter centrifuges provide
+      the continuous throughput and consistent separation efficiency that commercial fertilizer
+      producers require.
+    </p>
+
+    <h2 id="biodiesel-processing">Biodiesel Processing</h2>
+    <p>
+      <a href="/biodiesel-centrifuge/">Biodiesel centrifuges</a> wash and polish biodiesel to ASTM
+      D6751 specifications, continuously removing glycerin, soap, water, and catalyst residue at
+      10–40 GPM. Disc stack centrifuges are the preferred technology for this application due to
+      their ability to handle fine liquid–liquid separation.
+    </p>
+
+    <h2 id="choosing-the-right-centrifuge">Choosing the Right Centrifuge</h2>
+    <p>
+      The right centrifuge type depends on your wastewater characteristics — particle size, solids
+      concentration, and required throughput. <a href="/disc-stack-centrifuge-applications/">Disc stack
+      centrifuges</a> excel at fine-particle and liquid–liquid separation, while
+      <a href="/decanter-centrifuge/">decanter centrifuges</a> handle high-solids slurries and
+      dewatering tasks. Our engineers can run
+      <a href="/industrial-centrifuge-sample-testing/">sample tests</a> on your specific waste stream
+      to recommend the optimal system.
+    </p>
+
+  </article>
+</ApplicationLayout>
+
+<style is:global>
+  /* ── Prose styling for application page content ── */
+  .prose-dolphin {
+    font-family: var(--font-family-body);
+    color: var(--color-text);
+    line-height: 1.75;
+  }
+
+  .prose-dolphin h2 {
+    font-family: var(--font-family-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-navy);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    scroll-margin-top: 5rem;
+  }
+
+  .prose-dolphin h3 {
+    font-family: var(--font-family-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    scroll-margin-top: 5rem;
+  }
+
+  .prose-dolphin h4 {
+    font-family: var(--font-family-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-dolphin p {
+    margin-bottom: 1.125rem;
+  }
+
+  .prose-dolphin strong {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .prose-dolphin a {
+    color: var(--color-navy);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+
+  .prose-dolphin a:hover {
+    color: var(--color-gold-dark);
+  }
+
+  .prose-dolphin ul, .prose-dolphin ol {
+    margin-bottom: 1.125rem;
+    padding-left: 1.5rem;
+  }
+
+  .prose-dolphin ul { list-style: disc; }
+  .prose-dolphin ol { list-style: decimal; }
+
+  .prose-dolphin li {
+    margin-bottom: 0.375rem;
+  }
+
+  .prose-dolphin img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.625rem;
+    margin: 1.25rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .prose-dolphin table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.875rem;
+    border-radius: 0.625rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+
+  .prose-dolphin thead th,
+  .prose-dolphin th {
+    background-color: var(--color-navy);
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .prose-dolphin td {
+    padding: 0.5rem 0.875rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .prose-dolphin tbody tr:nth-child(even) td {
+    background-color: var(--color-light-bg);
+  }
+
+  .prose-dolphin blockquote {
+    border-left: 4px solid var(--color-gold);
+    padding: 0.875rem 1.25rem;
+    margin: 1.25rem 0;
+    background-color: var(--color-light-bg);
+    border-radius: 0 0.5rem 0.5rem 0;
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+
+  .prose-dolphin hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 2rem 0;
+  }
+</style>

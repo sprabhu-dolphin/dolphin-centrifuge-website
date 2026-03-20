@@ -1,85 +1,75 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "DMB-028 Manual-Clean Disc Stack Centrifuge",
-  "description": "Dolphin DMB-028 manual-clean disc stack centrifuge clarifier. 28 GPM diesel, 7.5 HP, 8,700 RPM. High-capacity manual clarifier for large turbine lube oil systems and industrial fluid purification.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  "category": "Disc Stack Centrifuges",
-  "model": "DMB-028",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "DMB-028 Manual-Clean Disc Stack Centrifuge",
+    "description": "Dolphin DMB-028 manual-clean disc stack centrifuge clarifier. 28 GPM diesel, 7.5 HP, 8,700 RPM. High-capacity manual clarifier for large turbine lube oil systems and industrial fluid purification.",
+    "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+    "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "category": "Disc Stack Centrifuges",
+    "model": "DMB-028",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD",
+      "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the throughput of the DMB-028 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Dolphin DMB-028 processes approximately 28 GPM of diesel fuel (13 cSt), 37 GPM of gas oil at 40°C, 15 GPM of lube oil (R&O), and 27 GPM of steam turbine oil. It is rated at 42 GPM on water-viscosity fluid. Operating at approximately 8,700 RPM with a 7.5 HP motor."
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the throughput of the DMB-028 centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Dolphin DMB-028 processes approximately 28 GPM of diesel fuel (13 cSt), 37 GPM of gas oil at 40°C, 15 GPM of lube oil (R&O), and 27 GPM of steam turbine oil. It is rated at 42 GPM on water-viscosity fluid. Operating at approximately 8,700 RPM with a 7.5 HP motor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What turbine or industrial application is the DMB-028 sized for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "At 15 GPM on lube oil (R&O) throughput, the DMB-028 is suited for large turbine generators in the 10,000–25,000 HP range, large industrial gearboxes, or multiple smaller turbines sharing a centralized lube oil purification system. It is also commonly used for large diesel fuel polishing systems and high-throughput gas oil clarification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When should I choose the DMB-028 over the DMPX-028 self-cleaning model?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both deliver approximately 28 GPM on diesel-viscosity fluid. The DMB-028 (manual-clean) is the better choice for clean turbine lube oil and diesel polishing where solids content is low and planned cleaning shutdowns are manageable. The DMPX-028 (self-cleaning) is better for feeds with significant solids, continuous 24/7 unattended operation, or when manual cleaning labor costs are high."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "What turbine or industrial application is the DMB-028 sized for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "At 15 GPM on lube oil (R&O) throughput, the DMB-028 is suited for large turbine generators in the 10,000–25,000 HP range, large industrial gearboxes, or multiple smaller turbines sharing a centralized lube oil purification system. It is also commonly used for large diesel fuel polishing systems and high-throughput gas oil clarification."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "When should I choose the DMB-028 over the DMPX-028 self-cleaning model?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Both deliver approximately 28 GPM on diesel-viscosity fluid. The DMB-028 (manual-clean) is the better choice for clean turbine lube oil and diesel polishing where solids content is low and planned cleaning shutdowns are manageable. The DMPX-028 (self-cleaning) is better for feeds with significant solids, continuous 24/7 unattended operation, or when manual cleaning labor costs are high."
-      }
-    }
-  ]
-};
+    ]
+  }
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="DMB-028 Manual-Clean Disc Stack Centrifuge | Dolphin Centrifuge"
   description="Dolphin DMB-028 manual-clean disc stack centrifuge: 28 GPM diesel, 7.5 HP, 42 GPM rated. High-capacity clarifier for turbine lube oil and industrial applications."
   canonicalUrl="https://dolphincentrifuge.com/centrifuges/dmb-028/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'DMB-028 Centrifuge'}]}
+  category="products"
+  categoryLabel="Dolphin Basket Centrifuges"
+  toc={[{id: "specs", label: "Specifications"}, {id: "capacity", label: "Capacity by Application"}, {id: "applications", label: "Key Applications"}, {id: "faq", label: "FAQ"}, {id: "resources", label: "Related Resources"}]}
+  relatedApplications={[{label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/"}, {label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/"}, {label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/"}]}
+  relatedProducts={[{label: "DMB-019 Manual-Clean Centrifuge", href: "/centrifuges/dmb-019/"}, {label: "DMB-037 Manual-Clean Centrifuge", href: "/centrifuges/dmb-037/"}, {label: "DMPX-028 Self-Cleaning Centrifuge", href: "/centrifuges/dmpx-028/"}]}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">DMB Series &mdash; Dolphin Centrifuge</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">DMB-028 Manual-Clean Disc Stack Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The Dolphin DMB-028 processes approximately 28 GPM of diesel-viscosity fluid at ~8,700 RPM with a 7.5 HP motor. One of the highest-capacity manual-clean disc stack centrifuges in the DMB series, suited for large turbine lube oil systems, high-volume gas oil polishing, and large industrial fluid purification applications where self-cleaning is not required.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
+  <article class="prose-dolphin max-w-none">
 
       <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
         <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the DMB-028 — a high-capacity manual-clean disc stack centrifuge clarifier. Operating at approximately 8,700 RPM with a 7.5 HP motor, the DMB-028 processes approximately 28 GPM of diesel-viscosity fluid (42 GPM rated on water). Applications include large turbine lube oil purification for systems in the 10,000–25,000 HP range, high-volume diesel and gas oil polishing, large industrial hydraulic oil maintenance, and compressor lube oil purification. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc stack centrifuge systems.</p>
       </div>
 
       <!-- Specs Table -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-028 Specifications</h2>
+      <h2 id="specs" class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-028 Specifications</h2>
       <div class="overflow-x-auto mb-4">
         <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead>
@@ -127,7 +117,7 @@ const faqJsonLd = {
       <p class="text-sm text-text-muted mb-8 italic">Throughput figures are for typical fluids at listed conditions. Actual capacity varies with feed viscosity, temperature, density difference, and solids loading.</p>
 
       <!-- Capacity by Application -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-028 Capacity by Application (GPM)</h2>
+      <h2 id="capacity" class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-028 Capacity by Application (GPM)</h2>
       <div class="overflow-x-auto mb-8">
         <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead>
@@ -146,7 +136,7 @@ const faqJsonLd = {
         </table>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Key Applications</h2>
+      <h2 id="applications" class="text-2xl md:text-3xl font-bold text-navy mb-4">Key Applications</h2>
       <div class="grid md:grid-cols-2 gap-6 mb-10">
         <div class="bg-white rounded-xl p-6 border border-gray-200">
           <h3 class="text-lg font-bold text-navy mb-2">Large Turbine Lube Oil Purification</h3>
@@ -169,8 +159,8 @@ const faqJsonLd = {
       </div>
 
       <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+        <h2 id="faq" class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
         <div class="space-y-6">
           <div>
             <h3 class="text-base font-semibold text-navy mb-2">What is the throughput of the DMB-028?</h3>
@@ -187,7 +177,7 @@ const faqJsonLd = {
         </div>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
+      <h2 id="resources" class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
       <ul class="text-text-light space-y-2 mb-8">
         <li>&#8226; <a href="/centrifuges/dmb-019/" class="text-navy font-semibold hover:text-gold transition-colors">DMB-019 Manual-Clean Centrifuge (~19 GPM)</a></li>
         <li>&#8226; <a href="/centrifuges/dmb-037/" class="text-navy font-semibold hover:text-gold transition-colors">DMB-037 Manual-Clean Centrifuge (~37 GPM)</a></li>
@@ -196,20 +186,5 @@ const faqJsonLd = {
         <li>&#8226; <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Us for DMB-028 Pricing</a></li>
       </ul>
 
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Get Pricing on the DMB-028</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us your fluid type, daily volume, turbine or system size, and site conditions. We will provide a quote for the DMB-028 or recommend the optimal model for your application.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  </article>
+</ApplicationLayout>

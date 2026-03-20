@@ -1,226 +1,192 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "DMB-004 Manual-Clean Disc Stack Centrifuge",
-  "description": "Dolphin DMB-004 manual-clean disc stack centrifuge clarifier. 4 GPM diesel, 1 HP, 8,600 RPM. Compact, cost-effective separator for turbine lube oil, diesel, and light industrial fluids.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  "category": "Disc Stack Centrifuges",
-  "model": "DMB-004",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "DMB-004 Manual-Clean Disc Stack Centrifuge",
+    "description": "Dolphin DMB-004 manual-clean disc stack centrifuge clarifier. 4 GPM diesel, 1 HP, 8,600 RPM. Compact, cost-effective separator for turbine lube oil, diesel, and light industrial fluids.",
+    "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+    "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "category": "Disc Stack Centrifuges",
+    "model": "DMB-004",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD",
+      "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the throughput of the DMB-004 centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Dolphin DMB-004 processes approximately 4 GPM of diesel fuel (13 cSt), 5 GPM of gas oil at 40°C, 2 GPM of lube oil (R&O), and 4 GPM of steam turbine oil. It is rated at 6 GPM on water-viscosity fluid. Actual throughput varies with fluid viscosity, temperature, and solids loading."
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the throughput of the DMB-004 centrifuge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Dolphin DMB-004 processes approximately 4 GPM of diesel fuel (13 cSt), 5 GPM of gas oil at 40°C, 2 GPM of lube oil (R&O), and 4 GPM of steam turbine oil. It is rated at 6 GPM on water-viscosity fluid. Actual throughput varies with fluid viscosity, temperature, and solids loading."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between the DMB-004 and the DMPX-010?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DMB-004 is a manual-clean clarifier — solids accumulate in the bowl until the machine is stopped, disassembled, and the bowl cleaned manually. The DMPX-010 is a self-cleaning separator that ejects solids automatically without stopping. The DMB-004 is lower cost and appropriate for low-solids feeds where infrequent cleaning is acceptable; the DMPX-010 is better for continuous operation with moderate to high solids loading."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What applications is the DMB-004 best suited for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The DMB-004 is best suited for small turbine lube oil systems (up to ~1,000 HP), diesel fuel polishing on small generator sets, hydraulic oil purification, and any low-volume application where fluid solids content is low and infrequent bowl cleaning is acceptable. Its 1 HP motor and compact footprint make it the most economical entry point in the DMB manual-clean range."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between the DMB-004 and the DMPX-010?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMB-004 is a manual-clean clarifier — solids accumulate in the bowl until the machine is stopped, disassembled, and the bowl cleaned manually. The DMPX-010 is a self-cleaning separator that ejects solids automatically without stopping. The DMB-004 is lower cost and appropriate for low-solids feeds where infrequent cleaning is acceptable; the DMPX-010 is better for continuous operation with moderate to high solids loading."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What applications is the DMB-004 best suited for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DMB-004 is best suited for small turbine lube oil systems (up to ~1,000 HP), diesel fuel polishing on small generator sets, hydraulic oil purification, and any low-volume application where fluid solids content is low and infrequent bowl cleaning is acceptable. Its 1 HP motor and compact footprint make it the most economical entry point in the DMB manual-clean range."
-      }
-    }
-  ]
-};
+    ]
+  }
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="DMB-004 Manual-Clean Disc Stack Centrifuge | Dolphin Centrifuge"
   description="Dolphin DMB-004 manual-clean disc stack centrifuge: 4 GPM diesel, 1 HP, 8,600 RPM. Compact clarifier for turbine lube oil, diesel polishing, and small-scale use."
   canonicalUrl="https://dolphincentrifuge.com/centrifuges/dmb-004/"
-  breadcrumbs={[{label: 'Products', href: '/disc-stack-centrifuge/'}, {label: 'DMB-004 Centrifuge'}]}
+  heroImage="/images/centrifuges/dmb-004-manual-clean-centrifuge.jpg"
+  heroImageAlt="Dolphin DMB-004 manual-clean disc stack centrifuge system"
+  category="products"
+  categoryLabel="Dolphin Basket Centrifuges"
+  toc={[
+    { id: "ai-summary", label: "AI Summary" },
+    { id: "specifications", label: "DMB-004 Specifications" },
+    { id: "capacity-by-application", label: "Capacity by Application" },
+    { id: "manual-vs-self-cleaning", label: "Manual-Clean vs. Self-Cleaning" },
+    { id: "key-applications", label: "Key Applications" },
+    { id: "faq", label: "Frequently Asked Questions" },
+    { id: "related-resources", label: "Related Resources" },
+  ]}
+  relatedApplications={[
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMB-007 Manual-Clean Centrifuge", href: "/centrifuges/dmb-007/" },
+    { label: "DMB-013 Manual-Clean Centrifuge", href: "/centrifuges/dmb-013/" },
+    { label: "DMPX-010 Self-Cleaning Centrifuge", href: "/centrifuges/dmpx-010/" },
+  ]}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">DMB Series &mdash; Dolphin Centrifuge</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">DMB-004 Manual-Clean Disc Stack Centrifuge</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">The Dolphin DMB-004 is our most compact manual-clean disc stack centrifuge, processing approximately 4 GPM of diesel-viscosity fluid at 8,600 RPM. A cost-effective solution for small turbine lube oil purification, diesel polishing, hydraulic oil maintenance, and any low-volume application where feed solids content is low and periodic manual cleaning is acceptable.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Quote</a>
-        <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:border-gold text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+  <article class="prose-dolphin max-w-none">
+
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
+      <p class="text-sm text-text-light leading-relaxed italic"><strong>AI Summary:</strong> The Dolphin Centrifuge DMB-004 is a manual-clean disc stack centrifuge clarifier rated at 4 GPM on diesel (13 cSt) and 8,600 RPM with a 1 HP motor. Ideal for small turbine lube oil purification, diesel polishing, and hydraulic oil maintenance in low-volume applications.</p>
+    </div>
+
+    <h2 id="specifications">DMB-004 Specifications</h2>
+    <div class="overflow-x-auto mb-4">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Separation type</td><td>Two-phase clarifier (liquid-liquid or liquid-solid)</td></tr>
+          <tr><td>Diesel throughput</td><td>~4 GPM (13 cSt at operating temperature)</td></tr>
+          <tr><td>Rated throughput (water)</td><td>~6 GPM</td></tr>
+          <tr><td>Bowl speed</td><td>8,600 RPM</td></tr>
+          <tr><td>Drive motor</td><td>1 HP</td></tr>
+          <tr><td>Cleaning method</td><td>Manual (bowl disassembly required for solids removal)</td></tr>
+          <tr><td>Bowl construction</td><td>Carbon steel standard</td></tr>
+          <tr><td>Power supply</td><td>115V or 230V single-phase / 60 Hz (other voltages available)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-sm text-text-muted italic">Throughput figures are for typical fluids at listed conditions. Actual capacity varies with feed viscosity, temperature, density difference, and solids loading.</p>
+
+    <h2 id="capacity-by-application">DMB-004 Capacity by Application (GPM)</h2>
+    <div class="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Application / Fluid</th>
+            <th>Throughput (GPM)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Gas oil at 40&deg;C</td><td>~5 GPM</td></tr>
+          <tr><td>Diesel fuel (13 cSt)</td><td>~4 GPM</td></tr>
+          <tr><td>Lube oil (R&amp;O)</td><td>~2 GPM</td></tr>
+          <tr><td>Lube oil (detergent)</td><td>~2 GPM</td></tr>
+          <tr><td>Steam turbine oil</td><td>~4 GPM</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="manual-vs-self-cleaning">Manual-Clean vs. Self-Cleaning: Choosing the Right Approach</h2>
+    <p>
+      The DMB-004 is a manual-clean clarifier: accumulated solids are retained in the bowl until the machine is stopped, the bowl disassembled, and the solids manually removed. This requires periodic planned cleaning shutdowns — typically every few days to weeks depending on the solids loading of the feed.
+    </p>
+    <p>
+      For applications with low solids content — clean <a href="/diesel-centrifuge/">diesel polishing</a>, turbine <a href="/lube-oil-centrifuge/">lube oil</a> with minimal particulate — manual cleaning is infrequent and the DMB-004 delivers excellent value. The simpler design means lower initial cost, lower operating complexity, and straightforward maintenance.
+    </p>
+    <p>
+      If your feed has significant solids loading, or if uninterrupted 24/7 operation is critical, consider Dolphin's self-cleaning <a href="/centrifuges/dmpx-010/">DMPX-010</a> instead. The DMPX-010 ejects solids automatically without stopping and operates continuously without cleaning shutdowns.
+    </p>
+
+    <h2 id="key-applications">Key Applications</h2>
+    <div class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <h3>Small Turbine Lube Oil Systems</h3>
+        <p class="text-sm text-text-light">Steam turbines and gas turbines up to ~1,000 HP with lube oil reservoirs of 300–1,000 gallons. The DMB-004 purifies lube oil in a continuous bypass loop at 2–4 GPM, removing water and wear particles to extend oil life and protect bearings.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <h3>Diesel Fuel Polishing</h3>
+        <p class="text-sm text-text-light">Generator sets, small standby power systems, and diesel storage tanks requiring continuous fuel polishing at ~4 GPM. The DMB-004 removes free water and particulates from diesel in a compact package suited for space-constrained generator rooms.</p>
+        <a href="/diesel-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Diesel Centrifuge Details &rarr;</a>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <h3>Hydraulic Oil Purification</h3>
+        <p class="text-sm text-text-light">Small hydraulic systems on CNC equipment, presses, and industrial machinery. The DMB-004 removes water ingress and fine particulates from hydraulic circuits in a bypass loop at 2 GPM, maintaining oil cleanliness and preventing valve and actuator wear.</p>
+        <a href="/hydraulic-oil-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Hydraulic Oil Centrifuge Details &rarr;</a>
+      </div>
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <h3>Low-Volume Industrial Oil Polishing</h3>
+        <p class="text-sm text-text-light">Quench oil, heat treatment oil, metalworking oil, and similar industrial fluids requiring periodic polishing to remove water and solids accumulation. The DMB-004 handles these low-throughput polishing applications cost-effectively where continuous <a href="/self-cleaning-centrifuge/">self-cleaning operation</a> is not required.</p>
       </div>
     </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-5xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the DMB-004 — a manual-clean disc stack centrifuge clarifier for low-volume oil purification and separation. Operating at 8,600 RPM with a 1 HP motor, the DMB-004 processes approximately 4 GPM of diesel-viscosity fluid. Applications include small turbine lube oil purification, diesel fuel polishing, hydraulic oil maintenance, and low-volume industrial fluid clarification. The DMB-004 system is built around the Alfa Laval MAB 103 centrifuge bowl. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc stack centrifuge systems.</p>
-      </div>
-
-      <!-- Specs Table -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-004 Specifications</h2>
-      <div class="overflow-x-auto mb-4">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Parameter</th>
-              <th class="text-left px-4 py-3 font-semibold">Value</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Separation type</td>
-              <td class="px-4 py-3 text-text-light">Two-phase clarifier (liquid-liquid or liquid-solid)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Diesel throughput</td>
-              <td class="px-4 py-3 text-text-light">~4 GPM (13 cSt at operating temperature)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Rated throughput (water)</td>
-              <td class="px-4 py-3 text-text-light">~6 GPM</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Bowl speed</td>
-              <td class="px-4 py-3 text-text-light">8,600 RPM</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Drive motor</td>
-              <td class="px-4 py-3 text-text-light">1 HP</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Cleaning method</td>
-              <td class="px-4 py-3 text-text-light">Manual (bowl disassembly required for solids removal)</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Bowl construction</td>
-              <td class="px-4 py-3 text-text-light">Carbon steel standard</td>
-            </tr>
-            <tr class="border-t border-gray-100">
-              <td class="px-4 py-3 font-medium text-navy">Power supply</td>
-              <td class="px-4 py-3 text-text-light">115V or 230V single-phase / 60 Hz (other voltages available)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-sm text-text-muted mb-8 italic">Throughput figures are for typical fluids at listed conditions. Actual capacity varies with feed viscosity, temperature, density difference, and solids loading.</p>
-
-      <!-- Capacity by Application -->
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">DMB-004 Capacity by Application (GPM)</h2>
-      <div class="overflow-x-auto mb-8">
-        <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Application / Fluid</th>
-              <th class="text-left px-4 py-3 font-semibold">Throughput (GPM)</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Gas oil at 40&deg;C</td><td class="px-4 py-3 text-text-light">~5 GPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Diesel fuel (13 cSt)</td><td class="px-4 py-3 text-text-light">~4 GPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Lube oil (R&amp;O)</td><td class="px-4 py-3 text-text-light">~2 GPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Lube oil (detergent)</td><td class="px-4 py-3 text-text-light">~2 GPM</td></tr>
-            <tr class="border-t border-gray-100"><td class="px-4 py-3 font-medium text-navy">Steam turbine oil</td><td class="px-4 py-3 text-text-light">~4 GPM</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Manual-Clean vs. Self-Cleaning: Choosing the Right Approach</h2>
-      <p class="text-text-light mb-4">
-        The DMB-004 is a manual-clean clarifier: accumulated solids are retained in the bowl until the machine is stopped, the bowl disassembled, and the solids manually removed. This requires periodic planned cleaning shutdowns — typically every few days to weeks depending on the solids loading of the feed.
-      </p>
-      <p class="text-text-light mb-4">
-        For applications with low solids content — clean diesel polishing, turbine lube oil with minimal particulate — manual cleaning is infrequent and the DMB-004 delivers excellent value. The simpler design means lower initial cost, lower operating complexity, and straightforward maintenance.
-      </p>
-      <p class="text-text-light mb-8">
-        If your feed has significant solids loading, or if uninterrupted 24/7 operation is critical, consider Dolphin&rsquo;s self-cleaning DMPX-010 instead. The DMPX-010 ejects solids automatically without stopping and operates continuously without cleaning shutdowns.
-      </p>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Key Applications</h2>
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Small Turbine Lube Oil Systems</h3>
-          <p class="text-sm text-text-light">Steam turbines and gas turbines up to ~1,000 HP with lube oil reservoirs of 300–1,000 gallons. The DMB-004 purifies lube oil in a continuous bypass loop at 2–4 GPM, removing water and wear particles to extend oil life and protect bearings.</p>
+    <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+      <h2>Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        <div>
+          <h3>What is the throughput of the DMB-004?</h3>
+          <p class="text-sm text-text-light">The DMB-004 processes ~4 GPM of diesel, ~5 GPM of gas oil at 40&deg;C, ~2 GPM of lube oil (R&amp;O), and ~4 GPM of steam turbine oil. Rated at 6 GPM on water-viscosity fluid.</p>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Diesel Fuel Polishing</h3>
-          <p class="text-sm text-text-light">Generator sets, small standby power systems, and diesel storage tanks requiring continuous fuel polishing at ~4 GPM. The DMB-004 removes free water and particulates from diesel in a compact package suited for space-constrained generator rooms.</p>
-          <a href="/diesel-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Diesel Centrifuge Details &rarr;</a>
+        <div>
+          <h3>What is the difference between DMB-004 and DMPX-010?</h3>
+          <p class="text-sm text-text-light">The DMB-004 is manual-clean — solids accumulate until the bowl is manually disassembled and cleaned. The <a href="/centrifuges/dmpx-010/">DMPX-010</a> is self-cleaning with automatic solids ejection. The DMB-004 costs less and is appropriate for low-solids feeds; the DMPX-010 is better for continuous operation with moderate to high solids.</p>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Hydraulic Oil Purification</h3>
-          <p class="text-sm text-text-light">Small hydraulic systems on CNC equipment, presses, and industrial machinery. The DMB-004 removes water ingress and fine particulates from hydraulic circuits in a bypass loop at 2 GPM, maintaining oil cleanliness and preventing valve and actuator wear.</p>
-          <a href="/hydraulic-oil-centrifuge/" class="text-sm font-semibold text-navy hover:text-gold transition-colors">Hydraulic Oil Centrifuge Details &rarr;</a>
+        <div>
+          <h3>What applications is the DMB-004 best suited for?</h3>
+          <p class="text-sm text-text-light">Small turbine <a href="/lube-oil-centrifuge/">lube oil systems</a> (up to ~1,000 HP), diesel polishing on small generators, hydraulic oil purification, and low-volume oil polishing where solids content is low and periodic cleaning is acceptable.</p>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-gray-200">
-          <h3 class="text-lg font-bold text-navy mb-2">Low-Volume Industrial Oil Polishing</h3>
-          <p class="text-sm text-text-light">Quench oil, heat treatment oil, metalworking oil, and similar industrial fluids requiring periodic polishing to remove water and solids accumulation. The DMB-004 handles these low-throughput polishing applications cost-effectively where continuous self-cleaning operation is not required.</p>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the throughput of the DMB-004?</h3>
-            <p class="text-text-light text-sm">The DMB-004 processes ~4 GPM of diesel, ~5 GPM of gas oil at 40&deg;C, ~2 GPM of lube oil (R&amp;O), and ~4 GPM of steam turbine oil. Rated at 6 GPM on water-viscosity fluid.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is the difference between DMB-004 and DMPX-010?</h3>
-            <p class="text-text-light text-sm">The DMB-004 is manual-clean — solids accumulate until the bowl is manually disassembled and cleaned. The DMPX-010 is self-cleaning with automatic solids ejection. The DMB-004 costs less and is appropriate for low-solids feeds; the DMPX-010 is better for continuous operation with moderate to high solids.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What applications is the DMB-004 best suited for?</h3>
-            <p class="text-text-light text-sm">Small turbine lube oil systems (up to ~1,000 HP), diesel polishing on small generators, hydraulic oil purification, and low-volume oil polishing where solids content is low and periodic cleaning is acceptable.</p>
-          </div>
-        </div>
-      </div>
-
-      <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Related Resources</h2>
-      <ul class="text-text-light space-y-2 mb-8">
-        <li>&#8226; <a href="/centrifuges/dmb-007/" class="text-navy font-semibold hover:text-gold transition-colors">DMB-007 Manual-Clean Centrifuge (~7 GPM)</a></li>
-        <li>&#8226; <a href="/centrifuges/dmpx-010/" class="text-navy font-semibold hover:text-gold transition-colors">DMPX-010 Self-Cleaning Centrifuge (~7 GPM)</a></li>
-        <li>&#8226; <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Stack Centrifuge Overview</a></li>
-        <li>&#8226; <a href="/lube-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Lube Oil Centrifuge Applications</a></li>
-        <li>&#8226; <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Us for DMB-004 Pricing</a></li>
-      </ul>
-
-    </div>
-  </section>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Get Pricing on the DMB-004</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Tell us your fluid type, volume, and site conditions. We will provide a quote for the DMB-004 centrifuge or recommend the right model for your application.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Sample Testing</a>
       </div>
     </div>
-  </section>
-</BaseLayout>
+
+    <h2 id="related-resources">Related Resources</h2>
+    <ul>
+      <li><a href="/centrifuges/dmb-007/">DMB-007 Manual-Clean Centrifuge (~7 GPM)</a></li>
+      <li><a href="/centrifuges/dmpx-010/">DMPX-010 Self-Cleaning Centrifuge (~7 GPM)</a></li>
+      <li><a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Overview</a></li>
+      <li><a href="/lube-oil-centrifuge/">Lube Oil Centrifuge Applications</a></li>
+      <li><a href="/contact-for-alfa-laval-centrifuges/">Contact Us for DMB-004 Pricing</a></li>
+    </ul>
+
+  </article>
+</ApplicationLayout>

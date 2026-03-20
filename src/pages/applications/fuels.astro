@@ -1,109 +1,94 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Fuel Centrifuge Applications";
 const description = "Centrifuge systems for diesel, HFO, and bunker fuel purification. Remove water, particulates, cat fines, and asphaltenes for reliable fuel quality. Request a quote.";
+const canonicalUrl = "https://dolphincentrifuge.com/applications/fuels/";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": title,
   "description": description,
-  "url": "https://dolphincentrifuge.com/applications/fuels/",
+  "url": canonicalUrl,
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
 };
-const applications = [
-  {
-    title: "Diesel Fuel Centrifuge",
-    href: "/diesel-centrifuge/",
-    description: "Remove water, particulates, and asphaltenes from diesel fuel. Essential for bulk storage, fleet operations, and generator fuel systems.",
-    capacity: "10–40 GPM",
-    accent: "#d4b878",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-    subtitle: "Diesel Fuel Purification",
-    tag: "Most Popular",
-  },
-  {
-    title: "Fuel Oil / HFO Centrifuge",
-    href: "/fuel-oil-centrifuge/",
-    description: "Purify heavy fuel oil, bunker fuel, and residual fuel oils. High-temperature centrifugal separation removes cat fines, water, and sludge.",
-    capacity: "10–60 GPM",
-    accent: "#d4b878",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-    subtitle: "Heavy Fuel Oil Treatment",
-  },
+
+const toc = [
+  { id: "why-centrifuge-fuel", label: "Why Centrifuge Fuel Purification" },
+  { id: "diesel-fuel-centrifuge", label: "Diesel Fuel Centrifuge" },
+  { id: "fuel-oil-hfo-centrifuge", label: "Fuel Oil / HFO Centrifuge" },
+  { id: "contaminants-removed", label: "Contaminants Removed" },
+  { id: "choosing-the-right-system", label: "Choosing the Right System" },
+];
+
+const relatedApplications = [
+  { label: "Marine Diesel Centrifuge", href: "/marine-diesel-centrifuge/" },
+  { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+  { label: "Biodiesel Centrifuge", href: "/biodiesel-centrifuge/" },
+];
+
+const relatedProducts = [
+  { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+  { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
 ];
 ---
-<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications", href: "/applications/" }, { label: "Fuels" }]} jsonLd={jsonLd}>
-  <section class="relative bg-navy text-white overflow-hidden">
-    <img
-      src="/images/diesel-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
-      alt="Duplex diesel centrifuge module for fuel purification"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-      loading="eager"
-    />
-    <div class="relative z-10 container-dolphin py-12 md:py-16 lg:py-20">
-      <div class="max-w-3xl">
-        <span class="inline-block text-gold text-xs font-bold tracking-wider uppercase mb-3">Applications</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-4">Fuel Centrifuge Applications</h1>
-        <p class="text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl">Centrifuge systems built to purify diesel, heavy fuel oil, and bunker fuel. Remove water, particulates, cat fines, and asphaltenes to protect engines, generators, and turbines from contamination-related damage.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-            Get a Free Quote
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-          <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {applications.map((app) => (
-          <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
-            <div class="flex items-start gap-4 w-full mb-4">
-              <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h2 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h2>
-                <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
-              </div>
-              {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
-            </div>
-            <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
-            <div class="mt-5">
-              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </span>
-            </div>
-            {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+<ApplicationLayout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  category="applications"
+  categoryLabel="Fuel Applications"
+  heroImage="/images/diesel-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
+  heroImageAlt="Duplex diesel centrifuge module for fuel purification"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  jsonLd={jsonLd}
+>
+  <article class="prose-dolphin max-w-none">
+    <h2 id="why-centrifuge-fuel">Why Centrifuge Fuel Purification</h2>
+    <p>
+      Fuel contamination is one of the leading causes of engine failure, injector wear, and unscheduled downtime in power generation, marine, and fleet operations. Water, particulates, cat fines, and asphaltenes degrade fuel quality and damage critical engine components. <a href="/disc-stack-centrifuge-applications/">Disc stack centrifuge systems</a> provide the most effective method of removing these contaminants, delivering fuel that meets or exceeds OEM cleanliness specifications.
+    </p>
+    <p>
+      Unlike conventional filters that clog and require frequent replacement, a <a href="/centrifugal-separation/">centrifugal separation</a> system continuously purifies fuel at high throughput rates — removing both free water and sub-micron solids that filters cannot capture.
+    </p>
 
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Need clean fuel for your operation?</h3>
-          <p class="text-gray-300 text-sm">We've built fuel purification systems for power plants, fleets, and marine operations worldwide.</p>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    <h2 id="diesel-fuel-centrifuge">Diesel Fuel Centrifuge</h2>
+    <p>
+      <a href="/diesel-centrifuge/">Diesel fuel centrifuge systems</a> remove water, particulates, and asphaltenes from diesel fuel. These systems are essential for bulk storage facilities, fleet operations, and generator fuel systems where fuel sits in storage and degrades over time.
+    </p>
+    <p>
+      Dolphin Centrifuge offers diesel purification modules with capacities ranging from <strong>10 to 40 GPM</strong>, built as turnkey skid-mounted systems ready for immediate deployment. Each system includes a self-cleaning disc stack centrifuge, feed pump, heater (when required), and PLC-based controls.
+    </p>
+
+    <h2 id="fuel-oil-hfo-centrifuge">Fuel Oil / HFO Centrifuge</h2>
+    <p>
+      Heavy fuel oil (HFO), bunker fuel, and residual fuel oils require high-temperature centrifugal separation to remove cat fines, water, and sludge. <a href="/fuel-oil-centrifuge/">Fuel oil centrifuge systems</a> operate at elevated temperatures to reduce viscosity, enabling effective separation of contaminants that would otherwise cause catastrophic engine wear.
+    </p>
+    <p>
+      These systems handle capacities from <strong>10 to 60 GPM</strong> and are widely used in power plants, marine vessels, and industrial boiler operations. Dolphin builds both simplex and duplex configurations for continuous, uninterrupted fuel treatment.
+    </p>
+
+    <h2 id="contaminants-removed">Contaminants Removed</h2>
+    <ul>
+      <li><strong>Free and emulsified water</strong> — protects injectors and prevents microbial growth</li>
+      <li><strong>Particulate matter</strong> — removes sub-micron solids that pass through conventional filters</li>
+      <li><strong>Cat fines (catalytic fines)</strong> — abrasive alumina and silica particles from refinery cracking processes</li>
+      <li><strong>Asphaltenes and sludge</strong> — heavy organic compounds that foul fuel systems</li>
+      <li><strong>Biological contaminants</strong> — bacteria and fungi that thrive in fuel-water interfaces</li>
+    </ul>
+
+    <h2 id="choosing-the-right-system">Choosing the Right System</h2>
+    <p>
+      Selecting the right fuel centrifuge depends on fuel type, throughput requirements, and contaminant profile. The <a href="/centrifuges/dmpx-042/">DMPX-042 disc centrifuge</a> is well suited for mid-range diesel and light fuel oil applications, while the <a href="/centrifuges/dmpx-028/">DMPX-028</a> handles smaller volume requirements with the same separation efficiency.
+    </p>
+    <p>
+      Dolphin Centrifuge provides <a href="/industrial-centrifuge-sample-testing/">free sample testing</a> to evaluate your fuel and recommend the optimal centrifuge configuration. Our engineers size every system based on actual fuel analysis data, not guesswork.
+    </p>
+    <p>
+      Ready to discuss your fuel purification needs? <a href="/contact-for-alfa-laval-centrifuges/">Contact our engineering team</a> for a free consultation and quote.
+    </p>
+  </article>
+</ApplicationLayout>

@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Used Motor Oil Centrifuge Applications";
 const description = "Centrifuge systems for waste oil recovery, used oil re-refining, and black diesel cleaning. Industrial oil purification solutions from Dolphin Centrifuge.";
@@ -13,127 +13,66 @@ const jsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
 };
 
-const accent = "#999";
-const icon = "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z";
-
-const applications = [
-  {
-    title: "Waste Oil Centrifuge",
-    href: "/waste-oil-centrifuge/",
-    subtitle: "3-Phase Oil Recovery",
-    description: "Recover clean, sale-ready oil from collected waste oil streams. Our 3-phase disc stack centrifuges remove water, sludge, and metals down to 1 micron.",
-    capacity: "10–50 GPM",
-    tag: "Most Popular",
-    accent,
-    icon,
-  },
-  {
-    title: "Used Oil Centrifuge",
-    href: "/used-oil-centrifuge/",
-    subtitle: "Re-Refining & Fuel Blending",
-    description: "Process used motor oil, transmission fluid, and industrial lubricants for re-refining or fuel blending. Removes ash, metals, and water.",
-    capacity: "10–50 GPM",
-    tag: null,
-    accent,
-    icon,
-  },
-  {
-    title: "Black Diesel Centrifuge",
-    href: "/black-diesel-centrifuge/",
-    subtitle: "Soot & Carbon Removal",
-    description: "Clean black diesel and soot-laden fuels for reuse as burner fuel. Disc stack centrifuges remove carbon, water, and heavy contaminants.",
-    capacity: "10–30 GPM",
-    tag: null,
-    accent,
-    icon,
-  },
-  {
-    title: "Oil Centrifuge",
-    href: "/oil-centrifuge/",
-    subtitle: "General Oil Separation",
-    description: "Overview of all oil separation applications. Purify, clarify, or polish any petroleum or bio-based oil.",
-    capacity: "5–60 GPM",
-    tag: null,
-    accent,
-    icon,
-  },
+const toc = [
+  { id: "why-centrifuges-for-used-motor-oil", label: "Why Centrifuges for Used Motor Oil" },
+  { id: "waste-oil-recovery", label: "Waste Oil Recovery" },
+  { id: "used-oil-re-refining", label: "Used Oil Re-Refining" },
+  { id: "black-diesel-cleaning", label: "Black Diesel Cleaning" },
+  { id: "general-oil-separation", label: "General Oil Separation" },
+  { id: "choosing-the-right-system", label: "Choosing the Right System" },
 ];
 ---
-<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications", href: "/applications/" }, { label: "Used Motor Oil" }]} jsonLd={jsonLd}>
+<ApplicationLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://dolphincentrifuge.com/applications/used-motor-oil/"
+  category="applications"
+  categoryLabel="Used Motor Oil Applications"
+  heroImage="/images/waste-oil-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp"
+  heroImageAlt="Industrial centrifuge systems for waste oil recovery"
+  toc={toc}
+  relatedApplications={[
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+    { label: "Used Oil Re-Refining Centrifuge", href: "/used-oil-re-refining-plant-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+    { label: "DMPX-070 Disc Centrifuge", href: "/centrifuges/dmpx-070/" },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="prose-dolphin max-w-none">
+    <p>Our <a href="/disc-stack-centrifuge/">disc stack centrifuges</a> turn dirty waste oil into clean, sale-ready product. Whether you collect used motor oil, process black diesel, or re-refine industrial lubricants, Dolphin Centrifuge has a proven system for your operation.</p>
 
-  {/* Hero */}
-  <section class="relative bg-navy text-white overflow-hidden">
-    <img
-      src="/images/waste-oil-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp"
-      alt="Industrial centrifuge systems for waste oil recovery"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-      loading="eager"
-    />
-    <div class="relative z-10 container-dolphin py-12 md:py-16 lg:py-20">
-      <div class="max-w-3xl">
-        <span class="inline-block text-gold text-xs font-bold tracking-wider uppercase mb-3">Applications</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-4">Used Motor Oil Centrifuge Applications</h1>
-        <p class="text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl">Our disc stack centrifuges turn dirty waste oil into clean, sale-ready product. Whether you collect used motor oil, process black diesel, or re-refine industrial lubricants, we have a proven system for your operation.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-            Get a Free Quote
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-          <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <h2 id="why-centrifuges-for-used-motor-oil">Why Centrifuges for Used Motor Oil</h2>
+    <p>Used motor oil contains water, sludge, metals, and carbon particles that must be removed before the oil can be sold, re-refined, or blended into fuel. Traditional filtration struggles with sub-micron contaminants and high volumes. <a href="/disc-stack-centrifuge/">Disc stack centrifuges</a> use up to 8,000 G-force to separate these contaminants continuously at flow rates of 10–60 GPM — far outperforming filters in both speed and cleanliness.</p>
+    <p>Dolphin Centrifuge provides turnkey <a href="/centrifuge-systems/">centrifuge systems</a> that include heaters, feed pumps, piping, and controls — ready to plug into your existing process.</p>
 
-  {/* Application Tiles */}
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {applications.map((app) => (
-          <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
-            <div class="flex items-start gap-4 w-full mb-4">
-              <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h2 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h2>
-                <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
-              </div>
-              {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
-            </div>
-            <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
-            <div class="mt-5">
-              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </span>
-            </div>
-            {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+    <h2 id="waste-oil-recovery">Waste Oil Recovery</h2>
+    <p><strong>3-Phase Oil Recovery</strong> — Recover clean, sale-ready oil from collected waste oil streams. Our 3-phase disc stack centrifuges remove water, sludge, and metals down to 1 micron. Processing capacity ranges from 10 to 50 GPM depending on the centrifuge model selected.</p>
+    <p>The <a href="/waste-oil-centrifuge/">waste oil centrifuge</a> application is the most popular configuration in our used motor oil lineup. Customers typically see payback in under 12 months through recovered oil sales.</p>
 
-  {/* Bottom CTA */}
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Need a centrifuge for your oil recycling operation?</h3>
-          <p class="text-gray-300 text-sm">We've built hundreds of waste oil systems. Tell us about your process.</p>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    <h2 id="used-oil-re-refining">Used Oil Re-Refining</h2>
+    <p><strong>Re-Refining &amp; Fuel Blending</strong> — Process used motor oil, transmission fluid, and industrial lubricants for re-refining or fuel blending. The centrifuge removes ash, metals, and water to produce a clean feedstock.</p>
+    <p>For dedicated re-refining operations, visit our <a href="/used-oil-re-refining-plant-centrifuge/">used oil re-refining centrifuge</a> page for detailed system specifications and process flow diagrams. Capacities range from 10 to 50 GPM.</p>
+
+    <h2 id="black-diesel-cleaning">Black Diesel Cleaning</h2>
+    <p><strong>Soot &amp; Carbon Removal</strong> — Clean black diesel and soot-laden fuels for reuse as burner fuel. Disc stack centrifuges remove carbon, water, and heavy contaminants at flow rates of 10–30 GPM.</p>
+    <p>Learn more about our <a href="/black-diesel-centrifuge/">black diesel centrifuge</a> systems, which are specifically configured for high-carbon-content fuels.</p>
+
+    <h2 id="general-oil-separation">General Oil Separation</h2>
+    <p><strong>Versatile Oil Purification</strong> — Beyond motor oil, our centrifuges handle a wide range of petroleum and bio-based oils. Whether you need to purify, clarify, or polish oil at 5–60 GPM, Dolphin has a solution.</p>
+    <p>See our full <a href="/oil-centrifuge/">oil centrifuge</a> overview for the complete range of oil separation applications we support.</p>
+
+    <h2 id="choosing-the-right-system">Choosing the Right System</h2>
+    <p>The right centrifuge depends on your feedstock, throughput requirements, and end-product specifications. Key factors include:</p>
+    <ul>
+      <li><strong>Flow rate</strong> — Match centrifuge capacity to your daily volume</li>
+      <li><strong>Contaminant load</strong> — Heavy sludge requires a self-cleaning (SOPX/FOPX) bowl design</li>
+      <li><strong>Water content</strong> — High water content calls for a 3-phase separator</li>
+      <li><strong>End-product spec</strong> — Re-refining demands tighter separation than fuel blending</li>
+    </ul>
+    <p>Our engineers will help you select and size the right system. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a free consultation, or call <strong>(248) 522-2573</strong> to speak with a specialist today.</p>
+  </article>
+</ApplicationLayout>

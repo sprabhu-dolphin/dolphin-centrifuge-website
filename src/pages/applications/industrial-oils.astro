@@ -1,119 +1,103 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Industrial Oil Centrifuge Applications";
 const description = "Centrifuge systems for lube oil, hydraulic oil, and lubricant purification. Extend oil life, maintain ISO cleanliness codes, and reduce unplanned downtime.";
+const canonicalUrl = "https://dolphincentrifuge.com/applications/industrial-oils/";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": title,
   "description": description,
-  "url": "https://dolphincentrifuge.com/applications/industrial-oils/",
+  "url": canonicalUrl,
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
 };
-const applications = [
-  {
-    title: "Lube Oil Centrifuge",
-    href: "/lube-oil-centrifuge/",
-    description: "Extend lubricant life by continuously removing wear metals, oxidation products, and moisture. Kidney-loop systems keep ISO cleanliness codes within OEM specs.",
-    capacity: "5–30 GPM",
-    accent: "#e8cc5a",
-    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-    subtitle: "Lubricant Life Extension",
-    tag: "Most Popular",
-  },
-  {
-    title: "Hydraulic Oil Centrifuge",
-    href: "/hydraulic-oil-centrifuge/",
-    description: "Maintain hydraulic fluid cleanliness to prevent valve sticking, pump wear, and unplanned downtime. Critical for extrusion presses and heavy machinery.",
-    capacity: "5–30 GPM",
-    accent: "#e8cc5a",
-    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-    subtitle: "Hydraulic System Protection",
-  },
-  {
-    title: "Hydraulic Oil in Extrusion Presses",
-    href: "/extrusion-industry-centrifuge-application/",
-    description: "Case study showing how centrifuge-cleaned hydraulic oil reduced downtime by 98% and extended pump life 2–4x.",
-    capacity: undefined,
-    accent: "#e8cc5a",
-    icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-    subtitle: "Case Study",
-    tag: "Case Study",
-  },
+
+const toc = [
+  { id: "why-centrifuges-for-industrial-oils", label: "Why Centrifuges for Industrial Oils" },
+  { id: "lube-oil-purification", label: "Lube Oil Purification" },
+  { id: "hydraulic-oil-cleaning", label: "Hydraulic Oil Cleaning" },
+  { id: "extrusion-press-case-study", label: "Extrusion Press Case Study" },
+  { id: "how-oil-centrifuges-work", label: "How Oil Centrifuges Work" },
+  { id: "choosing-the-right-system", label: "Choosing the Right System" },
 ];
 ---
-<BaseLayout title={title} description={description} breadcrumbs={[{ label: "Applications", href: "/applications/" }, { label: "Industrial Oils" }]} jsonLd={jsonLd}>
-  <section class="relative bg-navy text-white overflow-hidden">
-    <img
-      src="/images/lube-oil-centrifuge/Lube-Oil-Centrifuge-System.webp"
-      alt="Industrial lube oil centrifuge system for lubricant purification"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-      loading="eager"
-    />
-    <div class="relative z-10 container-dolphin py-12 md:py-16 lg:py-20">
-      <div class="max-w-3xl">
-        <span class="inline-block text-gold text-xs font-bold tracking-wider uppercase mb-3">Applications</span>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading leading-tight mb-4">Industrial Oil Centrifuge Applications</h1>
-        <p class="text-lg text-gray-300 leading-relaxed mb-6 max-w-2xl">High-performance centrifuge systems for lube oil, hydraulic oil, and industrial lubricant purification. Maintain ISO cleanliness codes, extend oil change intervals, and protect critical equipment from contamination-related failures.</p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">
-            Get a Free Quote
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
-          <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-            (248) 522-2573
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {applications.map((app) => (
-          <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-15 blur-2xl -translate-y-10 translate-x-10" style={`background: ${app.accent};`}></div>
-            <div class="flex items-start gap-4 w-full mb-4">
-              <div class="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={`background: ${app.accent}22;`}>
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={app.accent} stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={app.icon} />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h2 class="text-lg md:text-xl font-bold font-heading leading-tight group-hover:text-gold transition-colors">{app.title}</h2>
-                <p class="text-xs font-semibold mt-0.5" style={`color: ${app.accent};`}>{app.subtitle}</p>
-              </div>
-              {app.capacity && <span class="bg-white/10 text-white text-xs font-mono px-2.5 py-1 rounded shrink-0">{app.capacity}</span>}
-            </div>
-            <p class="text-sm text-gray-300 leading-relaxed flex-1">{app.description}</p>
-            <div class="mt-5">
-              <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn More
-                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-              </span>
-            </div>
-            {app.tag && <span class="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">{app.tag}</span>}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+<ApplicationLayout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  category="applications"
+  categoryLabel="Industrial Oil Applications"
+  toc={toc}
+  relatedApplications={[
+    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+    { label: "Hydraulic Oil Centrifuge", href: "/hydraulic-oil-centrifuge/" },
+    { label: "Transformer Oil Centrifuge", href: "/transformer-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+    { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
+  ]}
+  heroImage="/images/lube-oil-centrifuge/Lube-Oil-Centrifuge-System.webp"
+  heroImageAlt="Industrial lube oil centrifuge system for lubricant purification"
+  jsonLd={jsonLd}
+>
+  <article class="prose-dolphin max-w-none">
 
-  <section class="bg-white border-t border-gray-200">
-    <div class="container-dolphin py-12 md:py-16">
-      <div class="bg-navy rounded-2xl p-8 md:p-10 text-white text-center md:text-left md:flex md:items-center md:justify-between">
-        <div class="mb-6 md:mb-0">
-          <h3 class="text-xl md:text-2xl font-bold font-heading mb-2">Not sure which centrifuge fits your oil?</h3>
-          <p class="text-gray-300 text-sm">Send us a sample — our engineers will test it and recommend the right system.</p>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-3">
-          <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
-          <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+    <h2 id="why-centrifuges-for-industrial-oils">Why Centrifuges for Industrial Oils</h2>
+    <p>
+      Industrial oils — lubricants, hydraulic fluids, quench oils — degrade over time as they accumulate wear metals, oxidation products, water, and fine particulate. Traditional filtration captures particles down to ~10 microns, but sub-micron contaminants continue to cause valve sticking, bearing wear, and premature oil replacement.
+    </p>
+    <p>
+      A <a href="/disc-stack-centrifuge-applications/">disc-stack centrifuge</a> generates 5,000–8,000 G-force, removing particles below 1 micron and simultaneously separating free and emulsified water. The result: oil that meets or exceeds OEM ISO cleanliness codes, extended drain intervals, and dramatically lower unplanned downtime.
+    </p>
+
+    <h2 id="lube-oil-purification">Lube Oil Purification</h2>
+    <p>
+      Kidney-loop <a href="/lube-oil-centrifuge/">lube oil centrifuge</a> systems continuously side-stream lubricant from the reservoir, remove wear metals and oxidation byproducts, and return clean oil at 5–30 GPM. This extends lubricant life by 3–5x while keeping ISO cleanliness codes within OEM specifications.
+    </p>
+    <p>
+      Common applications include turbine lube oil systems, large diesel engine crankcases, compressor lubrication, and paper mill bearing oil. The <a href="/centrifuges/dmpx-042/">DMPX-042 disc centrifuge</a> is the most popular choice for medium-volume lube oil circuits.
+    </p>
+
+    <h2 id="hydraulic-oil-cleaning">Hydraulic Oil Cleaning</h2>
+    <p>
+      Hydraulic systems are highly sensitive to contamination — even a few particles can cause servo valve sticking, pump scoring, and catastrophic pressure loss. A <a href="/hydraulic-oil-centrifuge/">hydraulic oil centrifuge</a> maintains fluid cleanliness to NAS 6 or better, protecting extrusion presses, injection molding machines, and heavy mobile equipment.
+    </p>
+    <p>
+      Centrifuge cleaning eliminates the need for frequent filter cartridge changes and reduces hydraulic component replacement costs by 40–60%. Systems process 5–30 GPM and can be configured for continuous or batch operation.
+    </p>
+
+    <h2 id="extrusion-press-case-study">Extrusion Press Case Study</h2>
+    <p>
+      A major aluminum extrusion facility installed a centrifuge on their <a href="/extrusion-industry-centrifuge-application/">hydraulic press circuit</a> and achieved remarkable results: unplanned downtime dropped 98%, pump life extended 2–4x, and hydraulic oil replacement intervals went from 6 months to over 3 years.
+    </p>
+    <p>
+      The centrifuge paid for itself in under 8 months through reduced oil purchases, fewer pump rebuilds, and increased production uptime. This is a typical ROI timeline for industrial oil centrifuge installations.
+    </p>
+
+    <h2 id="how-oil-centrifuges-work">How Oil Centrifuges Work</h2>
+    <p>
+      Disc-stack centrifuges use a high-speed rotating bowl containing a stack of conical discs. Oil enters the center of the disc stack, and centrifugal force drives heavy contaminants (metals, carbon, water) outward while clean oil flows inward to the outlet. The disc stack multiplies the effective settling area, enabling throughputs of 5–30 GPM in a compact footprint.
+    </p>
+    <p>
+      For a deeper explanation of the separation process, see our <a href="/centrifuge-technology/">centrifuge technology overview</a>. Dolphin Centrifuge offers both <a href="/centrifuges/dmpx-042/">self-cleaning disc centrifuges</a> (automatic sludge ejection) and manual-clean models for lower-volume applications like the <a href="/centrifuges/dmpx-028/">DMPX-028</a>.
+    </p>
+
+    <h2 id="choosing-the-right-system">Choosing the Right System</h2>
+    <p>
+      Selecting the correct centrifuge depends on oil viscosity, flow rate, contaminant type, and target cleanliness level. Key factors include:
+    </p>
+    <ul>
+      <li><strong>Flow rate:</strong> Match centrifuge capacity to your reservoir turnover requirement (typically 4–6x per day for kidney-loop systems).</li>
+      <li><strong>Viscosity:</strong> Higher-viscosity oils require larger disc stacks or heated inlet lines to achieve target separation efficiency.</li>
+      <li><strong>Contaminant type:</strong> Water-in-oil emulsions may require a three-phase separator; dry particulate loads can use a two-phase clarifier.</li>
+      <li><strong>Automation level:</strong> Self-cleaning models minimize operator intervention; manual-clean units have lower upfront cost.</li>
+    </ul>
+    <p>
+      Not sure which system fits your oil? <a href="/industrial-centrifuge-sample-testing/">Send us a sample</a> — our engineers will test it and recommend the right centrifuge configuration for your specific application.
+    </p>
+
+  </article>
+</ApplicationLayout>

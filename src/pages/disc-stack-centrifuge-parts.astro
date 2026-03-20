@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,426 +23,380 @@ const faqJsonLd = {
   ]
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Disc Stack Centrifuge Parts",
-  "description": "Complete disc stack centrifuge parts — bowl body, disc stack, gravity disc, paring disc, spindle, bearings, seals, and operating water valves. OEM and aftermarket options from Dolphin Centrifuge.",
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com",
-  "datePublished": "2021-05-01" },
-  "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-parts/",
-  "offers": {
-    "@type": "Offer",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-    "availability": "https://schema.org/InStock",
-    "areaServed": "US"
-  }
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Disc Stack Centrifuge Parts",
+    "description": "Complete disc stack centrifuge parts — bowl body, disc stack, gravity disc, paring disc, spindle, bearings, seals, and operating water valves. OEM and aftermarket options from Dolphin Centrifuge.",
+    "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-parts/",
+    "offers": {
+      "@type": "Offer",
+      "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+      "availability": "https://schema.org/InStock",
+      "areaServed": "US"
+    }
+  },
+  faqJsonLd
+];
+
+const toc = [
+  { id: "bowl-body", label: "Bowl Body" },
+  { id: "disc-stack", label: "Disc Stack" },
+  { id: "gravity-disc", label: "Gravity Disc" },
+  { id: "paring-disc", label: "Paring Disc" },
+  { id: "frame-hood", label: "Frame & Hood" },
+  { id: "spindle", label: "Spindle" },
+  { id: "spindle-bearings", label: "Spindle Bearings" },
+  { id: "mechanical-seal-neck-seal", label: "Mechanical Seal & Neck Seal" },
+  { id: "operating-water-valve", label: "Operating Water Valve" },
+  { id: "parts-replacement-summary", label: "Parts Replacement Summary" },
+  { id: "faq", label: "Frequently Asked Questions" },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Disc Stack Centrifuge Parts | Dolphin Centrifuge"
   description="Disc stack centrifuge parts guide: bowl, disc stack, gravity disc, spindle, bearings, seals, and operating water valves. OEM and aftermarket from Dolphin Centrifuge."
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-parts/"
-  breadcrumbs={[{label: 'Services', href: '/industrial-disc-centrifuge-repair/'}, {label: 'Centrifuge Parts'}]}
+  heroImage="/images/disc-stack-centrifuge-parts/Centrifuge-Gear-600-1.webp"
+  heroImageAlt="Disc stack centrifuge gear assembly showing transmission components"
+  category="services"
+  categoryLabel="Parts & Service"
+  toc={toc}
+  relatedApplications={[
+    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+    { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+  ]}
+  relatedProducts={[
+    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+    { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
+  ]}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Parts &amp; Service</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">Disc Stack Centrifuge Parts</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">A disc stack centrifuge is a precision machine with interrelated components — every part plays a defined role in achieving separation performance. This guide covers each major component: its function, wear indicators, replacement interval, and OEM vs aftermarket considerations. Dolphin Centrifuge stocks the full parts range for fast delivery.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-7 py-3 rounded-lg transition-colors">Order Parts</a>
-        <a href="/alfa-laval-centrifuge-parts/" class="border border-white/30 hover:border-gold text-white font-semibold px-7 py-3 rounded-lg transition-colors">Alfa Laval Parts Catalog</a>
-      </div>
+
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge stocks OEM and aftermarket disc stack centrifuge parts — bowl bodies, disc stacks, gravity discs, paring discs, spindle bearings, seals, and operating water valves. Parts fit Alfa Laval MAB, MOPX, WHPX, MAPX, WSPX, and LAPX series centrifuges spinning at 4,000&ndash;8,500 RPM. Based in Warren, Michigan, with 40+ years of centrifuge parts experience and same-day shipping.</p>
+  </div>
+
+  <p><strong>Summary:</strong> A disc stack centrifuge contains roughly 15&ndash;25 distinct component groups, each with its own service interval and failure mode. Understanding these parts — and recognizing early wear indicators — is the foundation of a proactive <a href="/industrial-disc-centrifuge-repair/">maintenance program</a>. The parts described below apply to the full range of <a href="/disc-stack-centrifuge/">disc stack separators</a>. Dolphin Centrifuge inventories all of these components and can advise on OEM versus aftermarket suitability for your specific machine.</p>
+
+  <!-- Bowl Body -->
+  <h2 id="bowl-body">Bowl Body</h2>
+  <p>The bowl body is the primary rotating pressure vessel. It encloses the disc stack, solids space, and all internal separation components. The bowl spins at 4,000&ndash;8,500 RPM and must withstand both centrifugal stress and the intermittent hydraulic shock of self-cleaning discharge.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Visible erosion or pitting on bowl walls</li>
+        <li>&bull; Cracks near discharge ports</li>
+        <li>&bull; Unbalance after cleaning</li>
+      </ul>
     </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains a comprehensive inventory of disc stack centrifuge parts — bowl discs, gaskets, O-rings, gravity discs, bearings, seals, friction clutch pads, drive belts, operating water valves, and complete bowl rebuild kits. All parts available for Alfa Laval MAB, MOPX, WHPX, MAPX, WSPX, and LAPX series disc centrifuges. OEM-equivalent and aftermarket options with expert guidance on model suitability. Based in Warren, Michigan, with over 40 years of centrifuge parts experience.</p>
-      </div>
-
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <img src="/images/disc-stack-centrifuge-parts/Centrifuge-Gear-600-1.webp" alt="Disc stack centrifuge gear assembly showing transmission components" width="600" height="400" loading="eager" class="rounded-lg w-full mb-4" />
-        <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A disc stack centrifuge contains roughly 15&ndash;25 distinct component groups, each with its own service interval and failure mode. Understanding these parts — and recognizing early wear indicators — is the foundation of a proactive maintenance program. The parts described below apply to the full range of disc stack separators. Dolphin Centrifuge inventories all of these components and can advise on OEM versus aftermarket suitability for your specific machine.</p>
-      </div>
-
-      <!-- Bowl Body -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Bowl Body</h2>
-        <p class="text-text-light mb-3">The bowl body is the primary rotating pressure vessel. It encloses the disc stack, solids space, and all internal separation components. The bowl spins at 4,000&ndash;8,500 RPM and must withstand both centrifugal stress and the intermittent hydraulic shock of self-cleaning discharge.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Visible erosion or pitting on bowl walls</li>
-              <li>&bull; Cracks near discharge ports</li>
-              <li>&bull; Unbalance after cleaning</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Inspect every 5 years</li>
-              <li>&bull; NDT (dye penetrant or UT) recommended</li>
-              <li>&bull; Replace on crack detection — no exceptions</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; OEM strongly recommended</li>
-              <li>&bull; Safety-critical rotating component</li>
-              <li>&bull; Aftermarket bowls require certification</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Disc Stack -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Disc Stack</h2>
-        <img src="/images/disc-stack-centrifuge-parts/Disc-Stack-Centrifuge-Parts-Vertical-Transmission-600.webp" alt="Disc stack centrifuge parts - vertical transmission diagram showing spindle, bearings, and drive components" width="600" height="427" loading="lazy" class="rounded-lg w-full mb-3" />
-        <p class="text-text-light mb-3">The disc stack consists of 80 to 150+ conical stainless steel discs separated by precision spacers. The spacers create inter-disc channels of 0.4&ndash;2 mm — the primary separation zones where centrifugal settling occurs. Disc count and spacing are matched to the application.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Bent, warped, or cracked discs</li>
-              <li>&bull; Damaged or missing spacers</li>
-              <li>&bull; Scale or deposit buildup between discs</li>
-              <li>&bull; Declining separation efficiency</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Inspect every quarterly overhaul</li>
-              <li>&bull; Replace damaged discs individually</li>
-              <li>&bull; Full stack replacement every 3&ndash;5 years in aggressive service</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Aftermarket discs acceptable from qualified suppliers</li>
-              <li>&bull; Verify material (316 SS or higher) and dimensional match</li>
-              <li>&bull; Mixed stacks (OEM + aftermarket) are acceptable</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gravity Disc -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Gravity Disc</h2>
-        <p class="text-text-light mb-3">The gravity disc (or dam disc) is a precision-sized ring installed at the top of the bowl in purifier configuration. Its inside diameter controls the radial position of the liquid&ndash;liquid interface between oil and water. An incorrectly sized gravity disc results in either oil breakthrough into the water outlet or water carryover into the clean oil.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Erosion on inner bore (changes effective diameter)</li>
-              <li>&bull; Water in clean oil outlet (disc too large)</li>
-              <li>&bull; Oil carryover in water outlet (disc too small)</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Verify diameter at each overhaul</li>
-              <li>&bull; Replace on measurable bore wear</li>
-              <li>&bull; Replace when switching to a different feed oil density</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; OEM recommended — dimensional precision is critical</li>
-              <li>&bull; Sets of multiple sizes typically supplied together</li>
-              <li>&bull; Dolphin stocks full gravity disc sets</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Paring Disc -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Paring Disc</h2>
-        <img src="/images/disc-stack-centrifuge-parts/Centrifuge-Friction-Clutch-Assembly-400.webp" alt="Disc centrifuge friction clutch assembly parts showing pads, drum, and shoes" width="400" height="267" loading="lazy" class="rounded-lg mb-3" />
-        <p class="text-text-light mb-3">The paring disc is a stationary pump element that extends into the rotating liquid ring inside the bowl. As it contacts the spinning liquid, kinetic energy is converted to pressure, pumping the separated phase out of the bowl without an external pump. Disc stack centrifuges typically have separate paring discs for the light phase (oil) and sometimes the heavy phase (water).</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Erosion of paring disc tip</li>
-              <li>&bull; Reduced discharge pressure</li>
-              <li>&bull; Vibration from paring disc contact with bowl</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Inspect at every major overhaul</li>
-              <li>&bull; Replace on visible tip erosion</li>
-              <li>&bull; Verify clearance to regulating ring</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; OEM preferred for correct clearance dimensions</li>
-              <li>&bull; Aftermarket acceptable if dimensional spec is verified</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Frame & Hood -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Frame &amp; Hood</h2>
-        <p class="text-text-light mb-3">The machine frame supports all rotating and stationary components. The hood (or cover) encloses the bowl and contains the inlet and outlet piping connections. On self-cleaning models, the hood also contains the discharge chute that directs ejected solids to the solids collection vessel. The frame houses the spindle bearings and the gear or belt drive.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Corrosion or cracking of hood interior</li>
-              <li>&bull; Worn discharge chute surface</li>
-              <li>&bull; Frame vibration dampers degraded</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Inspect frame and hood annually</li>
-              <li>&bull; Replace vibration dampers every 5 years</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Dampers and liners available aftermarket</li>
-              <li>&bull; Structural hood components: OEM recommended</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spindle -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Spindle</h2>
-        <p class="text-text-light mb-3">The spindle (vertical shaft) transmits drive torque from the motor to the bowl and provides the axis of rotation. It runs in upper and lower bearings and must maintain concentricity to within 0.002" (0.05 mm) runout under operating conditions. Spindle damage from misassembly or bowl imbalance is a leading cause of centrifuge failure.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Measurable runout (&gt;0.002")</li>
-              <li>&bull; Visible scoring or wear at seal contact points</li>
-              <li>&bull; Vibration that persists after bowl rebalancing</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Measure runout at each overhaul</li>
-              <li>&bull; Replace immediately on any crack detection</li>
-              <li>&bull; Sleeve-repair for minor seal-area scoring</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Safety-critical — OEM strongly recommended</li>
-              <li>&bull; Aftermarket spindles require precision grinding certification</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bearings -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Spindle Bearings</h2>
-        <p class="text-text-light mb-3">Upper and lower spindle bearings support the rotating assembly and define shaft alignment. The upper bearing is typically an angular contact ball bearing; the lower bearing is a radial bearing or cylindrical roller bearing. Both must be rated for the operating speed and load of the specific model.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Elevated bearing temperature (&gt;180&deg;F)</li>
-              <li>&bull; High-pitched whine or grinding noise</li>
-              <li>&bull; Metal particles in bearing oil sample</li>
-              <li>&bull; Vibration increase over time</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Every 2&ndash;3 years in continuous service</li>
-              <li>&bull; Always replace as a matched pair</li>
-              <li>&bull; Replace immediately after any bowl imbalance event</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Premium bearing grades (SKF, FAG, NSK) acceptable</li>
-              <li>&bull; Verify exact bearing number and tolerance class</li>
-              <li>&bull; Never substitute lower tolerance class</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mechanical Seal / Neck Seal -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Mechanical Seal &amp; Neck Seal</h2>
-        <p class="text-text-light mb-3">The neck seal (or frame seal) prevents process fluid from entering the bearing housing along the spindle. On some models this is a simple lip seal; on others it is a mechanical face seal. In either case, seal failure allows process fluid to contaminate bearing lubricant, rapidly accelerating bearing wear.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Process fluid in frame sump or bearing oil</li>
-              <li>&bull; Oil mist around the spindle neck area</li>
-              <li>&bull; Discolored or milky bearing oil</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Every 1&ndash;2 years in normal service</li>
-              <li>&bull; At each bearing replacement</li>
-              <li>&bull; Replace if any leakage is observed</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Match elastomer to process fluid (Viton, EPDM, Buna-N)</li>
-              <li>&bull; OEM dimensions required for correct fit</li>
-              <li>&bull; Inspect spindle surface before installing new seal</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Operating Water Valve -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <h2 class="text-xl font-bold text-navy mb-3">Operating Water Valve</h2>
-        <p class="text-text-light mb-3">On self-cleaning (hermetic) disc stack centrifuges, the operating water valve controls hydraulic pressure in the bowl closing water chamber. Timed valve actuation opens and closes the sliding bowl bottom to trigger solids discharge. Valve failure causes missed discharges, incomplete solids ejection, or bowl flooding.</p>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p class="font-bold text-navy mb-1">Wear Indicators</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; No discharge when timer activates</li>
-              <li>&bull; Continuous discharge (bowl fails to close)</li>
-              <li>&bull; Water pressure loss in operating water circuit</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">Replacement Interval</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; Inspect solenoid and seat annually</li>
-              <li>&bull; Replace solenoid coil every 3&ndash;5 years</li>
-              <li>&bull; Replace seat and seals on leakage</li>
-            </ul>
-          </div>
-          <div>
-            <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
-            <ul class="space-y-1 text-text-light">
-              <li>&bull; OEM solenoid valves recommended</li>
-              <li>&bull; Seals and O-rings available aftermarket with material verification</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Reference Table -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Parts Replacement Summary</h2>
-      <div class="overflow-x-auto mb-10">
-        <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
-          <thead>
-            <tr class="bg-navy text-white">
-              <th class="text-left px-4 py-3 font-semibold">Part</th>
-              <th class="text-left px-4 py-3 font-semibold">Replacement Interval</th>
-              <th class="text-left px-4 py-3 font-semibold">Critical?</th>
-              <th class="text-left px-4 py-3 font-semibold">OEM Req'd?</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            <tr><td class="px-4 py-3 font-medium text-navy">Bowl Body</td><td class="px-4 py-3 text-text-light">Inspect 5 yrs; replace on crack</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">Yes</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Disc Stack</td><td class="px-4 py-3 text-text-light">3&ndash;5 years (aggressive service)</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">No</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Gravity Disc</td><td class="px-4 py-3 text-text-light">On measurable wear or density change</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Paring Disc</td><td class="px-4 py-3 text-text-light">On visible tip erosion</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Spindle</td><td class="px-4 py-3 text-text-light">On runout &gt;0.002" or crack</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">Yes</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Bearings</td><td class="px-4 py-3 text-text-light">Every 2&ndash;3 years</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">No (premium grade)</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Neck Seal</td><td class="px-4 py-3 text-text-light">Every 1&ndash;2 years</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">No</td></tr>
-            <tr><td class="px-4 py-3 font-medium text-navy">Operating Water Valve</td><td class="px-4 py-3 text-text-light">Solenoid: 3&ndash;5 years</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="text-text-light leading-relaxed mb-4">For complete parts ordering and overhaul kits, visit our <a href="/alfa-laval-centrifuge-parts/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval Centrifuge Parts page</a>. For repair and reconditioning services, see our <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">Disc Centrifuge Repair services</a>.</p>
-
-      <p class="text-text-light leading-relaxed">To order parts or get a quote, call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What are the main wear parts in a disc stack centrifuge?</h3>
-            <p class="text-text-light text-sm">The primary wear parts are the disc stack (separation discs), gravity disc, paring disc, neck bearing, hood ring, operating water valve, and bowl seals. The disc stack and seals are the most frequently replaced items in routine maintenance.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge supply OEM or aftermarket parts?</h3>
-            <p class="text-text-light text-sm">Dolphin Centrifuge supplies both OEM and high-quality aftermarket replacement parts for disc stack centrifuges, including Alfa Laval models. Aftermarket parts are manufactured to OEM dimensions and meet the same performance specifications at a lower cost.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How do I know when to replace the gravity disc?</h3>
-            <p class="text-text-light text-sm">Replace the gravity disc when it shows visible wear, corrosion, or dimensional changes that alter the separation radius. If the centrifuge produces excessive liquid carryover or poor separation despite correct feed conditions, a worn or incorrectly sized gravity disc is often the cause.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="mt-10">
-        <h2 class="text-xl font-bold text-navy mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a href="/alfa-laval-centrifuge-parts/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Alfa Laval Centrifuge Parts</span>
-            <p class="text-sm text-text-light mt-1">OEM and generic parts for Alfa Laval disc centrifuges.</p>
-          </a>
-          <a href="/industrial-disc-centrifuge-repair/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Disc Centrifuge Repair Services</span>
-            <p class="text-sm text-text-light mt-1">Rebuild, recondition, and overhaul services for disc stack centrifuges.</p>
-          </a>
-          <a href="/disc-centrifuge-parts-glossary/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Disc Centrifuge Parts Glossary</span>
-            <p class="text-sm text-text-light mt-1">Illustrated glossary of all disc stack centrifuge bowl components.</p>
-          </a>
-          <a href="/disc-stack-centrifuge-lubrication/" class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-gold transition-colors">
-            <span class="text-navy font-semibold">Centrifuge Lubrication Guide</span>
-            <p class="text-sm text-text-light mt-1">Oil grades, change intervals, and bearing lubrication best practices.</p>
-          </a>
-        </div>
-      </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Inspect every 5 years</li>
+        <li>&bull; NDT (dye penetrant or UT) recommended</li>
+        <li>&bull; Replace on crack detection — no exceptions</li>
+      </ul>
     </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Order Centrifuge Parts Today</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Dolphin Centrifuge maintains the largest disc stack centrifuge parts inventory in North America. Most parts ship same or next business day.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/alfa-laval-centrifuge-parts/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Parts Catalog</a>
-        <a href="/industrial-disc-centrifuge-repair/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">Repair Services</a>
-      </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; OEM strongly recommended</li>
+        <li>&bull; Safety-critical rotating component</li>
+        <li>&bull; Aftermarket bowls require certification</li>
+      </ul>
     </div>
-  </section>
-</BaseLayout>
+  </div>
+
+  <!-- Disc Stack -->
+  <h2 id="disc-stack">Disc Stack</h2>
+  <img src="/images/disc-stack-centrifuge-parts/Disc-Stack-Centrifuge-Parts-Vertical-Transmission-600.webp" alt="Disc stack centrifuge parts - vertical transmission diagram showing spindle, bearings, and drive components" width="600" height="427" loading="lazy" class="rounded-lg w-full mb-3" />
+  <p>The disc stack consists of 80 to 150+ conical stainless steel discs separated by precision spacers. The spacers create inter-disc channels of 0.4&ndash;2 mm — the primary separation zones where centrifugal settling occurs. Disc count and spacing are matched to the application.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Bent, warped, or cracked discs</li>
+        <li>&bull; Damaged or missing spacers</li>
+        <li>&bull; Scale or deposit buildup between discs</li>
+        <li>&bull; Declining separation efficiency</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Inspect every quarterly overhaul</li>
+        <li>&bull; Replace damaged discs individually</li>
+        <li>&bull; Full stack replacement every 3&ndash;5 years in aggressive service</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Aftermarket discs acceptable from qualified suppliers</li>
+        <li>&bull; Verify material (316 SS or higher) and dimensional match</li>
+        <li>&bull; Mixed stacks (OEM + aftermarket) are acceptable</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Gravity Disc -->
+  <h2 id="gravity-disc">Gravity Disc</h2>
+  <p>The gravity disc (or dam disc) is a precision-sized ring installed at the top of the bowl in purifier configuration. Its inside diameter controls the radial position of the liquid&ndash;liquid interface between oil and water. An incorrectly sized gravity disc results in either oil breakthrough into the water outlet or water carryover into the clean oil.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Erosion on inner bore (changes effective diameter)</li>
+        <li>&bull; Water in clean oil outlet (disc too large)</li>
+        <li>&bull; Oil carryover in water outlet (disc too small)</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Verify diameter at each overhaul</li>
+        <li>&bull; Replace on measurable bore wear</li>
+        <li>&bull; Replace when switching to a different feed oil density</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; OEM recommended — dimensional precision is critical</li>
+        <li>&bull; Sets of multiple sizes typically supplied together</li>
+        <li>&bull; Dolphin stocks full gravity disc sets</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Paring Disc -->
+  <h2 id="paring-disc">Paring Disc</h2>
+  <img src="/images/disc-stack-centrifuge-parts/Centrifuge-Friction-Clutch-Assembly-400.webp" alt="Disc centrifuge friction clutch assembly parts showing pads, drum, and shoes" width="400" height="267" loading="lazy" class="rounded-lg mb-3" />
+  <p>The paring disc is a stationary pump element that extends into the rotating liquid ring inside the bowl. As it contacts the spinning liquid, kinetic energy is converted to pressure, pumping the separated phase out of the bowl without an external pump. Disc stack centrifuges typically have separate paring discs for the light phase (oil) and sometimes the heavy phase (water).</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Erosion of paring disc tip</li>
+        <li>&bull; Reduced discharge pressure</li>
+        <li>&bull; Vibration from paring disc contact with bowl</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Inspect at every major overhaul</li>
+        <li>&bull; Replace on visible tip erosion</li>
+        <li>&bull; Verify clearance to regulating ring</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; OEM preferred for correct clearance dimensions</li>
+        <li>&bull; Aftermarket acceptable if dimensional spec is verified</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Frame & Hood -->
+  <h2 id="frame-hood">Frame &amp; Hood</h2>
+  <p>The machine frame supports all rotating and stationary components. The hood (or cover) encloses the bowl and contains the inlet and outlet piping connections. On self-cleaning models, the hood also contains the discharge chute that directs ejected solids to the solids collection vessel. The frame houses the spindle bearings and the gear or belt drive.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Corrosion or cracking of hood interior</li>
+        <li>&bull; Worn discharge chute surface</li>
+        <li>&bull; Frame vibration dampers degraded</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Inspect frame and hood annually</li>
+        <li>&bull; Replace vibration dampers every 5 years</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Dampers and liners available aftermarket</li>
+        <li>&bull; Structural hood components: OEM recommended</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Spindle -->
+  <h2 id="spindle">Spindle</h2>
+  <p>The spindle (vertical shaft) transmits drive torque from the motor to the bowl and provides the axis of rotation. It runs in upper and lower bearings and must maintain concentricity to within 0.002" (0.05 mm) runout under operating conditions. Spindle damage from misassembly or bowl imbalance is a leading cause of <a href="/centrifuge-vibration-causes-and-solutions/">centrifuge failure</a>.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Measurable runout (&gt;0.002")</li>
+        <li>&bull; Visible scoring or wear at seal contact points</li>
+        <li>&bull; Vibration that persists after bowl rebalancing</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Measure runout at each overhaul</li>
+        <li>&bull; Replace immediately on any crack detection</li>
+        <li>&bull; Sleeve-repair for minor seal-area scoring</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Safety-critical — OEM strongly recommended</li>
+        <li>&bull; Aftermarket spindles require precision grinding certification</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bearings -->
+  <h2 id="spindle-bearings">Spindle Bearings</h2>
+  <p>Upper and lower spindle bearings support the rotating assembly and define shaft alignment. The upper bearing is typically an angular contact ball bearing; the lower bearing is a radial bearing or cylindrical roller bearing. Both must be rated for the operating speed and load of the specific model.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Elevated bearing temperature (&gt;180&deg;F)</li>
+        <li>&bull; High-pitched whine or grinding noise</li>
+        <li>&bull; Metal particles in bearing oil sample</li>
+        <li>&bull; Vibration increase over time</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Every 2&ndash;3 years in continuous service</li>
+        <li>&bull; Always replace as a matched pair</li>
+        <li>&bull; Replace immediately after any bowl imbalance event</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Premium bearing grades (SKF, FAG, NSK) acceptable</li>
+        <li>&bull; Verify exact bearing number and tolerance class</li>
+        <li>&bull; Never substitute lower tolerance class</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Mechanical Seal / Neck Seal -->
+  <h2 id="mechanical-seal-neck-seal">Mechanical Seal &amp; Neck Seal</h2>
+  <p>The neck seal (or frame seal) prevents process fluid from entering the bearing housing along the spindle. On some models this is a simple lip seal; on others it is a mechanical face seal. In either case, seal failure allows process fluid to contaminate bearing lubricant, rapidly accelerating bearing wear.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Process fluid in frame sump or bearing oil</li>
+        <li>&bull; Oil mist around the spindle neck area</li>
+        <li>&bull; Discolored or milky bearing oil</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Every 1&ndash;2 years in normal service</li>
+        <li>&bull; At each bearing replacement</li>
+        <li>&bull; Replace if any leakage is observed</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Match elastomer to process fluid (Viton, EPDM, Buna-N)</li>
+        <li>&bull; OEM dimensions required for correct fit</li>
+        <li>&bull; Inspect spindle surface before installing new seal</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Operating Water Valve -->
+  <h2 id="operating-water-valve">Operating Water Valve</h2>
+  <p>On self-cleaning (hermetic) disc stack centrifuges, the operating water valve controls hydraulic pressure in the bowl closing water chamber. Timed valve actuation opens and closes the sliding bowl bottom to trigger solids discharge. Valve failure causes missed discharges, incomplete solids ejection, or bowl flooding.</p>
+  <div class="grid md:grid-cols-3 gap-4 text-sm mb-6">
+    <div>
+      <p class="font-bold text-navy mb-1">Wear Indicators</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; No discharge when timer activates</li>
+        <li>&bull; Continuous discharge (bowl fails to close)</li>
+        <li>&bull; Water pressure loss in operating water circuit</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">Replacement Interval</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; Inspect solenoid and seat annually</li>
+        <li>&bull; Replace solenoid coil every 3&ndash;5 years</li>
+        <li>&bull; Replace seat and seals on leakage</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold text-navy mb-1">OEM vs Aftermarket</p>
+      <ul class="space-y-1 text-text-light">
+        <li>&bull; OEM solenoid valves recommended</li>
+        <li>&bull; Seals and O-rings available aftermarket with material verification</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Quick Reference Table -->
+  <h2 id="parts-replacement-summary">Parts Replacement Summary</h2>
+  <div class="overflow-x-auto mb-10">
+    <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="text-left px-4 py-3 font-semibold">Part</th>
+          <th class="text-left px-4 py-3 font-semibold">Replacement Interval</th>
+          <th class="text-left px-4 py-3 font-semibold">Critical?</th>
+          <th class="text-left px-4 py-3 font-semibold">OEM Req'd?</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr><td class="px-4 py-3 font-medium text-navy">Bowl Body</td><td class="px-4 py-3 text-text-light">Inspect 5 yrs; replace on crack</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">Yes</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Disc Stack</td><td class="px-4 py-3 text-text-light">3&ndash;5 years (aggressive service)</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">No</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Gravity Disc</td><td class="px-4 py-3 text-text-light">On measurable wear or density change</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Paring Disc</td><td class="px-4 py-3 text-text-light">On visible tip erosion</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Spindle</td><td class="px-4 py-3 text-text-light">On runout &gt;0.002" or crack</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">Yes</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Bearings</td><td class="px-4 py-3 text-text-light">Every 2&ndash;3 years</td><td class="px-4 py-3 text-gold font-bold">Yes</td><td class="px-4 py-3 text-text-light">No (premium grade)</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Neck Seal</td><td class="px-4 py-3 text-text-light">Every 1&ndash;2 years</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">No</td></tr>
+        <tr><td class="px-4 py-3 font-medium text-navy">Operating Water Valve</td><td class="px-4 py-3 text-text-light">Solenoid: 3&ndash;5 years</td><td class="px-4 py-3 text-text-light">No</td><td class="px-4 py-3 text-text-light">Preferred</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>For complete parts ordering and overhaul kits, visit our <a href="/alfa-laval-centrifuge-parts/">Alfa Laval Centrifuge Parts page</a>. For repair and reconditioning services, see our <a href="/industrial-disc-centrifuge-repair/">Disc Centrifuge Repair services</a>.</p>
+
+  <p>For information on <a href="/disc-stack-centrifuge-lubrication/">centrifuge lubrication best practices</a>, see our dedicated guide. To order parts or get a quote, call <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a>.</p>
+
+  <!-- FAQ -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <div class="space-y-6 mb-6">
+    <div>
+      <h3>What are the main wear parts in a disc stack centrifuge?</h3>
+      <p>The primary wear parts are the disc stack (separation discs), gravity disc, paring disc, neck bearing, hood ring, operating water valve, and bowl seals. The disc stack and seals are the most frequently replaced items in routine maintenance.</p>
+    </div>
+    <div>
+      <h3>Does Dolphin Centrifuge supply OEM or aftermarket parts?</h3>
+      <p>Dolphin Centrifuge supplies both OEM and high-quality aftermarket replacement parts for disc stack centrifuges, including Alfa Laval models. Aftermarket parts are manufactured to OEM dimensions and meet the same performance specifications at a lower cost.</p>
+    </div>
+    <div>
+      <h3>How do I know when to replace the gravity disc?</h3>
+      <p>Replace the gravity disc when it shows visible wear, corrosion, or dimensional changes that alter the separation radius. If the centrifuge produces excessive liquid carryover or poor separation despite correct feed conditions, a worn or incorrectly sized gravity disc is often the cause.</p>
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+</ApplicationLayout>
