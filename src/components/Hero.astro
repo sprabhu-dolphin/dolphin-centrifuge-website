@@ -19,7 +19,8 @@ interface Props {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   compact?: boolean;
-  overlay?: 'dark' | 'navy' | 'gradient';
+  overlay?: 'dark' | 'navy' | 'gradient' | 'frost';
+  categoryLabel?: string;
 }
 
 const {
@@ -36,14 +37,17 @@ const {
   secondaryCtaHref,
   compact = false,
   overlay = 'gradient',
+  categoryLabel,
 } = Astro.props;
 
 const isSlider = !!(initialImage && sliderImages?.length);
+const isFrost = overlay === 'frost';
 
 const overlayClass = {
   dark: 'bg-black/60',
   navy: 'bg-navy/75',
   gradient: 'bg-gradient-to-r from-navy-dark/90 via-navy/70 to-transparent',
+  frost: 'bg-navy/30',
 }[overlay];
 
 const heightClass = compact
@@ -100,52 +104,110 @@ const heightClass = compact
 
   {/* ── Content ── */}
   <div class="relative z-10 container-dolphin w-full">
-    <div class={`max-w-2xl ${compact ? 'py-8' : 'py-12 md:py-16'}`}>
-      {subtitle && (
-        <p class="inline-flex items-center gap-2 text-gold font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-4">
-          <span class="w-8 h-0.5 bg-gold rounded"></span>
-          {subtitle}
-        </p>
-      )}
-
-      <h1
-        class={`text-white font-bold leading-[1.1] tracking-tight ${
-          compact
-            ? 'text-2xl md:text-4xl'
-            : 'text-3xl md:text-5xl lg:text-[3.5rem]'
-        }`}
-      >
-        {title}
-      </h1>
-
-      {description && (
-        <p class={`text-gray-200 leading-relaxed mt-4 md:mt-6 ${compact ? 'text-base' : 'text-lg md:text-xl'}`}>
-          {description}
-        </p>
-      )}
-
-      {(ctaLabel || secondaryCtaLabel) && (
-        <div class="flex flex-col sm:flex-row gap-3 mt-8">
-          {ctaLabel && ctaHref && (
-            <a
-              href={ctaHref}
-              class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold px-7 py-3.5 rounded-lg transition-colors shadow-lg shadow-gold/25 text-base"
-            >
-              {ctaLabel}
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
+    <div class={`${compact ? 'py-8' : 'py-12 md:py-16'} ${isFrost ? '' : 'max-w-2xl'}`}>
+      {isFrost ? (
+        /* ── Frosted Glass Box ── */
+        <div class="hero-frost-box max-w-[95%] lg:max-w-[60%] bg-[#1B3A5C]/5 backdrop-blur-[2px] rounded-2xl border border-white/10 p-8 md:p-10">
+          {categoryLabel && (
+            <p class="inline-flex items-center gap-2 text-gold font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-4">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              {categoryLabel}
+            </p>
           )}
-          {secondaryCtaLabel && secondaryCtaHref && (
-            <a
-              href={secondaryCtaHref}
-              class="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white text-white font-semibold px-7 py-3.5 rounded-lg transition-all text-base hover:bg-white/10"
-            >
-              {secondaryCtaLabel}
-            </a>
+
+          {subtitle && !categoryLabel && (
+            <p class="inline-flex items-center gap-2 text-gold font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-4">
+              <span class="w-8 h-0.5 bg-gold rounded"></span>
+              {subtitle}
+            </p>
+          )}
+
+          <h1 class={`text-white font-bold leading-[1.1] tracking-tight ${
+            compact
+              ? 'text-2xl md:text-4xl'
+              : 'text-3xl md:text-5xl lg:text-[3.5rem]'
+          }`}>
+            {title}
+          </h1>
+
+          {description && (
+            <p class={`text-gray-200 leading-relaxed mt-4 md:mt-6 ${compact ? 'text-base' : 'text-lg md:text-xl'}`}>
+              {description}
+            </p>
+          )}
+
+          {(ctaLabel || secondaryCtaLabel) && (
+            <div class="flex flex-col sm:flex-row gap-3 mt-8">
+              {ctaLabel && ctaHref && (
+                <a
+                  href={ctaHref}
+                  class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold px-7 py-3.5 rounded-lg transition-colors shadow-lg shadow-gold/25 text-base"
+                >
+                  {ctaLabel}
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              )}
+              {secondaryCtaLabel && secondaryCtaHref && (
+                <a
+                  href={secondaryCtaHref}
+                  class="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white text-white font-semibold px-7 py-3.5 rounded-lg transition-all text-base hover:bg-white/10"
+                >
+                  {secondaryCtaLabel}
+                </a>
+              )}
+            </div>
           )}
         </div>
+      ) : (
+        /* ── Original (non-frost) content ── */
+        <Fragment>
+          {subtitle && (
+            <p class="inline-flex items-center gap-2 text-gold font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-4">
+              <span class="w-8 h-0.5 bg-gold rounded"></span>
+              {subtitle}
+            </p>
+          )}
+
+          <h1 class={`text-white font-bold leading-[1.1] tracking-tight ${
+            compact
+              ? 'text-2xl md:text-4xl'
+              : 'text-3xl md:text-5xl lg:text-[3.5rem]'
+          }`}>
+            {title}
+          </h1>
+
+          {description && (
+            <p class={`text-gray-200 leading-relaxed mt-4 md:mt-6 ${compact ? 'text-base' : 'text-lg md:text-xl'}`}>
+              {description}
+            </p>
+          )}
+
+          {(ctaLabel || secondaryCtaLabel) && (
+            <div class="flex flex-col sm:flex-row gap-3 mt-8">
+              {ctaLabel && ctaHref && (
+                <a
+                  href={ctaHref}
+                  class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-navy font-bold px-7 py-3.5 rounded-lg transition-colors shadow-lg shadow-gold/25 text-base"
+                >
+                  {ctaLabel}
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              )}
+              {secondaryCtaLabel && secondaryCtaHref && (
+                <a
+                  href={secondaryCtaHref}
+                  class="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white text-white font-semibold px-7 py-3.5 rounded-lg transition-all text-base hover:bg-white/10"
+                >
+                  {secondaryCtaLabel}
+                </a>
+              )}
+            </div>
+          )}
+        </Fragment>
       )}
     </div>
   </div>
