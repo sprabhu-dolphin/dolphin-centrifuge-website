@@ -1,268 +1,249 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "6 Causes of Decanter Centrifuge Vibration and How to Fix Them",
-  "description": "Expert guide to the 6 causes of decanter centrifuge vibration — from gradual bearing wear to sudden part breakage — with practical fixes and vibration reference levels.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Engineering Manager", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "datePublished": "2021-02-01",
-  "url": "https://dolphincentrifuge.com/decanter-centrifuge-vibration/",
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "6 Causes of Decanter Centrifuge Vibration and How to Fix Them",
+    "description": "Expert guide to the 6 causes of decanter centrifuge vibration — from gradual bearing wear to sudden part breakage — with practical fixes and vibration reference levels.",
+    "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Engineering Manager", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-02-01",
+    "url": "https://dolphincentrifuge.com/decanter-centrifuge-vibration/",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What causes vibration in a decanter centrifuge?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I tell if decanter centrifuge vibration is getting worse?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run at less than 4–6 mm/s RMS during steady-state operation. An increasing trend over weeks indicates bearing wear or gradual imbalance buildup. Sudden increases warrant immediate shutdown and inspection." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can scroll wear cause decanter centrifuge vibration?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration." }
+      }
+    ]
+  }
+];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What causes vibration in a decanter centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly." }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I tell if decanter centrifuge vibration is getting worse?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run at less than 4–6 mm/s RMS during steady-state operation. An increasing trend over weeks indicates bearing wear or gradual imbalance buildup. Sudden increases warrant immediate shutdown and inspection." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can scroll wear cause decanter centrifuge vibration?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration." }
-    }
-  ]
-};
+const toc = [
+  { id: 'vibration-reference-levels', label: 'Vibration Reference Levels' },
+  { id: 'gradually-increasing-vibration', label: 'Gradually Increasing Vibration' },
+  { id: 'cause-1-imbalance-due-to-wear', label: 'Cause 1: Imbalance Due to Wear' },
+  { id: 'cause-2-bearing-wear', label: 'Cause 2: Bearing Wear' },
+  { id: 'cause-3-improper-assembly', label: 'Cause 3: Improper Assembly' },
+  { id: 'suddenly-occurring-vibration', label: 'Suddenly Occurring Vibration' },
+  { id: 'cause-4-part-breakage', label: 'Cause 4: Part Breakage' },
+  { id: 'cause-5-sludge-fall-over', label: 'Cause 5: Sludge Fall-Over' },
+  { id: 'cause-6-bearing-failure', label: 'Cause 6: Bearing Failure' },
+  { id: 'vibration-monitoring-best-practices', label: 'Monitoring Best Practices' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Decanter Centrifuge Optimization', href: '/decanter-centrifuge-optimization/', description: 'Maximize separation performance through parameter tuning.' },
+  { label: 'Decanter Differential Speed', href: '/decanter-centrifuge-differential-speed/', description: 'Critical relationship between bowl and conveyor speed.' },
+  { label: 'Decanter Pond Depth', href: '/decanter-centrifuge-pond-depth/', description: 'How pond depth affects clarification and solids dryness.' },
+  { label: 'Decanter vs. Disc Stack Centrifuge', href: '/difference-between-decanter-centrifuge-disc-centrifuge/', description: 'Key differences and when to use each type.' },
+];
+
+const relatedProducts = [
+  { label: 'NX-314 Decanter', href: '/nx-314-decanter-centrifuge/', description: 'Compact 2-phase decanter for mid-volume solids separation.' },
+  { label: 'NX-418 Decanter', href: '/nx-418-decanter-centrifuge/', description: 'High-capacity 2-phase decanter for demanding applications.' },
+  { label: 'Industrial Centrifuge Controls', href: '/industrial-centrifuge-controls/', description: 'Automated monitoring and vibration alerting.' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="6 Causes of Decanter Centrifuge Vibration and How to Fix Them"
-  description="Six causes of decanter centrifuge vibration: bearing wear, part breakage, sludge fall-over. Practical fixes and vibration reference levels from Dolphin Centrifuge."
+  description="Six causes of decanter centrifuge vibration: bearing wear, scroll imbalance, part breakage, sludge fall-over. Practical fixes and reference levels from Dolphin Centrifuge."
+  category="knowledge"
+  categoryLabel="Knowledge Base"
   canonicalUrl="https://dolphincentrifuge.com/decanter-centrifuge-vibration/"
-  breadcrumbs={[{label: 'Knowledge', href: '/disc-stack-centrifuge-faq/'}, {label: 'Decanter Centrifuge Vibration'}]}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   jsonLd={jsonLd}
 >
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="container-dolphin py-12 md:py-16">
-      <span class="text-gold text-xs font-bold tracking-wider uppercase">Knowledge Base &mdash; Decanter Troubleshooting</span>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-heading mt-2 mb-4">6 Causes of Decanter Centrifuge Vibration &amp; How to Fix Them</h1>
-      <p class="text-gray-300 text-lg max-w-2xl mb-6">Decanter centrifuge vibration can develop gradually from normal wear or strike suddenly from component failure. This guide identifies all six root causes, explains when each occurs, and provides the corrective actions that restore smooth operation.</p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
-    </div>
-  </section>
 
-  <!-- Content -->
-  <section class="bg-warm-white">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge diagnoses and repairs decanter centrifuge vibration across all six root causes — from gradual bearing wear that pushes levels above the 10 mm/s action threshold to sudden part breakage requiring emergency shutdown. Based in Warren, Michigan, with over 40 years of centrifuge service experience.</p>
+  </div>
 
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides expert diagnosis and repair for decanter centrifuge vibration problems. Some vibration during startup and coast-down is normal as a decanter passes through its resonance frequency; persistent or suddenly-increasing vibration signals a problem requiring immediate investigation. Dolphin Centrifuge provides field service, scroll and bowl balancing, bearing replacement, and complete overhauls for all Alfa Laval and industrial decanter centrifuge models. Based in Warren, Michigan, with over 40 years of centrifuge service experience.</p>
+  <!-- Intro Card -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
+    <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A decanter centrifuge, like any rotating equipment, vibrates during operation. Some vibration during startup and coast-down is normal as the bowl passes through its resonance frequency. However, vibration beyond set limits signals a problem that must be investigated immediately. This article categorizes decanter vibration into two groups &mdash; gradually increasing and suddenly occurring &mdash; and details six specific causes with their fixes. For context on overall machine performance, see <a href="/decanter-centrifuge-optimization/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge optimization</a>.</p>
+  </div>
+
+  <!-- Vibration Reference Levels -->
+  <h2 id="vibration-reference-levels" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 border-l-4 border-gold pl-4">Vibration Reference Levels</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+        <p class="text-sm text-green-700 font-semibold uppercase tracking-wide mb-1">New OEM</p>
+        <p class="text-2xl font-bold text-green-800">2&ndash;4 mm/s</p>
       </div>
-
-      <!-- Intro Card -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <p class="text-text-light leading-relaxed"><strong>Summary:</strong> A decanter centrifuge, like any rotating equipment, vibrates during operation. Some vibration during startup and coast-down is normal as the bowl passes through its resonance frequency. However, vibration beyond set limits signals a problem that must be investigated immediately. This article categorizes decanter vibration into two groups &mdash; gradually increasing and suddenly occurring &mdash; and details six specific causes with their fixes.</p>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+        <p class="text-sm text-yellow-700 font-semibold uppercase tracking-wide mb-1">Used &mdash; Good Condition</p>
+        <p class="text-2xl font-bold text-yellow-800">Up to 8 mm/s</p>
       </div>
-
-      <!-- Vibration Reference Levels -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-        <h2 class="text-xl font-bold text-navy mb-4">Vibration Reference Levels</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-            <p class="text-sm text-green-700 font-semibold uppercase tracking-wide mb-1">New OEM</p>
-            <p class="text-2xl font-bold text-green-800">2&ndash;4 mm/s</p>
-          </div>
-          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
-            <p class="text-sm text-yellow-700 font-semibold uppercase tracking-wide mb-1">Used &mdash; Good Condition</p>
-            <p class="text-2xl font-bold text-yellow-800">Up to 8 mm/s</p>
-          </div>
-          <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-            <p class="text-sm text-red-700 font-semibold uppercase tracking-wide mb-1">Action Required</p>
-            <p class="text-2xl font-bold text-red-800">Above 10 mm/s</p>
-          </div>
-        </div>
-        <p class="text-sm text-text-light mt-4">If a decanter centrifuge's vibration level exceeds 10 mm/s, it is time for a thorough inspection and likely bearing replacement.</p>
-      </div>
-
-      <!-- Section: Gradually Increasing Vibration -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 border-l-4 border-gold pl-4">Gradually Increasing Vibration</h2>
-      <p class="text-text-light leading-relaxed mb-8">During regular operation, a decanter centrifuge's moving and consumable components are subject to wear and tear. Over time, this wear causes the vibration level to increase. Monitoring vibration levels is essential for tracking gradual increases that indicate wear on specific components.</p>
-
-      <!-- Cause 1 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
-          <h3 class="text-xl font-bold text-navy">Imbalance Due to Wear</h3>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>The two main rotating parts of a decanter centrifuge are the bowl and the auger (conveyor). The auger pushes separated sludge along the bowl wall and up the conical beach section. This constant contact causes wear on the sludge-facing side and the top edge of the scroll flights.</p>
-          <p>A sludge layer known as the "cake wall" builds between the conveyor and the bowl wall. This cake wall is stationary relative to the bowl and acts as a protective barrier against internal bowl erosion. However, the auger flights themselves have no such protection and erode over time, especially when processing abrasive solids.</p>
-          <figure class="my-4">
-            <img src="/images/decanter-centrifuge-vibration/decanter-conveyor-wear-600.webp" alt="Decanter Centrifuge Cake Wall and Auger Erosion showing conveyor wear pattern and cake wall formation" class="rounded-lg w-full" loading="lazy" width="600" height="400" />
-            <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Conveyor Erosion</figcaption>
-          </figure>
-          <p><strong class="text-navy">Fix:</strong> Inspect the auger flights for uneven wear during scheduled maintenance. If wear is significant, the conveyor must be rebalanced or replaced. Hard-surfacing (weld-on tiles or tungsten carbide overlay) on the flight edges extends service life in abrasive applications. Always re-balance the rotating assembly after any repair or resurfacing work.</p>
-        </div>
-      </div>
-
-      <!-- Cause 2 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">2</span>
-          <h3 class="text-xl font-bold text-navy">Bearing Wear</h3>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>The pillow-block main bearings support the entire decanter rotating assembly. These are heavy-duty bearings specifically designed for this application. Like all friction components, bearings have a finite lifespan and must be replaced at periodic intervals.</p>
-          <p>As bearings wear, they develop play beyond manufacturing tolerances. This play causes a gradual, measurable increase in decanter vibration. Periodic vibration checks &mdash; or continuous monitoring via the <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control system</a> &mdash; is the most reliable way to track bearing condition.</p>
-          <p><strong class="text-navy">Fix:</strong> Replace main bearings at recommended service intervals or when vibration data shows a consistent upward trend. Always replace bearings as a complete set. Use only bearings rated for the specific rotational speed and load. Flush and refill bearing housings with the correct lubricant grade after replacement.</p>
-        </div>
-      </div>
-
-      <!-- Cause 3 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">3</span>
-          <h3 class="text-xl font-bold text-navy">Improper Assembly of Components</h3>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>All rotating equipment has some inherent vibration. In decanters, vibration from the rotating assembly travels through the frame and all attached components. Incorrect assembly amplifies this vibration significantly.</p>
-          <p><strong class="text-navy">Common assembly errors:</strong></p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Misalignment of pillow block bearings relative to the bowl's rotational axis, generating excessive torque on the drive motor</li>
-            <li>Loose fasteners on belt guards, motor mount plates, motors, or collecting vessels</li>
-            <li>Improperly tensioned drive belts causing resonance</li>
-          </ul>
-          <p><strong class="text-navy">Fix:</strong> Follow the OEM rotating assembly alignment procedure precisely. Check and tighten all fasteners on the decanter frame during scheduled maintenance or whenever excess vibration is detected. Verify drive belt tension and alignment. Ensure all auxiliary components are securely bolted to the frame.</p>
-        </div>
-      </div>
-
-      <!-- Section: Suddenly Occurring Vibration -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 mt-12 border-l-4 border-gold pl-4">Suddenly Occurring Vibration</h2>
-      <p class="text-text-light leading-relaxed mb-8">Some vibrations occur without warning. They may strike while the decanter is running or appear at startup after a shutdown period. These causes require immediate investigation because they can escalate to equipment damage or safety hazards.</p>
-
-      <!-- Cause 4 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">4</span>
-          <h3 class="text-xl font-bold text-navy">Imbalance Due to Part Breakage</h3>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>The auger or conveyor is exposed to the most wear inside a decanter. Conveyors often have weld-on hard-surfacing or welded tiles for erosion protection of the flights. When these protective elements break or detach during operation, the resulting mass loss creates an immediate imbalance.</p>
-          <p>A loud noise typically accompanies this vibration, yet the cause is not visible through external inspection. The broken tile fragments are often carried away with the ejected sludge. Similarly, a missing chunk of weld-on hard-surfacing creates the same sudden imbalance effect.</p>
-          <figure class="my-4">
-            <img src="/images/decanter-centrifuge-vibration/decanter-auger-broken-tiles-400.webp" alt="Decanter Auger with Broken and Missing Tiles showing erosion protection damage" class="rounded-lg w-full max-w-xs" loading="lazy" width="400" height="300" />
-            <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Auger Broken Tiles</figcaption>
-          </figure>
-          <p><strong class="text-navy">Fix:</strong> Stop the decanter immediately. Dismantle the bowl and extract the auger to inspect for missing or broken tiles and damaged hard-surfacing. Replace any missing protective elements and rebalance the conveyor before reassembly. Inspect remaining tiles for cracks that could lead to future breakage.</p>
-        </div>
-      </div>
-
-      <!-- Cause 5 -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">5</span>
-          <h3 class="text-xl font-bold text-navy">Separated Sludge Fall-Over During Shutdown</h3>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>During normal operation, separated sludge collects on the decanter bowl wall, held in place by centrifugal force. When the decanter shuts down, this centrifugal force disappears. If the sludge is not sufficiently compacted, it dislodges from the upper side of the bowl wall and falls to the bottom under gravity.</p>
-          <p>This redistribution of sludge creates an imbalance in the bowl. Upon the next startup, the imbalance causes excessive vibration until the conveyor pushes out the displaced sludge and restores bowl balance.</p>
-          <figure class="my-4">
-            <img src="/images/decanter-centrifuge-vibration/decanter-bowl-sludge-fall-over-600.webp" alt="Decanter Centrifuge Bowl Sludge Drop diagram showing sludge fall-over during shutdown" class="rounded-lg w-full" loading="lazy" width="600" height="400" />
-            <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Centrifuge Bowl Sludge Drop</figcaption>
-          </figure>
-          <p><strong class="text-navy">Fix:</strong> Start the conveyor rotation before the bowl during decanter startup. This pre-start sequence allows the conveyor to push out any fall-over sludge before the bowl begins to rotate, preventing the temporary imbalance. Adjust <a href="/decanter-centrifuge-differential-speed/" class="text-navy font-semibold hover:text-gold transition-colors">differential speed</a> settings to ensure adequate sludge conveyance during the startup phase.</p>
-        </div>
-      </div>
-
-      <!-- Cause 6 - Safety Warning -->
-      <div class="bg-white rounded-xl border border-red-300 p-6 shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">6</span>
-          <h3 class="text-xl font-bold text-navy">Bearing Failure During Operation</h3>
-        </div>
-        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-          <p class="text-red-800 font-semibold text-sm"><strong>Safety Warning:</strong> A bearing failure during operation can cause catastrophic damage to the equipment and poses a risk of personal injury. Stop the decanter immediately if sudden, severe vibration accompanied by grinding noise is detected.</p>
-        </div>
-        <div class="space-y-3 text-text-light">
-          <p>Although rare, a bearing can fail during decanter operation. The first indication is sudden, excessive vibration accompanied by a loud grinding noise. In practice, unanticipated bearing failure is uncommon because telltale signs &mdash; increasing vibration and higher motor current draw &mdash; typically appear as the bearing nears the end of its useful life.</p>
-          <p><strong class="text-navy">Fix:</strong> Stop the decanter immediately upon detecting signs of bearing failure. Replace the failed bearing set and inspect the journal surfaces for scoring or heat damage. Before restarting, investigate and address the root cause (overloading, contaminated lubricant, or exceeded service interval). Install vibration and temperature monitoring via the <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control system</a> to enable early detection and prevent future catastrophic failures.</p>
-        </div>
-      </div>
-
-      <!-- Monitoring Best Practice -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 mt-10">Vibration Monitoring Best Practices</h2>
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <ul class="space-y-3 text-text-light">
-          <li><strong class="text-navy">Establish a baseline:</strong> Record vibration levels on a newly installed or freshly overhauled decanter. Use these values as the reference point for future comparisons.</li>
-          <li><strong class="text-navy">Log regularly:</strong> Maintain a vibration data log with readings taken at consistent intervals. This data reveals gradual trends that might otherwise go unnoticed.</li>
-          <li><strong class="text-navy">Use automated monitoring:</strong> Dolphin Centrifuge <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control systems</a> offer optional vibration and temperature monitoring with data logging, providing continuous oversight without manual checks.</li>
-          <li><strong class="text-navy">Act on thresholds:</strong> When vibration exceeds 10 mm/s, schedule a thorough inspection. Do not wait for a catastrophic failure.</li>
-          <li><strong class="text-navy">Correlate with other data:</strong> Rising motor current draw alongside increasing vibration strongly indicates bearing wear. Review both parameters together for accurate diagnosis.</li>
-        </ul>
-      </div>
-
-      <!-- Author -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-        <p class="text-sm text-text-light"><em>by Sanjay Prabhu MSME</em><br/><em>Engineering Manager, Dolphin Centrifuge</em></p>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What causes vibration in a decanter centrifuge?</h3>
-            <p class="text-text-light text-sm">Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How do I monitor decanter centrifuge vibration?</h3>
-            <p class="text-text-light text-sm">Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run below 4–6 mm/s RMS at steady state. An increasing trend over weeks indicates bearing wear or gradual imbalance. Sudden increases warrant immediate shutdown and inspection.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">Can scroll wear cause decanter centrifuge vibration?</h3>
-            <p class="text-text-light text-sm">Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Related Articles</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-        <a href="/decanter-centrifuge-optimization/" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md hover:border-gold transition-all group">
-          <h3 class="text-navy font-bold group-hover:text-gold transition-colors">Decanter Centrifuge Optimization</h3>
-          <p class="text-sm text-text-light mt-1">Maximize separation performance through proper operating parameter adjustments.</p>
-        </a>
-        <a href="/decanter-centrifuge-differential-speed/" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md hover:border-gold transition-all group">
-          <h3 class="text-navy font-bold group-hover:text-gold transition-colors">Decanter Differential Speed</h3>
-          <p class="text-sm text-text-light mt-1">Understanding the critical relationship between bowl and conveyor speed.</p>
-        </a>
-        <a href="/decanter-centrifuge-pond-depth/" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md hover:border-gold transition-all group">
-          <h3 class="text-navy font-bold group-hover:text-gold transition-colors">Decanter Centrifuge Pond Depth</h3>
-          <p class="text-sm text-text-light mt-1">How pond depth affects clarification efficiency and solids dryness.</p>
-        </a>
-        <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md hover:border-gold transition-all group">
-          <h3 class="text-navy font-bold group-hover:text-gold transition-colors">Decanter vs. Disc Stack Centrifuge</h3>
-          <p class="text-sm text-text-light mt-1">Key differences between the two centrifuge types and when to use each.</p>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="bg-navy">
-    <div class="container-dolphin py-12 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Decanter Vibration Issues? We Can Help.</h2>
-      <p class="text-gray-400 mb-6 max-w-xl mx-auto">Dolphin Centrifuge provides expert diagnosis, repair, and reconditioning for decanter centrifuges experiencing vibration problems. Contact our engineering team for assistance.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3.5 rounded-lg transition-colors">Contact Us</a>
-        <a href="tel:+12485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">(248) 522-2573</a>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+        <p class="text-sm text-red-700 font-semibold uppercase tracking-wide mb-1">Action Required</p>
+        <p class="text-2xl font-bold text-red-800">Above 10 mm/s</p>
       </div>
     </div>
-  </section>
-</BaseLayout>
+    <p class="text-sm text-text-light mt-4">If a decanter centrifuge's vibration level exceeds 10 mm/s, it is time for a thorough inspection and likely bearing replacement.</p>
+  </div>
+
+  <!-- Section: Gradually Increasing Vibration -->
+  <h2 id="gradually-increasing-vibration" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 border-l-4 border-gold pl-4">Gradually Increasing Vibration</h2>
+  <p class="text-text-light leading-relaxed mb-8">During regular operation, a decanter centrifuge's moving and consumable components are subject to wear and tear. Over time, this wear causes the vibration level to increase. Monitoring vibration levels is essential for tracking gradual increases that indicate wear on specific components.</p>
+
+  <!-- Cause 1 -->
+  <div id="cause-1-imbalance-due-to-wear" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
+      <h3 class="text-xl font-bold text-navy">Imbalance Due to Wear</h3>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>The two main rotating parts of a decanter centrifuge are the bowl and the auger (conveyor). The auger pushes separated sludge along the bowl wall and up the conical beach section. This constant contact causes wear on the sludge-facing side and the top edge of the scroll flights.</p>
+      <p>A sludge layer known as the "cake wall" builds between the conveyor and the bowl wall. This cake wall is stationary relative to the bowl and acts as a protective barrier against internal bowl erosion. However, the auger flights themselves have no such protection and erode over time, especially when processing abrasive solids.</p>
+      <figure class="my-4">
+        <img src="/images/decanter-centrifuge-vibration/decanter-conveyor-wear-600.webp" alt="Decanter Centrifuge Cake Wall and Auger Erosion showing conveyor wear pattern and cake wall formation" class="rounded-lg w-full" loading="lazy" width="600" height="400" />
+        <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Conveyor Erosion</figcaption>
+      </figure>
+      <p><strong class="text-navy">Fix:</strong> Inspect the auger flights for uneven wear during scheduled maintenance. If wear is significant, the conveyor must be rebalanced or replaced. Hard-surfacing (weld-on tiles or tungsten carbide overlay) on the flight edges extends service life in abrasive applications. Always re-balance the rotating assembly after any repair or resurfacing work.</p>
+    </div>
+  </div>
+
+  <!-- Cause 2 -->
+  <div id="cause-2-bearing-wear" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">2</span>
+      <h3 class="text-xl font-bold text-navy">Bearing Wear</h3>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>The pillow-block main bearings support the entire decanter rotating assembly. These are heavy-duty bearings specifically designed for this application. Like all friction components, bearings have a finite lifespan and must be replaced at periodic intervals.</p>
+      <p>As bearings wear, they develop play beyond manufacturing tolerances. This play causes a gradual, measurable increase in decanter vibration. Periodic vibration checks &mdash; or continuous monitoring via the <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control system</a> &mdash; is the most reliable way to track bearing condition.</p>
+      <p><strong class="text-navy">Fix:</strong> Replace main bearings at recommended service intervals or when vibration data shows a consistent upward trend. Always replace bearings as a complete set. Use only bearings rated for the specific rotational speed and load. Flush and refill bearing housings with the correct lubricant grade after replacement.</p>
+    </div>
+  </div>
+
+  <!-- Cause 3 -->
+  <div id="cause-3-improper-assembly" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">3</span>
+      <h3 class="text-xl font-bold text-navy">Improper Assembly of Components</h3>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>All rotating equipment has some inherent vibration. In decanters, vibration from the rotating assembly travels through the frame and all attached components. Incorrect assembly amplifies this vibration significantly.</p>
+      <p><strong class="text-navy">Common assembly errors:</strong></p>
+      <ul class="list-disc list-inside space-y-1 ml-2">
+        <li>Misalignment of pillow block bearings relative to the bowl's rotational axis, generating excessive torque on the drive motor</li>
+        <li>Loose fasteners on belt guards, motor mount plates, motors, or collecting vessels</li>
+        <li>Improperly tensioned drive belts causing resonance</li>
+      </ul>
+      <p><strong class="text-navy">Fix:</strong> Follow the OEM rotating assembly alignment procedure precisely. Check and tighten all fasteners on the decanter frame during scheduled maintenance or whenever excess vibration is detected. Verify drive belt tension and alignment. Ensure all auxiliary components are securely bolted to the frame.</p>
+    </div>
+  </div>
+
+  <!-- Section: Suddenly Occurring Vibration -->
+  <h2 id="suddenly-occurring-vibration" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 mt-12 border-l-4 border-gold pl-4">Suddenly Occurring Vibration</h2>
+  <p class="text-text-light leading-relaxed mb-8">Some vibrations occur without warning. They may strike while the decanter is running or appear at startup after a shutdown period. These causes require immediate investigation because they can escalate to equipment damage or safety hazards.</p>
+
+  <!-- Cause 4 -->
+  <div id="cause-4-part-breakage" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">4</span>
+      <h3 class="text-xl font-bold text-navy">Imbalance Due to Part Breakage</h3>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>The auger or conveyor is exposed to the most wear inside a decanter. Conveyors often have weld-on hard-surfacing or welded tiles for erosion protection of the flights. When these protective elements break or detach during operation, the resulting mass loss creates an immediate imbalance.</p>
+      <p>A loud noise typically accompanies this vibration, yet the cause is not visible through external inspection. The broken tile fragments are often carried away with the ejected sludge. Similarly, a missing chunk of weld-on hard-surfacing creates the same sudden imbalance effect.</p>
+      <figure class="my-4">
+        <img src="/images/decanter-centrifuge-vibration/decanter-auger-broken-tiles-400.webp" alt="Decanter Auger with Broken and Missing Tiles showing erosion protection damage" class="rounded-lg w-full max-w-xs" loading="lazy" width="400" height="300" />
+        <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Auger Broken Tiles</figcaption>
+      </figure>
+      <p><strong class="text-navy">Fix:</strong> Stop the decanter immediately. Dismantle the bowl and extract the auger to inspect for missing or broken tiles and damaged hard-surfacing. Replace any missing protective elements and rebalance the conveyor before reassembly. Inspect remaining tiles for cracks that could lead to future breakage.</p>
+    </div>
+  </div>
+
+  <!-- Cause 5 -->
+  <div id="cause-5-sludge-fall-over" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">5</span>
+      <h3 class="text-xl font-bold text-navy">Separated Sludge Fall-Over During Shutdown</h3>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>During normal operation, separated sludge collects on the decanter bowl wall, held in place by centrifugal force. When the decanter shuts down, this centrifugal force disappears. If the sludge is not sufficiently compacted, it dislodges from the upper side of the bowl wall and falls to the bottom under gravity.</p>
+      <p>This redistribution of sludge creates an imbalance in the bowl. Upon the next startup, the imbalance causes excessive vibration until the conveyor pushes out the displaced sludge and restores bowl balance.</p>
+      <figure class="my-4">
+        <img src="/images/decanter-centrifuge-vibration/decanter-bowl-sludge-fall-over-600.webp" alt="Decanter Centrifuge Bowl Sludge Drop diagram showing sludge fall-over during shutdown" class="rounded-lg w-full" loading="lazy" width="600" height="400" />
+        <figcaption class="text-sm text-gray-500 mt-2 text-center">Decanter Centrifuge Bowl Sludge Drop</figcaption>
+      </figure>
+      <p><strong class="text-navy">Fix:</strong> Start the conveyor rotation before the bowl during decanter startup. This pre-start sequence allows the conveyor to push out any fall-over sludge before the bowl begins to rotate, preventing the temporary imbalance. Adjust <a href="/decanter-centrifuge-differential-speed/" class="text-navy font-semibold hover:text-gold transition-colors">differential speed</a> settings to ensure adequate sludge conveyance during the startup phase.</p>
+    </div>
+  </div>
+
+  <!-- Cause 6 - Safety Warning -->
+  <div id="cause-6-bearing-failure" class="bg-white rounded-xl border border-red-300 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">6</span>
+      <h3 class="text-xl font-bold text-navy">Bearing Failure During Operation</h3>
+    </div>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+      <p class="text-red-800 font-semibold text-sm"><strong>Safety Warning:</strong> A bearing failure during operation can cause catastrophic damage to the equipment and poses a risk of personal injury. Stop the decanter immediately if sudden, severe vibration accompanied by grinding noise is detected.</p>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p>Although rare, a bearing can fail during decanter operation. The first indication is sudden, excessive vibration accompanied by a loud grinding noise. In practice, unanticipated bearing failure is uncommon because telltale signs &mdash; increasing vibration and higher motor current draw &mdash; typically appear as the bearing nears the end of its useful life.</p>
+      <p><strong class="text-navy">Fix:</strong> Stop the decanter immediately upon detecting signs of bearing failure. Replace the failed bearing set and inspect the journal surfaces for scoring or heat damage. Before restarting, investigate and address the root cause (overloading, contaminated lubricant, or exceeded service interval). Install vibration and temperature monitoring via the <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control system</a> to enable early detection and prevent future catastrophic failures.</p>
+    </div>
+  </div>
+
+  <!-- Monitoring Best Practice -->
+  <h2 id="vibration-monitoring-best-practices" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6 mt-10">Vibration Monitoring Best Practices</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
+    <ul class="space-y-3 text-text-light">
+      <li><strong class="text-navy">Establish a baseline:</strong> Record vibration levels on a newly installed or freshly overhauled decanter. Use these values as the reference point for future comparisons.</li>
+      <li><strong class="text-navy">Log regularly:</strong> Maintain a vibration data log with readings taken at consistent intervals. This data reveals gradual trends that might otherwise go unnoticed.</li>
+      <li><strong class="text-navy">Use automated monitoring:</strong> Dolphin Centrifuge <a href="/industrial-centrifuge-controls/" class="text-navy font-semibold hover:text-gold transition-colors">control systems</a> offer optional vibration and temperature monitoring with data logging, providing continuous oversight without manual checks.</li>
+      <li><strong class="text-navy">Act on thresholds:</strong> When vibration exceeds 10 mm/s, schedule a thorough inspection. Do not wait for a catastrophic failure.</li>
+      <li><strong class="text-navy">Correlate with other data:</strong> Rising motor current draw alongside increasing vibration strongly indicates bearing wear. Review both parameters together for accurate diagnosis.</li>
+    </ul>
+  </div>
+
+  <!-- Author -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
+    <p class="text-sm text-text-light"><em>by Sanjay Prabhu MSME</em><br/><em>Engineering Manager, Dolphin Centrifuge</em></p>
+  </div>
+
+  <!-- FAQ -->
+  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
+    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6">
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">What causes vibration in a decanter centrifuge?</h3>
+        <p class="text-text-light text-sm">Decanter centrifuge vibration is caused by: bearing wear in the bowl or scroll shaft bearings, scroll wear causing imbalance, uneven material buildup on the bowl wall, incorrect differential speed causing scroll overload and torque spikes, feed inconsistency or air entrainment, or a broken/cracked component in the rotating assembly.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">How do I monitor decanter centrifuge vibration?</h3>
+        <p class="text-text-light text-sm">Monitor vibration levels with a handheld vibration meter at the bearing housings during normal operation. Most decanter centrifuges should run below 4–6 mm/s RMS at steady state. An increasing trend over weeks indicates bearing wear or gradual imbalance. Sudden increases warrant immediate shutdown and inspection.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Can scroll wear cause decanter centrifuge vibration?</h3>
+        <p class="text-text-light text-sm">Yes. As the scroll flights wear unevenly — especially at the solids discharge end where abrasion is highest — the scroll assembly can become unbalanced. Worn scroll flights also allow solids to pack against the bowl wall rather than being conveyed out, further increasing imbalance and vibration.</p>
+      </div>
+    </div>
+  </div>
+
+</ApplicationLayout>
