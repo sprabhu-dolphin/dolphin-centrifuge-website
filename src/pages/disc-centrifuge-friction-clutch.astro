@@ -1,7 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
-const jsonLd = {
+const faqItems = [
+  {
+    question: "What is a disc centrifuge friction clutch and what does it do?",
+    answer: "A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup. Without the clutch, the motor would be required to start under the full inertia of the bowl assembly."
+  },
+  {
+    question: "How long does a disc centrifuge friction clutch last?",
+    answer: "Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle."
+  },
+  {
+    question: "When should I replace the friction clutch on my centrifuge?",
+    answer: "Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage."
+  },
+  {
+    question: "Can a friction clutch centrifuge be converted to direct-drive?",
+    answer: "Yes. Dolphin Centrifuge routinely converts friction-driven centrifuges to direct-drive transmission. The conversion replaces the clutch assembly with a rigid coupler, upgrades the motor to an inverter-duty type, and replaces the DOL starter with a VFD (variable frequency drive) for controlled ramp-up. This eliminates clutch maintenance entirely."
+  },
+  {
+    question: "How often should I inspect the friction clutch on my disc centrifuge?",
+    answer: "Inspect the friction clutch every 600 operating hours. Check friction pad thickness, brass screw condition, drum surface wear, and clutch housing temperature during startup. If the brass screws show any wear, replace the friction pads immediately to prevent metal-to-metal contact between friction blocks and the drum."
+  }
+];
+
+const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Disc Centrifuge Friction Clutch Maintenance: A Complete Guide",
@@ -22,348 +46,292 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a disc centrifuge friction clutch and what does it do?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup. Without the clutch, the motor would be required to start under the full inertia of the bowl assembly." }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does a disc centrifuge friction clutch last?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle." }
-    },
-    {
-      "@type": "Question",
-      "name": "When should I replace the friction clutch on my centrifuge?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage." }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
 };
+
+const jsonLd = [articleJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'purpose', label: 'Purpose of the Friction Clutch' },
+  { id: 'how-it-works', label: 'How the Friction Clutch Works' },
+  { id: 'startup-time', label: 'Startup Time to Operating Speed' },
+  { id: 'inspection-time', label: 'Inspection & Replacement Time' },
+  { id: 'replacement-steps', label: 'Steps to Replace Friction Pads' },
+  { id: 'benefits', label: 'Benefits of Friction Clutch' },
+  { id: 'limitations', label: 'Limitations of Friction Clutch' },
+  { id: 'consequences', label: 'Consequences of Neglected Maintenance' },
+  { id: 'telltale-signs', label: 'Telltale Signs of Clutch Wear' },
+  { id: 'maintenance-process', label: 'Friction Clutch Maintenance Process' },
+  { id: 'frequency', label: 'Maintenance Frequency' },
+  { id: 'direct-drive', label: 'Direct Drive Conversion' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Centrifuge Mechanical Issues & Fixes', href: '/disc-stack-centrifuge-mechanical-issues-fixes/' },
+  { label: 'Disc Stack Centrifuge Overview', href: '/disc-stack-centrifuge/' },
+  { label: 'Centrifuge Controls & Automation', href: '/industrial-centrifuge-controls/' },
+  { label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/' },
+];
+
+const relatedProducts = [
+  { label: 'Centrifuge Parts & Spares', href: '/alfa-laval-centrifuge-parts/', description: 'Friction pads, blocks, drums & more' },
+  { label: 'Centrifuge Service & Repair', href: '/centrifuge-repair-service/', description: 'On-site and in-shop clutch service' },
+];
 ---
 
-<BaseLayout
+<ApplicationLayout
   title="Disc Centrifuge Friction Clutch Maintenance Guide"
-  description="Disc centrifuge friction clutch maintenance guide: how it works, startup time, step-by-step pad replacement, telltale signs of wear, and direct-drive conversion"
+  description="Disc centrifuge friction clutch maintenance guide covering how clutches work, pad replacement steps, wear signs, and direct-drive conversion options."
+  category="knowledge"
+  categoryLabel="Knowledge Center"
+  heroImage="/images/disc-centrifuge-friction-clutch/Centrifuge-Friction-Clutch-Assembly-600.webp"
+  heroImageAlt="Disc centrifuge friction clutch assembly showing friction blocks, pads, drum, and brake plate"
   canonicalUrl="https://dolphincentrifuge.com/disc-centrifuge-friction-clutch/"
-  breadcrumbs={[{label: 'Knowledge Center', href: '/disc-stack-centrifuge-faq/'}, {label: 'Friction Clutch Maintenance'}]}
   jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
 >
 
-  <!-- Hero -->
-  <section class="bg-[#1B3A5C] text-white py-16 md:py-20">
-    <div class="container-dolphin max-w-4xl">
-      <div class="mb-6">
-        <img
-          src="/images/disc-centrifuge-friction-clutch/Centrifuge-Friction-Clutch-Assembly-600.webp"
-          alt="Disc centrifuge friction clutch assembly showing friction blocks, pads, drum, and brake plate"
-          width="600" height="400"
-          loading="eager"
-          class="rounded-xl w-full max-w-2xl mx-auto block"
-        />
-      </div>
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Disc Centrifuge Friction Clutch Maintenance: A Complete Guide</h1>
-      <p class="text-lg text-blue-100 max-w-3xl">
-        If you have an <a href="/disc-stack-centrifuge/" class="text-white hover:text-[#E8A317] underline">Alfa Laval disc stack centrifuge</a>, knowing how to maintain the friction clutch is crucial to avoid breakdowns and unplanned downtime. A worn-out clutch causes a host of other issues for the centrifuge in the long run.
+  <!-- AI Summary -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies and services disc stack centrifuge systems equipped with friction clutch assemblies — used in Alfa Laval MAB and MAPX series (Dolphin DMB and DMPX) to allow the bowl to accelerate gradually from 0 to full operating speed (7,200–8,600 RPM) in approximately 8–12 minutes without overloading the drive motor. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc centrifuge drive systems and clutch service.</p>
+  </div>
+
+  <!-- Purpose — Side-by-Side Pattern A -->
+  <h2 id="purpose">What is the Purpose of the Friction Clutch in the Disc Centrifuge?</h2>
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-1/2">
+      <p class="text-text-light mb-4">
+        The friction clutch transmits the power from the drive motor to the centrifuge's internal transmission. The centrifuge bowl is a relatively heavy mass that rotates within the centrifuge frame.
       </p>
-      <div class="flex flex-wrap gap-3 mt-6">
-            <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition">Request a Quote</a>
-            <a href="tel:+12485222573" class="border border-white/70 text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition">(248) 522-2573</a>
-          </div>
+      <p class="text-text-light">
+        Given the momentum of such a contracted mass, it is necessary to increase the bowl's speed gradually. The friction clutch functions as a transmitter of the torque gradually through friction between the friction pads rotating at the motor speed and the transmission pulley that rotates the bowl through a set of gears. This gradual acceleration is critical for preventing motor stall during startup on any <a href="/disc-stack-centrifuge/">disc stack centrifuge</a>.
+      </p>
     </div>
-  </section>
-
-  <!-- Content -->
-  <section class="bg-[#F5F5F0]">
-    <div class="container-dolphin py-12 md:py-16 max-w-4xl">
-
-      <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-        <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies and services disc stack centrifuge systems equipped with friction clutch assemblies — used in Alfa Laval MAB and MAPX series (Dolphin DMB and DMPX) to allow the bowl to accelerate gradually from 0 to full operating speed (7,200–8,600 RPM) in approximately 8–12 minutes without overloading the drive motor. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in disc centrifuge drive systems and clutch service.</p>
-      </div>
-
-      <!-- TOC -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Table of Contents</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 text-sm">
-          <a href="#purpose" class="text-[#1B3A5C] hover:text-[#E8A317]">Purpose of the Friction Clutch</a>
-          <a href="#how-it-works" class="text-[#1B3A5C] hover:text-[#E8A317]">How the Friction Clutch Works</a>
-          <a href="#startup-time" class="text-[#1B3A5C] hover:text-[#E8A317]">Startup Time to Operating Speed</a>
-          <a href="#inspection-time" class="text-[#1B3A5C] hover:text-[#E8A317]">Inspection and Replacement Time</a>
-          <a href="#replacement-steps" class="text-[#1B3A5C] hover:text-[#E8A317]">Steps to Replace Friction Pads</a>
-          <a href="#benefits" class="text-[#1B3A5C] hover:text-[#E8A317]">Benefits of Friction Clutch</a>
-          <a href="#limitations" class="text-[#1B3A5C] hover:text-[#E8A317]">Limitations of Friction Clutch</a>
-          <a href="#consequences" class="text-[#1B3A5C] hover:text-[#E8A317]">Consequences of Neglected Maintenance</a>
-          <a href="#telltale-signs" class="text-[#1B3A5C] hover:text-[#E8A317]">Telltale Signs of Clutch Wear</a>
-          <a href="#maintenance-process" class="text-[#1B3A5C] hover:text-[#E8A317]">Friction Clutch Maintenance Process</a>
-          <a href="#frequency" class="text-[#1B3A5C] hover:text-[#E8A317]">Maintenance Frequency</a>
-          <a href="#direct-drive" class="text-[#1B3A5C] hover:text-[#E8A317]">Friction Clutch → Direct Drive Conversion</a>
-        </div>
-      </div>
-
-      <!-- Purpose -->
-      <div id="purpose" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">What is the Purpose of the Friction Clutch in the Disc Centrifuge?</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The friction clutch transmits the power from the drive motor to the centrifuge's internal transmission. The centrifuge bowl is a relatively heavy mass that rotates within the centrifuge frame.
-        </p>
-        <p class="text-[#2D2D2D]">
-          Given the momentum of such a contracted mass, it is necessary to increase the bowl's speed gradually. The friction clutch functions as a transmitter of the torque gradually through friction between the friction pads rotating at the motor speed and the transmission pulley that rotates the bowl through a set of gears.
-        </p>
-      </div>
-
-      <!-- How It Works -->
-      <div id="how-it-works" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">How Does the Disc Centrifuge Friction Clutch Work?</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          As shown in the illustration, the friction hub connects to the motor shaft. It rotates at the same speed as the motor. The friction blocks pivot radially outward due to the centrifugal force caused by the rotation.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          The friction blocks have replaceable pads made of friction material mounted on them. These pads contact the inner surface of the transmission drum that is stationary. The centrifugal force pushes the pads on the drum surface, and the rotating pads transmit the torque to the drum through friction.
-        </p>
-        <p class="text-[#2D2D2D]">
-          The transmission drum starts to rotate, rotating the bowl assembly along with it slowly. Over time, the transmission drum and the centrifuge bowl start rotating at the same speed as that of the motor.
-        </p>
-      </div>
-
-      <!-- Startup Time -->
-      <div id="startup-time" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">How Long Does it Take for a Disc Centrifuge with a Friction Clutch to Come Up to Operating Speed?</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          It takes a centrifuge with a friction clutch <strong>between 2 and 10 minutes</strong> to come up to operating speed. A smaller centrifuge with a lighter bowl reaches operating speed quicker than a larger centrifuge with a heavier bowl.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          For example, an <a href="/alfa-laval-mab-103-centrifuge/" class="text-[#1B3A5C] hover:text-[#E8A317] underline font-semibold">Alfa Laval MAB 103</a> centrifuge comes up to speed in about <strong>2 minutes</strong>, whereas an <a href="/alfa-laval-whpx-513/" class="text-[#1B3A5C] hover:text-[#E8A317] underline font-semibold">Alfa Laval WHPX 513</a> centrifuge takes about <strong>5 minutes</strong> to reach operating speed.
-        </p>
-        <div class="bg-[#E8A317]/10 border border-[#E8A317] rounded-lg p-4">
-          <p class="text-[#2D2D2D] text-sm"><strong>Quick Tip:</strong> If the friction pads and drum surface are glossy/shiny, use sandpaper to roughen up the surface to get them working again!</p>
-        </div>
-      </div>
-
-      <!-- Inspection Time -->
-      <div id="inspection-time" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">How Long Does it Take to Inspect and Replace the Friction Pads?</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          An experienced centrifuge technician can typically <strong>inspect and replace the friction pads</strong> in the centrifuge friction clutch <strong>in about 30 minutes.</strong>
-        </p>
-        <p class="text-[#2D2D2D]">
-          However, if the technician observes excessive wear on the drum or the friction blocks, the repair or replacement of these parts can take much longer.
-        </p>
-      </div>
-
-      <!-- Replacement Steps -->
-      <div id="replacement-steps" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Steps to Replace Friction Pads</h2>
-        <p class="text-[#2D2D2D] mb-4">Follow the steps listed below to change the friction pads in a disc stack centrifuge clutch.</p>
-        <ol class="list-decimal pl-6 text-[#2D2D2D] space-y-2">
-          <li>Shut off the centrifuge motor.</li>
-          <li>Engage the manual brake.</li>
-          <li>Let the centrifuge come to a complete stop.</li>
-          <li>Lock out the power to the centrifuge motor.</li>
-          <li>Wait for the friction clutch to cool down (about 15 minutes).</li>
-          <li>Remove the brake cover plate.</li>
-          <li>Reach into the clutch nave and remove the bolts holding the 'L' brackets.</li>
-          <li>Slide off each friction block from the pivot pin in the clutch hub.</li>
-          <li>Wipe off and clean each block and pad to remove wear-dust and soot.</li>
-          <li>Remove the brass screws that hold the friction pad on the friction block.</li>
-          <li>Inspect the friction blocks for wear.</li>
-          <li>Install the new friction pads with the new brass screw provided with the pads.</li>
-          <li>Reinstall the friction blocks on the pivot pins in the clutch hub.</li>
-          <li>Reinstall the 'L' brackets holding the friction blocks on the pins.</li>
-          <li>Install the brake cover plate.</li>
-          <li>Disengage the manual brake.</li>
-          <li>Power up the centrifuge and check ramp-up time and motor current.</li>
-        </ol>
-      </div>
-
-      <!-- Benefits -->
-      <div id="benefits" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Benefits of Friction Clutch</h2>
-        <p class="text-[#2D2D2D] mb-4">A friction clutch has some crucial benefits for the disc centrifuge. Some of these are listed below.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Small Drive Motor</h3>
-        <p class="text-[#2D2D2D] mb-4">The friction clutch brings the centrifuge bowl up to speed over a period of time, gradually. This gradual acceleration allows for the use of a smaller motor to power the centrifuge.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Low Startup Current</h3>
-        <p class="text-[#2D2D2D] mb-4">Though the friction clutch also has an initial current spike, the overall current draw with a friction centrifuge is spread over a more extended period of startup time and is lower.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Simple Motor Starter</h3>
-        <p class="text-[#2D2D2D] mb-4">The centrifugal friction clutch needs a simple DOL motor starter that is inexpensive, easy to control, and readily available.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Ability to Handle Sudden Shock Loads</h3>
-        <p class="text-[#2D2D2D]">The friction clutch does not have a direct, rigid connection to the centrifuge transmission shaft. Therefore, in case of sudden, unexpected loads on the motor due to centrifuge malfunction, the friction clutch prevents the load from reaching the motor. This safety mechanism avoids damaging the motor and electrical components related to the motor.</p>
-      </div>
-
-      <!-- Limitations -->
-      <div id="limitations" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Limitations of Friction Clutch</h2>
-        <p class="text-[#2D2D2D] mb-4">The friction clutch has its own set of limitations that prevent its widespread use in centrifuges. The following is a list of some of the critical limitations.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Periodic Maintenance</h3>
-        <p class="text-[#2D2D2D] mb-4">As the name implies, the centrifugal clutch uses friction to transmit the torque to the centrifuge. Friction inherently causes wear on sacrificial parts. These parts, therefore, need a periodic replacement that adds to the maintenance of the centrifuge. The friction clutch also adds to the potential of unexpected centrifuge breakdown.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Replaceable Spare Parts</h3>
-        <p class="text-[#2D2D2D] mb-4">Following the above-mentioned periodic maintenance, a set of friction clutch-related replacement parts needs to be stocked by the user. The stocking of these parts adds to spare parts inventory cost and storage.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Long Startup Time</h3>
-        <p class="text-[#2D2D2D] mb-4">The friction clutch transmits the motor-generated torque to the centrifuge horizontal shaft via the friction between the pads and the drum. This friction has limitations on the amount of torque transmitted. Therefore, a centrifuge fitted with a friction clutch takes longer to reach operating speed than a centrifuge with direct coupling.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Long Stoppage Time</h3>
-        <p class="text-[#2D2D2D] mb-4">When the centrifuge is shut down, the drive motor is de-energized. However, due to the momentum of the rotating bowl and the absence of any other stopping mechanism, the centrifuge takes a long time to stop rotating. The mechanical brake has a limited effect on stopping the centrifuge bowl quickly.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Heat Generation</h3>
-        <p class="text-[#2D2D2D] mb-4">The friction between the friction clutch pads and the transmission drum causes heat. Though the friction between the two parts reduces once the centrifuge is at operating speed, the friction clutch is still a cause of heat generation.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Sparking Potential</h3>
-        <p class="text-[#2D2D2D]">In rare cases, if the friction pads wear out and direct contact between the steel friction blocks and the steel transmission drum occurs, there is the risk of generating sparks. The presence of sparks in any machinery is highly undesirable, primarily when operating in hazardous conditions.</p>
-      </div>
-
-      <!-- Consequences -->
-      <div id="consequences" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">What Happens if the Friction Clutch is Not Maintained?</h2>
-        <p class="text-[#2D2D2D] mb-4">Often, centrifuge operators ignore the friction clutch assembly until the clutch assembly malfunctions or breaks. If the friction clutch is not maintained correctly, it causes many operational problems. Some of these problems are listed below.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Longer Startup Time</h3>
-        <p class="text-[#2D2D2D] mb-4">The friction pads wear out over time due to the constant contact between the friction elements and the drum. If the pads have excessive wear, they cannot transmit the torque from the motor to the centrifuge transmission. This inability to transfer the torque leads to the slower ramp-up of the centrifuge bowl speed leading to a longer startup time.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Low Centrifuge Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">Worn-out friction elements or friction pads with oil on the contact surface lead to insufficient torque transmission. This loss in transmission can prevent the centrifuge from reaching optimum operating speed. Low operating speed leads to multiple issues, from the inefficient separation of fluids to the failure of the centrifuge bowl to open and close for sludge discharge.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Damage to Clutch Drum and Friction Blocks</h3>
-        <p class="text-[#2D2D2D] mb-4">Friction pads attach to steel friction blocks that carry them and provide the weight behind the pads to push them against the drum. If the friction pads wear out completely, the steel friction blocks contact the steel drum. Direct contact between the steel friction block and steel drum is highly detrimental to the centrifuge transmission. This contact will cause the blocks and drum to wear. Both of these components are cost-intensive. Replacing these parts also involves centrifuge disassembly and re-assembly, a long and labor-intensive process.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Centrifuge Vibration</h3>
-        <p class="text-[#2D2D2D]">As with all rotating parts in a centrifuge, the clutch assembly also has a balanced design. This design positions the friction blocks at equal angular increments to avoid vibration during rotation. Uneven wear of friction pads causes an imbalance of weight of the friction clutch assembly. This imbalance causes the disc centrifuge to vibrate, and depending on the extent of friction pad wear, the vibrations can be excessive.</p>
-      </div>
-
-      <!-- Telltale Signs -->
-      <div id="telltale-signs" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Telltale Signs the Friction Clutch Needs Maintenance</h2>
-        <p class="text-[#2D2D2D] mb-4">The operator should watch for a few telltale signs that indicate the friction clutch needs inspection and possibly maintenance. The leading indicators of friction clutch issues are listed below.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Longer than Usual Ramp-Up Time</h3>
-        <p class="text-[#2D2D2D] mb-4">If the centrifuge takes a long time to reach operating speed, it will most likely be time to replace the friction pads.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Centrifuge Does Not Reach Operating Speed</h3>
-        <p class="text-[#2D2D2D] mb-4">If the centrifuge does not reach operating speed even after a prolonged startup time, the operator must inspect the friction clutch.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Metal to Metal Scraping or Screeching Sound</h3>
-        <p class="text-[#2D2D2D] mb-4">A high-pitched sound indicates metal-to-metal contact between the friction blocks (pads are worn out) and the drum.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Unusual Centrifuge Vibration</h3>
-        <p class="text-[#2D2D2D]">A broken or dislodged friction pad causes an imbalance in the rotating clutch leading to the entire centrifuge vibrating. Any unusual centrifuge vibration could indicate worn friction pads or a missing/broken friction pad.</p>
-      </div>
-
-      <!-- Maintenance Process -->
-      <div id="maintenance-process" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Friction Clutch Maintenance Process</h2>
-        <p class="text-[#2D2D2D] mb-6">The maintenance of the friction clutch system is a quick and straightforward process. The process involves the following four steps:</p>
-        <div class="mb-6">
-          <img
-            src="/images/disc-centrifuge-friction-clutch/Centrifuge-Friction-Clutch-Assembly-400.webp"
-            alt="Disc centrifuge friction clutch assembly parts diagram showing friction blocks, pads, and drum"
-            width="400" height="267"
-            loading="lazy"
-            class="rounded-lg w-full max-w-md mx-auto block"
-          />
-          <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Centrifuge Friction Clutch Assembly Parts</p>
-        </div>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Step 1: Removal of Brake Plate</h3>
-        <p class="text-[#2D2D2D] mb-4">The first step is removing the brake plate by extracting the four bolts holding the brake plate to the centrifuge bottom frame.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Step 2: Removing the 'L' Shaped Bracket</h3>
-        <p class="text-[#2D2D2D] mb-4">The small, L-shaped bracket is bolted to the rotating nave mounted on the motor shaft. This bracket holds the friction block on the swing pivot pin.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Step 3: Extracting the Friction Block with Friction Pad Attached</h3>
-        <p class="text-[#2D2D2D] mb-4">After removing the holding (L) bracket, the friction block should slide off the pin and is extracted from the centrifuge.</p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Step 4: Inspection of Friction Block and Replacement of Friction Pads</h3>
-        <p class="text-[#2D2D2D] mb-4">The operator then inspects the friction pads mounted on the friction blocks for excessive wear. It is also necessary to ensure all the brass screws holding the friction block are present.</p>
-        <p class="text-[#2D2D2D]">The new friction pads come with new installation screws. Once the pad installation is complete, the friction block is refitted into the centrifuge nave. You can order the friction pads and blocks through our <a href="/alfa-laval-centrifuge-parts/" class="text-[#1B3A5C] hover:text-[#E8A317] underline font-semibold">Alfa Laval parts inquiry page</a>.</p>
-      </div>
-
-      <!-- Frequency -->
-      <div id="frequency" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Frequency of Friction Clutch Maintenance</h2>
-        <p class="text-[#2D2D2D]">
-          It is advisable to inspect the friction clutch every <strong>600 operating hours</strong> to check the condition of the friction pads. If the brass screws holding the friction pad show any wear at all, it is critical to replace the friction pads at that point.
-        </p>
-      </div>
-
-      <!-- Direct Drive Conversion -->
-      <div id="direct-drive" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-2xl font-bold text-[#1B3A5C] mb-4">Friction Clutch Replacement with Direct Drive Coupling</h2>
-        <p class="text-[#2D2D2D] mb-4">
-          The centrifuge user can choose to replace the friction clutch assembly with a direct drive coupler unit. This coupling eliminates the entire friction torque transmission mechanism and directly couples the drive motor to the centrifuge transmission shaft.
-        </p>
-        <p class="text-[#2D2D2D] mb-4">
-          However, with the clutch removed, the entire mass of the centrifuge bowl is directly connected to the motor and cannot be brought up to speed instantaneously.
-        </p>
-        <p class="text-[#2D2D2D] mb-6">
-          Therefore, a VFD (variable frequency drive) replaces the motor starter in the centrifuge control panel for this arrangement to work. The VFD gradually ramps up the motor to operating speed over a predetermined ramp-up time. Thus the VFD avoids excessive load on the motor during startup.
-        </p>
-
-        <h3 class="text-lg font-bold text-[#1B3A5C] mb-2">Can a Friction Clutch Centrifuge be Converted to Direct-Drive Type Transmission?</h3>
-        <p class="text-[#2D2D2D]">
-          Yes, we routinely convert friction-driven centrifuges to direct-drive transmission centrifuges. We also modify the centrifuge controls to replace the motor starter with a suitable VFD during this process. The centrifuge drive motor also needs upgrading to an inverter-duty motor.
-        </p>
-      </div>
-
-      <!-- CTA -->
-      <div class="bg-[#1B3A5C] text-white rounded-xl p-6 md:p-8 mb-8 text-center">
-        <h2 class="text-2xl font-bold mb-3">Need Friction Clutch Parts or a Conversion?</h2>
-        <p class="text-blue-100 mb-6">Contact Dolphin Centrifuge for friction clutch maintenance parts, direct-drive conversion kits, or centrifuge service support.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="tel:+12485222573" class="bg-[#E8A317] text-white font-bold px-8 py-3 rounded-lg hover:bg-yellow-500 transition-colors">(248) 522-2573</a>
-          <a href="mailto:sales@dolphincentrifuge.com" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#1B3A5C] transition-colors">sales@dolphincentrifuge.com</a>
-        </div>
-        <p class="text-blue-200 text-sm mt-4">24248 Gibson Dr, Warren MI 48089</p>
-      </div>
-
-      <!-- FAQ -->
-      <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-        <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">What is a disc centrifuge friction clutch and what does it do?</h3>
-            <p class="text-text-light text-sm">A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">How long does a disc centrifuge friction clutch last?</h3>
-            <p class="text-text-light text-sm">Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle.</p>
-          </div>
-          <div>
-            <h3 class="text-base font-semibold text-navy mb-2">When should I replace the friction clutch on my centrifuge?</h3>
-            <p class="text-text-light text-sm">Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage.</p>
-          </div>
-        </div>
-      </div>
-      <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
-
-      <!-- Related Articles -->
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-        <h2 class="text-xl font-bold text-[#1B3A5C] mb-4">Related Articles</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Disc Stack Centrifuge Mechanical Issues</h3>
-            <p class="text-sm text-gray-600">Complete troubleshooting guide for vibration, noise, speed, and other mechanical problems.</p>
-          </a>
-          <a href="/alfa-laval-centrifuge-parts/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Centrifuge Parts</h3>
-            <p class="text-sm text-gray-600">Genuine and aftermarket parts for disc stack and decanter centrifuges.</p>
-          </a>
-          <a href="/disc-stack-centrifuge/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Disc Stack Centrifuge Overview</h3>
-            <p class="text-sm text-gray-600">How disc stack centrifuges work, types available, and specifications.</p>
-          </a>
-          <a href="/industrial-centrifuge-controls/" class="block p-4 rounded-lg border border-gray-100 hover:border-[#E8A317] transition-colors">
-            <h3 class="font-semibold text-[#1B3A5C] mb-1">Industrial Centrifuge Controls</h3>
-            <p class="text-sm text-gray-600">PLC-based control panels, VFD integration, and automation options.</p>
-          </a>
-        </div>
-      </div>
-
+    <div class="md:w-1/2">
+      <img
+        src="/images/disc-centrifuge-friction-clutch/Centrifuge-Friction-Clutch-Assembly-400.webp"
+        alt="Disc centrifuge friction clutch assembly parts diagram showing friction blocks, pads, and drum"
+        width="400" height="267"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
+      <p class="text-xs text-text-muted mt-2 italic text-center">Disc Centrifuge Friction Clutch Assembly Parts</p>
     </div>
-  </section>
+  </div>
 
-</BaseLayout>
+  <!-- How It Works -->
+  <h2 id="how-it-works">How Does the Disc Centrifuge Friction Clutch Work?</h2>
+  <p>
+    As shown in the illustration, the friction hub connects to the motor shaft. It rotates at the same speed as the motor. The friction blocks pivot radially outward due to the centrifugal force caused by the rotation.
+  </p>
+  <p>
+    The friction blocks have replaceable pads made of friction material mounted on them. These pads contact the inner surface of the transmission drum that is stationary. The centrifugal force pushes the pads on the drum surface, and the rotating pads transmit the torque to the drum through friction.
+  </p>
+  <p>
+    The transmission drum starts to rotate, rotating the bowl assembly along with it slowly. Over time, the transmission drum and the centrifuge bowl start rotating at the same speed as that of the motor.
+  </p>
+
+  <!-- Startup Time -->
+  <h2 id="startup-time">How Long Does it Take for a Disc Centrifuge with a Friction Clutch to Come Up to Operating Speed?</h2>
+  <p>
+    It takes a centrifuge with a friction clutch <strong>between 2 and 10 minutes</strong> to come up to operating speed. A smaller centrifuge with a lighter bowl reaches operating speed quicker than a larger centrifuge with a heavier bowl.
+  </p>
+  <p>
+    For example, an <a href="/alfa-laval-mab-103-centrifuge/">Alfa Laval MAB 103</a> centrifuge comes up to speed in about <strong>2 minutes</strong>, whereas an <a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a> centrifuge takes about <strong>5 minutes</strong> to reach operating speed.
+  </p>
+  <div class="bg-gold/10 border border-gold rounded-lg p-4 not-prose mb-6">
+    <p class="text-sm text-text-light"><strong>Quick Tip:</strong> If the friction pads and drum surface are glossy/shiny, use sandpaper to roughen up the surface to get them working again!</p>
+  </div>
+
+  <!-- Inspection Time -->
+  <h2 id="inspection-time">How Long Does it Take to Inspect and Replace the Friction Pads?</h2>
+  <p>
+    An experienced centrifuge technician can typically <strong>inspect and replace the friction pads</strong> in the centrifuge friction clutch <strong>in about 30 minutes.</strong>
+  </p>
+  <p>
+    However, if the technician observes excessive wear on the drum or the friction blocks, the repair or replacement of these parts can take much longer. If you need expert technician support, <a href="/centrifuge-repair-service/">our centrifuge repair service</a> team is available for both on-site and in-shop work.
+  </p>
+
+  <!-- Replacement Steps -->
+  <h2 id="replacement-steps">Steps to Replace Friction Pads</h2>
+  <p>Follow the steps listed below to change the friction pads in a disc stack centrifuge clutch.</p>
+  <ol>
+    <li>Shut off the centrifuge motor.</li>
+    <li>Engage the manual brake.</li>
+    <li>Let the centrifuge come to a complete stop.</li>
+    <li>Lock out the power to the centrifuge motor.</li>
+    <li>Wait for the friction clutch to cool down (about 15 minutes).</li>
+    <li>Remove the brake cover plate.</li>
+    <li>Reach into the clutch nave and remove the bolts holding the 'L' brackets.</li>
+    <li>Slide off each friction block from the pivot pin in the clutch hub.</li>
+    <li>Wipe off and clean each block and pad to remove wear-dust and soot.</li>
+    <li>Remove the brass screws that hold the friction pad on the friction block.</li>
+    <li>Inspect the friction blocks for wear.</li>
+    <li>Install the new friction pads with the new brass screw provided with the pads.</li>
+    <li>Reinstall the friction blocks on the pivot pins in the clutch hub.</li>
+    <li>Reinstall the 'L' brackets holding the friction blocks on the pins.</li>
+    <li>Install the brake cover plate.</li>
+    <li>Disengage the manual brake.</li>
+    <li>Power up the centrifuge and check ramp-up time and motor current.</li>
+  </ol>
+
+  <!-- Mid-page CTA -->
+  <div class="bg-navy rounded-xl p-6 text-white text-center not-prose my-8">
+    <h3 class="text-lg font-bold mb-2">Need Friction Clutch Parts?</h3>
+    <p class="text-gray-300 text-sm mb-4">Dolphin Centrifuge stocks friction pads, blocks, drums, and complete clutch assemblies for all major disc centrifuge models.</p>
+    <div class="flex flex-wrap gap-3 justify-center">
+      <a href="/alfa-laval-centrifuge-parts/" class="bg-gold hover:bg-gold-light text-navy font-bold text-sm px-6 py-2.5 rounded-lg transition-colors">Order Parts</a>
+      <a href="tel:+12485222573" class="border border-white/30 hover:bg-white/10 text-white font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+  <!-- Benefits — Side-by-Side Pattern A -->
+  <h2 id="benefits">Benefits of Friction Clutch</h2>
+  <p>A friction clutch has some crucial benefits for the disc centrifuge. Some of these are listed below.</p>
+
+  <div class="grid md:grid-cols-2 gap-6 not-prose mb-6">
+    <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Small Drive Motor</h3>
+      <p class="text-sm text-text-light">The friction clutch brings the centrifuge bowl up to speed over a period of time, gradually. This gradual acceleration allows for the use of a smaller motor to power the centrifuge.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Low Startup Current</h3>
+      <p class="text-sm text-text-light">Though the friction clutch also has an initial current spike, the overall current draw with a friction centrifuge is spread over a more extended period of startup time and is lower.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Simple Motor Starter</h3>
+      <p class="text-sm text-text-light">The centrifugal friction clutch needs a simple DOL motor starter that is inexpensive, easy to control, and readily available. Learn more about <a href="/industrial-centrifuge-controls/" class="text-navy underline decoration-gold hover:text-gold-dark">centrifuge control options</a>.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+      <h3 class="text-lg font-bold text-navy mb-2">Shock Load Protection</h3>
+      <p class="text-sm text-text-light">The friction clutch does not have a direct, rigid connection to the centrifuge transmission shaft. In case of sudden, unexpected loads on the motor due to centrifuge malfunction, the friction clutch prevents the load from reaching the motor — protecting the motor and electrical components.</p>
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <h2 id="limitations">Limitations of Friction Clutch</h2>
+  <p>The friction clutch has its own set of limitations that prevent its widespread use in centrifuges. The following is a list of some of the critical limitations.</p>
+
+  <h3>Periodic Maintenance</h3>
+  <p>As the name implies, the centrifugal clutch uses friction to transmit the torque to the centrifuge. Friction inherently causes wear on sacrificial parts. These parts, therefore, need a periodic replacement that adds to the maintenance of the centrifuge. The friction clutch also adds to the potential of unexpected centrifuge breakdown.</p>
+
+  <h3>Replaceable Spare Parts</h3>
+  <p>Following the above-mentioned periodic maintenance, a set of friction clutch-related replacement parts needs to be stocked by the user. The stocking of these parts adds to spare parts inventory cost and storage. You can source all required <a href="/alfa-laval-centrifuge-parts/">centrifuge friction clutch parts</a> through Dolphin Centrifuge.</p>
+
+  <h3>Long Startup Time</h3>
+  <p>The friction clutch transmits the motor-generated torque to the centrifuge horizontal shaft via the friction between the pads and the drum. This friction has limitations on the amount of torque transmitted. Therefore, a centrifuge fitted with a friction clutch takes longer to reach operating speed than a centrifuge with direct coupling.</p>
+
+  <h3>Long Stoppage Time</h3>
+  <p>When the centrifuge is shut down, the drive motor is de-energized. However, due to the momentum of the rotating bowl and the absence of any other stopping mechanism, the centrifuge takes a long time to stop rotating. The mechanical brake has a limited effect on stopping the centrifuge bowl quickly.</p>
+
+  <h3>Heat Generation</h3>
+  <p>The friction between the friction clutch pads and the transmission drum causes heat. Though the friction between the two parts reduces once the centrifuge is at operating speed, the friction clutch is still a cause of heat generation.</p>
+
+  <h3>Sparking Potential</h3>
+  <p>In rare cases, if the friction pads wear out and direct contact between the steel friction blocks and the steel transmission drum occurs, there is the risk of generating sparks. The presence of sparks in any machinery is highly undesirable, primarily when operating in hazardous conditions. For hazardous area installations, consider an <a href="/explosion-proof-centrifuge/">explosion-proof centrifuge</a> design.</p>
+
+  <!-- Consequences -->
+  <h2 id="consequences">What Happens if the Friction Clutch is Not Maintained?</h2>
+  <p>Often, centrifuge operators ignore the friction clutch assembly until the clutch assembly malfunctions or breaks. If the friction clutch is not maintained correctly, it causes many operational problems. Some of these problems are listed below.</p>
+
+  <h3>Longer Startup Time</h3>
+  <p>The friction pads wear out over time due to the constant contact between the friction elements and the drum. If the pads have excessive wear, they cannot transmit the torque from the motor to the centrifuge transmission. This inability to transfer the torque leads to the slower ramp-up of the centrifuge bowl speed leading to a longer startup time.</p>
+
+  <h3>Low Centrifuge Speed</h3>
+  <p>Worn-out friction elements or friction pads with oil on the contact surface lead to insufficient torque transmission. This loss in transmission can prevent the centrifuge from reaching optimum operating speed. Low operating speed leads to multiple issues, from the inefficient separation of fluids to the failure of the centrifuge bowl to open and close for sludge discharge.</p>
+
+  <h3>Damage to Clutch Drum and Friction Blocks</h3>
+  <p>Friction pads attach to steel friction blocks that carry them and provide the weight behind the pads to push them against the drum. If the friction pads wear out completely, the steel friction blocks contact the steel drum. Direct contact between the steel friction block and steel drum is highly detrimental to the centrifuge transmission. This contact will cause the blocks and drum to wear. Both of these components are cost-intensive. Replacing these parts also involves centrifuge disassembly and re-assembly, a long and labor-intensive process. For detailed <a href="/disc-stack-centrifuge-mechanical-issues-fixes/">centrifuge mechanical troubleshooting guidance</a>, see our dedicated guide.</p>
+
+  <h3>Centrifuge Vibration</h3>
+  <p>As with all rotating parts in a centrifuge, the clutch assembly also has a balanced design. This design positions the friction blocks at equal angular increments to avoid vibration during rotation. Uneven wear of friction pads causes an imbalance of weight of the friction clutch assembly. This imbalance causes the disc centrifuge to vibrate, and depending on the extent of friction pad wear, the vibrations can be excessive.</p>
+
+  <!-- Telltale Signs — Side-by-Side Pattern A -->
+  <h2 id="telltale-signs">Telltale Signs the Friction Clutch Needs Maintenance</h2>
+  <p>The operator should watch for a few telltale signs that indicate the friction clutch needs inspection and possibly maintenance. The leading indicators of friction clutch issues are listed below.</p>
+
+  <div class="grid md:grid-cols-2 gap-4 not-prose mb-6">
+    <div class="bg-white rounded-xl p-5 border-l-4 border-gold shadow-sm">
+      <h3 class="text-base font-bold text-navy mb-1">Longer Ramp-Up Time</h3>
+      <p class="text-sm text-text-light">If the centrifuge takes a long time to reach operating speed, it will most likely be time to replace the friction pads.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border-l-4 border-gold shadow-sm">
+      <h3 class="text-base font-bold text-navy mb-1">Fails to Reach Full Speed</h3>
+      <p class="text-sm text-text-light">If the centrifuge does not reach operating speed even after a prolonged startup time, the operator must inspect the friction clutch.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border-l-4 border-gold shadow-sm">
+      <h3 class="text-base font-bold text-navy mb-1">Metal Scraping Sounds</h3>
+      <p class="text-sm text-text-light">A high-pitched sound indicates metal-to-metal contact between the friction blocks (pads are worn out) and the drum.</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border-l-4 border-gold shadow-sm">
+      <h3 class="text-base font-bold text-navy mb-1">Unusual Vibration</h3>
+      <p class="text-sm text-text-light">A broken or dislodged friction pad causes an imbalance in the rotating clutch leading to the entire centrifuge vibrating.</p>
+    </div>
+  </div>
+
+  <!-- Maintenance Process -->
+  <h2 id="maintenance-process">Friction Clutch Maintenance Process</h2>
+  <p>The maintenance of the friction clutch system is a quick and straightforward process. The process involves the following four steps:</p>
+
+  <h3>Step 1: Removal of Brake Plate</h3>
+  <p>The first step is removing the brake plate by extracting the four bolts holding the brake plate to the centrifuge bottom frame.</p>
+
+  <h3>Step 2: Removing the 'L' Shaped Bracket</h3>
+  <p>The small, L-shaped bracket is bolted to the rotating nave mounted on the motor shaft. This bracket holds the friction block on the swing pivot pin.</p>
+
+  <h3>Step 3: Extracting the Friction Block with Friction Pad Attached</h3>
+  <p>After removing the holding (L) bracket, the friction block should slide off the pin and is extracted from the centrifuge.</p>
+
+  <h3>Step 4: Inspection of Friction Block and Replacement of Friction Pads</h3>
+  <p>The operator then inspects the friction pads mounted on the friction blocks for excessive wear. It is also necessary to ensure all the brass screws holding the friction block are present.</p>
+  <p>The new friction pads come with new installation screws. Once the pad installation is complete, the friction block is refitted into the centrifuge nave. You can order the friction pads and blocks through our <a href="/alfa-laval-centrifuge-parts/">centrifuge parts inquiry page</a>.</p>
+
+  <!-- Frequency -->
+  <h2 id="frequency">Frequency of Friction Clutch Maintenance</h2>
+  <p>
+    It is advisable to inspect the friction clutch every <strong>600 operating hours</strong> to check the condition of the friction pads. If the brass screws holding the friction pad show any wear at all, it is critical to replace the friction pads at that point.
+  </p>
+
+  <!-- Direct Drive Conversion — Side-by-Side Pattern A -->
+  <h2 id="direct-drive">Friction Clutch Replacement with Direct Drive Coupling</h2>
+  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
+    <div class="md:w-2/3">
+      <p class="text-text-light mb-4">
+        The centrifuge user can choose to replace the friction clutch assembly with a direct drive coupler unit. This coupling eliminates the entire friction torque transmission mechanism and directly couples the drive motor to the centrifuge transmission shaft.
+      </p>
+      <p class="text-text-light mb-4">
+        However, with the clutch removed, the entire mass of the centrifuge bowl is directly connected to the motor and cannot be brought up to speed instantaneously.
+      </p>
+      <p class="text-text-light mb-4">
+        Therefore, a VFD (variable frequency drive) replaces the motor starter in the <a href="/industrial-centrifuge-controls/" class="text-navy underline decoration-gold hover:text-gold-dark">centrifuge control panel</a> for this arrangement to work. The VFD gradually ramps up the motor to operating speed over a predetermined ramp-up time, avoiding excessive load on the motor during startup.
+      </p>
+      <h3 class="text-lg font-bold text-navy mb-2">Can a Friction Clutch Centrifuge be Converted to Direct-Drive?</h3>
+      <p class="text-text-light">
+        Yes, we routinely convert friction-driven centrifuges to direct-drive transmission centrifuges. We also modify the centrifuge controls to replace the motor starter with a suitable VFD during this process. The centrifuge drive motor also needs upgrading to an inverter-duty motor. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy underline decoration-gold hover:text-gold-dark">Contact us</a> for a conversion quote.
+      </p>
+    </div>
+    <div class="md:w-1/3">
+      <img
+        src="/images/disc-centrifuge-friction-clutch/Centrifuge-Friction-Clutch-Assembly-600.webp"
+        alt="Disc centrifuge friction clutch assembly showing friction blocks, pads, drum, and brake plate"
+        width="600" height="400"
+        loading="lazy"
+        class="rounded-lg shadow-md w-full"
+      />
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <FAQ items={faqItems} />
+
+</ApplicationLayout>
