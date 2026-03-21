@@ -17,6 +17,10 @@ const faqItems = [
   {
     question: "How much can a centrifuge extend hydraulic oil life in extrusion?",
     answer: "Continuous centrifuge purification extends hydraulic oil life from months to years — a 99% reduction in oil waste. By continuously removing contaminants and degradation byproducts, the oil maintains its additive package and viscosity properties far longer than with filtration alone. This dramatically reduces both oil purchase costs and hazardous waste disposal costs."
+  },
+  {
+    question: "What is the payback period for a centrifuge on an extrusion press?",
+    answer: "Most extrusion companies achieve full payback on a centrifuge system within 6 to 12 months. Savings come from eliminated oil-related downtime (worth $10,000–$50,000 per press per year depending on production rates), reduced oil replacement costs, lower disposal fees, and extended pump and valve life. Dolphin Centrifuge can provide a tailored ROI estimate based on your press specifications."
   }
 ];
 
@@ -50,7 +54,22 @@ const productJsonLd = {
   },
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "url": "https://dolphincentrifuge.com/extrusion-industry-centrifuge-application/",
+  "headline": "Hydraulic Oil Contamination in Extrusion Industry: A Centrifuge Application",
+  "description": "How disc stack centrifuges solve hydraulic oil contamination in aluminum extrusion presses, reducing downtime by 98% and oil waste by 99%.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -79,7 +98,7 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Extrusion Hydraulic Oil Centrifuge | Dolphin Centrifuge"
-  description="Hydraulic oil contamination in extrusion presses causes seized valves and downtime. A DMPX-014 centrifuge reduces oil-related downtime by 98%. Dolphin Centrifuge."
+  description="Hydraulic oil contamination causes valve seizure and press downtime. Dolphin Centrifuge DMPX-014 systems cut oil-related downtime 98% and oil waste 99%."
   heroImage="/images/extrusion-industry-centrifuge-application/DMPX-014-Self-Cleaning-Centrifuge-modified-Alfa-Laval-Disc-Stack-Centrifuge-Hydraulic-Oil-600.webp"
   heroImageAlt="DMPX-014 self-cleaning centrifuge installed for hydraulic oil purification on an extrusion press"
   category="applications"
@@ -238,16 +257,23 @@ const relatedProducts = [
     <em>***Valves sticking or jamming can even cause the housing on pumps to crack, causing breakers to burn out; therefore, the motors can also fail and burn up.***</em>
   </p>
 
-  <!-- Mid-Page CTA -->
-  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white my-8">
+  <!-- Mid-Page CTA: Sample Testing -->
+  <div class="not-prose bg-gold/10 border-l-4 border-gold rounded-r-xl p-6 my-8">
+    <p class="text-navy font-bold text-lg mb-1">Test Your Hydraulic Oil — Free Sample Analysis</p>
+    <p class="text-text-light text-sm mb-4">Send us a quart of your extrusion press hydraulic oil and we'll run a centrifuge pilot test showing you exactly what gets removed and how clean we can get it.</p>
+    <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold hover:bg-gold text-navy font-bold px-6 py-2.5 rounded-lg transition-colors text-sm">Request Free Sample Testing &rarr;</a>
+  </div>
+
+  <!-- Mid-Page CTA: Get a Quote -->
+  <div class="not-prose bg-navy rounded-xl p-6 md:p-8 text-white my-8">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
-        <h3 class="text-xl font-bold mb-2">Tired of Extrusion Press Downtime?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your hydraulic system and recommend a centrifuge solution to eliminate contamination-related failures.</p>
+        <h3 class="text-xl font-bold mb-2 text-white">Tired of Extrusion Press Downtime?</h3>
+        <p class="text-white/80">Our engineers will evaluate your hydraulic system and recommend a centrifuge solution to eliminate contamination-related failures.</p>
       </div>
       <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:text-navy text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
       </div>
     </div>
   </div>
@@ -368,18 +394,30 @@ const relatedProducts = [
   <!-- FAQ Section -->
   <h2 id="faq">Extrusion Centrifuge FAQ</h2>
 
-  <div class="space-y-4 my-6">
+  <div class="space-y-4 my-6 not-prose">
     {faqItems.map((item) => (
-      <details class="border border-gray-200 rounded-lg bg-white">
-        <summary class="px-5 py-4 font-semibold text-[#1B3A5C] cursor-pointer hover:bg-gray-50 rounded-lg list-none flex justify-between items-center">
-          {item.question}
-          <span class="text-[#E8A317] font-bold text-lg ml-2">+</span>
+      <details class="border-l-4 border-gold/40 bg-white rounded-r-lg shadow-sm overflow-hidden">
+        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-light-bg rounded-r-lg list-none flex justify-between items-center [&::-webkit-details-marker]:hidden">
+          <span>{item.question}</span>
+          <svg class="w-5 h-5 text-gold shrink-0 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </summary>
-        <div class="px-5 pb-4 pt-2 text-[#2D2D2D] text-sm leading-relaxed">
+        <div class="px-5 pb-4 pt-2 text-text-light text-sm leading-relaxed border-t border-gray-100">
           {item.answer}
         </div>
       </details>
     ))}
+  </div>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose w-full bg-navy rounded-xl px-6 py-8 md:py-10 text-center mt-10">
+    <p class="text-white text-xl font-bold mb-2">Ready to Eliminate Hydraulic Oil Downtime?</p>
+    <p class="text-white/75 text-sm mb-6">Dolphin Centrifuge has 40+ years of experience keeping extrusion press hydraulic systems clean. Call or click to get started.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:text-navy text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border-2 border-white text-white hover:bg-white hover:text-navy font-semibold px-8 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+    </div>
   </div>
 
 </ApplicationLayout>

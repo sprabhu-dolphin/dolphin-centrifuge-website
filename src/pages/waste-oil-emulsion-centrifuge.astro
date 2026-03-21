@@ -17,6 +17,10 @@ const faqItems = [
   {
     question: "What temperature is needed for emulsion breaking with a centrifuge?",
     answer: "Processing temperature of 180-200 degrees F provides optimal results. Higher temperature reduces oil viscosity and weakens the emulsion interfacial film, allowing the centrifuge to separate the phases more effectively. At 200 degrees F and 6 GPM, test results showed 98.7% oil recovery with only 0.35% residual water."
+  },
+  {
+    question: "Which Dolphin Centrifuge model is best for emulsified waste oil?",
+    answer: "The DMPX-042 self-cleaning disc stack centrifuge is the most popular model for emulsified waste oil processing, handling 25–32 GPM on heated waste oil at 180°F. For smaller volumes, the DMPX-028 handles 15–20 GPM. Both models feature automatic sludge ejection for continuous unattended operation and are configured with appropriate gravity discs for water-in-oil emulsion separation."
   }
 ];
 
@@ -50,7 +54,23 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Waste Oil Emulsion Breaking with an Industrial Centrifuge",
+  "description": "Industrial disc stack centrifuges break waste oil emulsions mechanically — separating emulsified water from oil without chemicals. Case study: 92% oil recovery generating $650K additional annual revenue.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/"
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-emulsion', label: 'What Is an Emulsion?' },
@@ -79,7 +99,7 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Waste Oil Emulsion Centrifuge | Dolphin Centrifuge"
-  description="Disc stack centrifuges break waste oil emulsions mechanically — separating emulsified water without chemicals. Case study: 92% oil recovery, $650K revenue."
+  description="Industrial disc stack centrifuges break waste oil emulsions without chemicals — 98.7% oil recovery at 200°F. Guam case study: $650K added annual revenue."
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/"
@@ -111,7 +131,7 @@ const relatedProducts = [
     <div class="md:w-[40%] shrink-0">
       <img
         src="/images/waste-oil-emulsion-centrifuge/types-of-oil-water-emulsions.webp"
-        alt="types of oil water emulsions"
+        alt="Diagram showing oil-in-water and water-in-oil emulsion types — droplet dispersion comparison"
         width="500"
         height="375"
         loading="lazy"
@@ -170,7 +190,7 @@ const relatedProducts = [
     <div class="md:w-[40%] shrink-0">
       <img
         src="/images/waste-oil-emulsion-centrifuge/Waste-Oil-Floculation-Coalescence.webp"
-        alt="Waste Oil Floculation Coalescence"
+        alt="Waste oil flocculation and coalescence diagram — water droplets merging in oil phase before centrifuge separation"
         width="500"
         height="375"
         loading="lazy"
@@ -200,15 +220,15 @@ const relatedProducts = [
   </p>
 
   <!-- Mid-page CTA -->
-  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8">
+  <div class="not-prose bg-navy rounded-xl p-6 md:p-8 text-white mb-8">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
         <h3 class="text-xl font-bold mb-2">Struggling With Emulsified Waste Oil?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your emulsified waste oil and recommend the optimal centrifuge system for maximum oil recovery.</p>
+        <p class="text-blue-100">Send us a sample for free pilot testing — our engineers will evaluate your emulsified waste oil and recommend the optimal centrifuge for maximum oil recovery.</p>
       </div>
       <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="bg-gold hover:bg-gold/90 text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Free Sample Testing</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white/10 font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
       </div>
     </div>
   </div>
@@ -375,20 +395,16 @@ const relatedProducts = [
   <h2 id="faq">Frequently Asked Questions</h2>
 
   {faqItems.map((item) => (
-    <details class="border border-gray-200 rounded-lg p-4 mb-3 group">
-      <summary class="cursor-pointer font-semibold text-[#1B3A5C] flex justify-between items-center">
+    <details class="border-l-4 border-gold bg-white rounded-r-lg shadow-sm mb-3 group not-prose">
+      <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center px-5 py-4">
         <span>{item.question}</span>
-        <span class="group-open:rotate-180 transition-transform text-[#E8A317]">&#9660;</span>
+        <span class="group-open:rotate-180 transition-transform text-gold ml-3 shrink-0">&#9660;</span>
       </summary>
-      <p class="mt-3 text-[#2D2D2D] text-sm leading-relaxed">{item.answer}</p>
+      <p class="px-5 pb-4 text-text-light text-sm leading-relaxed">{item.answer}</p>
     </details>
   ))}
 
   <hr />
-
-  <p>
-    <strong>Need help with emulsified waste oil?</strong> Call us at <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> for a consultation on your specific application.
-  </p>
 
   <p>
     <strong>Related resources:</strong>
@@ -396,10 +412,19 @@ const relatedProducts = [
     <a href="/used-oil-centrifuge/">Used Oil Centrifuge</a> |
     <a href="/cutting-oil-centrifuge/">Cutting Oil Centrifuge</a> |
     <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge</a> |
-    <a href="/disc-stack-centrifuge/">Self-Cleaning Centrifuge</a> |
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
     <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs Disc Centrifuge</a> |
     <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a>
   </p>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose bg-navy rounded-xl p-8 text-center mt-10">
+    <h2 class="text-xl font-bold text-white font-heading mb-2">Ready to Recover More Oil from Your Waste Stream?</h2>
+    <p class="text-gray-300 text-sm mb-5 max-w-lg mx-auto">Contact Dolphin Centrifuge for a free consultation or send us a waste oil sample. Based in Warren, Michigan — serving the USA for 40+ years.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white hover:bg-white/10 font-semibold px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

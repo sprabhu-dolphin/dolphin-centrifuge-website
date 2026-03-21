@@ -1,6 +1,24 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval Centrifuges — Parts, Repair & Remanufactured Units",
+  "description": "Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval centrifuges including MAB, MOPX, WHPX series. 200+ units in stock. Call (248) 522-2573.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/alfa-laval-centrifuges/",
+  "datePublished": "2020-01-01",
+  "dateModified": "2026-01-01",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/alfa-laval-centrifuges/"
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -44,20 +62,36 @@ const faqJsonLd = {
         "@type": "Answer",
         "text": "Yes. Dolphin Centrifuge provides complete service and parts support for all Alfa Laval centrifuge models including bowl rebuilds, gasket kits, disc stacks, bearing sets, and complete overhaul services. Our Warren, Michigan facility has 50+ years of collective Alfa Laval rebuild experience."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Dolphin equivalent of the Alfa Laval MOPX centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dolphin Centrifuge sells purpose-built self-cleaning disc centrifuge modules under the DMPX brand name. The DMPX-028 corresponds to the Alfa Laval MOPX 207 bowl, while the DMPX-042 uses the MOPX 209 bowl, and the DMPX-070 uses the MOPX 213 / WHPX 513 bowl. Each DMPX system adds a full control panel, feed pump, pre-heater, and skid frame."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a manual-clean MAB centrifuge and a self-cleaning MOPX centrifuge?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Alfa Laval MAB centrifuges (solid bowl) accumulate sludge inside the bowl and must be manually disassembled and cleaned periodically. Alfa Laval MOPX centrifuges (self-cleaning) automatically eject separated solids during operation without stopping — making them ideal for continuous 24/7 duty and higher-solids feeds. MAB centrifuges are simpler, lower-cost, and suited for low-solids applications."
+      }
     }
   ]
 };
 ---
 
 <ApplicationLayout
-  title="Alfa Laval Centrifuges — Disc Stack & Decanter | Dolphin Centrifuge"
-  description="Alfa Laval disc stack separators and decanter centrifuges — 200+ units in stock. New DMPX/DMB systems and remanufactured units. 40+ years Alfa Laval expertise. Dolphin Centrifuge, Warren MI."
+  title="Alfa Laval Centrifuges | Parts & Repair | Dolphin Centrifuge"
+  description="Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval disc stack and decanter centrifuges. 200+ units in stock, 40+ years expertise. Warren, MI. Call (248) 522-2573."
   heroImage="/images/alfa-laval-centrifuges/Alfa-Laval-Disc-Stack-Centrifuge-Stainless-Steel-Explosion-Proof.webp"
   heroImageAlt="Alfa Laval Disc Stack Centrifuge Stainless Steel Explosion Proof"
   category="products"
   categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-centrifuges/"
-  jsonLd={[jsonLd, faqJsonLd]}
+  jsonLd={[articleJsonLd, jsonLd, faqJsonLd]}
   toc={[
     { id: "about", label: "About Alfa Laval Centrifuges" },
     { id: "categories", label: "Centrifuge Categories We Stock" },
@@ -249,6 +283,13 @@ const faqJsonLd = {
     We also maintain parts inventory for most machines in our product range, supporting both machines we have sold and legacy units already in service at customer facilities. If you have an existing centrifuge that needs bowls, discs, seals, bearings, or wear parts, visit our <a href="/alfa-laval-centrifuge-parts/">centrifuge parts page</a> or <a href="/contact-for-alfa-laval-centrifuges/">contact us directly</a>.
   </p>
 
+  <!-- Mid-page CTA -->
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="font-bold text-navy text-base mb-1">Need Alfa Laval Centrifuge Parts or Service?</p>
+    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge stocks parts and provides complete overhaul service for all Alfa Laval disc stack and decanter centrifuge models. Get a quote in 24 hours.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors">Request a Quote &rarr;</a>
+  </div>
+
   <h2 id="selection">Finding the Right Centrifuge</h2>
 
   <div class="flex flex-col md:flex-row gap-6 items-start">
@@ -266,21 +307,37 @@ const faqJsonLd = {
   </div>
 
   <!-- FAQ -->
-  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8">
-    <h2 class="text-xl font-bold text-navy mb-6 !mt-0 !border-0">Frequently Asked Questions</h2>
-    <div class="space-y-6">
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge sell new or used Alfa Laval centrifuges?</h3>
-        <p class="text-sm">Dolphin Centrifuge supplies both new and remanufactured Alfa Laval centrifuge systems. New machines are available as Dolphin DMPX and DMB branded systems. Remanufactured units are fully rebuilt, tested, and backed by a Dolphin warranty. We maintain 200+ units in inventory at our Warren, Michigan facility.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">What Alfa Laval centrifuge series does Dolphin Centrifuge stock?</h3>
-        <p class="text-sm">Dolphin Centrifuge stocks Alfa Laval disc stack centrifuges including MAB series (manual-clean), MOPX/MAPX series (self-cleaning oil purifiers), WSPX/WHPX series (water-based fluids), BTPX series (biotech/pharma), and decanter centrifuges NX-314, NX-418, G2-40, and CHNX-418.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">Does Dolphin Centrifuge provide service and parts for Alfa Laval centrifuges?</h3>
-        <p class="text-sm">Yes. Dolphin Centrifuge provides complete service and parts support for all Alfa Laval centrifuge models including bowl rebuilds, gasket kits, disc stacks, bearing sets, and complete overhaul services. Our Warren, Michigan facility has 50+ years of collective Alfa Laval rebuild experience.</p>
-      </div>
+  <h2 id="faq">Frequently Asked Questions</h2>
+  <div class="space-y-3 not-prose">
+    <details class="border-l-4 border-gold bg-white rounded-xl shadow-sm p-5">
+      <summary class="font-semibold text-navy cursor-pointer">Does Dolphin Centrifuge sell new or used Alfa Laval centrifuges?</summary>
+      <p class="text-sm text-text-light mt-3">Dolphin Centrifuge supplies both new and remanufactured Alfa Laval centrifuge systems. New machines are available as Dolphin DMPX and DMB branded systems. Remanufactured units are fully rebuilt, tested, and backed by a Dolphin warranty. We maintain 200+ units in inventory at our Warren, Michigan facility.</p>
+    </details>
+    <details class="border-l-4 border-gold bg-white rounded-xl shadow-sm p-5">
+      <summary class="font-semibold text-navy cursor-pointer">What Alfa Laval centrifuge series does Dolphin Centrifuge stock?</summary>
+      <p class="text-sm text-text-light mt-3">Dolphin Centrifuge stocks Alfa Laval disc stack centrifuges including MAB series (manual-clean), MOPX/MAPX series (self-cleaning oil purifiers), WSPX/WHPX series (water-based fluids), BTPX series (biotech/pharma), and decanter centrifuges NX-314, NX-418, G2-40, and CHNX-418.</p>
+    </details>
+    <details class="border-l-4 border-gold bg-white rounded-xl shadow-sm p-5">
+      <summary class="font-semibold text-navy cursor-pointer">Does Dolphin Centrifuge provide service and parts for Alfa Laval centrifuges?</summary>
+      <p class="text-sm text-text-light mt-3">Yes. Dolphin Centrifuge provides complete service and parts support for all Alfa Laval centrifuge models including bowl rebuilds, gasket kits, disc stacks, bearing sets, and complete overhaul services. Our Warren, Michigan facility has 50+ years of collective Alfa Laval rebuild experience.</p>
+    </details>
+    <details class="border-l-4 border-gold bg-white rounded-xl shadow-sm p-5">
+      <summary class="font-semibold text-navy cursor-pointer">What is the Dolphin equivalent of the Alfa Laval MOPX centrifuge?</summary>
+      <p class="text-sm text-text-light mt-3">Dolphin Centrifuge sells purpose-built self-cleaning disc centrifuge modules under the DMPX brand name. The DMPX-028 corresponds to the Alfa Laval MOPX 207 bowl, while the DMPX-042 uses the MOPX 209 bowl, and the DMPX-070 uses the MOPX 213 / WHPX 513 bowl. Each DMPX system adds a full control panel, feed pump, pre-heater, and skid frame.</p>
+    </details>
+    <details class="border-l-4 border-gold bg-white rounded-xl shadow-sm p-5">
+      <summary class="font-semibold text-navy cursor-pointer">What is the difference between a manual-clean MAB and a self-cleaning MOPX centrifuge?</summary>
+      <p class="text-sm text-text-light mt-3">Alfa Laval MAB centrifuges (solid bowl) accumulate sludge inside the bowl and must be manually disassembled and cleaned periodically. Alfa Laval MOPX centrifuges (self-cleaning) automatically eject separated solids during operation without stopping — making them ideal for continuous 24/7 duty. MAB centrifuges are simpler, lower-cost, and suited for low-solids applications.</p>
+    </details>
+  </div>
+
+  <!-- Bottom CTA Bar -->
+  <div class="bg-navy rounded-xl p-6 mt-10 not-prose text-center">
+    <p class="text-white font-bold text-lg mb-2">Ready to Source Alfa Laval Centrifuge Parts or a Remanufactured Unit?</p>
+    <p class="text-white/80 text-sm mb-4">Call Dolphin Centrifuge at <a href="tel:+12485222573" class="text-gold font-semibold">(248) 522-2573</a> or request a quote online.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-gold/90 transition-colors text-sm">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="bg-white/10 text-white border border-white/30 font-semibold px-6 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm">Free Sample Testing</a>
     </div>
   </div>
 

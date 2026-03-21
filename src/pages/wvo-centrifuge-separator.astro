@@ -18,6 +18,10 @@ const faqItems = [
   {
     question: "What can purified WVO be used for?",
     answer: "Purified waste vegetable oil has multiple valuable end markets: biodiesel feedstock (the largest market), straight vegetable oil diesel fuel for modified engines, industrial lubricant base stock, heating fuel, soap and cosmetics manufacturing, and animal feed ingredient. Feedstock quality directly impacts the value and yield of these downstream products."
+  },
+  {
+    question: "What processing temperature is required for WVO centrifuge separation?",
+    answer: "The ideal WVO processing temperature is around 180°F (82°C). At this temperature, the oil viscosity is sufficiently low for the centrifuge to achieve high separation efficiency. A heat exchanger or inline heater is installed upstream of the centrifuge to bring the oil to operating temperature. Processing below 140°F results in significantly reduced throughput and separation quality due to higher viscosity."
   }
 ];
 
@@ -51,7 +55,17 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "WVO Centrifuge Separator: Used Cooking Oil Water and Solids Separation",
+  "description": "Industrial centrifuge systems for waste vegetable oil purification. 3-phase disc stack separators remove water, solids, and emulsions at 8,000 Gs.",
+  "author": { "@type": "Person", "name": "Sanjay Prabhu", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }, "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/" },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/wvo-centrifuge-separator/",
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
@@ -75,16 +89,16 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMPX-014 Self-Cleaning Centrifuge', href: '/centrifuges/dmpx-014/', description: 'Compact disc stack, 15 GPM WVO capacity' },
-  { label: 'DMPX-028 Self-Cleaning Centrifuge', href: '/centrifuges/dmpx-028/', description: 'Mid-range disc stack, 25 GPM' },
+  { label: 'DMPX-028 Self-Cleaning Centrifuge', href: '/centrifuges/dmpx-028/', description: 'Mid-range disc stack, 15 GPM WVO capacity' },
   { label: 'DMPX-042 Self-Cleaning Centrifuge', href: '/centrifuges/dmpx-042/', description: 'High-capacity disc stack, 45 GPM WVO' },
-  { label: 'NX-314 Decanter Centrifuge', href: '/centrifuges/nx-314/', description: 'De-sludging decanter for heavy solids' },
+  { label: 'DMPX-070 Self-Cleaning Centrifuge', href: '/centrifuges/dmpx-070/', description: 'Large-capacity disc stack, 70+ GPM' },
+  { label: 'NX-314 Decanter Centrifuge', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'De-sludging decanter for heavy solids' },
 ];
 ---
 
 <ApplicationLayout
-  title="WVO Centrifuge | Used Cooking Oil Water & Solids Separation | Dolphin Centrifuge"
-  description="Industrial WVO centrifuge systems for waste vegetable oil purification. 3-phase disc stack separators remove water, solids, and emulsions at 8,000 Gs."
+  title="WVO Centrifuge | Waste Vegetable Oil Separator | Dolphin"
+  description="Waste vegetable oil centrifuge systems for commercial WVO and UCO purification. 3-phase disc stack removes water, solids, and emulsions at 8,000 Gs. 10-45 GPM."
   heroImage="/images/wvo-centrifuge-separator/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-WVO-Water-Separation-600.webp"
   heroImageAlt="DMPX-042 Self-Cleaning Disc Stack Centrifuge for WVO Water Separation"
   category="applications"
@@ -213,16 +227,13 @@ const relatedProducts = [
   </ul>
 
   <!-- Mid-page CTA -->
-  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-2">Need Help With Your WVO Processing?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your waste vegetable oil feedstock and recommend the optimal centrifuge system for your operation.</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
+  <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 mb-8 not-prose">
+    <h3 class="text-lg font-bold text-navy mb-2">Test Your WVO Feedstock — Free Sample Testing</h3>
+    <p class="text-text-light text-sm mb-4">Not sure how much water or sludge your WVO contains? Send us a sample and Dolphin Centrifuge's engineers will run a pilot separation test, reporting actual purity levels achievable for your feedstock.</p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Send a Sample →</a>
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy/5 transition-colors text-sm">Get a Free Quote</a>
+      <a href="tel:+12485222573" class="inline-block text-navy font-semibold px-5 py-2 text-sm">(248) 522-2573</a>
     </div>
   </div>
 
@@ -619,5 +630,20 @@ const relatedProducts = [
   </p>
 
   <FAQ items={faqItems} />
+
+  <!-- Bottom CTA Bar -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mt-10 not-prose">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-1">Ready to Purify Your WVO at Commercial Scale?</h3>
+        <p class="text-blue-100 text-sm">Dolphin Centrifuge supplies complete WVO centrifuge systems — from 10 GPM compact units to 45 GPM industrial-scale systems with decanter pre-stage. Based in Warren, Michigan.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 shrink-0">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Free Sample Testing</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
 
 </ApplicationLayout>

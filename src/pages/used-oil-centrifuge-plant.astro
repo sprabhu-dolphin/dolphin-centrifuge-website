@@ -1,29 +1,50 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const faqItems = [
+  {
+    question: "What centrifuges are used in a used oil re-refining plant?",
+    answer: "A used oil centrifuge plant typically uses two centrifuge types in sequence: decanter centrifuges for primary sludge removal (heavy solids, water, and bottom sediment), followed by disc stack centrifuges for polishing to remove fine particles and remaining water. This two-stage configuration achieves API-quality base oil specifications."
+  },
+  {
+    question: "What is the capacity of a typical used oil centrifuge plant?",
+    answer: "Small used oil centrifuge plants handle 1–3 million gallons per year (MGY). Mid-size plants handle 6–10 MGY using multiple centrifuge trains operating in parallel. Large re-refining facilities exceed 30 MGY and require high-capacity decanter and disc stack centrifuges running continuously."
+  },
+  {
+    question: "How does a used oil centrifuge plant improve oil recovery compared to settling tanks?",
+    answer: "Centrifuge-based plants achieve 95–98% oil recovery vs. 70–80% for gravity settling, reduce processing time from days to minutes, and produce consistent output quality. Dolphin Centrifuge estimates that a 6 MGY centrifuge plant generates $300,000–500,000 per year in additional recovered oil compared to settling-based operations."
+  },
+  {
+    question: "What facility size is needed for a 6 MGY used oil centrifuge plant?",
+    answer: "A 6 MGY centrifuge-based used oil plant can fit within a 4,000 square foot climate-controlled facility, not including incoming oil storage tanks. This is a fraction of the space required for an equivalent capacity heating-and-settling plant, which needs large settling tanks proportional to processing volume. The compact footprint is a major advantage of centrifuge-based processing."
+  },
+  {
+    question: "Can I pilot test my used oil with Dolphin Centrifuge before committing to a plant?",
+    answer: "Yes. Dolphin Centrifuge offers free sample testing for used oil applications. Send a one-gallon sample of your used oil feedstock and we will run centrifuge separation tests at our Warren, Michigan facility, reporting oil recovery, water separation efficiency, and sludge content at various operating temperatures. This data forms the basis for sizing your plant accurately."
+  }
+];
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What centrifuges are used in a used oil re-refining plant?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A used oil centrifuge plant typically uses two centrifuge types in sequence: decanter centrifuges for primary sludge removal (heavy solids, water, and bottom sediment), followed by disc stack centrifuges for polishing to remove fine particles and remaining water. This two-stage configuration achieves API-quality base oil specifications." }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the capacity of a typical used oil centrifuge plant?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Small used oil centrifuge plants handle 1–3 million gallons per year (MGY). Mid-size plants handle 6–10 MGY using multiple centrifuge trains operating in parallel. Large re-refining facilities exceed 30 MGY and require high-capacity decanter and disc stack centrifuges running continuously." }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a used oil centrifuge plant improve oil recovery compared to settling tanks?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Centrifuge-based plants achieve 95–98% oil recovery vs. 70–80% for gravity settling, reduce processing time from days to minutes, and produce consistent output quality. Dolphin Centrifuge estimates that a 6 MGY centrifuge plant generates $300,000–500,000 per year in additional recovered oil compared to settling-based operations." }
-    }
-  ]
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Used Oil Centrifuge Plant",
+  "description": "6 MGY used oil centrifuge plant using NX-314 decanter and disc stack centrifuge for 99.9% clean oil output.",
+  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
+  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
 const jsonLd = [
+  productJsonLd,
   {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -32,8 +53,8 @@ const jsonLd = [
     "author": {
       "@type": "Person",
       "name": "Sanjay Prabhu",
-      "jobTitle": "Engineering Manager",
-      "affiliation": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
     },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
     "url": "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
@@ -72,7 +93,7 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="6MGY Used Oil Centrifuge Plant | Dolphin Centrifuge"
-  description="Complete layout, equipment specs, and processing overview for a 6 million gallon per year used oil centrifuge plant — decanter and disc stack centrifuges."
+  description="Complete guide to a 6 MGY used oil centrifuge plant: layout, equipment specs, NX-314 decanter desludging, disc stack polishing — 99.9% clean oil output."
   heroImage="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Plant-Layout.webp"
   heroImageAlt="Used oil centrifuge plant layout — piping and flow diagram showing 6MGY processing plant with decanter and disc stack centrifuge stages"
   category="applications"
@@ -85,7 +106,7 @@ const relatedProducts = [
 >
 
   <!-- AI Summary -->
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
     <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge designs 6 MGY used oil centrifuge plants using NX-314 decanters (3,150 Gs, 25 GPM) for desludging and DMSC-042 disc stack centrifuges (~6,500 Gs, 25 GPM) for polishing — achieving 99.9% clean oil output from contaminated feedstock.</p>
   </div>
 
@@ -231,6 +252,20 @@ const relatedProducts = [
     </div>
   </div>
 
+  <!-- Mid-Page CTA -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-bold mb-2">Want to Test Your Used Oil Before Committing?</h3>
+        <p class="text-gray-300 text-sm">Send a one-gallon sample to our Warren, MI facility — we'll run centrifuge separation tests and report oil recovery, water separation, and sludge content at no charge.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 shrink-0">
+        <a href="/industrial-centrifuge-sample-testing/" class="bg-gold hover:bg-gold/90 text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Free Sample Testing</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white/10 font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+      </div>
+    </div>
+  </div>
+
   <!-- Equipment Specifications -->
   <div id="specifications" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <h2 class="text-xl font-bold text-navy mb-4">Specifications</h2>
@@ -351,42 +386,38 @@ const relatedProducts = [
   <!-- Author -->
   <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-start gap-4">
-      <img src="/images/used-oil-centrifuge-plant/Dolphin-Centrifuge.webp" alt="Dolphin Centrifuge" width="64" height="64" loading="lazy" class="rounded-full w-16 h-16 object-contain" />
+      <img src="/images/used-oil-centrifuge-plant/Dolphin-Centrifuge.webp" alt="Sanjay Prabhu, Centrifuge Applications Engineer, Dolphin Centrifuge" width="64" height="64" loading="lazy" class="rounded-full w-16 h-16 object-contain" />
       <div>
         <p class="font-semibold text-navy">Sanjay Prabhu, MSME</p>
-        <p class="text-sm text-text-light">Engineering Manager, Dolphin Centrifuge</p>
+        <p class="text-sm text-text-light">Centrifuge Applications Engineer, Dolphin Centrifuge</p>
         <p class="text-sm text-text-light mt-2">To get more details <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">email us</a> or call us at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a>.</p>
       </div>
     </div>
   </div>
 
   <!-- Contact CTA -->
-  <div class="bg-navy rounded-xl p-6 text-center mb-10">
-    <h2 class="text-xl font-bold text-white mb-2">Need a Customized Used Oil Plant Layout?</h2>
-    <p class="text-gray-300 text-sm mb-4">Contact Dolphin Centrifuge for a customized used oil plant layout based on your specific throughput requirements and oil composition.</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="tel:+12485222573" class="bg-gold hover:bg-gold-light text-navy font-bold px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      <a href="mailto:sales@dolphincentrifuge.com" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">sales@dolphincentrifuge.com</a>
+  <div class="bg-navy py-12 px-6 text-center not-prose">
+    <h2 class="text-2xl font-bold text-white mb-4">Ready to Design Your Used Oil Plant?</h2>
+    <p class="text-white/80 mb-8 max-w-2xl mx-auto">Tell us your feedstock volume and oil type — we'll engineer the right centrifuge plant configuration.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold py-3 px-8 rounded-lg hover:bg-gold/90 transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white/10 transition-colors">Free Sample Testing</a>
     </div>
   </div>
 
   <!-- FAQ -->
-  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-6">
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">What centrifuges are used in a used oil re-refining plant?</h3>
-        <p class="text-text-light text-sm">A used oil centrifuge plant typically uses two centrifuge types in sequence: decanter centrifuges for primary sludge removal (heavy solids, water, and bottom sediment), followed by disc stack centrifuges for polishing to remove fine particles and remaining water. This two-stage configuration achieves API-quality base oil specifications.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">What is the capacity of a typical used oil centrifuge plant?</h3>
-        <p class="text-text-light text-sm">Small used oil centrifuge plants handle 1–3 million gallons per year (MGY). Mid-size plants handle 6–10 MGY using multiple centrifuge trains operating in parallel. Large re-refining facilities exceed 30 MGY and require high-capacity decanter and disc stack centrifuges running continuously.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">How does a used oil centrifuge plant improve recovery compared to settling tanks?</h3>
-        <p class="text-text-light text-sm">Centrifuge-based plants achieve 95–98% oil recovery vs. 70–80% for gravity settling, reduce processing time from days to minutes, and produce consistent output quality. Dolphin Centrifuge estimates that a 6 MGY centrifuge plant generates $300,000–500,000 per year in additional recovered oil compared to settling-based operations.</p>
-      </div>
-    </div>
+  <div id="faq" class="mb-6">
+    <h2 class="text-xl font-bold text-navy mb-4">Frequently Asked Questions</h2>
+
+    {faqItems.map((item) => (
+      <details class="border-l-4 border-gold bg-white rounded-r-lg shadow-sm mb-3 group">
+        <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center px-5 py-4">
+          <span>{item.question}</span>
+          <span class="group-open:rotate-180 transition-transform text-gold ml-3 shrink-0">&#9660;</span>
+        </summary>
+        <p class="px-5 pb-4 text-text-light text-sm leading-relaxed">{item.answer}</p>
+      </details>
+    ))}
   </div>
 
 </ApplicationLayout>

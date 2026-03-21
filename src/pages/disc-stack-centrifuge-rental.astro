@@ -1,5 +1,29 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "What disc stack centrifuge models are available for rental from Dolphin Centrifuge?",
+    answer: "Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges for short-term and long-term applications. Models range from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability."
+  },
+  {
+    question: "What are the common reasons to rent a disc stack centrifuge?",
+    answer: "Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild or repair, temporary capacity for seasonal production spikes, project work at a site without permanent centrifuge equipment, and proving a new application before committing to permanent installation."
+  },
+  {
+    question: "Can I rent a centrifuge to test my application before buying?",
+    answer: "Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab before you commit to a rental."
+  },
+  {
+    question: "What is included in the disc stack centrifuge rental package?",
+    answer: "Every Dolphin disc stack centrifuge rental includes a fully rebuilt centrifuge with new bearings, seals, and O-rings, along with the feed pump, motor, starter, and basic piping connections. An operating manual with process-specific parameters, phone and email technical support, and startup commissioning assistance (remote or on-site) are also included. A spare parts kit covering basic consumables for the rental duration is provided."
+  },
+  {
+    question: "How quickly can a rental disc stack centrifuge be delivered?",
+    answer: "Dolphin Centrifuge can typically ship a rental disc stack centrifuge within 5–10 business days from rental agreement execution for most DMPX models. Delivery time depends on model availability, your location, and freight scheduling. For urgent emergency situations, contact us directly at (248) 522-2573 to discuss expedited availability."
+  }
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -20,32 +44,30 @@ const jsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What disc stack centrifuge models are available for rental from Dolphin Centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges for short-term and long-term applications. Models range from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the common reasons to rent a disc stack centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild or repair, temporary capacity for seasonal production spikes, project work at a site without permanent centrifuge equipment, and proving a new application before committing to permanent installation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I rent a centrifuge to test my application before buying?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab before you commit to a rental."
-      }
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
     }
-  ]
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Disc Stack Centrifuge Rental Program",
+  "description": "Rent industrial DMPX-series disc stack centrifuges from Dolphin Centrifuge for pilot testing, emergency backup, and temporary capacity. Fully rebuilt units, short- and long-term rental from Warren, Michigan.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-rental/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/disc-stack-centrifuge-rental/"
 };
 
 const toc = [
@@ -82,7 +104,7 @@ const relatedProducts = [
   heroImage="/images/disc-stack-centrifuge-rental/Alfa-Laval-Disc-Centrifuge-Rental.webp"
   heroImageAlt="Alfa Laval Disc Centrifuge Rental"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-rental/"
-  jsonLd={[jsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, faqJsonLd, articleJsonLd]}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
@@ -235,6 +257,13 @@ const relatedProducts = [
     <li><strong>Spare Parts Kit:</strong> Basic consumables included for the rental duration</li>
   </ul>
 
+  <!-- Mid-Page CTA -->
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="font-semibold text-navy mb-1">Ready to Rent a Disc Stack Centrifuge?</p>
+    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge ships fully rebuilt DMPX-series separators nationwide. Contact us for current availability, pricing, and application guidance.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Get Rental Pricing</a>
+  </div>
+
   <h2 id="comparison">Rental vs. Purchase</h2>
   <table>
     <thead>
@@ -259,19 +288,6 @@ const relatedProducts = [
   </ul>
   <p>Looking for a decanter centrifuge instead? See our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental program</a> for NX and G2-series units.</p>
 
-  <!-- FAQ -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
-    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">What disc stack centrifuge models are available for rental?</summary>
-    <div class="px-5 pb-5 text-text-light">Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges ranging from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability.</div>
-  </details>
-  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
-    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">What are the common reasons to rent a disc stack centrifuge?</summary>
-    <div class="px-5 pb-5 text-text-light">Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild, temporary capacity for seasonal production spikes, project work at a site without permanent equipment, and proving a new application before committing to permanent installation.</div>
-  </details>
-  <details class="bg-white rounded-xl border border-gray-200 shadow-sm mb-3">
-    <summary class="p-5 cursor-pointer font-semibold text-navy hover:text-gold transition-colors">Can I rent a centrifuge to test my application before buying?</summary>
-    <div class="px-5 pb-5 text-text-light">Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab.</div>
-  </details>
+  <FAQ items={faqItems} />
 
 </ApplicationLayout>

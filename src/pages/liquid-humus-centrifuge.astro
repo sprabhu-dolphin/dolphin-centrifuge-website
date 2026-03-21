@@ -18,24 +18,30 @@ const faqItems = [
   {
     question: "Why is a disc stack polishing step needed after the decanter?",
     answer: "The decanter removes bulk solids and coarse organic matter but cannot capture fine colloidal particles below approximately 25 microns. A disc stack centrifuge operating at up to 12,000 Gs removes particles down to 1 micron — essential for foliar spray applications (prevents nozzle clogging), drip irrigation (prevents emitter fouling), and retail products (ensures visual clarity on the shelf)."
+  },
+  {
+    question: "What flow rates are available for liquid humus centrifuge systems?",
+    answer: "Dolphin Centrifuge offers disc stack polishing systems at 15, 25, and 40 GPM for the clarification stage, plus a 30 GPM stainless steel decanter for primary separation. Higher-capacity systems are available by contacting our engineering team. System sizing depends on your production volume, extract solids content, and desired throughput."
   }
 ];
 
-const productJsonLd = {
+const articleJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Product",
-  "url": "https://dolphincentrifuge.com/liquid-humus-centrifuge/",
-  "name": "Liquid Humus Centrifuge System",
-  "description": "Industrial centrifuge systems for liquid humus fertilizer production. Decanter centrifuges for bulk separation and disc stack polishers for crystal-clear humic acid extracts.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "category": "Industrial Centrifuges",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+  "@type": "Article",
+  "headline": "Liquid Humus Centrifuge | Commercial Scale Production",
+  "description": "Industrial centrifuge systems for liquid humus fertilizer production. Decanter centrifuges for bulk separation and disc stack polishers for humic acid extracts.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com"
+    }
   },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/liquid-humus-centrifuge/",
 };
 
 const faqJsonLd = {
@@ -46,12 +52,12 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'how-liquid-humus-is-made', label: 'How Liquid Humus Is Made' },
@@ -63,22 +69,22 @@ const toc = [
 
 const relatedApplications = [
   { label: 'Algae Centrifuge', href: '/algae-centrifuge/' },
-  { label: 'Manure Separator', href: '/manure-centrifuge-separator/' },
   { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
-  { label: 'Food Grade Centrifuge', href: '/food-grade-centrifuge/' },
+  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Disc Stack Centrifuge Applications', href: '/disc-stack-centrifuge-applications/' },
 ];
 
 const relatedProducts = [
   { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Primary humus separation &mdash; 30 GPM' },
   { label: 'Self-Cleaning Disc Stack &mdash; 15 GPM', href: '/centrifuges/dmpx-042/', description: 'Polishing clarifier for small batches' },
   { label: 'Self-Cleaning Disc Stack &mdash; 25 GPM', href: '/centrifuges/dmpx-042/', description: 'Mid-range polishing clarifier' },
-  { label: 'Self-Cleaning Disc Stack &mdash; 40 GPM', href: '/centrifuges/dmpx-055/', description: 'High-capacity polishing clarifier' },
+  { label: 'Self-Cleaning Disc Stack &mdash; 40 GPM', href: '/centrifuges/dmpx-070/', description: 'High-capacity polishing clarifier' },
 ];
 ---
 
 <ApplicationLayout
   title="Liquid Humus Centrifuge | Dolphin Centrifuge"
-  description="Industrial centrifuges for liquid humus fertilizer — decanter centrifuges for bulk separation, disc stack polishers for humic acid extracts. Dolphin Centrifuge."
+  description="Centrifuge systems for liquid humus fertilizer: NX-314 decanter removes bulk solids, disc stack clarifies humic acid extracts to 1 micron. Dolphin Centrifuge."
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/liquid-humus-centrifuge/"
@@ -96,7 +102,7 @@ const relatedProducts = [
 
   <h2 id="how-liquid-humus-is-made">How Liquid Humus Is Made</h2>
 
-  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies decanter and disc stack centrifuge systems for liquid humus fertilizer production. Liquid humus fertilizer is produced by extracting humic and fulvic acids from organic humus material. The process is straightforward: raw humus (composted organic matter, leonardite, or peat) is mixed with water and an alkaline agent, then allowed to steep for a controlled residence time. During this period, humic substances dissolve into the water phase.
+  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies decanter and <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> systems for liquid humus fertilizer production. Liquid humus fertilizer is produced by extracting humic and fulvic acids from organic humus material. The process is straightforward: raw humus (composted organic matter, leonardite, or peat) is mixed with water and an alkaline agent, then allowed to steep for a controlled residence time. During this period, humic substances dissolve into the water phase.
   </p>
 
   <p>
@@ -124,7 +130,7 @@ const relatedProducts = [
     <div class="md:w-1/2">
       <img
         src="/images/liquid-humus-centrifuge/biomass-centrifuge-Alfa-Laval-NX314.webp"
-        alt="Biomass centrifuge Alfa Laval NX314"
+        alt="Biomass centrifuge NX-314 stainless steel decanter for liquid humus production"
         width="600" height="600"
         loading="lazy"
         class="rounded-lg w-full h-auto"
@@ -155,7 +161,7 @@ const relatedProducts = [
     <div class="md:w-1/2">
       <img
         src="/images/liquid-humus-centrifuge/Humic-Acid-Disc-Stack-Centrifuge-Testing-Results.webp"
-        alt="Humic Acid Disc Stack Centrifuge Testing Results"
+        alt="Humic Acid Disc Stack Centrifuge Testing Results — solids retained in bowl after separation"
         width="800" height="600"
         loading="lazy"
         class="rounded-lg w-full h-auto"
@@ -164,7 +170,7 @@ const relatedProducts = [
     <div class="md:w-1/2">
       <img
         src="/images/liquid-humus-centrifuge/Before-n-After-Centrifuge.webp"
-        alt="Before n After Centrifuge"
+        alt="Humic acid before and after centrifuge processing — clarity comparison"
         width="800" height="730"
         loading="lazy"
         class="rounded-lg w-full h-auto"
@@ -188,17 +194,10 @@ const relatedProducts = [
   </p>
 
   <!-- Mid-Page CTA -->
-  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-2">Need Help With Your Liquid Humus Production?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your humus material and recommend the optimal centrifuge system for your production scale.</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
-    </div>
+  <div class="bg-gold/10 border border-gold rounded-xl p-6 my-8 not-prose">
+    <p class="text-navy font-bold text-lg mb-2">Test Your Humus Extract Before You Invest</p>
+    <p class="text-sm text-[#555] mb-4">Send us a sample of your liquid humus and we will process it through our pilot-scale centrifuge — confirming separation efficiency and recommending the right production system.</p>
+    <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:opacity-90 transition">Request Sample Testing &rarr;</a>
   </div>
 
   <h2 id="humus-clarifier">Humus Clarifier &mdash; Disc Stack Polisher</h2>
@@ -207,7 +206,7 @@ const relatedProducts = [
     <div class="md:w-1/2">
       <img
         src="/images/liquid-humus-centrifuge/algae-centrifuge-alfa-laval-40GPM.webp"
-        alt="Algae centrifuge alfa laval 40GPM"
+        alt="Self-cleaning disc stack centrifuge 40 GPM for liquid humus polishing"
         width="300" height="300"
         loading="lazy"
         class="rounded-lg w-full h-auto"
@@ -231,7 +230,7 @@ const relatedProducts = [
   </ul>
 
   <p>
-    The self-cleaning disc stack ejects accumulated solids automatically at timed intervals. No manual cleaning, no batch processing, no downtime.
+    The self-cleaning disc stack ejects accumulated solids automatically at timed intervals. No manual cleaning, no batch processing, no downtime. This production step is similar to the clarification approach used for <a href="/algae-centrifuge/">algae harvesting</a>.
   </p>
 
   <h2 id="specifications">Specifications</h2>
@@ -280,7 +279,7 @@ const relatedProducts = [
   </table>
 
   <p>
-    <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for detailed specifications and sizing assistance based on your production volume and humus material characteristics.
+    <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for detailed specifications and sizing assistance based on your production volume and humus material characteristics. Higher-capacity decanters are also available.
   </p>
 
   <hr />
@@ -290,10 +289,24 @@ const relatedProducts = [
     <a href="/decanter-centrifuge/">Decanter Centrifuge Guide</a> |
     <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Guide</a> |
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
-    <a href="/industrial-disc-centrifuge-repair/">Centrifuge Repair and Services</a> |
-    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Centrifuge</a>
+    <a href="/decanter-centrifuge-applications/">Decanter Applications</a> |
+    <a href="/algae-centrifuge/">Algae Harvesting Centrifuge</a>
   </p>
 
   <FAQ items={faqItems} />
+
+  <!-- Bottom CTA bar -->
+  <div class="not-prose bg-navy rounded-xl p-6 md:p-8 mt-10 text-white">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <p class="text-xl font-bold mb-1">Ready to Scale Your Liquid Humus Production?</p>
+        <p class="text-blue-100 text-sm">Send a sample or request a quote. Our engineers will size the right decanter and disc stack system for your production volume.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-white font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition whitespace-nowrap">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Free Sample Testing</a>
+      </div>
+    </div>
+  </div>
 
 </ApplicationLayout>
