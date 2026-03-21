@@ -4,14 +4,62 @@ import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Applications";
 const description = "Industrial centrifuge applications across oil & fuel, industrial fluids, food & beverage, and environmental processing. Find the right centrifuge for your industry.";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Industrial Centrifuge Applications",
-  "description": description,
-  "url": "https://dolphincentrifuge.com/applications/",
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Industrial Centrifuge Applications",
+    "description": description,
+    "url": "https://dolphincentrifuge.com/applications/",
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Industrial Centrifuge Applications Hub",
+    "description": description,
+    "url": "https://dolphincentrifuge.com/applications/",
+    "author": {
+      "@type": "Person",
+      "name": "Dolphin Centrifuge Engineering Team",
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+    },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What industries does Dolphin Centrifuge serve?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge serves oil and gas, fleet services, marine, food processing, metalworking, wastewater treatment, agriculture, and environmental industries. Our disc stack and decanter centrifuge systems are proven across dozens of fluid separation applications." }
+      },
+      {
+        "@type": "Question",
+        "name": "What types of centrifuges does Dolphin Centrifuge offer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge offers disc stack centrifuges (DMPX series) for liquid-liquid-solids separation, and decanter centrifuges for high-solids sludge dewatering. Capacities range from 5 to 100+ GPM for both product lines." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I know which centrifuge is right for my application?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The right centrifuge depends on your fluid type, contamination load, flow rate, and separation goals. Dolphin Centrifuge offers free sample testing at our Warren, MI facility — send us a fluid sample and our engineers will test it and recommend the optimal system." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Dolphin Centrifuge offer turnkey centrifuge systems?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge supplies complete turnkey skid-mounted systems including the centrifuge, feed pump, heater, pre-filter, sludge handling, flow controls, and PLC panel. Systems are factory-tested and shipped ready for field connection." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Dolphin Centrifuge handle both small and large volume applications?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge systems scale from 5 GPM compact units for small batch operations to 100+ GPM continuous processing systems for industrial-scale applications. Contact our engineering team to discuss sizing for your specific volume requirements." }
+      }
+    ]
+  }
+];
 
 const oilApps = [
   { title: "Waste Oil", subtitle: "Mineral Oil Recovery", href: "/applications/used-motor-oil/", description: "Re-refining, crankcase drainings, waste oil emulsion breaking, black diesel, and fleet waste oil processing.", icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z", accent: "#999" },
@@ -34,11 +82,13 @@ const envApps = [
 ];
 
 const toc = [
+  { id: "ai-summary", label: "About These Applications" },
   { id: "oil-applications", label: "Oil Applications" },
   { id: "fuel-applications", label: "Fuel Applications" },
   { id: "industrial-fluid-applications", label: "Industrial Fluid Applications" },
   { id: "environmental-applications", label: "Environmental Applications" },
   { id: "all-applications", label: "Browse All Applications A-Z" },
+  { id: "faq", label: "Frequently Asked Questions" },
 ];
 
 const allSections = [
@@ -55,6 +105,8 @@ const allSections = [
   canonicalUrl="https://dolphincentrifuge.com/applications/"
   category="applications"
   categoryLabel="All Applications"
+  heroImage="/images/waste-oil-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp"
+  heroImageAlt="Dolphin Centrifuge industrial disc stack centrifuge systems for oil, fuel, and fluid applications"
   toc={toc}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
@@ -68,6 +120,12 @@ const allSections = [
   jsonLd={jsonLd}
 >
   <article class="prose-dolphin max-w-none">
+
+    <!-- AI Summary -->
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+      <p class="text-sm text-gray-600 leading-relaxed italic">Dolphin Centrifuge supplies purpose-modified industrial disc stack and decanter centrifuge systems for oil recovery, fuel purification, wastewater treatment, and metalworking fluid recycling. Operating at up to 8,000 G with separation down to 1 micron, these systems process 5–100+ GPM continuously. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifugal separation across industrial, marine, energy, and environmental sectors.</p>
+    </div>
+
     <p>
       With over 40 years of centrifuge expertise across dozens of industries, Dolphin Centrifuge delivers proven separation performance.
       From <a href="/waste-oil-centrifuge/">waste oil recovery</a> to <a href="/wastewater-centrifuge/">wastewater treatment</a>,
@@ -117,5 +175,55 @@ const allSections = [
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
       </a>
     </div>
+
+    <!-- Mid-Page CTA -->
+    <div class="not-prose my-10 bg-gold/10 border border-gold/40 rounded-xl p-6 md:p-8">
+      <h3 class="text-xl font-bold text-navy mb-2">Not Sure Which Application Fits Your Process?</h3>
+      <p class="text-gray-700 mb-4">Our engineers have solved separation challenges across oil, fuel, wastewater, and metalworking fluids for 40+ years. Send us a sample — we'll test it and recommend the right centrifuge system.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What industries does Dolphin Centrifuge serve?</summary>
+      <p class="mt-2 text-gray-700">Dolphin Centrifuge serves oil and gas, fleet services, marine, food processing, metalworking, wastewater treatment, agriculture, and environmental industries. Our disc stack and decanter centrifuge systems are proven across dozens of fluid separation applications.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What types of centrifuges does Dolphin Centrifuge offer?</summary>
+      <p class="mt-2 text-gray-700">Dolphin Centrifuge offers disc stack centrifuges (DMPX series) for liquid-liquid-solids separation, and decanter centrifuges for high-solids sludge dewatering. Capacities range from 5 to 100+ GPM for both product lines.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How do I know which centrifuge is right for my application?</summary>
+      <p class="mt-2 text-gray-700">The right centrifuge depends on your fluid type, contamination load, flow rate, and separation goals. Dolphin Centrifuge offers free sample testing at our Warren, MI facility — send us a fluid sample and our engineers will test it and recommend the optimal system.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Does Dolphin Centrifuge offer turnkey centrifuge systems?</summary>
+      <p class="mt-2 text-gray-700">Yes. Dolphin Centrifuge supplies complete turnkey skid-mounted systems including the centrifuge, feed pump, heater, pre-filter, sludge handling, flow controls, and PLC panel. Systems are factory-tested and shipped ready for field connection.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can Dolphin Centrifuge handle both small and large volume applications?</summary>
+      <p class="mt-2 text-gray-700">Yes. Dolphin Centrifuge systems scale from 5 GPM compact units for small batch operations to 100+ GPM continuous processing systems for industrial-scale applications. Contact our engineering team to discuss sizing for your specific volume requirements.</p>
+    </details>
+
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose mt-10 bg-navy rounded-xl p-8 text-white text-center">
+    <h3 class="text-2xl font-bold mb-2">Ready to Solve Your Separation Challenge?</h3>
+    <p class="text-white/80 mb-6 max-w-xl mx-auto">150+ centrifuges in stock. Free sample testing. Turnkey systems with performance guarantee. Call us or request a quote today.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">Free Sample Testing</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">(248) 522-2573</a>
+    </div>
+  </div>
 </ApplicationLayout>

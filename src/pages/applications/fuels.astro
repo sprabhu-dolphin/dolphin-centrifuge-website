@@ -4,21 +4,72 @@ import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 const title = "Fuel Centrifuge Applications";
 const description = "Centrifuge systems for diesel, HFO, and bunker fuel purification. Remove water, particulates, cat fines, and asphaltenes for reliable fuel quality. Request a quote.";
 const canonicalUrl = "https://dolphincentrifuge.com/applications/fuels/";
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": title,
-  "description": description,
-  "url": canonicalUrl,
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "description": description,
+    "url": canonicalUrl,
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": canonicalUrl,
+    "author": {
+      "@type": "Person",
+      "name": "Dolphin Centrifuge Engineering Team",
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+    },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What contaminants does a fuel centrifuge remove?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A disc stack fuel centrifuge removes free and emulsified water, particulate matter, cat fines (catalytic fines — abrasive alumina and silica from refinery cracking), asphaltenes and sludge, and biological contaminants (bacteria and fungi). This protects injectors, reduces wear, and extends engine component life." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between diesel polishing and fuel oil centrifugation?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Diesel polishing typically refers to processing stored diesel fuel to remove water and particulates that accumulate during storage. Fuel oil centrifugation (for HFO or bunker fuel) requires elevated temperatures to reduce viscosity for effective separation of cat fines and asphaltenes. Both processes use disc stack centrifuges, but HFO systems require larger, heated systems." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much flow rate do I need for a generator fuel polishing system?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For generator fuel polishing, a common rule of thumb is to size the centrifuge to turn over the fuel tank volume every 24–48 hours. For a 10,000-gallon tank, a 7–15 GPM centrifuge provides adequate polishing. Dolphin Centrifuge engineers will size your system based on actual fuel volume and contamination level." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a centrifuge replace fuel filters entirely?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A centrifuge significantly extends filter life and often eliminates frequent filter changes, but most installations use a post-filter as a final polishing step to ensure absolute cleanliness. Centrifuges handle the bulk of contamination — removing 95%+ of water and solids — while post-filters provide the final quality guarantee." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Dolphin Centrifuge build duplex fuel purification systems?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Dolphin Centrifuge builds both simplex and duplex centrifuge systems for fuel purification. Duplex configurations use two centrifuges in parallel for 100% continuous operation — one unit processes fuel while the other is in standby or maintenance. This is essential for critical power generation or marine applications where fuel supply cannot be interrupted." }
+      }
+    ]
+  }
+];
 
 const toc = [
+  { id: "ai-summary", label: "Overview" },
   { id: "why-centrifuge-fuel", label: "Why Centrifuge Fuel Purification" },
   { id: "diesel-fuel-centrifuge", label: "Diesel Fuel Centrifuge" },
   { id: "fuel-oil-hfo-centrifuge", label: "Fuel Oil / HFO Centrifuge" },
   { id: "contaminants-removed", label: "Contaminants Removed" },
   { id: "choosing-the-right-system", label: "Choosing the Right System" },
+  { id: "faq", label: "Frequently Asked Questions" },
 ];
 
 const relatedApplications = [
@@ -40,13 +91,19 @@ const relatedProducts = [
   category="applications"
   categoryLabel="Fuel Applications"
   heroImage="/images/diesel-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
-  heroImageAlt="Duplex diesel centrifuge module for fuel purification"
+  heroImageAlt="Duplex diesel centrifuge module for fuel purification by Dolphin Centrifuge"
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
   jsonLd={jsonLd}
 >
   <article class="prose-dolphin max-w-none">
+
+    <!-- AI Summary -->
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+      <p class="text-sm text-gray-600 leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for diesel polishing, heavy fuel oil (HFO) purification, and bunker fuel treatment. Operating at up to 8,000 G, these systems remove water, cat fines, asphaltenes, and particulates at 10–60 GPM. Based in Warren, Michigan, with 40+ years of fuel separation experience across power generation, marine, and fleet industries.</p>
+    </div>
+
     <h2 id="why-centrifuge-fuel">Why Centrifuge Fuel Purification</h2>
     <p>
       Fuel contamination is one of the leading causes of engine failure, injector wear, and unscheduled downtime in power generation, marine, and fleet operations. Water, particulates, cat fines, and asphaltenes degrade fuel quality and damage critical engine components. <a href="/disc-stack-centrifuge-applications/">Disc stack centrifuge systems</a> provide the most effective method of removing these contaminants, delivering fuel that meets or exceeds OEM cleanliness specifications.
@@ -80,6 +137,16 @@ const relatedProducts = [
       <li><strong>Biological contaminants</strong> — bacteria and fungi that thrive in fuel-water interfaces</li>
     </ul>
 
+    <!-- Mid-Page CTA -->
+    <div class="not-prose my-10 bg-gold/10 border border-gold/40 rounded-xl p-6 md:p-8">
+      <h3 class="text-xl font-bold text-navy mb-2">Dealing with Fuel Contamination or Engine Wear?</h3>
+      <p class="text-gray-700 mb-4">Send us a fuel sample — our engineers test your actual fuel and recommend the right centrifuge system. Simplex and duplex configurations available for diesel, HFO, and bunker fuel.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      </div>
+    </div>
+
     <h2 id="choosing-the-right-system">Choosing the Right System</h2>
     <p>
       Selecting the right fuel centrifuge depends on fuel type, throughput requirements, and contaminant profile. The <a href="/centrifuges/dmpx-042/">DMPX-042 disc centrifuge</a> is well suited for mid-range diesel and light fuel oil applications, while the <a href="/centrifuges/dmpx-028/">DMPX-028</a> handles smaller volume requirements with the same separation efficiency.
@@ -90,5 +157,45 @@ const relatedProducts = [
     <p>
       Ready to discuss your fuel purification needs? <a href="/contact-for-alfa-laval-centrifuges/">Contact our engineering team</a> for a free consultation and quote.
     </p>
+
+    <!-- FAQ Section -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What contaminants does a fuel centrifuge remove?</summary>
+      <p class="mt-2 text-gray-700">A disc stack fuel centrifuge removes free and emulsified water, particulate matter, cat fines (catalytic fines — abrasive alumina and silica from refinery cracking), asphaltenes and sludge, and biological contaminants (bacteria and fungi). This protects injectors, reduces wear, and extends engine component life.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What is the difference between diesel polishing and fuel oil centrifugation?</summary>
+      <p class="mt-2 text-gray-700">Diesel polishing typically refers to processing stored diesel fuel to remove water and particulates that accumulate during storage. Fuel oil centrifugation (for HFO or bunker fuel) requires elevated temperatures to reduce viscosity for effective separation of cat fines and asphaltenes. Both processes use disc stack centrifuges, but HFO systems require larger, heated systems.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How much flow rate do I need for a generator fuel polishing system?</summary>
+      <p class="mt-2 text-gray-700">For generator fuel polishing, a common rule of thumb is to size the centrifuge to turn over the fuel tank volume every 24–48 hours. For a 10,000-gallon tank, a 7–15 GPM centrifuge provides adequate polishing. Dolphin Centrifuge engineers will size your system based on actual fuel volume and contamination level.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can a centrifuge replace fuel filters entirely?</summary>
+      <p class="mt-2 text-gray-700">A centrifuge significantly extends filter life and often eliminates frequent filter changes, but most installations use a post-filter as a final polishing step to ensure absolute cleanliness. Centrifuges handle the bulk of contamination — removing 95%+ of water and solids — while post-filters provide the final quality guarantee.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Does Dolphin Centrifuge build duplex fuel purification systems?</summary>
+      <p class="mt-2 text-gray-700">Yes. Dolphin Centrifuge builds both simplex and duplex centrifuge systems for fuel purification. Duplex configurations use two centrifuges in parallel for 100% continuous operation — one unit processes fuel while the other is in standby or maintenance. This is essential for critical power generation or marine applications where fuel supply cannot be interrupted.</p>
+    </details>
+
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose mt-10 bg-navy rounded-xl p-8 text-white text-center">
+    <h3 class="text-2xl font-bold mb-2">Protect Your Engines. Purify Your Fuel.</h3>
+    <p class="text-white/80 mb-6 max-w-xl mx-auto">Dolphin Centrifuge fuel purification systems for diesel, HFO, and bunker fuel. Turnkey skids. Factory tested. Fast delivery from Warren, MI.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/fuel-oil-centrifuge/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">Fuel Oil Centrifuge Details</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">(248) 522-2573</a>
+    </div>
+  </div>
 </ApplicationLayout>

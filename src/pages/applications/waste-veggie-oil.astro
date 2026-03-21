@@ -3,15 +3,64 @@ import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Waste Vegetable Oil (WVO) Centrifuge Applications";
 const description = "Industrial centrifuge systems for waste vegetable oil purification, yellow grease processing, and biodiesel production. Proven solutions from Dolphin Centrifuge.";
+const canonicalUrl = "https://dolphincentrifuge.com/applications/waste-veggie-oil/";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": title,
-  "description": description,
-  "url": "https://dolphincentrifuge.com/applications/waste-veggie-oil/",
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "description": description,
+    "url": canonicalUrl,
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": canonicalUrl,
+    "author": {
+      "@type": "Person",
+      "name": "Dolphin Centrifuge Engineering Team",
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+    },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does a WVO centrifuge remove from waste vegetable oil?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A disc stack centrifuge removes water, food particles, sediment, free fatty acids (partially), and other impurities from waste vegetable oil and used cooking oil (UCO). The three-phase design separates oil, water, and solids simultaneously at 8,000 G-force — producing clean feedstock suitable for biodiesel production or direct sale to rendering operations." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between WVO, UCO, and yellow grease?",
+        "acceptedAnswer": { "@type": "Answer", "text": "WVO (Waste Vegetable Oil) and UCO (Used Cooking Oil) are interchangeable terms for oil recovered from restaurant fryers. Yellow grease is the commodity-grade term for collected WVO/UCO that meets moisture and FFA specifications for trading. Brown grease (trap grease) has higher contamination and is more challenging to process. All three can be purified using disc stack centrifuges." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a centrifuge polish biodiesel to ASTM D6751 specifications?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Disc stack centrifuges are widely used for water-washing and polishing biodiesel to ASTM D6751 compliance. The centrifuge removes glycerin, soap, residual catalyst, and water from the transesterification product — continuously, without the settling time required by gravity separation. Capacities of 10–40 GPM are common in biodiesel production." }
+      },
+      {
+        "@type": "Question",
+        "name": "What temperature is needed to process waste vegetable oil through a centrifuge?",
+        "acceptedAnswer": { "@type": "Answer", "text": "WVO and UCO should typically be processed at 140–160°F (60–71°C) for effective centrifugal separation. At this temperature, the oil viscosity drops sufficiently for the centrifuge to separate water and fine particles efficiently. Dolphin Centrifuge systems include integrated electric heaters to bring the oil to operating temperature before it enters the centrifuge." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much WVO can a Dolphin Centrifuge system process per day?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge WVO systems typically process 15–40 GPM (900–2,400 gallons per hour), depending on the centrifuge model selected. A DMPX-028 system running 8 hours per day can process 7,000–10,000 gallons. A DMPX-042 system at full rate processes 12,000–15,000 gallons per day. Contact us for sizing based on your collection volume." }
+      }
+    ]
+  }
+];
 
 const accent = "#e8b84a";
 const icon = "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z";
@@ -50,19 +99,22 @@ const applications = [
 ];
 
 const toc = [
+  { id: "ai-summary", label: "Overview" },
   { id: "wvo-applications", label: "WVO Centrifuge Applications" },
   { id: "how-it-works", label: "How Centrifugal WVO Purification Works" },
   { id: "why-dolphin", label: "Why Dolphin Centrifuge for WVO" },
+  { id: "faq", label: "Frequently Asked Questions" },
 ];
 ---
+
 <ApplicationLayout
   title={title}
   description={description}
-  canonicalUrl="https://dolphincentrifuge.com/applications/waste-veggie-oil/"
+  canonicalUrl={canonicalUrl}
   category="applications"
   categoryLabel="Waste Vegetable Oil Applications"
   heroImage="/images/wvo-centrifuge-separator/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-WVO-Water-Separation-600.webp"
-  heroImageAlt="Self-cleaning disc stack centrifuge for waste vegetable oil separation"
+  heroImageAlt="Self-cleaning disc stack centrifuge for waste vegetable oil separation by Dolphin Centrifuge"
   toc={toc}
   relatedApplications={[
     { label: "WVO Centrifuge Separator", href: "/wvo-centrifuge-separator/" },
@@ -76,6 +128,12 @@ const toc = [
   jsonLd={jsonLd}
 >
   <article class="prose-dolphin max-w-none">
+
+    <!-- AI Summary -->
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+      <p class="text-sm text-gray-600 leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for waste vegetable oil (WVO), used cooking oil (UCO), yellow grease, and biodiesel purification. Operating at up to 8,000 G with three-phase separation, these systems process 15–40 GPM continuously — removing water, food particles, and sediment to produce biodiesel-grade feedstock. Based in Warren, Michigan, with 40+ years of vegetable oil and biofuel separation experience.</p>
+    </div>
+
     <p>
       Turn waste cooking oil and yellow grease into clean, profitable feedstock. Our
       <a href="/disc-stack-centrifuge/">disc stack centrifuges</a> process WVO continuously —
@@ -131,6 +189,16 @@ const toc = [
       high-volume WVO operations where downtime costs money.
     </p>
 
+    <!-- Mid-Page CTA -->
+    <div class="not-prose my-10 bg-gold/10 border border-gold/40 rounded-xl p-6 md:p-8">
+      <h3 class="text-xl font-bold text-navy mb-2">Ready to Upgrade Your WVO Processing?</h3>
+      <p class="text-gray-700 mb-4">Send us a sample of your waste vegetable oil — we'll test it and confirm separation performance before you commit to a system. Free sample testing from our Warren, MI facility.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      </div>
+    </div>
+
     <h2 id="why-dolphin">Why Dolphin Centrifuge for WVO</h2>
     <ul>
       <li><strong>40+ years of centrifuge expertise</strong> — deep application knowledge in oil-water-solids separation</li>
@@ -139,5 +207,45 @@ const toc = [
       <li><strong>Complete turnkey systems</strong> — centrifuge, heater, pumps, controls, and skid-mounted packaging</li>
       <li><strong>Nationwide support</strong> — <a href="/centrifuge-repair-and-service/">field service</a> and parts for every system we sell</li>
     </ul>
+
+    <!-- FAQ Section -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What does a WVO centrifuge remove from waste vegetable oil?</summary>
+      <p class="mt-2 text-gray-700">A disc stack centrifuge removes water, food particles, sediment, free fatty acids (partially), and other impurities from waste vegetable oil and used cooking oil (UCO). The three-phase design separates oil, water, and solids simultaneously at 8,000 G-force — producing clean feedstock suitable for biodiesel production or direct sale to rendering operations.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What is the difference between WVO, UCO, and yellow grease?</summary>
+      <p class="mt-2 text-gray-700">WVO (Waste Vegetable Oil) and UCO (Used Cooking Oil) are interchangeable terms for oil recovered from restaurant fryers. Yellow grease is the commodity-grade term for collected WVO/UCO that meets moisture and FFA specifications for trading. Brown grease (trap grease) has higher contamination and is more challenging to process. All three can be purified using disc stack centrifuges.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can a centrifuge polish biodiesel to ASTM D6751 specifications?</summary>
+      <p class="mt-2 text-gray-700">Yes. Disc stack centrifuges are widely used for water-washing and polishing biodiesel to ASTM D6751 compliance. The centrifuge removes glycerin, soap, residual catalyst, and water from the transesterification product — continuously, without the settling time required by gravity separation. Capacities of 10–40 GPM are common in biodiesel production.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What temperature is needed to process waste vegetable oil through a centrifuge?</summary>
+      <p class="mt-2 text-gray-700">WVO and UCO should typically be processed at 140–160°F (60–71°C) for effective centrifugal separation. At this temperature, the oil viscosity drops sufficiently for the centrifuge to separate water and fine particles efficiently. Dolphin Centrifuge systems include integrated electric heaters to bring the oil to operating temperature before it enters the centrifuge.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How much WVO can a Dolphin Centrifuge system process per day?</summary>
+      <p class="mt-2 text-gray-700">Dolphin Centrifuge WVO systems typically process 15–40 GPM (900–2,400 gallons per hour), depending on the centrifuge model selected. A DMPX-028 system running 8 hours per day can process 7,000–10,000 gallons. A DMPX-042 system at full rate processes 12,000–15,000 gallons per day. Contact us for sizing based on your collection volume.</p>
+    </details>
+
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose mt-10 bg-navy rounded-xl p-8 text-white text-center">
+    <h3 class="text-2xl font-bold mb-2">Turn Waste Cooking Oil Into Biodiesel-Grade Feedstock</h3>
+    <p class="text-white/80 mb-6 max-w-xl mx-auto">Disc stack centrifuge systems for WVO, UCO, yellow grease, and biodiesel polishing. 15–40 GPM. Turnkey skids from Warren, MI.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/wvo-centrifuge-separator/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">WVO Centrifuge Details</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">(248) 522-2573</a>
+    </div>
+  </div>
 </ApplicationLayout>

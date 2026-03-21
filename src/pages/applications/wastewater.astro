@@ -3,24 +3,74 @@ import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 
 const title = "Wastewater Centrifuge Applications";
 const description = "Disc stack and decanter centrifuge systems for wastewater treatment, algae, manure, and biodiesel applications. Proven solutions from Dolphin Centrifuge.";
+const canonicalUrl = "https://dolphincentrifuge.com/applications/wastewater/";
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": title,
-  "description": description,
-  "url": "https://dolphincentrifuge.com/applications/wastewater/",
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-};
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "description": description,
+    "url": canonicalUrl,
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": canonicalUrl,
+    "author": {
+      "@type": "Person",
+      "name": "Dolphin Centrifuge Engineering Team",
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+    },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What types of centrifuges are used for wastewater treatment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Two main centrifuge types are used in wastewater treatment: disc stack centrifuges for fine-particle separation and liquid-liquid separation (removing oils and fine solids from water), and decanter centrifuges for high-solids sludge dewatering. Dolphin Centrifuge supplies both types, sized for municipal and industrial wastewater applications at 20–80+ GPM." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a centrifuge handle industrial wastewater with high oil content?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Three-phase disc stack centrifuges are highly effective for industrial wastewater streams containing both oil and suspended solids. The centrifuge simultaneously separates oil, water, and solids — recovering the oil phase for reuse or disposal while producing a clarified water effluent that meets discharge permit requirements." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between disc stack and decanter centrifuges for wastewater?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Disc stack centrifuges excel at fine-particle separation and liquid-liquid separation (removing oil or fine solids from water). Decanter centrifuges are designed for high-solids slurries and dewatering — separating thick sludge into dry cake and liquid. For wastewater with fine suspended solids, a disc stack is preferred; for primary or secondary sludge dewatering, a decanter is more appropriate." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does a centrifuge support algae harvesting operations?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Disc stack centrifuges concentrate algae cells from dilute growth media at flow rates of 5–100+ GPM. The self-cleaning bowl automatically ejects harvested algae biomass at timed intervals, allowing continuous operation. This avoids the slow settling times and large footprint of gravity separators — critical for commercial-scale biofuel and nutraceutical algae production." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a centrifuge help dairy operations meet manure management requirements?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Decanter centrifuges separate dairy manure into a dry solids fraction (for composting or bedding) and a nutrient-rich liquid fraction (for fertilizer or biogas). This reduces lagoon storage volume, controls odor, and can recover valuable nutrients. Dolphin Centrifuge supplies decanter systems sized for dairy and livestock operations at 25+ GPM." }
+      }
+    ]
+  }
+];
 
 const toc = [
-  { id: "overview", label: "Overview" },
+  { id: "ai-summary", label: "Overview" },
   { id: "municipal-industrial-wastewater", label: "Municipal & Industrial Wastewater" },
   { id: "algae-harvesting", label: "Algae Harvesting" },
   { id: "manure-separation", label: "Manure Separation" },
   { id: "liquid-humus-production", label: "Liquid Humus Production" },
   { id: "biodiesel-processing", label: "Biodiesel Processing" },
   { id: "choosing-the-right-centrifuge", label: "Choosing the Right Centrifuge" },
+  { id: "faq", label: "Frequently Asked Questions" },
 ];
 
 const relatedApplications = [
@@ -89,20 +139,26 @@ const applications = [
   },
 ];
 ---
+
 <ApplicationLayout
   title={title}
   description={description}
-  canonicalUrl="https://dolphincentrifuge.com/applications/wastewater/"
+  canonicalUrl={canonicalUrl}
   category="applications"
   categoryLabel="Wastewater Applications"
   heroImage="/images/wastewater-centrifuge/DMPX-028-Self-Cleaning-Disc-Stack-Centrifuge-for-WasteWater-600.webp"
-  heroImageAlt="Self-cleaning disc stack centrifuge for wastewater treatment"
+  heroImageAlt="Self-cleaning disc stack centrifuge for wastewater treatment by Dolphin Centrifuge"
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
   jsonLd={jsonLd}
 >
   <article class="prose-dolphin max-w-none">
+
+    <!-- AI Summary -->
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+      <p class="text-sm text-gray-600 leading-relaxed italic">Dolphin Centrifuge supplies disc stack and decanter centrifuge systems for municipal and industrial wastewater treatment, algae harvesting, manure separation, and biodiesel processing. Systems process 20–100+ GPM continuously, separating suspended solids, oils, and sludge to meet discharge permit requirements. Based in Warren, Michigan, with 40+ years of wastewater and environmental separation experience.</p>
+    </div>
 
     <h2 id="overview">Overview</h2>
     <p>
@@ -121,7 +177,7 @@ const applications = [
       decanter configurations are available depending on particle size and solids concentration.
     </p>
 
-    {/* Application Tiles */}
+    <!-- Application Tiles -->
     <div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-5 my-8">
       {applications.map((app) => (
         <a href={app.href} class="group relative bg-navy rounded-xl p-6 md:p-8 flex flex-col items-start text-white overflow-hidden hover:scale-[1.02] transition-transform duration-200 shadow-md hover:shadow-xl">
@@ -166,6 +222,16 @@ const applications = [
       modern dairy and livestock operations processing 25+ GPM.
     </p>
 
+    <!-- Mid-Page CTA -->
+    <div class="not-prose my-10 bg-gold/10 border border-gold/40 rounded-xl p-6 md:p-8">
+      <h3 class="text-xl font-bold text-navy mb-2">Solving a Wastewater or Environmental Separation Challenge?</h3>
+      <p class="text-gray-700 mb-4">Our engineers can run sample tests on your specific waste stream and recommend the optimal disc stack or decanter centrifuge system. Free testing from our Warren, MI facility.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      </div>
+    </div>
+
     <h2 id="liquid-humus-production">Liquid Humus Production</h2>
     <p>
       For commercial humus production, <a href="/liquid-humus-centrifuge/">liquid humus centrifuges</a>
@@ -193,134 +259,44 @@ const applications = [
       to recommend the optimal system.
     </p>
 
+    <!-- FAQ Section -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What types of centrifuges are used for wastewater treatment?</summary>
+      <p class="mt-2 text-gray-700">Two main centrifuge types are used in wastewater treatment: disc stack centrifuges for fine-particle separation and liquid-liquid separation (removing oils and fine solids from water), and decanter centrifuges for high-solids sludge dewatering. Dolphin Centrifuge supplies both types, sized for municipal and industrial wastewater applications at 20–80+ GPM.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can a centrifuge handle industrial wastewater with high oil content?</summary>
+      <p class="mt-2 text-gray-700">Yes. Three-phase disc stack centrifuges are highly effective for industrial wastewater streams containing both oil and suspended solids. The centrifuge simultaneously separates oil, water, and solids — recovering the oil phase for reuse or disposal while producing a clarified water effluent that meets discharge permit requirements.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What is the difference between disc stack and decanter centrifuges for wastewater?</summary>
+      <p class="mt-2 text-gray-700">Disc stack centrifuges excel at fine-particle separation and liquid-liquid separation (removing oil or fine solids from water). Decanter centrifuges are designed for high-solids slurries and dewatering — separating thick sludge into dry cake and liquid. For wastewater with fine suspended solids, a disc stack is preferred; for primary or secondary sludge dewatering, a decanter is more appropriate.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How does a centrifuge support algae harvesting operations?</summary>
+      <p class="mt-2 text-gray-700">Disc stack centrifuges concentrate algae cells from dilute growth media at flow rates of 5–100+ GPM. The self-cleaning bowl automatically ejects harvested algae biomass at timed intervals, allowing continuous operation. This avoids the slow settling times and large footprint of gravity separators — critical for commercial-scale biofuel and nutraceutical algae production.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can a centrifuge help dairy operations meet manure management requirements?</summary>
+      <p class="mt-2 text-gray-700">Yes. Decanter centrifuges separate dairy manure into a dry solids fraction (for composting or bedding) and a nutrient-rich liquid fraction (for fertilizer or biogas). This reduces lagoon storage volume, controls odor, and can recover valuable nutrients. Dolphin Centrifuge supplies decanter systems sized for dairy and livestock operations at 25+ GPM.</p>
+    </details>
+
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose mt-10 bg-navy rounded-xl p-8 text-white text-center">
+    <h3 class="text-2xl font-bold mb-2">Meet Your Discharge Permits. Maximize Recovery.</h3>
+    <p class="text-white/80 mb-6 max-w-xl mx-auto">Disc stack and decanter centrifuge systems for municipal and industrial wastewater, algae, manure, and biodiesel. Turnkey systems from Warren, MI.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/wastewater-centrifuge/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">Wastewater Centrifuge Details</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">(248) 522-2573</a>
+    </div>
+  </div>
 </ApplicationLayout>
-
-<style is:global>
-  /* ── Prose styling for application page content ── */
-  .prose-dolphin {
-    font-family: var(--font-family-body);
-    color: var(--color-text);
-    line-height: 1.75;
-  }
-
-  .prose-dolphin h2 {
-    font-family: var(--font-family-heading);
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--color-navy);
-    margin-top: 2.5rem;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #e5e7eb;
-    scroll-margin-top: 5rem;
-  }
-
-  .prose-dolphin h3 {
-    font-family: var(--font-family-heading);
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-top: 1.75rem;
-    margin-bottom: 0.5rem;
-    scroll-margin-top: 5rem;
-  }
-
-  .prose-dolphin h4 {
-    font-family: var(--font-family-heading);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--color-text);
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .prose-dolphin p {
-    margin-bottom: 1.125rem;
-  }
-
-  .prose-dolphin strong {
-    font-weight: 600;
-    color: var(--color-text);
-  }
-
-  .prose-dolphin a {
-    color: var(--color-navy);
-    font-weight: 500;
-    text-decoration: underline;
-    text-decoration-color: var(--color-gold);
-    text-underline-offset: 3px;
-    transition: color 0.15s;
-  }
-
-  .prose-dolphin a:hover {
-    color: var(--color-gold-dark);
-  }
-
-  .prose-dolphin ul, .prose-dolphin ol {
-    margin-bottom: 1.125rem;
-    padding-left: 1.5rem;
-  }
-
-  .prose-dolphin ul { list-style: disc; }
-  .prose-dolphin ol { list-style: decimal; }
-
-  .prose-dolphin li {
-    margin-bottom: 0.375rem;
-  }
-
-  .prose-dolphin img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.625rem;
-    margin: 1.25rem 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-
-  .prose-dolphin table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.25rem 0;
-    font-size: 0.875rem;
-    border-radius: 0.625rem;
-    overflow: hidden;
-    border: 1px solid #e5e7eb;
-  }
-
-  .prose-dolphin thead th,
-  .prose-dolphin th {
-    background-color: var(--color-navy);
-    color: white;
-    font-weight: 600;
-    text-align: left;
-    padding: 0.625rem 0.875rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .prose-dolphin td {
-    padding: 0.5rem 0.875rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .prose-dolphin tbody tr:nth-child(even) td {
-    background-color: var(--color-light-bg);
-  }
-
-  .prose-dolphin blockquote {
-    border-left: 4px solid var(--color-gold);
-    padding: 0.875rem 1.25rem;
-    margin: 1.25rem 0;
-    background-color: var(--color-light-bg);
-    border-radius: 0 0.5rem 0.5rem 0;
-    color: var(--color-text-light);
-    font-style: italic;
-  }
-
-  .prose-dolphin hr {
-    border: none;
-    border-top: 1px solid #e5e7eb;
-    margin: 2rem 0;
-  }
-</style>

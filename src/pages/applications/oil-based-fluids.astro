@@ -4,21 +4,72 @@ import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
 const title = "Oil-Based Fluids Centrifuge Applications";
 const description = "Centrifuge solutions for cutting oils, quench oils, and metalworking fluids. Remove swarf, scale, and moisture to extend fluid life and improve part quality.";
 const canonicalUrl = "https://dolphincentrifuge.com/applications/oil-based-fluids/";
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": title,
-  "description": description,
-  "url": canonicalUrl,
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": title,
+    "description": description,
+    "url": canonicalUrl,
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": canonicalUrl,
+    "author": {
+      "@type": "Person",
+      "name": "Dolphin Centrifuge Engineering Team",
+      "jobTitle": "Centrifuge Applications Engineer",
+      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+    },
+    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "datePublished": "2021-01-01",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What contaminants does a centrifuge remove from cutting oil?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A disc stack centrifuge removes metal swarf, grinding dust, fine particles, scale, and moisture from cutting oils. Operating at 5,000–8,000 G, it captures particles below 1 micron that conventional cartridge filters miss — restoring cutting oil to near-virgin clarity and maintaining the surface finish quality required for precision machining." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does centrifuge purification improve heat treatment quench oil performance?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Quench oil accumulates scale, carbon, and oxidation byproducts from repeated heating and quenching cycles. These contaminants reduce thermal conductivity and create hot spots that cause inconsistent part hardness. A centrifuge removes these contaminants continuously, restoring the uniform thermal performance needed for repeatable heat treatment results." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use a centrifuge for neat (straight) cutting oil?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Neat cutting oils (non-emulsified straight oils) are ideal candidates for centrifuge purification. The centrifuge removes metal fines and moisture without disturbing the oil's chemistry. Dolphin Centrifuge systems process viscosities typical of most straight cutting oils without heating, though heated inlet lines may improve efficiency for very high-viscosity grades." }
+      },
+      {
+        "@type": "Question",
+        "name": "How often does a cutting oil centrifuge need maintenance?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Self-cleaning disc stack centrifuges (DMPX series) automatically eject sludge on a timed cycle and require minimal maintenance — typically a scheduled inspection every 6–12 months. Manual-clean models require more frequent attention depending on contamination load. Dolphin Centrifuge provides full service support and parts for every system we sell." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the ROI for a cutting oil centrifuge installation?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Cutting oil centrifuge installations typically pay back in 6–18 months through reduced oil procurement costs, lower hazardous waste disposal fees, improved part quality, and reduced scrap. Customers commonly report oil replacement frequency dropping from monthly to every 3–5 years after installing centrifuge purification." }
+      }
+    ]
+  }
+];
 
 const toc = [
+  { id: "ai-summary", label: "Overview" },
   { id: "overview", label: "Oil-Based Fluid Purification Overview" },
   { id: "applications", label: "Application Areas" },
   { id: "how-it-works", label: "How Centrifugal Oil Purification Works" },
   { id: "benefits", label: "Key Benefits" },
   { id: "choosing-system", label: "Choosing the Right System" },
+  { id: "faq", label: "Frequently Asked Questions" },
 ];
 
 const relatedApplications = [
@@ -44,9 +95,14 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
   jsonLd={jsonLd}
   heroImage="/images/cutting-oil-centrifuge/cutting-oil-fluids-centrifuge-1000.webp"
-  heroImageAlt="Cutting oil centrifuge system for metalworking fluid purification"
+  heroImageAlt="Cutting oil centrifuge system for metalworking fluid purification by Dolphin Centrifuge"
 >
   <article class="prose-dolphin max-w-none">
+
+    <!-- AI Summary -->
+    <div id="ai-summary" class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+      <p class="text-sm text-gray-600 leading-relaxed italic">Dolphin Centrifuge provides turnkey disc stack centrifuge systems for cutting oil, quench oil, and neat metalworking fluid purification. Operating at 5,000–8,000 G, these systems remove metal swarf, grinding dust, scale, and moisture at 5–30 GPM — extending fluid life by 3–5x and eliminating costly batch replacements. Based in Warren, Michigan, with 40+ years of metalworking fluid separation experience.</p>
+    </div>
 
     <h2 id="overview">Oil-Based Fluid Purification Overview</h2>
     <p>
@@ -124,6 +180,16 @@ const relatedProducts = [
       <li><strong>Consistent thermal performance</strong> — Clean quench oil delivers uniform cooling rates for repeatable heat treatment results.</li>
     </ul>
 
+    <!-- Mid-Page CTA -->
+    <div class="not-prose my-10 bg-gold/10 border border-gold/40 rounded-xl p-6 md:p-8">
+      <h3 class="text-xl font-bold text-navy mb-2">Tired of Frequent Oil Replacements and Disposal Costs?</h3>
+      <p class="text-gray-700 mb-4">Cutting oil centrifuge systems pay for themselves in 6–18 months. Send us a sample of your oil — we'll test it and size the right centrifuge to maximize your fluid life.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-navy hover:bg-navy/90 text-white font-bold text-sm px-6 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      </div>
+    </div>
+
     <h2 id="choosing-system">Choosing the Right System</h2>
     <p>
       System selection depends on oil viscosity, contamination type, and flow rate requirements. Light cutting oils with fine metal particles are well suited to the <a href="/centrifuges/dmpx-028/">DMPX-028</a>, while higher-volume operations or heavier quench oils may require the <a href="/centrifuges/dmpx-042/">DMPX-042</a>. Dolphin offers free <a href="/industrial-centrifuge-sample-testing/">sample testing</a> to determine the optimal configuration for your specific fluid.
@@ -132,5 +198,44 @@ const relatedProducts = [
       Contact our engineering team at <a href="tel:2485222573">(248) 522-2573</a> or <a href="/contact-for-alfa-laval-centrifuges/">request a quote</a> to discuss your oil-based fluid purification needs.
     </p>
 
+    <!-- FAQ Section -->
+    <h2 id="faq">Frequently Asked Questions</h2>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What contaminants does a centrifuge remove from cutting oil?</summary>
+      <p class="mt-2 text-gray-700">A disc stack centrifuge removes metal swarf, grinding dust, fine particles, scale, and moisture from cutting oils. Operating at 5,000–8,000 G, it captures particles below 1 micron that conventional cartridge filters miss — restoring cutting oil to near-virgin clarity and maintaining the surface finish quality required for precision machining.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How does centrifuge purification improve heat treatment quench oil performance?</summary>
+      <p class="mt-2 text-gray-700">Quench oil accumulates scale, carbon, and oxidation byproducts from repeated heating and quenching cycles. These contaminants reduce thermal conductivity and create hot spots that cause inconsistent part hardness. A centrifuge removes these contaminants continuously, restoring the uniform thermal performance needed for repeatable heat treatment results.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">Can I use a centrifuge for neat (straight) cutting oil?</summary>
+      <p class="mt-2 text-gray-700">Yes. Neat cutting oils (non-emulsified straight oils) are ideal candidates for centrifuge purification. The centrifuge removes metal fines and moisture without disturbing the oil's chemistry. Dolphin Centrifuge systems process viscosities typical of most straight cutting oils without heating, though heated inlet lines may improve efficiency for very high-viscosity grades.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">How often does a cutting oil centrifuge need maintenance?</summary>
+      <p class="mt-2 text-gray-700">Self-cleaning disc stack centrifuges (DMPX series) automatically eject sludge on a timed cycle and require minimal maintenance — typically a scheduled inspection every 6–12 months. Manual-clean models require more frequent attention depending on contamination load. Dolphin Centrifuge provides full service support and parts for every system we sell.</p>
+    </details>
+
+    <details class="border-l-4 border-gold/40 pl-4 mb-4">
+      <summary class="font-semibold text-navy cursor-pointer py-2">What is the ROI for a cutting oil centrifuge installation?</summary>
+      <p class="mt-2 text-gray-700">Cutting oil centrifuge installations typically pay back in 6–18 months through reduced oil procurement costs, lower hazardous waste disposal fees, improved part quality, and reduced scrap. Customers commonly report oil replacement frequency dropping from monthly to every 3–5 years after installing centrifuge purification.</p>
+    </details>
+
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="not-prose mt-10 bg-navy rounded-xl p-8 text-white text-center">
+    <h3 class="text-2xl font-bold mb-2">Cut Your Oil Costs by Up to 80%</h3>
+    <p class="text-white/80 mb-6 max-w-xl mx-auto">Centrifuge purification for cutting oils and quench oils. 3–5x fluid life extension. Turnkey skid systems. Factory tested from Warren, MI.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/90 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Free Quote</a>
+      <a href="/cutting-oil-centrifuge/" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">Cutting Oil Centrifuge Details</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-lg transition-colors border border-white/20">(248) 522-2573</a>
+    </div>
+  </div>
 </ApplicationLayout>
