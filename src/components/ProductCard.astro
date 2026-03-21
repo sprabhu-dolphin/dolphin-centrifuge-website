@@ -1,0 +1,62 @@
+---
+/**
+ * ProductCard — Reusable product/model card with UNIFORM image sizing.
+ *
+ * STRUCTURAL RULE: All ProductCards in a grid row will have identical
+ * image heights via aspect-ratio, eliminating jagged card layouts.
+ *
+ * Usage:
+ * <div class="grid grid-cols-1 md:grid-cols-3 gap-6 not-prose">
+ *   <ProductCard title="Model X" href="/model-x/" image="/images/model-x.webp" imageAlt="..." :specs={specs} />
+ * </div>
+ */
+
+interface Spec {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  title: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  specs?: Spec[];
+}
+
+const { title, href, image, imageAlt, specs = [] } = Astro.props;
+---
+
+<div class="product-card border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all bg-white">
+  {/* ── Image — fixed aspect ratio, ALWAYS uniform height ── */}
+  <a href={href} class="block">
+    <div class="aspect-square overflow-hidden bg-gray-50 p-3">
+      <img
+        src={image}
+        alt={imageAlt}
+        loading="lazy"
+        class="w-full h-full object-contain"
+      />
+    </div>
+  </a>
+
+  {/* ── Content ── */}
+  <div class="p-4">
+    <h3 class="font-bold text-navy mb-3">
+      <a href={href} class="hover:text-gold transition-colors">{title}</a>
+    </h3>
+
+    {specs.length > 0 && (
+      <table class="w-full text-xs">
+        <tbody>
+          {specs.map((spec, i) => (
+            <tr class={i < specs.length - 1 ? 'border-b border-gray-100' : ''}>
+              <td class="py-1 font-semibold text-navy">{spec.label}:</td>
+              <td class="py-1 font-mono" set:html={spec.value} />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</div>
