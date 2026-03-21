@@ -29,23 +29,31 @@ const jsonLd = [
       {
         "@type": "Question",
         "name": "What should I check if my centrifuge speed is lower than rated RPM?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Check: (1) clutch condition and spring tension, (2) supply voltage and motor current draw, (3) bowl bearing temperature and noise, (4) bowl assembly balance, and (5) whether the bowl was recently disassembled and may have been reassembled incorrectly." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Check: (1) brake is disengaged, (2) clutch condition and spring tension, (3) supply voltage and motor current draw, (4) bowl bearing temperature and noise, (5) bowl assembly balance, and (6) whether the bowl was recently disassembled and may have been reassembled incorrectly." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can reverse rotation prevent a centrifuge from reaching speed?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A phase reversal of the electric supply causes reverse rotation. The friction clutch design only allows torque transmission in the correct direction, so the bowl cannot reach operating speed. Reverse rotation also unlocks threaded bowl parts (left-hand thread), which can cause catastrophic damage. Always verify motor rotation direction after any electrical work." }
       }
     ]
   }
 ];
 
 const toc = [
-  { id: "cause-1", label: "Worn Friction Clutch Pads" },
-  { id: "cause-2", label: "Worn or Broken Drive Belts" },
-  { id: "cause-3", label: "Excessive Solids Load in the Bowl" },
-  { id: "cause-4", label: "Motor Fault or Reduced Power Output" },
-  { id: "cause-5", label: "VFD Fault or Misconfiguration" },
-  { id: "cause-6", label: "Bearing Drag from Wear or Lack of Lubrication" },
-  { id: "cause-7", label: "Bowl Imbalance" },
-  { id: "cause-8", label: "Worn Worm Gear or Gear Drive" },
-  { id: "cause-9", label: "Cold Lubricant Viscosity (Cold Start Drag)" },
-  { id: "cause-10", label: "Spindle or Frame Mechanical Damage" },
+  { id: "importance", label: "Importance of Operating Speed" },
+  { id: "how-to-check", label: "How to Check Bowl Speed" },
+  { id: "cause-1", label: "Centrifuge Brake Engaged" },
+  { id: "cause-2", label: "Friction Clutch Issues and Slippage" },
+  { id: "cause-3", label: "Worn or Broken Drive Belts" },
+  { id: "cause-4", label: "Bowl Sludge Accumulation" },
+  { id: "cause-5", label: "Motor Fault or Reduced Power Output" },
+  { id: "cause-6", label: "VFD Fault or Misconfiguration" },
+  { id: "cause-7", label: "Bearing Drag from Wear or Lack of Lubrication" },
+  { id: "cause-8", label: "Bowl Imbalance or Incorrect Assembly" },
+  { id: "cause-9", label: "Worn Worm Gear or Gear Drive" },
+  { id: "cause-10", label: "Rotation Reversal (Phase Reversal)" },
+  { id: "additional", label: "Additional Causes" },
   { id: "diagnosis", label: "Systematic Startup Diagnosis" },
   { id: "faq", label: "Frequently Asked Questions" },
 ];
@@ -56,6 +64,7 @@ const relatedApplications = [
   { label: "Disc Stack Centrifuge Vibration", href: "/disc-stack-centrifuge-vibration/", description: "Causes and fixes for excessive vibration during operation." },
   { label: "Disc Stack Centrifuge FAQ", href: "/disc-stack-centrifuge-faq/", description: "101 frequently asked questions about disc stack centrifuges." },
   { label: "Bad Separation Troubleshooting", href: "/disc-stack-centrifuge-bad-separation/", description: "Diagnosing and correcting poor separation quality." },
+  { label: "Disc Centrifuge Parts Glossary", href: "/disc-centrifuge-parts-glossary/", description: "Complete glossary of disc stack centrifuge bowl parts and components." },
 ];
 
 const relatedProducts = [
@@ -89,25 +98,74 @@ const relatedProducts = [
     <p class="text-text-light leading-relaxed"><strong>Summary:</strong> Disc stack centrifuges typically reach rated speed within 3&ndash;8 minutes depending on model size. If the bowl is still accelerating after 10 minutes, or if the motor trips on overload during startup, something is preventing normal acceleration. This guide covers all 10 major causes with practical diagnosis steps. Operating a centrifuge below rated speed compromises <a href="/disc-stack-centrifuge-bad-separation/" class="text-navy font-semibold hover:text-gold transition-colors">separation quality</a> and increases wear on the drive system.</p>
   </div>
 
-  <!-- Cause 1 -->
-  <div id="cause-1" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
-      <h2 class="text-xl font-bold text-navy">Worn Friction Clutch Pads</h2>
-    </div>
+  <!-- Importance of Operating Speed -->
+  <h2 id="importance" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Importance of Disc Centrifuge Operating Speed</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="space-y-3 text-text-light">
-      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Brake-Handle-600.webp" alt="Disc centrifuge brake handle in disengaged position - check before startup" width="600" height="281" loading="lazy" class="rounded-lg w-full mb-3" />
-      <p><strong class="text-navy">How the clutch works:</strong> Most disc centrifuges use a centrifugal friction clutch to couple the motor to the spindle during startup. The clutch allows the motor to accelerate first, then gradually engages the bowl load as the motor reaches its torque peak. This protects the motor from an unacceptable starting current.</p>
-      <p><strong class="text-navy">Failure mode:</strong> As clutch pads wear, their friction coefficient drops and slipping increases. The clutch never fully engages, so power transfer to the spindle is incomplete. The bowl slowly accelerates but cannot reach the speed where the centrifugal clutch weights would lock up.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Check the clutch pad thickness against the minimum specification in the machine manual. Worn pads may also produce a burning smell or fine metallic dust near the clutch housing during attempted startup.</p>
-      <p><strong class="text-navy">Fix:</strong> Replace all friction pads as a matched set. Never replace only one pad or one shoe. Inspect the clutch drum surface for glazing or scoring &mdash; a smooth, glazed drum will not grip new pads effectively and must be lightly abraded or replaced. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Dolphin Centrifuge stocks clutch components for all major disc centrifuge models</a>.</p>
+      <p>A disc stack centrifuge uses the centrifugal force it generates to separate liquid from solid and liquid from liquid. The centrifugal force exerted is a direct function of the bowl's rotating speed. The design of a disc centrifuge assumes a specific bowl rotating speed (RPM) to perform its separating function.</p>
+      <h3 class="text-lg font-semibold text-navy">Reduced Separation Efficiency</h3>
+      <p>The operating speed of the centrifuge bowl primarily determines the centrifugal force needed for efficient separation of the fluids. Any degradation of the bowl speed has a detrimental effect on the centrifuge's <a href="/disc-stack-centrifuge-bad-separation/" class="text-navy font-semibold hover:text-gold transition-colors">separation efficiency</a>.</p>
+      <h3 class="text-lg font-semibold text-navy">Mechanical Bowl Function Issues</h3>
+      <p>In self-cleaning centrifuges, the bowl operating speed is essential for keeping the bowl from opening during operation. The bowl RPM is also critical for the bowl's opening during the sludge ejection process.</p>
     </div>
   </div>
 
-  <!-- Cause 2 -->
+  <!-- How to Check Bowl Speed -->
+  <h2 id="how-to-check" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">How to Check Disc Centrifuge Bowl Speed</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Revolution-Counter-600.webp" alt="Disc centrifuge revolution counter used to verify bowl speed during startup diagnosis" width="600" height="281" loading="lazy" class="rounded-lg w-full mb-3" />
+      <p>Alfa Laval disc centrifuges have a revolution counter (rotating disc) on the front of the lower frame. To check the speed of the disc centrifuge, the operator counts the rotation on the revolution counter and compares it to the revolution counter speed specified for the particular centrifuge type on the centrifuge nameplate. The revolution counter rotates between 72 and 150 RPM, depending on the centrifuge size.</p>
+      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Revolution-Counter-Speed-600.webp" alt="Disc centrifuge revolution counter speed reference showing correct RPM range" width="600" height="253" loading="lazy" class="rounded-lg w-full mb-3" />
+      <p>If the revolution counter is not rotating at the specified speed after the elapse of the ramp-up time, then the disc centrifuge is not operating at the design operating speed.</p>
+      <h3 class="text-lg font-semibold text-navy mt-4">10 Steps to Check Operating Speed</h3>
+      <ol class="space-y-2 list-decimal list-inside ml-2">
+        <li>Start the centrifuge.</li>
+        <li>Refer to the centrifuge manual for ramp-up time for your centrifuge model.</li>
+        <li>Wait for the centrifuge to ramp up rotational speed (ramp-up time).</li>
+        <li>Monitor the motor current for a quick drop-off (at speed indication).</li>
+        <li>Refer to the centrifuge manual to ascertain the correct rotational speed of the revolution counter.</li>
+        <li>Place a thumb on the rotating revolution counter disc.</li>
+        <li>Count the RPM of the revolution counter.</li>
+        <li>Wait for 2 minutes and recount the revolution counter RPM.</li>
+        <li>Note any difference between the 2 consecutive readings.</li>
+        <li>Compare the counted RPM to the recommended RPM in the centrifuge manual.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Cause 1: Brake Engaged (legacy's most common cause) -->
+  <div id="cause-1" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
+      <h2 class="text-xl font-bold text-navy">Centrifuge Brake is Engaged</h2>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Brake-Handle-600.webp" alt="Disc centrifuge brake handle in disengaged position - check before startup" width="600" height="281" loading="lazy" class="rounded-lg w-full mb-3" />
+      <p><strong class="text-navy">Failure mode:</strong> An engaged brake is the most common cause of slow centrifuge bowl speed. If the operator uses the mechanical brake on the centrifuge frame while stopping the centrifuge, the operator often starts the centrifuge without disengaging the brake. The brake prevents the drum and, therefore, the bowl from attaining full operating speed.</p>
+      <p><strong class="text-navy">Fix:</strong> Checking and disengaging the brake (if engaged) before every startup is the fix to this cause. Make it part of the standard pre-startup checklist.</p>
+    </div>
+  </div>
+
+  <!-- Cause 2: Friction Clutch -->
   <div id="cause-2" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
       <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">2</span>
+      <h2 class="text-xl font-bold text-navy">Friction Clutch Issues and Slippage</h2>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p><strong class="text-navy">How the clutch works:</strong> The <a href="/disc-centrifuge-friction-clutch/" class="text-navy font-semibold hover:text-gold transition-colors">friction clutch</a> is the crucial assembly that transfers the torque from the motor to the centrifuge transmission. Most disc centrifuges use a centrifugal friction clutch to couple the motor to the spindle during startup. The clutch allows the motor to accelerate first, then gradually engages the bowl load as the motor reaches its torque peak.</p>
+      <p><strong class="text-navy">Worn friction pads:</strong> The friction pads are consumable parts in the friction clutch. Worn-out friction pads cannot transfer the motor torque to the centrifuge shaft, which causes the centrifuge not to reach its operating speed. As pads wear, their friction coefficient drops and slipping increases.</p>
+      <p><strong class="text-navy">Glazed clutch drum:</strong> The friction clutch drum can get a very smooth, glossy surface due to previous metal-to-metal contact with totally worn-out friction pads. The friction pads slip on this smooth surface and cannot transmit the torque from the motor to the centrifuge shaft.</p>
+      <p><strong class="text-navy">Diagnosis:</strong> Check the clutch pad thickness against the minimum specification in the machine manual. Worn pads may also produce a burning smell or fine metallic dust near the clutch housing during attempted startup.</p>
+      <p><strong class="text-navy">Fix:</strong> Replace all friction pads periodically per the manufacturer's instructions, always as a matched set. Never replace only one pad or one shoe. If the drum surface is glazed, roughen up the inner surface to facilitate adequate friction between the pads and the drum. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Dolphin Centrifuge stocks clutch components for all major disc centrifuge models</a>.</p>
+    </div>
+  </div>
+
+  <!-- Cause 3: Drive Belts -->
+  <div id="cause-3" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">3</span>
       <h2 class="text-xl font-bold text-navy">Worn or Broken Drive Belts</h2>
     </div>
     <div class="space-y-3 text-text-light">
@@ -117,37 +175,42 @@ const relatedProducts = [
     </div>
   </div>
 
-  <!-- Cause 3 -->
-  <div id="cause-3" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">3</span>
-      <h2 class="text-xl font-bold text-navy">Excessive Solids Load in the Bowl</h2>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p><strong class="text-navy">Failure mode:</strong> If a centrifuge is shut down without completing an ejection cycle, solids remain packed in the bowl periphery. On the next startup, the motor must overcome both the rotational inertia of the bowl mass and the fluid drag of the packed solids. This can exceed the drive system capacity, causing slow acceleration, excessive motor current, and potential motor trip.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Check the last shutdown procedure &mdash; was the bowl discharged before shutdown? Is the bowl heavier than normal? On some machines, the tachometer will show the actual speed curve during startup; a slower-than-normal curve suggests excess bowl loading.</p>
-      <p><strong class="text-navy">Fix:</strong> If safe to do so, manually trigger a bowl discharge before initiating a full restart. On some models, you can manually pulse the operating water to partially discharge the bowl. Revise the shutdown procedure to always include a discharge sequence before stopping the feed and machine.</p>
-    </div>
-  </div>
-
-  <!-- Cause 4 -->
+  <!-- Cause 4: Sludge Accumulation -->
   <div id="cause-4" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
       <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">4</span>
-      <h2 class="text-xl font-bold text-navy">Motor Fault or Reduced Power Output</h2>
+      <h2 class="text-xl font-bold text-navy">Centrifuge Bowl Sludge Accumulation</h2>
     </div>
     <div class="space-y-3 text-text-light">
-      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Centrifuge-Motor-Rotation-600.webp" alt="Centrifuge motor rotation direction indicator - phase reversal causes low speed" width="600" height="312" loading="lazy" class="rounded-lg w-full mb-3" />
-      <p><strong class="text-navy">Failure mode:</strong> A motor operating with a shorted winding, a failed capacitor (on single-phase motors), or running on two phases due to a blown fuse or faulty contactor will produce significantly less torque than rated. This reduced torque may be adequate for normal running but insufficient for the high-torque startup phase.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Measure supply voltage at all three phases at the motor terminal block during the startup attempt. A significant voltage drop or imbalance between phases (more than 2%) indicates a supply or motor problem. Measure motor winding resistance with an ohmmeter &mdash; significant variation between phases indicates a winding fault.</p>
-      <p><strong class="text-navy">Fix:</strong> Correct power supply issues at the source (check fuses, contactors, and supply cables). A motor with winding damage requires rewinding or replacement. Check motor cooling vents &mdash; a motor that has previously overheated may have degraded winding insulation that now causes intermittent faults.</p>
+      <p><strong class="text-navy">Failure mode:</strong> The manual or automatic removal of sludge from the bowl is essential for proper and safe operation. If a centrifuge is shut down without completing an ejection cycle, solids remain packed in the bowl periphery. The bowl packs up with sludge causing the bowl mass to increase considerably. The power of the centrifuge motor may not be sufficient to rotate this added weight, preventing the centrifuge from reaching operating speed.</p>
+      <p><strong class="text-navy">Diagnosis:</strong> Check the last shutdown procedure &mdash; was the bowl discharged before shutdown? Is the bowl heavier than normal? On some machines, the tachometer will show the actual speed curve during startup; a slower-than-normal curve suggests excess bowl loading.</p>
+      <p><strong class="text-navy">Fix:</strong> The cleaning or purging of the bowl is the only way to fix this cause. If safe to do so, manually trigger a bowl discharge before initiating a full restart. Some situations may require a thorough manual cleaning of the centrifuge bowl, including the disc stack. Revise the shutdown procedure to always include a discharge sequence before stopping the feed and machine.</p>
     </div>
   </div>
 
-  <!-- Cause 5 -->
+  <!-- Cause 5: Motor Fault -->
   <div id="cause-5" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
       <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">5</span>
+      <h2 class="text-xl font-bold text-navy">Motor Fault or Reduced Power Output</h2>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p><strong class="text-navy">Motor phase drop:</strong> The majority of centrifuge motors are three-phase electric motors. If an electrical fault occurs and the motor loses one or two phases, it cannot generate the required torque or rotate at the desired speed. This high motor current draw accompanies this electrical malfunction and is thus easily detected.</p>
+      <p><strong class="text-navy">Motor failure:</strong> The centrifuge motor can fail due to many reasons. Bad motor windings or bearing failures are common occurrences. A malfunctioning motor will directly cause low torque and therefore prevent the centrifuge from rotating at the specified RPM.</p>
+      <p><strong class="text-navy">Diagnosis:</strong> Measure supply voltage at all three phases at the motor terminal block during the startup attempt. A significant voltage drop or imbalance between phases (more than 2%) indicates a supply or motor problem. Measure motor winding resistance with an ohmmeter &mdash; significant variation between phases indicates a winding fault.</p>
+      <p><strong class="text-navy">Fix:</strong> A thorough electrical wiring check and troubleshooting are essential to identify the cause of the phase drop. Correct power supply issues at the source (check fuses, contactors, and supply cables). A motor with winding damage requires rewinding or replacement. Check motor cooling vents &mdash; a motor that has previously overheated may have degraded winding insulation.</p>
+    </div>
+  </div>
+
+  <!-- Mid-page CTA -->
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-text-light leading-relaxed"><strong class="text-navy">Need help diagnosing a startup problem?</strong> Dolphin Centrifuge provides on-site commissioning support and <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">complete drive system rebuilds</a> for all disc centrifuge models. Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">request a quote</a>.</p>
+  </div>
+
+  <!-- Cause 6: VFD -->
+  <div id="cause-6" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">6</span>
       <h2 class="text-xl font-bold text-navy">VFD (Variable Frequency Drive) Fault or Misconfiguration</h2>
     </div>
     <div class="space-y-3 text-text-light">
@@ -157,37 +220,39 @@ const relatedProducts = [
     </div>
   </div>
 
-  <!-- Cause 6 -->
-  <div id="cause-6" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+  <!-- Cause 7: Bearings -->
+  <div id="cause-7" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">6</span>
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">7</span>
       <h2 class="text-xl font-bold text-navy">Bearing Drag from Wear or Lack of Lubrication</h2>
     </div>
     <div class="space-y-3 text-text-light">
       <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Oil-Sight-Glass-400.webp" alt="Disc centrifuge oil sight glass showing correct gear housing oil level" width="400" height="244" loading="lazy" class="rounded-lg mb-3" />
-      <p><strong class="text-navy">Failure mode:</strong> The spindle and top bearing must rotate with minimal friction to allow the bowl to reach its high operating speed. Worn bearings, bearings running on degraded oil, or bearings that have seized partially due to contamination add significant drag to the system. In severe cases, bearing drag alone can prevent the bowl from reaching rated speed.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Check bearing oil level and condition. Discolored, milky, or contaminated oil indicates a problem. Measure bearing temperature with an infrared thermometer at full speed &mdash; temperatures above 80&deg;C (175&deg;F) suggest excessive friction. Listen for bearing noise during acceleration &mdash; a grinding or rumbling sound during startup suggests bearing damage.</p>
-      <p><strong class="text-navy">Fix:</strong> Change the bearing oil immediately if contaminated. If bearings are worn or damaged, replace the complete bearing set. See the <a href="/disc-stack-centrifuge-lubrication/" class="text-navy font-semibold hover:text-gold transition-colors">lubrication guide</a> for correct oil specifications and change intervals. Do not overfill the oil sump &mdash; excess oil creates churning resistance that also impedes speed attainment.</p>
+      <p><strong class="text-navy">Failure mode:</strong> The failure of any bearing in the centrifuge will prevent the transmission components from free rotation. Worn bearings, bearings running on degraded oil, or bearings that have seized partially due to contamination add significant drag to the system. Bearing failure is often accompanied by an exceptionally high noise level and higher vibration amplitude. A total and thorough centrifuge rebuild is essential to fix any bearing failure-related issues.</p>
+      <p><strong class="text-navy">Too much oil in gear housing:</strong> A disc centrifuge incorporates a gear housing in the bottom frame. Gear lubricating oil fills this housing to a predetermined level (halfway through the sight glass) to splash-lubricate the bearings and the gears. If the operator inadvertently fills too much oil in the gear housing, the thick oil resists the rotation of the gears, thereby slowing down the centrifuge speed.</p>
+      <p><strong class="text-navy">Diagnosis:</strong> Check bearing oil level and condition through the sight glass. Discolored, milky, or contaminated oil indicates a problem. Measure bearing temperature with an infrared thermometer at full speed &mdash; temperatures above 80&deg;C (175&deg;F) suggest excessive friction. Listen for bearing noise during acceleration.</p>
+      <p><strong class="text-navy">Fix:</strong> The operator needs to check the gear housing oil level regularly for too much or too little oil. Change the bearing oil immediately if contaminated. If bearings are worn or damaged, replace the complete bearing set. See the <a href="/disc-stack-centrifuge-lubrication/" class="text-navy font-semibold hover:text-gold transition-colors">disc centrifuge lubrication guide</a> for correct oil specifications and change intervals.</p>
     </div>
   </div>
 
-  <!-- Cause 7 -->
-  <div id="cause-7" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">7</span>
-      <h2 class="text-xl font-bold text-navy">Bowl Imbalance</h2>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p><strong class="text-navy">Failure mode:</strong> An imbalanced bowl creates a vibration force that increases with speed squared. As the bowl approaches a critical speed (resonance frequency of the spindle/bearing system), vibration amplitude peaks sharply. On some machines, the vibration alarm trips the machine before rated speed is reached because the vibration level at the critical speed exceeds the alarm setpoint.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> If the machine trips on vibration alarm during acceleration rather than overload, imbalance is the likely cause. Check whether the bowl was recently disassembled &mdash; incorrect reassembly is the most common source of sudden imbalance. Verify all bowl components are present (correct number of discs) and assembled in the correct orientation.</p>
-      <p><strong class="text-navy">Fix:</strong> Disassemble the bowl and verify the disc count and orientation. Check for missing or damaged distributor vanes. Ensure all bowl components are correctly keyed or indexed &mdash; most bowls have alignment marks for a reason. If imbalance persists after correct reassembly, the bowl may require professional balancing. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Dolphin Centrifuge for bowl balancing services</a>.</p>
-    </div>
-  </div>
-
-  <!-- Cause 8 -->
+  <!-- Cause 8: Bowl Imbalance or Incorrect Assembly -->
   <div id="cause-8" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
       <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">8</span>
+      <h2 class="text-xl font-bold text-navy">Bowl Imbalance or Incorrect Bowl Assembly</h2>
+    </div>
+    <div class="space-y-3 text-text-light">
+      <p><strong class="text-navy">Bowl imbalance:</strong> An imbalanced bowl creates a vibration force that increases with speed squared. As the bowl approaches a critical speed, vibration amplitude peaks sharply. On some machines, the vibration alarm trips the machine before rated speed is reached because the vibration level exceeds the alarm setpoint.</p>
+      <p><strong class="text-navy">Incorrect bowl assembly:</strong> Proper disc centrifuge <a href="/disc-centrifuge-parts-glossary/" class="text-navy font-semibold hover:text-gold transition-colors">bowl assembly</a> is critical to safe and efficient operation. If there is a misalignment in the bowl parts, the rotating parts of the bowl make contact with the stationary centrifuge parts. This contact causes resistance to rotation, reducing the bowl speed. <em>This contact between the rotating and stationary parts will cause considerable damage to the centrifuge parts, and the operator should avoid it. It is also a safety hazard.</em></p>
+      <p><strong class="text-navy">Diagnosis:</strong> If the machine trips on vibration alarm during acceleration rather than overload, imbalance is the likely cause. Check whether the bowl was recently disassembled &mdash; incorrect reassembly is the most common source of sudden imbalance.</p>
+      <p><strong class="text-navy">Fix:</strong> Disassemble the bowl and verify the disc count and orientation. Check for missing or damaged distributor vanes. Ensure all <a href="/disc-stack-centrifuge-vibration/" class="text-navy font-semibold hover:text-gold transition-colors">bowl components are correctly keyed or indexed</a>. If imbalance persists after correct reassembly, the bowl may require professional balancing. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Dolphin Centrifuge for bowl balancing services</a>.</p>
+    </div>
+  </div>
+
+  <!-- Cause 9: Worn Gears -->
+  <div id="cause-9" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">9</span>
       <h2 class="text-xl font-bold text-navy">Worn Worm Gear or Gear Drive</h2>
     </div>
     <div class="space-y-3 text-text-light">
@@ -197,37 +262,42 @@ const relatedProducts = [
     </div>
   </div>
 
-  <!-- Cause 9 -->
-  <div id="cause-9" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">9</span>
-      <h2 class="text-xl font-bold text-navy">Cold Lubricant Viscosity (Cold Start Drag)</h2>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p><strong class="text-navy">Failure mode:</strong> At low ambient temperatures, gear oils and bearing lubricants become significantly more viscous than at normal operating temperature. Thick cold oil creates substantial churning and drag resistance in the gear housing and bearing housings, making it difficult or impossible to accelerate the bowl to rated speed until the oil warms up. This is particularly common in outdoor or unheated facilities during winter.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Problem occurs seasonally in cold environments and resolves as the machine warms up. Startup time may be 2&ndash;3 times the normal warm-start time in very cold conditions.</p>
-      <p><strong class="text-navy">Fix:</strong> Allow the machine to warm up on reduced load or with a heater before startup in cold conditions. Use a lower-viscosity oil grade for winter operation if the machine manual provides a cold-weather oil specification. Install a frame heater or insulated enclosure in persistently cold environments. Do not force a cold startup by overriding time-based interlocks.</p>
-    </div>
-  </div>
-
-  <!-- Cause 10 -->
+  <!-- Cause 10: Rotation Reversal -->
   <div id="cause-10" class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
     <div class="flex items-center gap-3 mb-4">
       <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">10</span>
-      <h2 class="text-xl font-bold text-navy">Spindle or Frame Mechanical Damage</h2>
+      <h2 class="text-xl font-bold text-navy">Centrifuge Rotation Reversal (Phase Reversal)</h2>
     </div>
     <div class="space-y-3 text-text-light">
-      <p><strong class="text-navy">Failure mode:</strong> A bent spindle, damaged spindle bearings, or a distorted frame that causes misalignment between the motor, drive, and spindle creates mechanical drag and vibration that prevents reaching rated speed. This type of damage is typically caused by a previous severe imbalance event, a dropped bowl component, or improper repair.</p>
-      <p><strong class="text-navy">Diagnosis:</strong> Measure spindle runout with a dial indicator at the top of the spindle (above the bowl seat). Any runout exceeding the manufacturer's specification (typically 0.002" or 0.05 mm) indicates a bent or damaged spindle. Check frame alignment if the machine was recently moved or if significant vibration has occurred.</p>
-      <p><strong class="text-navy">Fix:</strong> A bent spindle must be replaced &mdash; straightening is not an acceptable repair for a component rotating at thousands of RPM. This requires professional service. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Dolphin Centrifuge for a spindle replacement assessment</a> if runout is out of specification.</p>
+      <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Centrifuge-Motor-Rotation-600.webp" alt="Centrifuge motor rotation direction indicator - phase reversal causes low speed" width="600" height="312" loading="lazy" class="rounded-lg w-full mb-3" />
+      <p><strong class="text-navy">Failure mode:</strong> All disc centrifuges have a specific direction of rotation which is critical to the operation of the centrifuge. The direction of rotation is indicated by the arrow on the centrifuge frame and often on the motor. A phase reversal of the electric supply to the centrifuge drive motor will cause the centrifuge to rotate in the opposite direction.</p>
+      <p><strong class="text-navy">Why this is dangerous:</strong> The friction clutch design only allows the torque transmission when it is rotating in the correct direction. A clutch rotating in the opposite direction cannot transmit the torque for the bowl to rotate at the specified speed. <em>In addition, a reversal of rotation of the centrifuge will unlock the threaded parts of the bowl assembly (left-hand thread), possibly leading to catastrophic damage to the equipment and operators.</em></p>
+      <p><strong class="text-navy">Fix:</strong> To prevent reverse rotation, the operator must check the motor rotation each time the motor is electrically disconnected or after any electrical systems service.</p>
+    </div>
+  </div>
+
+  <!-- Additional Causes -->
+  <h2 id="additional" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Additional Causes</h2>
+  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+    <div class="space-y-4 text-text-light">
+      <div>
+        <h3 class="text-lg font-semibold text-navy mb-2">Horizontal Shafts Out of Alignment</h3>
+        <p>Sometimes during the service or replacement of the centrifuge motor, the motor shaft gets misaligned from the horizontal shaft. Incorrect motor assembly or a dent on the motor flange could be possible causes. This misalignment causes a transverse load on the horizontal shaft, causing the bearings to resist free rotation leading to incorrect or low bowl speed. A motor alignment issue usually accompanies a high motor current and is easily identified by monitoring the motor current draw after motor replacement or repair.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-navy mb-2">Cold Lubricant Viscosity (Cold Start Drag)</h3>
+        <p>At low ambient temperatures, gear oils and bearing lubricants become significantly more viscous. Thick cold oil creates substantial churning and drag resistance in the gear housing and bearing housings, making it difficult or impossible to accelerate the bowl to rated speed until the oil warms up. This is particularly common in outdoor or unheated facilities during winter. Allow the machine to warm up before startup in cold conditions or use a lower-viscosity oil grade for winter operation if the machine manual provides a cold-weather oil specification.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-navy mb-2">Spindle or Frame Mechanical Damage</h3>
+        <p>A bent spindle, damaged spindle bearings, or a distorted frame that causes misalignment between the motor, drive, and spindle creates mechanical drag and vibration that prevents reaching rated speed. Measure spindle runout with a dial indicator at the top of the spindle (above the bowl seat). Any runout exceeding the manufacturer's specification (typically 0.002" or 0.05 mm) indicates a bent or damaged spindle. A bent spindle must be replaced &mdash; straightening is not an acceptable repair for a component rotating at thousands of RPM. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy font-semibold hover:text-gold transition-colors">Contact Dolphin Centrifuge for a spindle replacement assessment</a>.</p>
+      </div>
     </div>
   </div>
 
   <!-- Diagnostic Flowchart Approach -->
   <h2 id="diagnosis" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-6">Systematic Startup Diagnosis</h2>
   <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-8">
-    <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Revolution-Counter-600.webp" alt="Disc centrifuge revolution counter used to verify bowl speed during startup diagnosis" width="600" height="281" loading="lazy" class="rounded-lg w-full mb-4" />
-    <img src="/images/disc-centrifuge-cannot-reach-operating-speed/Disc-Centrifuge-Revolution-Counter-Speed-600.webp" alt="Disc centrifuge revolution counter speed reference showing correct RPM range" width="600" height="253" loading="lazy" class="rounded-lg w-full mb-4" />
     <ol class="space-y-3 text-text-light list-decimal list-inside ml-2">
       <li><strong class="text-navy">Check the trip log.</strong> What fault caused the last shutdown? Overload current, vibration, or temperature faults each point to different root causes.</li>
       <li><strong class="text-navy">Verify the bowl is empty.</strong> Attempt a manual discharge before the next startup if the bowl may have retained solids.</li>
@@ -255,9 +325,16 @@ const relatedProducts = [
       </div>
       <div>
         <h3 class="text-base font-semibold text-navy mb-2">What should I check if my centrifuge speed is lower than rated RPM?</h3>
-        <p class="text-text-light text-sm">Check: (1) clutch condition and spring tension, (2) supply voltage and motor current draw, (3) bowl bearing temperature and noise, (4) bowl assembly balance, and (5) whether the bowl was recently disassembled and may have been reassembled incorrectly.</p>
+        <p class="text-text-light text-sm">Check: (1) brake is disengaged, (2) clutch condition and spring tension, (3) supply voltage and motor current draw, (4) bowl bearing temperature and noise, (5) bowl assembly balance, and (6) whether the bowl was recently disassembled and may have been reassembled incorrectly.</p>
+      </div>
+      <div>
+        <h3 class="text-base font-semibold text-navy mb-2">Can reverse rotation prevent a centrifuge from reaching speed?</h3>
+        <p class="text-text-light text-sm">Yes. A phase reversal of the electric supply causes reverse rotation. The friction clutch design only allows torque transmission in the correct direction, so the bowl cannot reach operating speed. Reverse rotation also unlocks threaded bowl parts (left-hand thread), which can cause catastrophic damage. Always verify motor rotation direction after any electrical work.</p>
       </div>
     </div>
   </div>
+
+  <!-- Author attribution -->
+  <p class="text-text-light text-sm italic mt-4 mb-6"><em>by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</em></p>
 
 </ApplicationLayout>
