@@ -4,6 +4,55 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Guides & How-To — Setup, Operation & Optimization";
 const description = "Step-by-step guides for selecting, installing, operating, and optimizing industrial disc stack and decanter centrifuges. Expert advice from Dolphin Centrifuge.";
 
+const faqItems = [
+  {
+    question: "What centrifuge setup and installation guides does Dolphin Centrifuge publish?",
+    answer: "Dolphin Centrifuge publishes a complete installation guide covering foundation requirements, piping connections, electrical hookup, and commissioning procedures for disc stack centrifuges. Additional guides cover gravity disc selection, operating water settings, and first-run startup checklist items based on 40+ years of field experience."
+  },
+  {
+    question: "How do I optimize sludge ejection cycle timing on a disc stack centrifuge?",
+    answer: "Sludge ejection cycle timing depends on solids loading in the feed, the centrifuge bowl volume, and the desired separation quality. Ejecting too frequently wastes product; too infrequently causes bowl overflow and liquid contamination. Our sludge ejection cycle guide covers timing calculation, operating water requirements, and adjustment procedures for both timer-based and turbidity-triggered discharge systems."
+  },
+  {
+    question: "What is the difference between rated and actual centrifuge capacity?",
+    answer: "Rated capacity is measured under ideal conditions with low-viscosity, low-solids fluid. Actual capacity depends on feed viscosity, temperature, solids content, separation difficulty, and gravity disc selection. Real-world throughput is typically 50–80% of rated capacity for viscous or high-solids applications. Our capacity guide explains these factors and how to set realistic throughput expectations."
+  },
+  {
+    question: "How do I select the correct gravity disc for my disc stack centrifuge?",
+    answer: "Gravity disc selection determines the oil/water interface position inside the bowl. The correct gravity disc size depends on the density difference between the two liquid phases and the desired separation endpoint. Too large a gravity disc causes water carryover into the oil outlet; too small causes oil loss in the water discharge. Our selection guide covers the gravity disc calculation method and trial procedure."
+  },
+  {
+    question: "Where can I find a complete illustrated guide to disc centrifuge parts?",
+    answer: "Our Disc Centrifuge Parts Glossary provides an illustrated reference to every major component — bowl, disc stack, distributor, paring disc, gravity disc, spindle, operating slide, horizontal and vertical drive, and more. Each component includes its function, typical failure modes, and maintenance interval. Access it at /disc-centrifuge-parts-glossary/."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Centrifuge Guides & How-To — Setup, Operation & Optimization",
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/knowledge-guides/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/knowledge-guides/"
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -122,7 +171,7 @@ const generalArticles = articles.filter(a =>
   categoryLabel="Knowledge Base"
   heroImage="/images/disc-stack-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-400-1.webp"
   heroImageAlt="Alfa Laval disc centrifuge bowl cross-section showing internal disc stack and separation chamber"
-  toc={toc}
+  toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
     { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
@@ -131,11 +180,11 @@ const generalArticles = articles.filter(a =>
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
-      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge how-to guides covering setup, operation, optimization, and maintenance — including startup procedures, gravity disc selection, sludge ejection cycle optimization, feed rate adjustment, and lubrication schedules for Alfa Laval disc stack centrifuges. Based in Warren, Michigan, with over 40 years of centrifuge operation and maintenance expertise.</p>
+      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge how-to guides covering setup, operation, optimization, and maintenance — including startup procedures, gravity disc selection, sludge ejection cycle optimization, feed rate adjustment, and lubrication schedules for Alfa Laval disc stack centrifuges.</p>
     </div>
 
     <h2 id="setup-operation-optimization">Setup, Operation & Optimization Guides</h2>
@@ -210,6 +259,16 @@ const generalArticles = articles.filter(a =>
       ))}
     </div>
 
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">Have a specific centrifuge question?</p>
+      <p class="text-text-light text-sm mb-3">Our engineers provide free application guidance and sample testing. Contact us directly for sizing, troubleshooting, or centrifuge selection advice.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Get Expert Advice</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Free Sample Testing</a>
+      </div>
+    </div>
+
     <h2 id="explore-other-categories">Explore Other Knowledge Categories</h2>
     <p>Continue learning with our other knowledge resources. From <a href="/knowledge-troubleshooting/">troubleshooting guides</a> to <a href="/knowledge-comparisons/">centrifuge comparisons</a>, we cover every aspect of industrial centrifuge ownership.</p>
 
@@ -239,5 +298,30 @@ const generalArticles = articles.filter(a =>
         <span class="text-sm font-bold text-navy group-hover:text-purple-600 transition-colors">Case Studies & FAQ</span>
       </a>
     </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq" class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Frequently Asked Questions</h2>
+    <div class="not-prose space-y-3">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+    <!-- Bottom CTA Bar -->
+    <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+      <p class="text-white text-xl font-bold mb-2">Put these guides to work — with expert backup</p>
+      <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge engineers are available to support installation, startup, and optimization of every centrifuge system we supply. Call (248) 522-2573 or request a quote.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      </div>
+    </div>
+
   </article>
 </ApplicationLayout>

@@ -4,6 +4,55 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Product & Brand Information — Equipment Details";
 const description = "Alfa Laval centrifuge product brand guide: disc stack models, parts reference, accessories, and specifications. Expert resources from Dolphin Centrifuge.";
 
+const faqItems = [
+  {
+    question: "What Alfa Laval centrifuge models does Dolphin Centrifuge supply?",
+    answer: "Dolphin Centrifuge supplies and services the full range of Alfa Laval disc stack centrifuges including MAB, MOPX, WHPX, WSPX, LAPX, BTPX, and BRPX series models, as well as NX-314, NX-418, G2-40, and CHNX-418 decanter centrifuges. New Dolphin-branded DMPX and DMB model packages are built around remanufactured Alfa Laval cores."
+  },
+  {
+    question: "Where can I find Alfa Laval centrifuge replacement parts?",
+    answer: "Dolphin Centrifuge maintains an OEM-equivalent parts inventory for Alfa Laval disc stack and decanter centrifuges. Parts include bowl assemblies, disc stacks, spindles, bearings, seals, paring discs, gravity discs, and operating slides. Contact us at (248) 522-2573 or visit our disc stack centrifuge parts page for a complete parts reference."
+  },
+  {
+    question: "What are the main Alfa Laval disc centrifuge accessories?",
+    answer: "Key accessories for Alfa Laval disc centrifuge systems include pre-heating systems (electric, steam, and gas-fired), feed pumps, back-pressure valves, flow meters, temperature controllers, and automated PLC control panels. Dolphin Centrifuge designs and supplies these accessories as integrated components of complete centrifuge skid systems."
+  },
+  {
+    question: "What is the difference between Alfa Laval MOPX and WHPX centrifuges?",
+    answer: "The MOPX series is a mid-range self-cleaning disc stack centrifuge designed primarily for oil/water separation and fuel purification. The WHPX series is a larger, higher-capacity model with a different bowl geometry suited for heavy fuel oil purification and larger flow rates. Dolphin Centrifuge stocks both series and can help select the right model based on your flow rate and application."
+  },
+  {
+    question: "Can Dolphin Centrifuge modify an Alfa Laval centrifuge for a non-standard application?",
+    answer: "Yes. One of Dolphin Centrifuge's specialties is re-purposing and modifying Alfa Laval disc stack centrifuges for non-standard applications that even the OEM may rate as difficult. Modifications include bowl metallurgy changes, seal material upgrades, control system integration, and skid design for unique process requirements. Contact us to discuss your application."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/knowledge-product-brand/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/knowledge-product-brand/"
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -77,7 +126,7 @@ const toc = [
   canonicalUrl="https://dolphincentrifuge.com/knowledge-product-brand/"
   category="knowledge"
   categoryLabel="Product & Brand"
-  toc={toc}
+  toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
     { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
@@ -86,7 +135,7 @@ const toc = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
@@ -149,6 +198,41 @@ const toc = [
       </a>
     </div>
 
-    <p class="mt-8">Need help identifying the right centrifuge for your process? Our engineers can walk you through model selection, <a href="/centrifuge-repair-service/">repair options</a>, and <a href="/industrial-centrifuge-sample-testing/">sample testing</a> to match equipment to your exact requirements.</p>
+    <p class="mt-8">Need help identifying the right centrifuge for your process? Our engineers can walk you through model selection, <a href="/industrial-disc-centrifuge-repair/">repair options</a>, and <a href="/industrial-centrifuge-sample-testing/">sample testing</a> to match equipment to your exact requirements.</p>
+
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">Need help selecting the right Alfa Laval centrifuge model?</p>
+      <p class="text-text-light text-sm mb-3">Our engineers have 40+ years of Alfa Laval centrifuge expertise. Contact us with your application details and we will recommend the right model, configuration, and skid design.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Free Sample Testing</a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
+    <div class="not-prose space-y-3">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+    <!-- Bottom CTA Bar -->
+    <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+      <p class="text-white text-xl font-bold mb-2">200+ Alfa Laval centrifuges in stock — Warren, MI</p>
+      <p class="text-blue-100 text-sm mb-5">Browse our in-stock inventory of MAB, MOPX, WHPX, LAPX, and decanter centrifuge models. Call (248) 522-2573 or request a quote online.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      </div>
+    </div>
+
   </article>
 </ApplicationLayout>

@@ -25,6 +25,29 @@ const faqItems = [
   }
 ];
 
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Contact Dolphin Centrifuge — Get a Quote for Industrial Centrifuges",
+  "description": "Contact Dolphin Centrifuge in Warren, Michigan for industrial centrifuge quotes, parts, repair, and sample testing. 200+ units in stock, respond within one business day.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "url": "https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/"
+};
+
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -82,14 +105,14 @@ const faqJsonLd = {
 ---
 
 <ApplicationLayout
-  title="Contact Us for Industrial Centrifuge Quotes | Dolphin Centrifuge"
-  description="Contact Dolphin Centrifuge for industrial centrifuge quotes, parts, and service. Call (248) 522-2573 or submit application details for expert sizing."
+  title="Contact Dolphin Centrifuge — Get a Quote | Warren, MI"
+  description="Contact Dolphin Centrifuge for industrial centrifuge quotes, parts, service, and sample testing. Call (248) 522-2573 or email sales@dolphincentrifuge.com."
   heroImage="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-Warren-1000.webp"
-  heroImageAlt="Dolphin Centrifuge Shop Warren Michigan"
+  heroImageAlt="Dolphin Centrifuge facility in Warren, Michigan — industrial centrifuge manufacturing and service center"
   category="contact"
   categoryLabel="Contact"
   canonicalUrl="https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/"
-  jsonLd={[localBusinessJsonLd, faqJsonLd]}
+  jsonLd={[articleJsonLd, localBusinessJsonLd, faqJsonLd]}
   relatedProducts={[
     { label: "Disc Stack Centrifuges", href: "/disc-stack-centrifuge/", description: "Self-cleaning separator systems" },
     { label: "Decanter Centrifuges", href: "/decanter-centrifuge/", description: "High-solids dewatering systems" },
@@ -519,6 +542,26 @@ const faqJsonLd = {
   </section>
 
   <!-- FAQ Section -->
-  <FAQ items={faqItems} heading="Contact & Quote — Frequently Asked Questions" />
+  <h2 class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Contact &amp; Quote — Frequently Asked Questions</h2>
+  <div class="space-y-3 not-prose">
+    {faqItems.map(item => (
+      <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+          <span class="text-gold font-bold">+</span> {item.question}
+        </summary>
+        <p class="text-text-light mt-3 text-sm leading-relaxed" set:html={item.answer} />
+      </details>
+    ))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <div class="bg-navy py-12 px-6 text-center not-prose">
+    <h2 class="text-2xl font-bold text-white mb-4">Ready to Get Started?</h2>
+    <p class="text-white/80 mb-8 max-w-2xl mx-auto">Contact our centrifuge engineers for expert sizing, quotes, and same-day response.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="tel:2485222573" class="bg-gold text-navy font-bold py-3 px-8 rounded-lg hover:bg-gold/90 transition-colors">(248) 522-2573</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border-2 border-white text-white font-bold py-3 px-8 rounded-lg hover:bg-white/10 transition-colors">Free Sample Testing</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

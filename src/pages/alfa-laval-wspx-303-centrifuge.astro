@@ -1,6 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
 const faqItems = [
   {
@@ -14,6 +13,14 @@ const faqItems = [
   {
     question: "How often does the WSPX 303 need to discharge sludge?",
     answer: "The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles."
+  },
+  {
+    question: "What G-force does the WSPX 303 generate?",
+    answer: "The WSPX 303 bowl rotates at 9,200 RPM generating over 8,000 G-Force. This extremely high G-force enables separation of sub-micron particles and fine metallic swarf that settle out too slowly for gravity filtration, restoring coolant to a clean, reusable condition."
+  },
+  {
+    question: "Can Dolphin Centrifuge supply parts or rebuild the WSPX 303?",
+    answer: "Yes. Dolphin Centrifuge supplies replacement parts and complete bowl rebuilds for the WSPX 303. Each rebuilt centrifuge is tested to factory specifications. We also offer repair services for the full WSPX series including the WSPX 207, WSPX 307, and WSPX 407."
   }
 ];
 
@@ -29,8 +36,8 @@ const productJsonLd = {
     "@type": "Offer",
     "availability": "https://schema.org/InStock",
     "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  },
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  }
 };
 
 const faqJsonLd = {
@@ -46,7 +53,29 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval WSPX 303 Self-Cleaning Coolant Centrifuge",
+  "description": "Technical overview of the Alfa Laval WSPX 303 TGD self-cleaning 3-phase disc centrifuge for industrial coolant recovery, tramp oil removal, and metalworking fluid recycling.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "url": "https://dolphincentrifuge.com/alfa-laval-wspx-303-centrifuge/"
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WSPX 303 Operation' },
@@ -63,19 +92,19 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'WSPX 207 Centrifuge', href: '/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/', description: '100–200 LPH entry-level' },
-  { label: 'WSPX 307 Centrifuge', href: '/alfa-laval-wspx-307/', description: '400–800 LPH high-volume' },
-  { label: 'WSPX 407 Centrifuge', href: '/alfa-laval-wspx-407/', description: '800+ LPH highest capacity' },
+  { label: 'WSPX 207 Centrifuge', href: '/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/', description: '20 GPM entry-level' },
+  { label: 'WSPX 307 Centrifuge', href: '/alfa-laval-wspx-307/', description: '22 GPM high-volume' },
+  { label: 'WSPX 407 Centrifuge', href: '/alfa-laval-wspx-407/', description: '25 GPM highest capacity' },
 ];
 ---
 
 <ApplicationLayout
-  title="Alfa Laval WSPX 303 Self-Cleaning Coolant Centrifuge | Dolphin Centrifuge"
-  description="Alfa Laval WSPX 303 TGD self-cleaning disc centrifuge for coolant clarification and tramp oil removal. 8 GPM capacity, 9,200 RPM, 8,000+ Gs. Dolphin Centrifuge."
+  title="Alfa Laval WSPX 303 Coolant Centrifuge | Dolphin"
+  description="Alfa Laval WSPX 303 TGD self-cleaning disc centrifuge for coolant clarification and tramp oil removal. 8 GPM capacity, 9,200 RPM, 8,000+ Gs. Parts, repairs, and remanufactured units from Dolphin Centrifuge."
   category="products"
   categoryLabel="Products"
   heroImage="/images/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/Alfa-Laval-Industrial-Centrifuge-Coolant-1000.webp"
-  heroImageAlt="Alfa Lava Industrial Centrifuge Coolant Separation"
+  heroImageAlt="Alfa Laval WSPX 303 industrial centrifuge coolant separation system"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-wspx-303-centrifuge/"
   jsonLd={jsonLd}
   toc={toc}
@@ -83,8 +112,8 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the Alfa Laval WSPX 303 TGD, a self-cleaning 3-phase disc centrifuge rated at 8 GPM. Operating at 9,200 RPM and 8,000+ Gs, it removes sub-micron particles and tramp oil from metalworking coolant in mid-size machining facilities.</p>
+  <div class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WSPX 303 TGD self-cleaning 3-phase disc centrifuges rated at 8 GPM. Operating at 9,200 RPM and 8,000+ Gs, it removes sub-micron particles and tramp oil from metalworking coolant in mid-size machining facilities. Warren, Michigan — over 40 years of experience.</p>
   </div>
 
   <h2 id="overview">WSPX 303 Operation</h2>
@@ -101,7 +130,7 @@ const relatedProducts = [
     <div class="md:w-1/2">
       <img
         src="/images/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/Alfa-Laval-Stainless-Steel-Centrifuge-600.webp"
-        alt="Alfa Laval Stainless Steel Centrifuge"
+        alt="Alfa Laval stainless steel centrifuge for machine coolant separation"
         width="600"
         height="600"
         loading="lazy"
@@ -124,6 +153,12 @@ const relatedProducts = [
     </tbody>
   </table>
 
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="text-base font-semibold text-navy mb-1">Need parts, repairs, or a remanufactured WSPX 303?</p>
+    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge supplies the WSPX 303 along with rebuild services and application support. <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold">Free sample testing</a> is available to validate coolant separation performance before purchase. Our <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold">centrifuge repair services</a> keep your WSPX running at full efficiency.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold hover:bg-gold/80 text-navy font-bold px-6 py-2 rounded-lg transition-colors text-sm">Request a Quote &rarr;</a>
+  </div>
+
   <h2 id="applications">Applications</h2>
 
   <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-8 not-prose">
@@ -145,13 +180,13 @@ const relatedProducts = [
   <h2 id="wspx-series">Related WSPX Models</h2>
 
   <p>
-    The WSPX 303 fits between the smaller <a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/">WSPX 207</a> and the higher-capacity <a href="/alfa-laval-wspx-307/">WSPX 307</a>. For the highest throughput requirements, the <a href="/alfa-laval-wspx-407/">WSPX 407</a> handles 800+ LPH. Dolphin Centrifuge can help you size the correct model based on your system flow rate and contamination profile.
+    The WSPX 303 fits between the smaller <a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/">WSPX 207</a> and the higher-capacity <a href="/alfa-laval-wspx-307/">WSPX 307</a>. For the highest throughput requirements, the <a href="/alfa-laval-wspx-407/">WSPX 407</a> handles 25 GPM. Dolphin Centrifuge can help you size the correct model based on your system flow rate and contamination profile.
   </p>
 
   <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 not-prose">
     <div class="bg-white rounded-xl p-6 border border-gray-200">
       <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-207-self-cleaning-coolant-centrifuge/" class="text-navy hover:text-gold transition-colors">WSPX 207</a></h3>
-      <p class="text-sm text-text-light">100–200 LPH. Individual machine or small cell installations.</p>
+      <p class="text-sm text-text-light">20 GPM. Individual machine or small cell installations.</p>
     </div>
     <div class="bg-white rounded-xl p-6 border-2 border-gold">
       <h3 class="text-lg font-bold text-navy mb-2">WSPX 303 — Current</h3>
@@ -159,21 +194,56 @@ const relatedProducts = [
     </div>
     <div class="bg-white rounded-xl p-6 border border-gray-200">
       <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-307/" class="text-navy hover:text-gold transition-colors">WSPX 307</a></h3>
-      <p class="text-sm text-text-light">400–800 LPH. High-volume automotive and aerospace facilities.</p>
+      <p class="text-sm text-text-light">22 GPM. High-volume automotive and aerospace facilities.</p>
     </div>
     <div class="bg-white rounded-xl p-6 border border-gray-200">
       <h3 class="text-lg font-bold text-navy mb-2"><a href="/alfa-laval-wspx-407/" class="text-navy hover:text-gold transition-colors">WSPX 407</a></h3>
-      <p class="text-sm text-text-light">800+ LPH. Highest capacity for large-scale industrial operations.</p>
+      <p class="text-sm text-text-light">25 GPM. Highest capacity for large-scale industrial operations.</p>
     </div>
   </div>
 
-  <FAQ items={faqItems} />
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What is the rated capacity of the Alfa Laval WSPX 303 centrifuge?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WSPX 303 TGD is rated at 8 GPM on water-based coolant. It is a self-cleaning 3-phase disc centrifuge suited for central coolant systems serving multiple CNC machines or grinding operations in mid-size machining facilities.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What does a coolant centrifuge remove from metalworking fluid?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">A coolant centrifuge removes metal fines (chips, grinding swarf, particles down to 1 micron), tramp oil (hydraulic and machine oils that contaminate coolant), and other dense solid contaminants. Removing these contaminants extends coolant life, reduces biocide consumption, and prevents surface finish degradation on machined parts.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      How often does the WSPX 303 need to discharge sludge?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What G-force does the WSPX 303 generate?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WSPX 303 bowl rotates at 9,200 RPM generating over 8,000 G-Force. This extremely high G-force enables separation of sub-micron particles and fine metallic swarf that settle out too slowly for gravity filtration, restoring coolant to a clean, reusable condition.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      Can Dolphin Centrifuge supply parts or rebuild the WSPX 303?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">Yes. Dolphin Centrifuge supplies replacement parts and complete bowl rebuilds for the WSPX 303. Each rebuilt centrifuge is tested to factory specifications. We also offer repair services for the full WSPX series including the WSPX 207, WSPX 307, and WSPX 407.</p>
+  </details>
 
   <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
-    <h2 class="text-2xl font-bold text-white mb-3">Interested in the WSPX 303?</h2>
-    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact our team for pricing, system integration support, and application evaluation. Paid sample testing is available.</p>
+    <h2 class="text-2xl font-bold text-white mb-3">Parts, Repairs &amp; Remanufactured WSPX 303</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact Dolphin Centrifuge for pricing, system integration support, and application evaluation. Free sample testing available.</p>
     <div class="flex flex-wrap justify-center gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Free Sample Testing</a>
       <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
     </div>
   </div>

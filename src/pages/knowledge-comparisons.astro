@@ -1,8 +1,57 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const title = "Centrifuge Comparisons & Explainers — Understand the Differences";
-const description = "Compare centrifuge types and separation principles. Purifier vs clarifier, decanter vs disc stack, RCF vs RPM explained by Dolphin Centrifuge.";
+const title = "Centrifuge Comparisons & Explainers | Dolphin Centrifuge";
+const description = "Compare industrial centrifuge types: disc stack vs. decanter, purifier vs. clarifier, RCF vs. RPM. Technical explainers from Dolphin Centrifuge.";
+
+const faqItems = [
+  {
+    question: "What is the main difference between a disc stack centrifuge and a decanter centrifuge?",
+    answer: "Disc stack centrifuges separate two liquids (or liquid plus fine solids) at high speed using a stack of conical discs. They are best for low-solids applications — oil/water separation, fuel purification, beer clarification. Decanter centrifuges use a scroll conveyor inside a rotating bowl to continuously discharge high-solids slurries. Choose decanters when solids content exceeds 5–10% by weight."
+  },
+  {
+    question: "What is the difference between a purifier and a clarifier centrifuge?",
+    answer: "A purifier separates two liquid phases (plus solids) — for example, oil from water. It uses a gravity disc to maintain the liquid/liquid interface inside the bowl. A clarifier removes only solids from a single liquid phase — no gravity disc is used, and the full bowl volume is dedicated to liquid clarification. The same centrifuge bowl can often be configured as either a purifier or a clarifier by changing the gravity disc."
+  },
+  {
+    question: "What is the difference between RCF and RPM in centrifuge specifications?",
+    answer: "RPM (revolutions per minute) is the rotational speed of the bowl. RCF (relative centrifugal force, also called G-force) is the actual separation force generated — calculated as RCF = 1.118 × r × (RPM/1000)², where r is the bowl radius in mm. Two centrifuges at the same RPM but different bowl sizes will have very different RCF values. RCF is the meaningful comparison for separation performance."
+  },
+  {
+    question: "When should I use a three-phase decanter centrifuge instead of a two-phase unit?",
+    answer: "Use a three-phase decanter when you need to simultaneously separate two liquid phases and a solid phase — for example, recovering oil and water from an oily sludge while also dewatering the solids. Two-phase decanters only separate one liquid from solids. Three-phase units are common in oily water treatment, rendering, and olive oil processing."
+  },
+  {
+    question: "Can a centrifuge separate dissolved salts from water?",
+    answer: "No. Centrifuges separate phases based on density difference. Dissolved salts are in true solution — they have no density difference relative to the surrounding water at the molecular level, so centrifugal force cannot separate them. Centrifuges can remove suspended particles and immiscible liquids, but dissolved materials require chemical precipitation or membrane filtration for removal."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/knowledge-comparisons/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/knowledge-comparisons/"
+};
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -87,7 +136,7 @@ const articles = [
   categoryLabel="Comparisons"
   heroImage="/images/disc-stack-centrifuge/Chamber-Decanter-Disc-Centrifuge-Ae-800.webp"
   heroImageAlt="Comparison of chamber bowl, decanter, and disc stack centrifuge types"
-  toc={toc}
+  toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
     { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
@@ -96,7 +145,7 @@ const articles = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8 max-w-4xl">
@@ -131,6 +180,16 @@ const articles = [
       ))}
     </div>
 
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">Not sure which centrifuge type fits your application?</p>
+      <p class="text-text-light text-sm mb-3">Our engineers can evaluate your process fluid and recommend the right centrifuge technology — disc stack, decanter, or alternative. Free sample testing available.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Get Expert Advice</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Free Sample Testing</a>
+      </div>
+    </div>
+
     <h2 id="other-knowledge-categories">Explore Other Knowledge Categories</h2>
     <p>Continue learning with our other <a href="/knowledge-center/">Knowledge Center</a> categories covering troubleshooting, how-to guides, product information, and real-world case studies.</p>
 
@@ -160,5 +219,30 @@ const articles = [
         <span class="text-sm font-bold text-navy group-hover:text-purple-600 transition-colors">Case Studies & FAQ</span>
       </a>
     </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq" class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Frequently Asked Questions</h2>
+    <div class="not-prose space-y-3">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+    <!-- Bottom CTA Bar -->
+    <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+      <p class="text-white text-xl font-bold mb-2">Still unsure which centrifuge is right for you?</p>
+      <p class="text-blue-100 text-sm mb-5">Send us your fluid sample and our engineers will run it through the appropriate centrifuge and provide documented separation results with equipment sizing recommendations.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      </div>
+    </div>
+
   </article>
 </ApplicationLayout>

@@ -4,6 +4,55 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Case Studies & FAQ — Real-World Results & Answers";
 const description = "Real-world centrifuge case studies and FAQ covering waste oil recovery, wastewater treatment, and more. Documented results from Dolphin Centrifuge.";
 
+const faqItems = [
+  {
+    question: "What industries are covered in Dolphin Centrifuge case studies?",
+    answer: "Dolphin Centrifuge case studies cover waste oil recovery (marine and industrial), used oil re-refining, semiconductor/silicon wafer wastewater treatment, pyrolysis oil purification from tire recycling, and municipal wastewater sludge dewatering. Each case study includes real throughput figures, before-and-after separation quality data, and ROI information."
+  },
+  {
+    question: "How much waste oil can a Dolphin Centrifuge system process?",
+    answer: "Dolphin Centrifuge systems have been installed in facilities ranging from small 5-GPM skid systems to large-scale 6-million-gallon-per-year used oil processing plants. The 6 MGY used oil plant case study documents a multi-centrifuge installation with staged processing for meeting re-refinery input specifications."
+  },
+  {
+    question: "Can a centrifuge process pyrolysis oil from tire recycling?",
+    answer: "Yes. Disc stack centrifuges effectively remove carbon black, metals, and water from pyrolysis oil produced by waste tire recycling (TDP/pyrolysis). The cleaned pyrolysis oil can be sold as fuel oil or used as a diesel substitute. Dolphin Centrifuge has documented case studies for pyrolysis oil purification using self-cleaning disc stack centrifuge systems."
+  },
+  {
+    question: "How does a centrifuge treat silicon wafer manufacturing wastewater?",
+    answer: "Silicon wafer polishing and cutting processes generate wastewater with very fine silicon fines suspended in water. Disc stack centrifuges at up to 10,000 G remove these submicron particles, producing clarified water suitable for reuse and a concentrated silicon solids cake for disposal or recovery. This eliminates filter press bottlenecks and reduces waste disposal costs."
+  },
+  {
+    question: "Where can I find centrifuge FAQ resources for general questions?",
+    answer: "Dolphin Centrifuge publishes two comprehensive FAQ pages: the Disc Stack Centrifuge FAQ (/disc-stack-centrifuge-faq/) covering how disc stack centrifuges work, maintenance requirements, and applications; and the Industrial Centrifuge FAQ (/industrial-centrifuges-faq/) covering general centrifuge selection, operating principles, and cost considerations across all centrifuge types."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/knowledge-case-studies/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/knowledge-case-studies/"
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -81,7 +130,7 @@ const faqArticles = [
   canonicalUrl="https://dolphincentrifuge.com/knowledge-case-studies/"
   category="knowledge"
   categoryLabel="Case Studies"
-  toc={toc}
+  toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
     { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
@@ -90,11 +139,11 @@ const faqArticles = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
 >
   <div class="prose-dolphin max-w-none">
     <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
-      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge case studies documenting real-world separation performance, ROI, and system design decisions. Case studies cover diesel fuel recovery, waste oil processing, coolant reclamation, marine fuel treatment, and more — with documented savings figures and installation details. Based in Warren, Michigan, with over 40 years of centrifuge case study documentation.</p>
+      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge case studies documenting real-world separation performance, ROI, and system design decisions. Case studies cover diesel fuel recovery, waste oil processing, coolant reclamation, marine fuel treatment, and more — with documented savings figures and installation details.</p>
     </div>
 
     <h2 id="case-studies">Case Studies</h2>
@@ -149,6 +198,30 @@ const faqArticles = [
       ))}
     </div>
 
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">Want documented results for your application?</p>
+      <p class="text-text-light text-sm mb-3">Send us your fluid sample and we will produce documented before-and-after separation results — the same data our case studies are built on.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Free Sample Testing</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Get a Free Quote</a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
+    <div class="not-prose space-y-3">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
     <h2 id="explore-knowledge">Explore Other Knowledge Categories</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 not-prose my-6">
       <a href="/knowledge-troubleshooting/" class="group flex items-center gap-3 bg-warm-white rounded-xl p-4 border border-gray-200 hover:border-red-300/40 hover:shadow-md transition-all">
@@ -176,5 +249,16 @@ const faqArticles = [
         <span class="text-sm font-bold text-navy group-hover:text-amber-600 transition-colors">Product & Brand</span>
       </a>
     </div>
+
+    <!-- Bottom CTA Bar -->
+    <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+      <p class="text-white text-xl font-bold mb-2">Ready to add your company to our case study list?</p>
+      <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge has helped hundreds of companies reduce fluid disposal costs, recover valuable products, and eliminate filter press bottlenecks. Start with a free sample test.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Free Quote</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      </div>
+    </div>
+
   </div>
 </ApplicationLayout>

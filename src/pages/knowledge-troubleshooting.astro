@@ -4,6 +4,55 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Troubleshooting — Diagnose & Fix Common Issues";
 const description = "Centrifuge troubleshooting guides: fix vibration, leaking bowls, poor separation, and speed issues in disc stack and decanter centrifuges from Dolphin.";
 
+const faqItems = [
+  {
+    question: "What are the most common disc stack centrifuge problems?",
+    answer: "The most common disc stack centrifuge problems are: (1) excessive vibration from bowl imbalance or bearing wear, (2) bad separation from wrong gravity disc, low temperature, or clogged discs, (3) cannot reach operating speed from motor, clutch, or drive problems, (4) bowl or hood leaking from worn O-rings or cracked components, and (5) liquid seal break from operating water failure or wrong gravity disc size."
+  },
+  {
+    question: "Why is my disc stack centrifuge vibrating excessively?",
+    answer: "Excessive vibration in a disc stack centrifuge typically indicates bowl imbalance, worn spindle bearings, an improperly assembled bowl after service, or foundation problems. Other causes include a solids-overloaded bowl that was not discharged properly, a cracked disc, or contamination between disc stack components. Our vibration troubleshooting guide covers each cause with a step-by-step diagnostic procedure."
+  },
+  {
+    question: "Why is my centrifuge producing poor separation quality?",
+    answer: "Poor separation is most often caused by: incorrect gravity disc size (wrong interface position), feed temperature too low (high viscosity), excessive feed rate, clogged disc stack, worn paring disc, or wrong centrifuge type for the application. Our bad separation guide covers 6 root causes with corrective actions for each."
+  },
+  {
+    question: "What causes a liquid seal break in a disc stack centrifuge?",
+    answer: "A liquid seal break occurs when the oil/water interface inside the bowl collapses, allowing one phase to contaminate the other outlet. Causes include: operating water pressure failure, wrong gravity disc size, air ingestion into the feed, sudden feed composition change, or excessive feed rate that overwhelms the interface. Our liquid seal break guide covers diagnosis and recovery procedures."
+  },
+  {
+    question: "Does Dolphin Centrifuge offer live centrifuge troubleshooting support?",
+    answer: "Yes. Dolphin Centrifuge provides free lifetime technical support to all customers. Call (248) 522-2573 or email sales@dolphincentrifuge.com for immediate troubleshooting assistance. Our engineers can diagnose most disc stack and decanter centrifuge problems by phone with detailed description of symptoms, operating conditions, and recent maintenance history."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/knowledge-troubleshooting/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/knowledge-troubleshooting/"
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
@@ -117,14 +166,14 @@ const articles = [
   canonicalUrl="https://dolphincentrifuge.com/knowledge-troubleshooting/"
   category="knowledge"
   categoryLabel="Troubleshooting"
-  toc={toc}
+  toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
-      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge troubleshooting guides covering vibration, bad separation, liquid seal break, bowl leaking, cannot reach operating speed, lubrication failures, operating water problems, sludge ejection issues, and paring disc blockage. All guides are based on 40+ years of <a href="/disc-stack-centrifuge-service/">Alfa Laval disc centrifuge service</a> experience. Based in Warren, Michigan — call <a href="tel:2485222573">(248) 522-2573</a> for immediate troubleshooting support.</p>
+      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge publishes industrial centrifuge troubleshooting guides covering vibration, bad separation, liquid seal break, bowl leaking, cannot reach operating speed, lubrication failures, operating water problems, sludge ejection issues, and paring disc blockage. All guides are based on 40+ years of <a href="/industrial-disc-centrifuge-repair/">Alfa Laval disc centrifuge service</a> experience. Based in Warren, Michigan — call <a href="tel:+12485222573">(248) 522-2573</a> for immediate troubleshooting support.</p>
     </div>
 
     <h2 id="troubleshooting-guides">Troubleshooting Guides</h2>
@@ -153,8 +202,32 @@ const articles = [
       ))}
     </div>
 
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">Can't find your centrifuge issue in the guides?</p>
+      <p class="text-text-light text-sm mb-3">Call Dolphin Centrifuge at (248) 522-2573 for live troubleshooting support. All customers receive free lifetime technical support — no subscription, no expiration.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="tel:+12485222573" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Call (248) 522-2573</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Submit a Support Request</a>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
+    <div class="not-prose space-y-3">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
     <h2 id="explore-other-categories">Explore Other Knowledge Categories</h2>
-    <p>Continue learning about industrial centrifuges with our other <a href="/knowledge-center/">knowledge center</a> categories, or explore our <a href="/centrifuge-service-repair/">centrifuge service and repair</a> offerings.</p>
+    <p>Continue learning about industrial centrifuges with our other <a href="/knowledge-center/">knowledge center</a> categories, or explore our <a href="/industrial-disc-centrifuge-repair/">centrifuge service and repair</a> offerings.</p>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 not-prose mt-6">
       <a href="/knowledge-guides/" class="group flex items-center gap-3 bg-warm-white rounded-xl p-4 border border-gray-200 hover:border-blue-300/40 hover:shadow-md transition-all">
@@ -182,5 +255,16 @@ const articles = [
         <span class="text-sm font-bold text-navy group-hover:text-purple-600 transition-colors">Case Studies & FAQ</span>
       </a>
     </div>
+
+    <!-- Bottom CTA Bar -->
+    <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+      <p class="text-white text-xl font-bold mb-2">Need centrifuge repair or service support?</p>
+      <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge provides complete centrifuge rebuild, remanufacturing, and on-site service from Warren, Michigan. Contact us for a service assessment.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get Service Support</a>
+        <a href="/industrial-disc-centrifuge-repair/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Centrifuge Repair Services</a>
+      </div>
+    </div>
+
   </article>
 </ApplicationLayout>

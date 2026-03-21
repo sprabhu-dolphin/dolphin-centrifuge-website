@@ -4,7 +4,7 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const faqItems = [
   {
     question: "What is the main difference between the Sharples P-3400 and P-3000?",
-    answer: "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's capacity."
+    answer: "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's 25 GPM rated capacity. The P-3400 is rated at 50 GPM with a 25 HP drive motor."
   },
   {
     question: "Does Dolphin Centrifuge stock parts for the P-3400?",
@@ -13,6 +13,14 @@ const faqItems = [
   {
     question: "Is the Sharples P-3400 still supported by Alfa Laval?",
     answer: "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel."
+  },
+  {
+    question: "How long does a Sharples P-3400 rebuild take?",
+    answer: "A complete P-3400 mechanical rebuild typically takes 3–5 weeks depending on scope — scroll reconditioning, bearing replacement, gearbox overhaul, wear surface hard-facing, seal replacement, and final balance and test. Dolphin Centrifuge provides a detailed scope and timeline after initial inspection of the unit."
+  },
+  {
+    question: "Can the P-3400 handle ethanol biomass separation?",
+    answer: "Yes. The Sharples P-3400 has been used for ethanol biomass separation, with a rated capacity of 50 GPM on ethanol biomass feed. The 3,150 G separation force at 4,000 RPM is effective for dewatering fermentation biomass and other biological solids in ethanol production and bioprocessing applications."
   }
 ];
 
@@ -53,7 +61,23 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Sharples P-3400 High-Capacity Decanter Centrifuge — Parts, Rebuild & Repair",
+  "description": "Sharples P-3400 decanter centrifuge parts, rebuild, and repair services from Dolphin Centrifuge. 50 GPM rated capacity, 3,150 Gs, 25 HP drive for industrial sludge dewatering.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/sharples-p-3400-decanter/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/sharples-p-3400-decanter/"
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'about', label: 'About the Sharples P-3400' },
@@ -81,7 +105,7 @@ const relatedProducts = [
   title="Sharples P-3400 Decanter Centrifuge | Dolphin Centrifuge"
   description="Sharples P-3400 high-capacity decanter centrifuge — rebuild, parts, and repair services for heavy sludge dewatering applications. Dolphin Centrifuge, Warren MI."
   heroImage="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
-  heroImageAlt="sharples-p3400-oilfield-decanter"
+  heroImageAlt="Sharples P-3400 high-capacity horizontal decanter centrifuge for oilfield and industrial sludge dewatering — Dolphin Centrifuge rebuild and parts"
   category="products"
   categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/sharples-p-3400-decanter/"
@@ -110,7 +134,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
-      alt="sharples-p3400-oilfield-decanter"
+      alt="Sharples P-3400 decanter centrifuge installed in oilfield application — high-capacity horizontal scroll decanter"
       width="600"
       height="600"
       loading="lazy"
@@ -225,16 +249,39 @@ const relatedProducts = [
     <li><a href="/industrial-disc-centrifuge-repair/">Full centrifuge repair and refurbishment services</a></li>
   </ul>
 
+  <!-- Mid-page CTA -->
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+    <p class="text-navy font-bold text-lg mb-1">P-3400 needs rebuild or repair?</p>
+    <p class="text-text-light text-sm mb-3">Dolphin Centrifuge in Warren, Michigan stocks P-3400 parts and provides complete rebuild services. Contact us for an inspection estimate and rebuild timeline.</p>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Request Rebuild Quote</a>
+      <a href="/industrial-disc-centrifuge-repair/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Centrifuge Repair Services</a>
+    </div>
+  </div>
+
   <!-- FAQ Section -->
   <h2 id="faq">Frequently Asked Questions</h2>
 
-  <div class="space-y-4 not-prose">
+  <div class="space-y-3 not-prose">
     {faqItems.map(item => (
-      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
-        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
+      <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+          <span class="text-gold font-bold">+</span> {item.question}
+        </summary>
+        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
       </details>
     ))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <!-- Bottom CTA Bar -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+    <p class="text-white text-xl font-bold mb-2">Sharples P-3400 parts, rebuild, and repair — Warren, MI</p>
+    <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge maintains parts inventory and service expertise for Sharples P-3400 and P-3000 decanter centrifuges. Call (248) 522-2573 for immediate support.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Rebuild Quote</a>
+      <a href="/decanter-centrifuge/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Decanter Centrifuge Guide</a>
+    </div>
   </div>
 
 </ApplicationLayout>

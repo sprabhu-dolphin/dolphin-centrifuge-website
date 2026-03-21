@@ -1,6 +1,21 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval LAPX-404 Disc Centrifuge — Laboratory Scale Separation",
+  "description": "Technical guide to the Alfa Laval LAPX-404 self-cleaning disc stack centrifuge: 8,000 Gs, 5 GPM, partial solids ejection for food, biotech, and industrial applications.",
+  "url": "https://dolphincentrifuge.com/alfa-laval-lapx-404-disc-centrifuge/",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+};
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -36,11 +51,20 @@ const faqJsonLd = {
         "@type": "Answer",
         "text": "Yes. The LAPX-404 can be configured as a clarifier (solid-liquid separator) or as a concentrator to separate large volumes of water-based fluid from a small volume of oil. The solids content in the process fluid can be up to 10% by volume."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Dolphin Centrifuge supply and service the Alfa Laval LAPX-404?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Dolphin Centrifuge has Alfa Laval LAPX-404 disc stack centrifuge systems in stock for sale. Each unit is fully disassembled, inspected, rebuilt to original specifications, and tested at our Warren, Michigan facility. We also offer pilot sample testing and maintain replacement parts inventory. Contact (248) 522-2573 for availability."
+      }
     }
   ]
 };
 
 const jsonLd = [
+  articleJsonLd,
   {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -222,7 +246,7 @@ const relatedApplications = [
     <div class="md:w-1/2">
       <img
         src="/images/alfa-laval-lapx-404-disc-centrifuge/BTPX-205-Bowl-Cross-Section-300.webp"
-        alt="BTPX 205 Bowl Cross Section"
+        alt="LAPX-404 Bowl Cross Section Diagram — horizontal scroll showing disc stack separation zones"
         loading="lazy"
         width="300"
         height="341"
@@ -246,7 +270,7 @@ const relatedApplications = [
   </p>
 
   <!-- Mid-page CTA -->
-  <div class="bg-navy/5 border border-navy/10 rounded-xl p-6 my-8 text-center not-prose">
+  <div class="bg-gold/10 border border-gold rounded-xl p-6 my-8 text-center not-prose">
     <p class="text-lg font-bold text-navy mb-2">Need a quote for the LAPX-404?</p>
     <p class="text-sm text-text-light mb-4">Tell us your application, required throughput, and processing conditions.</p>
     <div class="flex flex-wrap justify-center gap-3">
@@ -258,24 +282,36 @@ const relatedApplications = [
   <!-- FAQ Section -->
   <h2 id="faq">Frequently Asked Questions</h2>
   <div class="space-y-4 not-prose">
-    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+    <details class="rounded-xl border border-gold p-5">
       <summary class="font-semibold text-navy cursor-pointer">What applications is the Alfa Laval LAPX-404 used for?</summary>
       <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX-404 is used for organic fish oil separation, food flavor extraction, animal fat and water separation, coolant tramp oil separation, two-phase immiscible chemical separation, and clarified butter (ghee) separation. It handles suspended solids with particle sizes from 0.5 to 500 microns.</p>
     </details>
-    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+    <details class="rounded-xl border border-gold p-5">
       <summary class="font-semibold text-navy cursor-pointer">What is the capacity of the Alfa Laval LAPX-404?</summary>
       <p class="text-text-light mt-3 text-sm">The Alfa Laval LAPX-404 has a maximum process capacity of 5 gallons per minute (GPM). Its rated capacity is 5 GPM on chicken broth / chicken fat separation. The bowl speed is 8,200 RPM generating 8,000 Gs of centrifugal force.</p>
     </details>
-    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+    <details class="rounded-xl border border-gold p-5">
       <summary class="font-semibold text-navy cursor-pointer">Does the LAPX-404 have automatic solids ejection?</summary>
       <p class="text-text-light mt-3 text-sm">Yes. The LAPX-404 features a partial solids ejection mechanism that purges only the solids, reducing fluid losses during sludge ejection. The sludge ejection cycle can be timer triggered or based on the volume of fluid processed.</p>
     </details>
-    <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+    <details class="rounded-xl border border-gold p-5">
       <summary class="font-semibold text-navy cursor-pointer">Can the LAPX-404 be configured as a clarifier or concentrator?</summary>
       <p class="text-text-light mt-3 text-sm">Yes. The LAPX-404 can be configured as a clarifier (solid-liquid separator) or as a concentrator to separate large volumes of water-based fluid from a small volume of oil. The solids content in the process fluid can be up to 10% by volume.</p>
     </details>
+    <details class="rounded-xl border border-gold p-5">
+      <summary class="font-semibold text-navy cursor-pointer">Does Dolphin Centrifuge supply and service the Alfa Laval LAPX-404?</summary>
+      <p class="text-text-light mt-3 text-sm">Yes. Dolphin Centrifuge has Alfa Laval LAPX-404 disc stack centrifuge systems in stock for sale. Each unit is fully disassembled, inspected, rebuilt to original specifications, and tested at our Warren, Michigan facility. We also offer <a href="/industrial-centrifuge-sample-testing/">pilot sample testing</a> and maintain <a href="/alfa-laval-centrifuge-parts/">replacement parts</a> inventory. Contact <a href="/contact-for-alfa-laval-centrifuges/">our team</a> for availability.</p>
+    </details>
   </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <!-- Bottom CTA bar -->
+  <div class="not-prose bg-navy rounded-xl p-8 text-center mt-12">
+    <h2 class="text-2xl font-bold text-white mb-3">Alfa Laval LAPX-404 — In Stock at Dolphin Centrifuge</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Reconditioned LAPX-404 systems available for food, biotech, and industrial applications. <a href="/industrial-centrifuge-sample-testing/" class="text-gold hover:text-gold/80 underline">Sample testing</a> available before purchase.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="/food-grade-centrifuge/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Food Grade Centrifuges</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

@@ -38,7 +38,31 @@ const faqJsonLd = {
   }))
 };
 
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "About Dolphin Centrifuge — Industrial Centrifuge Manufacturer Since 1981",
+  "description": "Dolphin Centrifuge is a Warren, Michigan industrial centrifuge manufacturer established in 1981. Learn about our team, facility, centrifuge stock, and 40+ years of expertise.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/about-dolphin-centrifuge/"
+};
+
 const jsonLd = [
+  articleJsonLd,
   {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -118,8 +142,8 @@ const toc = [
 ---
 
 <ApplicationLayout
-  title="About Us — Industrial Centrifuge Co. | Dolphin Centrifuge"
-  description="Dolphin Centrifuge, established 1981 Warren MI — industrial centrifuge systems. 100+ years of team experience, 200+ units in stock, worldwide installations."
+  title="About Dolphin Centrifuge — Industrial Centrifuge Co."
+  description="Dolphin Centrifuge — established 1981, Warren MI. Industrial disc stack & decanter centrifuge systems, 100+ years of team expertise, 200+ units in stock."
   canonicalUrl="https://dolphincentrifuge.com/about-dolphin-centrifuge/"
   heroImage="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-Warren-1000.webp"
   heroImageAlt="Dolphin Centrifuge Shop in Warren (Detroit Metro), Michigan, USA — industrial centrifuge manufacturing facility"
@@ -362,11 +386,40 @@ const toc = [
       </a>
     </p>
 
+    <!-- Mid-page CTA -->
+    <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+      <p class="text-navy font-bold text-lg mb-1">See our centrifuges in person — Warren, MI</p>
+      <p class="text-text-light text-sm mb-3">Our facility is open to prospective customers. Inspect 200+ centrifuges in stock, witness factory testing, and meet our engineering team.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Schedule a Visit</a>
+        <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Free Sample Testing</a>
+      </div>
+    </div>
+
     <!-- FAQ -->
     <h2 id="faq">Frequently Asked Questions</h2>
-    <FAQ items={faqItems} />
+    <div class="space-y-3 not-prose">
+      {faqItems.map(item => (
+        <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+            <span class="text-gold font-bold">+</span> {item.question}
+          </summary>
+          <p class="text-text-light mt-3 text-sm leading-relaxed" set:html={item.answer} />
+        </details>
+      ))}
+    </div>
     <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
   </article>
+
+  <!-- Bottom CTA Bar -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+    <p class="text-white text-xl font-bold mb-2">Ready to Work With Dolphin Centrifuge?</p>
+    <p class="text-blue-100 text-sm mb-5">40+ years of centrifuge expertise. 200+ units in stock. Lifetime technical support. Call or submit your application details today.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Free Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

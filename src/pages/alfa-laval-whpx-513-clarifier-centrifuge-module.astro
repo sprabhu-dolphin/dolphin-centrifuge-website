@@ -1,19 +1,26 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
 const faqItems = [
   {
     question: "What is the WHPX 513 Clarifier Module used for?",
-    answer: "The WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. It includes PLC controls, stainless steel feed pump, and pre-filter &mdash; pre-wired and factory tested for wastewater clarification, machine coolant recovery, and industrial fluid polishing."
+    answer: "The WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. It includes PLC controls, stainless steel feed pump, and pre-filter — pre-wired and factory tested for wastewater clarification, machine coolant recovery, and industrial fluid polishing."
   },
   {
     question: "What is included in the WHPX 513 module package?",
-    answer: 'The module includes the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge, PLC touchscreen control panel, stainless steel feed pump, pre-filter assembly, skid frame, and all interconnecting pipework &mdash; pre-wired and factory tested. <a href="/contact-for-alfa-laval-centrifuges/">Dolphin Centrifuge</a> custom-builds each module to the customer\'s application requirements.'
+    answer: "The module includes the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge, PLC touchscreen control panel, stainless steel feed pump, pre-filter assembly, skid frame, and all interconnecting pipework — pre-wired and factory tested. Dolphin Centrifuge custom-builds each module to the customer's application requirements."
   },
   {
     question: "How does the clarifier module handle sludge discharge?",
     answer: "The WHPX 513's self-cleaning bowl automatically discharges accumulated solids at programmable intervals using hydraulically operated discharge valves. Discharge takes only a few seconds and does not interrupt fluid flow. The sludge is collected in an integrated sludge tank within the module. No manual bowl opening or cleaning is required between service intervals."
+  },
+  {
+    question: "What flow rate and separation performance does the WHPX 513 clarifier achieve?",
+    answer: "In clarifier (2-phase) mode, the WHPX 513 processes up to 60 GPM while achieving particle separation down to 0.5 microns. The 15 HP motor drives the bowl at 4,150 RPM. In 3-phase purifier mode for light oils, rated capacity exceeds 90 GPM."
+  },
+  {
+    question: "Can Dolphin Centrifuge supply parts or service the WHPX 513 module?",
+    answer: "Yes. Dolphin Centrifuge provides parts, complete overhauls, and field service for the WHPX 513 and its ancillary module components including the feed pump, PLC panel, and pre-filter. Contact us to schedule preventive maintenance or obtain a parts quotation."
   }
 ];
 
@@ -29,8 +36,8 @@ const productJsonLd = {
     "@type": "Offer",
     "availability": "https://schema.org/InStock",
     "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  },
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  }
 };
 
 const faqJsonLd = {
@@ -41,12 +48,34 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
+      "text": item.answer
     }
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval WHPX 513 Clarifier Centrifuge Module with PLC Control Panel",
+  "description": "Technical overview of the Alfa Laval WHPX 513 clarifier centrifuge module for wastewater, machine coolant, and industrial fluid polishing at 60 GPM.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "url": "https://dolphincentrifuge.com/alfa-laval-whpx-513-clarifier-centrifuge-module/"
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Clarifier Module Overview' },
@@ -71,12 +100,12 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="WHPX 513 Clarifier Centrifuge Module | Dolphin Centrifuge"
-  description="Alfa Laval WHPX 513 clarifier centrifuge module with PLC controls, stainless steel pump, and pre-filter. Removes TSS to 0.5 microns at 60 GPM. Dolphin Centrifuge."
+  title="WHPX 513 Clarifier Centrifuge Module | Dolphin"
+  description="Alfa Laval WHPX 513 clarifier centrifuge module with PLC controls, stainless steel pump, and pre-filter. Removes TSS to 0.5 microns at 60 GPM. Parts, repairs, and full systems from Dolphin Centrifuge."
   category="products"
   categoryLabel="Products"
   heroImage="/images/alfa-laval-whpx-513-clarifier-centrifuge-module/Alfa-Laval-WHPX-513-Centrifuge-for-Waste-Water-Clarification.webp"
-  heroImageAlt="Alfa Laval WHPX 513 Centrifuge for Waste Water Clarification"
+  heroImageAlt="Alfa Laval WHPX 513 clarifier centrifuge module for wastewater clarification"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-whpx-513-clarifier-centrifuge-module/"
   jsonLd={jsonLd}
   toc={toc}
@@ -84,8 +113,8 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. Dolphin Centrifuge supplies this as a ready-to-run module with PLC touch-screen controls, stainless steel feed pump, and pre-filter &mdash; pre-wired and factory tested. Ideal for wastewater clarification, machine coolant recovery, and industrial fluid polishing. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of centrifuge system integration experience.</p>
+  <div class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WHPX 513 clarifier centrifuge modules for removing total suspended solids (TSS) down to 0.5 microns at up to 60 GPM. Each module includes PLC touch-screen controls, stainless steel feed pump, and pre-filter — pre-wired and factory tested. Warren, Michigan, with over 40 years of centrifuge system integration experience.</p>
   </div>
 
   <h2 id="overview">Clarifier Module Overview</h2>
@@ -101,7 +130,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/alfa-laval-whpx-513-clarifier-centrifuge-module/Alfa-Laval-WHPX-513-Centrifuge-for-Waste-Water-Clarification.webp"
-      alt="Alfa Laval WHPX 513 Centrifuge for Waste Water Clarification"
+      alt="Alfa Laval WHPX 513 clarifier centrifuge for wastewater clarification"
       width="300"
       height="300"
       loading="lazy"
@@ -110,12 +139,14 @@ const relatedProducts = [
   </div>
 
   <p>
-    This centrifuge module ships as a complete, turnkey system with all ancillary equipment pre-installed, pre-wired, and tested. Simply connect your process piping and power, and the system is ready for operation.
+    This centrifuge module ships as a complete, turnkey system with all ancillary equipment pre-installed, pre-wired, and tested. Simply connect your process piping and power, and the system is ready for operation. For <a href="/industrial-disc-centrifuge-repair/">ongoing centrifuge repair and maintenance</a>, Dolphin Centrifuge provides full field service support.
   </p>
 
-  <blockquote>
-    Dolphin Centrifuge custom-builds each clarifier module to the customer's application requirements. All modules include PLC controls, feed pump, and pre-filter &mdash; factory tested before shipment. <a href="/contact-for-alfa-laval-centrifuges/">Request a quote</a>.
-  </blockquote>
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="text-base font-semibold text-navy mb-1">Custom-built clarifier modules available</p>
+    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge builds each WHPX 513 clarifier module to your application requirements — all include PLC controls, feed pump, and pre-filter, factory tested before shipment. <a href="/industrial-centrifuge-sample-testing/" class="text-navy font-semibold hover:text-gold">Free sample testing</a> is available to verify performance for your fluid.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold hover:bg-gold/80 text-navy font-bold px-6 py-2 rounded-lg transition-colors text-sm">Request a Quote &rarr;</a>
+  </div>
 
   <h2 id="specifications">Technical Specifications</h2>
 
@@ -162,6 +193,7 @@ const relatedProducts = [
     <li><a href="/lube-oil-centrifuge/">Lube oil clarification</a> (with piping modification)</li>
     <li>Mining residual water clarification</li>
     <li><a href="/wvo-centrifuge-separator/">WVO separation from water and solids</a> (with piping modification)</li>
+    <li><a href="/machine-coolant-centrifuge/">Machine coolant recovery and polishing</a></li>
   </ul>
 
   <h3>Related Resources</h3>
@@ -169,8 +201,54 @@ const relatedProducts = [
     <li><a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513 Centrifuge (Purifier Configuration)</a></li>
     <li><a href="/disc-stack-centrifuge/">All Disc Stack Centrifuges</a></li>
     <li><a href="/disc-stack-centrifuge-faq/">101 Disc Stack Centrifuge FAQs</a></li>
+    <li><a href="/alfa-laval-centrifuge-parts/">Centrifuge Parts &amp; Spares</a></li>
+    <li><a href="/industrial-disc-centrifuge-repair/">Disc Centrifuge Repair &amp; Rebuild</a></li>
   </ul>
 
-  <FAQ items={faqItems} />
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What is the WHPX 513 Clarifier Module used for?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WHPX 513 Clarifier Module is a complete turnkey centrifuge system for removing total suspended solids (TSS) from process liquids down to 0.5 microns at up to 60 GPM. It includes PLC controls, stainless steel feed pump, and pre-filter — pre-wired and factory tested for wastewater clarification, machine coolant recovery, and industrial fluid polishing.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What is included in the WHPX 513 module package?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The module includes the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge, PLC touchscreen control panel, stainless steel feed pump, pre-filter assembly, skid frame, and all interconnecting pipework — pre-wired and factory tested. Dolphin Centrifuge custom-builds each module to the customer's application requirements.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      How does the clarifier module handle sludge discharge?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WHPX 513's self-cleaning bowl automatically discharges accumulated solids at programmable intervals using hydraulically operated discharge valves. Discharge takes only a few seconds and does not interrupt fluid flow. The sludge is collected in an integrated sludge tank within the module. No manual bowl opening or cleaning is required between service intervals.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What flow rate and separation performance does the WHPX 513 clarifier achieve?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">In clarifier (2-phase) mode, the WHPX 513 processes up to 60 GPM while achieving particle separation down to 0.5 microns. The 15 HP motor drives the bowl at 4,150 RPM. In 3-phase purifier mode for light oils, rated capacity exceeds 90 GPM.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      Can Dolphin Centrifuge supply parts or service the WHPX 513 module?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">Yes. Dolphin Centrifuge provides parts, complete overhauls, and field service for the WHPX 513 and its ancillary module components including the feed pump, PLC panel, and pre-filter. Contact us to schedule preventive maintenance or obtain a parts quotation.</p>
+  </details>
+
+  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
+    <h2 class="text-2xl font-bold text-white mb-3">WHPX 513 Clarifier Module — Get a Quote</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact Dolphin Centrifuge for clarifier module pricing, custom configurations, and application evaluation. Free sample testing available.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

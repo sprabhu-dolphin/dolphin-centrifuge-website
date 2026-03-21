@@ -1,6 +1,21 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval Centrifuge Parts — OEM and Aftermarket Spares",
+  "description": "Complete guide to Alfa Laval centrifuge parts: disc stacks, bearings, seals, gaskets, bowl components. OEM and aftermarket options with same-day shipping from Dolphin Centrifuge, Warren Michigan.",
+  "url": "https://dolphincentrifuge.com/alfa-laval-centrifuge-parts/",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+};
+
 const faqItems = [
   {
     question: "Does Dolphin Centrifuge stock Alfa Laval centrifuge parts?",
@@ -54,7 +69,7 @@ const productJsonLd = {
   },
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'parts-we-stock', label: 'Centrifuge Parts We Stock' },
@@ -99,14 +114,14 @@ const relatedProducts = [
 
   <!-- AI Summary — 30-50 words -->
   <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-[#555] leading-relaxed italic">Dolphin Centrifuge maintains an in-house inventory of 2,000+ OEM and aftermarket replacement parts for Alfa Laval disc stack and decanter centrifuges. Stocked components include disc stacks, bearings, seals, gaskets, and bowl assemblies with same-day shipping from Warren, Michigan.</p>
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge maintains an in-house inventory of 2,000+ OEM and aftermarket replacement parts for Alfa Laval disc stack and decanter centrifuges. Stocked components include disc stacks, bearings, seals, gaskets, and bowl assemblies with same-day shipping from Warren, Michigan.</p>
   </div>
 
   <h2 id="parts-we-stock">Centrifuge Parts We Stock</h2>
 
   <img
     src="/images/alfa-laval-centrifuge-parts/centrifuge-disc-stack-250.webp"
-    alt="centrifuge disc stack"
+    alt="Alfa Laval centrifuge disc stack assembly — cone-shaped discs for high-speed liquid separation"
     width="250"
     height="263"
     loading="lazy"
@@ -450,16 +465,34 @@ const relatedProducts = [
     <em>If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges</a>.</em>
   </p>
 
+  <!-- Mid-page CTA -->
+  <div class="not-prose bg-gold/10 border border-gold rounded-xl p-6 my-8 text-center">
+    <p class="text-lg font-bold text-navy mb-2">Need Alfa Laval Centrifuge Parts?</p>
+    <p class="text-sm text-text-light mb-4">Submit your part number, model, and serial number. We stock 2,000+ parts and can ship most in-stock items same day from Warren, Michigan.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center gap-2 bg-gold hover:bg-gold/80 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Request a Parts Quote</a>
+      <a href="tel:2485222573" class="inline-flex items-center gap-2 border border-navy/20 hover:border-gold text-navy font-semibold text-sm px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
   <h2 id="faq">Frequently Asked Questions</h2>
   <div class="not-prose space-y-4">
     {faqItems.map((item) => (
-      <details class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <details class="rounded-xl border border-gold p-5">
         <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
         <p class="text-text-light mt-3 text-sm" set:html={item.answer} />
       </details>
     ))}
   </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <!-- Bottom CTA bar -->
+  <div class="not-prose bg-navy rounded-xl p-8 text-center mt-12">
+    <h2 class="text-2xl font-bold text-white mb-3">Alfa Laval Parts — Same-Day Shipping from Warren, MI</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">In-stock parts ship same day. OEM and aftermarket options for disc stack and decanter centrifuges. <a href="/industrial-disc-centrifuge-repair/" class="text-gold hover:text-gold/80 underline">Centrifuge repair services</a> also available.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Request Parts Quote</a>
+      <a href="/disc-stack-centrifuge-faq/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Centrifuge FAQ</a>
+    </div>
+  </div>
 
 </ApplicationLayout>

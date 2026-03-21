@@ -13,6 +13,14 @@ const faqItems = [
   {
     question: "Should I rebuild my P-3000 or upgrade to a newer decanter?",
     answer: "It depends on the unit's condition, age, and available budget. A rebuild extends service life at a fraction of replacement cost when the bowl and main structure are sound. If the bowl is cracked or corrosion is extensive, upgrading to a current-generation Alfa Laval decanter may be more cost-effective. Dolphin Centrifuge can provide a comparative analysis."
+  },
+  {
+    question: "What is the throughput capacity of the Sharples P-3000 for wastewater sludge?",
+    answer: "The Sharples P-3000 is rated at 25 GPM for municipal sludge thickening. Actual capacity varies by sludge type, solids concentration, and polymer dosing. The P-3000 generates 3,150 Gs at 4,000 RPM and is suited to applications requiring a compact decanter with moderate throughput."
+  },
+  {
+    question: "Does Dolphin Centrifuge provide rental decanters while a P-3000 is being rebuilt?",
+    answer: "Yes. Dolphin Centrifuge offers decanter centrifuge rental units to cover production gaps during rebuild periods. Rental units can typically be delivered within one to two weeks. Contact us at (248) 522-2573 to check current rental availability for your capacity requirements."
   }
 ];
 
@@ -53,7 +61,23 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Sharples P-3000 Decanter Centrifuge — Parts, Rebuild & Repair Service",
+  "description": "Sharples P-3000 decanter centrifuge parts, rebuild, and repair services from Dolphin Centrifuge. 14-inch bowl, 3,150 Gs, 25 GPM rated capacity for wastewater sludge dewatering.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering Team",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/sharples-p-3000-decanter/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/sharples-p-3000-decanter/"
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'about', label: 'About the Sharples P-3000' },
@@ -80,7 +104,7 @@ const relatedProducts = [
   title="Sharples P-3000 Decanter Centrifuge | Dolphin Centrifuge"
   description="Sharples P-3000 decanter centrifuge — parts, rebuilds, and repair for wastewater sludge dewatering and industrial separation. Dolphin Centrifuge, Warren MI."
   heroImage="/images/sharples-p-3000-decanter/sharples-p3000-wastewater-decanter.webp"
-  heroImageAlt="sharples-p3000-wastewater-decanter"
+  heroImageAlt="Sharples P-3000 horizontal decanter centrifuge for wastewater sludge dewatering — Dolphin Centrifuge rebuild and parts service"
   category="products"
   categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/sharples-p-3000-decanter/"
@@ -109,7 +133,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/sharples-p-3000-decanter/sharples-decanter-p3000-rotating-assembly.webp"
-      alt="sharples-decanter-p3000-rotating-assembly"
+      alt="Sharples P-3000 decanter centrifuge rotating assembly — bowl, scroll, and bearing housing components"
       width="600"
       height="600"
       loading="lazy"
@@ -206,7 +230,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/sharples-p-3000-decanter/sharples-p3000-waste-oil-decanter.webp"
-      alt="sharples-p3000-waste-oil-decanter"
+      alt="Sharples P-3000 decanter centrifuge in waste oil processing application"
       width="300"
       height="200"
       loading="lazy"
@@ -233,16 +257,39 @@ const relatedProducts = [
     For applications requiring higher throughput, see the <a href="/sharples-p-3400-decanter/">Sharples P-3400</a> — the larger capacity model in the Sharples decanter series. For a complete overview of decanter technology, visit our <a href="/decanter-centrifuge/">decanter centrifuge guide</a>. If you need a temporary unit while your P-3000 is being rebuilt, ask about our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental</a> program.
   </p>
 
+  <!-- Mid-page CTA -->
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+    <p class="text-navy font-bold text-lg mb-1">P-3000 needs service? We stock parts and provide rebuilds.</p>
+    <p class="text-text-light text-sm mb-3">Dolphin Centrifuge in Warren, Michigan provides full P-3000 rebuild services with typical 2–4 week turnaround. Contact us for an inspection and rebuild estimate.</p>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Request Rebuild Quote</a>
+      <a href="/industrial-disc-centrifuge-repair/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Centrifuge Repair Services</a>
+    </div>
+  </div>
+
   <!-- FAQ Section -->
   <h2 id="faq">Frequently Asked Questions</h2>
 
-  <div class="space-y-4 not-prose">
+  <div class="space-y-3 not-prose">
     {faqItems.map(item => (
-      <details class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
-        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
+      <details class="border-l-4 border-gold bg-white rounded-r-xl shadow-sm p-5">
+        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+          <span class="text-gold font-bold">+</span> {item.question}
+        </summary>
+        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
       </details>
     ))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <!-- Bottom CTA Bar -->
+  <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
+    <p class="text-white text-xl font-bold mb-2">Sharples P-3000 parts, rebuild, and repair — Warren, MI</p>
+    <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge maintains parts inventory and technical expertise for Sharples P-3000 and P-3400 decanter centrifuges. Call us for a rebuild assessment or rental unit availability.</p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Rebuild Quote</a>
+      <a href="/decanter-centrifuge/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Decanter Centrifuge Guide</a>
+    </div>
   </div>
 
 </ApplicationLayout>

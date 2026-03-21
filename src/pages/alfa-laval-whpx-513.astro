@@ -1,6 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
 const faqItems = [
   {
@@ -13,11 +12,15 @@ const faqItems = [
   },
   {
     question: "Is the WHPX 513 available in explosion-proof configuration?",
-    answer: 'Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. <a href="/contact-for-alfa-laval-centrifuges/">Contact Dolphin Centrifuge</a> for hazardous-area specifications.'
+    answer: "Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications."
   },
   {
     question: "What Dolphin system uses the WHPX 513 centrifuge?",
-    answer: 'The Dolphin <a href="/centrifuges/dmpx-070/">DMPX-070</a> centrifuge module is built around the Alfa Laval WHPX 513 (or equivalent MOPX 213 / MAPX 313 / FOPX 613) centrifuge bowl. The DMPX-070 is a complete turnkey system rated at 59&ndash;72 GPM on diesel fuel, with full PLC controls, electric heaters, and piping.'
+    answer: "The Dolphin DMPX-070 centrifuge module is built around the Alfa Laval WHPX 513 (or equivalent MOPX 213 / MAPX 313 / FOPX 613) centrifuge bowl. The DMPX-070 is a complete turnkey system rated at 59–72 GPM on diesel fuel, with full PLC controls, electric heaters, and piping."
+  },
+  {
+    question: "Can Dolphin Centrifuge repair or supply parts for the WHPX 513?",
+    answer: "Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WHPX 513, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WHPX 513 centrifuges are available. Each rebuilt unit is tested to factory specifications before shipment."
   }
 ];
 
@@ -33,8 +36,8 @@ const productJsonLd = {
     "@type": "Offer",
     "availability": "https://schema.org/InStock",
     "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  },
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  }
 };
 
 const faqJsonLd = {
@@ -45,12 +48,34 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
+      "text": item.answer
     }
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Alfa Laval WHPX 513 Self-Cleaning Diesel and Fuel Oil Centrifuge",
+  "description": "Technical overview of the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge for diesel, fuel oil, waste oil, and crude oil purification at 72 GPM.",
+  "author": {
+    "@type": "Person",
+    "name": "Dolphin Centrifuge Engineering",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "url": "https://dolphincentrifuge.com/alfa-laval-whpx-513/"
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WHPX 513 Overview' },
@@ -77,12 +102,12 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Alfa Laval WHPX 513 Fuel Centrifuge | Dolphin Centrifuge"
-  description="Alfa Laval WHPX 513 self-cleaning disc stack centrifuge for diesel, fuel oil, and waste oil purification. 72 GPM capacity, 15 HP, 4,150 RPM. Dolphin Centrifuge."
+  title="Alfa Laval WHPX 513 Fuel Centrifuge | Dolphin"
+  description="Alfa Laval WHPX 513 self-cleaning disc stack centrifuge for diesel, fuel oil, and waste oil purification. 72 GPM capacity, 15 HP, 4,150 RPM. Parts, repairs, and remanufactured units from Dolphin Centrifuge."
   category="products"
   categoryLabel="Products"
   heroImage="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-600.webp"
-  heroImageAlt="Alfa Laval WHPX513 Centrifuge Skid 600"
+  heroImageAlt="Alfa Laval WHPX513 self-cleaning centrifuge skid for diesel and fuel oil"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-whpx-513/"
   jsonLd={jsonLd}
   toc={toc}
@@ -90,8 +115,8 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies the Alfa Laval WHPX 513, a 15 HP self-cleaning disc stack centrifuge rated at 72 GPM on diesel fuel at 4,150 RPM. Available as the DMPX-070 turnkey module for diesel, fuel oil, waste oil, and crude oil purification.</p>
+  <div class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WHPX 513 self-cleaning disc stack centrifuges rated at 72 GPM on diesel fuel (15 HP, 4,150 RPM). Available as the DMPX-070 turnkey module for diesel, fuel oil, waste oil, and crude oil purification. Warren, Michigan — over 40 years of experience.</p>
   </div>
 
   <h2 id="overview">WHPX 513 Overview</h2>
@@ -107,7 +132,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
-      alt="Alfa Laval WHPX513 Centrifuge Skid"
+      alt="Alfa Laval WHPX513 centrifuge skid for diesel and waste oil"
       width="300"
       height="300"
       loading="lazy"
@@ -119,9 +144,11 @@ const relatedProducts = [
     Available in explosion-proof configurations for hazardous area installations, the WHPX 513 is a workhorse centrifuge found in re-refineries, fuel terminals, marine vessels, and industrial <a href="/waste-oil-centrifuge/">waste oil</a> processing facilities worldwide.
   </p>
 
-  <blockquote>
-    Dolphin Centrifuge supplies a range of self-cleaning fuel purifiers for diesel, fuel oil, waste oil, and crude oil &mdash; available as complete modules with pre-heaters, starters, and PLC control panels. <a href="/contact-for-alfa-laval-centrifuges/">Request a quote</a>.
-  </blockquote>
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="text-base font-semibold text-navy mb-1">Need parts, repairs, or a remanufactured WHPX 513?</p>
+    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge supplies complete modules with pre-heaters, starters, and PLC control panels — available as the DMPX-070 turnkey system or as individual centrifuge rebuild services for diesel, fuel oil, waste oil, and crude oil applications.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold hover:bg-gold/80 text-navy font-bold px-6 py-2 rounded-lg transition-colors text-sm">Request a Quote &rarr;</a>
+  </div>
 
   <h2 id="specifications">WHPX 513 Specifications</h2>
 
@@ -139,7 +166,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/alfa-laval-whpx-513/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
-      alt="Alfa Laval Explosion Proof Centrifuge 600 2"
+      alt="Alfa Laval explosion proof centrifuge for hazardous area installations"
       width="300"
       height="300"
       loading="lazy"
@@ -152,7 +179,7 @@ const relatedProducts = [
   <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
     <img
       src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX-613-Centrifuge-400.webp"
-      alt="Alfa Laval FOPX 613 Centrifuge 400"
+      alt="Alfa Laval FOPX 613 heavy fuel oil centrifuge"
       width="300"
       height="300"
       loading="lazy"
@@ -183,7 +210,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX613-HFO-Centrifuge-System.webp"
-      alt="Alfa Laval FOPX613 HFO Centrifuge System"
+      alt="Alfa Laval FOPX613 HFO centrifuge system with feed pump and sludge tank"
       width="300"
       height="300"
       loading="lazy"
@@ -196,7 +223,7 @@ const relatedProducts = [
   <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
     <img
       src="/images/alfa-laval-whpx-513/Reconditioned-Alfa-Laval-MAPX313-Used-Oil-Centrifuge-e1614020926108.webp"
-      alt="Reconditioned Alfa Laval MAPX313 Used Oil Centrifuge"
+      alt="Reconditioned Alfa Laval MAPX313 used oil centrifuge"
       width="300"
       height="300"
       loading="lazy"
@@ -234,7 +261,7 @@ const relatedProducts = [
     </div>
     <img
       src="/images/alfa-laval-whpx-513/waste-motor-oil-centrifuge-system-e1614020990533.webp"
-      alt="waste motor oil centrifuge system"
+      alt="Waste motor oil centrifuge system for refinery and re-refining"
       width="300"
       height="300"
       loading="lazy"
@@ -245,7 +272,7 @@ const relatedProducts = [
   <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
     <img
       src="/images/alfa-laval-whpx-513/refinery-waste-oil-centrifuge-e1614021036369.webp"
-      alt="refinery waste oil centrifuge"
+      alt="Refinery waste oil centrifuge installation"
       width="300"
       height="300"
       loading="lazy"
@@ -262,7 +289,7 @@ const relatedProducts = [
   <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
     <img
       src="/images/alfa-laval-whpx-513/alfa-laval-centrifuge-crude-oil-tank-bottom-e1614020807901.webp"
-      alt="Alfa Laval Centrifuge for Crude Oil Tank Bottom"
+      alt="Alfa Laval centrifuge for crude oil tank bottom separation"
       width="300"
       height="300"
       loading="lazy"
@@ -280,12 +307,12 @@ const relatedProducts = [
     <div class="flex-1">
       <h3>Oilfield and Marine Applications</h3>
       <p>
-        The WHPX 513 is widely deployed on offshore platforms and in oilfield tank battery installations for <a href="/crude-oil-centrifuge/">crude oil dehydration</a>. Its self-cleaning design allows uninterrupted continuous operation, critical for 24/7 production environments. Contact our team for <a href="/industrial-centrifuge-sample-testing/">free sample testing</a> to confirm suitability for your application.
+        The WHPX 513 is widely deployed on offshore platforms and in oilfield tank battery installations for <a href="/crude-oil-centrifuge/">crude oil dehydration</a>. Its self-cleaning design allows uninterrupted continuous operation, critical for 24/7 production environments. Contact our team for <a href="/industrial-centrifuge-sample-testing/">free sample testing</a> to confirm suitability for your application. For ongoing maintenance, see our <a href="/industrial-disc-centrifuge-repair/">centrifuge repair services</a>.
       </p>
     </div>
     <img
       src="/images/alfa-laval-whpx-513/oilfield-centrifuge-crude-oil-e1614020863236.webp"
-      alt="oilfield centrifuge crude oil"
+      alt="Oilfield centrifuge for crude oil dehydration"
       width="300"
       height="300"
       loading="lazy"
@@ -299,8 +326,53 @@ const relatedProducts = [
     <li><a href="/disc-stack-centrifuge-faq/">101 Disc Stack Centrifuge FAQs</a></li>
     <li><a href="/alfa-laval-centrifuge-parts/">Centrifuge Parts &amp; Spares</a></li>
     <li><a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval Centrifuge Selection Guide</a></li>
+    <li><a href="/industrial-disc-centrifuge-repair/">Disc Centrifuge Repair &amp; Rebuild</a></li>
   </ul>
 
-  <FAQ items={faqItems} />
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What is the rated capacity of the Alfa Laval WHPX 513?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WHPX 513 is rated at 72 GPM on diesel fuel (13 cSt viscosity). On lighter fluids throughput can exceed 90+ GPM. On heavier fluids like intermediate fuel oil, throughput is reduced proportionally to viscosity. The WHPX 513 is powered by a 15 HP motor with a 3.87-gallon sludge space.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What is the difference between the WHPX 513 and the FOPX 613?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The WHPX 513 is a three-phase self-cleaning disc centrifuge suited for diesel, waste oil, and intermediate fuel oil. The FOPX 613 is a partial-discharge centrifuge specifically engineered for heavy fuel oil (HFO) processing at 380 cSt viscosity, rated at 30 GPM on bunker fuel. Choose the FOPX 613 when processing heavy bunker fuel with high wax content.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      Is the WHPX 513 available in explosion-proof configuration?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      What Dolphin system uses the WHPX 513 centrifuge?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">The Dolphin <a href="/centrifuges/dmpx-070/">DMPX-070</a> centrifuge module is built around the Alfa Laval WHPX 513 (or equivalent MOPX 213 / MAPX 313 / FOPX 613) centrifuge bowl. The DMPX-070 is a complete turnkey system rated at 59–72 GPM on diesel fuel, with full PLC controls, electric heaters, and piping.</p>
+  </details>
+  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+      Can Dolphin Centrifuge repair or supply parts for the WHPX 513?
+      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+    </summary>
+    <p class="text-text-light mt-2 pb-2">Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WHPX 513, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WHPX 513 centrifuges are available. Each rebuilt unit is tested to factory specifications before shipment.</p>
+  </details>
+
+  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
+    <h2 class="text-2xl font-bold text-white mb-3">Parts, Repairs &amp; Remanufactured WHPX 513</h2>
+    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact Dolphin Centrifuge for pricing, availability, and application support. Free sample testing available for qualifying applications.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
+      <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Free Sample Testing</a>
+      <a href="tel:2485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
 
 </ApplicationLayout>
