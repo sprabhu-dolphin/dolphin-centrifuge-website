@@ -1,5 +1,30 @@
 ## Pipeline Log
 
+### 2026-03-21 — Batch A: Knowledge Pages with Hazy Charts (Full Pipeline)
+
+| Page Slug | SEO | Template | Image | Checker | Build | Deployed | Commit |
+|-----------|-----|----------|-------|---------|-------|----------|--------|
+| decanter-centrifuge-pond-depth | ✓ | ✓ | ✓ SVG chart | PASS 11/11 | ✓ | ✓ CF Pages | 92f0116 |
+| decanter-centrifuge-optimization | ✓ | ✓ | ✓ 2x SVG | PASS | ✓ | ✓ CF Pages | 92f0116 |
+| disc-stack-centrifuge-capacity | ✓ | ✓ | ✓ 2x SVG | PASS | ✓ | ✓ CF Pages | 92f0116 |
+| disc-stack-centrifuge-efficiency | ✓ | ✓ | ✓ 2x SVG | PASS | ✓ | ✓ CF Pages | 92f0116 |
+| centrifuge-rcf-rpm-difference-calculation | ✓ | ✓ | ✓ Live Calc | PASS | ✓ | ✓ CF Pages | 92f0116 |
+
+**What was done per page:**
+- Hazy chart images replaced with inline SVG (brand colors: Navy #1B3A5C, Gold #E8A317)
+- Live JS calculator added (RCF page + differential speed page)
+- Title tags fixed to ≤60 chars
+- Meta descriptions 150-160 chars
+- FAQ expanded to 5 items with FAQPage JSON-LD
+- Bottom CTA navy bar + mid-page gold callout CTA
+- Dead links fixed, color tokens normalized (no hardcoded hex)
+- JSON-LD Person schema fixed with jobTitle/worksFor
+
+### Queue (Batch B — next up)
+Application pages: food-grade-centrifuge, beer-wine-centrifuge, algae-centrifuge, wastewater-centrifuge, dewatering-centrifuge, manure-centrifuge-separator, fish-processing-centrifuge, stainless-steel-centrifuge, tramp-oil-centrifuge, quench-oil-centrifuge, extrusion-industry-centrifuge-application, yellow-grease-purification-centrifuge
+
+---
+
 ### 2026-03-21 — Full Site Image Audit (All 154 pages)
 
 #### Summary

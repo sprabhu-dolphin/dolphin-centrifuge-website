@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const faqItems = [
   {
@@ -17,6 +18,10 @@ const faqItems = [
   {
     question: "Do I need a decanter centrifuge for yellow grease processing?",
     answer: "For feedstock with high solids content — particularly grease trap waste or heavily contaminated fryer oil — adding an NX-314 decanter centrifuge upstream of the disc stack centrifuge is recommended. The decanter removes heavy sludge first, extending disc centrifuge run time and enabling processing of lower-grade feedstock."
+  },
+  {
+    question: "What temperature should yellow grease be processed at?",
+    answer: "Dolphin Centrifuge recommends processing yellow grease (UCO) at 180°F (82°C). At this temperature, viscosity drops sufficiently for the disc stack centrifuge to achieve maximum separation efficiency — removing all free water to below 0.05% and solids down to 0.5 micron. Processing at lower temperatures reduces throughput and separation quality. A feed-stream pre-heater is included in our standard yellow grease centrifuge systems."
   }
 ];
 
@@ -50,7 +55,22 @@ const faqJsonLd = {
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "url": "https://dolphincentrifuge.com/yellow-grease-purification-centrifuge/",
+  "headline": "Yellow Grease Purification Centrifuge | Case Study: 8M Gal/Yr UCO Processing",
+  "description": "Dolphin Centrifuge yellow grease centrifuge case study: UCO collector replaced settling tanks with DMPX-042 disc stack — 8M gal/yr, ROI under 6 months.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+};
+
+const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
@@ -80,7 +100,7 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Yellow Grease Purification Centrifuge | Dolphin Centrifuge"
-  description="Dolphin Centrifuge yellow grease centrifuge case study: UCO collector replaced settling tanks with DMPX-042 disc stack — 8M gal/yr, ROI under 6 months."
+  description="Yellow grease centrifuge case study: UCO collector replaced settling tanks with DMPX-042 disc stack — 8M gal/yr throughput, ROI under 6 months. Warren MI."
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/yellow-grease-purification-centrifuge/"
@@ -258,15 +278,15 @@ const relatedProducts = [
   </p>
 
   <!-- Mid-page CTA -->
-  <div class="bg-gradient-to-r from-[#1B3A5C] to-[#2a4f7a] rounded-xl p-6 md:p-8 text-white mb-8">
+  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>
         <h3 class="text-xl font-bold mb-2">Ready to Upgrade Your Yellow Grease Processing?</h3>
         <p class="text-blue-100">Our engineers will evaluate your UCO feedstock and recommend the optimal centrifuge system for your operation.</p>
       </div>
       <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-[#E8A317] hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-[#1B3A5C] font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
+        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
       </div>
     </div>
   </div>
@@ -455,17 +475,7 @@ const relatedProducts = [
   </p>
 
   <!-- ── FAQ Section ── -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  {faqItems.map((item) => (
-    <details class="border border-gray-200 rounded-lg p-4 mb-3 group">
-      <summary class="cursor-pointer font-semibold text-[#1B3A5C] flex justify-between items-center">
-        <span>{item.question}</span>
-        <span class="group-open:rotate-180 transition-transform text-[#E8A317]">&#9660;</span>
-      </summary>
-      <p class="mt-3 text-[#2D2D2D] text-sm leading-relaxed">{item.answer}</p>
-    </details>
-  ))}
+  <FAQ items={faqItems} />
 
   <hr />
 
