@@ -20,8 +20,60 @@
 - Dead links fixed, color tokens normalized (no hardcoded hex)
 - JSON-LD Person schema fixed with jobTitle/worksFor
 
-### Queue (Batch B — next up)
-Application pages: food-grade-centrifuge, beer-wine-centrifuge, algae-centrifuge, wastewater-centrifuge, dewatering-centrifuge, manure-centrifuge-separator, fish-processing-centrifuge, stainless-steel-centrifuge, tramp-oil-centrifuge, quench-oil-centrifuge, extrusion-industry-centrifuge-application, yellow-grease-purification-centrifuge
+### 2026-03-21 — Full Site Pipeline: Batches B through E (ALL 155 pages)
+
+**Commits: a4afbdf → 8915a1a → 556c66c → 9382095**
+**Deployed: https://master.dolphin-centrifuge-staging.pages.dev**
+
+#### What was applied to EVERY page across the site:
+- Title tag ≤60 chars
+- Meta description 150-165 chars
+- AI summary paragraph 30-50 words, brand-first
+- FAQ: 5 items with `<details>/<summary>` + `border-l-4 border-gold/40` + gold chevron
+- FAQPage JSON-LD matching 5 visible items
+- Article JSON-LD: Person author, jobTitle "Centrifuge Applications Engineer", worksFor "Dolphin Centrifuge", url
+- 5+ internal links per page
+- Mid-page gold callout CTA → /industrial-centrifuge-sample-testing/
+- Bottom navy CTA bar → /contact-for-alfa-laval-centrifuges/
+- Color tokens normalized (no hardcoded hex)
+- Dead links fixed
+- img tags: width, height, alt, loading="lazy"
+
+#### Pages processed by batch:
+
+**Batch B (18 application pages):** fuel-oil, diesel, lube-oil, waste-oil, crude-oil, hydraulic-oil, food-grade, beer-wine, algae, fish-processing, wastewater, dewatering, manure-separator, stainless-steel, machine-coolant, cutting-oil, tramp-oil, yellow-grease
+
+**Batch B cont. (19 more application pages):** explosion-proof (×2), extrusion, quench-oil, containerized, washer-fluid, liquid-humus, used-oil, pyrolysis, biodiesel, black-diesel, WVO, crude-tank-bottom, machining-coolant, waste-oil-emulsion, oil-centrifuge, used-oil-plant, decanter-hub, three-phase, dmpx-014
+
+**Batch C (Service/Rental, 8 pages):** sample-testing, repair, training, controls, design, buyback, decanter-rental, disc-stack-rental
+
+**Batch D (Disc stack knowledge, 9 pages):** options, parts, performance, installation, offshore, operating-water, lubrication, faq, industrial-centrifuges-faq
+
+**Batch D (Troubleshooting, 12 pages):** bad-separation, bowl-leaking, mechanical-issues, sludge-ejection, vibration (×2), clogged-bowl, product-loss, backpressure, cannot-reach-speed, friction-clutch, troubleshoot-bowl
+
+**Batch D (AL product pages, 27 pages):** All WHPX/WSPX/MAB/MOPX/NX/CHNX/G2/centrifuge-parts/btpx-205/lapx-404/clara-20/diesel/accessories + hub pages
+
+**Batch D (Comparison/knowledge, 10 pages):** difference-between, disadvantages, parts-glossary, purifier-clarifier, paring-disc-block, liquid-seal-break, remove-metals, can-separate-salt, smallest, picking-right
+
+**Batch E (Application hubs + case studies, 9 pages):** disc-stack-applications, decanter-applications, case-study, silicon-wafer, wastewater-types-photos, waste-oil-lp, centrifugal-filter, ethanol-comparison, al-diesel
+
+**Batch E (About/info/knowledge hubs, 12 pages):** about, contact, testimonials, fluid-heating, knowledge-center, knowledge-guides, knowledge-comparisons, knowledge-case-studies, knowledge-product-brand, knowledge-troubleshooting, sharples-3000, sharples-3400
+
+**Batch E (centrifuges/ subfolder, 11 pages):** dmpx-010/028/042/070, dmb-004/007/013/019/028/037/062
+
+**Final batch (applications/ subfolder + accessories, 10 pages):** index, crude-oil, fuels, industrial-oils, oil-based-fluids, used-motor-oil, waste-veggie-oil, wastewater, water-based-fluids, al-disc-accessories
+
+#### SVG Charts (Batch A specialty work):
+- decanter-centrifuge-pond-depth: 3-curve SVG (clarity/dryness/torque)
+- decanter-centrifuge-optimization: 2 SVGs (energy metrics + solids recovery)
+- disc-stack-centrifuge-capacity: 2 SVGs (clarity vs flow + efficiency vs flow)
+- disc-stack-centrifuge-efficiency: same 2 SVGs
+- centrifuge-rcf-rpm: live RCF calculator (5-range color-coded)
+- decanter-centrifuge-differential-speed: live differential speed calculator
+
+#### Build status: 155 pages, 0 errors ✓
+#### Git status: clean, pushed to origin/master ✓
+#### Deploy: https://master.dolphin-centrifuge-staging.pages.dev ✓
 
 ---
 
