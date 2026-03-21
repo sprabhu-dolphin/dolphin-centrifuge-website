@@ -40,7 +40,7 @@ const jsonLd = [
 
 <ApplicationLayout
   title="Centrifuge RCF vs RPM Calculator | Dolphin Centrifuge"
-  description="RCF vs RPM explained: the formula for relative centrifugal force, why RCF matters more than RPM, and a reference table for common centrifuge bowl sizes."
+  description="RCF vs RPM explained: relative centrifugal force formula, why g-force matters more than RPM for centrifuge selection, with RCF reference table and live calculator."
   canonicalUrl="https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/"
   heroImage="/images/centrifuge-rcf-rpm-difference-calculation/RCF-vs-RPM-Force-vs-Speed-1000.webp"
   heroImageAlt="Centrifuge RCF vs RPM force versus speed comparison diagram"
@@ -52,6 +52,7 @@ const jsonLd = [
     { id: "why-rcf-not-rpm", label: "Why Use RCF and Not RPM?" },
     { id: "example-rcf-rpm", label: "Example of RCF and RPM" },
     { id: "rcf-formula", label: "Formula to Calculate RCF from RPM" },
+    { id: "rcf-calculator", label: "Live RCF Calculator" },
     { id: "rcf-disc-stack", label: "RCF in Disc Stack Centrifuge" },
     { id: "rcf-reference-table", label: "RCF Reference Table" },
     { id: "practical-guidance", label: "Practical Guidance" },
@@ -60,7 +61,7 @@ const jsonLd = [
   ]}
   relatedProducts={[
     { label: "DMPX-042 Disc Stack Centrifuge", href: "/centrifuges/dmpx-042/", description: "Up to 7,200 RCF — fuel & lube oil" },
-    { label: "DMPX-214 Disc Stack Centrifuge", href: "/centrifuges/dmpx-214/", description: "Up to 8,600 RCF — high-capacity industrial" },
+    { label: "DMPX-070 Disc Stack Centrifuge", href: "/centrifuges/dmpx-070/", description: "Up to 8,600 RCF — high-capacity industrial" },
     { label: "Disc Stack Centrifuge Overview", href: "/disc-stack-centrifuge/", description: "Full model range & capacity guide" },
   ]}
   relatedApplications={[
@@ -76,11 +77,6 @@ const jsonLd = [
   <!-- AI Summary -->
   <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
     <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems with rated G-forces of 7,000+ RCF (DMPX series at 7,200–8,600 RPM) and decanter centrifuges at 2,000–4,000 RCF. Understanding the difference between RPM and RCF is essential for comparing centrifuge performance across different bowl sizes. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifugal separation engineering.</p>
-  </div>
-
-  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-    <img src="/images/centrifuge-rcf-rpm-difference-calculation/RCF-vs-RPM-Force-vs-Speed-1000.webp" alt="Centrifuge RCF vs RPM force versus speed comparison diagram" width="1000" height="400" loading="eager" class="rounded-lg w-full mb-4" />
-    <p class="text-text-light leading-relaxed"><strong>Summary:</strong> RCF (Relative Centrifugal Force), also called the G-factor, is the ratio of centrifugal acceleration to gravitational acceleration. It is the correct metric for comparing centrifuge performance across different machine sizes. A 500 mm bowl centrifuge at 4,000 RPM generates significantly more G-force than a 100 mm bowl at the same RPM. When evaluating centrifuge specifications, always compare RCF — not RPM.</p>
   </div>
 
   <!-- Intro -->
@@ -130,6 +126,100 @@ const jsonLd = [
       <li><strong class="text-navy">1.118 &times; 10<sup>-5</sup></strong> — Constant derived from converting RPM to rad/s and dividing by gravitational acceleration (9.81 m/s²)</li>
     </ul>
   </div>
+
+  <!-- Live RCF Calculator -->
+  <h2 id="rcf-calculator" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Live RCF Calculator</h2>
+  <p class="text-text-light mb-4">Enter your centrifuge bowl radius and speed to instantly calculate RCF (g-force).</p>
+
+  <div class="not-prose my-6 bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+    <!-- Calculator header -->
+    <div class="bg-navy px-6 py-4 flex items-center gap-3">
+      <svg class="w-5 h-5 text-gold flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" />
+      </svg>
+      <h3 class="text-white font-bold font-heading text-base">Centrifuge RCF Calculator</h3>
+      <span class="ml-auto text-xs text-gold/70 font-mono">dolphincentrifuge.com</span>
+    </div>
+
+    <!-- Inputs -->
+    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label for="rcf-bowl-radius" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Bowl Radius (cm)</label>
+        <input id="rcf-bowl-radius" type="number" value="20" min="1" max="100" step="0.5"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+          oninput="calcRCF()" />
+        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 10–30 cm; decanter: 15–50 cm</p>
+      </div>
+      <div>
+        <label for="rcf-speed" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Bowl Speed (RPM)</label>
+        <input id="rcf-speed" type="number" value="6000" min="100" max="20000" step="100"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+          oninput="calcRCF()" />
+        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 4,000–8,000 RPM</p>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="mx-6 mb-6 rounded-xl bg-navy/5 border border-navy/10 px-6 py-5 flex flex-col md:flex-row items-center gap-4">
+      <div class="flex-1">
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">RCF Formula</p>
+        <p class="font-mono text-gray-500 text-sm mt-1">1.118 &times; 10<sup>-5</sup> &times; <span id="rcf-display-radius">20</span> &times; <span id="rcf-display-rpm">6,000</span><sup>2</sup></p>
+      </div>
+      <div class="text-center">
+        <p id="rcf-result" class="text-5xl font-bold font-mono text-gold leading-none">8,050</p>
+        <p class="text-xs text-navy font-semibold mt-1 uppercase tracking-wide">&times;g (RCF)</p>
+      </div>
+      <div class="flex-1 text-right">
+        <div id="rcf-status" class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-green-100 text-green-700">
+          <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+          <span>Disc Stack Range</span>
+        </div>
+        <p id="rcf-guidance" class="text-xs text-gray-500 mt-1 max-w-[200px] ml-auto">Suitable for lube oil &amp; light fuel oil.</p>
+      </div>
+    </div>
+
+    <p class="text-xs text-gray-400 text-center pb-4">© Dolphin Centrifuge — reference only. Contact engineers for application-specific RCF requirements.</p>
+  </div>
+
+  <script is:inline>
+  function calcRCF() {
+    const r = parseFloat(document.getElementById('rcf-bowl-radius').value) || 0;
+    const n = parseFloat(document.getElementById('rcf-speed').value) || 0;
+    const rcf = 1.118e-5 * r * n * n;
+    const result = document.getElementById('rcf-result');
+    const status = document.getElementById('rcf-status');
+    const guidance = document.getElementById('rcf-guidance');
+    const dispR = document.getElementById('rcf-display-radius');
+    const dispN = document.getElementById('rcf-display-rpm');
+
+    dispR.textContent = r;
+    dispN.textContent = n.toLocaleString();
+    result.textContent = Math.round(rcf).toLocaleString();
+
+    if (rcf < 1000) {
+      status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-400 inline-block"></span><span>Low — Basic Separation</span>';
+      guidance.textContent = 'Suitable only for coarse solids settlement.';
+    } else if (rcf < 3000) {
+      status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span><span>Decanter Range</span>';
+      guidance.textContent = 'Typical decanter centrifuge range (2,000–4,000 ×g).';
+    } else if (rcf < 6000) {
+      status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-green-100 text-green-700';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span>Disc Stack Range</span>';
+      guidance.textContent = 'Suitable for lube oil & light fuel oil purification.';
+    } else if (rcf < 10000) {
+      status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span><span>High Performance</span>';
+      guidance.textContent = 'HFO, beverage clarification, coolant fine solids.';
+    } else {
+      status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-purple-100 text-purple-700';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span><span>Ultra High G-Force</span>';
+      guidance.textContent = 'Pharmaceutical, fine particle, sub-micron separation.';
+    }
+  }
+  calcRCF();
+  </script>
 
   <!-- RCF in Disc Stack Centrifuge -->
   <h2 id="rcf-disc-stack" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">RCF in Disc Stack Centrifuge</h2>
@@ -272,6 +362,15 @@ const jsonLd = [
         <p class="font-semibold text-navy text-sm">Disc Stack Centrifuge Overview</p>
         <p class="text-xs text-text-light mt-1">Types, models, and capacity</p>
       </a>
+    </div>
+  </div>
+
+  <div class="bg-navy rounded-xl p-6 md:p-8 text-center mt-8">
+    <h2 class="text-xl font-bold text-white mb-2">Need RCF Calculations for Your Application?</h2>
+    <p class="text-white/80 mb-4">Dolphin Centrifuge engineers calculate required g-force for your specific fluid, particle size, and separation target — then recommend the right centrifuge model.</p>
+    <div class="flex flex-wrap gap-3 justify-center">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-6 py-3 rounded-lg transition-colors">Request RCF Calculation</a>
+      <a href="tel:2485222573" class="border border-white/50 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-colors">(248) 522-2573</a>
     </div>
   </div>
 
