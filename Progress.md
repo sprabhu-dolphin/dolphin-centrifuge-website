@@ -1,5 +1,55 @@
 ## Pipeline Log
 
+### 2026-03-21 — Full Site Image Audit (All 154 pages)
+
+#### Summary
+Completed full 8-point image audit across all 154 non-homepage pages using programmatic Python scripts.
+
+| Check | Result |
+|-------|--------|
+| C4: Hero image prop present | ✅ 0 failures |
+| C5: WebP format (no .jpg/.png in img src) | ✅ 0 failures |
+| C6: File sizes (<200KB) | ✅ 0 failures |
+| C7: Dimensions (width/height attrs) | ✅ 0 failures |
+| C8: Lazy loading attr | ✅ 0 failures |
+| C1: Legacy images present | ✅ 123 PASS, 4 acceptable gaps, 26 no-legacy (new pages) |
+| C3: Alt tags non-empty | ✅ 0 failures |
+
+#### Batch changes committed
+
+**Commit `69b284f`** — Added heroImage to 13 pages missing it:
+dmb-019, dmb-028, dmb-037, dmb-062, decanter-centrifuge-optimization, decanter-centrifuge-vibration,
+disc-stack-centrifuge-sludge-ejection-cycle-time, disc-stack-centrifuge-vibration,
+dolphin-centrifuge-customer-testimonials, knowledge-case-studies, knowledge-product-brand,
+knowledge-troubleshooting, disc-stack-centrifuge-applications (broken path fixed),
+dmb-004/007/013 (broken paths fixed)
+
+**Commit `134437a`** — Wire missing legacy images + fix attrs:
+- diesel-centrifuge: 2 C1D2 images added
+- difference-between-decanter-disc: NX-418 decanter image
+- explosion-proof-stainless-steel: SS explosion-proof image
+- food-grade-centrifuge: CRPX-207 image
+- fish-processing-centrifuge: empty alt fixed
+- industrial-washer-fluid: 4 images added
+- waste-oil-centrifuge: WHPX-410 image
+- wvo-centrifuge-separator: grease trap image
+- alfa-laval-centrifuges: width/height attrs added to 7 img tags
+- disc-stack-centrifuge-vibration: loading="lazy" added to gif
+- dolphin-centrifuge-privacy-policy: heroImage added
+
+**Other fixes (same session):**
+- 801 JPG/PNG images batch-converted to WebP (quality 82) via convert_webp.mjs + sharp
+- 19 meta descriptions trimmed to ≤165 chars via fix_descriptions.py
+
+#### Acceptable image gaps (not fixable — no source images)
+- explosion-proof-stainless-steel: cert logos (mark%20sample.png, atex_iecex_marking.jpg) — not in legacy image folder
+- wvo-centrifuge-separator: NX-314 decanter WebP doesn't exist
+
+#### Temp audit scripts (in site root, not committed)
+audit_images.py, audit_sizes.py, audit_legacy.py, audit_legacy2.py, fix_descriptions.py, convert_webp.mjs
+
+---
+
 ### 2026-03-20
 
 | Page Slug | SEO | Template | Image | Build | Deployed | Notes |

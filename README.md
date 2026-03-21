@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# Dolphin Centrifuge Website
 
-```sh
-npm create astro@latest -- --template minimal
+Production website for [Dolphin Centrifuge](https://dolphincentrifuge.com) — industrial centrifuge systems for oil purification, fuel treatment, wastewater processing, and more.
+
+## Tech Stack
+
+- **Framework:** [Astro](https://astro.build/) (static site generator)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Components:** React (interactive elements)
+- **Hosting:** [Netlify](https://www.netlify.com/)
+
+## Project Structure
+
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
+site/
 ├── public/
+│   └── images/          # Legacy + optimized images per page slug
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/      # Reusable Astro/React components
+│   ├── layouts/
+│   │   ├── BaseLayout.astro          # Homepage only
+│   │   └── ApplicationLayout.astro   # ALL other pages (155 total)
+│   ├── pages/
+│   │   ├── index.astro               # Homepage
+│   │   ├── applications/             # Application hub pages
+│   │   ├── centrifuges/              # Dolphin product pages (DMPX/DMB)
+│   │   └── *.astro                   # Legacy flat-URL pages
+│   └── styles/
+├── docs/                # IMAGE_GAPS.md and other docs
+├── SEO-AND-STANDARDS.md # Quality standards (read before ANY page work)
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Command | Action |
+|:--------|:-------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start dev server at `localhost:4321` |
+| `npm run build` | Build production site to `./dist/` |
+| `npm run preview` | Preview build locally |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Key Rules
 
-## 🧞 Commands
+- **155 pages total** — 1 homepage (BaseLayout) + 154 pages (ApplicationLayout)
+- **All legacy URLs preserved flat** — no path prefixes on legacy slugs
+- **Build must pass with 0 errors** before deploying
+- See `SEO-AND-STANDARDS.md` for full quality checklist
+- See `../CLAUDE.md` for the 11 critical rules
 
-All commands are run from the root of the project, from a terminal:
+## Brand
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **Phone:** (248) 522-2573
+- **Email:** sales@dolphincentrifuge.com
+- **Address:** 24248 Gibson Dr, Warren MI 48089
