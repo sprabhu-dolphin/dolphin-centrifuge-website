@@ -19,22 +19,22 @@ const jsonLd = [
       {
         "@type": "Question",
         "name": "How do I calculate sludge ejection cycle time for a disc stack centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Sludge ejection cycle time is calculated by dividing the bowl sludge space volume (in gallons or liters) by the sludge generation rate (volume of sludge generated per hour of operation). The result gives the theoretical maximum time between ejections before the sludge space fills. In practice, safety factors of 50–70% are applied — ejections are triggered at 50–70% of theoretical full capacity to prevent sludge carryover into the disc stack. Initial cycle time is determined during commissioning by monitoring separation quality and sludge discharge volume." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Sludge ejection cycle time is calculated using the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate). Ensure consistent measurement units — for US customers, use gallons for sludge space, GPM for flow rate, and percentage (e.g. 2 not 0.02) for solids. The result gives the time in minutes between ejections before the sludge space fills." }
       },
       {
         "@type": "Question",
         "name": "What happens if sludge ejection cycle time is set too long?",
-        "acceptedAnswer": { "@type": "Answer", "text": "If ejection intervals are too long, the sludge space overfills and sludge migrates into the disc stack, causing clogging, degraded separation quality, and increased vibration from uneven sludge distribution in the bowl. Severe overfilling can require complete bowl disassembly and manual cleaning — a 4–8 hour maintenance operation. In continuous production environments, a clogged centrifuge means unplanned downtime and product loss." }
+        "acceptedAnswer": { "@type": "Answer", "text": "If ejection intervals are too long, the sludge space overfills and excess sludge enters the interstitial space between the discs, clogging the disc stack and stopping separation. Solids appear in the liquid discharge, vibration increases from uneven sludge distribution, and in the worst case, sludge bridging between rotating and stationary parts can cause catastrophic centrifuge damage." }
       },
       {
         "@type": "Question",
         "name": "What happens if sludge ejection cycle time is set too short?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Ejections that are too frequent waste operating water, increase water consumption, cause brief flow interruptions that can disturb the liquid seal, and result in incomplete sludge discharge per cycle (the sludge is too liquid to properly expel). Overly short cycles also increase wear on the ejection mechanism (operating slides, nozzles, and bowl gaskets) and reduce the overall service life of the bowl assembly." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Shorter than optimal cycle times cause process fluid loss with every sludge discharge, increase the frequency of sludge discharge mechanism operation which reduces the centrifuge service life, and cause frequent motor current spikes that can lead to motor overheating and premature failure." }
       },
       {
         "@type": "Question",
         "name": "What factors affect disc centrifuge sludge ejection cycle time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Key factors include: (1) sludge content of the feed liquid — higher solids means shorter required cycle time, (2) bowl sludge space volume — larger bowls hold more sludge before filling, (3) centrifuge throughput — higher flow rates generate more sludge per hour, (4) temperature — higher temperatures can reduce sludge compaction and increase volume, (5) sludge density — denser sludge occupies less volume. Cycle time must be re-evaluated whenever process conditions change significantly." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Three main factors determine cycle time: (1) Bowl sludge space — larger bowls hold more sludge allowing longer intervals, (2) Flow rate — higher flow rates carry solids to the bowl faster requiring shorter intervals, and (3) Percentage solids — higher solid load fills the sludge space faster. The formula is Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate)." }
       }
     ]
   }
@@ -52,7 +52,7 @@ const toc = [
 ---
 
 <ApplicationLayout
-  title="Disc Centrifuge Sludge Ejection Cycle Time Guide | Dolphin"
+  title="Disc Centrifuge Sludge Ejection Cycle Time Guide | Dolphin Centrifuge"
   description="Disc centrifuge sludge ejection cycle time: calculation formula, factors affecting timing, consequences of incorrect intervals, and optimization tips."
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-sludge-ejection-cycle-time/"
   category="knowledge"
@@ -63,12 +63,13 @@ const toc = [
 
   <!-- AI Summary -->
   <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides expert guidance on disc stack centrifuge sludge ejection cycle time — the critical parameter that determines how frequently the bowl automatically purges accumulated solids. Setting cycle time too long causes bowl overflow and product contamination; too short causes excessive dilution and incomplete separation. Using the formula Sludge Cycle Time = Bowl Sludge Space ÷ (% Solids × Flow-Rate), operators can calculate ejection intervals precisely. Dolphin Centrifuge offers cycle time calculation support, timer controls, and parts for all self-cleaning disc centrifuge models, with over 40 years of centrifuge experience based in Warren, Michigan.</p>
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge explains how to calculate disc stack centrifuge sludge ejection cycle time using the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate GPM). Incorrect timing causes bowl overflow or excess product loss. Based in Warren, Michigan with 40+ years of centrifuge expertise.</p>
   </div>
 
   <!-- Intro image -->
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
     <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/alfa-laval-disc-centrifuge-bowl-sludge-discharge-parts-800.webp" alt="Disc Stack Centrifuge Sludge Ejection System Overview" width="800" height="322" loading="eager" class="rounded-lg w-full mb-6" />
+    <p class="text-text leading-relaxed mb-4">One of the essential features of a self-cleaning disc centrifuge is to eject the separated solids while operating. The frequency of this ejection process is crucial to the process efficiency and centrifuge wellbeing.</p>
     <p class="text-text leading-relaxed">This article discusses the various aspects of the sludge ejection cycle time, from calculating the cycle time to the results of incorrect cycle time.</p>
   </div>
 
@@ -194,7 +195,7 @@ const toc = [
 
     <h3 class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
     <p class="text-text leading-relaxed mb-4">The sample below is an excerpt of a larger table that helps determine the sludge cycle time for a specific centrifuge for different flow rates and percent solids.</p>
-    <p class="text-text leading-relaxed mb-4">The following table shows the discharge time in minutes for varying flow rates and % solids for a self-cleaning disc-stack centrifuge.</p>
+    <p class="text-text leading-relaxed mb-4">The following table shows the discharge time in minutes for varying flow rates and % solids for the Alfa Laval MOPX-207 Self-Cleaning centrifuge.</p>
 
     <div class="overflow-x-auto">
       <table class="w-full bg-white rounded-lg border border-gray-200 text-sm">
@@ -219,22 +220,7 @@ const toc = [
         </tbody>
       </table>
     </div>
-    <p class="text-xs text-gray-500 mt-2">Values in minutes. Based on self-cleaning disc-stack centrifuge bowl sludge space capacity.</p>
-
-    <!-- Ejection Types -->
-    <h3 class="text-xl font-semibold text-navy mt-8 mb-3">Partial vs. Total Ejections</h3>
-    <div class="grid md:grid-cols-2 gap-4 mt-4">
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <h4 class="font-bold text-navy mb-2">Partial Ejection</h4>
-        <p class="text-text text-sm mb-2">The operating water is released for a short, controlled duration. The bowl opens partially and briefly, allowing only the sludge from the bowl periphery to discharge. Product liquid is largely retained.</p>
-        <p class="text-text text-sm"><strong>Best for:</strong> All routine desludging during continuous operation. Minimal product loss.</p>
-      </div>
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <h4 class="font-bold text-navy mb-2">Total Ejection</h4>
-        <p class="text-text text-sm mb-2">The bowl opens fully and all contents — sludge and product liquid — are discharged. Thorough cleaning of the bowl, removes all accumulated sludge.</p>
-        <p class="text-text text-sm"><strong>Best for:</strong> End-of-batch cleaning, product changeovers, maintenance, and sticky/waxy applications.</p>
-      </div>
-    </div>
+    <p class="text-xs text-gray-500 mt-2">Values in minutes. Based on Alfa Laval MOPX-207 bowl sludge space capacity.</p>
   </div>
 
   <!-- Consequences of Incorrect Cycle Time -->
@@ -265,30 +251,6 @@ const toc = [
 
     <h4 class="text-lg font-semibold text-navy mt-4 mb-2">Detecting Shorter Than Recommended Cycle Times</h4>
     <p class="text-text leading-relaxed">The easiest way to detect shorter than optimal discharge cycle time is to monitor the discharge from the sludge outlet. The presence of large amounts of process fluid could be due to the short cycle time. Therefore it is essential to sample the sludge discharge periodically and quantify the proportion of sludge, and process fluid therein.</p>
-
-    <!-- Quick Reference Table -->
-    <h3 class="text-xl font-semibold text-navy mt-8 mb-3">Ejection Interval Starting Points by Application</h3>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-text">
-        <thead>
-          <tr class="border-b border-gray-200 bg-navy text-white">
-            <th class="text-left px-4 py-3 font-semibold">Application</th>
-            <th class="text-left px-4 py-3 font-semibold">Typical Starting Interval</th>
-            <th class="text-left px-4 py-3 font-semibold">Ejection Type</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100">
-          <tr><td class="px-4 py-2">Marine fuel oil (HFO) purification</td><td class="px-4 py-2">15–30 minutes</td><td class="px-4 py-2">Partial</td></tr>
-          <tr><td class="px-4 py-2">Marine lubricating oil purification</td><td class="px-4 py-2">30–60 minutes</td><td class="px-4 py-2">Partial</td></tr>
-          <tr><td class="px-4 py-2">Industrial lube oil polishing (clean)</td><td class="px-4 py-2">60–120 minutes</td><td class="px-4 py-2">Partial</td></tr>
-          <tr><td class="px-4 py-2">Industrial lube oil (high contamination)</td><td class="px-4 py-2">15–30 minutes</td><td class="px-4 py-2">Partial or Total</td></tr>
-          <tr><td class="px-4 py-2">Vegetable oil degumming/refining</td><td class="px-4 py-2">20–40 minutes</td><td class="px-4 py-2">Partial</td></tr>
-          <tr><td class="px-4 py-2">Dairy / whey clarification</td><td class="px-4 py-2">10–20 minutes</td><td class="px-4 py-2">Partial</td></tr>
-          <tr><td class="px-4 py-2">Wastewater / oily water separation</td><td class="px-4 py-2">10–30 minutes</td><td class="px-4 py-2">Partial or Total</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="text-xs text-gray-500 mt-2 italic">Starting ranges only. Optimize based on observed separation quality and sludge volume per ejection for your specific conditions.</p>
   </div>
 
   <!-- Summary -->
@@ -316,19 +278,19 @@ const toc = [
     <div class="space-y-6">
       <div>
         <h3 class="text-base font-semibold text-navy mb-2">How do I calculate sludge ejection cycle time for a disc stack centrifuge?</h3>
-        <p class="text-text-light text-sm">Divide the bowl sludge space volume by the sludge generation rate (volume generated per hour). Apply a 50–70% safety factor — trigger ejections at 50–70% of theoretical full capacity to prevent sludge carryover into the disc stack. Initial cycle time is determined during commissioning by monitoring separation quality and discharge volume.</p>
+        <p class="text-text-light text-sm">Use the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate). Ensure consistent units — for US customers, use gallons for sludge space, GPM for flow rate, and percentage (e.g. 2 not 0.02) for solids. The result gives the time in minutes between ejections before the sludge space fills.</p>
       </div>
       <div>
         <h3 class="text-base font-semibold text-navy mb-2">What happens if sludge ejection cycle time is set too long?</h3>
-        <p class="text-text-light text-sm">The sludge space overfills and sludge migrates into the disc stack, causing clogging, degraded separation, and increased vibration from uneven sludge distribution. Severe overfilling requires complete bowl disassembly and manual cleaning — a 4–8 hour operation that causes unplanned production downtime.</p>
+        <p class="text-text-light text-sm">The sludge space overfills and excess sludge enters the interstitial space between the discs, clogging the disc stack and stopping separation. Solids appear in the liquid discharge, vibration increases, and in the worst case, sludge bridging between rotating and stationary parts can cause catastrophic centrifuge damage.</p>
       </div>
       <div>
         <h3 class="text-base font-semibold text-navy mb-2">What happens if sludge ejection cycle time is set too short?</h3>
-        <p class="text-text-light text-sm">Overly frequent ejections waste operating water, cause brief flow interruptions that disturb the liquid seal, and result in incomplete sludge discharge per cycle. Short intervals also increase wear on the ejection mechanism — operating slides, nozzles, and bowl gaskets — reducing bowl assembly service life.</p>
+        <p class="text-text-light text-sm">Shorter than optimal cycle times cause process fluid loss with every sludge discharge, increase the frequency of discharge mechanism operation reducing centrifuge service life, and cause frequent motor current spikes that can lead to motor overheating and premature failure.</p>
       </div>
       <div>
         <h3 class="text-base font-semibold text-navy mb-2">What factors affect disc centrifuge sludge ejection cycle time?</h3>
-        <p class="text-text-light text-sm">Key factors: sludge content of the feed liquid (higher solids = shorter interval), bowl sludge space volume, centrifuge throughput, temperature (affects sludge compaction), and sludge density. Cycle time must be re-evaluated whenever process conditions change significantly.</p>
+        <p class="text-text-light text-sm">Three main factors: (1) Bowl sludge space — larger bowls allow longer intervals, (2) Flow rate — higher rates carry solids faster requiring shorter intervals, (3) Percentage solids — higher solid load fills sludge space faster. The formula is Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate).</p>
       </div>
     </div>
   </div>
