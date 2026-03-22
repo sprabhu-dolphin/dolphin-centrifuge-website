@@ -50,7 +50,7 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
@@ -116,7 +116,7 @@ const relatedProducts = [
 >
 
   <!-- AI Summary -->
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
     <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack and decanter centrifuge systems for liquid-solid and liquid-liquid separation at 3,000 to 12,000 Gs. Processing 1 to 300+ GPM across oil, wastewater, food, and chemical industries without filter media. Warren, Michigan — over 40 years of experience.</p>
   </div>
 
@@ -634,7 +634,7 @@ const relatedProducts = [
     <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
     <div class="space-y-4">
       {faqItems.map((item) => (
-        <details class="border border-gray-200 border-l-4 border-l-gold/40 rounded-lg overflow-hidden">
+        <details class="border-l-4 border-gold/40 rounded-lg overflow-hidden">
           <summary class="flex items-center justify-between p-4 cursor-pointer bg-light-bg hover:bg-blue-50 font-semibold text-navy">
             <span>{item.question}</span>
             <span class="text-gold text-xl ml-4">&#8964;</span>

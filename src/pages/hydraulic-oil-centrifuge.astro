@@ -50,12 +50,29 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@type": "Article",
+  "headline": "Hydraulic Oil Centrifuge",
+  "description": "Hydraulic oil centrifuge removes water, metal fines, and sludge at 7,000+ Gs to 0.5 microns — extrusion, stamping, and forging. Dolphin Centrifuge, Warren MI.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  }
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },

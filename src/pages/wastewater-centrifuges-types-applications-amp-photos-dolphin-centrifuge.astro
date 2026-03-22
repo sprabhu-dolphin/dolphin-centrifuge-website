@@ -65,7 +65,7 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
@@ -327,14 +327,14 @@ const relatedProducts = [
   </p>
 
   <p>
-    <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> at <a href="tel:2485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> with your wastewater analysis and flow rates for a no-cost equipment recommendation.
+    <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> at <a href="tel:+12485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> with your wastewater analysis and flow rates for a no-cost equipment recommendation.
   </p>
 
   <!-- ── FAQ Section ── -->
   <h2 id="faq">Frequently Asked Questions</h2>
 
   {faqItems.map((item) => (
-    <details class="border border-gray-200 rounded-lg p-4 mb-3 group">
+    <details class="border-l-4 border-gold/40 rounded-lg p-4 mb-3 group">
       <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center">
         <span>{item.question}</span>
         <span class="group-open:rotate-180 transition-transform text-gold">&#9660;</span>

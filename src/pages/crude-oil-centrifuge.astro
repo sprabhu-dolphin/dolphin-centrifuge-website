@@ -50,12 +50,29 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
 
-const jsonLd = [productJsonLd, faqJsonLd];
+const articleJsonLd = {
+  "@type": "Article",
+  "headline": "Crude Oil Centrifuge",
+  "description": "Disc centrifuges for crude oil dewatering and desalting. Remove BS&W to pipeline spec. Dolphin Centrifuge supplies WHPX-series purifiers — call (248) 522-2573.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  }
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'design-operation', label: 'Design and Operation' },

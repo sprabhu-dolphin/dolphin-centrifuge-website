@@ -57,7 +57,7 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
@@ -576,7 +576,7 @@ const relatedProducts = [
       <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex items-center justify-center bg-gold hover:bg-gold-light text-navy font-bold px-6 py-3 rounded-lg transition-colors">
         Request a Quote
       </a>
-      <a href="tel:2485222573" class="inline-flex items-center justify-center border-2 border-navy/20 hover:border-navy text-navy font-semibold px-6 py-3 rounded-lg transition-colors">
+      <a href="tel:+12485222573" class="inline-flex items-center justify-center border-2 border-navy/20 hover:border-navy text-navy font-semibold px-6 py-3 rounded-lg transition-colors">
         (248) 522-2573
       </a>
     </div>
@@ -588,7 +588,7 @@ const relatedProducts = [
 
     <div class="space-y-4">
       {faqItems.map((item) => (
-        <details class="border border-gray-200 rounded-lg p-4 group">
+        <details class="border-l-4 border-gold/40 rounded-lg p-4 group">
           <summary class="cursor-pointer font-semibold text-navy flex items-center justify-between">
             <span>{item.question}</span>
             <span class="group-open:rotate-180 transition-transform text-gold">&#9660;</span>

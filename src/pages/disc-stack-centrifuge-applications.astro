@@ -32,7 +32,7 @@ const faqJsonLd = {
     "name": item.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": item.answer
+      "text": item.answer.replace(/<[^>]*>/g, '')
     }
   }))
 };
@@ -2393,7 +2393,7 @@ const relatedProducts = [
 
   <div class="space-y-4 my-6">
     {faqItems.map((item) => (
-      <details class="border border-gray-200 rounded-lg bg-white">
+      <details class="border-l-4 border-gold/40 rounded-lg bg-white">
         <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gray-50 rounded-lg list-none flex justify-between items-center">
           {item.question}
           <span class="text-gold font-bold text-lg ml-2">+</span>
