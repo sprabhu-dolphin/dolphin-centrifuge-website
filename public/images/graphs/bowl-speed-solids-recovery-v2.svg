@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 460" role="img" aria-label="Decanter centrifuge performance optimization curves — solids recovery vs bowl speed">
+  <desc>Performance curve showing how centrifuge bowl speed affects solids recovery percentage. Theoretical recovery increases linearly with speed. Coarse solids peak at moderate-high speeds then slightly drop. Soft solids peak at lower speeds and decline significantly at high bowl speeds.</desc>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="780" height="460" fill="#F5F5F0" rx="8" ry="8" stroke="#D1D5DB" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="80" y="35" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="600" fill="#1B3A5C">Bowl Speed vs. Solids Recovery</text>
+
+  <!-- Copyright -->
+  <text x="720" y="25" font-family="'Source Sans 3', sans-serif" font-size="10" fill="#6B7280" text-anchor="end">© dolphincentrifuge.com</text>
+
+  <!-- Watermark -->
+  <text x="390" y="235" font-family="'Plus Jakarta Sans', sans-serif" font-size="42" font-weight="700" fill="#1B3A5C" opacity="0.06" text-anchor="middle" dominant-baseline="middle">DOLPHIN CENTRIFUGE</text>
+
+  <!--
+  DATA EXTRACTION (qualitative 10x10 grid → pixel coordinates):
+  Plot: 600w × 330h. X: (g/10)*600. Y: 330-(g/10)*330.
+
+  Theoretical (straight): (0,314) (60,281) (120,248) (180,215) (240,182) (300,149) (360,116) (420,83) (480,50) (540,17) → exits chart
+  Coarse Solids (curved peak at x≈7): (0,320) (60,304) (120,264) (180,215) (240,172) (300,139) (360,116) (420,106) (480,116) (540,139) (600,165)
+  Soft Solids (curved peak at x≈5): (0,323) (60,314) (120,290) (180,264) (240,238) (300,231) (360,238) (420,254) (480,277) (540,304) (600,323)
+  -->
+
+  <!-- Plot area -->
+  <g transform="translate(80, 50)">
+    <!-- Y-axis -->
+    <line x1="0" y1="0" x2="0" y2="330" stroke="#374151" stroke-width="1"/>
+    <polygon points="-4,5 0,-2 4,5" fill="#374151"/>
+
+    <!-- X-axis -->
+    <line x1="0" y1="330" x2="620" y2="330" stroke="#374151" stroke-width="1"/>
+    <polygon points="615,326 622,330 615,334" fill="#374151"/>
+
+    <!-- Optimum Speed Range verticals at x≈3.5 (210px) and x≈6.5 (390px) -->
+    <line x1="210" y1="10" x2="210" y2="330" stroke="#374151" stroke-width="1" stroke-dasharray="6,3"/>
+    <line x1="390" y1="10" x2="390" y2="330" stroke="#374151" stroke-width="1" stroke-dasharray="6,3"/>
+
+    <!-- Bracket -->
+    <line x1="210" y1="310" x2="210" y2="325" stroke="#374151" stroke-width="1"/>
+    <line x1="390" y1="310" x2="390" y2="325" stroke="#374151" stroke-width="1"/>
+    <line x1="210" y1="325" x2="390" y2="325" stroke="#374151" stroke-width="1"/>
+    <text x="300" y="320" font-family="'Source Sans 3', sans-serif" font-size="12" fill="#374151" text-anchor="middle" font-weight="600">Optimum Speed Range</text>
+    <text x="210" y="348" font-family="'Source Sans 3', sans-serif" font-size="11" fill="#374151" text-anchor="middle">Soft</text>
+    <text x="390" y="348" font-family="'Source Sans 3', sans-serif" font-size="11" fill="#374151" text-anchor="middle">Coarse</text>
+
+    <!-- CURVE 1: Theoretical (Navy solid STRAIGHT line) -->
+    <!-- From lower-left to upper-right, exits chart at top -->
+    <polyline points="0,314 60,281 120,248 180,215 240,182 300,149 360,116 420,83 480,50 540,17"
+              fill="none" stroke="#1B3A5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Label at end -->
+    <rect x="478" y="22" width="90" height="17" fill="#F5F5F0" rx="3"/>
+    <text x="523" y="35" font-family="'Source Sans 3', sans-serif" font-size="13" fill="#1B3A5C" font-weight="600" text-anchor="middle">Theoretical</text>
+
+    <!-- CURVE 2: Coarse Solids (Gold solid, peaks at x≈7 = 420px) -->
+    <polyline points="0,320 60,304 120,264 180,215 240,172 300,139 360,116 420,106 480,116 540,139 600,165"
+              fill="none" stroke="#E8A317" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Label -->
+    <rect x="530" y="148" width="105" height="17" fill="#F5F5F0" rx="3"/>
+    <text x="582" y="161" font-family="'Source Sans 3', sans-serif" font-size="13" fill="#E8A317" font-weight="600" text-anchor="middle">Coarse Solids</text>
+
+    <!-- CURVE 3: Soft Solids (Gray dashed, peaks at x≈5 = 300px, drops back down) -->
+    <polyline points="0,323 60,314 120,290 180,264 240,238 300,231 360,238 420,254 480,277 540,304 600,323"
+              fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8,4"/>
+    <!-- Label -->
+    <rect x="535" y="308" width="85" height="17" fill="#F5F5F0" rx="3"/>
+    <text x="577" y="321" font-family="'Source Sans 3', sans-serif" font-size="13" fill="#6B7280" font-weight="600" text-anchor="middle">Soft Solids</text>
+  </g>
+
+  <!-- Y-axis label -->
+  <text x="22" y="240" font-family="'Source Sans 3', sans-serif" font-size="13" fill="#1B3A5C" transform="rotate(-90, 22, 240)" text-anchor="middle">Solids Recovery - %</text>
+
+  <!-- X-axis labels -->
+  <text x="120" y="425" font-family="'Source Sans 3', sans-serif" font-size="12" fill="#6B7280">&lt;&lt;&lt; Low</text>
+  <text x="390" y="430" font-family="'Source Sans 3', sans-serif" font-size="14" fill="#1B3A5C" text-anchor="middle" font-weight="600">BOWL SPEED</text>
+  <text x="660" y="425" font-family="'Source Sans 3', sans-serif" font-size="12" fill="#6B7280" text-anchor="end">High &gt;&gt;&gt;</text>
+</svg>

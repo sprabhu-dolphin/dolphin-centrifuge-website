@@ -53,6 +53,34 @@
 - Use `loading="lazy"` on all images below the fold
 - Hero/above-fold images: `loading="eager"` + `fetchpriority="high"`
 
+### Graphs & Technical Diagrams (Redrawn Assets)
+Legacy graphs, sketches, and line drawings are professionally redrawn using the `dolphin-graphs` skill. Two output types:
+
+**SVG Graphs** (performance curves, comparison charts, relationship diagrams):
+- Output: Inline SVG — all text is searchable by Google and AI crawlers
+- Saved to: `/public/images/graphs/`
+- Fonts: Plus Jakarta Sans (titles), Source Sans 3 (axis labels, legends)
+- Line color sequence: 1st Navy `#1B3A5C`, 2nd Gold `#E8A317`, 3rd Gray `#6B7280` (dashed), 4th Teal `#0D9488`, 5th Rust `#B45309`
+- Line thickness: 2px (thin, clean). Markers: 5px diameter
+- Background: Warm White `#F5F5F0`
+- Copyright: `© dolphincentrifuge.com` — small font, visible, inside graph area
+- Watermark: Faint Dolphin logo behind graph (10-15% opacity)
+- Legend: bottom-left or bottom-center, outside plot area
+- Title: top-left, Plus Jakarta Sans semibold
+
+**WebP Technical Diagrams** (cross-sections, cutaway drawings, equipment sketches):
+- Output: SVG → WebP conversion via `sharp` CLI
+- Saved to: `/public/images/diagrams/`
+- Max file size: 100KB
+- Legacy filenames preserved (extension swapped, e.g., `Bowl-Cross-Section.jpg` → `Bowl-Cross-Section.webp`)
+
+**Rules for ALL redrawn assets:**
+- Legacy alt text preserved exactly — NEVER modify
+- Legacy filenames kept for SEO continuity
+- Content fidelity is paramount — no word/data changes without Sanjay's approval
+- Always generate 2-3 variants before final implementation
+- Original legacy image is NEVER deleted
+
 ### Aspect Ratios (Consistency)
 - Hero images: 16:9 or 3:2 landscape
 - Product card thumbnails: 4:3
