@@ -10,6 +10,8 @@ interface Props {
   /* Static mode */
   imageSrc?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   /* Slider mode */
   initialImage?: { src: string; alt: string };
   sliderImages?: Array<{ src: string; alt: string }>;
@@ -29,6 +31,8 @@ const {
   description,
   imageSrc,
   imageAlt,
+  imageWidth,
+  imageHeight,
   initialImage,
   sliderImages,
   ctaLabel,
@@ -89,7 +93,10 @@ const heightClass = compact
       alt={imageAlt}
       class="absolute inset-0 w-full h-full object-cover object-center"
       loading="eager"
+      fetchpriority="high"
       decoding="async"
+      width={imageWidth}
+      height={imageHeight}
     />
   )}
 
@@ -107,7 +114,7 @@ const heightClass = compact
     <div class={`${compact ? 'py-8' : 'py-10 md:py-14'} ${isFrost ? '' : 'max-w-2xl'}`}>
       {isFrost ? (
         /* ── Frosted Glass Box ── */
-        <div class="hero-frost-box max-w-[95%] lg:max-w-[55%] bg-[#1B3A5C]/55 backdrop-blur-xl rounded-2xl border border-white/10 p-6 md:p-8">
+        <div class="hero-frost-box max-w-[95%] lg:max-w-[55%] bg-navy/55 backdrop-blur-xl rounded-2xl border border-white/10 p-6 md:p-8">
           {categoryLabel && (
             <p class="inline-flex items-center gap-2 text-gold font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-3">
               <span class="w-2 h-2 bg-gold rounded-full"></span>
