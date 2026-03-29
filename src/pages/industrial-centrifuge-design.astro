@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What does a turnkey centrifuge system from Dolphin Centrifuge include?",
-    answer: "A Dolphin Centrifuge turnkey system includes the centrifuge (DMPX or decanter), feed pump, pre-filter, pre-heater (if required for viscous fluids), sludge tank, interconnecting piping, electrical panel with PLC controls, and startup commissioning. We design, build, test, and ship as a complete skid-mounted unit ready for site installation."
-  },
-  {
-    question: "Can Dolphin Centrifuge design a system for a hazardous area?",
-    answer: "Yes. Dolphin Centrifuge designs explosion-proof centrifuge systems for Class I Division 1 and Division 2 hazardous locations, including refinery tank farms, offshore platforms, fuel handling facilities, and chemical plants. Components are rated for the specific NEC hazardous area classification required."
-  },
-  {
-    question: "How long does it take to design and build a custom centrifuge system?",
-    answer: "Lead times vary by complexity. A standard DMPX skid with controls typically ships in 8–12 weeks from order. A custom multi-stage system with specialty materials or explosion-proof components may require 12–20 weeks. Contact Dolphin Centrifuge early in your project timeline to discuss scheduling."
-  },
-  {
-    question: "Does Dolphin Centrifuge conduct site visits for new installations?",
-    answer: "Yes. Dolphin Centrifuge engineers conduct site visits to review your current process setup, evaluate centrifuge applicability on-site, identify the best integration point in your existing workflow, and provide post-visit recommendations. Site visits are especially valuable for complex installations or when multiple separation steps are being considered."
-  },
-  {
-    question: "What engineering drawings and documentation are provided with a custom system?",
-    answer: "Dolphin Centrifuge provides a comprehensive engineering package with every custom system, including P&ID drawings, general arrangement (GA) drawings with dimensions, complete electrical schematics for the control panel and field devices, equipment datasheets for every component, an operations and maintenance manual specific to your configuration, and installation guidelines for utilities and foundation requirements."
-  }
-];
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -39,19 +14,6 @@ const serviceJsonLd = {
   },
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/industrial-centrifuge-design/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/industrial-centrifuge-design/"
 };
 
-const jsonLd = [serviceJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [serviceJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'legacy-overview', label: 'Design & Engineering Overview' },
@@ -298,7 +260,4 @@ const relatedProducts = [
   <p>
     Please <a href="/contact-for-alfa-laval-centrifuges/">contact Dolphin Centrifuge</a> or call us at <a href="tel:+12485222573">(248) 522-2573</a> to discuss your centrifuge system design requirements with our engineers.
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

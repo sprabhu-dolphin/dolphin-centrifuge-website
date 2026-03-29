@@ -4,39 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Troubleshooting — Diagnose & Fix Common Issues";
 const description = "Centrifuge troubleshooting guides: fix vibration, leaking bowls, poor separation, and speed issues in disc stack and decanter centrifuges from Dolphin.";
 
-const faqItems = [
-  {
-    question: "What are the most common disc stack centrifuge problems?",
-    answer: "The most common disc stack centrifuge problems are: (1) excessive vibration from bowl imbalance or bearing wear, (2) bad separation from wrong gravity disc, low temperature, or clogged discs, (3) cannot reach operating speed from motor, clutch, or drive problems, (4) bowl or hood leaking from worn O-rings or cracked components, and (5) liquid seal break from operating water failure or wrong gravity disc size."
-  },
-  {
-    question: "Why is my disc stack centrifuge vibrating excessively?",
-    answer: "Excessive vibration in a disc stack centrifuge typically indicates bowl imbalance, worn spindle bearings, an improperly assembled bowl after service, or foundation problems. Other causes include a solids-overloaded bowl that was not discharged properly, a cracked disc, or contamination between disc stack components. Our vibration troubleshooting guide covers each cause with a step-by-step diagnostic procedure."
-  },
-  {
-    question: "Why is my centrifuge producing poor separation quality?",
-    answer: "Poor separation is most often caused by: incorrect gravity disc size (wrong interface position), feed temperature too low (high viscosity), excessive feed rate, clogged disc stack, worn paring disc, or wrong centrifuge type for the application. Our bad separation guide covers 6 root causes with corrective actions for each."
-  },
-  {
-    question: "What causes a liquid seal break in a disc stack centrifuge?",
-    answer: "A liquid seal break occurs when the oil/water interface inside the bowl collapses, allowing one phase to contaminate the other outlet. Causes include: operating water pressure failure, wrong gravity disc size, air ingestion into the feed, sudden feed composition change, or excessive feed rate that overwhelms the interface. Our liquid seal break guide covers diagnosis and recovery procedures."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer live centrifuge troubleshooting support?",
-    answer: "Yes. Dolphin Centrifuge provides free lifetime technical support to all customers. Call (248) 522-2573 or email sales@dolphincentrifuge.com for immediate troubleshooting assistance. Our engineers can diagnose most disc stack and decanter centrifuge problems by phone with detailed description of symptoms, operating conditions, and recent maintenance history."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -169,7 +136,7 @@ const articles = [
   toc={[...toc, { id: "faq", label: "Frequently Asked Questions" }]}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
@@ -214,17 +181,7 @@ const articles = [
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
-    <div class="not-prose space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <h2 id="explore-other-categories">Explore Other Knowledge Categories</h2>
     <p>Continue learning about industrial centrifuges with our other <a href="/knowledge-center/">knowledge center</a> categories, or explore our <a href="/industrial-disc-centrifuge-repair/">centrifuge service and repair</a> offerings.</p>

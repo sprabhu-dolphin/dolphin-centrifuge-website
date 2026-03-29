@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the main difference between the Sharples P-3400 and P-3000?",
-    answer: "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's 25 GPM rated capacity. The P-3400 is rated at 50 GPM with a 25 HP drive motor."
-  },
-  {
-    question: "Does Dolphin Centrifuge stock parts for the P-3400?",
-    answer: "Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines."
-  },
-  {
-    question: "Is the Sharples P-3400 still supported by Alfa Laval?",
-    answer: "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel."
-  },
-  {
-    question: "How long does a Sharples P-3400 rebuild take?",
-    answer: "A complete P-3400 mechanical rebuild typically takes 3–5 weeks depending on scope — scroll reconditioning, bearing replacement, gearbox overhaul, wear surface hard-facing, seal replacement, and final balance and test. Dolphin Centrifuge provides a detailed scope and timeline after initial inspection of the unit."
-  },
-  {
-    question: "Can the P-3400 handle ethanol biomass separation?",
-    answer: "Yes. The Sharples P-3400 has been used for ethanol biomass separation, with a rated capacity of 50 GPM on ethanol biomass feed. The 3,150 G separation force at 4,000 RPM is effective for dewatering fermentation biomass and other biological solids in ethanol production and bioprocessing applications."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -48,19 +25,6 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -77,7 +41,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/sharples-p-3400-decanter/"
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'about', label: 'About the Sharples P-3400' },
@@ -260,19 +224,6 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ Section -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-3 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-          <span class="text-gold font-bold">+</span> {item.question}
-        </summary>
-        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-      </details>
-    ))}
-  </div>
-
   <!-- Bottom CTA Bar -->
   <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
     <p class="text-white text-xl font-bold mb-2">Sharples P-3400 parts, rebuild, and repair — Warren, MI</p>

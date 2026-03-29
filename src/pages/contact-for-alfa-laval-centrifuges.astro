@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How quickly will Dolphin Centrifuge respond to my inquiry?",
-    answer: "Most inquiries receive a response within one business day. Providing complete application details — fluid type, flow rate, solids content, and whether you need new or remanufactured equipment — allows our engineers to prepare an accurate recommendation on the first response."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer paid sample testing before purchase?",
-    answer: "Yes. Dolphin Centrifuge operates a fully equipped <a href='/industrial-centrifuge-sample-testing/'>sample testing lab</a> at our Warren, Michigan facility. Send us a sample of your fluid and we will run it through the appropriate centrifuge, document the results with before-and-after photos, and provide a detailed report with recommended equipment sizing."
-  },
-  {
-    question: "What information should I include in my centrifuge quote request?",
-    answer: "Include the type of fluid you need to process, the required flow rate or daily volume, estimated solids content by weight, whether you need new or remanufactured equipment, and any special requirements such as explosion-proof or food-grade construction. The more detail you provide, the faster and more precise our recommendation will be."
-  },
-  {
-    question: "Does Dolphin Centrifuge ship internationally?",
-    answer: "Yes. Dolphin Centrifuge ships centrifuge systems, parts, and accessories worldwide. We have supplied equipment to customers across North America, South America, Europe, the Middle East, Africa, and Asia. Contact us for freight estimates and export documentation."
-  },
-  {
-    question: "Can I visit the Dolphin Centrifuge facility in Warren, Michigan?",
-    answer: "Absolutely. We welcome visits from prospective customers who want to inspect our in-stock <a href='/disc-stack-centrifuge/'>disc stack centrifuges</a> and <a href='/decanter-centrifuge/'>decanter centrifuges</a>. Our warehouse at 24248 Gibson Dr, Warren MI 48089 maintains over 200 centrifuges available for inspection and immediate shipment. Call (248) 522-2573 to schedule a visit."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -90,18 +65,6 @@ const localBusinessJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
 ---
 
 <ApplicationLayout
@@ -112,7 +75,7 @@ const faqJsonLd = {
   category="contact"
   categoryLabel="Contact"
   canonicalUrl="https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/"
-  jsonLd={[articleJsonLd, localBusinessJsonLd, faqJsonLd]}
+  jsonLd={[articleJsonLd, localBusinessJsonLd]}
   relatedProducts={[
     { label: "Disc Stack Centrifuges", href: "/disc-stack-centrifuge/", description: "Self-cleaning separator systems" },
     { label: "Decanter Centrifuges", href: "/decanter-centrifuge/", description: "High-solids dewatering systems" },
@@ -543,17 +506,6 @@ const faqJsonLd = {
 
   <!-- FAQ Section -->
   <h2 class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Contact &amp; Quote — Frequently Asked Questions</h2>
-  <div class="space-y-3 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-          <span class="text-gold font-bold">+</span> {item.question}
-        </summary>
-        <p class="text-text-light mt-3 text-sm leading-relaxed" set:html={item.answer} />
-      </details>
-    ))}
-  </div>
-
   <div class="bg-navy py-12 px-6 text-center not-prose">
     <h2 class="text-2xl font-bold text-white mb-4">Ready to Get Started?</h2>
     <p class="text-white/80 mb-8 max-w-2xl mx-auto">Contact our centrifuge engineers for expert sizing, quotes, and same-day response.</p>

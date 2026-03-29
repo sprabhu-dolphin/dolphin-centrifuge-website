@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How do I calculate sludge ejection cycle time for a disc stack centrifuge?",
-    answer: "Use the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate). Ensure consistent units — for US customers, use gallons for sludge space, GPM for flow rate, and percentage (e.g. 2 not 0.02) for solids. The result gives the time in minutes between ejections before the sludge space fills."
-  },
-  {
-    question: "What happens if sludge ejection cycle time is set too long?",
-    answer: "The sludge space overfills and excess sludge enters the interstitial space between the discs, clogging the disc stack and stopping separation. Solids appear in the liquid discharge, vibration increases from uneven sludge distribution, and in the worst case, sludge bridging between rotating and stationary parts can cause catastrophic centrifuge damage."
-  },
-  {
-    question: "What happens if sludge ejection cycle time is set too short?",
-    answer: "Shorter than optimal cycle times cause process fluid loss with every sludge discharge, increase the frequency of sludge discharge mechanism operation which reduces the centrifuge service life, and cause frequent motor current spikes that can lead to motor overheating and premature failure."
-  },
-  {
-    question: "What factors affect disc centrifuge sludge ejection cycle time?",
-    answer: "Three main factors determine cycle time: (1) Bowl sludge space — larger bowls hold more sludge allowing longer intervals, (2) Flow rate — higher flow rates carry solids to the bowl faster requiring shorter intervals, and (3) Percentage solids — higher solid load fills the sludge space faster. The formula is Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate)."
-  },
-  {
-    question: "How can I determine the bowl sludge space volume for my centrifuge?",
-    answer: "The manufacturer does not always publish the sludge space volume directly. You can estimate it by taking basic measurements of the bowl components and using simple geometric calculations. Alternatively, contact a knowledgeable supplier — Dolphin Centrifuge can provide sludge space volumes for all major disc centrifuge models to help you calculate accurate ejection cycle times."
-  }
-];
-
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -36,18 +11,6 @@ const jsonLd = [
     "datePublished": "2021-03-01",
     "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-sludge-ejection-cycle-time/",
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqItems.map(item => ({
-      "@type": "Question",
-      "name": item.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.answer
-      }
-    }))
-  }
 ];
 
 const toc = [
@@ -308,11 +271,7 @@ const relatedProducts = [
       <a href="/industrial-disc-centrifuge-repair/" class="inline-flex items-center gap-2 border border-navy/20 hover:border-navy text-navy font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Centrifuge Service</a>
     </div>
   </div>
-
-  <!-- FAQ -->
-  <FAQ items={faqItems} />
-
-  <!-- Related Articles -->
+<!-- Related Articles -->
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
     <h2 class="text-xl font-bold text-navy mb-4">Related Knowledge Articles</h2>
     <ul class="space-y-2">

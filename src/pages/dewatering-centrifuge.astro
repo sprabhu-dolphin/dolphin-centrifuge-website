@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What type of centrifuge is used for dewatering?",
-    answer: "Decanter centrifuges are the most widely used type for dewatering applications. They generate 3,000+ Gs of centrifugal force, separate particles from 0.5 inches down to below 100 microns, and operate continuously without shutdown. For very fine solids (below 2 microns), disc stack centrifuges are used instead."
-  },
-  {
-    question: "How does a dewatering centrifuge differ from a filter press?",
-    answer: "A dewatering centrifuge separates water from sludge using centrifugal force — it operates continuously without media replacement and handles high feed volumes without operator intervention. A filter press is a batch process requiring manual cake removal, filter cloth replacement, and more labor. Centrifuges produce slightly wetter cake than filter presses but offer much higher throughput and lower labor costs for large-volume applications."
-  },
-  {
-    question: "What industries use dewatering centrifuges?",
-    answer: "Dewatering centrifuges are used in municipal wastewater treatment (sludge thickening and dewatering), oilfield applications (crude oil tank bottom recovery, drilling mud dewatering), food processing (starch, rendering, olive oil), chemical manufacturing, mining (tailings dewatering), and paper/pulp industries."
-  },
-  {
-    question: "What is the minimum particle size a dewatering centrifuge can separate?",
-    answer: "Decanter centrifuges can separate particles down to below 100 microns continuously. For finer separation (2–100 microns), disc stack centrifuges operating at 7,000+ Gs are more appropriate. The actual separation limit depends on particle density, fluid viscosity, and centrifuge G-force."
-  },
-  {
-    question: "Can Dolphin Centrifuge supply dewatering centrifuges for rental?",
-    answer: 'Yes. Dolphin Centrifuge supplies reconditioned dewatering centrifuges for both purchase and rental. Rental units are available for short-term projects, pilot testing, and emergency backup. Contact <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold">sales@dolphincentrifuge.com</a> to discuss your requirements.'
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -35,20 +10,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/dewatering-centrifuge/",
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
   { id: 'operation', label: 'Operation' },
@@ -276,9 +238,7 @@ const relatedProducts = [
   <p class="text-sm text-text-muted italic">By Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
 
   <!-- FAQ -->
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA -->
+<!-- Bottom CTA -->
   <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center my-8 not-prose">
     <h2 class="text-2xl md:text-3xl font-bold mb-4 font-heading">Need a Dewatering Centrifuge?</h2>
     <p class="text-gray-200 mb-6 max-w-2xl mx-auto">Dolphin Centrifuge supplies reconditioned decanter centrifuges for purchase and rental. 40+ years of industrial dewatering expertise. Warren, Michigan.</p>

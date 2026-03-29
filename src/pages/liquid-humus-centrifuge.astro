@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Why is centrifugal separation important for liquid humus production?",
-    answer: "Raw humus extract contains undissolved organic solids, fine sediment, and colloidal particles that cause settling, cloudiness, and nozzle clogging in spray equipment. Centrifugal separation removes these contaminants mechanically — without chemicals or filtration aids — producing a clear, shelf-stable liquid fertilizer suitable for foliar spray, drip irrigation, and retail bottling."
-  },
-  {
-    question: "Can I test my humus material before purchasing a centrifuge system?",
-    answer: "Yes. Dolphin Centrifuge offers <a href='/industrial-centrifuge-sample-testing/'>sample testing</a> at our Warren, Michigan facility. Send 5–10 gallons of your humus extract and we will process it through lab-scale centrifuge equipment to determine optimal G-force, flow rate, expected clarity, and whether single-stage or two-stage separation is required. Results include a detailed report and system recommendation."
-  },
-  {
-    question: "What equipment is needed for a complete liquid humus production line?",
-    answer: "A full production system typically requires two centrifuge stages: a decanter centrifuge (such as a stainless steel NX-314) for primary bulk solids removal from the raw extract, followed by a self-cleaning disc stack centrifuge for final polishing to remove particles down to 1 micron. The two-stage approach produces the cleanest product for premium retail and fertigation markets."
-  },
-  {
-    question: "Why is a disc stack polishing step needed after the decanter?",
-    answer: "The decanter removes bulk solids and coarse organic matter but cannot capture fine colloidal particles below approximately 25 microns. A disc stack centrifuge operating at up to 12,000 Gs removes particles down to 1 micron — essential for foliar spray applications (prevents nozzle clogging), drip irrigation (prevents emitter fouling), and retail products (ensures visual clarity on the shelf)."
-  },
-  {
-    question: "What flow rates are available for liquid humus centrifuge systems?",
-    answer: "Dolphin Centrifuge offers disc stack polishing systems at 15, 25, and 40 GPM for the clarification stage, plus a 30 GPM stainless steel decanter for primary separation. Higher-capacity systems are available by contacting our engineering team. System sizing depends on your production volume, extract solids content, and desired throughput."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -44,20 +19,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/liquid-humus-centrifuge/",
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
   { id: 'how-liquid-humus-is-made', label: 'How Liquid Humus Is Made' },
@@ -292,10 +254,7 @@ const relatedProducts = [
     <a href="/decanter-centrifuge-applications/">Decanter Applications</a> |
     <a href="/algae-centrifuge/">Algae Harvesting Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA bar -->
+<!-- Bottom CTA bar -->
   <div class="not-prose bg-navy rounded-xl p-6 md:p-8 mt-10 text-white">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>

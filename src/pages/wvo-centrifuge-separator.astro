@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is the best method for purifying waste vegetable oil commercially?",
-    answer: "A self-cleaning disc stack centrifuge is the most efficient commercial method for WVO purification. Operating at up to 8,000 Gs, it performs continuous 3-phase separation — removing water, solids, and sludge simultaneously in a single pass. Unlike gravity settling (which takes hours) or filters (which clog rapidly), a centrifuge processes WVO in seconds with no consumable media."
-  },
-  {
-    question: "Can a centrifuge break WVO emulsions and rag layers?",
-    answer: "Yes. At 8,000 Gs, a disc stack centrifuge mechanically breaks loosely bound oil-water emulsions. For tightly bound emulsions (common in grease trap waste), chemical pretreatment with citric acid or demulsifiers destabilizes the emulsion before centrifuging. This combination effectively breaks the rag layer and recovers oil that gravity settling cannot separate."
-  },
-  {
-    question: "What capacity WVO centrifuge systems are available?",
-    answer: "Dolphin Centrifuge offers 10 GPM systems (up to 600 gallons/hour) for small to mid-size WVO processors, and 25 GPM systems (up to 1,500 gallons/hour) for high-volume operations. The larger system is typically paired with a decanter centrifuge for pre-stage de-sludging of heavy solids. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your throughput requirements."
-  },
-  {
-    question: "What can purified WVO be used for?",
-    answer: "Purified waste vegetable oil has multiple valuable end markets: biodiesel feedstock (the largest market), straight vegetable oil diesel fuel for modified engines, industrial lubricant base stock, heating fuel, soap and cosmetics manufacturing, and animal feed ingredient. Feedstock quality directly impacts the value and yield of these downstream products."
-  },
-  {
-    question: "What processing temperature is required for WVO centrifuge separation?",
-    answer: "The ideal WVO processing temperature is around 180°F (82°C). At this temperature, the oil viscosity is sufficiently low for the centrifuge to achieve high separation efficiency. A heat exchanger or inline heater is installed upstream of the centrifuge to bring the oil to operating temperature. Processing below 140°F results in significantly reduced throughput and separation quality due to higher viscosity."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -42,19 +17,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -65,7 +27,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/wvo-centrifuge-separator/",
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
@@ -629,10 +591,7 @@ const relatedProducts = [
     <a href="/picking-the-right-industrial-centrifuge/">Picking the Right Centrifuge</a> |
     <a href="/alfa-laval-centrifuge-selection-guide/">Centrifuge Selection Guide</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="bg-navy rounded-xl p-6 md:p-8 text-white mt-10 not-prose">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>

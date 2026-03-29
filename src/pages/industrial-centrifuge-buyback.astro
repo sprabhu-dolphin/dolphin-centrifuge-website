@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What brands of centrifuge does Dolphin Centrifuge buy?",
-    answer: "Dolphin Centrifuge purchases used centrifuges of all brands including Alfa Laval, Westfalia, Sharples, Bird, GEA, Flottweg, Pieralisi, and others. We buy disc stack centrifuges, decanter centrifuges, basket centrifuges, and scroll centrifuges in any condition — working, non-working, complete, or for parts."
-  },
-  {
-    question: "How do I get an offer for my used centrifuge?",
-    answer: "Send photos of the machine, the model number (found on the nameplate), and basic information about the condition to sales@dolphincentrifuge.com or call (248) 522-2573. We typically respond with a preliminary offer within 1–2 business days. For larger lots or estate sales, we can arrange an on-site inspection."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer pickup or handle removal?",
-    answer: "Yes. For purchased centrifuges, Dolphin Centrifuge can arrange freight pickup from your facility. We handle all logistics including rigging and trucking. This is especially convenient for facilities decommissioning equipment or clearing warehouse space."
-  },
-  {
-    question: "What condition does my centrifuge need to be in to sell it?",
-    answer: "We buy centrifuges in any condition — operational, non-operational, incomplete, or for parts. A machine that does not run can still have significant value in its bowl, discs, frame, drive components, or control panel. Send us photos and we will evaluate it."
-  },
-  {
-    question: "Can I trade in my old centrifuge toward a new system purchase?",
-    answer: "Yes. Dolphin Centrifuge offers a trade-in program where the agreed value of your existing centrifuge is credited directly against a new system purchase. We handle removal and shipping of the old unit. The trade-in program can also be combined with our rental program — rent a centrifuge while your new system is being built, then trade in the old one at delivery."
-  }
-];
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -39,19 +14,6 @@ const serviceJsonLd = {
   },
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/industrial-centrifuge-buyback/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/industrial-centrifuge-buyback/"
 };
 
-const jsonLd = [serviceJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [serviceJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'buyback', label: 'Buyback Program' },
@@ -230,7 +192,4 @@ const relatedProducts = [
   <p>
     If you are not ready to part with your centrifuge but it is sitting idle, consider our <a href="/disc-stack-centrifuge-rental/">centrifuge rental program</a> as an alternative revenue source, or contact us about our <a href="/industrial-disc-centrifuge-repair/">repair services</a> to get it back in operation.
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

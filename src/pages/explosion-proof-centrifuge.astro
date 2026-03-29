@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is an explosion-proof centrifuge?",
-    answer: "An explosion-proof centrifuge is a specially designed and manufactured industrial centrifuge for operating in hazardous locations. The possibility of the presence of explosive gases or particles designates specific environments as unsafe. A centrifuge that can safely process under such conditions is classified as explosion-proof. These centrifuges feature certified electrical enclosures, sparkless drive mechanisms, and specialized sensors and wiring to prevent ignition of flammable materials."
-  },
-  {
-    question: "What is the difference between Class 1 Div 1 and Class 1 Div 2 centrifuges?",
-    answer: "Class 1 Division 1 areas are locations where explosion or fire hazards exist due to the continuous presence of flammable gases, combustible liquid-produced vapors, combustible dust, or ignitable fibers. Class 1 Division 2 areas are locations where volatile flammable liquids or flammable gases exist but are generally confined within closed containers. Class 1 Div 1 centrifuges require more stringent modifications including cast metal housings and fully sealed enclosures, while Class 1 Div 2 centrifuges may use nitrogen-purged enclosures."
-  },
-  {
-    question: "What electrical modifications are needed for a hazardous area centrifuge?",
-    answer: "Hazardous area centrifuges require several electrical modifications: upgraded enclosures with inert gas purging or cast metal containment housings, rigid conduit routing with specialized fittings and sealed glands for both sensor and power wiring, and certified field instruments including temperature, pressure, level, and flow sensors rated for the applicable classification. Solenoid valves must also be certified for hazardous area use."
-  },
-  {
-    question: "How are centrifuge drives modified for explosion-proof applications?",
-    answer: "Two primary mechanical modifications address spark risk in centrifuge drives. First, standard steel friction clutch shoes can be replaced with brass or other non-ferrous metals to prevent sparking during contact. Second, and preferred, the friction clutch can be eliminated entirely through direct coupling using a coupling disc bolted to the horizontal shaft drum. Direct coupling requires a power inverter (VFD) to allow the motor to ramp up to operating speed over a defined time window without drawing excessive current."
-  },
-  {
-    question: "What hazardous area certifications are available for industrial centrifuges?",
-    answer: "Industrial centrifuges can be certified under three primary classification systems: NEC/CEC (North America) with Class and Division designations, ATEX (European Union) with Zone designations for explosive atmospheres, and IECEx (International) maintained by the International Electrotechnical Commission. Dolphin Centrifuge provides centrifuge systems certified to all three standards depending on the installation region and requirements."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -49,19 +26,6 @@ const productJsonLd = {
   "image": "https://dolphincentrifuge.com/images/explosion-proof-centrifuge/Alfa-Laval-Explosion-Proof-Centrifuge-600.webp"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -77,7 +41,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
@@ -585,20 +549,6 @@ const relatedProducts = [
   <!-- ══ FAQ ══ -->
   <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
     <h2>Frequently Asked Questions</h2>
-
-    <div class="space-y-4">
-      {faqItems.map((item) => (
-        <details class="border-l-4 border-gold/40 rounded-lg p-4 group">
-          <summary class="cursor-pointer font-semibold text-navy flex items-center justify-between">
-            <span>{item.question}</span>
-            <span class="group-open:rotate-180 transition-transform text-gold">&#9660;</span>
-          </summary>
-          <div class="mt-3 leading-relaxed">
-            <p>{item.answer}</p>
-          </div>
-        </details>
-      ))}
-    </div>
   </div>
 
   <!-- Sample Testing CTA -->

@@ -1,39 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What do Dolphin Centrifuge customers say about their support experience?",
-    answer: "Customers consistently note Dolphin Centrifuge's rapid response time, deep technical knowledge, and long-term relationship focus. Multiple customers report relationships spanning 15+ years, with engineers available after hours for urgent troubleshooting. Technical support is included at no charge for all centrifuges supplied."
-  },
-  {
-    question: "Does Dolphin Centrifuge provide references for specific applications?",
-    answer: "Yes. Dolphin Centrifuge can provide customer references for most centrifuge applications including waste oil recovery, food processing, pharmaceutical, metalworking coolant, wastewater treatment, and marine applications. Contact us at (248) 522-2573 or sales@dolphincentrifuge.com to request application-specific references."
-  },
-  {
-    question: "How long has Dolphin Centrifuge been in business?",
-    answer: "Dolphin Centrifuge was founded in 1981 — over 40 years serving industrial customers with disc stack and decanter centrifuge systems, parts, and service. The company began as an Alfa Laval aftermarket parts supplier and grew into a full-service centrifuge systems manufacturer based in Warren, Michigan."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer sample testing before purchase?",
-    answer: "Yes. Dolphin Centrifuge operates a fully equipped sample testing lab in Warren, Michigan. Send us a fluid sample and we run it through the centrifuge, document before-and-after results with photos, and provide a detailed report with recommended equipment sizing. This service allows customers to verify separation performance before committing to a purchase."
-  },
-  {
-    question: "What warranty does Dolphin Centrifuge provide on its centrifuge systems?",
-    answer: "All Dolphin Centrifuge centrifuge systems include a mechanical warranty covering workmanship and components. Beyond the warranty period, Dolphin provides free lifetime technical support at no charge — covering operational questions, troubleshooting assistance, and parts identification for as long as the equipment is in service."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -162,7 +129,7 @@ const jsonLd = {
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
     { label: "DMPX-070 Disc Centrifuge", href: "/centrifuges/dmpx-070/" }
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
 
   <article class="prose-dolphin max-w-none">
@@ -294,20 +261,7 @@ const jsonLd = {
         </div>
       </div>
     </div>
-
-    <!-- FAQ -->
-    <h2 id="faq">Frequently Asked Questions</h2>
-    <div class="space-y-3 not-prose">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <!-- Bottom CTA Bar -->
     <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">

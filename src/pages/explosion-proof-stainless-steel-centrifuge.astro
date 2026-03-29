@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What makes a centrifuge explosion-proof?",
-    answer: "An explosion-proof centrifuge incorporates several safety features including direct drive transmission (eliminating the <a href='/disc-centrifuge-friction-clutch/'>friction clutch</a> that can cause sparks), nitrogen blanketing to purge flammable oxygen from the centrifuge interior, and specially rated sensors and components certified for hazardous area classifications such as UL Class 1 Div 2. These modifications ensure the centrifuge can operate safely in environments where flammable gases, vapors, or liquids may be present."
-  },
-  {
-    question: "Why does an explosion-proof centrifuge need stainless steel construction?",
-    answer: "Stainless steel construction serves two critical purposes in explosion-proof centrifuges. First, it provides corrosion resistance for processing corrosive chemicals and solvents commonly found in refineries, offshore platforms, and chemical plants. Second, it meets <a href='/food-grade-centrifuge/'>food-grade requirements</a> for applications like extraction and pharmaceutical processing where the processed product is intended for human consumption. The 316L stainless steel (duplex) bowl construction resists degradation from harsh chemicals and eliminates the risk of product contamination."
-  },
-  {
-    question: "What is the explosion-proof classification of these centrifuges?",
-    answer: "These centrifuges are rated UL Class 1 Div 2 Groups C&D per US standards, and IEC Zone 2 IIB T4 per international standards. This classification certifies the centrifuge for use in locations where flammable gases or vapors may be present under abnormal conditions. The classification covers typical hazardous environments found in petroleum refineries, offshore oil and gas platforms, chemical processing facilities, and solvent-based extraction operations."
-  },
-  {
-    question: "What is nitrogen blanketing in an explosion-proof centrifuge?",
-    answer: "Nitrogen blanketing involves introducing inert nitrogen gas into the centrifuge to purge out ambient air containing oxygen. Since combustion requires oxygen, displacing the oxygen within the centrifuge eliminates the possibility of an explosion. This safety feature is used in addition to the direct drive transmission to provide maximum protection in hazardous environments. The centrifuge is modified to allow continuous introduction of nitrogen, maintaining an inert atmosphere throughout the separation process."
-  },
-  {
-    question: "What capacity is available for explosion-proof stainless steel centrifuges?",
-    answer: "Explosion-proof stainless steel disc stack centrifuges are available in a wide range of capacities. The Alfa Laval CBPX-213-XP model handles up to 100 GPM and is rated UL Class 1 Div 2 / IEC Zone 2. Dolphin Centrifuge can supply systems ranging from small-volume laboratory separators up to large-capacity industrial units for high-throughput refinery and chemical processing applications. Contact Dolphin Centrifuge at (248) 522-2573 for a capacity recommendation specific to your application."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -60,19 +35,6 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -88,7 +50,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -478,9 +440,7 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ Section -->
-  <FAQ items={faqItems} heading="Explosion-Proof Stainless Steel Centrifuge FAQ" />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="w-full bg-navy rounded-xl px-6 py-8 md:py-10 text-center mt-10">
     <p class="text-white text-xl font-bold mb-2">Ready for an Explosion-Proof Stainless Steel Centrifuge?</p>
     <p class="text-white/75 text-sm mb-6">Dolphin Centrifuge supplies UL Class 1 Div 2 and ATEX-certified stainless steel centrifuges for refineries, offshore platforms, and chemical processing. Warren, MI.</p>

@@ -1,42 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What types of applications can a disc stack centrifuge handle?",
-    answer: "Disc stack centrifuges handle a wide range of applications including oil purification (diesel, lube oil, waste oil, crude oil), food and beverage processing (beer, wine, juice, dairy), chemical processing, wastewater treatment, biodiesel production, algae harvesting, metalworking fluid recycling, and many more. Any process requiring separation of liquids from solids or liquid-liquid separation is a candidate."
-  },
-  {
-    question: "How do I know which centrifuge model is right for my application?",
-    answer: "The right centrifuge depends on your process fluid type, viscosity, solids content, flow rate requirements, and whether you need 2-phase or 3-phase separation. Dolphin Centrifuge engineers evaluate your specific application and recommend the optimal model. Our sample testing program lets you confirm separation performance with your actual process fluid before purchase."
-  },
-  {
-    question: "What is the difference between a self-cleaning and manual-clean centrifuge?",
-    answer: "A self-cleaning centrifuge automatically ejects accumulated solids during operation without stopping the machine, enabling continuous 24/7 processing. A manual-clean centrifuge requires periodic shutdown to manually remove separated solids from the bowl. Self-cleaning models are preferred for high-solids applications; manual-clean models work well for low-solids applications or where continuous operation is not required."
-  },
-  {
-    question: "Can Dolphin Centrifuge test my process fluid before I buy a centrifuge?",
-    answer: "Yes. Dolphin Centrifuge offers a sample testing program where we process your actual fluid through our lab centrifuge and provide detailed results including separation efficiency, throughput rates, and recommended centrifuge sizing. This data-driven approach ensures you select the right system for your application. Contact us to learn more about our testing services."
-  },
-  {
-    question: "What industries use disc stack centrifuges?",
-    answer: "Disc stack centrifuges are used across food and beverage, oil and gas, biofuel, pharmaceutical, chemical, wastewater treatment, metalworking, mining, marine, and power generation industries. Any process requiring continuous separation of liquids from solids or liquid-liquid separation at high throughput is a candidate for disc stack centrifuge technology."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -70,7 +34,7 @@ const productJsonLd = {
   },
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -2389,22 +2353,6 @@ const relatedProducts = [
   {/* ═══════════════════════════════════════════════
       FAQ
   ════════════════════════════════════════════════ */}
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-4 my-6">
-    {faqItems.map((item) => (
-      <details class="border-l-4 border-gold/40 rounded-lg bg-white">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gray-50 rounded-lg list-none flex justify-between items-center">
-          {item.question}
-          <span class="text-gold font-bold text-lg ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 pt-2 text-gray-800 text-sm leading-relaxed">
-          {item.answer}
-        </div>
-      </details>
-    ))}
-  </div>
-
   {/* ═══════════════════════════════════════════════
       Summary
   ════════════════════════════════════════════════ */}

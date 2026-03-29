@@ -1,32 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
 const title = "Food Grade Centrifuge | Mint Oil | Dolphin";
 const description = "Food grade 316L stainless steel centrifuges for beverage clarification and edible oil purification. Continuous separation at 10,000 Gs, 1-micron efficiency.";
-
-const faqItems = [
-  {
-    question: "What makes a centrifuge food grade?",
-    answer: "A food grade centrifuge has all fluid-contact surfaces constructed from <strong>316L stainless steel</strong>, with polished interior surfaces to minimize product adhesion and facilitate cleaning. Food-grade seals and gaskets are used throughout. These materials meet food safety standards and resist the organic acids found in fruit juices, wine, dairy, and other food products."
-  },
-  {
-    question: "What food processing applications use a centrifuge?",
-    answer: "Food grade centrifuges are used for juice clarification (apple, citrus, fruit), wine and beer clarification, edible oil purification, clarified butter (ghee) production, fish oil polishing, essential oil separation (mint, botanical), horseradish processing, potato starch recovery, and flavor extraction. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your application for a recommendation."
-  },
-  {
-    question: "How fine can a food grade centrifuge separate?",
-    answer: "Dolphin Centrifuge food grade disc stack separators are highly efficient and can separate particles as small as 0.1 microns at up to 10,000 Gs of centrifugal force. A comparable filter to separate such small particles is not feasible for large fluid volumes."
-  },
-  {
-    question: "Can I test my product in a food grade centrifuge before purchasing?",
-    answer: "Yes. Dolphin Centrifuge offers pilot testing at our facility or at your production site. We process your actual product through a food grade disc stack centrifuge under controlled conditions and provide a detailed report with results and system recommendations. <a href='/industrial-centrifuge-sample-testing/'>Learn more about our sample testing program</a>."
-  },
-  {
-    question: "What is the difference between a manual-clean and self-cleaning food grade centrifuge?",
-    answer: "A manual-clean (solid bowl) centrifuge must be stopped and disassembled to remove accumulated solids. A self-cleaning disc-stack centrifuge automatically ejects separated solids at timed intervals without stopping. For continuous food production lines with moderate solids loading — such as mint oil or edible oil purification — the self-cleaning type is preferred for uninterrupted operation. For very low-solids applications like final beverage polishing, a manual-clean model may suffice."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -67,20 +42,7 @@ const articleJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: "overview", label: "Operation" },
@@ -143,7 +105,6 @@ const relatedProducts = [
       </p>
     </div>
   </div>
-
 
   <!-- Applications -->
   <h2 id="applications">Applications</h2>
@@ -397,10 +358,7 @@ const relatedProducts = [
     <a href="/beer-wine-centrifuge/">Beer &amp; Wine Centrifuge</a> |
     <a href="/oil-centrifuge/">Oil Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="not-prose w-full bg-navy py-10 px-6 mt-10 rounded-xl text-center text-white">
     <h2 class="text-2xl md:text-3xl font-bold mb-3">Ready to Source a Food Grade Centrifuge?</h2>
     <p class="text-blue-100 mb-6 max-w-2xl mx-auto">Dolphin Centrifuge has over 40 years of food-grade centrifuge experience. Contact us today for pricing, specifications, or to arrange a sample test.</p>

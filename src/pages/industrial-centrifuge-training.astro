@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What topics are covered in Dolphin Centrifuge operator training?",
-    answer: "Dolphin Centrifuge training programs cover centrifuge operating principles, startup and shutdown procedures, sludge discharge timing adjustment, bowl disassembly and cleaning (for manual-clean machines), bearing and lubrication maintenance, vibration monitoring, troubleshooting common operational problems, and safety procedures for high-speed rotating equipment."
-  },
-  {
-    question: "Is centrifuge training available on-site at my facility?",
-    answer: "Yes. Dolphin Centrifuge provides on-site training at your facility, training at our Warren, Michigan facility, and virtual/remote training options. On-site training is particularly valuable for new centrifuge installations — we can train your operators during commissioning so they are fully capable from day one."
-  },
-  {
-    question: "What centrifuge brands and models does Dolphin Centrifuge training cover?",
-    answer: "Dolphin Centrifuge training covers all Alfa Laval disc stack centrifuges (MAB, MOPX, MAPX, WSPX, WHPX series) and Alfa Laval decanter centrifuges (NX-314, NX-418, G2-40). We also provide training for Westfalia, Sharples, and other brands on a case-by-case basis. Contact us to discuss your specific equipment."
-  },
-  {
-    question: "Is centrifuge operator training included with a new system purchase?",
-    answer: "Yes. Dolphin Centrifuge includes in-house operator training with every new centrifuge system purchase. Customer operators come to our Warren, Michigan facility during final testing to receive hands-on training on their specific system, including startup procedures, control panel operation, bowl disassembly, and preventive maintenance routines."
-  },
-  {
-    question: "How do I schedule centrifuge training for my team?",
-    answer: "Contact Dolphin Centrifuge by phone at (248) 522-2573 or by email at sales@dolphincentrifuge.com to schedule a training session. Provide the centrifuge model(s) your team operates, the number of attendees, and your preferred format (on-site, in-house, or virtual). We will confirm availability and prepare a customized training program for your equipment and application."
-  }
-];
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -39,19 +14,6 @@ const serviceJsonLd = {
   },
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/industrial-centrifuge-training/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/industrial-centrifuge-training/"
 };
 
-const jsonLd = [serviceJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [serviceJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'on-site-training', label: 'On-Site Startup Training' },
@@ -303,7 +265,4 @@ const relatedProducts = [
   <p>
     To schedule training or request a customized training program, contact us at <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> or call <a href="tel:+12485222573">(248) 522-2573</a>.
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

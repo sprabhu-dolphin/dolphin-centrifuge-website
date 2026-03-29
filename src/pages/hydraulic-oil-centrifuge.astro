@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What contaminants does a hydraulic oil centrifuge remove?",
-    answer: "A disc stack centrifuge removes water, metal fines, sludge, and solid particles down to 0.5 microns from hydraulic oil in a single continuous pass. Operating at up to 7,000 Gs of centrifugal force, it separates both liquid and solid contaminants simultaneously — something filters cannot do."
-  },
-  {
-    question: "How much longer will my hydraulic oil last with a centrifuge?",
-    answer: "Continuous centrifuge purification typically extends hydraulic oil life by 5 to 10 times compared to filter-only systems. By constantly removing water, metal fines, and sludge in a kidney-loop configuration, the centrifuge maintains oil cleanliness near new-oil levels, dramatically reducing oil purchases and disposal costs."
-  },
-  {
-    question: "Can I test my hydraulic oil in your centrifuge before buying a system?",
-    answer: "Yes. Dolphin Centrifuge offers lab-scale centrifuge testing on your actual hydraulic oil. Send us a sample and we process it under controlled conditions, providing a detailed report with before-and-after particle counts, water content, and a recommended system configuration. <a href='/industrial-centrifuge-sample-testing/'>Learn more about sample testing</a>."
-  },
-  {
-    question: "What industries use hydraulic oil centrifuges?",
-    answer: "Hydraulic oil centrifuges are widely used in aluminum and copper extrusion, stamping, forging, injection molding, crane operations, and recycling equipment. Any operation with hydraulic reservoirs subject to water ingress, metal particle generation, or thermal oil degradation benefits from continuous centrifugal purification."
-  },
-  {
-    question: "How is a hydraulic oil centrifuge installed in an existing hydraulic system?",
-    answer: "A hydraulic oil centrifuge is installed in a kidney-loop configuration — a small side-stream loop that continuously draws oil from the reservoir, cleans it, and returns it. The centrifuge does not interrupt main system operation and is typically sized to turn over the full reservoir volume several times per shift. Installation requires a feed pump, return line, and electrical connection only."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -40,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -72,7 +34,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -367,10 +329,7 @@ const relatedProducts = [
   <p>
     Get to know Dolphin Centrifuge through our <a href="/about-dolphin-centrifuge/">About Us</a> page. See what our <a href="/dolphin-centrifuge-customer-testimonials/">customers have to say about us</a>.
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="not-prose bg-navy rounded-xl p-8 text-white text-center mt-8">
     <h2 class="text-2xl font-bold mb-2">Extend Your Hydraulic Oil Life — Get a Quote</h2>
     <p class="text-blue-100 mb-6 max-w-2xl mx-auto">

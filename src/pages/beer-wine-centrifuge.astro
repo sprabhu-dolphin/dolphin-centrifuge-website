@@ -1,32 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
 const title = "Beer, Wine & Beverage Centrifuge | Dolphin Centrifuge";
 const description = "Stainless steel disc centrifuges for beer clarification, wine polishing, and cider processing. Recover 5–10% more product from tank bottoms. Dolphin Centrifuge.";
-
-const faqItems = [
-  {
-    question: "How much beer can a centrifuge recover from fermentation tank bottoms?",
-    answer: "Tank bottom slurry typically contains 80% or more recoverable beer. A disc stack centrifuge processes this slurry and recovers 5–10% more sellable beer per batch — bright, quality product that would otherwise be lost to the drain or sold as animal feed. For a mid-size brewery, this recovery alone can pay for the centrifuge system."
-  },
-  {
-    question: "Can a centrifuge replace diatomaceous earth (DE) filtration?",
-    answer: "Yes. A disc stack centrifuge is a purely mechanical separator that produces bright beer without DE powder, filter sheets, or any consumable media. This eliminates DE purchase costs, disposal costs (DE is increasingly classified as hazardous waste), and the labor of filter setup and media changes. Many breweries use the centrifuge as their sole clarification step."
-  },
-  {
-    question: "What capacity beer and wine centrifuges are available?",
-    answer: "Dolphin Centrifuge beverage systems range from 26 GPM for mid-size wine operations to 52 GPM for large-format wine and 40 GPM for high-capacity beer clarification. All systems feature 316 stainless steel product-contact surfaces and food-grade seals. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your production volume."
-  },
-  {
-    question: "Can a beverage centrifuge process cider and fruit juice?",
-    answer: "Yes. The same disc stack centrifuge technology handles hard cider, mead, kombucha, and fruit juice clarification. It removes pulp, pectin, yeast, and suspended solids for crystal-clear product without filtration aids. The centrifuge adapts to variable solids loading across different fruit varieties and seasons without performance degradation."
-  },
-  {
-    question: "How does a wine centrifuge handle must clarification?",
-    answer: "Freshly pressed grape must contains grape skin fragments, pulp, seeds, and pectins that must be removed before fermentation. A disc stack centrifuge clarifies must in minutes rather than the 12–24 hours required for cold settling. This speed is critical during crush season when tank space is at a premium. The centrifuge also recovers 60–75% of recoverable wine from lees slurry after fermentation."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -67,20 +42,7 @@ const articleJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -337,10 +299,7 @@ const relatedProducts = [
     <a href="/picking-the-right-industrial-centrifuge/">How to Pick the Right Centrifuge</a> |
     <a href="/disc-stack-centrifuge-efficiency/">Disc Stack Centrifuge Efficiency</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="not-prose w-full bg-navy py-10 px-6 mt-10 rounded-xl text-center text-white">
     <h2 class="text-2xl md:text-3xl font-bold mb-3">Ready to Clarify More Beer or Wine?</h2>
     <p class="text-blue-100 mb-6 max-w-2xl mx-auto">Dolphin Centrifuge supplies food-grade beverage centrifuge systems sized for your production volume. Contact us for pricing or arrange a sample test at our Warren, MI facility.</p>

@@ -4,39 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Product & Brand Information — Equipment Details";
 const description = "Alfa Laval centrifuge product brand guide: disc stack models, parts reference, accessories, and specifications. Expert resources from Dolphin Centrifuge.";
 
-const faqItems = [
-  {
-    question: "What Alfa Laval centrifuge models does Dolphin Centrifuge supply?",
-    answer: "Dolphin Centrifuge supplies and services the full range of Alfa Laval disc stack centrifuges including MAB, MOPX, WHPX, WSPX, LAPX, BTPX, and BRPX series models, as well as NX-314, NX-418, G2-40, and CHNX-418 decanter centrifuges. New Dolphin-branded DMPX and DMB model packages are built around remanufactured Alfa Laval cores."
-  },
-  {
-    question: "Where can I find Alfa Laval centrifuge replacement parts?",
-    answer: "Dolphin Centrifuge maintains an OEM-equivalent parts inventory for Alfa Laval disc stack and decanter centrifuges. Parts include bowl assemblies, disc stacks, spindles, bearings, seals, paring discs, gravity discs, and operating slides. Contact us at (248) 522-2573 or visit our disc stack centrifuge parts page for a complete parts reference."
-  },
-  {
-    question: "What are the main Alfa Laval disc centrifuge accessories?",
-    answer: "Key accessories for Alfa Laval disc centrifuge systems include pre-heating systems (electric, steam, and gas-fired), feed pumps, back-pressure valves, flow meters, temperature controllers, and automated PLC control panels. Dolphin Centrifuge designs and supplies these accessories as integrated components of complete centrifuge skid systems."
-  },
-  {
-    question: "What is the difference between Alfa Laval MOPX and WHPX centrifuges?",
-    answer: "The MOPX series is a mid-range self-cleaning disc stack centrifuge designed primarily for oil/water separation and fuel purification. The WHPX series is a larger, higher-capacity model with a different bowl geometry suited for heavy fuel oil purification and larger flow rates. Dolphin Centrifuge stocks both series and can help select the right model based on your flow rate and application."
-  },
-  {
-    question: "Can Dolphin Centrifuge modify an Alfa Laval centrifuge for a non-standard application?",
-    answer: "Yes. One of Dolphin Centrifuge's specialties is re-purposing and modifying Alfa Laval disc stack centrifuges for non-standard applications that even the OEM may rate as difficult. Modifications include bowl metallurgy changes, seal material upgrades, control system integration, and skid design for unique process requirements. Contact us to discuss your application."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -135,7 +102,7 @@ const toc = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
@@ -212,17 +179,7 @@ const toc = [
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
-    <div class="not-prose space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <!-- Bottom CTA Bar -->
     <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">

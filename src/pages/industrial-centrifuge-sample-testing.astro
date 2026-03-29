@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How much fluid sample do I need to send for centrifuge testing?",
-    answer: "Typically 1–5 gallons of your process fluid is sufficient for bench testing and analysis. For complex three-phase separations or pilot-scale testing, larger volumes may be needed. Contact Dolphin Centrifuge to discuss your specific application before shipping samples."
-  },
-  {
-    question: "What does the centrifuge sample test report include?",
-    answer: "The sample test report includes before-and-after analysis of your fluid (particle size, solids content, water content), the separation conditions used (G-force, temperature, flow rate), results achieved, and our recommendation for centrifuge model and system configuration for your full-scale application."
-  },
-  {
-    question: "What does centrifuge sample testing cost?",
-    answer: "Dolphin Centrifuge provides a preliminary assessment and recommendation at no charge for qualified applications. Detailed laboratory testing with written reports may involve a nominal testing fee depending on the complexity of the separation. Contact us to discuss your application and we will outline what is involved."
-  },
-  {
-    question: "How long does centrifuge sample testing take?",
-    answer: "Turnaround time depends on the fluid type and complexity of the separation. Contact Dolphin Centrifuge to discuss your timeline and we will provide an estimated schedule for your specific sample."
-  },
-  {
-    question: "What happens after the sample test — can I rent or buy based on the results?",
-    answer: "Yes. After receiving your test report, you can move forward with a full centrifuge system purchase using the recommended Dolphin model, or start with a disc stack centrifuge rental to validate performance at full scale in your facility. The test report includes specific model and system configuration recommendations to make that next step straightforward."
-  }
-];
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -57,20 +32,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/industrial-centrifuge-sample-testing/"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [serviceJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [serviceJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Sample Testing Overview' },
@@ -247,7 +209,4 @@ const relatedProducts = [
     <li><strong>Rent first:</strong> Start with a <a href="/disc-stack-centrifuge-rental/">centrifuge rental</a> to validate performance at full scale in your facility</li>
     <li><strong>Keep the data:</strong> The test report is yours. Use it for internal justification, budgeting, or comparison</li>
   </ul>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

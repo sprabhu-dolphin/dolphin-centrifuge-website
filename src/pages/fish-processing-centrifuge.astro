@@ -4,29 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Fish Oil Processing Centrifuge | Fish Meal | Dolphin";
 const description = "Industrial centrifuges for fish oil, fish meal, and surimi production. Dolphin Centrifuge supplies tricanter, decanter, and disc-stack systems. Warren, MI.";
 
-const faqItems = [
-  {
-    question: "What is a fish oil processing centrifuge?",
-    answer: "A fish oil processing centrifuge is an industrial centrifuge that separates fish oil and fish meal from process water (stick water). It uses high centrifugal force to separate the three phases — fish oil, stick water, and protein — from inedible fish processing residue such as skin, guts, heads, bones, offal, and fins."
-  },
-  {
-    question: "What is a tricanter centrifuge used for in fish processing?",
-    answer: "A tricanter (three-phase decanter centrifuge) separates oil, water, and solids simultaneously. In fish processing, it processes the strained liquid phase to separate remaining fish meal from stick water and fish oil. However, it generates lower centrifugal force than a disc-stack centrifuge, which may limit separation efficiency."
-  },
-  {
-    question: "What is surimi and how is a centrifuge used in surimi production?",
-    answer: "Surimi is a refined white fish paste used in imitation seafood products like imitation lobster, crab meat, and fish balls. An Alfa Laval decanter centrifuge replaces the traditional screw press in surimi production, eliminating several washing steps and achieving recovery rates over 70% from feedstock — significantly higher than the 50% yield from traditional methods."
-  },
-  {
-    question: "What centrifuge models are used for fish meal processing?",
-    answer: "Common fish meal centrifuge models include the Alfa Laval FPNX 309 decanter (10 GPM capacity, 5 HP motor), Alfa Laval UVNX 314 tricanter (40 GPM capacity, 10 HP motor), and Alfa Laval NX 418 tricanter (80 GPM capacity, 20 HP motor). The NX 418 is ideal for processing up to 8 tons per hour of minced fish and water mix."
-  },
-  {
-    question: "What is hydrolyzed fish protein and how are centrifuges used to produce it?",
-    answer: "Hydrolyzed fish protein (FPH) is produced when enzymes break down fish processing byproducts into Fish Protein Hydrolysates. Alfa Laval decanter centrifuges dewater the reacted fish protein slurry at controlled temperatures, while a food-grade three-phase disc centrifuge separates fish oil before the enzyme reaction step."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -66,20 +43,7 @@ const articleJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: "fish-processing-centrifuge", label: "Fish Oil Processing Centrifuge" },
@@ -439,17 +403,6 @@ const relatedProducts = [
   <!-- FAQ Section -->
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
     <h2 class="text-2xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-5">
-      {faqItems.map(item => (
-        <details class="border border-gold/40 rounded-lg overflow-hidden group">
-          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer font-semibold text-navy hover:bg-navy/5 transition list-none">
-            {item.question}
-            <span class="text-gold font-bold text-xl shrink-0">+</span>
-          </summary>
-          <div class="px-5 pb-5 text-gray-700 leading-relaxed text-sm">{item.answer}</div>
-        </details>
-      ))}
-    </div>
   </div>
 
   <!-- Bottom CTA Bar -->

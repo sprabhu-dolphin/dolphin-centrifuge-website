@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What separations can the G2-40 decanter centrifuge handle?",
-    answer: "The G2-40 is a high-performance horizontal scroll decanter designed for demanding two-phase (solid-liquid) separation. It handles wastewater, crude oil tank bottom sludge, municipal sludge thickening, industrial sludge dewatering, paint sludge, pyrolysis sludge, and liquid humus fertilizer applications. With 3,150 G-Force and 160 GPM rated capacity, it is suited for high-solids processing."
-  },
-  {
-    question: "How does the G2-40 compare to the NX-314 and NX-418 decanters?",
-    answer: "The G2-40 is Alfa Laval's larger and higher-throughput decanter platform compared to the NX-314 and NX-418. With a 20 HP drive motor and 4,000 RPM bowl speed, the G2-40 delivers 160 GPM rated capacity for high-volume or high-solids applications. The NX-314 and NX-418 are well-suited for moderate-volume applications. Contact Dolphin Centrifuge to match the right model to your specific throughput and solids loading requirements."
-  },
-  {
-    question: "Does Dolphin Centrifuge sell new or remanufactured G2-40 decanters?",
-    answer: "Dolphin Centrifuge supplies both new and factory-rebuilt G2-40 decanter centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Contact us for current availability and pricing."
-  },
-  {
-    question: "What is the G2-40's gearbox ratio and why does it matter?",
-    answer: "The Alfa Laval G2-40 uses a 1:52 DD (Direct Drive) gearbox with a torque rating of 3.5 kN-M. This ratio enables the auger differential speed range of 1–140 RPM — much wider than the NX-314 and NX-418's 1:159 ratio. The wider differential speed range gives operators greater flexibility to optimize cake dryness and throughput across different feed slurries and solids loadings."
-  },
-  {
-    question: "How do I contact Dolphin Centrifuge about the G2-40 decanter?",
-    answer: "Contact Dolphin Centrifuge at (248) 522-2573 or email sales@dolphincentrifuge.com. Our engineering team can review your application requirements, recommend the right decanter model, and provide a quote for a new or reconditioned G2-40 unit. You can also submit a request through our contact page at /contact-for-alfa-laval-centrifuges/."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -63,20 +40,7 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'operation', label: 'Operation' },
@@ -250,17 +214,6 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ Section -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-4 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 rounded-xl p-5">
-        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
-        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
-      </details>
-    ))}
-  </div>
-
   <!-- Bottom CTA bar -->
   <div class="not-prose bg-navy rounded-xl p-8 text-center mt-12">
     <h2 class="text-2xl font-bold text-white mb-3">Alfa Laval G2-40 Decanter — High-Capacity Industrial Separation</h2>

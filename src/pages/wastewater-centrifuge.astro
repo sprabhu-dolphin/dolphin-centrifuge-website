@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is a wastewater centrifuge and how does it work?",
-    answer: "A wastewater centrifuge is a separation machine that utilizes centrifugal force of up to 3,100 Gs to separate sludge and contaminants from wastewater. The wastewater enters a rapidly rotating bowl. Heavy sludge particles are pushed to the bowl wall by centrifugal force, and an internal scroll auger continuously conveys the accumulated sludge toward the discharge ports. Clarified water exits from the opposite end of the bowl in a continuous process. This allows for high-volume, uninterrupted wastewater treatment without the need for filter media or batch processing."
-  },
-  {
-    question: "What types of wastewater centrifuges are available?",
-    answer: "Three main types of wastewater centrifuges are available: (1) Sludge dewatering and thickening decanters for high-sludge wastewater from municipal sewage, livestock farms, car washes, and oilfield drilling operations; (2) Clarifier disc-stack centrifuges for mining effluent and streams with fine silt and clay particles that require higher g-force for effective separation; and (3) Three-phase separators for industrial oily wastewater that contains both sludge and oil, requiring simultaneous liquid-liquid-solid separation."
-  },
-  {
-    question: "What capacity can a wastewater centrifuge handle?",
-    answer: "Wastewater centrifuge capacity depends on the model and sludge content of the stream. Decanter centrifuges range from 3 GPM up to 170 GPM on clean water, with reduced throughput at higher sludge concentrations. For example, the NX-418 handles 100 GPM at 5% sludge and 60 GPM at 10% sludge. Disc-stack clarifier centrifuges handle up to 100 GPM rated capacity, with 12 to 80 GPM at 5% sludge content depending on the model size."
-  },
-  {
-    question: "What are the benefits of using a centrifuge over belt presses or filter presses for wastewater treatment?",
-    answer: "Key benefits of wastewater centrifuges include: reduced transportation and disposal costs (up to 50% savings from dry sludge cake production), exceptional equipment durability and longevity (decades of service with stainless steel construction and tungsten carbide wear protection), low operating expenses (no filter media costs, only periodic bearing maintenance), fully automatic operation with minimal operator requirements via PLC and touchscreen controls, and a compact footprint relative to processing capacity compared to belt presses and filter presses."
-  },
-  {
-    question: "Can a wastewater centrifuge separate oil from water?",
-    answer: "Yes. A three-phase disc-stack centrifuge can separate oil, water, and sludge simultaneously in a single pass. For industrial oily wastewater containing both sludge and oil, a two-step system is often used: a decanter centrifuge first removes bulk sludge, followed by a self-cleaning three-phase disc-stack centrifuge to polish the water and remove oil. This makes the treated water safe for disposal, discharge, or reuse. Dolphin Centrifuge has supplied these multi-step systems for automotive, manufacturing, and food processing facilities."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -41,19 +16,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -74,7 +36,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'types-of-wastewater', label: 'Types of Wastewater' },
@@ -665,7 +627,4 @@ const relatedProducts = [
       <a href="tel:+12485222573" class="border border-white text-white px-8 py-3 rounded-lg hover:bg-white/10 transition-colors">(248) 522-2573</a>
     </div>
   </div>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

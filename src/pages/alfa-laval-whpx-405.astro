@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the Dolphin equivalent of the Alfa Laval WHPX 405?",
-    answer: "The Dolphin DMPX-014 centrifuge system is built around the Alfa Laval WHPX 405 (or equivalent MOPX 205) centrifuge bowl. The DMPX-014 is a complete system module including frame, PLC controls, feed pump, heaters, and piping, rated at 13–16 GPM on diesel fuel."
-  },
-  {
-    question: "What is the difference between the WHPX 405 and MOPX 205?",
-    answer: "The Alfa Laval WHPX 405 and MOPX 205 are equivalent centrifuge bowls of the same size class (0.32–0.34 gallon bowl capacity). The WHPX designation indicates a partial-discharge bowl design. Both use the same Dolphin DMPX-014 system module and have similar capacity ratings of 13–16 GPM on diesel at 13 cSt."
-  },
-  {
-    question: "What applications is the WHPX 405 / DMPX-014 best suited for?",
-    answer: "The WHPX 405 / DMPX-014 is suited for small to medium throughput applications including diesel fuel polishing (10–15 GPM), pyrolysis oil dewatering, waste oil recovery, lube oil purification, and hydraulic oil cleaning. Its compact size makes it ideal for space-constrained installations."
-  },
-  {
-    question: "What G-force does the Alfa Laval WHPX 405 generate?",
-    answer: "The Alfa Laval WHPX 405 operates at approximately 7,200 Gs of centrifugal force at rated bowl speed of 7,600 RPM. This high G-force enables separation of particles down to 0.5 microns and effective water removal from oil and fuel products."
-  },
-  {
-    question: "Can Dolphin Centrifuge repair or supply parts for the WHPX 405?",
-    answer: "Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts, complete bowl rebuilds, and remanufactured WHPX 405 and MOPX 205 centrifuges. Each rebuilt unit is tested to factory specifications before shipment. Contact us for parts availability and pricing."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -38,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -75,7 +39,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-405/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WHPX 405 Partial-Discharge Centrifuge' },

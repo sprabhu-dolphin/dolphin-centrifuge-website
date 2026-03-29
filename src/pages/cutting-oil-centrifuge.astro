@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How does a centrifuge extend cutting oil life?",
-    answer: "A disc stack centrifuge continuously removes metal fines, swarf, and tramp contaminants from cutting oil in a kidney-loop configuration. This prevents the progressive contamination buildup that degrades oil performance. Typical cutting oil life extension is 5 to 10 times compared to filter-only systems, dramatically reducing new oil purchases and disposal costs."
-  },
-  {
-    question: "What particle size can a cutting oil centrifuge remove?",
-    answer: "Disc stack centrifuges operating at up to 7,000 Gs separate metal particles down to 0.5 microns from cutting oil — far finer than conventional filters can achieve economically. The disc stack design creates thin oil layers between closely spaced conical discs, enabling capture of extremely fine metal fines that would pass through standard filtration."
-  },
-  {
-    question: "Can a centrifuge process draw oil and rolling oil?",
-    answer: "Yes. Disc stack centrifuges are widely used for draw oil purification in wire, rod, and tube drawing operations, and for rolling oil cleaning in both hot and cold rolling mills. The centrifuge handles the higher viscosities typical of draw oils (40–80 cSt) by adjusting flow rates for adequate residence time. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your oil viscosity for specific sizing."
-  },
-  {
-    question: "What size centrifuge do I need for cutting oil?",
-    answer: "Sizing depends on oil viscosity, sump volume, and contamination rate. Self-cleaning systems range from 12 GPM for copper broaching oil (40 cSt) to 25 GPM for aluminum machining oil (14 cSt). Higher viscosity oils require lower flow rates for effective separation. Our engineers will recommend the right system based on your specific application."
-  },
-  {
-    question: "Can a cutting oil centrifuge handle water contamination as well?",
-    answer: "Yes. A three-phase disc stack centrifuge simultaneously separates solid metal particles, free water, and clean cutting oil in a single pass. This is particularly valuable for emulsified cutting oil systems where water ingress from coolant splash or condensation degrades the oil. The centrifuge removes both the metallic fines and any free water, returning dry, clean cutting oil to the sump."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -42,19 +17,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-cutting-oil', label: 'What is Cutting Oil' },
@@ -364,7 +326,6 @@ const relatedProducts = [
   </p>
 
   <div id="faq">
-    <FAQ items={faqItems} />
-  </div>
+</div>
 
 </ApplicationLayout>

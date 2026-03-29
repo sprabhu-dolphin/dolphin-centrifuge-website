@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How does a decanter centrifuge compare to a screw press for manure separation?",
-    answer: "A decanter centrifuge captures particles down to 25–50 microns and produces solids at up to 50% dryness, compared to 100–200 micron capture and 25–35% dryness from a typical screw press. The centrifuge also requires no filter screens or media replacement and runs fully automated with minimal labor. This finer separation captures significantly more phosphorus bound to small particles."
-  },
-  {
-    question: "What capacity manure centrifuge systems are available?",
-    answer: "Dolphin Centrifuge manure dewatering systems range from 25 GPM compact decanters for smaller dairy and swine operations to 50+ GPM high-capacity systems for large commercial livestock facilities. Sizing depends on manure volume, solids concentration, and desired cake dryness. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing recommendations based on your herd size and manure handling setup."
-  },
-  {
-    question: "Does a manure centrifuge remove phosphorus from the liquid fraction?",
-    answer: "Yes. The majority of phosphorus in manure is bound to solid particles. A decanter centrifuge captures these fine solids — including colloidal particles that gravity separators and screw presses miss — concentrating phosphorus in the solid fraction. This helps livestock operations meet nutrient management plan requirements by reducing phosphorus levels in the liquid applied to fields."
-  },
-  {
-    question: "What are the end products from centrifugal manure separation?",
-    answer: "A manure centrifuge produces two streams: dewatered solids (cake) and clarified liquid (centrate). The solids can be composted for premium bedding, sold as organic fertilizer, or used as soil amendment. The liquid centrate retains approximately 50% of the nitrogen content, making it a valuable fertigation resource that reduces commercial fertilizer purchases."
-  },
-  {
-    question: "Can a manure centrifuge handle swine, dairy, and poultry waste equally?",
-    answer: "Yes. Decanter centrifuges handle manure from all livestock types. Swine and poultry manure tend to have finer particle distribution, benefiting most from the centrifuge's ability to capture particles down to 25 microns. Dairy manure is typically higher in fiber content and separates readily. Sizing differs by species and herd size — contact Dolphin Centrifuge for a recommendation based on your specific operation."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -40,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -72,7 +34,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'why-separate-manure', label: 'Why Separate Manure?' },
@@ -270,10 +232,7 @@ const relatedProducts = [
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
     <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA -->
+<!-- Bottom CTA -->
   <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center my-8 not-prose">
     <h2 class="text-2xl md:text-3xl font-bold mb-4 font-heading">Ready to Upgrade Your Manure Handling?</h2>
     <p class="text-gray-200 mb-6 max-w-2xl mx-auto">Dolphin Centrifuge supplies reconditioned decanter centrifuge systems for livestock operations. Contact us for sizing and pricing based on your herd size and manure volume.</p>

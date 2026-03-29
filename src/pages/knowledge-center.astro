@@ -3,39 +3,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const description = "Dolphin Centrifuge Knowledge Center: troubleshooting guides, how-to articles, comparisons, case studies, and product references for industrial centrifuges.";
 
-const faqItems = [
-  {
-    question: "What topics does the Dolphin Centrifuge Knowledge Center cover?",
-    answer: "The Knowledge Center covers five main areas: troubleshooting guides (vibration, bad separation, bowl leaks), how-to guides (installation, lubrication, sludge ejection), technical comparisons (disc stack vs. decanter, purifier vs. clarifier, RCF vs. RPM), product and brand information (Alfa Laval models, parts, accessories), and case studies with real documented results."
-  },
-  {
-    question: "Are these centrifuge guides based on real field experience?",
-    answer: "Yes. All Dolphin Centrifuge knowledge articles are written by engineers with 40+ years of hands-on Alfa Laval disc stack and decanter centrifuge experience. Guides are based on real-world service, application engineering, and customer support cases — not theoretical content."
-  },
-  {
-    question: "How do I find the right centrifuge troubleshooting guide?",
-    answer: "Start with our Troubleshooting hub at /knowledge-troubleshooting/ which lists 14 specific guides covering vibration, bad separation, bowl leaking, cannot reach operating speed, liquid seal break, paring disc block, and more. Each guide includes root cause analysis and corrective actions."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer live technical support in addition to these guides?",
-    answer: "Yes. All customers who purchase centrifuge equipment from Dolphin Centrifuge receive free lifetime technical support. You can also call (248) 522-2573 or email sales@dolphincentrifuge.com for immediate assistance with centrifuge troubleshooting, application questions, or parts identification."
-  },
-  {
-    question: "Can I send a fluid sample to verify centrifuge performance before purchasing?",
-    answer: "Absolutely. Dolphin Centrifuge operates a sample testing lab in Warren, Michigan. Send us a fluid sample and our engineers will run it through an appropriately sized centrifuge, document before-and-after results with photos, and provide a detailed report with equipment sizing recommendations — at no charge."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -219,7 +186,7 @@ const icons: Record<string, string> = {
     { label: 'DMPX-042 Disc Centrifuge', href: '/centrifuges/dmpx-042/' },
     { label: 'DMPX-028 Disc Centrifuge', href: '/centrifuges/dmpx-028/' },
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <div class="max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8 max-w-4xl">
@@ -280,17 +247,7 @@ const icons: Record<string, string> = {
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <!-- Bottom CTA Bar -->
     <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center">

@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the rated capacity of the Alfa Laval WSPX 303 centrifuge?",
-    answer: "The WSPX 303 TGD is rated at 8 GPM on water-based coolant. It is a self-cleaning 3-phase disc centrifuge suited for central coolant systems serving multiple CNC machines or grinding operations in mid-size machining facilities."
-  },
-  {
-    question: "What does a coolant centrifuge remove from metalworking fluid?",
-    answer: "A coolant centrifuge removes metal fines (chips, grinding swarf, particles down to 1 micron), tramp oil (hydraulic and machine oils that contaminate coolant), and other dense solid contaminants. Removing these contaminants extends coolant life, reduces biocide consumption, and prevents surface finish degradation on machined parts."
-  },
-  {
-    question: "How often does the WSPX 303 need to discharge sludge?",
-    answer: "The WSPX 303 discharges accumulated sludge automatically at programmable intervals, typically every 30–120 minutes depending on contamination load. Discharge takes only a few seconds and does not interrupt fluid flow. Higher-contamination applications require more frequent discharge cycles."
-  },
-  {
-    question: "What G-force does the WSPX 303 generate?",
-    answer: "The WSPX 303 bowl rotates at 9,200 RPM generating over 8,000 G-Force. This extremely high G-force enables separation of sub-micron particles and fine metallic swarf that settle out too slowly for gravity filtration, restoring coolant to a clean, reusable condition."
-  },
-  {
-    question: "Can Dolphin Centrifuge supply parts or rebuild the WSPX 303?",
-    answer: "Yes. Dolphin Centrifuge supplies replacement parts and complete bowl rebuilds for the WSPX 303. Each rebuilt centrifuge is tested to factory specifications. We also offer repair services for the full WSPX series including the WSPX 207, WSPX 307, and WSPX 407."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -38,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -75,7 +39,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/alfa-laval-wspx-303-centrifuge/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WSPX 303 Operation' },

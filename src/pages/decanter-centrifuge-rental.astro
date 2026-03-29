@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What decanter centrifuge models does Dolphin Centrifuge have available for rental?",
-    answer: "Dolphin Centrifuge offers rental of Alfa Laval NX-314 and NX-418 decanter centrifuges — horizontal scroll decanters suitable for sludge dewatering, oily water separation, industrial wastewater, and oil-based drilling mud recovery. Availability varies; contact us for current rental inventory."
-  },
-  {
-    question: "How long is the minimum rental period for a decanter centrifuge?",
-    answer: "Rental terms are flexible based on your project timeline. Minimum rental periods typically start at 1 month for short-term pilot projects or emergency capacity situations. Long-term rentals (3–12 months or longer) are available for extended projects or while capital equipment is on order."
-  },
-  {
-    question: "Does the rental include delivery, setup, and support?",
-    answer: "Yes. Dolphin Centrifuge rental packages include delivery to your site, on-site commissioning assistance, and phone/remote technical support during the rental period. We can also provide operator training for your team. Contact us to discuss the level of support needed for your application."
-  },
-  {
-    question: "What is the difference between renting a decanter and a disc stack centrifuge?",
-    answer: "Decanter centrifuges are designed for high-solids feeds — slurries, sludges, and suspensions with 5% to 60%+ solids. Disc stack centrifuges handle fine particles, liquid-liquid separation, and oil purification with typically less than 5% solids. If your application involves wastewater sludge dewatering or slurry processing, a decanter is usually the right choice. For oil clarification or oily water polishing, a disc stack separator is more appropriate."
-  },
-  {
-    question: "Can a rented decanter centrifuge be converted to a purchase?",
-    answer: "Yes. Dolphin Centrifuge offers rent-to-own arrangements where a portion of rental payments can be applied toward the purchase price of the unit. This allows you to validate the equipment's performance in your facility before committing to a capital purchase. Contact us to discuss rent-to-own terms for your specific application."
-  }
-];
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -39,19 +14,6 @@ const jsonLd = {
   },
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/decanter-centrifuge-rental/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -103,7 +65,7 @@ const relatedProducts = [
   heroImage="/images/decanter-centrifuge-rental/Alfa-Laval-NX418.webp"
   heroImageAlt="Alfa Laval NX418 decanter centrifuge available for rental from Dolphin Centrifuge"
   canonicalUrl="https://dolphincentrifuge.com/decanter-centrifuge-rental/"
-  jsonLd={[jsonLd, faqJsonLd, articleJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
@@ -302,7 +264,4 @@ const relatedProducts = [
       <p class="text-sm text-text-light mt-2">Wastewater Decanter</p>
     </div>
   </div>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What disc stack centrifuge models are available for rental from Dolphin Centrifuge?",
-    answer: "Dolphin Centrifuge offers rental of DMPX-series self-cleaning disc stack centrifuges for short-term and long-term applications. Models range from DMPX-010 (7 GPM) to DMPX-070 (59–72 GPM on diesel). Units are available as standalone centrifuge skids or as complete systems with controls, pumps, and heating. Contact us for current availability."
-  },
-  {
-    question: "What are the common reasons to rent a disc stack centrifuge?",
-    answer: "Common rental use cases include: pilot testing before a capital purchase decision, emergency backup during a machine rebuild or repair, temporary capacity for seasonal production spikes, project work at a site without permanent centrifuge equipment, and proving a new application before committing to permanent installation."
-  },
-  {
-    question: "Can I rent a centrifuge to test my application before buying?",
-    answer: "Yes. Dolphin Centrifuge rental programs are specifically designed for application validation. You can rent a DMPX-series centrifuge, run it on your process fluid at your facility, and evaluate separation quality and throughput before making a purchase decision. Our sample testing service can also pre-qualify your fluid in our lab before you commit to a rental."
-  },
-  {
-    question: "What is included in the disc stack centrifuge rental package?",
-    answer: "Every Dolphin disc stack centrifuge rental includes a fully rebuilt centrifuge with new bearings, seals, and O-rings, along with the feed pump, motor, starter, and basic piping connections. An operating manual with process-specific parameters, phone and email technical support, and startup commissioning assistance (remote or on-site) are also included. A spare parts kit covering basic consumables for the rental duration is provided."
-  },
-  {
-    question: "How quickly can a rental disc stack centrifuge be delivered?",
-    answer: "Dolphin Centrifuge can typically ship a rental disc stack centrifuge within 5–10 business days from rental agreement execution for most DMPX models. Delivery time depends on model availability, your location, and freight scheduling. For urgent emergency situations, contact us directly at (248) 522-2573 to discuss expedited availability."
-  }
-];
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -39,19 +14,6 @@ const jsonLd = {
   },
   "areaServed": { "@type": "Country", "name": "United States" },
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-rental/",
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -104,7 +66,7 @@ const relatedProducts = [
   heroImage="/images/disc-stack-centrifuge-rental/Alfa-Laval-Disc-Centrifuge-Rental.webp"
   heroImageAlt="Alfa Laval Disc Centrifuge Rental Skid"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-rental/"
-  jsonLd={[jsonLd, faqJsonLd, articleJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
@@ -287,7 +249,4 @@ const relatedProducts = [
     <li><strong>Shipping:</strong> We arrange freight to and from your facility anywhere in the continental U.S.</li>
   </ul>
   <p>Looking for a decanter centrifuge instead? See our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental program</a> for NX and G2-series units.</p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

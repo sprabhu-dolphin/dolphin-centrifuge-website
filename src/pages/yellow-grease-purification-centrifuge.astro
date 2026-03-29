@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is yellow grease and how is it processed?",
-    answer: "Yellow grease is used cooking oil (UCO) collected from restaurants, food processors, and institutional kitchens. It is processed through centrifugal separation to remove water, sludge, and solid contaminants, producing clean oil suitable for biodiesel feedstock, animal feed supplements, and oleochemical manufacturing."
-  },
-  {
-    question: "What ROI can I expect from a yellow grease centrifuge?",
-    answer: "In a documented case study, a mid-west UCO collector achieved full return on investment in less than 6 months after installing a DMPX-042 centrifuge. The payback was driven by higher product quality commanding premium pricing, 30% throughput increase, and reduced oil losses from eliminated settling tank bottoms."
-  },
-  {
-    question: "How does a centrifuge compare to gravity settling for yellow grease?",
-    answer: "A centrifuge produces dramatically cleaner product (residual water below 0.05% vs 0.5-2.0% with settling), processes continuously in seconds instead of hours/days, eliminates oil loss in tank bottoms, and reduces floor space requirements. One customer increased annual capacity from 6 million to 8 million gallons by switching from settling to centrifuge processing."
-  },
-  {
-    question: "Do I need a decanter centrifuge for yellow grease processing?",
-    answer: "For feedstock with high solids content — particularly grease trap waste or heavily contaminated fryer oil — adding an NX-314 decanter centrifuge upstream of the disc stack centrifuge is recommended. The decanter removes heavy sludge first, extending disc centrifuge run time and enabling processing of lower-grade feedstock."
-  },
-  {
-    question: "What temperature should yellow grease be processed at?",
-    answer: "Dolphin Centrifuge recommends processing yellow grease (UCO) at 180°F (82°C). At this temperature, viscosity drops sufficiently for the disc stack centrifuge to achieve maximum separation efficiency — removing all free water to below 0.05% and solids down to 0.5 micron. Processing at lower temperatures reduces throughput and separation quality. A feed-stream pre-heater is included in our standard yellow grease centrifuge systems."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -42,19 +17,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
@@ -475,9 +437,7 @@ const relatedProducts = [
   </p>
 
   <!-- ── FAQ Section ── -->
-  <FAQ items={faqItems} />
-
-  <hr />
+<hr />
 
   <p>
     <strong>Ready to upgrade your yellow grease operation?</strong> Call <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> to discuss your feedstock, volume, and quality targets. We offer <a href="/industrial-centrifuge-sample-testing/">lab-scale sample testing</a> to validate performance before you commit to a full-scale system.

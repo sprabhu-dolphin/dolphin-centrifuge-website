@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the difference between coolant recovery and coolant filtration?",
-    answer: "Coolant filtration only removes solid particles. Coolant recovery with a disc stack centrifuge performs three-phase separation — simultaneously removing tramp oil, metal fines, and bacteria in a single continuous pass. Combined with pasteurization, a recovery system extends coolant life from weeks to months or years, dramatically reducing concentrate purchases and hazardous waste disposal."
-  },
-  {
-    question: "Does pasteurization damage machining coolant chemistry?",
-    answer: "No. Pasteurization at 165°F (74°C) kills anaerobic bacteria without degrading the coolant's chemical composition. The process is the same proven heat treatment used in the food and dairy industry. Combined with heat recovery, the coolant returns to the sump near its original temperature, so there is no thermal disruption to the machining process."
-  },
-  {
-    question: "How much energy does a pasteurization system use?",
-    answer: "With proper heat recovery, the system recovers 70–85% of the thermal energy through a heat exchanger. The electric heater only needs to raise the final 15–25°F, making the energy cost minimal. For example, heating from 80°F to 165°F with 76% heat recovery means the heater only provides the last 20°F of temperature rise."
-  },
-  {
-    question: "What coolant types work with centrifuge recovery systems?",
-    answer: "All water-based coolant types benefit from centrifuge recovery — soluble oils, semi-synthetic coolants, and fully synthetic coolants. The centrifuge disc stack and gravity disc configuration is matched to the specific coolant type for optimal separation. Synthetic coolants respond best since tramp oil separates more readily from oil-free formulations."
-  },
-  {
-    question: "What centrifuge size is needed for a central coolant system?",
-    answer: "Central coolant systems serving multiple CNC machines typically process 10–50 GPM. A DMPX-028 self-cleaning centrifuge handles up to 28 GPM on water-based coolant, while a DMPX-042 handles 42 GPM for larger facilities. Sizing is based on total sump volume and desired turnover rate — typically 8–16 hours per full cycle."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -39,19 +16,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +34,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/machining-coolant-recovery-centrifuge/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-machining-coolant', label: 'What is Machining Coolant' },
@@ -354,18 +318,6 @@ const relatedProducts = [
     <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a> |
     <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Overview</a>
   </p>
-
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  {faqItems.map((item) => (
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-lg shadow-sm mb-3 group not-prose">
-      <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center px-5 py-4">
-        <span>{item.question}</span>
-        <span class="group-open:rotate-180 transition-transform text-gold ml-3 shrink-0">&#9660;</span>
-      </summary>
-      <p class="px-5 pb-4 text-text-light text-sm leading-relaxed">{item.answer}</p>
-    </details>
-  ))}
 
   <!-- Bottom CTA Bar -->
   <div class="not-prose bg-navy rounded-xl p-8 text-center mt-10">

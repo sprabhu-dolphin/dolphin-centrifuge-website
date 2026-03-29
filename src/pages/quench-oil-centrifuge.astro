@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Why is quench oil cleanliness critical for heat treatment?",
-    answer: "Contaminated quench oil causes uneven heat extraction across the workpiece surface, resulting in soft spots, inconsistent hardness, part distortion, and surface defects. Carbon particles, rust, and scale insulate portions of the metal during quenching, preventing the uniform cooling rate required for proper metallurgical transformation."
-  },
-  {
-    question: "What is the ROI on a quench oil centrifuge?",
-    answer: "Most quench oil centrifuge installations achieve full return on investment within 3 to 6 months. Savings come from eliminated filter media costs, extended quench oil life, reduced heat exchanger maintenance, and fewer part quality rejects. The centrifuge has no consumable elements — it is a purely mechanical separator with a 30+ year service life."
-  },
-  {
-    question: "How fine can a quench oil centrifuge separate particles?",
-    answer: "Disc stack centrifuges remove contaminant particles down to 0.5 microns from quench oil at forces exceeding 7,000 Gs. This includes carbon, soot, iron oxide scale, and metal fines that conventional bag and cartridge filters cannot capture economically. Contact us for a recommendation based on your quench tank volume."
-  },
-  {
-    question: "How does a self-cleaning quench oil centrifuge work?",
-    answer: "The self-cleaning bowl accumulates separated sludge at its periphery during operation. At programmable intervals, the bowl opens hydraulically for a fraction of a second to eject the sludge, then recloses and resumes separation — all without stopping the oil flow. This enables 24/7 unattended operation, critical in high-throughput heat treatment operations."
-  },
-  {
-    question: "What quench oil centrifuge model does Dolphin Centrifuge recommend?",
-    answer: "Dolphin Centrifuge recommends the DMPX-014 for quench tanks up to 500 gallons (12 GPM), the DMPX-028 for medium-volume operations (~20 GPM), and the DMPX-042 for high-volume heat treatment lines at 32 GPM. All models operate at 7,500–7,800 Gs with automatic sludge discharge and no consumable filter elements. Model selection depends on quench tank volume, contamination rate, and oil temperature."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -42,19 +17,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -352,8 +314,7 @@ const relatedProducts = [
   </p>
 
   <div id="faq">
-    <FAQ items={faqItems} />
-  </div>
+</div>
 
   <!-- Bottom CTA Bar -->
   <div class="not-prose w-full bg-navy rounded-xl px-6 py-8 md:py-10 text-center mt-10">

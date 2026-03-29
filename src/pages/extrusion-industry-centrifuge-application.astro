@@ -1,42 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "How does a centrifuge reduce extrusion press downtime?",
-    answer: "A disc stack centrifuge continuously purifies hydraulic oil in a kidney-loop configuration, removing sub-micron carbon particles, metal fines, water, and degradation byproducts. This prevents the contamination buildup that causes servo valve seizure, cartridge valve sticking, and pump wear. Typical results show a 98% reduction in oil-related press downtime — from approximately 125 hours per year to less than 3 hours."
-  },
-  {
-    question: "What size centrifuge is needed for an extrusion press?",
-    answer: "The DMPX-014 self-cleaning disc stack centrifuge at 10 GPM is the recommended system for extrusion presses with hydraulic reservoirs up to 1,500 gallons. It provides over 7,000 Gs of centrifugal force, removing particles down to 0.5 microns and all free water. The system includes a feed pump, PLC control panel, and interconnecting piping for turnkey installation."
-  },
-  {
-    question: "What contaminants does a hydraulic oil centrifuge remove?",
-    answer: "The centrifuge removes carbon particles from thermal cracking, metal wear particles (iron, copper, aluminum), water from cooler leaks, degradation acids, coke precursors, and sludge. It also separates sub-micron particles that are too fine for conventional hydraulic filters, protecting sensitive servo valves and proportional valves from contamination-induced failure."
-  },
-  {
-    question: "How much can a centrifuge extend hydraulic oil life in extrusion?",
-    answer: "Continuous centrifuge purification extends hydraulic oil life from months to years — a 99% reduction in oil waste. By continuously removing contaminants and degradation byproducts, the oil maintains its additive package and viscosity properties far longer than with filtration alone. This dramatically reduces both oil purchase costs and hazardous waste disposal costs."
-  },
-  {
-    question: "What is the payback period for a centrifuge on an extrusion press?",
-    answer: "Most extrusion companies achieve full payback on a centrifuge system within 6 to 12 months. Savings come from eliminated oil-related downtime (worth $10,000–$50,000 per press per year depending on production rates), reduced oil replacement costs, lower disposal fees, and extended pump and valve life. Dolphin Centrifuge can provide a tailored ROI estimate based on your press specifications."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -69,7 +33,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -392,24 +356,6 @@ const relatedProducts = [
   </p>
 
   <!-- FAQ Section -->
-  <h2 id="faq">Extrusion Centrifuge FAQ</h2>
-
-  <div class="space-y-4 my-6 not-prose">
-    {faqItems.map((item) => (
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-lg shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-light-bg rounded-r-lg list-none flex justify-between items-center [&::-webkit-details-marker]:hidden">
-          <span>{item.question}</span>
-          <svg class="w-5 h-5 text-gold shrink-0 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </summary>
-        <div class="px-5 pb-4 pt-2 text-text-light text-sm leading-relaxed border-t border-gray-100">
-          {item.answer}
-        </div>
-      </details>
-    ))}
-  </div>
-
   <!-- Bottom CTA Bar -->
   <div class="not-prose w-full bg-navy rounded-xl px-6 py-8 md:py-10 text-center mt-10">
     <p class="text-white text-xl font-bold mb-2">Ready to Eliminate Hydraulic Oil Downtime?</p>

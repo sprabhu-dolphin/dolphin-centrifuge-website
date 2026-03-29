@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the rated capacity of the Alfa Laval WSPX 407?",
-    answer: "The WSPX 407 TGD is rated at 25 GPM. The centrifuge bowl spins at 8,500 RPM generating over 7,000 G-Force, enabling efficient separation of tramp oil and sub-micron metal fines from water-based machining coolants and wash liquids."
-  },
-  {
-    question: "What is the DMPX-042C module that Dolphin Centrifuge supplies?",
-    answer: "The DMPX-042C is Dolphin Centrifuge's complete coolant centrifuge module built around the Alfa Laval WSPX 407. It includes the centrifuge, controls, pump, and skid — configured for continuous coolant processing at 25 GPM. Dolphin Centrifuge supplies, services, and rebuilds the DMPX-042C for industrial customers across North America."
-  },
-  {
-    question: "What applications is the WSPX 407 used for?",
-    answer: "The WSPX 407 is a 3-phase separator used for cleaning water-based machining coolants, wash liquids, and de-oiling of washer fluids. Common applications include automotive machining, aerospace part manufacturing, and precision grinding facilities where continuous tramp oil and particle removal is required."
-  },
-  {
-    question: "How does the WSPX 407 differ from the WSPX 307?",
-    answer: "The WSPX 407 (25 GPM, 8,500 RPM) is the upgraded successor to the WSPX 307 (22 GPM, 8,600 RPM). The WSPX 407 offers slightly higher capacity while maintaining the same compact form factor and all stainless steel wetted surface design suited for corrosive coolant applications."
-  },
-  {
-    question: "Can Dolphin Centrifuge supply parts or rebuild the WSPX 407?",
-    answer: "Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WSPX 407, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WSPX 407 centrifuges are available. Contact us for parts availability and service scheduling."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -38,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -75,7 +39,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/alfa-laval-wspx-407/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WSPX 407 Operation' },

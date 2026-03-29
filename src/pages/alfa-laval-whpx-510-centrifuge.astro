@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the Dolphin equivalent of the Alfa Laval WHPX 510?",
-    answer: "The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval WHPX 510 (or equivalent MOPX 209/310 / MAPX 210) centrifuge bowl. The DMPX-042 is a complete system module rated at 32–47 GPM on diesel, with full PLC controls, electric heaters, and piping."
-  },
-  {
-    question: "What flow rate does the Alfa Laval WHPX 510 handle?",
-    answer: "The Alfa Laval WHPX 510 handles approximately 42 GPM on diesel fuel (13 cSt at operating temperature) and approximately 24 GPM on lube oil at 30 cSt. For the equivalent Dolphin DMPX-042 system, rated capacity ranges from 32 to 47 GPM on diesel depending on configuration."
-  },
-  {
-    question: "Is the WHPX 510 self-cleaning or manual clean?",
-    answer: "The Alfa Laval WHPX 510 is a self-cleaning (automatic partial-discharge) disc stack centrifuge. The bowl automatically ejects accumulated sludge through timed discharge cycles without stopping the centrifuge. This allows continuous uninterrupted operation ideal for high-volume waste oil and diesel purification applications."
-  },
-  {
-    question: "What industries use the WHPX 510 / DMPX-042 centrifuge?",
-    answer: "The WHPX 510 / DMPX-042 is widely used in: waste oil recovery and re-refining, diesel fuel polishing for large fleet operations, crude oil dehydration in oilfields, biodiesel glycerin separation, marine fuel purification, and industrial lube oil reclamation. Its 42 GPM capacity on diesel makes it one of the most popular mid-range industrial centrifuges."
-  },
-  {
-    question: "Can Dolphin Centrifuge supply parts or rebuild the WHPX 510?",
-    answer: "Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WHPX 510, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WHPX 510 centrifuges are available. Each rebuilt unit is factory tested before shipment."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -38,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -75,7 +39,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-510-centrifuge/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'WHPX 510 Self-Cleaning Centrifuge' },

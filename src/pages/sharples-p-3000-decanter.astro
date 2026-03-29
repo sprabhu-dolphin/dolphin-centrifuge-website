@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "Can Dolphin Centrifuge still get parts for the Sharples P-3000?",
-    answer: "Yes. Dolphin Centrifuge maintains parts inventory for the Sharples P-3000, including scroll assemblies, bearings, seals, and wear components. As the P-3000 is now part of the Alfa Laval portfolio, parts are sourced through both OEM and aftermarket channels."
-  },
-  {
-    question: "How long does a Sharples P-3000 rebuild take?",
-    answer: "A complete P-3000 mechanical rebuild typically takes 2–4 weeks depending on the scope of work — bowl inspection, scroll reconditioning, bearing replacement, gearbox overhaul, and seal replacement. Dolphin Centrifuge provides a detailed timeline after initial inspection."
-  },
-  {
-    question: "Should I rebuild my P-3000 or upgrade to a newer decanter?",
-    answer: "It depends on the unit's condition, age, and available budget. A rebuild extends service life at a fraction of replacement cost when the bowl and main structure are sound. If the bowl is cracked or corrosion is extensive, upgrading to a current-generation Alfa Laval decanter may be more cost-effective. Dolphin Centrifuge can provide a comparative analysis."
-  },
-  {
-    question: "What is the throughput capacity of the Sharples P-3000 for wastewater sludge?",
-    answer: "The Sharples P-3000 is rated at 25 GPM for municipal sludge thickening. Actual capacity varies by sludge type, solids concentration, and polymer dosing. The P-3000 generates 3,150 Gs at 4,000 RPM and is suited to applications requiring a compact decanter with moderate throughput."
-  },
-  {
-    question: "Does Dolphin Centrifuge provide rental decanters while a P-3000 is being rebuilt?",
-    answer: "Yes. Dolphin Centrifuge offers decanter centrifuge rental units to cover production gaps during rebuild periods. Rental units can typically be delivered within one to two weeks. Contact us at (248) 522-2573 to check current rental availability for your capacity requirements."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -48,19 +25,6 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -77,7 +41,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/sharples-p-3000-decanter/"
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'about', label: 'About the Sharples P-3000' },
@@ -268,19 +232,6 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ Section -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-3 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-          <span class="text-gold font-bold">+</span> {item.question}
-        </summary>
-        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-      </details>
-    ))}
-  </div>
-
   <!-- Bottom CTA Bar -->
   <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
     <p class="text-white text-xl font-bold mb-2">Sharples P-3000 parts, rebuild, and repair — Warren, MI</p>

@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is a disc centrifuge friction clutch and what does it do?",
-    answer: "A friction clutch is the drive coupling between the motor and bowl spindle in a disc centrifuge. It allows the motor to start under low load, then gradually transfers torque to accelerate the heavy bowl — preventing motor stall and reducing mechanical shock on startup. Without the clutch, the motor would be required to start under the full inertia of the bowl assembly."
-  },
-  {
-    question: "How long does a disc centrifuge friction clutch last?",
-    answer: "Under normal operating conditions, a friction clutch typically lasts 1–3 years. Premature wear is caused by excessive startup frequency, incorrect spring tension adjustment, oil or grease contamination of the friction shoes, or misalignment between the motor shaft and bowl spindle."
-  },
-  {
-    question: "When should I replace the friction clutch on my centrifuge?",
-    answer: "Replace the friction clutch when startup time exceeds 10–15 minutes, when the clutch housing runs noticeably hot during startup, when you detect a burning smell, or when the bowl consistently fails to reach rated operating speed. Continued operation with a worn clutch accelerates bowl bearing damage."
-  },
-  {
-    question: "Can a friction clutch centrifuge be converted to direct-drive?",
-    answer: "Yes. Dolphin Centrifuge routinely converts friction-driven centrifuges to direct-drive transmission. The conversion replaces the clutch assembly with a rigid coupler, upgrades the motor to an inverter-duty type, and replaces the DOL starter with a VFD (variable frequency drive) for controlled ramp-up. This eliminates clutch maintenance entirely."
-  },
-  {
-    question: "How often should I inspect the friction clutch on my disc centrifuge?",
-    answer: "Inspect the friction clutch every 600 operating hours. Check friction pad thickness, brass screw condition, drum surface wear, and clutch housing temperature during startup. If the brass screws show any wear, replace the friction pads immediately to prevent metal-to-metal contact between friction blocks and the drum."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -46,20 +21,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/disc-centrifuge-friction-clutch/"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
   { id: 'purpose', label: 'Purpose of the Friction Clutch' },
@@ -354,9 +316,7 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ -->
-  <FAQ items={faqItems} />
-
-  <!-- Author byline -->
+<!-- Author byline -->
   <p class="text-sm italic mt-6">by <strong>Sanjay Prabhu MSME</strong>, Engineering Manager, Dolphin Centrifuge</p>
 
 </ApplicationLayout>

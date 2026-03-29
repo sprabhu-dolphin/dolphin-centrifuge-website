@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is black diesel fuel?",
-    answer: "Black diesel is an alternative fuel produced by processing used motor oil, transmission fluid, and other waste petroleum products through a disc stack centrifuge. When properly purified to remove metallic particles, carbon soot, water, and ash, black diesel can substitute for conventional diesel in many applications including generators, industrial burners, and off-road equipment."
-  },
-  {
-    question: "How many gallons of black diesel can a centrifuge produce per day?",
-    answer: "Dolphin Centrifuge black diesel systems range from 2 GPM (2,880 gallons/day) for small batch operations to 40 GPM (57,600 gallons/day) for high-volume commercial production. All self-cleaning models operate continuously with automatic sludge ejection, enabling 24/7 unattended production. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your volume goals."
-  },
-  {
-    question: "Is black diesel production profitable?",
-    answer: "Yes. Used motor oil is typically available at low or negative cost (waste haulers pay to have it removed), while the resulting fuel displaces conventional diesel at market prices. The centrifuge's low operating cost — no consumable filter media, just electricity for the drive motor — maximizes the margin between feedstock cost and fuel value."
-  },
-  {
-    question: "What contaminants does a black diesel centrifuge remove?",
-    answer: "A disc stack centrifuge removes metallic wear particles down to 0.5 microns, all free and emulsified water, carbon soot, and ash compounds (calcium, zinc, phosphorus) that cause engine deposits. Operating at over 7,000 Gs, it produces consistently clean fuel regardless of the incoming oil condition — something filters and settling tanks cannot achieve."
-  },
-  {
-    question: "Does a black diesel centrifuge need explosion-proof ratings?",
-    answer: "It depends on the installation environment. Indoor facilities with adequate ventilation may not require explosion-proof (EX) construction. However, outdoor installations, areas with limited air exchange, or facilities where flammable vapors can accumulate should use Class 1, Division 2 (C1D2) or ATEX Zone 2 rated electrical systems. Dolphin Centrifuge can specify the appropriate hazardous-area rating for your site during the engineering phase."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -42,19 +17,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -65,7 +27,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/black-diesel-centrifuge/",
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-black-diesel', label: 'What is Black Diesel' },
@@ -360,10 +322,7 @@ const relatedProducts = [
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
     <a href="/picking-the-right-industrial-centrifuge/">How to Pick the Right Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
+<!-- Bottom CTA Bar -->
   <div class="bg-navy rounded-xl p-6 md:p-8 text-white mt-10 not-prose">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>

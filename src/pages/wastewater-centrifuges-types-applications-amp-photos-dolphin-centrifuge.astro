@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What types of wastewater centrifuges are available?",
-    answer: "Two main types of industrial centrifuges handle wastewater: disc stack centrifuges for wastewater with less than 10% solids (generating up to 12,000 Gs for sub-micron particle removal), and decanter centrifuges for wastewater with more than 10% solids (producing dry sludge cake with continuous scroll discharge)."
-  },
-  {
-    question: "When should I use a disc stack centrifuge for wastewater?",
-    answer: "Use a disc stack centrifuge when your wastewater contains less than 10% solids by volume and requires fine particle removal down to 1 micron. Disc stack centrifuges are ideal for semiconductor wastewater, oily wastewater requiring oil-water-solids separation, and battery manufacturing wastewater with fine metallic particles."
-  },
-  {
-    question: "When should I use a decanter centrifuge for wastewater?",
-    answer: "Use a decanter centrifuge when your wastewater contains more than 10% solids and you need high-volume continuous sludge dewatering. Decanters excel at municipal biosolids, mining tailings, food processing waste, and any application producing a stackable dry cake for cheaper hauling and disposal."
-  },
-  {
-    question: "Can a centrifuge separate oil from wastewater?",
-    answer: "Yes. A three-phase disc stack centrifuge simultaneously separates oil, water, and solids from oily wastewater in a single pass. For extremely heavy sludge combined with an oily water phase, a two-stage approach using a decanter followed by disc stack polishing delivers the best results."
-  },
-  {
-    question: "Can I test my wastewater before purchasing a centrifuge system?",
-    answer: "Yes. Dolphin Centrifuge offers a pilot sample testing program. Send us a sample of your wastewater and we will process it through our in-house lab centrifuge, delivering a full separation report including particle removal rates, recommended model, and estimated throughput. Testing eliminates uncertainty before capital commitment."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -57,20 +34,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/wastewater-centrifuges-types-applications-amp-photos-dolphin-centrifuge/"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
@@ -329,19 +293,6 @@ const relatedProducts = [
   <p>
     <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> at <a href="tel:+12485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> with your wastewater analysis and flow rates for a no-cost equipment recommendation.
   </p>
-
-  <!-- ── FAQ Section ── -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  {faqItems.map((item) => (
-    <details class="border-l-4 border-gold/40 rounded-lg p-4 mb-3 group">
-      <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center">
-        <span>{item.question}</span>
-        <span class="group-open:rotate-180 transition-transform text-gold">&#9660;</span>
-      </summary>
-      <p class="mt-3 text-gray-800 text-sm leading-relaxed">{item.answer}</p>
-    </details>
-  ))}
 
   <hr />
 

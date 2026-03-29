@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Can a centrifuge clean contaminated diesel fuel?",
-    answer: "Yes. A disc stack centrifuge removes free water (down to 2 microns), rust, sludge, and solid particles down to 0.5 microns from diesel fuel in a single continuous pass. Operating at high centrifugal force, it separates contaminants that filters miss — including water, which filters cannot remove at all."
-  },
-  {
-    question: "What size diesel fuel centrifuge do I need?",
-    answer: "Diesel centrifuge sizing depends on your fuel throughput requirements. Systems range from 4 GPM manual-clean units for workboats and small generators up to 72 GPM self-cleaning systems for tank farms and fuel depots. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your fuel volume and application for a sizing recommendation."
-  },
-  {
-    question: "Are explosion-proof diesel centrifuges available?",
-    answer: "Yes. Dolphin Centrifuge offers Class 1, Division 2 (C1D2) certified diesel centrifuge systems with explosion-proof motors, certified control panels, and approved wiring methods. These are required for fuel tank farms, marine engine rooms, and petroleum storage facilities where flammable vapors may be present."
-  },
-  {
-    question: "Can a centrifuge separate diesel fuel from engine oil?",
-    answer: "No. Disc stack centrifuges separate <em>immiscible</em> liquids — liquids that do not dissolve in each other. Diesel and engine oil are miscible (they dissolve into each other), so centrifugal force cannot separate them. A centrifuge can, however, remove water and solid contaminants from either fluid independently."
-  },
-  {
-    question: "How does a diesel centrifuge compare to a fuel filter?",
-    answer: "A centrifuge removes both water and solids simultaneously, while filters can only capture solid particles. Centrifuge performance remains constant over time, whereas filters lose efficiency as they clog. Centrifuges also have no consumable media — no replacement elements to buy or dispose of — resulting in significantly lower operating costs over the equipment's 30+ year lifespan."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -40,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -77,7 +39,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Diesel Fuel Centrifuge' },
@@ -484,7 +446,4 @@ const relatedProducts = [
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
     <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Stack Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

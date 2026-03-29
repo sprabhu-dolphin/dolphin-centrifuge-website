@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Why does heavy fuel oil need a centrifuge?",
-    answer: "Heavy fuel oil (HFO) carries significantly higher contaminant loads than lighter fuels — including asphaltenes, catalyst fines, rust, and water. These contaminants cause injector damage, turbine blade erosion, and combustion chamber deposits. Filters clog rapidly with HFO and cannot remove water. A self-cleaning disc stack centrifuge handles HFO's high sludge loads continuously and automatically."
-  },
-  {
-    question: "What is the capacity range of fuel oil centrifuge systems?",
-    answer: "Dolphin Centrifuge fuel oil systems range from 12 GPM to 65 GPM on HFO at 30 cSt (pre-heated to 190°F). For heavier fuels at 700 cSt, capacities range from 3 to 20 GPM at 200°F. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your fuel grade and volume requirements for specific sizing."
-  },
-  {
-    question: "Does fuel oil need to be heated before centrifuging?",
-    answer: "Yes. Heavy fuel oil must be pre-heated to reduce viscosity for effective centrifugal separation — typically to 190–200°F depending on the fuel grade. All Dolphin Centrifuge fuel oil modules include electric or steam pre-heaters as standard equipment, along with duplex basket strainers and PLC controls."
-  },
-  {
-    question: "Can a fuel oil centrifuge meet ISO 8217 fuel quality standards?",
-    answer: "Yes. Disc stack centrifuges ensure fuel meets ISO 8217 and OEM specifications for solids, water, and ash content. Operating at over 6,000 Gs, the centrifuge removes particles, water, and sludge to levels well within turbine and engine manufacturer requirements — critical for warranty compliance and equipment longevity."
-  },
-  {
-    question: "What is included in a Dolphin Centrifuge fuel oil treatment system?",
-    answer: "Every Dolphin fuel oil system is a complete skid-mounted package including: a self-cleaning disc stack centrifuge, duplex basket strainers for pre-filtration, electric or steam pre-heaters to reduce fuel viscosity, a PLC control panel for fully automated operation, and all interconnecting piping and valves. Systems are factory-tested before shipment and ready for final connection on site."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -40,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -77,7 +39,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-fuel-oil', label: 'What is Fuel Oil' },
@@ -398,7 +360,4 @@ const relatedProducts = [
     <a href="/disc-stack-centrifuge-rental/">Centrifuge Rental Program</a> |
     <a href="/picking-the-right-industrial-centrifuge/">Picking the Right Industrial Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

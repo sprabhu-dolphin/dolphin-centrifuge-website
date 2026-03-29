@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What does the 'CH' designation mean in CHNX 418?",
-    answer: "The 'CH' in CHNX 418 stands for 'Chemical Hazardous' — indicating this is a nitrogen-purged, ATEX-certified variant of the standard NX 418 decanter centrifuge designed for processing flammable, explosive, or otherwise hazardous sludges and slurries. The continuous inert gas purging system maintains a non-ignitable atmosphere throughout operation."
-  },
-  {
-    question: "Why does the CHNX 418 use nitrogen purging instead of explosion-proof motors?",
-    answer: "Explosion-proof motors alone do not protect the bowl interior from ignitable vapor concentrations. The CHNX 418 uses continuous nitrogen purging because the high-speed rotating bowl can aerosolize volatile organic compounds and create ignitable mixtures inside the casing. Nitrogen displacement eliminates oxygen from the bowl cavity and discharge areas, preventing combustible mixtures regardless of the electrical rating of the motor."
-  },
-  {
-    question: "What industries use the Alfa Laval CHNX 418?",
-    answer: "The CHNX 418 is used in solvent recovery and recycling, pharmaceutical manufacturing waste processing, chemical plant sludge with flammable content, petrochemical refinery slurries, paint and coatings waste, ink and resin waste dewatering, and adhesive and polymer slurry separation — any application where the feed contains flammable solvents or vapors requiring ATEX-classified equipment."
-  },
-  {
-    question: "How does the CHNX 418 compare to the standard NX 418?",
-    answer: "The CHNX 418 retains all the separation performance of the standard NX 418 — 418 mm bowl diameter, variable speed drive, 5–20 m³/hr throughput — while adding continuous nitrogen purging, ATEX certification, explosion-proof motors, and sealed casing with inert gas inlet and vent connections. The separation characteristics (G-force, scroll speed differential, pond depth) are unchanged from the base NX 418 decanter."
-  },
-  {
-    question: "Does Dolphin Centrifuge supply and service the Alfa Laval CHNX 418?",
-    answer: "Yes. Dolphin Centrifuge supplies reconditioned Alfa Laval CHNX 418 decanter centrifuges from our Warren, Michigan facility. Each unit is fully disassembled, inspected, rebuilt to OEM specifications, and tested with the nitrogen purge system verified operational before shipment. We also stock replacement parts and offer field service. Contact (248) 522-2573 for availability."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -63,20 +40,7 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'operation', label: 'Operation' },
@@ -253,17 +217,6 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ Section -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-4 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 rounded-xl p-5">
-        <summary class="font-semibold text-navy cursor-pointer">{item.question}</summary>
-        <p class="text-text-light mt-3 text-sm">{item.answer}</p>
-      </details>
-    ))}
-  </div>
-
   <!-- Bottom CTA bar -->
   <div class="not-prose bg-navy rounded-xl p-8 text-center mt-12">
     <h2 class="text-2xl font-bold text-white mb-3">CHNX 418 Decanter — ATEX Certified, Nitrogen Purged</h2>

@@ -4,39 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Comparisons & Explainers | Dolphin Centrifuge";
 const description = "Compare industrial centrifuge types: disc stack vs. decanter, purifier vs. clarifier, RCF vs. RPM. Technical explainers from Dolphin Centrifuge engineers.";
 
-const faqItems = [
-  {
-    question: "What is the main difference between a disc stack centrifuge and a decanter centrifuge?",
-    answer: "Disc stack centrifuges separate two liquids (or liquid plus fine solids) at high speed using a stack of conical discs. They are best for low-solids applications — oil/water separation, fuel purification, beer clarification. Decanter centrifuges use a scroll conveyor inside a rotating bowl to continuously discharge high-solids slurries. Choose decanters when solids content exceeds 5–10% by weight."
-  },
-  {
-    question: "What is the difference between a purifier and a clarifier centrifuge?",
-    answer: "A purifier separates two liquid phases (plus solids) — for example, oil from water. It uses a gravity disc to maintain the liquid/liquid interface inside the bowl. A clarifier removes only solids from a single liquid phase — no gravity disc is used, and the full bowl volume is dedicated to liquid clarification. The same centrifuge bowl can often be configured as either a purifier or a clarifier by changing the gravity disc."
-  },
-  {
-    question: "What is the difference between RCF and RPM in centrifuge specifications?",
-    answer: "RPM (revolutions per minute) is the rotational speed of the bowl. RCF (relative centrifugal force, also called G-force) is the actual separation force generated — calculated as RCF = 1.118 × r × (RPM/1000)², where r is the bowl radius in mm. Two centrifuges at the same RPM but different bowl sizes will have very different RCF values. RCF is the meaningful comparison for separation performance."
-  },
-  {
-    question: "When should I use a three-phase decanter centrifuge instead of a two-phase unit?",
-    answer: "Use a three-phase decanter when you need to simultaneously separate two liquid phases and a solid phase — for example, recovering oil and water from an oily sludge while also dewatering the solids. Two-phase decanters only separate one liquid from solids. Three-phase units are common in oily water treatment, rendering, and olive oil processing."
-  },
-  {
-    question: "Can a centrifuge separate dissolved salts from water?",
-    answer: "No. Centrifuges separate phases based on density difference. Dissolved salts are in true solution — they have no density difference relative to the surrounding water at the molecular level, so centrifugal force cannot separate them. Centrifuges can remove suspended particles and immiscible liquids, but dissolved materials require chemical precipitation or membrane filtration for removal."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -145,7 +112,7 @@ const articles = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8 max-w-4xl">
@@ -222,17 +189,7 @@ const articles = [
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Frequently Asked Questions</h2>
-    <div class="not-prose space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <!-- Bottom CTA Bar -->
     <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">

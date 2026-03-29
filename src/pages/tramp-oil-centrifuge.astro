@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is tramp oil in machining coolant?",
-    answer: "Tramp oil is an undesirable hydrocarbon oil contaminant found in machining coolants and washer fluids. It originates from machine tool lubrication systems&mdash;way oil, spindle oil, gear oil&mdash;and from anti-rust coatings on raw metal that wash into the coolant during machining."
-  },
-  {
-    question: "How does a centrifuge remove tramp oil from coolant?",
-    answer: "A three-phase disc-stack centrifuge rotates at 8,500 RPM, generating over 7,000 Gs of centrifugal force. The heavier coolant gravitates toward the bowl wall while the lighter tramp oil exits from the bowl center. Suspended metal particles are simultaneously removed as a third phase."
-  },
-  {
-    question: "What are the advantages of a tramp oil centrifuge over skimmers?",
-    answer: "A disc stack centrifuge separates particles as small as 1 micron&mdash;far beyond what skimmers or coalescers can achieve. It also removes suspended metal particles (three-phase separation), operates continuously in a kidney loop, and has a compact footprint suitable for mobile carts."
-  },
-  {
-    question: "What are the specifications of a tramp oil centrifuge?",
-    answer: "A typical tramp oil centrifuge such as the Alfa Laval WSPX-204 operates in three-phase configuration (coolant, tramp oil, sediment), processes 2 GPM, spins at 8,800 RPM, has 0.5 gallon sludge capacity, uses a 3 HP drive motor, and measures 3&prime; x 4&prime; x 4&prime; (H) at 2,000 lbs."
-  },
-  {
-    question: "What flow rate do I need for tramp oil removal from my CNC machine?",
-    answer: "For a single CNC machine with a 100–300 gallon sump, a 2–3 GPM tramp oil centrifuge running in a kidney loop provides complete purification. The centrifuge turns over the entire sump volume several times per shift, keeping tramp oil levels below 0.5%. For larger central coolant systems serving multiple machines, Dolphin Centrifuge sizes systems up to 50 GPM. <a href='/industrial-centrifuge-sample-testing/'>Send a fluid sample</a> for a custom sizing recommendation."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -43,19 +18,6 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -71,7 +33,7 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-tramp-oil', label: 'Tramp Oil' },
@@ -379,6 +341,4 @@ const relatedProducts = [
   </p>
 
   <!-- FAQ -->
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is a centrifugal filter and how does it work?",
-    answer: "A centrifugal filter uses centrifugal force — not filter media — to separate solids and water from liquids. The rotating centrifuge bowl generates high G-forces that push denser particles and water outward while clean liquid moves toward the center outlet. Unlike conventional filters that separate by particle size, centrifugal filters separate by particle density, removing a wide range of contaminants simultaneously."
-  },
-  {
-    question: "What are the two types of centrifugal filters?",
-    answer: "The two main types are: (1) <strong>Filtration type (basket centrifuge)</strong> — uses centrifugal force to push liquid through a perforated screen while solids collect on the screen surface; and (2) <strong>Sedimentation type</strong> — includes <a href='/disc-stack-centrifuge/'>disc stack centrifuges</a> (7,000+ Gs, down to 0.5 microns) and <a href='/decanter-centrifuge/'>decanter centrifuges</a> (3,000+ Gs, down to 100 microns), which separate by differential settling without any filter media."
-  },
-  {
-    question: "Can centrifugal filters remove both water and solids simultaneously?",
-    answer: "Yes. Disc stack centrifugal filters (sedimentation type) perform three-phase separation — simultaneously removing both water and solid contaminants from oil or fuel in a single pass. This is a major advantage over conventional filters, which can only remove solids and cannot separate emulsified water."
-  },
-  {
-    question: "What particle sizes can centrifugal filters remove?",
-    answer: "Disc stack centrifuges can remove particles from 0.5 microns upward, operating at 7,000+ Gs. Decanter centrifuges handle coarser separation down to approximately 100 microns at 3,000+ Gs. In contrast, conventional 10-micron filters only remove particles larger than their pore size and cannot separate water."
-  },
-  {
-    question: "What industries use centrifugal filters?",
-    answer: "Centrifugal filters are used across oil and gas (diesel polishing, lube oil purification, crude oil dehydration), food and beverage (edible oil clarification, beer/wine clarification), pharmaceutical (cell harvesting, broth clarification), industrial manufacturing (coolant recovery, wastewater treatment), and biofuels (biodiesel glycerin separation, ethanol production)."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -41,20 +16,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/centrifugal-filter/"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
   { id: 'what-is', label: 'What Is a Centrifugal Filter?' },
@@ -326,7 +288,4 @@ const relatedProducts = [
   </p>
 
   <p class="text-sm text-text-muted italic">By Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

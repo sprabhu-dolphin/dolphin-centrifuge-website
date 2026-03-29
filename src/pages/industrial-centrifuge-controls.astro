@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What PLC platforms does Dolphin Centrifuge use for centrifuge controls?",
-    answer: "Dolphin Centrifuge builds centrifuge control panels using Allen-Bradley (Rockwell) and Siemens PLC platforms. We work with both systems to match the customer's existing plant infrastructure and spare parts preferences. HMI displays are typically Allen-Bradley PanelView or Siemens KTP/TP series."
-  },
-  {
-    question: "Can Dolphin Centrifuge retrofit controls on an existing centrifuge?",
-    answer: "Yes. Dolphin Centrifuge provides retrofit control panels for any brand of industrial centrifuge including Alfa Laval, Westfalia, Sharples, and Bird centrifuges. The retrofit replaces obsolete relay panels or outdated PLCs while retaining the existing centrifuge mechanical components."
-  },
-  {
-    question: "What standard features are included in a Dolphin centrifuge control panel?",
-    answer: "Standard features include auto-start/stop sequences, adjustable sludge discharge timer, vibration shutdown switch input, bearing temperature monitoring, motor starter with overload protection, hours counter, and alarm outputs. Optional features include PLC/HMI, remote monitoring, data logging, and SCADA integration."
-  },
-  {
-    question: "What enclosure ratings are available for centrifuge control panels?",
-    answer: "Dolphin Centrifuge builds panels in NEMA 4 (painted steel), NEMA 4X (stainless steel for washdown environments), NEMA 7/9 (explosion proof for Class I/II hazardous locations), and NEMA 12 enclosures. The enclosure rating is selected based on the installation environment and any applicable area classification."
-  },
-  {
-    question: "Does Dolphin Centrifuge provide remote monitoring for centrifuge systems?",
-    answer: "Yes. Dolphin control panels can be equipped with Ethernet or cellular modem connectivity for remote monitoring and diagnostics. Operators can view live process data, alarm history, and trending graphs from any web browser. Remote access also allows Dolphin engineers to provide troubleshooting support without an on-site visit."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -39,19 +14,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +32,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/industrial-centrifuge-controls/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'modern-controls', label: 'Modern Controls' },
@@ -320,10 +282,7 @@ const relatedProducts = [
       </tr>
     </tbody>
   </table>
-
-  <FAQ items={faqItems} />
-
-  <h2>Related Products &amp; Services</h2>
+<h2>Related Products &amp; Services</h2>
   <ul>
     <li><a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Systems</a></li>
     <li><a href="/decanter-centrifuge/">Decanter Centrifuge Systems</a></li>

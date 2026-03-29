@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "Can a centrifuge break waste oil emulsions without chemicals?",
-    answer: "Yes. A disc stack centrifuge generating up to 8,000 Gs of centrifugal force can mechanically break most waste oil emulsions without chemical additives. The intense force overcomes the interfacial tension holding emulsified water droplets in suspension. Pre-heating to 180-200 degrees F further weakens the emulsion for optimal separation."
-  },
-  {
-    question: "What is a rag layer in waste oil processing?",
-    answer: "The rag layer is a stable emulsion zone that forms between the oil and water phases during gravity settling. It consists of finely dispersed water droplets suspended in oil, stabilized by surfactants, free fatty acids, and fine particulates. A centrifuge is the most effective way to break the rag layer and recover the trapped oil."
-  },
-  {
-    question: "How much additional oil can a centrifuge recover from emulsified waste oil?",
-    answer: "In a documented case study, a waste oil recycler increased oil recovery from 78% (gravity settling) to 92% (centrifuge processing), recovering an additional 450,000 gallons per year worth approximately $650,000 in additional annual revenue. Results vary depending on feedstock composition and emulsion severity."
-  },
-  {
-    question: "What temperature is needed for emulsion breaking with a centrifuge?",
-    answer: "Processing temperature of 180-200 degrees F provides optimal results. Higher temperature reduces oil viscosity and weakens the emulsion interfacial film, allowing the centrifuge to separate the phases more effectively. At 200 degrees F and 6 GPM, test results showed 98.7% oil recovery with only 0.35% residual water."
-  },
-  {
-    question: "Which Dolphin Centrifuge model is best for emulsified waste oil?",
-    answer: "The DMPX-042 self-cleaning disc stack centrifuge is the most popular model for emulsified waste oil processing, handling 25–32 GPM on heated waste oil at 180°F. For smaller volumes, the DMPX-028 handles 15–20 GPM. Both models feature automatic sludge ejection for continuous unattended operation and are configured with appropriate gravity discs for water-in-oil emulsion separation."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -39,19 +16,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -70,7 +34,7 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is-emulsion', label: 'What Is an Emulsion?' },
@@ -390,19 +354,6 @@ const relatedProducts = [
   <blockquote>
     The centrifuge system paid for itself within the first year of operation through increased oil recovery alone.
   </blockquote>
-
-  <!-- ── FAQ Section ── -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  {faqItems.map((item) => (
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-lg shadow-sm mb-3 group not-prose">
-      <summary class="cursor-pointer font-semibold text-navy flex justify-between items-center px-5 py-4">
-        <span>{item.question}</span>
-        <span class="group-open:rotate-180 transition-transform text-gold ml-3 shrink-0">&#9660;</span>
-      </summary>
-      <p class="px-5 pb-4 text-text-light text-sm leading-relaxed">{item.answer}</p>
-    </details>
-  ))}
 
   <hr />
 

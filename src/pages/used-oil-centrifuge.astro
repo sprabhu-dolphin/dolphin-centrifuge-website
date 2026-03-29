@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is the difference between used oil and waste oil?",
-    answer: "Used oil is petroleum-based or synthetic oil contaminated through normal use — it retains its original mineral or synthetic base and is an excellent candidate for centrifugal reclamation. Waste oil contains organic contaminants (vegetable oils, animal fats) or has been mixed with solvents and non-petroleum substances, requiring different handling and disposal methods."
-  },
-  {
-    question: "How clean can a centrifuge make used oil?",
-    answer: "A disc stack centrifuge removes particles down to 0.5 microns for metal particles and 2 microns for non-metal particles, plus all free water, in a single pass at over 7,000 Gs. The high centrifugal force also separates a considerable amount of ash. The processed oil is suitable for re-refining into lubricant base stock, use as industrial heating fuel, or conversion to <a href='/black-diesel-centrifuge/'>black diesel</a>."
-  },
-  {
-    question: "Why use a two-stage centrifuge system for used oil?",
-    answer: "Used oil often contains heavy sludge loads (up to 40% solids) that would overwhelm a disc stack centrifuge. A two-stage system uses a decanter centrifuge first to remove bulk solids down to 50 microns, then a disc stack centrifuge polishes the oil to sub-micron levels. This configuration is standard for commercial processors handling 1 million+ gallons per year."
-  },
-  {
-    question: "How many gallons of used oil can a centrifuge process per day?",
-    answer: "Dolphin Centrifuge used oil systems process 25 to 40+ GPM continuously, which translates to 36,000–58,000+ gallons per day of continuous operation. Actual throughput depends on oil viscosity and processing temperature — operating at 180°F or higher reduces viscosity and maximizes capacity. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your volume."
-  },
-  {
-    question: "Can I test my used oil before purchasing a centrifuge system?",
-    answer: "Yes. Dolphin Centrifuge offers <a href='/industrial-centrifuge-sample-testing/'>pilot-scale sample testing</a> at our Warren, Michigan facility. Send a sample of your used oil and we will process it through lab-scale centrifuge equipment to determine separation efficiency, water content removal, and whether a single-stage or two-stage system is appropriate for your feedstock."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -44,20 +19,7 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/used-oil-centrifuge/",
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
   { id: 'what-is-used-oil', label: 'What is Used Oil' },
@@ -362,10 +324,7 @@ const relatedProducts = [
     <a href="/used-oil-centrifuge-plant/">6MGY Used Oil Centrifuge Plant</a> |
     <a href="/waste-oil-emulsion-centrifuge/">Waste Oil Emulsion Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA bar -->
+<!-- Bottom CTA bar -->
   <div class="not-prose bg-navy rounded-xl p-6 md:p-8 mt-10 text-white">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div>

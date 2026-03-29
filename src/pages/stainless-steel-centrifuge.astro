@@ -1,32 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
 const title = "Stainless Steel Centrifuge | Dolphin Centrifuge";
 const description = "Dolphin Centrifuge supplies 316L stainless steel disc stack centrifuges for food-grade and corrosive applications. FDA/3A compliant, 7,000+ Gs. Warren, MI.";
-
-const faqItems = [
-  {
-    question: "What stainless steel grades are available for Dolphin centrifuge systems?",
-    answer: "Dolphin Centrifuge supplies disc stack centrifuge systems in 304 stainless steel for standard food-grade and water-based applications, and 316L stainless for chloride-containing fluids, aggressive chemicals, and pharmaceutical applications where higher corrosion resistance is required. Bowl components, frame, hood, and piping can all be specified in either grade."
-  },
-  {
-    question: "Are Dolphin stainless steel centrifuges FDA or 3A compliant?",
-    answer: "Yes. Dolphin Centrifuge supplies disc stack systems configured to meet FDA 21 CFR and 3A Sanitary Standards for food, beverage, and dairy processing. This includes CIP-compatible bowl geometry, sanitary fittings, polished internal surfaces (Ra &le; 0.8 &micro;m), and FDA-compliant elastomers. Specific documentation can be provided upon request."
-  },
-  {
-    question: "What applications require stainless steel centrifuges?",
-    answer: "Stainless steel centrifuges are required for food-grade processing (edible oils, dairy, juice, beer, wine), pharmaceutical clarification (cell debris removal, protein recovery), corrosive industrial fluids (acids, alkalis, saltwater), and any application where metal contamination of the process fluid would be unacceptable."
-  },
-  {
-    question: "How does a stainless steel centrifuge compare to a carbon steel unit for water-based fluids?",
-    answer: "Water-based fluids cause rapid corrosion in carbon steel centrifuge bowls, leading to contamination and premature component failure. Stainless steel (304 or 316L) provides the corrosion resistance required for wastewater, machining coolants, food-grade liquids, and any aqueous fluid. The added cost of stainless construction is justified by longer service life and elimination of corrosion-related contamination."
-  },
-  {
-    question: "What throughput can a stainless steel disc stack centrifuge handle?",
-    answer: "Dolphin Centrifuge stainless steel disc stack systems range from 15 GPM on concentrated animal fat at 180°F (AFPX 207) up to 100 GPM on clean water (AFPX 213). Actual throughput depends on the fluid viscosity, sludge content, and required separation clarity. Contact Dolphin Centrifuge at (248) 522-2573 for throughput calculations specific to your application."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -43,19 +18,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -75,7 +37,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: "overview", label: "Overview" },
@@ -411,6 +373,4 @@ const relatedProducts = [
   </div>
 
   <!-- FAQ -->
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

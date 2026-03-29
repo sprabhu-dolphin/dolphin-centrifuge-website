@@ -4,39 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Guides — Setup, Operation & Optimization";
 const description = "Step-by-step guides for selecting, installing, operating, and optimizing industrial disc stack and decanter centrifuges. Expert advice from Dolphin Centrifuge.";
 
-const faqItems = [
-  {
-    question: "What centrifuge setup and installation guides does Dolphin Centrifuge publish?",
-    answer: "Dolphin Centrifuge publishes a complete installation guide covering foundation requirements, piping connections, electrical hookup, and commissioning procedures for disc stack centrifuges. Additional guides cover gravity disc selection, operating water settings, and first-run startup checklist items based on 40+ years of field experience."
-  },
-  {
-    question: "How do I optimize sludge ejection cycle timing on a disc stack centrifuge?",
-    answer: "Sludge ejection cycle timing depends on solids loading in the feed, the centrifuge bowl volume, and the desired separation quality. Ejecting too frequently wastes product; too infrequently causes bowl overflow and liquid contamination. Our sludge ejection cycle guide covers timing calculation, operating water requirements, and adjustment procedures for both timer-based and turbidity-triggered discharge systems."
-  },
-  {
-    question: "What is the difference between rated and actual centrifuge capacity?",
-    answer: "Rated capacity is measured under ideal conditions with low-viscosity, low-solids fluid. Actual capacity depends on feed viscosity, temperature, solids content, separation difficulty, and gravity disc selection. Real-world throughput is typically 50–80% of rated capacity for viscous or high-solids applications. Our capacity guide explains these factors and how to set realistic throughput expectations."
-  },
-  {
-    question: "How do I select the correct gravity disc for my disc stack centrifuge?",
-    answer: "Gravity disc selection determines the oil/water interface position inside the bowl. The correct gravity disc size depends on the density difference between the two liquid phases and the desired separation endpoint. Too large a gravity disc causes water carryover into the oil outlet; too small causes oil loss in the water discharge. Our selection guide covers the gravity disc calculation method and trial procedure."
-  },
-  {
-    question: "Where can I find a complete illustrated guide to disc centrifuge parts?",
-    answer: "Our Disc Centrifuge Parts Glossary provides an illustrated reference to every major component — bowl, disc stack, distributor, paring disc, gravity disc, spindle, operating slide, horizontal and vertical drive, and more. Each component includes its function, typical failure modes, and maintenance interval. Access it at /disc-centrifuge-parts-glossary/."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -180,7 +147,7 @@ const generalArticles = articles.filter(a =>
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <article class="prose-dolphin max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
@@ -301,17 +268,7 @@ const generalArticles = articles.filter(a =>
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mt-10 mb-4">Frequently Asked Questions</h2>
-    <div class="not-prose space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <!-- Bottom CTA Bar -->
     <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">

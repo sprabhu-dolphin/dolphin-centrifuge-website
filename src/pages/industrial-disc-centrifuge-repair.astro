@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How often should an industrial disc centrifuge be serviced?",
-    answer: "Minor bowl service intervals range from 2-3 weeks (for aggressive chemicals or abrasive solids) to 3-6 months (for benign fluids like lubricating oil). Industrial centrifuge manufacturers recommend a major overhaul of the disc centrifuge every 2-3 years, based on the expected lifespan of transmission components and bowl wear."
-  },
-  {
-    question: "How much does it cost to repair an industrial centrifuge?",
-    answer: "Repair costs vary by centrifuge type and service level. Minor service starts at $800+ for small manual-clean disc centrifuges. Major service ranges from $2,000 to $13,000+. Complete rebuilds cost from $5,000 to $18,000+, depending on centrifuge size and type."
-  },
-  {
-    question: "How long does a centrifuge rebuild take?",
-    answer: "Rebuild turnaround time depends on centrifuge size and repair scope. A small disc centrifuge can be rebuilt in about three days, whereas a large capacity self-cleaning disc centrifuge can take four weeks or more for a complete overhaul."
-  },
-  {
-    question: "What is included in a complete centrifuge rebuild?",
-    answer: "A complete centrifuge rebuild includes stripping down to bare metal, cleaning all bowl and transmission parts, sandblasting and painting the frame with durable epoxy topcoat, inspecting and testing all critical parts for dimensional tolerance, replacing worn parts with new or rebuilt components, replacing all bearings with OEM-recommended high-speed bearings, replacing all consumable parts (O-Rings, Gaskets, Friction Material, Belts), rebuilding to original specifications, and full mechanical and operational testing."
-  },
-  {
-    question: "What service kits should centrifuge operators keep in stock?",
-    answer: "Centrifuge operators should keep bowl service kits (O-rings, seals, gaskets) in stock at all times. These kits are inexpensive and easy to store. Additional recommended stock includes bowl outlet gaskets, centrifuge-specific seal lubricant, operating water nozzles, friction pads (for friction clutch models), and drive belts (for belt-drive models). Stocking these kits reduces service downtime and prevents unplanned production losses."
-  }
-];
-
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -45,19 +20,6 @@ const serviceJsonLd = {
   },
   "serviceType": "Centrifuge Repair and Rebuild",
   "areaServed": "United States"
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -106,7 +68,7 @@ const toc = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[serviceJsonLd, faqJsonLd, articleJsonLd]}
+  jsonLd={[serviceJsonLd, articleJsonLd]}
 >
 
   <!-- AI Citation Summary -->
@@ -390,7 +352,4 @@ const toc = [
   <p>
     Have questions? Call us at (248) 522-2573 or <a href="/contact-for-alfa-laval-centrifuges/">contact Dolphin Centrifuge</a>. To know more about Dolphin Centrifuge, visit the <a href="/about-dolphin-centrifuge/">about us</a> page.
   </p>
-
-  <FAQ items={faqItems} />
-
 </ApplicationLayout>

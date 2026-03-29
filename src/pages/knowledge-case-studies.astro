@@ -4,39 +4,6 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const title = "Centrifuge Case Studies & FAQ — Real Results";
 const description = "Real-world centrifuge case studies and FAQ: waste oil recovery, wastewater treatment, and more. Documented results and ROI data from Dolphin Centrifuge.";
 
-const faqItems = [
-  {
-    question: "What industries are covered in Dolphin Centrifuge case studies?",
-    answer: "Dolphin Centrifuge case studies cover waste oil recovery (marine and industrial), used oil re-refining, semiconductor/silicon wafer wastewater treatment, pyrolysis oil purification from tire recycling, and municipal wastewater sludge dewatering. Each case study includes real throughput figures, before-and-after separation quality data, and ROI information."
-  },
-  {
-    question: "How much waste oil can a Dolphin Centrifuge system process?",
-    answer: "Dolphin Centrifuge systems have been installed in facilities ranging from small 5-GPM skid systems to large-scale 6-million-gallon-per-year used oil processing plants. The 6 MGY used oil plant case study documents a multi-centrifuge installation with staged processing for meeting re-refinery input specifications."
-  },
-  {
-    question: "Can a centrifuge process pyrolysis oil from tire recycling?",
-    answer: "Yes. Disc stack centrifuges effectively remove carbon black, metals, and water from pyrolysis oil produced by waste tire recycling (TDP/pyrolysis). The cleaned pyrolysis oil can be sold as fuel oil or used as a diesel substitute. Dolphin Centrifuge has documented case studies for pyrolysis oil purification using self-cleaning disc stack centrifuge systems."
-  },
-  {
-    question: "How does a centrifuge treat silicon wafer manufacturing wastewater?",
-    answer: "Silicon wafer polishing and cutting processes generate wastewater with very fine silicon fines suspended in water. Disc stack centrifuges at up to 10,000 G remove these submicron particles, producing clarified water suitable for reuse and a concentrated silicon solids cake for disposal or recovery. This eliminates filter press bottlenecks and reduces waste disposal costs."
-  },
-  {
-    question: "Where can I find centrifuge FAQ resources for general questions?",
-    answer: "Dolphin Centrifuge publishes two comprehensive FAQ pages: the Disc Stack Centrifuge FAQ (/disc-stack-centrifuge-faq/) covering how disc stack centrifuges work, maintenance requirements, and applications; and the Industrial Centrifuge FAQ (/industrial-centrifuges-faq/) covering general centrifuge selection, operating principles, and cost considerations across all centrifuge types."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -139,7 +106,7 @@ const faqArticles = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[jsonLd, articleJsonLd, faqJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
 >
   <div class="prose-dolphin max-w-none">
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
@@ -210,17 +177,7 @@ const faqArticles = [
 
     <!-- FAQ Section -->
     <h2 id="faq" class="text-2xl font-bold text-navy font-heading mb-4">Frequently Asked Questions</h2>
-    <div class="not-prose space-y-3">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify()} />
 
     <h2 id="explore-knowledge">Explore Other Knowledge Categories</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 not-prose my-6">

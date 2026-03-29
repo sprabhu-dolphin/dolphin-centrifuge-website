@@ -1,29 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "Why does a centrifuge need a fluid heating system?",
-    answer: "Viscous fluids like waste engine oil, heavy fuel oil, and biodiesel must be heated to reduce viscosity before centrifuge processing. A disc stack centrifuge requires feed viscosity below approximately 14 cSt at the inlet for effective separation. For heavy oils that are solid or semi-solid at room temperature, preheating to 60–90°C reduces viscosity to the operating range and dramatically improves separation efficiency."
-  },
-  {
-    question: "What types of heaters does Dolphin Centrifuge offer?",
-    answer: "Dolphin Centrifuge supplies electric immersion heaters (240V or 480V single- or three-phase), shell-and-tube steam heat exchangers, and oil-fired heat exchangers for centrifuge preheating applications. The right heater type depends on available utilities (electrical capacity, steam supply) and the required heat-up rate for your process."
-  },
-  {
-    question: "At what temperature should viscous oil be processed in a disc centrifuge?",
-    answer: "Most heavy oil applications run at 60–90°C (140–194°F). Used motor oil is typically processed at 80–90°C. Heavy fuel oil may require 60–70°C. The target is to reduce viscosity below 14 cSt at the centrifuge inlet. Dolphin Centrifuge engineers will calculate the required temperature based on your specific fluid's viscosity-temperature curve."
-  },
-  {
-    question: "Can a fluid heating system be retrofitted to an existing centrifuge installation?",
-    answer: "Yes. Dolphin Centrifuge supplies standalone pre-heater packages designed to integrate with existing centrifuge installations. These retrofit packages include a heater, feed pump, temperature controller, and piping connections, allowing you to add pre-heating capability without replacing your existing centrifuge system."
-  },
-  {
-    question: "How is heater capacity calculated for a centrifuge system?",
-    answer: "Heater duty (kW or BTU/hr) is calculated from the fluid flow rate, the difference between inlet temperature and target process temperature, and the specific heat capacity of the fluid. Key inputs include GPM flow rate, fluid type, ambient or storage temperature, target centrifuge inlet temperature, and available utilities. Dolphin Centrifuge engineers size heaters as part of every centrifuge system quotation."
-  }
-];
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -50,20 +27,7 @@ const productJsonLd = {
   "url": "https://dolphincentrifuge.com/fluid-heating-systems/",
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'why-heating', label: 'Why Viscous Oils Require Heating' },
@@ -250,17 +214,4 @@ const relatedProducts = [
       <a href="tel:+12485222573" class="border border-white text-white px-8 py-3 rounded-lg hover:bg-white/10 transition-colors">(248) 522-2573</a>
     </div>
   </div>
-
-  <div class="space-y-3 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg group">
-        <summary class="flex justify-between items-center cursor-pointer px-4 py-3 font-semibold text-navy list-none">
-          {item.question}
-          <svg class="w-4 h-4 text-gold shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </summary>
-        <div class="px-4 pb-3 text-text-light prose-sm" set:html={item.answer}/>
-      </details>
-    ))}
-  </div>
-
 </ApplicationLayout>

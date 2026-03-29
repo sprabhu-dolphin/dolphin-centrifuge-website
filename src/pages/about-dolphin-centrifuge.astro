@@ -1,43 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "When was Dolphin Centrifuge founded?",
-    answer: "Dolphin Centrifuge was founded in 1981, originally as an Alfa Laval aftermarket parts manufacturer. Over 40+ years, the company expanded from parts supply into engineering, manufacturing complete centrifuge system packages, and full-service <a href='/industrial-disc-centrifuge-repair/'>centrifuge repair</a>. Dolphin Centrifuge is based in Warren, Michigan and serves customers globally."
-  },
-  {
-    question: "What types of centrifuges does Dolphin Centrifuge supply?",
-    answer: "Dolphin Centrifuge supplies <a href='/disc-stack-centrifuge/'>disc stack centrifuges</a> (self-cleaning and manual-clean), <a href='/decanter-centrifuge/'>decanter centrifuges</a>, and complete centrifuge system packages including pumps, heaters, filters, and PLC control panels. The company also provides centrifuge rebuild and remanufacturing services, parts supply, and on-site technical support."
-  },
-  {
-    question: "Where is Dolphin Centrifuge located?",
-    answer: "Dolphin Centrifuge is located at 24248 Gibson Drive, Warren, Michigan 48089. The facility includes engineering offices, centrifuge assembly and testing areas, parts inventory, and a customer demonstration lab. Customers are welcome to visit for factory demonstrations and <a href='/industrial-centrifuge-sample-testing/'>application testing</a> with their own process fluids."
-  },
-  {
-    question: "Does Dolphin Centrifuge offer centrifuge system design?",
-    answer: "Yes. Dolphin Centrifuge provides complete <a href='/industrial-centrifuge-design/'>centrifuge system design</a> including 3D modeling, skid and piping fabrication, control panel design, centrifuge remanufacturing, and full system assembly and testing — all performed in-house at the Warren, Michigan facility."
-  },
-  {
-    question: "Can I visit the Dolphin Centrifuge facility?",
-    answer: "Absolutely. Dolphin Centrifuge maintains an open invitation for potential customers to tour the Warren, Michigan facility. Visitors can see the centrifuge inventory of 150+ units, the manufacturing shop, and meet the engineering team. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> to schedule a visit."
-  }
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -105,8 +67,7 @@ const jsonLd = [
       "latitude": "42.4934",
       "longitude": "-83.0280"
     }
-  },
-  faqJsonLd
+  }
 ];
 
 const toc = [
@@ -376,20 +337,6 @@ const toc = [
         <a href="/industrial-centrifuge-sample-testing/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Sample Testing</a>
       </div>
     </div>
-
-    <!-- FAQ -->
-    <h2 id="faq">Frequently Asked Questions</h2>
-    <div class="space-y-3 not-prose">
-      {faqItems.map(item => (
-        <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-          <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-            <span class="text-gold font-bold">+</span> {item.question}
-          </summary>
-          <p class="text-text-light mt-3 text-sm leading-relaxed" set:html={item.answer} />
-        </details>
-      ))}
-    </div>
-
   </article>
 
   <!-- Bottom CTA Bar -->
