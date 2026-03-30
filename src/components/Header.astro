@@ -6,17 +6,57 @@ const navItems = [
   {
     label: 'Applications',
     href: '/disc-stack-centrifuge-applications/',
-    children: [
-      { label: 'Wastewater', href: '/applications/wastewater/' },
-      { label: 'Waste Oil', href: '/applications/used-motor-oil/' },
-      { label: 'Waste Vegetable Oil (WVO)', href: '/applications/waste-veggie-oil/' },
-      { label: 'Water-Based Fluids', href: '/applications/water-based-fluids/' },
-      { label: 'Oil-Based Fluids', href: '/applications/oil-based-fluids/' },
-      { label: 'Industrial Oils', href: '/applications/industrial-oils/' },
-      { label: 'Fuels', href: '/applications/fuels/' },
-      { label: 'Crude Oil', href: '/applications/crude-oil/' },
-      { label: 'All Applications A-Z', href: '/disc-stack-centrifuge-applications/' },
+    mega: true,
+    columns: [
+      {
+        items: [
+          { label: 'Beer, Wine, Cider & Juice', href: '/beer-wine-centrifuge/', standalone: true },
+          { group: 'Biomass & Organics', items: [
+            { label: 'Algae Harvesting - Large Scale', href: '/algae-centrifuge/' },
+            { label: 'Liquid Humus Fertilizer', href: '/liquid-humus-centrifuge/' },
+            { label: 'Manure Centrifuge Separator', href: '/manure-centrifuge-separator/' },
+            { label: 'Ethanol Extraction', href: '/ethanol-extraction-centrifuges-technical-comparison/' },
+          ]},
+          { group: 'Crude Oil & BS&W', items: [
+            { label: 'Crude Oil Centrifuge', href: '/crude-oil-centrifuge/' },
+            { label: 'Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+          ]},
+          { label: 'Fish Processing Centrifuge', href: '/fish-processing-centrifuge/', standalone: true },
+        ],
+      },
+      {
+        items: [
+          { group: 'Fuel Separation', items: [
+            { label: 'Diesel Fuel Purification', href: '/diesel-centrifuge/' },
+            { label: 'Fuel Oil / HFO Separator', href: '/fuel-oil-centrifuge/' },
+            { label: 'Pyrolysis Oil Centrifuge', href: '/pyrolysis-oil-centrifuge/' },
+          ]},
+          { group: 'Industrial Fluids (Coolant, Cutting Oil..)', items: [
+            { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+            { label: 'Industrial Washer Fluid', href: '/industrial-washer-fluid-centrifuge/' },
+            { label: 'Machining Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+            { label: 'Quench Oil Filtration', href: '/quench-oil-centrifuge/' },
+          ]},
+        ],
+      },
+      {
+        items: [
+          { group: 'Lube & Hydraulic Oil Purification', items: [
+            { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+            { label: 'Hydraulic Oil Centrifuge', href: '/hydraulic-oil-centrifuge/' },
+          ]},
+          { group: 'Used - Waste Oil Separation', items: [
+            { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+            { label: 'Used Oil Centrifuge', href: '/used-oil-centrifuge/' },
+            { label: 'WVO Centrifuge', href: '/wvo-centrifuge-separator/' },
+            { label: 'Black Diesel Centrifuge', href: '/black-diesel-centrifuge/' },
+            { label: 'Biodiesel Separation', href: '/biodiesel-centrifuge/' },
+          ]},
+          { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/', standalone: true },
+        ],
+      },
     ],
+    footerLink: { label: 'View All Applications A-Z', href: '/disc-stack-centrifuge-applications/' },
   },
   {
     label: 'Centrifuges',
@@ -111,8 +151,44 @@ const navItems = [
               </svg>
             )}
           </a>
-          {/* Dropdown */}
-          {item.children && (
+          {/* Mega dropdown (Applications) */}
+          {item.mega && item.columns && (
+            <div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 p-5 w-[720px]">
+                <div class="grid grid-cols-3 gap-5">
+                  {item.columns.map((col) => (
+                    <div class="space-y-4">
+                      {col.items.map((entry) => (
+                        entry.standalone ? (
+                          <a href={entry.href} class="block text-sm font-semibold text-navy hover:text-gold transition-colors py-1">
+                            {entry.label}
+                          </a>
+                        ) : entry.group ? (
+                          <div>
+                            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 border-l-2 border-gold pl-2">{entry.group}</div>
+                            {entry.items.map((sub) => (
+                              <a href={sub.href} class="block px-2 py-1 text-sm text-gray-600 hover:text-navy hover:bg-light-bg rounded transition-colors">
+                                {sub.label}
+                              </a>
+                            ))}
+                          </div>
+                        ) : null
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                {item.footerLink && (
+                  <div class="mt-4 pt-3 border-t border-gray-100 text-center">
+                    <a href={item.footerLink.href} class="text-sm text-gray-400 hover:text-navy italic transition-colors">
+                      {item.footerLink.label} &rarr;
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {/* Simple dropdown (other nav items) */}
+          {item.children && !item.mega && (
             <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[220px]">
                 {item.children.map((child) => (
@@ -170,6 +246,34 @@ const navItems = [
           >
             {item.label}
           </a>
+          {/* Mega menu mobile (Applications) */}
+          {item.mega && item.columns && (
+            <div class="pl-6 space-y-1">
+              {item.columns.map((col) =>
+                col.items.map((entry) => (
+                  entry.standalone ? (
+                    <a href={entry.href} class="block px-4 py-2 text-sm text-gray-300 font-medium hover:text-gold transition-colors">
+                      {entry.label}
+                    </a>
+                  ) : entry.group ? (
+                    <div class="mt-2">
+                      <div class="px-4 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">{entry.group}</div>
+                      {entry.items.map((sub) => (
+                        <a href={sub.href} class="block px-6 py-1.5 text-sm text-gray-400 hover:text-gold transition-colors">
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  ) : null
+                ))
+              )}
+              {item.footerLink && (
+                <a href={item.footerLink.href} class="block px-4 py-2 text-sm text-gray-500 italic hover:text-gold transition-colors mt-2">
+                  {item.footerLink.label} &rarr;
+                </a>
+              )}
+            </div>
+          )}
           {/* Regular children (non-mega) */}
           {item.children && !item.mega && (
             <div class="pl-6 space-y-0.5">
