@@ -22,9 +22,12 @@ const {
   jsonLd,
 } = Astro.props;
 
+const brandSuffix = ' | Dolphin Centrifuge';
 const fullTitle = title === 'Home'
   ? 'Industrial Centrifuge Systems | Dolphin Centrifuge'
-  : `${title} | Dolphin Centrifuge`;
+  : title.includes('Dolphin Centrifuge')
+    ? title
+    : `${title}${brandSuffix}`;
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
