@@ -1,30 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Can a centrifuge clean contaminated diesel fuel?",
-    answer: "Yes. A disc stack centrifuge removes free water (down to 2 microns), rust, sludge, and solid particles down to 0.5 microns from diesel fuel in a single continuous pass. Operating at high centrifugal force, it separates contaminants that filters miss — including water, which filters cannot remove at all."
-  },
-  {
-    question: "What size diesel fuel centrifuge do I need?",
-    answer: "Diesel centrifuge sizing depends on your fuel throughput requirements. Systems range from 4 GPM manual-clean units for workboats and small generators up to 72 GPM self-cleaning systems for tank farms and fuel depots. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your fuel volume and application for a sizing recommendation."
-  },
-  {
-    question: "Are explosion-proof diesel centrifuges available?",
-    answer: "Yes. Dolphin Centrifuge offers Class 1, Division 2 (C1D2) certified diesel centrifuge systems with explosion-proof motors, certified control panels, and approved wiring methods. These are required for fuel tank farms, marine engine rooms, and petroleum storage facilities where flammable vapors may be present."
-  },
-  {
-    question: "Can a centrifuge separate diesel fuel from engine oil?",
-    answer: "No. Disc stack centrifuges separate <em>immiscible</em> liquids — liquids that do not dissolve in each other. Diesel and engine oil are miscible (they dissolve into each other), so centrifugal force cannot separate them. A centrifuge can, however, remove water and solid contaminants from either fluid independently."
-  },
-  {
-    question: "How does a diesel centrifuge compare to a fuel filter?",
-    answer: "A centrifuge removes both water and solids simultaneously, while filters can only capture solid particles. Centrifuge performance remains constant over time, whereas filters lose efficiency as they clog. Centrifuges also have no consumable media — no replacement elements to buy or dispose of — resulting in significantly lower operating costs over the equipment's 30+ year lifespan."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -40,19 +15,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -77,17 +39,17 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Diesel Fuel Centrifuge' },
-  { id: 'operation', label: 'How It Works' },
+  { id: 'operation', label: 'How does a diesel centrifuge work?' },
+  { id: 'diesel-engine-oil', label: 'Can a centrifuge separate diesel from engine oil?' },
   { id: 'specifications', label: 'Specifications' },
   { id: 'benefits', label: 'Benefits' },
-  { id: 'explosion-proof', label: 'Explosion Proof (C1D2)' },
-  { id: 'workboat', label: 'Workboat Applications' },
-  { id: 'models', label: 'Available Systems' },
-  { id: 'legacy-al-specs', label: 'Alfa Laval Model Specifications' },
+  { id: 'class-1-div-2', label: 'Diesel Centrifuge - Class 1 Div 2 for Hazardous Areas' },
+  { id: 'workboats', label: 'Diesel Purification on Work-boats' },
+  { id: 'modules', label: 'Centrifuge Modules by Dolphin Centrifuge' },
 ];
 
 const relatedApplications = [
@@ -108,7 +70,8 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Diesel Fuel Centrifuge | Sludge & Water Separator | Dolphin Centrifuge"
-  description="Diesel centrifuge separates sludge, rust, and water from fuel. Self-cleaning and manual-clean models 4–72 GPM. Class 1 Div 2 available. Dolphin Centrifuge."
+  pageTitle="Diesel Fuel Centrifuge | Sludge &amp; Water Separator"
+  description="Diesel centrifuge separates sludge, rust, and water from fuel. Self-cleaning and manual-clean models 4-72 GPM. Class 1 Div 2 available. Dolphin Centrifuge."
   category="applications"
   categoryLabel="Applications"
   heroImage="/images/diesel-centrifuge/diesel-centrifuge-hero-nb.webp"
@@ -120,138 +83,80 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for diesel fuel purification — removing sludge, rust, and free water from contaminated diesel in a single continuous pass. Separation efficiency reaches solid particles down to 0.5 microns and free water down to 2 microns. Systems range from 4 to 72 GPM and are available with Class 1 Division 2 explosion-proof certification for fuel tank farms and marine engine rooms. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of diesel fuel purification experience.</p>
-  </div>
-
   <h2 id="overview">Diesel Fuel Centrifuge</h2>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
+  <div class="md:flex md:gap-6 items-start mb-6">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
       <img
         src="/images/diesel-centrifuge/Alfa-Laval-Disc-Stack-Centrifuge-for-Diesel-Explosion-Proof.webp"
         alt="Alfa Laval Disc Stack Centrifuge for Diesel - Explosion Proof"
         width="600"
         height="887"
         loading="lazy"
-        class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0 float-right ml-6 mb-4"
+        class="rounded-lg object-contain w-full"
       />
-      <p>Rust sediment and sludge from storage tanks contaminate diesel fuel. Condensation in tanks causes water contamination. Alfa Laval diesel centrifuges separate all the solid particles &amp; moisture from diesel fuel. Clean diesel fuel is essential for the trouble-free operation of engines.</p>
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Disc Stack Centrifuge for Diesel - Explosion Proof</figcaption>
+    </figure>
+    <div class="flex-1">
+      <p>Rust sediment and sludge from storage tanks contaminate diesel fuel. Condensation in tanks causes water contamination. Alfa Laval diesel centrifuges separate all the solid particles &amp; moisture from diesel fuel.</p>
 
-      <p>
-        Contaminant-free fuel is essential for reliable engine performance. <a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval diesel fuel centrifuges</a> are designed to protect your engine room equipment by maintaining a clean diesel supply.
-      </p>
+      <p>Clean diesel fuel is essential for the trouble-free operation of engines. Contaminant-free fuel is essential for reliable engine performance. Alfa Laval diesel fuel centrifuges are designed to protect your engine room equipment by maintaining a clean diesel supply.</p>
+
+      <hr />
+      <p><em><strong><a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval Centrifuge Selection Guide</a> &lt;&lt;&lt; How to choose an Alfa Laval Centrifuge for your application.</strong></em></p>
+      <hr />
 
       <p>They have proven their efficiency and reliability and have been used worldwide for decades. These Alfa Laval diesel oil centrifuge modules keep the diesel fuel clean when installed between the storage tank and the day tank.</p>
     </div>
   </div>
 
-  <hr />
-  <p><em><strong><a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval Centrifuge Selection Guide</a> &mdash; How to choose an Alfa Laval Centrifuge for your application.</strong></em></p>
-  <hr />
-
-  <blockquote>
-    Dolphin Centrifuge supplies a wide range of self-cleaning fuel purifiers for heavy fuel and crude oils. These are available as separate modules and include pre-heaters, starters, and PLC control panels.
-  </blockquote>
-
-  <p>A recent application using a diesel fuel purifier for large-scale <a href="/diesel-fuel-purifier/">diesel recovery</a> was supplied by Dolphin using an Alfa Laval disc stack centrifuge (self-cleaning type).</p>
-
-  <h2 id="operation">How Does a Diesel Centrifuge Work?</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-300x300-1.webp"
-      alt="Alfa Laval MOPX205 Diesel Centrifuge Occidental"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
+  <div class="md:flex md:gap-6 items-start mb-6">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2.webp"
+        alt="Alfa Laval C1D2 Duplex Diesel Fuel Centrifuge"
+        width="400"
+        height="252"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval C1D2 Duplex Diesel Fuel Centrifuge</figcaption>
+    </figure>
     <div class="flex-1">
-      <p>
-        Under extremely high centrifugal force inside the rotating bowl, water and sludge are spun outward toward the bowl periphery. Clean diesel moves inward and is continuously discharged through a <strong>light-phase outlet</strong>.
-      </p>
+      <p>Dolphin Centrifuge supplies a wide range of self-cleaning fuel purifiers for heavy fuel and crude oils. These are available as separate modules and include per-heaters, starter, and PLC control panels.</p>
 
-      <p>
-        The separated water is collected and discharged through a separate passage from the bowl periphery. The accumulated sludge is periodically ejected by the <a href="/disc-stack-centrifuge/#self-cleaning-bowl">self-cleaning</a> mechanism built into the bowl.
-      </p>
+      <p>A recent application using a diesel fuel purifier for large-scale <a href="/diesel-fuel-purifier/">diesel recovery</a> was supplied by Dolphin using an Alfa Laval disc stack centrifuge (self-cleaning type).</p>
     </div>
   </div>
 
-  <img
-    src="/images/diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Class-1-Div-2-Explosion-Proof-600-1.webp"
-    alt="Alfa Laval Diesel Centrifuge - Class 1 Div 2 Explosion Proof"
-    width="600"
-    height="496"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">Alfa Laval Diesel Centrifuges - Class 1 Div 2 Explosion Proof</p>
+  <h2 id="operation">How does a diesel centrifuge work?</h2>
+
+  <div class="md:flex md:gap-6 items-start mb-6">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-300x300-1.webp"
+        alt="Alfa Laval MOPX205 Diesel Centrifuge Occidental"
+        width="300"
+        height="300"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval MOPX205 Diesel Centrifuge Occidental</figcaption>
+    </figure>
+    <div class="flex-1">
+      <p>Diesel centrifuge operation can be simply explained as follows. Under the extremely high centrifugal force inside the rotating bowl, the water &amp; sludge are spun out towards the outer periphery of the centrifuge bowl. At the same time, the clean diesel moves inwards and is continuously discharged through a 'light phase outlet.</p>
+
+      <p>The water is collected and discharged through a separate passage from the bowl periphery. The separated sludge is periodically ejected by the 'self-cleaning' mechanism built into the bowl.</p>
+    </div>
+  </div>
 
   <p><a href="/black-diesel-centrifuge/">What is a Black Diesel Centrifuge?</a></p>
 
-  <h3>Can a centrifuge separate diesel from engine oil?</h3>
+  <h2 id="diesel-engine-oil">Can a centrifuge separate diesel from engine oil?</h2>
 
-  <p>
-    <strong>No.</strong> Disc centrifuges use centrifugal force to separate <em>immiscible</em> liquids (liquids that don't dissolve in each other). Engine oil and diesel are miscible &mdash; they dissolve in each other &mdash; so centrifugal force cannot separate them.
-  </p>
+  <p>A centrifuge cannot separate diesel from engine oil. Disc centrifuges use centrifugal force to separate liquids from immiscible liquids. Engine oil and diesel are miscible liquids, i.e., they dissolve in each other. The centrifugal force in a centrifuge separates liquids with different specific gravities that do not dissolve in each other.</p>
 
   <h2 id="specifications">Specifications</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>DMPX-014</th>
-        <th>DMPX-028</th>
-        <th>DMPX-042</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Type</td><td>3-Phase; Self-Cleaning</td><td>3-Phase; Self-Cleaning</td><td>3-Phase; Self-Cleaning</td></tr>
-      <tr><td>Diesel Capacity</td><td>13&ndash;16 GPM</td><td>20&ndash;26 GPM</td><td>32&ndash;47 GPM</td></tr>
-      <tr><td>Separation Efficiency</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td></tr>
-      <tr><td>Bowl Speed</td><td>8,500 RPM</td><td>7,200 RPM</td><td>5,100 RPM</td></tr>
-      <tr><td>Centrifugal Force</td><td>8,000 Gs</td><td>7,200 Gs</td><td>6,800 Gs</td></tr>
-      <tr><td>Drive Motor</td><td>4 HP</td><td>7.5 HP</td><td>15 HP</td></tr>
-      <tr><td>Power</td><td>460V; 20A</td><td>460V; 30A</td><td>460V; 60A</td></tr>
-    </tbody>
-  </table>
-
-  <img
-    src="/images/diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Skid-for-Diesel-Dewatering.webp"
-    alt="Alfa Laval Diesel Centrifuge Skid for Diesel Dewatering"
-    width="600"
-    height="450"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">Alfa Laval Diesel Centrifuge Skid for Diesel Dewatering</p>
-
-  <hr />
-  <p><em><strong>If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></strong></em></p>
-  <hr />
-
-  <p>For manual-clean models (lower sludge applications):</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>DMB-004</th>
-        <th>DMB-007</th>
-        <th>DMB-028</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Type</td><td>2-Phase; Manual-Clean</td><td>2-Phase; Manual-Clean</td><td>2-Phase; Manual-Clean</td></tr>
-      <tr><td>Diesel Capacity</td><td>4 GPM</td><td>7 GPM</td><td>28 GPM</td></tr>
-      <tr><td>Separation</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td><td>Solids &gt; 0.5&mu;; Free water &gt; 2&mu;</td></tr>
-      <tr><td>Drive Motor</td><td>1.5 HP</td><td>2 HP</td><td>5 HP</td></tr>
-    </tbody>
-  </table>
-
-  <p>Legacy Alfa Laval model reference (self-cleaning series):</p>
 
   <table>
     <thead>
@@ -275,22 +180,38 @@ const relatedProducts = [
     </tbody>
   </table>
 
+  <hr />
+  <p><em><strong>If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></strong></em></p>
+  <hr />
+
+  <figure class="mb-6 max-w-lg mx-auto">
+    <img
+      src="/images/diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Skid-for-Diesel-Dewatering.webp"
+      alt="Alfa Laval Diesel Centrifuge Skid for Diesel Dewatering"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="rounded-lg object-contain w-full"
+    />
+    <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Diesel Centrifuge Skid for Diesel Dewatering</figcaption>
+  </figure>
+
   <h2 id="benefits">Benefits</h2>
 
   <p>There are several advantages to diesel centrifuges over conventional filters. Some of the key advantages are listed below.</p>
 
-  <h3>Sludge <em>and Water</em> Removal</h3>
+  <h3>Sludge and Water Removal</h3>
   <p>In addition to sludge or solid particles, disc centrifuges also remove water from diesel continuously. Simultaneous water removal is an advantage over filters that only remove solid particles.</p>
 
   <h3>High Separation Efficiency</h3>
-  <p>Disc stack centrifuges separate <strong>solid particles as small as 0.5 microns</strong> from diesel. The centrifuge also separates free water particles down to 2 microns. Fine mesh filters (1-micron level) plug up fast and need constant replacement.</p>
+  <p>Disc stack centrifuges separate solid particles as small as 0.5 microns from diesel. The centrifuge also separates free water particles down to 2 microns. Fine mesh filters (1-micron level) plug up fast and need constant replacement.</p>
 
   <h3>Continuous Performance without Degradation</h3>
   <p>Centrifuges use high centrifugal force to mechanically separate water and sludge from diesel fuel. Therefore, there is no performance degradation over time, irrespective of the amount of sludge in the diesel.</p>
   <p>Filter performance degrades over time as the separated sludge particles block the filter pores.</p>
 
   <h3>Automatic Operation without Manual Labor</h3>
-  <p>Self-cleaning diesel centrifuges <strong>automatically discharge</strong> the <strong>separated sludge</strong> intermittently. There is <strong>no manual labor</strong> involved in operating a centrifuge.</p>
+  <p>Self-cleaning diesel centrifuges automatically discharge the separated sludge intermittently. There is no manual labor involved in operating a centrifuge.</p>
   <p>Filters require manual replacement periodically, which adds to operating costs and downtime.</p>
 
   <!-- Mid-Page CTA -->
@@ -307,184 +228,150 @@ const relatedProducts = [
     </div>
   </div>
 
-  <h2 id="explosion-proof">Explosion Proof Diesel Centrifuges (Class 1 Div 2)</h2>
+  <h2 id="class-1-div-2">Diesel Centrifuge - Class 1 Div 2 for Hazardous Areas</h2>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
+  <div class="md:flex md:gap-6 items-start mb-6">
     <div class="flex-1">
-      <p>
-        Certain diesel purification applications require the use of specially configured centrifuges due to the location of the application. Offshore O&amp;G platforms, refineries, etc. need diesel centrifuges classified for Class 1 Div 2 or Class 1 Div 1 areas.
-      </p>
+      <p>Certain diesel purification applications require the use of specially configured centrifuges due to the location of the application. Offshore O&amp;G platforms, Refineries, etc. need diesel centrifuges classified for Class 1 Div 2 or Class 1 Div 1 areas.</p>
 
-      <p>
-        These specific diesel oil centrifuges have special design features that allow their use in hazardous areas. The electrical controls and other electrical components must also be certified for such zones.
-      </p>
+      <p>These specific diesel oil centrifuges have special design features that allow their use in hazardous areas. The electrical controls and other electrical components must also be certified for such zones.</p>
     </div>
-    <img
-      src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Calss-1-Div-2-Explosion-Proof-600.webp"
-      alt="Alfa Laval Diesel Centrifuge Class 1 Div 2 Explosion Proof"
-      width="600"
-      height="496"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/alfa-laval-diesel-centrifuge/Alfa-Laval-Diesel-Centrifuge-Calss-1-Div-2-Explosion-Proof-600.webp"
+        alt="Alfa Laval Diesel Centrifuge Duplex Skid - Class 1 Div 2 Certified"
+        width="600"
+        height="496"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval Diesel Centrifuge Duplex Skid - Class 1 Div 2 Certified</figcaption>
+    </figure>
   </div>
 
-  <img
-    src="/images/diesel-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
-    alt="DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module"
-    width="600"
-    height="578"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module</p>
+  <figure class="mb-6">
+    <div class="grid grid-cols-2 gap-3">
+      <img
+        src="/images/diesel-centrifuge/Alfa-Laval-diesel-centrifuge-classified-class1-div2.webp"
+        alt="Alfa Laval diesel centrifuge classified class 1 div 2"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg aspect-square object-contain w-full"
+      />
+      <img
+        src="/images/diesel-centrifuge/DMPX-028-Class-1-Div-2-Duplex-Diesel-Centrifuge-Module-600.webp"
+        alt="DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module"
+        width="600"
+        height="578"
+        loading="lazy"
+        class="rounded-lg aspect-square object-contain w-full"
+      />
+    </div>
+    <figcaption class="text-gray-500 text-sm mt-1 text-center">DMPX-028 Class 1 Div 2 Duplex Diesel Centrifuge Module</figcaption>
+  </figure>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/diesel-centrifuge/Alfa-Laval-duplex-diesel-centrifuge-class1-div2-400.webp"
-      alt="Alfa Laval duplex diesel centrifuge class 1 div 2 explosion proof"
-      width="400"
-      height="252"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[380px] shrink-0"
-    />
-    <img
-      src="/images/diesel-centrifuge/Alfa-Laval-diesel-centrifuge-classified-class1-div2.webp"
-      alt="Alfa Laval diesel centrifuge classified class 1 div 2"
-      width="600"
-      height="600"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[560px] shrink-0"
-    />
-  </div>
+  <h2 id="workboats">Diesel Purification on Work-boats</h2>
 
-  <h2 id="workboat">Diesel Purification on Workboats</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/diesel-centrifuge/Offshore-Explosion-Proof-Diesel-Centrifuge.webp"
-      alt="Offshore explosion proof diesel centrifuge"
-      width="600"
-      height="600"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
+  <div class="md:flex md:gap-6 items-start mb-6">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/diesel-centrifuge/Offshore-Explosion-Proof-Diesel-Centrifuge.webp"
+        alt="Offshore explosion proof diesel centrifuge"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Offshore Explosion Proof Diesel Centrifuge</figcaption>
+    </figure>
     <div class="flex-1">
-      <p>
-        <strong>Small-footprint</strong> Alfa Laval diesel centrifuges are designed for fuel &amp; engine oil purification on vessels such as tugs, barges, yachts, etc.
-      </p>
+      <p>Small-footprint Alfa Laval diesel centrifuges are designed for fuel &amp; engine oil purification on vessels such as tugs, barges, yachts, etc.</p>
 
-      <p>
-        Typically installed on day tanks, these centrifugal diesel purifiers remove the water and sediment contamination supplying clean fuel while keeping the lubricating oil clean.
-      </p>
+      <p>Typically installed on day tanks, these centrifugal diesel purifiers remove the water and sediment contamination supplying clean fuel while keeping the lubricating oil clean.</p>
 
       <p>At the bottom are diesel centrifuge packages of different capacities featuring Alfa Laval centrifuges.</p>
     </div>
   </div>
 
-  <h2 id="models">Available Diesel Centrifuge Systems</h2>
+  <h2 id="modules">Centrifuge Modules by Dolphin Centrifuge</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>System</th>
-        <th>Type</th>
-        <th>Diesel Capacity</th>
-        <th>Best For</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>DMB-004</td><td>Manual-Clean</td><td>4 GPM</td><td>Small marine / workboat</td></tr>
-      <tr><td>DMB-007</td><td>Manual-Clean</td><td>7 GPM</td><td>Medium marine / generator</td></tr>
-      <tr><td>DMB-028</td><td>Manual-Clean</td><td>28 GPM</td><td>Large marine / industrial</td></tr>
-      <tr><td>DMPX-014</td><td>Self-Cleaning</td><td>13&ndash;16 GPM</td><td>Industrial fuel polishing</td></tr>
-      <tr><td>DMPX-028</td><td>Self-Cleaning</td><td>20&ndash;26 GPM</td><td>Tank farm / fuel depot</td></tr>
-      <tr><td>DMPX-042</td><td>Self-Cleaning</td><td>32&ndash;47 GPM</td><td>Large-scale fuel recovery</td></tr>
-      <tr><td>DMPX-070</td><td>Self-Cleaning</td><td>59&ndash;72 GPM</td><td>High-volume fuel processing</td></tr>
-    </tbody>
-  </table>
+  <div class="md:flex md:gap-6 items-start mb-8">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/diesel-centrifuge/Alfa-Laval-MAPX210-Diesel-Skid.webp"
+        alt="Alfa Laval MAPX-210 Diesel Centrifuge"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval MAPX-210 Diesel Centrifuge</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3>Alfa Laval MOPX 210 Specifications</h3>
+      <table>
+        <tbody>
+          <tr><td>Flow-Rate</td><td>30 GPM on Diesel</td></tr>
+          <tr><td>Motor</td><td>10 HP</td></tr>
+          <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
+          <tr><td>Size</td><td>5' x 6' x 8' (H)</td></tr>
+          <tr><td>Weight</td><td>4,000 Lbs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <p>
-    All systems are available in standard and explosion-proof configurations. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a recommendation based on your fuel volume, contamination level, and installation environment.
-  </p>
+  <div class="md:flex md:gap-6 items-start mb-8">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/diesel-centrifuge/Alfa-Laval-MOPX213-Crude-Slop-Centrifuge.webp"
+        alt="Alfa Laval MOPX213 Crude Slop Centrifuge"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">3-Phase High-Speed Disc Centrifuge</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3>Alfa Laval MOPX 213 Specifications</h3>
+      <table>
+        <tbody>
+          <tr><td>Flow-Rate</td><td>60 GPM on Diesel</td></tr>
+          <tr><td>Motor</td><td>15 HP</td></tr>
+          <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
+          <tr><td>Size</td><td>6' x 6' x 8' (H)</td></tr>
+          <tr><td>Weight</td><td>5,000 Lbs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <h2 id="legacy-al-specs">Centrifuge Modules by Dolphin Centrifuge</h2>
-
-  <img
-    src="/images/diesel-centrifuge/Alfa-Laval-MAPX210-Diesel-Skid.webp"
-    alt="Alfa Laval MAPX-210 Diesel Centrifuge"
-    width="600"
-    height="600"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">Alfa Laval MAPX-210 Diesel Centrifuge</p>
-
-  <h3>Alfa Laval MOPX 210 Specifications</h3>
-  <table>
-    <tbody>
-      <tr><td>Flow-Rate</td><td>30 GPM on Diesel</td></tr>
-      <tr><td>Motor</td><td>10 HP</td></tr>
-      <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
-      <tr><td>Size</td><td>5' x 6' x 8' (H)</td></tr>
-      <tr><td>Weight</td><td>4,000 Lbs</td></tr>
-    </tbody>
-  </table>
-
-  <img
-    src="/images/diesel-centrifuge/Alfa-Laval-MOPX213-Crude-Slop-Centrifuge.webp"
-    alt="Alfa Laval MOPX213 Crude Slop Centrifuge"
-    width="600"
-    height="600"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">3-Phase High-Speed Disc Centrifuge</p>
-
-  <h3>Alfa Laval MOPX 213 Specifications</h3>
-  <table>
-    <tbody>
-      <tr><td>Flow-Rate</td><td>60 GPM on Diesel</td></tr>
-      <tr><td>Motor</td><td>15 HP</td></tr>
-      <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
-      <tr><td>Size</td><td>6' x 6' x 8' (H)</td></tr>
-      <tr><td>Weight</td><td>5,000 Lbs</td></tr>
-    </tbody>
-  </table>
-
-  <img
-    src="/images/diesel-centrifuge/black-diesel-centrifuge-e1612044111623.webp"
-    alt="Alfa Laval MAB206 Diesel Centrifuge"
-    width="300"
-    height="300"
-    loading="lazy"
-    class="rounded-lg mb-4"
-  />
-  <p class="text-sm text-text-light italic mb-6">Alfa Laval MAB-206 Diesel Centrifuge</p>
-
-  <h3>Alfa Laval MAB 206 Specifications</h3>
-  <table>
-    <tbody>
-      <tr><td>Flow-Rate</td><td>26 GPM on MDO</td></tr>
-      <tr><td>Motor</td><td>7.5 HP</td></tr>
-      <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
-      <tr><td>Size</td><td>5' x 6' x 5' (H)</td></tr>
-      <tr><td>Weight</td><td>2,000 Lbs</td></tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <p>
-    <strong>Related resources:</strong>
-    <a href="/alfa-laval-centrifuge-selection-guide/">Centrifuge Selection Guide</a> |
-    <a href="/black-diesel-centrifuge/">Black Diesel Applications</a> |
-    <a href="/explosion-proof-centrifuge/">Explosion Proof Centrifuges</a> |
-    <a href="/disc-stack-centrifuge/">Disc Stack Centrifuge Overview</a> |
-    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
-    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Stack Centrifuge</a>
-  </p>
-
-  <FAQ items={faqItems} />
+  <div class="md:flex md:gap-6 items-start mb-8">
+    <figure class="md:w-1/3 shrink-0 mb-4 md:mb-0">
+      <img
+        src="/images/diesel-centrifuge/black-diesel-centrifuge-e1612044111623.webp"
+        alt="Alfa Laval MAB206 Diesel Centrifuge"
+        width="300"
+        height="300"
+        loading="lazy"
+        class="rounded-lg object-contain w-full"
+      />
+      <figcaption class="text-gray-500 text-sm mt-1 text-center">Alfa Laval MAB-206 Diesel Centrifuge</figcaption>
+    </figure>
+    <div class="flex-1">
+      <h3>Alfa Laval MAB 206 Specifications</h3>
+      <table>
+        <tbody>
+          <tr><td>Flow-Rate</td><td>26 GPM on MDO</td></tr>
+          <tr><td>Motor</td><td>7.5 HP</td></tr>
+          <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
+          <tr><td>Size</td><td>5' x 6' x 5' (H)</td></tr>
+          <tr><td>Weight</td><td>2,000 Lbs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 </ApplicationLayout>

@@ -1,28 +1,9 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is an industrial centrifuge used for?",
-    answer: "An industrial centrifuge separates solids from liquids and immiscible liquids from each other using centrifugal force thousands of times that of gravity. Applications include waste oil purification, wastewater treatment, biodiesel production, food processing, chemical manufacturing, pharmaceutical production, and metalworking coolant recycling."
-  },
-  {
-    question: "How much does an industrial centrifuge cost?",
-    answer: "Small filtration-type centrifuges from established manufacturers start at approximately $30K, while high-capacity units can exceed $300K. Remanufactured units typically cost 60% of comparable new filtration centrifuges. Small decanter centrifuges start around $50K; high-capacity decanters can exceed $1M. Contact Dolphin Centrifuge for a quote on your specific application."
-  },
-  {
-    question: "What is the difference between a decanter and a disc stack centrifuge?",
-    answer: "Both are solid bowl (sedimentation) centrifuges. A decanter centrifuge uses a scroll (auger) to continuously push separated solids out of the bowl and handles high solids loads (up to 40%+ solids). A disc stack centrifuge uses a stack of conical discs to achieve very high g-forces (up to 12,000 Gs) for fine particle and liquid-liquid separation, ideal for clarification and 3-phase separation."
-  },
-  {
-    question: "What centrifugal force (G-force) do industrial centrifuges generate?",
-    answer: "Sedimentation-type centrifuges generate 3,000 to 12,000 Gs of centrifugal force. Filtration-type centrifuges typically operate below 2,000 Gs. The higher the G-force, the finer the particles that can be separated — down to 0.5 microns in high-speed disc stack centrifuges."
-  },
-  {
-    question: "What capacity (GPM) do industrial centrifuges handle?",
-    answer: "Decanter centrifuges process 5 to 300+ gallons per minute. Industrial disc stack centrifuges handle 1 to 200+ GPM. The actual capacity depends on the process fluid, viscosity, temperature, and solids concentration. Contact Dolphin Centrifuge for sizing guidance."
-  },
-];
+// FAQ: This is a legitimate FAQ page (LW has RankMath shortcode).
+// CC-generated FAQ content removed. Pending RankMath recovery data or co-creation with Sanjay.
+const faqItems = [];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -42,18 +23,7 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
+// FAQPage schema removed - no FAQ content yet. Will be re-added when FAQ is co-created with Sanjay.
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -71,17 +41,16 @@ const articleJsonLd = {
   "datePublished": "2021-03-01",
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'what-is', label: 'What is an Industrial Centrifuge?' },
   { id: 'types', label: 'Types of Industrial Centrifuges' },
-  { id: 'difference', label: 'Filtration vs Sedimentation' },
+  { id: 'difference', label: 'Difference Between Filtration and Sedimentation Centrifuges' },
   { id: 'capacity', label: 'Capacity' },
   { id: 'size', label: 'Size' },
   { id: 'cost', label: 'Cost' },
   { id: 'manufacturers', label: 'Manufacturers' },
-  { id: 'faq', label: 'FAQ' },
   { id: 'applications', label: 'Applications' },
   { id: 'benefits', label: 'Benefits' },
   { id: 'summary', label: 'Summary' },
@@ -102,7 +71,8 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Industrial Centrifuge | Types & Applications | Dolphin Centrifuge"
+  title="Industrial Centrifuge | Types, Applications, Cost & Benefits"
+  pageTitle="Industrial Centrifuge | Types, Applications, Cost & Benefits - Alfa Laval Centrifuge Systems - from Dolphin Centrifuge"
   description="Industrial centrifuges for liquid-solid and liquid-liquid separation: disc stack and decanter types, 1-300+ GPM, 3,000-12,000 Gs. Dolphin Centrifuge, MI."
   heroImage="/images/homepage/hero/stainless-steel-shop.webp"
   heroImageAlt="Industrial Centrifuge Systems for Waste Oil"
@@ -114,11 +84,6 @@ const relatedProducts = [
   canonicalUrl="https://dolphincentrifuge.com/industrial-centrifuge/"
   jsonLd={jsonLd}
 >
-
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies industrial disc stack and decanter centrifuge systems for liquid-solid and liquid-liquid separation at 3,000 to 12,000 Gs. Processing 1 to 300+ GPM across oil, wastewater, food, and chemical industries without filter media. Warren, Michigan — over 40 years of experience.</p>
-  </div>
 
   <!-- ══ What is an Industrial Centrifuge? ══ -->
   <h2 id="what-is">What is an Industrial Centrifuge?</h2>
@@ -159,7 +124,7 @@ const relatedProducts = [
 
   <h3>Sedimentation or Solid Bowl</h3>
 
-  <img src="/images/diagrams/Decanter-Cross-Section-nb.webp" alt="Decanter Cross Section" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/industrial-centrifuge/Decanter-Cross-Section-600.webp" alt="Decanter Cross Section" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Decanter Centrifuge Cross Section Diagram</p>
 
   <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Dewatering Centrifuge Animation" width="533" height="188" loading="lazy" class="rounded-lg w-full mb-2" />
@@ -193,64 +158,71 @@ const relatedProducts = [
 
   <p>For more information, please read our detailed article on the <a href="/ethanol-extraction-centrifuges-technical-comparison/">technical difference between basket (filtration type) and decanter (sedimentation type) centrifuges</a>.</p>
 
-    <!-- Comparison table — compact, scannable format -->
-    <div class="overflow-x-auto mb-4">
-      <table class="w-full text-sm border-collapse">
-        <thead>
-          <tr class="bg-navy text-white">
-            <th class="text-left p-3 rounded-tl-lg w-1/4">Feature</th>
-            <th class="text-left p-3 w-[37.5%]">Filtration Type</th>
-            <th class="text-left p-3 rounded-tr-lg w-[37.5%]">Sedimentation Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="bg-white border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Separation Efficiency</td>
-            <td class="p-3 text-text-light">Limited to media perforation/mesh size</td>
-            <td class="p-3 text-text-light"><strong>Wide particle range</strong> — centrifugal force separates all sizes</td>
-          </tr>
-          <tr class="bg-blue-50 border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy"><a href="https://en.wikipedia.org/wiki/G-force" class="text-navy underline hover:text-gold-dark" target="_blank" rel="noopener">G-Force</a></td>
-            <td class="p-3 text-text-light">&lt; 2,000 Gs</td>
-            <td class="p-3 text-text-light"><strong>3,000–10,000 Gs</strong></td>
-          </tr>
-          <tr class="bg-white border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Solids Extraction</td>
-            <td class="p-3 text-text-light">Periodic scraping — blade removes accumulated solids</td>
-            <td class="p-3 text-text-light">Continuous — scroll auger pushes solids out during operation</td>
-          </tr>
-          <tr class="bg-blue-50 border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Liquid Discharge</td>
-            <td class="p-3 text-text-light">Gravity drain through perforated bowl</td>
-            <td class="p-3 text-text-light">Pressure discharge via built-in pump</td>
-          </tr>
-          <tr class="bg-white border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Replaceable Media</td>
-            <td class="p-3 text-text-light">Yes — adds labor and material costs</td>
-            <td class="p-3 text-text-light"><strong>None required</strong></td>
-          </tr>
-          <tr class="bg-blue-50 border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Moving Parts</td>
-            <td class="p-3 text-text-light">Articulated scraper/blade — periodic</td>
-            <td class="p-3 text-text-light">Rotating scroll — continuous ejection</td>
-          </tr>
-          <tr class="bg-white border-b border-gray-100">
-            <td class="p-3 font-semibold text-navy">Bowl Construction</td>
-            <td class="p-3 text-text-light">Perforated — perforation size sets particle cutoff</td>
-            <td class="p-3 text-text-light">Solid bowl — more durable, longer service life</td>
-          </tr>
-          <tr class="bg-blue-50">
-            <td class="p-3 font-semibold text-navy">Erosion Protection</td>
-            <td class="p-3 text-text-light">Pore wear difficult to protect. Scraper edges need hard coating</td>
-            <td class="p-3 text-text-light">Scroll flights coated with <strong>tungsten carbide</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="text-text-light text-sm mb-2">
-      Read our article about <a href="/centrifuge-rcf-rpm-difference-calculation/">the difference between RPM and RCF</a>.
-    </p>
-  </div>
+  <h3>Separation Efficiency</h3>
+
+  <p>The particle size efficiency of industrial centrifuges varies in size primarily due to the centrifuge design and other operating parameters such as flow rate, fluid viscosity, centrifugal force, etc.</p>
+
+  <p>The media or mesh perforation size in the filtration-type centrifuge defines the particle size efficiency. Therefore, a filtration centrifuge separates particles bigger than the perforation size in the bowl wall or screen. This separation ability limits the application of filtration-type centrifuges to the preset size of the screen media or mesh size.</p>
+
+  <p>The sedimentation centrifuge, however, uses the centrifugal force for separation. The scroll pushes all the separated solids out of the centrifuge bowl, regardless of size. <strong>Therefore, a solid bowl or sedimentation centrifuge can separate a wide range of particle sizes from the liquid.</strong></p>
+
+  <p>In general, the particle size efficiency of the sedimentation centrifuge is higher than that of filtration-type centrifuges.</p>
+
+  <h3>Gravitational or Centrifugal Force</h3>
+
+  <p>Sedimentation centrifuges use the difference between the specific gravity of the solids and liquids to affect separation. Therefore, these centrifuges exert a high centrifugal force (RCF) for effective separation.</p>
+
+  <p>Filtration-type centrifuges need a lower <a href="https://en.wikipedia.org/wiki/G-force" target="_blank" rel="noopener">g-force</a> to push the liquid through the bowl perforations.</p>
+
+  <p>Typically the sedimentation-type centrifuges have centrifugal force from 3,000 Gs to 10,000 Gs, while the filtration-type centrifuges have <strong>less than 2,000 Gs.</strong></p>
+
+  <p>Read our article about <a href="/centrifuge-rcf-rpm-difference-calculation/">the difference between RPM and RCF</a>.</p>
+
+  <h3>Separated Solids Extraction</h3>
+
+  <p>The sedimentation centrifuge ejects the separated solids continuously during sedimentation. A rotating scroll within the bowl pushes the solids out during the separation process.</p>
+
+  <p>A filtration-type centrifuge accumulates the separated solids, which a scraper scrapes out of the bowl periodically. The scraped solids then fall out from the bowl by gravity.</p>
+
+  <h3>Separated Liquid Discharge</h3>
+
+  <p>The flow-through bowl of the filtration centrifuge allows the liquid to flow out of the bowl. The separated liquid collects in the casing and drains out.</p>
+
+  <p>The separated fluid in a sedimentation centrifuge rotates at high speed. The built-in pump converts the rotational energy into pressure that discharges the separated liquid under pressure.</p>
+
+  <h3>Replaceable Media</h3>
+
+  <p>As the name suggests, a filtration centrifuge often uses replaceable filtration media. This media replacement adds to labor and material costs.</p>
+
+  <p>A solid bowl sedimentation centrifuge uses the amplified force of gravity to separate the liquid from the solids. This type of centrifuge does not require replaceable media, thereby saving cost and time.</p>
+
+  <h3>Centrifuge Design</h3>
+
+  <p>There are essential differences between the sedimentation and filtration centrifuges in their design. The following are the key differences between these centrifuges.</p>
+
+  <h3>Moving Parts</h3>
+
+  <p>The moving parts in this section refer to internal moving parts within the centrifuge. The rotating bowl is a standard moving part in all centrifuges.</p>
+
+  <p>The filtration-type centrifuge typically has an articulated scraper or blade that periodically scrapes the separated solids from the inside surface of the bowl. The scraped solids then fall out from the bowl by gravity.</p>
+
+  <p>A rotating scroll within the sedimentation centrifuge bowl pushes out the separated solids. This solids ejection is a continuous process during which the solids eject out from the rotating bowl due to the centrifugal force.</p>
+
+  <h3>Bowl Construction</h3>
+
+  <p>The filtration-type centrifuge has a perforated bowl to separate liquid from solids and let the separated liquid pass through. The perforation size of the bowl determines the particle size that the centrifuge can separate.</p>
+
+  <p>A sedimentation centrifuge has a solid bowl; therefore, it is also known as a solid bowl centrifuge.</p>
+
+  <h3>Erosion Protection</h3>
+
+  <p>Certain areas of the centrifuge bowl are prone to erosion due to contact with moving abrasive particles.</p>
+
+  <p>The solid particles passing through bowl perforations in a filtration centrifuge can wear out the pores expanding the perforation sizes over time. The application of erosion protection to these pores is not always feasible.</p>
+
+  <p>The solid scraper or plow in the filtration centrifuge is susceptible to wear. A hard surface coating on the plow edge ensures wear resistance.</p>
+
+  <p>The rotating scroll in the sedimentation centrifuge bowl pushes out the solids. The scroll flights are always in contact with the solids and experience erosion wear. The application of erosion-resistant material, such as tungsten carbide, protects the scroll flights from wear.</p>
 
   <!-- ══ Capacity ══ -->
   <h2 id="capacity">Capacity</h2>
@@ -306,10 +278,7 @@ const relatedProducts = [
         </tbody>
       </table>
     </div>
-    <p class="text-text-light text-sm mt-4">
-      Note: The rated capacity listed above is for water. For viscous fluids such as heavy oils, the effective throughput is significantly lower. The actual processing capacity depends on fluid viscosity, solids concentration, temperature, and desired separation quality. <a href="/contact-for-alfa-laval-centrifuges/" class="text-navy underline hover:text-gold-dark">Contact Dolphin Centrifuge</a> for application-specific sizing recommendations.
-    </p>
-  </div>
+    </div>
 
   <!-- ══ Size ══ -->
   <h2 id="size">Size</h2>
@@ -439,20 +408,8 @@ const relatedProducts = [
   </div>
 
   <!-- ══ FAQ ══ -->
-  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-4">
-      {faqItems.map((item) => (
-        <details class="border-l-4 border-gold/40 rounded-lg overflow-hidden">
-          <summary class="flex items-center justify-between p-4 cursor-pointer bg-light-bg hover:bg-blue-50 font-semibold text-navy">
-            <span>{item.question}</span>
-            <span class="text-gold text-xl ml-4">&#8964;</span>
-          </summary>
-          <div class="p-4 text-text-light text-sm leading-relaxed">{item.answer}</div>
-        </details>
-      ))}
-    </div>
-  </div>
+  <!-- FAQ section: This is a legitimate FAQ page. Content pending RankMath recovery or co-creation with Sanjay. -->
+  <!-- When FAQ content is ready, restore the FAQ component here with real Q&As and FAQPage schema. -->
 
   <!-- ══ Applications ══ -->
   <h2 id="applications">Applications</h2>
