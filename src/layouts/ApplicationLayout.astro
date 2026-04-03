@@ -15,6 +15,7 @@ interface RelatedLink {
 
 interface Props {
   title: string;
+  pageTitle?: string;
   description?: string;
   heroImage?: string;
   heroImageAlt?: string;
@@ -30,6 +31,7 @@ interface Props {
 
 const {
   title,
+  pageTitle,
   description,
   heroImage,
   heroImageAlt = '',
@@ -58,7 +60,7 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title={title}
+  title={pageTitle || title}
   description={description}
   canonicalUrl={canonicalUrl}
   breadcrumbs={breadcrumbs}

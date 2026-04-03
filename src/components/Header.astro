@@ -6,17 +6,45 @@ const navItems = [
   {
     label: 'Applications',
     href: '/disc-stack-centrifuge-applications/',
-    children: [
-      { label: 'Wastewater', href: '/applications/wastewater/' },
-      { label: 'Waste Oil', href: '/applications/used-motor-oil/' },
-      { label: 'Waste Vegetable Oil (WVO)', href: '/applications/waste-veggie-oil/' },
-      { label: 'Water-Based Fluids', href: '/applications/water-based-fluids/' },
-      { label: 'Oil-Based Fluids', href: '/applications/oil-based-fluids/' },
-      { label: 'Industrial Oils', href: '/applications/industrial-oils/' },
-      { label: 'Fuels', href: '/applications/fuels/' },
-      { label: 'Crude Oil', href: '/applications/crude-oil/' },
-      { label: 'All Applications A-Z', href: '/disc-stack-centrifuge-applications/' },
+    flyout: true,
+    appItems: [
+      { label: 'Beer, Wine, Cider & Juice', href: '/beer-wine-centrifuge/' },
+      { label: 'Biomass & Organics', href: '#', children: [
+        { label: 'Algae Harvesting - Large Scale', href: '/algae-centrifuge/' },
+        { label: 'Liquid Humus Fertilizer', href: '/liquid-humus-centrifuge/' },
+        { label: 'Manure Centrifuge Separator', href: '/manure-centrifuge-separator/' },
+        { label: 'Ethanol Extraction', href: '/ethanol-extraction-centrifuges-technical-comparison/' },
+      ]},
+      { label: 'Crude Oil & BS&W', href: '#', children: [
+        { label: 'Crude Oil Centrifuge', href: '/crude-oil-centrifuge/' },
+        { label: 'Tank Bottom Recovery', href: '/crude-oil-tank-bottom-recovery-centrifuge/' },
+      ]},
+      { label: 'Fish Processing Centrifuge', href: '/fish-processing-centrifuge/' },
+      { label: 'Fuel Separation', href: '#', children: [
+        { label: 'Diesel Fuel Purification', href: '/diesel-centrifuge/' },
+        { label: 'Fuel Oil / HFO Separator', href: '/fuel-oil-centrifuge/' },
+        { label: 'Pyrolysis Oil Centrifuge', href: '/pyrolysis-oil-centrifuge/' },
+      ]},
+      { label: 'Industrial Fluids (Coolant, Cutting Oil..)', href: '#', children: [
+        { label: 'Cutting Oil Centrifuge', href: '/cutting-oil-centrifuge/' },
+        { label: 'Industrial Washer Fluid', href: '/industrial-washer-fluid-centrifuge/' },
+        { label: 'Machining Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
+        { label: 'Quench Oil Filtration', href: '/quench-oil-centrifuge/' },
+      ]},
+      { label: 'Lube & Hydraulic Oil Purification', href: '#', children: [
+        { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+        { label: 'Hydraulic Oil Centrifuge', href: '/hydraulic-oil-centrifuge/' },
+      ]},
+      { label: 'Used - Waste Oil Separation', href: '#', children: [
+        { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+        { label: 'Used Oil Centrifuge', href: '/used-oil-centrifuge/' },
+        { label: 'WVO Centrifuge', href: '/wvo-centrifuge-separator/' },
+        { label: 'Black Diesel Centrifuge', href: '/black-diesel-centrifuge/' },
+        { label: 'Biodiesel Separation', href: '/biodiesel-centrifuge/' },
+      ]},
+      { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
     ],
+    footerLink: { label: 'View All Applications A-Z', href: '/disc-stack-centrifuge-applications/' },
   },
   {
     label: 'Centrifuges',
@@ -105,14 +133,56 @@ const navItems = [
             class="flex items-center gap-1 px-3 py-2 text-sm font-semibold text-gray-200 hover:text-white rounded-md hover:bg-white/10 transition-all"
           >
             {item.label}
-            {item.children && (
+            {(item.children || item.flyout) && (
               <svg class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             )}
           </a>
-          {/* Dropdown */}
-          {item.children && (
+          {/* Flyout dropdown (Applications) — LW-style progressive disclosure */}
+          {item.flyout && item.appItems && (
+            <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[280px]">
+                {item.appItems.map((app) => (
+                  app.children ? (
+                    <div class="app-flyout-group relative">
+                      <a
+                        href={app.href}
+                        class="flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-navy hover:bg-light-bg hover:text-gold-dark transition-colors"
+                      >
+                        {app.label}
+                        <svg class="w-3.5 h-3.5 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      <div class="app-flyout-sub absolute left-full top-0 pl-1 opacity-0 invisible transition-all duration-150">
+                        <div class="bg-white rounded-lg shadow-xl border border-gray-100 py-2 min-w-[240px]">
+                          {app.children.map((sub) => (
+                            <a href={sub.href} class="block px-4 py-2 text-sm text-gray-600 hover:text-navy hover:bg-light-bg transition-colors">
+                              {sub.label}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <a href={app.href} class="block px-4 py-2.5 text-sm font-semibold text-navy hover:bg-light-bg hover:text-gold-dark transition-colors">
+                      {app.label}
+                    </a>
+                  )
+                ))}
+                {item.footerLink && (
+                  <div class="mt-1 pt-2 border-t border-gray-100 px-4 pb-2">
+                    <a href={item.footerLink.href} class="text-sm text-gray-400 hover:text-navy italic transition-colors">
+                      {item.footerLink.label} &rarr;
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {/* Simple dropdown (other nav items) */}
+          {item.children && !item.mega && (
             <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[220px]">
                 {item.children.map((child) => (
@@ -170,6 +240,32 @@ const navItems = [
           >
             {item.label}
           </a>
+          {/* Flyout menu mobile (Applications) */}
+          {item.flyout && item.appItems && (
+            <div class="pl-6 space-y-1">
+              {item.appItems.map((app) => (
+                app.children ? (
+                  <div class="mt-2">
+                    <div class="px-4 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">{app.label}</div>
+                    {app.children.map((sub) => (
+                      <a href={sub.href} class="block px-6 py-1.5 text-sm text-gray-400 hover:text-gold transition-colors">
+                        {sub.label}
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <a href={app.href} class="block px-4 py-2 text-sm text-gray-300 font-medium hover:text-gold transition-colors">
+                    {app.label}
+                  </a>
+                )
+              ))}
+              {item.footerLink && (
+                <a href={item.footerLink.href} class="block px-4 py-2 text-sm text-gray-500 italic hover:text-gold transition-colors mt-2">
+                  {item.footerLink.label} &rarr;
+                </a>
+              )}
+            </div>
+          )}
           {/* Regular children (non-mega) */}
           {item.children && !item.mega && (
             <div class="pl-6 space-y-0.5">
@@ -223,3 +319,11 @@ const navItems = [
     lastScroll = window.scrollY;
   }, { passive: true });
 </script>
+
+<style>
+  /* Applications flyout — show sub-menu on hover */
+  .app-flyout-group:hover > .app-flyout-sub {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+</style>
