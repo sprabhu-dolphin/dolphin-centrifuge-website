@@ -5,11 +5,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  fidelity-scaffold:
+  decision-validation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Placeholder
-        run: echo "Fidelity workflow scaffold in place"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate decisions
+        run: npm run validate:decisions
