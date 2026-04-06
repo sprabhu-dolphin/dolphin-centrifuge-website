@@ -1,5 +1,29 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "What is a crude oil centrifuge?",
+    answer: "A crude oil centrifuge is an industrial centrifuge designed to dewater crude oil and separate particulate matter. These centrifuges exert high centrifugal forces (over 8,000 Gs) to continuously remove all water and sludge particles from crude oil streams, producing sale oil with less than 0.1% BS&W."
+  },
+  {
+    question: "What is BS&W in crude oil?",
+    answer: "BS&W stands for Basic Sediment and Water — the total water and solids content in crude oil. Sale oil specifications typically require less than 0.5% to 1% BS&W. A crude oil centrifuge system can reliably produce oil with less than 0.1% BS&W."
+  },
+  {
+    question: "What is a tank bottoms recovery centrifuge?",
+    answer: "Tank bottoms are the residue in crude oil settling tanks — a mixture of oil, water, and sediment. A tank bottoms recovery centrifuge processes this residue to recover saleable crude oil. Dolphin's Oil Recovery System (ORS) uses a three-step process: pre-straining, decanter de-sludging, and disc stack polishing to recover oil with less than 0.1% BS&W."
+  },
+  {
+    question: "What are the advantages of centrifuges over heater treaters for crude oil?",
+    answer: "Centrifuges offer high throughput (thousands of Gs vs. 1 G for gravity settling), compact size, energy efficiency (inline heating vs. heating thousands of barrels), quick deployment, lower capital expense, reduced oil losses (less than 1% BS&W), better quality oil, and reduced disposal costs due to drier sludge cake output."
+  },
+  {
+    question: "What is the difference between a decanter and a disc stack centrifuge for crude oil?",
+    answer: "A decanter centrifuge is used as the first line of defense for removing heavy, abrasive solids (sludge) from crude oil streams. A disc stack centrifuge operates at higher speeds (7,000+ Gs) to separate liquid phases — removing water and fine sediment from de-sludged oil to produce sale-quality crude. Most crude oil processing systems use both in sequence."
+  }
+];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -16,6 +40,19 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/<[^>]*>/g, '')
+    }
+  }))
 };
 
 const articleJsonLd = {
@@ -35,7 +72,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'design-operation', label: 'Design and Operation' },
@@ -43,7 +80,8 @@ const toc = [
   { id: 'specifications', label: 'Specifications' },
   { id: 'advantages', label: 'Advantages' },
   { id: 'modules', label: 'Centrifuge Modules' },
-  ];
+  { id: 'faq', label: 'FAQ' },
+];
 
 const relatedApplications = [
   { label: 'Oil Centrifuge', href: '/oil-centrifuge/' },
@@ -60,7 +98,7 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Crude Oil Centrifuge | Operation, Uses, Specs, Benefits"
+  title="Crude Oil Centrifuge | Operation, Uses, Specs & Benefits | Dolphin Centrifuge"
   description="Disc centrifuges for crude oil dewatering and desalting. Remove BS&W to pipeline spec. Dolphin Centrifuge supplies WHPX-series purifiers. Call for pricing."
   category="applications"
   categoryLabel="Oil &amp; Gas Application"
@@ -73,6 +111,11 @@ const relatedProducts = [
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
 >
+
+  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
+    <p class="text-sm text-text leading-relaxed italic">Dolphin Centrifuge supplies three-phase disc stack and decanter centrifuge systems for crude oil dewatering, tank bottom recovery, and refinery slop oil treatment. Operating at 7,000+ Gs with 25-40 GPM throughput, these systems continuously reduce BS&W below 0.1%. Based in Warren, Michigan, with over 40 years of petroleum centrifugation experience.</p>
+  </div>
+
   <!-- Design and Operation -->
   <h2 id="design-operation">Design and Operation</h2>
 
@@ -464,6 +507,9 @@ const relatedProducts = [
     </div>
   </div>
 
+  <!-- FAQ -->
+  <FAQ items={faqItems} heading="Crude Oil Centrifuge FAQ" />
+
   <!-- Bottom CTA Bar -->
   <div class="not-prose bg-navy rounded-xl p-8 text-white text-center mt-8">
     <h2 class="text-2xl font-bold mb-2">Ready to Recover Your Crude Oil?</h2>
@@ -482,5 +528,3 @@ const relatedProducts = [
   </div>
 
 </ApplicationLayout>
-
-

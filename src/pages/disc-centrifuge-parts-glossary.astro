@@ -1,6 +1,38 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a gravity disc in a disc stack centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The gravity disc (also called a neck ring) is a replaceable ring at the liquid discharge end of the centrifuge bowl that sets the radius of the liquid-liquid separation interface between the light and heavy phases. Selecting the correct gravity disc diameter for the process fluid density is critical to prevent liquid carryover or poor separation." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a paring disc and a gravity disc?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A gravity disc controls the liquid-liquid separation interface radius in three-phase (purifier) centrifuges. A paring disc is a stationary impeller disc that acts as a centripetal pump — it extracts liquid from the rotating bowl without a pump by converting rotational energy to pressure, discharging the clarified liquid against a back-pressure. They serve completely different functions." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is meant by the \"bowl speed\" specification on a disc centrifuge?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Bowl speed (expressed in RPM) is the rotational speed of the disc stack centrifuge bowl. Together with the bowl radius, it determines the G-force (RCF) acting on the feed liquid. Higher bowl speed generates more centrifugal force for separating fine or closely-matched density particles and liquids. Most Alfa Laval disc centrifuges operate between 4,000 and 10,000 RPM." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the nylon seal ring and why is it important?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The nylon seal ring is an inexpensive consumable part that fits into a groove in the bowl hood and forms the primary seal with the sliding piston lip. It protects the expensive sliding piston from metal-to-metal wear. Replacing the nylon seal ring regularly prevents costly piston damage and bowl leaks during operation." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many major parts are in a disc centrifuge bowl assembly?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A typical self-cleaning disc centrifuge bowl assembly contains approximately 20 major components including the bowl body, bowl hood, disc stack, distributor, sliding piston, gravity disc, paring discs, large and small lock rings, operating slide, distributing ring, distributing cone, distributing cover, control paring disc, bowl liner, port liners, nylon seal ring, bowl spindle, sludge ports, and top disc." }
+    }
+  ]
+};
+
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -26,12 +58,13 @@ const jsonLd = [
       "@type": "WebPage",
       "@id": "https://dolphincentrifuge.com/disc-centrifuge-parts-glossary/"
     }
-  }
+  },
+  faqJsonLd
 ];
 ---
 
 <ApplicationLayout
-  title="Disc Centrifuge Parts Glossary: An illustrated guide"
+  title="Disc Centrifuge Parts Glossary | Dolphin Centrifuge"
   description="Illustrated disc centrifuge parts glossary covering 20 bowl components and 14 unique terms with photos. Expert technical reference by Dolphin Centrifuge."
   canonicalUrl="https://dolphincentrifuge.com/disc-centrifuge-parts-glossary/"
   heroImage="/images/disc-centrifuge-parts-glossary/alfa-laval-disc-centrifuge-bowl-cross-section-1000.jpg.webp"
@@ -39,12 +72,14 @@ const jsonLd = [
   category="knowledge"
   categoryLabel="Knowledge Base"
   toc={[
-        { id: "synopsys", label: "Synopsis" },
+    { id: "ai-summary", label: "AI Summary" },
+    { id: "synopsys", label: "Synopsis" },
     { id: "parts-reference", label: "Quick Reference Table" },
     { id: "parts-glossary", label: "Disc Centrifuge Parts Glossary" },
     { id: "unique-terms", label: "Unique Disc Centrifuge Terms" },
     { id: "summary", label: "Summary" },
-      ]}
+    { id: "faq", label: "Frequently Asked Questions" },
+  ]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
     { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
@@ -55,8 +90,14 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
+
+  <!-- AI Summary -->
+  <div id="ai-summary" class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides this illustrated glossary of 20 disc centrifuge bowl parts and 14 industry-specific terms. Covering components like the disc stack, gravity disc, and sliding piston operating at 4,000-10,000 RPM, this guide serves technicians maintaining Alfa Laval disc stack centrifuges. Based in Warren, Michigan, Dolphin Centrifuge stocks replacement parts for all major models.</p>
+  </div>
+
   <!-- Synopsis -->
-  <section id="synopsys" class="mb-12">
+  <section id="synopsys" class="mb-10">
     <h2>Synopsis</h2>
     <p>
       Disc centrifuges are a unique set of machinery that has its own parts and related vocabulary. There are specific terms used when referring to disc centrifuges, which are uncommon in the broader industrial machinery world. Engineers, technicians, and operators new to this equipment frequently encounter unfamiliar terminology that is not found in general mechanical engineering references.
@@ -77,12 +118,12 @@ const jsonLd = [
   </section>
 
   <!-- Quick Reference Table -->
-  <section id="parts-reference" class="mb-12">
+  <section id="parts-reference" class="mb-10">
     <h2>Disc Centrifuge Bowl Parts — Quick Reference</h2>
     <p>
       The following table summarizes all 20 disc centrifuge bowl parts covered in this glossary, along with their alternate names and primary function. Use this table as a quick reference when identifying parts in the field or when communicating with parts suppliers and service technicians.
     </p>
-    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+    <div class="overflow-x-auto">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr class="bg-navy text-white">
@@ -762,7 +803,7 @@ const jsonLd = [
   </section>
 
   <!-- Summary -->
-  <section id="summary" class="mb-12">
+  <section id="summary" class="mb-10">
     <h2>Summary</h2>
     <p>
       We hope this glossary of disc centrifuge terms helps the new or existing users of industrial disc centrifuges. Though the terms referenced in this article are specific to Alfa Laval Disc Centrifuges, they are similar to those used for other disc centrifuges manufactured by GEA Westfalia.
@@ -790,6 +831,49 @@ const jsonLd = [
       <a href="/industrial-centrifuge-sample-testing/" class="border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Sample Testing</a>
     </div>
   </div>
+
+  <!-- FAQ -->
+  <section id="faq" class="mb-6">
+    <h2>Frequently Asked Questions</h2>
+    <div class="space-y-3 not-prose">
+      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
+        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
+          What is a gravity disc in a disc stack centrifuge?
+          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
+        </summary>
+        <p class="text-text-light text-sm mt-3">The gravity disc (also called a neck ring) is a replaceable ring at the liquid discharge end of the centrifuge bowl that sets the radius of the liquid-liquid separation interface between the light and heavy phases. Selecting the correct gravity disc diameter for the process fluid density is critical to prevent liquid carryover or poor separation.</p>
+      </details>
+      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
+        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
+          What is the difference between a paring disc and a gravity disc?
+          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
+        </summary>
+        <p class="text-text-light text-sm mt-3">A gravity disc controls the liquid-liquid separation interface radius in three-phase (purifier) centrifuges. A paring disc is a stationary impeller disc that acts as a centripetal pump — it extracts liquid from the rotating bowl without a pump by converting rotational energy to pressure, discharging the clarified liquid against a back-pressure. They serve completely different functions.</p>
+      </details>
+      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
+        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
+          What is meant by the "bowl speed" specification on a disc centrifuge?
+          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
+        </summary>
+        <p class="text-text-light text-sm mt-3">Bowl speed (expressed in RPM) is the rotational speed of the <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> bowl. Together with the bowl radius, it determines the G-force (<a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy font-semibold hover:text-gold transition-colors">RCF</a>) acting on the feed liquid. Higher bowl speed generates more centrifugal force for separating fine or closely-matched density particles and liquids. Most Alfa Laval disc centrifuges operate between 4,000 and 10,000 RPM.</p>
+      </details>
+      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
+        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
+          What is the nylon seal ring and why is it important?
+          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
+        </summary>
+        <p class="text-text-light text-sm mt-3">The nylon seal ring is an inexpensive consumable part that fits into a groove in the bowl hood and forms the primary seal with the sliding piston lip. It protects the expensive sliding piston from metal-to-metal wear. Replacing the nylon seal ring regularly prevents costly piston damage and bowl leaks during operation.</p>
+      </details>
+      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
+        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
+          How many major parts are in a disc centrifuge bowl assembly?
+          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
+        </summary>
+        <p class="text-text-light text-sm mt-3">A typical self-cleaning disc centrifuge bowl assembly contains approximately 20 major components including the bowl body, bowl hood, disc stack, distributor, sliding piston, gravity disc, paring discs, large and small lock rings, operating slide, distributing ring, distributing cone, distributing cover, control paring disc, bowl liner, port liners, nylon seal ring, bowl spindle, sludge ports, and top disc.</p>
+      </details>
+    </div>
+  </section>
+
   <!-- Bottom CTA bar -->
   <div class="bg-navy rounded-xl p-6 md:p-8 mt-8 mb-6 text-white text-center not-prose">
     <h2 class="text-xl font-bold mb-2">Need parts, service, or technical help for your disc centrifuge?</h2>
@@ -802,7 +886,7 @@ const jsonLd = [
   </div>
 
   <!-- Related Links -->
-  <section class="mb-8 not-prose">
+  <section class="mb-8">
     <h2>Related Knowledge Articles</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
       <a href="/disc-stack-centrifuge/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Disc Stack Centrifuge Overview</a>
@@ -814,11 +898,8 @@ const jsonLd = [
       <a href="/disc-stack-centrifuge-vibration/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Disc Centrifuge Vibration Guide</a>
       <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Centrifuge RCF/RPM Calculation</a>
       <a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Centrifuge Back-Pressure Guide</a>
-      <a href="/fuel-oil-centrifuge/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Fuel Oil Centrifuge</a>
       <a href="/industrial-disc-centrifuge-repair/" class="text-navy hover:text-gold font-medium flex items-center gap-2">&#8594; Disc Centrifuge Repair Services</a>
     </div>
   </section>
 
 </ApplicationLayout>
-
-
