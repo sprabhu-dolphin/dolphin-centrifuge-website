@@ -1,0 +1,11 @@
+﻿# project-docs
+
+Reference docs expected in this folder:
+
+- `DOLPHINWEB_PROJECT_STATUS.md`
+- `SITE_STRUCTURE.md`
+- `CHANGE_NOTES.md`
+- `PAGE_APPEARANCE_LOOK.md`
+- `FAQ_AUDIT_REPORT_ARCHIVED.md`
+- `HERO_IMAGE_AUDIT_ARCHIVED.md`
+- `HOMEPAGE_AUDIT_ARCHIVED.md`

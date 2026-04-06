@@ -1,0 +1,29 @@
+﻿name: Fidelity
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  decision-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate decisions
+        run: npm run validate:decisions
+
+      - name: Validate homepage contract
+        run: npm run validate:homepage-contract
+
+      - name: Validate contact contract
+        run: npm run validate:contact-contract
