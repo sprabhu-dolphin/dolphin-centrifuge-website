@@ -1,0 +1,142 @@
+---
+// Lightbox.astro — Global image popup component
+// Included once in BaseLayout. Works on ALL pages automatically.
+// Skips nav logos, icons (< 100px), and avatar images.
+---
+
+<!-- Lightbox Overlay -->
+<div
+  id="dolphin-lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image viewer"
+  class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+  style="display:none;"
+>
+  <!-- Close button -->
+  <button
+    id="lightbox-close"
+    aria-label="Close image"
+    class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/25 transition-colors text-white"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <!-- Image container -->
+  <div class="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center">
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl transition-all duration-300"
+      style="opacity:0; transform:scale(0.95);"
+    />
+    <p
+      id="lightbox-caption"
+      class="mt-3 text-white/80 text-sm text-center max-w-lg"
+    ></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  const overlay   = document.getElementById('dolphin-lightbox');
+  const img       = document.getElementById('lightbox-img') as HTMLImageElement;
+  const caption   = document.getElementById('lightbox-caption');
+  const closeBtn  = document.getElementById('lightbox-close');
+
+  // ── Selectors to SKIP (nav, icons, avatars, logos) ──────────
+  const SKIP_SELECTORS = [
+    'header img',
+    'footer img',
+    'nav img',
+    '.site-logo img',
+    'img[width][height]', // tiny icons with explicit tiny dimensions
+  ];
+
+  function openLightbox(src: string, alt: string) {
+    if (!overlay || !img || !caption) return;
+    img.src = src;
+    img.alt = alt;
+    caption.textContent = alt;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    // Animate in
+    requestAnimationFrame(() => {
+      img.style.opacity = '1';
+      img.style.transform = 'scale(1)';
+    });
+  }
+
+  function closeLightbox() {
+    if (!overlay || !img) return;
+    img.style.opacity = '0';
+    img.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      img.src = '';
+      document.body.style.overflow = '';
+    }, 200);
+  }
+
+  // ── Wire up all content images ───────────────────────────────
+  function initLightbox() {
+    // Get ALL images in the page
+    document.querySelectorAll<HTMLImageElement>('img').forEach((el) => {
+      // Skip tiny images (icons/avatars < 80px in either dimension)
+      if (el.naturalWidth && el.naturalWidth < 80) return;
+      if (el.naturalHeight && el.naturalHeight < 80) return;
+
+      // Skip images explicitly flagged
+      if (el.closest('header') || el.closest('footer') || el.closest('nav')) return;
+      if (el.hasAttribute('data-no-lightbox')) return;
+
+      // Skip if already initialized
+      if (el.dataset.lightboxInit) return;
+      el.dataset.lightboxInit = '1';
+
+      // Style: show pointer cursor, add subtle hover ring
+      el.style.cursor = 'zoom-in';
+      el.classList.add('lightbox-img');
+
+      el.addEventListener('click', () => {
+        // Use data-src or current src (in case of lazy load)
+        const src = el.dataset.src || el.src;
+        const alt = el.alt || 'Image';
+        openLightbox(src, alt);
+      });
+    });
+  }
+
+  // ── Close handlers ───────────────────────────────────────────
+  closeBtn?.addEventListener('click', closeLightbox);
+
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // ── Run after DOM + images are ready ────────────────────────
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLightbox);
+  } else {
+    initLightbox();
+  }
+
+  // Also re-run after a short delay to catch lazy-loaded images
+  setTimeout(initLightbox, 800);
+})();
+</script>
+
+<style>
+  /* Smooth zoom-in cursor for all lightbox images */
+  .lightbox-img:hover {
+    opacity: 0.92;
+    transition: opacity 0.15s ease;
+  }
+</style>

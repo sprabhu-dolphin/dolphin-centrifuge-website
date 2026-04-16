@@ -39,6 +39,25 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-heading);
 }
 
+/* ── Link Color Fix ─────────────────────────────────────────── */
+/* Prevent browser default link colors from overriding Tailwind  */
+/* text-* utility classes on <a> elements (chronic phone number  */
+/* invisible bug on navy/dark backgrounds).                       */
+a {
+  color: inherit;
+}
+
+/* tel: links on dark/navy backgrounds must always show gold */
+a[href^="tel"].text-gold {
+  color: var(--color-gold) !important;
+}
+
+/* Ensure text-white on dark CTAs is not overridden */
+a[href^="tel"].text-white {
+  color: #ffffff !important;
+}
+
+
 /* ── Utility Classes ───────────────────────────────────────── */
 .container-dolphin {
   max-width: 1280px;
