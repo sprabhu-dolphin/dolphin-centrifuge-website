@@ -40,23 +40,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ── Link Color Fix ─────────────────────────────────────────── */
-/* Prevent browser default link colors from overriding Tailwind  */
-/* text-* utility classes on <a> elements (chronic phone number  */
-/* invisible bug on navy/dark backgrounds).                       */
-a {
-  color: inherit;
-}
+/* In Tailwind v4, unlayered CSS beats @layer utilities.        */
+/* Broad 'a { color: inherit }' was making ALL links inherit    */
+/* from their parent — breaking nav dropdown text visibility.   */
+/* Fix: use targeted !important rules for tel: links only.      */
 
 /* tel: links on dark/navy backgrounds must always show gold */
 a[href^="tel"].text-gold {
   color: var(--color-gold) !important;
 }
 
-/* Ensure text-white on dark CTAs is not overridden */
+/* tel: links styled as white buttons on dark CTAs */
 a[href^="tel"].text-white {
   color: #ffffff !important;
 }
-
 
 /* ── Utility Classes ───────────────────────────────────────── */
 .container-dolphin {
