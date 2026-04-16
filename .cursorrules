@@ -1,0 +1,57 @@
+# MASTER AI INSTRUCTIONS FOR DOLPHIN CENTRIFUGE
+
+You are assisting with a strict 1-to-1 fidelity migration from a legacy WordPress site to a new Astro site. 
+
+## CORE BEHAVIORS (NON-NEGOTIABLE)
+
+1. **DATA FIDELITY (THE "CODEX HANGOVER" FIX):**
+   - NEVER paraphrase, summarize, or alter legacy text. Extract content strictly from the provided legacy XML/JSON/Text files.
+   - NEVER split continuous paragraphs into artificial highlight boxes, callouts, or separate sections. Restore continuous paragraph flow exactly as it appears in the XML.
+   - Audit for and restore all missing legacy images. Retain legacy filenames, alt text, and captions with 100% accuracy.
+
+2. **STRICT LAYOUT SIZING (CSS GRID ONLY):**
+   - NEVER use Flexbox (`md:flex`) for side-by-side image/text layouts. It inherently breaks image proportions.
+   - You must ONLY use CSS Grid for side-by-side layouts.
+   - **Grid Structure Template:** `<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 items-start">`
+   - **Image Container (1/3 width):** `<div class="not-prose"> ... </div>`
+   - **Text Container (2/3 width):** `<div class="md:col-span-2 prose prose-lg max-w-none"> ... </div>`
+
+3. **WHITESPACE PREVENTION & GALLERIES:**
+   - **Whitespace Fix:** If adjacent text is short (1-4 lines) next to a tall image, DO NOT put them side-by-side. Stack them to prevent massive empty voids. 
+   - **Stacked/Standalone Images:** Force a max width to prevent explosion on desktop: `<div class="not-prose mb-8 flex justify-center"><div class="w-full max-w-sm md:max-w-md"> ... </div></div>`
+   - **Gallery Fix:** If a section has 2 or more images, group them into a 2-column Grid (`grid-cols-2`) below full-width text. Do not stagger them vertically.
+
+4. **THE GOLDEN MASTER:**
+   - ALWAYS use `hydraulic-oil-centrifuge.astro` as the exact structural blueprint for CSS Grid logic and component nesting.
+
+5. **UI PRESERVATION:** 
+   - Keep the existing Astro components, Tailwind classes, and CTA structures intact unless they violate the CSS Grid appearance rules above.
+
+## REFERENCE THESE FILES FOR EVERY EDIT
+Before generating any code, you must read and apply the rules in these two files:
+1. `SEO-AND-STANDARDS.md` (For Meta tags, H1s, Schema, and URLs)
+2. `PAGE_APPEARANCE_LOOK.md` (For UI layout, side-by-side logic, spacing, galleries, and whitespace prevention)
+
+If the legacy text conflicts with the new Astro layout, prioritize keeping the exact legacy text and adapt the layout strictly using the CSS Grid rules in PAGE_APPEARANCE_LOOK.md.
+
+## 6. MANDATORY VERIFICATION & DISCOVERY LOCK (PREVENTING HALLUCINATIONS)
+To prevent agents from hallucinating progress or relying on outdated/conflicting summaries:
+
+1. **THE DISCOVERY LOCK (Mandatory live audit):**
+   Before starting any page, the agent MUST run a technical search (`grep` or `view_file`) and explicitly report the raw code status to the user.
+   - **CHECK:** Does the file use CSS Grid (`grid-cols-`) or legacy Flex/Centered layout?
+   - **CHECK:** Does it have "Rugged Industrial" containers (`rounded-xl border border-gray-100 shadow-sm`)?
+   - **ACTION:** Present line numbers proving the "As-Is" state before proposing the "To-Be" refactor.
+
+2. **THE STATUS SHIELD (Git Source of Truth):**
+   Agents must NEVER rely on the "Session Summary" or context for status reporting.
+   - **THE ONLY SOURCE OF TRUTH** for "Finished" work is the `git status` and `git log`.
+   - If a page is not in a recent commit with a "Full Fidelity Refactor" message, it is considered **UNFINISHED**.
+
+3. **STOP-AND-CHECK:**
+   If any summary says a page is finished but the "Git Log" shows it is old, the Agent must **STOP** and inform the user of the discrepancy in ELI5 (Explain Like I'm 5) terms.
+
+## 7. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md
+To maintain a verifiable record:
+1.  **LOG UPDATES:** The agent MUST update `FINISHED_PAGES_LOG.md` immediately after every commit.
+2.  **LOG SUPREMACY:** If a page is not in the log, it is **NOT FINISHED**.
