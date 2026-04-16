@@ -78,4 +78,28 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
     RULE: Never commit a page with a known bad hero image or a legacy sketch without Sanjay's explicit OK.
     The question must be asked EVEN IF you believe the image is acceptable.
 
+#8. ⚠️ TAILWIND V4 CSS LAYER — GLOBAL.CSS DANGER ZONE (HARD STOP):
+
+    THIS PROJECT USES TAILWIND V4. Tailwind v4 outputs all utilities inside CSS @layer blocks.
+    Any CSS rule written OUTSIDE a @layer in global.css WILL BEAT all Tailwind utility classes
+    (text-navy, text-white, text-gray-*, etc.) regardless of specificity. This WILL break the nav,
+    dropdowns, sidebars, and any component that relies on Tailwind color utilities.
+
+    THE RULE:
+    NEVER add a broad element-level CSS rule (e.g. 'a { ... }', 'p { ... }', 'div { ... }')
+    to global.css without wrapping it in '@layer base { }' or scoping it tightly.
+
+    ALLOWED — targeted attribute + class selector (high specificity, surgical):
+      a[href^="tel"].text-gold { color: var(--color-gold) !important; }
+
+    FORBIDDEN — broad element selector (beats all Tailwind utilities globally):
+      a { color: inherit; }     ← THIS BROKE THE ENTIRE NAV IN APRIL 2026
+      a { color: navy; }
+      p { margin: 0; }
+
+    BEFORE adding ANY new rule to global.css:
+    1. Ask: "Is this rule scoped to a specific class or attribute?" → If NO, wrap in @layer base.
+    2. After adding: visually verify the nav dropdown is still readable.
+    3. Never commit global.css changes without testing the nav dropdown first.
+
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
