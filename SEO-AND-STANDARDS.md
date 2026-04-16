@@ -138,3 +138,33 @@ Add a "Pilot Testing Results" or "See the Difference" section showing:
   <table></table>
   <a href="/industrial-centrifuge-sample-testing/">Send Us Your Sample →</a>
 </div>
+
+---
+
+## 7. MANDATORY AGENT VERIFICATION PROTOCOL (Crucial)
+
+To prevent agents from hallucinating progress or relying on outdated summaries, the following two steps are **HARD-CODED** into the workflow and MUST be executed at the start of every page task.
+
+### **STEP 1: THE DISCOVERY LOCK (Mandatory live audit)**
+Before starting any page, the agent MUST run a technical search (`grep` or `view_file`) and **explicitly report the raw code status to the user.**
+- **CHECK:** Does the file use CSS Grid (`grid-cols-`) or legacy Flex/Centered layout (`flex`, `text-center`)?
+- **CHECK:** Does it have "Rugged Industrial" containers (`rounded-xl border border-gray-100 shadow-sm`)?
+- **ACTION:** Present line numbers proving the "As-Is" state before proposing the "To-Be" refactor.
+
+### **STEP 2: THE STATUS SHIELD (Git Source of Truth)**
+Agents must NEVER rely on the "Session Summary" for status reporting. 
+1.  **THE ONLY SOURCE OF TRUTH** for "Finished" work is the `git status` and `git log`.
+2.  If a page is not in a recent commit with a "Full Fidelity Refactor" message, it is considered **UNFINISHED**.
+
+### **RULE: STOP-AND-CHECK**
+If the "Project Summary" says a page is finished but the "Git Log" shows it is old, the Agent must **STOP** and inform the user of the discrepancy in ELI5 (Explain Like I'm 5) terms.
+
+---
+
+## 8. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md
+
+To maintain a verifiable record of completion, the following rule is **HARD-CODED** into the project:
+
+1.  **THE UNFINISHED RULE:** If a page is not listed in `FINISHED_PAGES_LOG.md`, it is **UNFINISHED**, even if it has been committed previously.
+2.  **IMMEDIATE UPDATE:** The agent MUST update the log immediately after every commit with the slug, date, commit hash, and layout engine used.
+ 

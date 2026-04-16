@@ -110,4 +110,28 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
     - Finality: This list serves as the "Pre-Launch Punch List." Nothing can be launched until this file is empty.
 
 
+#10. MANDATORY VERIFICATION & DISCOVERY LOCK (PREVENTING HALLUCINATIONS):
+
+    To prevent agents from hallucinating progress or relying on outdated/conflicting summaries, the following protocol MUST be executed at the start of every page task:
+
+    1. THE DISCOVERY LOCK (Mandatory live audit):
+       Before starting any page, the agent MUST run a technical search (grep or view_file) and explicitly report the raw code status to the user.
+       - CHECK: Does the file use CSS Grid (grid-cols-) or legacy Flex/Centered layout?
+       - CHECK: Does it have "Rugged Industrial" containers (rounded-xl border border-gray-100 shadow-sm)?
+       - ACTION: Present line numbers proving the "As-Is" state before proposing the "To-Be" refactor.
+
+    2. THE STATUS SHIELD (Git Source of Truth):
+       Agents must NEVER rely on the "Session Summary" or context for status reporting.
+       - THE ONLY SOURCE OF TRUTH for "Finished" work is the `git status` and `git log`.
+       - If a page is not in a recent commit with a "Full Fidelity Refactor" message, it is considered UNFINISHED.
+
+    3. STOP-AND-CHECK:
+       If any summary says a page is finished but the "Git Log" shows it is old, the Agent must STOP and inform the user of the discrepancy in ELI5 (Explain Like I'm 5) terms.
+
+#11. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md:
+    The agent MUST update `FINISHED_PAGES_LOG.md` immediately following every page commit. 
+    - Log the slug, date, commit hash, and layout engine.
+    - If a page is not in the log, it is NOT FINISHED. No exceptions.
+
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
+
