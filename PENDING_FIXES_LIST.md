@@ -10,7 +10,7 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 
 | Page | Section | Asset/Issue | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `alfa-laval-centrifugal-separator` | Disc Stack Separators | `alfa-laval-disc-centrifuge-bowl-cross-section-600-1.webp` | ⏳ PENDING | NB CoWork Agent delivered version with wrong labels. Reverted to original blurry version in `.astro`. Update to sharp version once fixed. |
+| `alfa-laval-centrifugal-separator` | Disc Stack Separators | `alfa-laval-disc-centrifuge-bowl-cross-section-600-1.webp` | ✅ DONE | Sharp high-fidelity version integrated into the .astro file. |
 
 ---
 
