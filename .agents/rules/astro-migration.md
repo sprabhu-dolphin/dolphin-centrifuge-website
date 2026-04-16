@@ -97,9 +97,17 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
       a { color: navy; }
       p { margin: 0; }
 
-    BEFORE adding ANY new rule to global.css:
     1. Ask: "Is this rule scoped to a specific class or attribute?" → If NO, wrap in @layer base.
     2. After adding: visually verify the nav dropdown is still readable.
     3. Never commit global.css changes without testing the nav dropdown first.
+
+#9. MANDATORY MAINTENANCE OF PENDING_FIXES_LIST.md:
+
+    Every time a page is committed with known issues (e.g., missing sharp images, broken diagrams waiting for COWORK agent, or SEO questions), you MUST document them in PENDING_FIXES_LIST.md.
+
+    - Auto-maintain/Update: Before ending a session or starting a new page, verify this file is current.
+    - Consistency: Ensure the page slug, section, and specific asset names match the code exactly.
+    - Finality: This list serves as the "Pre-Launch Punch List." Nothing can be launched until this file is empty.
+
 
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
