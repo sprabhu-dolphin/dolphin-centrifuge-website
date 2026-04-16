@@ -9,6 +9,8 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `/` (Homepage) | 2026-04-16 | `8690e3b` | CSS Grid (v2.2) | ✅ DONE |
 | `waste-oil-centrifuge` | 2026-04-16 | `f562279` | CSS Grid (v2.2) | ✅ DONE |
 | `alfa-laval-centrifugal-separator` | 2026-04-16 | `14fafa9` | CSS Grid (v2.2) | ✅ DONE |
+| `wastewater-centrifuge` | 2026-04-16 | `191ecf6` | CSS Grid (v2.2) | ✅ DONE |
+
 
 
 ---
