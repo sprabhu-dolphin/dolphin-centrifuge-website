@@ -11,6 +11,7 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `alfa-laval-centrifugal-separator` | 2026-04-16 | `14fafa9` | CSS Grid (v2.2) | ✅ DONE |
 | `wastewater-centrifuge` | 2026-04-16 | `191ecf6` | CSS Grid (v2.2) | ✅ DONE |
 | `used-oil-centrifuge` | 2026-04-17 | `83589a0` | CSS Grid (v2.2) | ✅ DONE |
+| `industrial-centrifuge` | 2026-04-17 | `036a17e` | CSS Grid (v2.2) | ✅ DONE |
 
 
 
