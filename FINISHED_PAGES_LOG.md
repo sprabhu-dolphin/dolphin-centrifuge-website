@@ -15,6 +15,7 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `decanter-centrifuge` | 2026-04-17 | `8641cf7` | CSS Grid (v2.2) | ✅ DONE |
 | `decanter-centrifuge-differential-speed` | 2026-04-17 | `11c5bc2` | CSS Grid (v2.2) | ✅ DONE |
 | `disc-stack-centrifuge` | 2026-04-17 | `c113d58` | ApplicationLayout | ✅ DONE |
+| `alfa-laval-centrifuge` | 2026-04-17 | `66b822e` | ApplicationLayout | ✅ DONE |
 
 
 
