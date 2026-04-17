@@ -1,5 +1,8 @@
 # Page Layout Decision Tree (v2.2)
 
+**🛑 STOP.** **DO NOT OPEN A BROWSER OR PREVIEW THE PAGE.**
+Doing so crashes the PC due to memory limits. Instead, hand off to the user.
+
 **Purpose:** Ensure technical data clarity and "Industrial Intuition" by matching layout structures to image orientation and content density.
 
 ---
@@ -17,9 +20,10 @@
 
 ## Step 1: Alignment & The "Starting Line"
 
-**Mandatory:** Keep the `<h2 />` and introductory paragraph (`<p />`) **FULL-WIDTH** above any grid.
+**Mandatory:** Keep the `<h2 />`, `<h3 />`, `<h4 />` and introductory paragraph (`<p />`) **FULL-WIDTH** above any grid.
 - **Why?** This ensures the "Starting Line" of the technical image and the data-table are perfectly aligned at the top. 
 - **NEVER** put the intro paragraph in a 2/3 column - it displaces the image downwards.
+- **NEVER** bury an `<h3>` or `<h4>` inside a grid column — all section headings must appear full-width **above** their associated image/table grid.
 
 ---
 
