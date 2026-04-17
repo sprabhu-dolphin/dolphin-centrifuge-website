@@ -1,9 +1,45 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-// FAQ: This is a legitimate FAQ page (LW has RankMath shortcode).
-// CC-generated FAQ content removed. Pending RankMath recovery data or co-creation with Sanjay.
-const faqItems = [];
+// FAQ: Restored verbatim from LW.xml RankMath schema — 9 Q&As, all confirmed from source.
+const faqItems = [
+  {
+    question: "What is the smallest industrial centrifuge?",
+    answer: "The smallest industrial centrifuge is an Alfa Laval MAB-102 disc type, continuous process centrifuge. It weighs 100 lbs, has a 1/2 HP motor, and can process about 1 GPM of diesel fuel to remove water and solids."
+  },
+  {
+    question: "What is the largest industrial centrifuge?",
+    answer: "The largest industrial centrifuge is an Alfa Laval P3 type decanter centrifuge which weighs around 40,000 lbs and is over 30 feet long. This industrial centrifuge is used in the mining industry for ore separation."
+  },
+  {
+    question: "What powers industrial centrifuges?",
+    answer: "Industrial centrifuges are powered by electricity through electric motors. These centrifuges can be modified to operate on hydraulic power for special applications."
+  },
+  {
+    question: "Are industrial centrifuges loud?",
+    answer: "Industrial centrifuges generate noise but are not loud as compared to other industrial machinery. For example, an Alfa Laval disc-stack centrifuge has a noise level of a75 dB."
+  },
+  {
+    question: "Are industrial centrifuges safe to operate?",
+    answer: "Industrial centrifuges are rotating equipment that needs to be operated and maintained to ensure safety. These centrifuges are inherently safe as long as they are properly monitored and well maintained."
+  },
+  {
+    question: "How often do industrial centrifuges need servicing?",
+    answer: "Industrial centrifuges require periodic service for maintenance and in case of operational issues. The actual frequency of service depends on the centrifuge and its application. For example, Alfa Laval recommends intermittent service for its disc stack centrifuges every 2000 operating hours. It is important to consult with the centrifuge manufacturer for the recommended service interval for specific centrifuges."
+  },
+  {
+    question: "What is the range of RPMs of industrial centrifuges?",
+    answer: "Industrial centrifuges have a range of RPMs, from 1,000 RPM for large basket centrifuges to over 20,000 RPM for small tubular bowl centrifuges."
+  },
+  {
+    question: "Can a user change the speed of an industrial centrifuge?",
+    answer: "The user may change the operating speed of an industrial centrifuge under extraordinary circumstances in close consultation with the centrifuge manufacturer. Each industrial centrifuge has an operating speed limit based on the safe operation of the centrifuge and the limitation of the centrifuge components. The end-user should NEVER operate an industrial centrifuge above the manufacturer's recommended rotational speed. Over speeding a centrifuge is extremely risky and can cause severe damage to equipment and harm the operator from catastrophic failure."
+  },
+  {
+    question: "What are the main causes of industrial centrifuge wear?",
+    answer: "Industrial centrifuge wear is primarily due to the processing of abrasive solids in the process liquid. These solids move relative to specific centrifuge bowl surfaces, causing wear."
+  },
+];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -23,7 +59,19 @@ const productJsonLd = {
   },
 };
 
-// FAQPage schema removed - no FAQ content yet. Will be re-added when FAQ is co-created with Sanjay.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "Industrial Centrifuge FAQ",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -41,7 +89,7 @@ const articleJsonLd = {
   "datePublished": "2021-03-01",
 };
 
-const jsonLd = [productJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'what-is', label: 'What is an Industrial Centrifuge?' },
@@ -72,9 +120,9 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Industrial Centrifuge | Types, Applications, Cost & Benefits"
-  pageTitle="Industrial Centrifuge | Types, Applications, Cost & Benefits - Alfa Laval Centrifuge Systems - from Dolphin Centrifuge"
-  description="Industrial centrifuges for liquid-solid and liquid-liquid separation: disc stack and decanter types, 1-300+ GPM, 3,000-12,000 Gs. Dolphin Centrifuge, MI."
-  heroImage="/images/homepage/hero/stainless-steel-shop.webp"
+  pageTitle="Industrial Centrifuge | Types, Applications, Cost & Benefits"
+  description="An industrial centrifuge is a separating machine designed to separate solids from liquids using a high centrifugal force."
+  heroImage="/images/homepage/hero/industrial-centrifuge-disc-stack-shop-floor.webp"
   heroImageAlt="Industrial Centrifuge Systems for Waste Oil"
   category="products"
   categoryLabel="Products"
@@ -88,7 +136,7 @@ const relatedProducts = [
   <!-- ══ What is an Industrial Centrifuge? ══ -->
   <h2 id="what-is">What is an Industrial Centrifuge?</h2>
 
-  <img src="/images/industrial-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp" alt="Industrial Centrifuge Systems for Waste Oil" width="600" height="300" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/industrial-centrifuge/Industrial-Centrifuge-Systems-for-Waste-Oil.webp" alt="Industrial Centrifuge Systems for Waste Oil" width="600" height="300" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 600px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-6 italic">Industrial Centrifuge Systems for Waste Oil</p>
 
   <p><strong>An industrial centrifuge is a separation machine that uses centrifugal force to separate solids from liquids. A centrifuge exerts a centrifugal force that is thousands of times that of gravity.</strong></p>
@@ -106,7 +154,8 @@ const relatedProducts = [
 
   <h3>Filtration Type</h3>
 
-  <img src="/images/industrial-centrifuge/Filtration-Centrifuge-600.webp" alt="Filtration Centrifuge" width="600" height="243" loading="lazy" class="rounded-lg w-full mb-4" />
+  <img src="/images/industrial-centrifuge/Filtration-Centrifuge-600.webp" alt="Filtration Centrifuge" width="600" height="243" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 600px; width: 100%; margin-left: auto; margin-right: auto;" />
+  <p class="text-sm text-text-muted text-center mb-4 italic">Filtration Centrifuge</p>
 
   <p>A perforated media allows the fluid to exit the 'screen' bowl in a <a href="https://en.wikipedia.org/wiki/Filtration" target="_blank" rel="noopener">filtration</a> centrifuge while retaining the solids. The separated liquid collects in the bowl casing and drains out.</p>
 
@@ -124,10 +173,10 @@ const relatedProducts = [
 
   <h3>Sedimentation or Solid Bowl</h3>
 
-  <img src="/images/industrial-centrifuge/Decanter-Cross-Section-600.webp" alt="Decanter Cross Section" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/industrial-centrifuge/Decanter-Cross-Section-600.webp" alt="Decanter Cross Section" width="600" height="223" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 600px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Decanter Centrifuge Cross Section Diagram</p>
 
-  <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Dewatering Centrifuge Animation" width="533" height="188" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/shared/Dewatering-Centrifuge-Animation.gif" alt="Dewatering Centrifuge Animation" width="533" height="188" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 533px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Dewatering Centrifuge Animation</p>
 
   <p>A sedimentation centrifuge does not use a flow-through or perforated screen or media. This centrifuge uses a solid bowl, which is also known as a 'solid bowl centrifuge.'</p>
@@ -136,10 +185,10 @@ const relatedProducts = [
 
   <p>This 'solid bowl' feature adds an extra benefit to these sedimentation centrifuges.</p>
 
-  <img src="/images/industrial-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-1000-e1614693519387.webp" alt="Alfa Laval Disc Stack Centrifuge Bowl Parts" width="600" height="334" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/industrial-centrifuge/alfa-laval-disc-centrifuge-bowl-cross-section-1000-e1614693519387.webp" alt="Alfa Laval Disc Stack Centrifuge Bowl Parts" width="600" height="334" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 600px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Disc Centrifuge Cross Section Diagram</p>
 
-  <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc Centrifuge Self Cleaning Animation" width="599" height="460" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc Centrifuge Self Cleaning Animation" width="599" height="460" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 599px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Disc Centrifuge Self-Cleaning Animation</p>
 
   <p>The same <a href="/decanter-centrifuge-differential-speed/">centrifugal force also causes the differential settling</a> of two immiscible liquids. In this case, the centrifuge separates all three phases, liquid, liquid, and solid. This separator is known as a <strong>3-phase centrifuge</strong>.</p>
@@ -149,7 +198,7 @@ const relatedProducts = [
   <!-- ══ Difference Between Filtration and Sedimentation ══ -->
   <h2 id="difference">Difference Between Filtration and Sedimentation Centrifuges</h2>
 
-  <img src="/images/industrial-centrifuge/Filtration-Sedimentation-Centrifuge-Difference-800.webp" alt="Filtration Sedimentation Centrifuge Difference" width="800" height="283" loading="lazy" class="rounded-lg w-full mb-2" />
+  <img src="/images/industrial-centrifuge/Filtration-Sedimentation-Centrifuge-Difference-800.webp" alt="Filtration Sedimentation Centrifuge Difference" width="800" height="283" loading="lazy" class="rounded-lg w-full mb-2 mx-auto block" style="max-width: 800px; width: 100%; margin-left: auto; margin-right: auto;" />
   <p class="text-sm text-text-muted text-center mb-4 italic">Filtration and Sedimentation Centrifuge Difference</p>
 
   <p>The primary difference between filtration and sedimentation <a href="/industrial-centrifuge-design/">centrifuges is the bowl design</a>. A filtration centrifuge has a pass-through bowl that allows the liquid to pass through and retain the solids. The sedimentation centrifuge has a solid bowl that uses differential settling to separate the solids from the liquid.</p>
@@ -180,13 +229,13 @@ const relatedProducts = [
 
   <h3>Separated Solids Extraction</h3>
 
-  <p>The sedimentation centrifuge ejects the separated solids continuously during sedimentation. A rotating scroll within the bowl pushes the solids out during the separation process.</p>
+  <p>The sedimentation centrifuge ejects the separated solids continuously during sedimentation. A rotating scroll (auger) within the bowl pushes out the separated solids.</p>
 
-  <p>A filtration-type centrifuge accumulates the separated solids, which a scraper scrapes out of the bowl periodically. The scraped solids then fall out from the bowl by gravity.</p>
+  <p>A filtration-type centrifuge accumulates the separated solids, which a scraper scrapes out of the bowl periodically.</p>
 
   <h3>Separated Liquid Discharge</h3>
 
-  <p>The flow-through bowl of the filtration centrifuge allows the liquid to flow out of the bowl. The separated liquid collects in the casing and drains out.</p>
+  <p>The flow-through bowl of the filtration centrifuge allows the liquid to flow out of the bowl. The separated fluid discharges under gravity from the centrifuge vessel.</p>
 
   <p>The separated fluid in a sedimentation centrifuge rotates at high speed. The built-in pump converts the rotational energy into pressure that discharges the separated liquid under pressure.</p>
 
@@ -200,7 +249,7 @@ const relatedProducts = [
 
   <p>There are essential differences between the sedimentation and filtration centrifuges in their design. The following are the key differences between these centrifuges.</p>
 
-  <h3>Moving Parts</h3>
+  <h4>Moving Parts</h4>
 
   <p>The moving parts in this section refer to internal moving parts within the centrifuge. The rotating bowl is a standard moving part in all centrifuges.</p>
 
@@ -208,15 +257,15 @@ const relatedProducts = [
 
   <p>A rotating scroll within the sedimentation centrifuge bowl pushes out the separated solids. This solids ejection is a continuous process during which the solids eject out from the rotating bowl due to the centrifugal force.</p>
 
-  <h3>Bowl Construction</h3>
+  <h4>Bowl Construction</h4>
 
-  <p>The filtration-type centrifuge has a perforated bowl to separate liquid from solids and let the separated liquid pass through. The perforation size of the bowl determines the particle size that the centrifuge can separate.</p>
+  <p>The filtration-type centrifuge has a perforated bowl to separate liquid from solids and let the separated liquid pass through. The size of these perforations determines the separation particle size.</p>
 
-  <p>A sedimentation centrifuge has a solid bowl; therefore, it is also known as a solid bowl centrifuge.</p>
+  <p>A sedimentation centrifuge has a solid bowl; therefore, it is also known as a solid bowl centrifuge. The absence of perforations makes the solid bowl centrifuge more durable with a long service life.</p>
 
-  <h3>Erosion Protection</h3>
+  <h4>Erosion Protection</h4>
 
-  <p>Certain areas of the centrifuge bowl are prone to erosion due to contact with moving abrasive particles.</p>
+  <p>Certain areas of the centrifuge bowl are prone to erosion due to contact with moving abrasive particles. The application of erosion-protecting coatings is essential for centrifuge durability.</p>
 
   <p>The solid particles passing through bowl perforations in a filtration centrifuge can wear out the pores expanding the perforation sizes over time. The application of erosion protection to these pores is not always feasible.</p>
 
@@ -229,20 +278,24 @@ const relatedProducts = [
 
   <p>An industrial centrifuge capacity (throughput) is the volume of fluid the centrifuge can process in a given time. A <strong>decanter-type industrial centrifuge</strong> can process <strong>5 to 300+ gallons per minute</strong>. An <strong>industrial disc centrifuge</strong> has a capacity range of <strong>1 to 200+ GPM</strong>. The actual processing capacity depends on the process fluid and contaminant level.</p>
 
-  <div class="grid grid-cols-2 gap-4 not-prose my-6">
-    <div class="text-center">
-      <img src="/images/industrial-centrifuge/Industrial-Centrifuge-DMPX-028-for-Wastewater-600.webp" alt="Industrial Centrifuge DMPX-028 for Wastewater" width="600" height="745" loading="lazy" class="rounded-lg w-full object-contain max-h-[350px]" />
+  <p>The following table lists the capacities of popular sedimentation centrifuges.</p>
+
+  <div class="grid grid-cols-2 gap-4 not-prose my-6 items-stretch">
+    <div class="text-center flex flex-col">
+      <div class="flex-1 flex items-center justify-center">
+        <img src="/images/industrial-centrifuge/Industrial-Centrifuge-DMPX-028-for-Wastewater-600.webp" alt="Industrial Centrifuge DMPX-028 for Wastewater" width="600" height="745" loading="lazy" class="rounded-lg w-full object-contain max-h-[350px]" />
+      </div>
       <p class="text-sm text-text-muted mt-1 italic">Industrial Centrifuge DMPX-028 for Wastewater</p>
     </div>
-    <div class="text-center">
-      <img src="/images/industrial-centrifuge/disc-stack-centrifuge-wastewater-clarifier.webp" alt="Disc Stack, Self-Cleaning Centrifuge for Wastewater Clarification" width="600" height="600" loading="lazy" class="rounded-lg w-full object-contain max-h-[350px]" />
+    <div class="text-center flex flex-col">
+      <div class="flex-1 flex items-center justify-center">
+        <img src="/images/industrial-centrifuge/disc-stack-centrifuge-wastewater-clarifier.webp" alt="Disc Stack, Self-Cleaning Centrifuge for Wastewater Clarification" width="600" height="600" loading="lazy" class="rounded-lg w-full object-contain max-h-[350px]" />
+      </div>
       <p class="text-sm text-text-muted mt-1 italic">Alfa Laval WHPX-513 Centrifuge for Wastewater</p>
     </div>
   </div>
 
-  <p>The following table lists the capacities of popular sedimentation centrifuges.</p>
-
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto border border-gray-100 rounded-xl">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr class="bg-navy text-white">
@@ -286,7 +339,7 @@ const relatedProducts = [
   <p>How big is an industrial centrifuge?</p>
 
   <p>The actual size of an industrial centrifuge depends on the type of centrifuge and its capacity. The following table lists the sizes of industrial centrifuges.</p>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto border border-gray-100 rounded-xl">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr class="bg-navy text-white">
@@ -297,22 +350,22 @@ const relatedProducts = [
         </thead>
         <tbody>
           <tr class="bg-white border-b border-gray-100">
-            <td class="p-3">Filtration Type — Basket Centrifuge</td>
+            <td class="p-3">Filtration Type - Basket Centrifuge</td>
             <td class="p-3 font-mono text-sm">2' x 3' x 2' (H)</td>
             <td class="p-3 font-mono text-sm">6' x 8' x 8' (H)</td>
           </tr>
           <tr class="bg-blue-50 border-b border-gray-100">
-            <td class="p-3">Filtration Type — Peeler Centrifuge</td>
+            <td class="p-3">Filtration Type - Peeler Centrifuge</td>
             <td class="p-3 font-mono text-sm">4' x 5' x 6' (H)</td>
             <td class="p-3 font-mono text-sm">8' x 10' x 8' (H)</td>
           </tr>
           <tr class="bg-white border-b border-gray-100">
-            <td class="p-3">Sedimentation Type — Decanter Centrifuge</td>
+            <td class="p-3">Sedimentation Type - Decanter Centrifuge</td>
             <td class="p-3 font-mono text-sm">2' x 4' x 1.5' (H)</td>
             <td class="p-3 font-mono text-sm">8' x 25' x 10' (H)</td>
           </tr>
           <tr class="bg-blue-50">
-            <td class="p-3">Sedimentation Type — Disc Stack Centrifuge</td>
+            <td class="p-3">Sedimentation Type - Disc Stack Centrifuge</td>
             <td class="p-3 font-mono text-sm">2' x 2' x 2' (H)</td>
             <td class="p-3 font-mono text-sm">8' x 8' x 12' (H)</td>
           </tr>
@@ -349,7 +402,7 @@ const relatedProducts = [
   <p>In addition to being reliable, durable centrifuges, the OEM machines offer spare parts available worldwide.</p>
 
   <p>The following is a list of OEMs in the industrial centrifuge space and their products offered:</p>
-    <div class="overflow-x-auto mb-6">
+    <div class="overflow-x-auto mb-6 border border-gray-100 rounded-xl">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr class="bg-navy text-white">
@@ -408,8 +461,22 @@ const relatedProducts = [
   </div>
 
   <!-- ══ FAQ ══ -->
-  <!-- FAQ section: This is a legitimate FAQ page. Content pending RankMath recovery or co-creation with Sanjay. -->
-  <!-- When FAQ content is ready, restore the FAQ component here with real Q&As and FAQPage schema. -->
+  {faqItems.length > 0 && (
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+      <h2 class="text-xl font-bold text-navy mb-6">Industrial Centrifuge FAQ</h2>
+      <div class="space-y-5">
+        {faqItems.map((item) => (
+          <details class="border border-gray-200 rounded-lg group">
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer font-semibold text-navy text-sm leading-snug list-none">
+              {item.question}
+              <span class="ml-4 text-gold font-bold text-lg flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="px-5 pb-4 text-text-light text-sm leading-relaxed">{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
 
   <!-- ══ Applications ══ -->
   <h2 id="applications">Applications</h2>
@@ -494,7 +561,6 @@ const relatedProducts = [
         <p class="text-sm font-semibold text-navy mt-2 group-hover:text-gold-dark transition-colors">Wastewater Treatment</p>
       </a>
     </div>
-  </div>
 
   <!-- ══ Benefits ══ -->
   <h2 id="benefits">Benefits</h2>

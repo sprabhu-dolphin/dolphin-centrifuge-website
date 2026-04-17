@@ -27,8 +27,10 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
 #2. STRICT SINGLE-PAGE WORKFLOW (ANTI-DIRTY GIT RULE):
 
     One at a Time: NEVER attempt to migrate, edit, or process multiple .xml or .astro pages simultaneously.
+    
+    NO MULTI-AGENT SPAWNING: Do NOT spawn multiple parallel background sub-agents. They dirty the Git repo, conflict with each other's changes, and destroy finished work. Strictly synchronous, one-by-one execution only.
 
-    Strict Isolation: Process exactly ONE page at a time from start to finish.
+    Strict Isolation: Process exactly ONE page at a time from start to finish. You must finish the exact page you are assigned before looking at or modifying any other page's code.
 
     Git Hygiene: Remind the user to stage and commit the completed .astro page before starting the next one. Do not allow the Git working tree to become bloated with multiple unfinished page migrations.
 
@@ -124,6 +126,10 @@ The following files contains instruction on handling image files between YOU and
     The agent MUST update `FINISHED_PAGES_LOG.md` immediately following every page commit. 
     - Log the slug, date, commit hash, and layout engine.
     - If a page is not in the log, it is NOT FINISHED. No exceptions.
+
+#10. STRICT BROWSER PREVIEW PROHIBITION (CRASH PREVENTION):
+    - **CRITICAL:** NEVER use a browser subagent or attempt to preview/render the page yourself. This will instantly CRASH the user's PC (Out Of Memory).
+    - If visual verification is needed, you MUST stop and hand off to the user: "Please preview this on your local machine."
 
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
 

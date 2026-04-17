@@ -78,7 +78,9 @@
 
 ## Step 5: Final Quality Audit
 
-**STOP.** Do not take screenshots. Ask:
+**🛑 STOP.** **DO NOT OPEN A BROWSER OR PREVIEW THE PAGE.**
+Doing so crashes the PC due to memory limits. Instead, hand off to the user.
+Ask Sanjay to preview the page and answer:
 1.  **Hero Quality:** "Is the hero sharp and 16:9? If no, replacement needed?"
 2.  **Legacy Sketches:** "Are there hand-drawn or blurry graphs? Should I draw clean SVGs?"
 3.  **Starting Line:** "Are the Image and Table aligned perfectly at the top?" 

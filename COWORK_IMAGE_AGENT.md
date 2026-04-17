@@ -101,3 +101,5 @@ When done with the page:
 - Always verify files saved before moving on — NB output is ephemeral
 - Always flag diagram label hallucinations in your report
 - Keep NB prompts under 500 tokens
+- **STRICT SINGLE-PAGE WORKFLOW:** Process ONLY one '{slug}' folder at a time. NEVER process multiple folders concurrently.
+- **NO PARALLEL JOBS:** To prevent conflicting operations, do NOT spawn parallel background subagents or attempt to multitask on multiple pages. All processing must be strictly synchronous and one-by-one.

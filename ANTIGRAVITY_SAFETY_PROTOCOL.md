@@ -23,6 +23,15 @@ To maintain a verifiable record, the following is **HARD-CODED**:
 1.  **LOG UPDATES:** The agent MUST update `FINISHED_PAGES_LOG.md` immediately after every commit.
 2.  **LOG SUPREMACY:** If a page is not in the log, it is **NOT FINISHED**.
 
+### **RULE 5: STRICT BROWSER PREVIEW PROHIBITION (CRASH PREVENTION)**
+1.  **NEVER OPEN THE BROWSER:** Under NO CIRCUMSTANCES is any AI agent allowed to start a browser subagent, take a screenshot, or render the site.
+2.  **CRASH DANGER:** Opening the browser causes the user's PC to crash due to OOM (Out Of Memory) overload. This must be 100% guaranteed avoided.
+3.  **MANDATORY USER HANDOFF:** When a visual check or "preview" is needed, the agent MUST stop and ask the user (Sanjay) to preview the page. The agent will wait for his feedback before proceeding.
+
+### **RULE 6: STRICT SINGLE-PAGE SYNCHRONOUS WORKFLOW (NO MULTI-AGENT)**
+1.  **NO PARALLEL JOBS:** To prevent destroying the Git repo and losing finished work, agents are strictly forbidden from spawning multiple background sub-agents or operating on multiple files simultaneously.
+2.  **ONE AT A TIME:** You must migrate, edit, and thoroughly process exactly ONE page at a time.
+3.  **STAY IN YOUR LANE:** Do not look at, index, or edit another page's code until the current page has been fully committed to Git. All work is strictly synchronous, one-by-one execution.
+
 ---
 **Failure to follow this protocol results in an immediate Stop-and-Check.**
-

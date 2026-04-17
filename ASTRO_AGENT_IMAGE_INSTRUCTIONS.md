@@ -21,6 +21,11 @@ Image CoWork Agent
 
 ---
 
+## STRICT SINGLE-PAGE WORKFLOW
+**CRITICAL:** Under NO CIRCUMSTANCES should you spawn multiple sub-agents or attempt to run Phase 1 or Phase 2 concurrently across multiple pages. All operations must be strictly synchronous and limited to **ONE SINGLE PAGE AT A TIME** to avoid corrupting the Git working tree.
+
+---
+
 ## PHASE 1 — Page Audit & Image Triage (Do This First)
 
 ### Step 1 — Standard page checks
@@ -106,12 +111,12 @@ After copying files and updating src= references:
 - ✅ Deploy new hero to `public/images/`
 - ✅ Deploy fixed diagrams to `public/images/`
 - ✅ Update all `src=` references in `.astro` file
-- 🛑 **STOP. Do NOT open a browser. Do NOT take screenshots. Do NOT review.**
+- 🛑 **STOP. DO NOT OPEN A BROWSER OR BROWSER SUBAGENT. DO NOT PREVIEW THE PAGE.**
 
 Tell Sanjay: **"Phase 2 complete. Images deployed. Please review on your end and reply 'Commit' or 'Changes needed'."**
 
 Sanjay will review on his own machine and return with the verdict.
-This prevents context window bloat and PC overheating from browser subagent calls.
+**CRITICAL SAFETY WARNING:** Opening the browser crashes the user's PC due to memory overload. It is 100% forbidden for any agent to run a browser preview here or anywhere else.
 
 
 ---
