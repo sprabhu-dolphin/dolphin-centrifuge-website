@@ -13,6 +13,7 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `used-oil-centrifuge` | 2026-04-17 | `83589a0` | CSS Grid (v2.2) | ✅ DONE |
 | `industrial-centrifuge` | 2026-04-17 | `036a17e` | CSS Grid (v2.2) | ✅ DONE |
 | `decanter-centrifuge` | 2026-04-17 | `8641cf7` | CSS Grid (v2.2) | ✅ DONE |
+| `decanter-centrifuge-differential-speed` | 2026-04-17 | `11c5bc2` | CSS Grid (v2.2) | ✅ DONE |
 
 
 
