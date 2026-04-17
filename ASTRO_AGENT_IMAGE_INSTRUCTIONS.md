@@ -133,3 +133,5 @@ This prevents context window bloat and PC overheating from browser subagent call
 | `alfa-laval-centrifugal-separator` | `{slug}_hero.webp` | Hero 1440×500 | ✅ Ready |
 | `alfa-laval-centrifugal-separator` | `alfa-laval-disc-centrifuge-bowl-cross-section-600-1.webp` | Diagram | ✅ Ready |
 | `alfa-laval-centrifugal-separator` | `decanter-bowl-scroll-rotation-600.webp` | Diagram | ✅ Ready |
+| `used-oil-centrifuge` | `Used_Oil_Centrifuge_Hero_1440.webp` | Hero 1440×500 | ✅ Deployed |
+| `used-oil-centrifuge` | `Used-Oil-Centrifuge-Plant-Layout-850.webp` | Diagram | ✅ Deployed |

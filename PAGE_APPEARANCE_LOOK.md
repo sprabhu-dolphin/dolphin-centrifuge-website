@@ -35,6 +35,12 @@
 - **Square Product Photos:** Motors, valves, detail shots.
 - **AND** there is substantial text (5+ lines) to wrap with.
 
+### 3. MULTI-IMAGE GALLERY ROW IF:
+- A section has **2+ images** with shared context.
+- Place images **side-by-side** in a `md:grid-cols-2` row with `items-stretch` (equal height boxes).
+- Text goes **full-width below** the image row.
+- **NEVER** stack multiple images vertically in a single narrow column — it wastes space and looks unbalanced.
+
 ---
 
 ## Step 3: The "Fit" Matrix (Grid Ratios)
@@ -45,6 +51,13 @@
 | **Standard Product Photo** | **33% Image : 66% Text** | `grid-cols-1 md:grid-cols-3` (Img: 1, Text: 2) |
 | **Complex Diagrams** | **50% Image : 50% Text** | `grid-cols-1 md:grid-cols-2` |
 
+### Text Silos (Long Text + Single Image)
+- When text is **long** (8+ paragraphs with sub-headings), use this layout:
+  - **Row 1:** Image centered, capped at native width (obey NO UPSCALING RULE in Step 4)
+  - **Row 2:** Text in **2-column silos** (`md:grid-cols-2 gap-x-8`)
+  - Place the section **heading + intro paragraph** in the **LEFT silo**, not spanning full width above
+- This prevents a tiny image floating next to a wall of text
+
 ---
 
 ## Step 4: Component Consistency
@@ -52,6 +65,11 @@
 - **Images:** 
     - `w-full h-auto object-contain rounded-xl shadow-sm border border-gray-100`
     - **NEVER** use `max-h` on vertical (tall) images. It shortens them and ruins the professional look.
+    - ⚠️ **NO UPSCALING RULE:** NEVER render an image wider than its native pixel width. If the image file is 600px wide, add `style="max-width: 600px; width: 100%;"` and `mx-auto`. Using `w-full` alone on a small image will stretch it beyond native resolution, causing visible blur. NOTE: Tailwind classes like `max-w-[600px]` get overridden by `.prose-dolphin img` — always use **inline style** for max-width caps.
+    - ⚠️ **NO ANCHOR WRAPPING:** NEVER wrap `<img>` in an `<a href="image.webp">` tag. The global `Lightbox.astro` component auto-attaches click-to-zoom on ALL content images. An `<a>` wrapper intercepts the click and opens the image in a new browser tab instead of the lightbox.
+- **Boxes in the Same Row:**
+    - MUST be **equal height**. Use `items-stretch` on the grid + `flex flex-col` on each box + `flex-1` on the image wrapper.
+    - Shorter images center vertically inside the equal-height box via `flex items-center justify-center`.
 - **Tables:** 
     - Wrap in `not-prose overflow-x-auto border border-gray-100 rounded-xl`.
     - Priority: Data readability. If the table looks cramped, change the Grid Ratio or **Stack**.

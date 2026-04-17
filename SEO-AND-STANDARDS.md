@@ -1,170 +1,218 @@
-# Dolphin Centrifuge — SEO, Standards & Best Practices Reference 041626 - Major Edit by Sanjay
+# Dolphin Centrifuge — SEO, Standards & Best Practices Reference
+# Last Major Edit: 2026-04-16 by Sanjay
 
 ## This file is the single source of truth for all quality standards across every page.
 ## Reference this before building or reviewing ANY page.
 
 ---
 
-## 1. SEO FUNDAMENTALS (Every Page)
+## GOLDEN RULE: LEGACY CONTENT ALWAYS WINS
 
-### Meta Tags
-- `<title>` — Under 60 chars, primary keyword first, brand last. Example: "Waste Oil Centrifuge | Industrial Oil Recovery | Dolphin Centrifuge"
-- ⚠️ **LEGACY TITLE EXCEPTION:** NEVER shorten or alter a title tag migrated from a legacy WordPress page. Legacy titles carry accumulated SEO authority (backlinks, index history, click-through rates). Changing them risks ranking loss. If a legacy title exceeds 60 chars, leave it exactly as-is and note it here. New pages only should follow the 60-char rule.
-- `<meta name="description">` — 150-160 chars, include primary keyword + value prop + CTA hint.
+**Legacy content is SUPREME and overrides every other rule in this document.**
+
+For any page migrated from the legacy WordPress site, the following fields are **FROZEN** — they must be copied verbatim into the .astro page and NEVER altered, shortened, paraphrased, or "improved":
+
+| Field | Rule |
+|---|---|
+| `<title>` tag | Copy verbatim — even if over 60 chars |
+| `<h1>` heading | Copy verbatim — do not reword |
+| `<meta name="description">` | Copy verbatim |
+| Image file names | Copy verbatim — do not rename |
+| Image `alt` text | Copy verbatim |
+| **Image captions** | Copy verbatim — do not add em-dashes, "Click to Enlarge", or any text not in legacy |
+| Body copy / headings | Copy verbatim — do not rewrite |
+| **Table cell text** | Copy verbatim — every cell, including blanks, punctuation, spacing, and symbols |
+| **Punctuation & symbols** | Copy verbatim — do NOT "improve" dashes to em-dashes, add ° degree symbols, or change any character |
+| Slug / URL path | Copy verbatim — no changes |
+
+**Why:** Legacy fields carry accumulated SEO authority — backlinks, index history, click-through rates. Any change risks ranking loss. Do not "fix" them.
+
+**The only time you may add or fill a field is when the legacy page is MISSING it entirely.** In that case, flag it in the Report Table and wait for Sanjay's approval before writing new content.
+
+⚠️ **DO NOT:**
+- Invent paragraphs, sentences, or sections that do not exist in legacy
+- Add `<a href>` links to text that was plain text in legacy
+- Merge or split table cells differently than legacy
+- Change `-` to `—` (em-dash) or `F` to `°F`
+- Add captions like "Click to Enlarge" that were not in legacy
+
+---
+
+## 1. MANDATORY PRE-EDIT REPORT TABLE
+
+Before touching a single line of code, the agent MUST:
+
+1. Open the .astro file and read its current state (grep for title, h1, meta description, image srcs and alts)
+2. Open or fetch the legacy page source and read the same fields
+3. Generate the Report Table below and **show it to Sanjay before proceeding**
+
+### Report Table Format
+
+| Field | Legacy Page Value | .astro Current Value | Status |
+|---|---|---|---|
+| `<title>` | _paste verbatim_ | _paste verbatim_ | ✅ Match / ⚠️ Mismatch / ❌ Missing in Legacy |
+| `<h1>` | _paste verbatim_ | _paste verbatim_ | ✅ / ⚠️ / ❌ |
+| `<meta description>` | _paste verbatim_ | _paste verbatim_ | ✅ / ⚠️ / ❌ |
+| Image 1 filename | _paste verbatim_ | _paste verbatim_ | ✅ / ⚠️ / ❌ |
+| Image 1 alt text | _paste verbatim_ | _paste verbatim_ | ✅ / ⚠️ / ❌ |
+| Image 2 filename | ... | ... | ... |
+| Image 2 alt text | ... | ... | ... |
+| Canonical URL | _paste verbatim_ | _paste verbatim_ | ✅ / ⚠️ / ❌ |
+| FAQ Section | Present / Absent | Present / Absent | ✅ / ⚠️ / ❌ |
+| Hero CTA button | Present / Absent | Present / Absent | ✅ / ⚠️ / ❌ |
+| Mid-page CTA | Present / Absent | Present / Absent | ✅ / ⚠️ / ❌ |
+| Bottom CTA bar | Present / Absent | Present / Absent | ✅ / ⚠️ / ❌ |
+| Sidebar CTA | Present / Absent | Present / Absent | ✅ / ⚠️ / ❌ |
+
+### Status Key
+
+- ✅ **Match** — .astro value is identical to legacy. No action needed.
+- ⚠️ **Mismatch** — .astro value differs from legacy. Fix the .astro to match legacy exactly.
+- ❌ **Missing in Legacy** — Legacy page has no value for this field. **STOP. Inform Sanjay.** Do not invent a value. Wait for approval.
+- ℹ️ **New Page** — No legacy equivalent exists. Follow new-page rules (see Section 3).
+
+---
+
+## 2. LEGACY FIELD RULES (Detailed)
+
+### Title Tag
+- Copy the legacy `<title>` into the .astro page verbatim, character-for-character.
+- Do NOT shorten, even if it exceeds 60 characters.
+- Do NOT reorder keywords.
+- Do NOT append or prepend anything.
+
+### H1 Heading
+- Copy the legacy `<h1>` verbatim.
+- Do not substitute synonyms or "cleaner" wording.
+
+### Meta Description
+- Copy the legacy meta description verbatim.
+- Length does not matter — preserve it exactly.
+
+### Image File Names
+- Do not rename any image that existed on the legacy page.
+- If an image is new (no legacy equivalent), use descriptive hyphenated lowercase: `waste-oil-centrifuge-disc-stack-recovery.jpg`
+
+### Image Alt Text
+- Copy the legacy alt text verbatim for every legacy image.
+- If the legacy image had NO alt text: flag in Report Table as ❌ Missing in Legacy — do not invent text without Sanjay's approval.
+- For brand-new images with no legacy counterpart: write descriptive alt text including product context.
+  - BAD: `alt="centrifuge"`
+  - GOOD: `alt="Dolphin Centrifuge DMPX-042 three-phase disc stack centrifuge module for crude oil tank bottom recovery"`
+
+### Canonical URL
+- Must match the legacy slug exactly.
+- Format: `<link rel="canonical" href="https://dolphincentrifuge.com/[slug]/" />`
+
+---
+
+## 3. NEW PAGE RULES (No Legacy Equivalent)
+
+Only applies when a page has NO WordPress predecessor.
+
+- `<title>` — Under 60 chars, primary keyword first, brand last.
+- `<meta description>` — 150–160 chars, primary keyword + value prop + CTA hint.
 - `<meta name="robots" content="index, follow">`
-- Canonical URL on every page: `<link rel="canonical" href="https://dolphincentrifuge.com/[slug]/" />`
-- Open Graph tags (og:title, og:description, og:image, og:url, og:type)
-- Twitter card meta tags
-
-### Heading Hierarchy
-- ⚠️ **Legacy Exception** Never replace legacy headings, keep them verbatim. Only add the following if legacy page is missing them.
-- One `<h1>` per page — contains primary keyword
-- `<h2>` for major sections — contain secondary keywords
-- `<h3>` for subsections — long-tail keywords where natural
-- Never skip heading levels (no h1 → h3)
-
-### URL Rules
-- ALL legacy URLs preserved exactly (flat, no path prefixes)
-- New pages: lowercase, hyphenated, descriptive slugs
-- Trailing slashes on all URLs
+- URL: lowercase, hyphenated, descriptive slug with trailing slash.
+- One `<h1>` per page containing primary keyword.
+- `<h2>` for major sections, `<h3>` for subsections — never skip levels.
+- Open Graph tags: og:title, og:description, og:image, og:url, og:type.
+- Twitter card meta tags.
 
 ---
 
-## 2. IMAGE STANDARDS
+## 4. URL RULES
 
-### File Naming
-- ⚠️ **Legacy Exception** Never replace legacy file-names, keep them verbatim. Only modify file-name if legacy image is missing a file-name or file-name is not relevant to page.
-- Descriptive, keyword-rich, hyphenated lowercase
-- BAD: `IMG_2847.jpg`, `photo1.jpg`
-- GOOD: `waste-oil-centrifuge-3-phase-disc-stack-system.jpg`
-- Include application/product context in filename
-
-### Alt Text
-- ⚠️ **Legacy Exception** Never replace legacy alt-text, keep them verbatim. Only modify alt-text if legacy image is missing a alt-text or alt-text is not relevant to page.
-- Every `<img>` MUST have descriptive alt text
-- Include primary keyword naturally
-- Describe what's IN the image, not just the page topic
-- BAD: `alt="centrifuge"`
-- GOOD: `alt="Dolphin Centrifuge DMPX-042 three-phase disc stack centrifuge module for crude oil tank bottom recovery"`
-- For decorative images only: `alt=""`
+- **ALL legacy URLs preserved exactly** — flat, no path prefixes, no changes.
+- New pages: lowercase, hyphenated, descriptive slugs.
+- Trailing slashes on ALL URLs.
 
 ---
 
-## 3. AI CITATION OPTIMIZATION
+## 5. FAQ SECTIONS
 
-### Structured Data (Schema.org)
-Every page type needs appropriate JSON-LD:
-- **Application pages**: `Product` + `FAQPage` schemas
-- **Product pages**: `Product` schema with offers, specs, images
-- **Service pages**: `Service` schema
-- **Blog/Knowledge**: `Article` + `HowTo` or `FAQPage` as appropriate
-- **Homepage**: `Organization` + `LocalBusiness`
-- **Contact**: `LocalBusiness` with full NAP (Name, Address, Phone)
-- **Testimonials**: `Review` schema
-
-### FAQ Sections
-- Do NOT invent FAQ questions. Add FAQ Section ONLY if one existed on the legacy page. If you see RankMath error on Legacy page about missing FAQ, then Point this out to Sanjay. Do not add FAQ section just for the sake of it. Have Sanjay recover it from the backup if possible.
+- **Do NOT invent FAQ questions.**
+- Add a FAQ section **only** if one existed on the legacy page.
+- If the legacy page has a RankMath error about a missing FAQ schema, note it in the Report Table as ⚠️ and inform Sanjay. Do not fabricate questions to fix the schema error.
+- If the FAQ content appears to be missing from the legacy page but should exist, ask Sanjay to recover it from backup.
 
 ---
 
-## 4. INTERNAL LINKING STRATEGY
+## 6. STRUCTURED DATA (Schema.org)
+
+Every page type needs appropriate JSON-LD. Schema content must reflect legacy copy — do not invent product specs, prices, or descriptions.
+
+| Page Type | Schema |
+|---|---|
+| Application pages | `Product` + `FAQPage` (only if FAQ exists) |
+| Product pages | `Product` with offers, specs, images |
+| Service pages | `Service` |
+| Blog / Knowledge | `Article` + `HowTo` or `FAQPage` as appropriate |
+| Homepage | `Organization` + `LocalBusiness` |
+| Contact | `LocalBusiness` with full NAP |
+| Testimonials | `Review` |
+| All pages | `BreadcrumbList` |
+
+---
+
+## 7. INTERNAL LINKING STRATEGY
 
 ### Cross-Connection Rules
 Every page should link to:
-- **2-3 related applications** (e.g., waste oil → used oil, black diesel, WVO)
-- **1-2 relevant products** (e.g., waste oil → DMPX-042, DMPX-070)
+- **2–3 related applications** (e.g., waste oil → used oil, black diesel, WVO)
+- **1–2 relevant products** (e.g., waste oil → DMPX-042, DMPX-070)
 - **1 relevant service** (e.g., → sample testing, centrifuge repair, spare parts)
 - **1 knowledge article** (e.g., → selection guide, troubleshooting)
 - **Contact page** (always, via CTA)
 
 ### Anchor Text Best Practices
-- Use descriptive keyword-rich anchor text
+- Use descriptive keyword-rich anchor text.
 - BAD: "click here", "learn more"
 - GOOD: "our waste oil centrifuge systems", "disc stack centrifuge FAQ"
-- Vary anchor text — don't use identical text for every link to the same page
+- Vary anchor text — do not use identical text for every link to the same page.
 
 ### Sidebar Links (ApplicationLayout)
-- Related Applications: 3-4 links
-- Recommended Products: 2-3 links with Dolphin model numbers
+- Related Applications: 3–4 links
+- Recommended Products: 2–3 links with Dolphin model numbers
 - Quick Contact: phone + email + quote link
 - Trust badge: 40+ years, Warren MI
 
 ### Breadcrumbs
-- Every page should have breadcrumb navigation
+- Every page must have breadcrumb navigation.
 - Schema markup: `BreadcrumbList`
 - Pattern: Home > Applications > Oil & Fuel > Waste Oil Centrifuge
 
 ---
 
-## 5. CTA PLACEMENT
+## 8. CTA PLACEMENT
 
 ### Every Page Must Have:
 1. **Hero CTA** — "Get a Free Quote" button + phone number (above fold)
-2. **Mid-page CTA** — Blockquote or callout box after 2-3 content sections
+2. **Mid-page CTA** — Blockquote or callout box after 2–3 content sections
 3. **Bottom CTA bar** — Navy banner with quote + sample testing buttons
 4. **Sidebar CTA** — Quick Contact card (on ApplicationLayout pages)
 5. **Sticky mobile CTA** — Consider floating phone/quote button on mobile
 
 ### CTA Hierarchy
-- Primary: "Get a Free Quote" → `/contact-for-alfa-laval-centrifuges/`
-- Secondary: "Free Sample Testing" → `/industrial-centrifuge-sample-testing/`
+- Primary: "Get a Quote" → `/contact-for-alfa-laval-centrifuges/`
+- Secondary: "Free Testing" → `/industrial-centrifuge-sample-testing/`
 - Tertiary: Phone `(248) 522-2573` / Email `sales@dolphincentrifuge.com`
 
 ---
 
-## 6. DEMO BOX / BEFORE-AFTER SECTION
+## 9. MANDATORY AGENT VERIFICATION PROTOCOL
 
-### For Application Pages Where Sample Testing Data Exists:
-Add a "Pilot Testing Results" or "See the Difference" section showing:
-- Before photo (dirty/contaminated fluid)
-- After photo (clean/separated product)
-- Key metrics (% removal, clarity improvement, PPM reduction)
-- Link to sample testing service
+### STEP 1: THE STATUS SHIELD (Git Source of Truth)
+Agents must NEVER rely on a "Session Summary" for status reporting.
+- The ONLY source of truth for "Finished" work is `git status` and `git log`.
+- If a page is not in a recent commit with a "Full Fidelity Refactor" message, it is **UNFINISHED**.
 
-### Implementation:
-```astro
-<div class="demo-box bg-light-bg rounded-xl p-6 border">
-  <h3>Pilot Testing Results</h3>
-  <div class="grid grid-cols-2 gap-4">
-    <div>
-      <img src="before.jpg" alt="Contaminated waste oil sample before centrifuge processing" />
-      <span>Before</span>
-    </div>
-    <div>
-      <img src="after.jpg" alt="Clean recovered oil after disc stack centrifuge separation" />
-      <span>After</span>
-    </div>
-  </div>
-  <table></table>
-  <a href="/industrial-centrifuge-sample-testing/">Send Us Your Sample →</a>
-</div>
+### RULE: STOP-AND-CHECK
+If the "Project Summary" says a page is finished but the "Git Log" shows it is old, the agent MUST **STOP** and inform Sanjay of the discrepancy in plain language before proceeding.
 
 ---
 
-## 7. MANDATORY AGENT VERIFICATION PROTOCOL (Crucial)
+## 10. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md
 
-To prevent agents from hallucinating progress or relying on outdated summaries, the following two steps are **HARD-CODED** into the workflow and MUST be executed at the start of every page task.
-
-### **STEP 1: THE DISCOVERY LOCK (Mandatory live audit)**
-Before starting any page, the agent MUST run a technical search (`grep` or `view_file`) and **explicitly report the raw code status to the user.**
-- **CHECK:** Does the file use CSS Grid (`grid-cols-`) or legacy Flex/Centered layout (`flex`, `text-center`)?
-- **CHECK:** Does it have "Rugged Industrial" containers (`rounded-xl border border-gray-100 shadow-sm`)?
-- **ACTION:** Present line numbers proving the "As-Is" state before proposing the "To-Be" refactor.
-
-### **STEP 2: THE STATUS SHIELD (Git Source of Truth)**
-Agents must NEVER rely on the "Session Summary" for status reporting. 
-1.  **THE ONLY SOURCE OF TRUTH** for "Finished" work is the `git status` and `git log`.
-2.  If a page is not in a recent commit with a "Full Fidelity Refactor" message, it is considered **UNFINISHED**.
-
-### **RULE: STOP-AND-CHECK**
-If the "Project Summary" says a page is finished but the "Git Log" shows it is old, the Agent must **STOP** and inform the user of the discrepancy in ELI5 (Explain Like I'm 5) terms.
-
----
-
-## 8. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md
-
-To maintain a verifiable record of completion, the following rule is **HARD-CODED** into the project:
-
-1.  **THE UNFINISHED RULE:** If a page is not listed in `FINISHED_PAGES_LOG.md`, it is **UNFINISHED**, even if it has been committed previously.
-2.  **IMMEDIATE UPDATE:** The agent MUST update the log immediately after every commit with the slug, date, commit hash, and layout engine used.
- 
+1. **THE UNFINISHED RULE:** If a page is not listed in `FINISHED_PAGES_LOG.md`, it is **UNFINISHED**, even if previously committed.
+2. **IMMEDIATE UPDATE:** The agent MUST update the log immediately after every commit with: slug, date, commit hash, and layout engine used.
