@@ -38,6 +38,23 @@ For any page migrated from the legacy WordPress site, the following fields are *
 
 ---
 
+## ⛔ FACTUAL ACCURACY — PERMANENT RULES (Confirmed by Sanjay 2026-04-18)
+
+These are business facts. Getting them wrong = legal and reputational risk.
+
+| Claim | CORRECT | DO NOT SAY |
+|---|---|---|
+| OEM parts status | Dolphin Centrifuge **can source and supply** OEM Alfa Laval parts (as a distributor/reseller) | ~~"Dolphin Centrifuge is an **authorized** source for OEM Alfa Laval parts"~~ — **FALSE. Never say this.** |
+
+**Why it matters:** "Authorized" implies an official Alfa Laval dealership agreement. Dolphin Centrifuge does NOT hold this status. Using this language is a misrepresentation that could expose the business to legal risk.
+
+**Safe language to use:**
+- "We can source OEM Alfa Laval parts for your model"
+- "Contact us to discuss OEM parts sourcing"
+- "We supply OEM and aftermarket parts for Alfa Laval centrifuges"
+
+---
+
 ## 1. MANDATORY PRE-EDIT REPORT TABLE
 
 Before touching a single line of code, the agent MUST:
@@ -195,7 +212,7 @@ Every page should link to:
 
 ### CTA Hierarchy
 - Primary: "Get a Quote" → `/contact-for-alfa-laval-centrifuges/`
-- Secondary: "Free Testing" → `/industrial-centrifuge-sample-testing/`
+- Secondary: "Testing Service" → `/industrial-centrifuge-sample-testing/`
 - Tertiary: Phone `(248) 522-2573` / Email `sales@dolphincentrifuge.com`
 
 ---
