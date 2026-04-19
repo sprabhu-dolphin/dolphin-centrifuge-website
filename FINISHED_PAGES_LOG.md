@@ -18,6 +18,7 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `alfa-laval-centrifuge` | 2026-04-18 | `a9f0079` | ApplicationLayout | ✅ DONE |
 | `contact-for-alfa-laval-centrifuges` | 2026-04-19 | `7e8afe2` | ApplicationLayout | ✅ DONE |
 | `admin/submissions` *(CRM dashboard)* | 2026-04-19 | `7e8afe2` | Custom HTML | ✅ DONE |
+| `disc-centrifuge-parts-glossary` | 2026-04-19 | `2297eeb` | ApplicationLayout | ✅ DONE |
 
 
 ---
