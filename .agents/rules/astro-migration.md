@@ -185,4 +185,32 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - Never run concurrent work on multiple slugs (honors Rule #2).
 
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
+
+#12. MANDATORY POST-COMMIT WORKING-COPY INTEGRITY CHECK (established 2026-04-19):
+
+    After EVERY `git commit` or `git commit --amend` — and BEFORE writing READY.txt — the agent
+    MUST run these two commands in order and confirm both return clean output:
+
+        git diff -w --stat
+        git status
+
+    WHAT TO LOOK FOR:
+    - `git diff -w --stat` must return NO output (empty). Any output means a tracked file changed
+      on disk after the commit. This catches editor autosave races, CRLF drift, encoding flips,
+      and silent file truncation.
+    - `git status` must show "nothing added to commit" under tracked files.
+
+    IF EITHER CHECK FAILS:
+    - STOP. Do NOT write READY.txt.
+    - Report to Sanjay: "Post-commit integrity check failed — working copy differs from HEAD.
+      File X has changed since commit. Possible editor autosave or encoding issue."
+    - Run `git diff -w` (full diff, no stat) to identify the exact lines that changed.
+    - Do NOT proceed until Sanjay gives explicit instructions.
+
+    CONTEXT / ROOT CAUSE:
+    This rule was added after a session where post-commit working-copy corruption (file truncation,
+    binary encoding flip on PENDING_FIXES_LIST.md, and CRLF drift) caused the auditor to auto-STALL
+    with a `WORKING TREE CORRUPTION (P0)` finding. The corruption was caused by Excel and editor
+    autosave processes writing to disk between commit and READY.txt submission. Closing Excel and
+    other file-modifying tools before committing eliminated the issue.
 
