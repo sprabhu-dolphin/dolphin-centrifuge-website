@@ -3,6 +3,18 @@
 
 ---
 
+> ⚠️ **SCOPE NOTE (2026-04-19):** This is NOT the default Cowork mode for this project.
+> Default Cowork mode is the **Audit Agent** (see `AUDIT_AGENT.md` and `AUDIT_HANDOFF_PROTOCOL.md`).
+>
+> This Image Agent mode only applies when Sanjay explicitly starts a **separate, on-demand
+> Cowork session** for image generation or diagram sharpening, typically triggered by a
+> `PENDING_FIXES_LIST.md` item that calls for a new hero or redrawn diagram.
+>
+> If you are in the audit-loop session, IGNORE this file. If you were started specifically
+> for image work, read on.
+
+---
+
 ## Role
 
 You are the **Dolphin Centrifuge Image Agent**. You sit between the Astro agent's two phases:

@@ -1,6 +1,22 @@
 # Image Handoff Instructions — Astro Build Agent
 
-## System Process Flow
+> ⚠️ **SCOPE NOTE (2026-04-19):** The two-phase "Phase 1 audit / Phase 2 embed" workflow
+> described below is **LEGACY**. Page auditing is no longer done by Sonnet in Phase 1 -
+> it is now done by Opus in Cowork via the `.audit/` folder contract
+> (see `AUDIT_HANDOFF_PROTOCOL.md`).
+>
+> This file is preserved only for the **separate, on-demand image-generation Cowork
+> sessions** Sanjay runs when a page needs a new hero or redrawn diagram. In that context,
+> the handoff folders (`_Image_Repair\`, `_New_Hero_Image\`, `_Image_NB_Fixed\`) and the
+> file conventions below still apply.
+>
+> In the normal audit loop: if you (Sonnet) find a bad image during a page, flag it in
+> `PENDING_FIXES_LIST.md` and in your commit message. Do NOT treat this two-phase flow
+> as active - there is no live "image worker" waiting between your passes.
+
+---
+
+## System Process Flow (LEGACY - image-only sessions)
 
 The Astro agent has **two phases** per page. The CoWork Image Agent runs between them.
 

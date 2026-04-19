@@ -163,6 +163,16 @@ For a slug Sanjay gives you:
     - git commit -m "feat(v2.2): {slug} iter-NN"
     - Capture the commit hash
 
+  STEP 3.5 - MANDATORY: Verify-and-heal working copy:
+    - Run: bash .audit/tools/verify-and-heal.sh
+    - This script auto-detects post-commit working-copy corruption
+      (known issue on this machine: mid-content truncation after clean
+      commits) and restores the file from HEAD if needed.
+    - Exit code 0 = working tree matches HEAD, safe to proceed.
+    - Exit code 1 = unresolvable dirty state - STOP, tell Sanjay.
+    - See section 7.2 for why this exists. Skipping this step will
+      cause auditor STALLs for something harmless.
+
   STEP 4 - Write READY.txt:
     - Path: .audit/queue/{slug}/READY.txt
     - Fill in the schema from section 3.1
@@ -231,6 +241,24 @@ Windows checkouts can show hundreds of "modified" files in `git status` even whe
 3. Excel lock files (`~$*.xlsx`) and OS junk (`.DS_Store`, `Thumbs.db`) must be in `.gitignore`. If they appear in `git status`, that is a `.gitignore` gap, not a dirty tree - flag it.
 
 Do NOT freeze and ask Sanjay "Option A/B/C" on a dirty tree before running `git diff -w`. False-positive STALLs waste a session rotation.
+
+### 7.2 Post-commit working-copy corruption (auto-heal, do not STALL)
+
+Diagnosed 2026-04-19 after two back-to-back STALLs on `disc-centrifuge-parts-glossary`. Signature:
+
+- Sonnet commits cleanly. `git show {commit}:{file}` is correct.
+- Seconds later, the on-disk working copy of a committed file is truncated (mid-word, mid-tag, no trailing newline).
+- Only affects files just committed. Git object store is untouched.
+
+Root cause is not Git, not Cowork, not Sonnet's logic. It is some Windows-side process (IDE autosave, file-watcher, antivirus write-back) flushing a stale buffer after the commit has already written the object.
+
+**Guard rails in place:**
+
+1. `.git/hooks/post-commit` - snapshots each committed file's SHA at T+0 and T+15s. Any drift gets logged to `.audit/_diagnostic/post-commit-sentinel.log`. This is diagnostic only, not a blocker.
+2. `.audit/tools/verify-and-heal.sh` - Sonnet runs this before writing READY.txt (STEP 3.5). Auto-restores corrupted working copies from HEAD.
+3. Auditor-side auto-heal - Opus no longer STALLs on dirty-tree if the only drift is for files in the last commit AND HEAD version is intact. Opus runs the heal script itself, documents the heal in the report, and proceeds to audit the commit (which is the source of truth anyway).
+
+**The rule:** if disk differs from HEAD for a file in the last commit, and HEAD is intact, **heal instead of stalling**. Document the heal in the log, do not rotate sessions for it.
 
 ---
 

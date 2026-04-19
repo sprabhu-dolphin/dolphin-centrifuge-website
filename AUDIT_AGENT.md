@@ -62,11 +62,27 @@ Before Pass A, run these gate checks. Any failure = immediate STALL, no scoring.
 | Slug exists in LW.xml | Search LW.xml for slug | `slug_not_in_legacy` |
 | `.astro` file exists | `src/pages/{slug}.astro` readable | `astro_file_missing` |
 | Commit hash matches HEAD | `git log -1 --format=%h -- src/pages/{slug}.astro` matches READY.txt | `commit_hash_mismatch` |
-| Working tree clean | `git status --porcelain` returns empty | `dirty_tree` |
+| Working tree clean (after auto-heal) | `git status --porcelain` returns empty, OR only untracked non-blocker files, OR all drift was auto-healed (see below) | `dirty_tree_unresolvable` |
 | Iteration number valid | Is iteration one more than the last `iter-NN.md` in reports folder (or 1 if fresh)? | `iteration_number_invalid` |
 | Single-slug commit | `git show --name-only HEAD` only touches this slug's files | `multi_slug_commit` |
 
 If all pass, proceed to scoring.
+
+### Auto-heal on dirty-tree (do not STALL for editor corruption)
+
+Windows-side file corruption after clean commits is a known issue on this machine (documented in AUDIT_HANDOFF_PROTOCOL.md §7.2). It shows up as mid-content truncation of files Sonnet just committed. The git object is intact; only the working copy is damaged.
+
+**When `git status --porcelain` shows modified tracked files:**
+
+1. First run CRLF diagnosis (AUDIT_HANDOFF_PROTOCOL.md §7.1). If `git diff -w --stat` is clean, it is line-ending noise. Not a stall. Proceed.
+2. If real drift exists, check whether ALL dirty files are in the last commit:
+   - `COMMIT_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)`
+   - `DIRTY_FILES=$(git status --porcelain | awk '{print $2}')`
+   - If every dirty file is in `COMMIT_FILES` → this is post-commit editor corruption. **Auto-heal, do not STALL.** Run `bash .audit/tools/verify-and-heal.sh`. Document the heal event in the audit report preamble (not as a P0). Then proceed to scoring.
+   - If any dirty file is NOT in the last commit → genuine uncommitted work. STALL with `dirty_tree_unresolvable`.
+3. Untracked files (`??` prefix) like `ga4-landing-pages-top100.xlsx`, the audit infrastructure folders themselves, or Excel lock files are not blockers. Ignore them for the dirty-tree gate.
+
+The commit hash is always the source of truth. Auditing the working copy when HEAD is clean would be auditing a ghost.
 
 ---
 

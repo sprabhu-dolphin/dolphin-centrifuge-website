@@ -52,9 +52,19 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
 
     Do not proceed with any migration task without explicitly confirming you have read and loaded these files into your working memory.
 
-The following files contains instruction on handling image files between YOU and the IMAGE WORKER
+IMPORTANT - COWORK ROLE CLARIFICATION:
+In this project, Cowork (Opus) is the AUDIT AGENT. See AUDIT_HANDOFF_PROTOCOL.md §1.
+Cowork does NOT process images, generate heroes, or fix diagrams as part of the normal loop.
+Image generation is a SEPARATE on-demand Cowork session that Sanjay runs by hand when a page
+needs a new hero or redrawn diagram. Those sessions use COWORK_IMAGE_AGENT.md and the NB_*
+skills as their brief. Never assume there is a live "image worker" you can hand off to during
+the audit loop. If you find a bad image during a page, flag it in your commit message and
+in PENDING_FIXES_LIST.md per Rule #7 - do NOT pause the audit loop waiting for image work.
 
-    ASTRO_AGENT_IMAGE_INSTRUCTIONS.md (For image file handling process between YOU and the IMAGE COWORK AGENT
+The following file (legacy reference) documents the old image-handoff workflow that predates
+the audit loop. It is preserved for the separate image-generation sessions only:
+
+    ASTRO_AGENT_IMAGE_INSTRUCTIONS.md (legacy - image handoff format for on-demand image sessions)
 
 #5. IMAGE QUALITY STOP-AND-CHECK GATE (MANDATORY — BEFORE EVERY COMMIT):
 
