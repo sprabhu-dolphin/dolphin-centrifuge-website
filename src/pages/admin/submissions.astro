@@ -1,0 +1,488 @@
+---
+// Admin Dashboard — Dolphin Centrifuge Submissions
+// NO-INDEX: This page is hidden from search engines
+// Password protected via sessionStorage + Worker Bearer token
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Submissions Dashboard — Dolphin Centrifuge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f0f4f8;
+      color: #1a2a4a;
+      min-height: 100vh;
+    }
+
+    /* ── Login Screen ───────────────────────────────────────── */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #1a2a4a;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px 48px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .login-card h1 {
+      font-size: 1.4rem;
+      color: #1a2a4a;
+      margin-bottom: 6px;
+    }
+    .login-card p {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 28px;
+    }
+    .login-card input {
+      width: 100%;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 14px;
+    }
+    .login-card input:focus { border-color: #1a2a4a; }
+    .login-card button {
+      width: 100%;
+      background: #1a2a4a;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-card button:hover { background: #e8c204; color: #1a2a4a; }
+    #login-error {
+      color: #c0392b;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+
+    /* ── Dashboard ──────────────────────────────────────────── */
+    #dashboard { display: none; }
+
+    header {
+      background: #1a2a4a;
+      color: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    header span { font-size: 0.8rem; color: #ccc; }
+
+    .toolbar {
+      padding: 20px 32px 10px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .toolbar input {
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      width: 280px;
+      transition: border-color 0.2s;
+    }
+    .toolbar input:focus { border-color: #1a2a4a; }
+    #count-badge {
+      font-size: 0.82rem;
+      color: #555;
+    }
+    #logout-btn {
+      margin-left: auto;
+      background: transparent;
+      border: 2px solid #1a2a4a;
+      color: #1a2a4a;
+      border-radius: 8px;
+      padding: 7px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #logout-btn:hover { background: #1a2a4a; color: #fff; }
+
+    /* ── Table ──────────────────────────────────────────────── */
+    .table-wrap {
+      padding: 0 32px 40px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      font-size: 0.84rem;
+    }
+    thead {
+      background: #1a2a4a;
+      color: #fff;
+      text-align: left;
+    }
+    thead th {
+      padding: 12px 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid #eee;
+      transition: background 0.15s;
+    }
+    tbody tr:hover { background: #f7f9fc; }
+    tbody tr.reconnect-row { background: #fff8e1; }
+    tbody tr.reconnect-row:hover { background: #fff3bb; }
+    td {
+      padding: 10px 14px;
+      vertical-align: top;
+      color: #333;
+    }
+    .badge-reconnect {
+      display: inline-block;
+      background: #e8c204;
+      color: #1a2a4a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .delete-btn {
+      background: transparent;
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .delete-btn:hover { background: #e74c3c; color: #fff; }
+
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: #888;
+      font-size: 1rem;
+    }
+    .empty {
+      text-align: center;
+      padding: 60px;
+      color: #999;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Login Screen ─────────────────────────────────────── -->
+  <div id="login-screen">
+    <div class="login-card">
+      <h1>🔒 Admin Dashboard</h1>
+      <p>Dolphin Centrifuge — Form Submissions</p>
+      <input type="password" id="password-input" placeholder="Enter admin password" autocomplete="current-password" />
+      <button id="login-btn">Sign In</button>
+      <div id="login-error"></div>
+    </div>
+  </div>
+
+  <!-- ── Dashboard ────────────────────────────────────────── -->
+  <div id="dashboard">
+    <header>
+      <div>
+        <h1>📋 Form Submissions — Dolphin Centrifuge</h1>
+        <span>Stored in Cloudflare D1 · No-index · Private</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
+      <span id="count-badge">Loading…</span>
+      <button id="logout-btn">Log Out</button>
+    </div>
+
+    <div class="table-wrap">
+      <div id="table-container" class="loading">Loading submissions…</div>
+    </div>
+  </div>
+
+  <script>
+    // ── Config ────────────────────────────────────────────────
+    const WORKER_URL = 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev';
+    const SESSION_KEY = 'dc_admin_token';
+
+    // ── Elements ──────────────────────────────────────────────
+    const loginScreen    = document.getElementById('login-screen');
+    const dashboard      = document.getElementById('dashboard');
+    const passwordInput  = document.getElementById('password-input');
+    const loginBtn       = document.getElementById('login-btn');
+    const loginError     = document.getElementById('login-error');
+    const searchInput    = document.getElementById('search-input');
+    const countBadge     = document.getElementById('count-badge');
+    const tableContainer = document.getElementById('table-container');
+    const logoutBtn      = document.getElementById('logout-btn');
+
+    let allData = [];
+
+    // ── Auto-login if session exists ──────────────────────────
+    const savedToken = sessionStorage.getItem(SESSION_KEY);
+    if (savedToken) {
+      showDashboard();
+      loadSubmissions(savedToken);
+    }
+
+    // ── Login ─────────────────────────────────────────────────
+    loginBtn.addEventListener('click', attemptLogin);
+    passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
+
+    async function attemptLogin() {
+      const token = passwordInput.value.trim();
+      if (!token) { loginError.textContent = 'Please enter your password.'; return; }
+
+      loginBtn.textContent = 'Checking…';
+      loginBtn.disabled = true;
+      loginError.textContent = '';
+
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (resp.status === 401) {
+          loginError.textContent = 'Incorrect password.';
+        } else if (resp.ok) {
+          sessionStorage.setItem(SESSION_KEY, token);
+          const json = await resp.json();
+          allData = json.data || [];
+          showDashboard();
+          renderTable(allData);
+        } else {
+          loginError.textContent = 'Server error. Please try again.';
+        }
+      } catch (err) {
+        loginError.textContent = 'Connection error. Is the worker deployed?';
+      }
+
+      loginBtn.textContent = 'Sign In';
+      loginBtn.disabled = false;
+    }
+
+    // ── Load submissions ───────────────────────────────────────
+    async function loadSubmissions(token) {
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.status === 401) { logout(); return; }
+        const json = await resp.json();
+        allData = json.data || [];
+        renderTable(allData);
+      } catch (err) {
+        tableContainer.innerHTML = '<div class="empty">Failed to load data. Check your connection.</div>';
+      }
+    }
+
+    // ── Render table ───────────────────────────────────────────
+    function renderTable(data) {
+      const reconnectCount = data.filter(r => r.is_reconnect).length;
+      countBadge.textContent = `${data.length} entries · ${reconnectCount} returning customer${reconnectCount !== 1 ? 's' : ''}`;
+
+      if (data.length === 0) {
+        tableContainer.innerHTML = '<div class="empty">No submissions yet.</div>';
+        return;
+      }
+
+      const thead = `
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Country</th>
+            <th>Fluid Type</th>
+            <th>Capacity</th>
+            <th>Solids %</th>
+            <th>Condition</th>
+            <th>Contact Pref.</th>
+            <th>Details</th>
+            <th>Status</th>
+            <th>Delete</th>
+          </tr>
+        </thead>`;
+
+      const tbody = data.map(r => {
+        const date = r.created_at ? r.created_at.substring(0, 10) : '—';
+        const reconnectBadge = r.is_reconnect
+          ? `<span class="badge-reconnect">⚡ RETURNING</span>`
+          : '';
+        const details = r.additional_details
+          ? r.additional_details.substring(0, 80) + (r.additional_details.length > 80 ? '…' : '')
+          : '—';
+        const rowClass = r.is_reconnect ? 'reconnect-row' : '';
+
+        return `
+          <tr class="${rowClass}" data-id="${r.id}">
+            <td>${r.id}</td>
+            <td style="white-space:nowrap">${date}</td>
+            <td style="white-space:nowrap">${esc(r.first_name)} ${esc(r.last_name)}</td>
+            <td>${esc(r.company)}</td>
+            <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
+            <td style="white-space:nowrap">${esc(r.phone)}</td>
+            <td>${esc(r.country)}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
+            <td>${esc(r.fluid_type)}</td>
+            <td>${esc(r.capacity)}</td>
+            <td>${esc(r.solids_percentage)}</td>
+            <td style="white-space:nowrap">${esc(r.centrifuge_condition)}</td>
+            <td style="white-space:nowrap">${esc(r.contact_method)}</td>
+            <td title="${esc(r.additional_details)}">${esc(details)}</td>
+            <td>${reconnectBadge}</td>
+            <td><button class="delete-btn" data-delete-id="${r.id}">Delete</button></td>
+          </tr>`;
+      }).join('');
+
+      tableContainer.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
+    }
+
+    // ── Search filter ──────────────────────────────────────────
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.toLowerCase();
+      const filtered = allData.filter(r =>
+        `${r.first_name} ${r.last_name} ${r.company} ${r.email} ${r.phone} ${r.fluid_type} ${r.country} ${r.additional_details}`
+          .toLowerCase().includes(q)
+      );
+      renderTable(filtered);
+    });
+
+    // ── Delete: event delegation on table container ─────────
+    let pendingDeleteId = null;
+    const deleteModal   = document.getElementById('delete-modal');
+    const modalConfirm  = document.getElementById('modal-confirm');
+    const modalCancel   = document.getElementById('modal-cancel');
+
+    tableContainer.addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-delete-id]');
+      if (!btn) return;
+      pendingDeleteId = Number(btn.dataset.deleteId);
+      deleteModal.style.display = 'flex';
+    });
+
+    modalCancel.addEventListener('click', function() {
+      deleteModal.style.display = 'none';
+      pendingDeleteId = null;
+    });
+
+    modalConfirm.addEventListener('click', async function() {
+      if (!pendingDeleteId) return;
+      const id    = pendingDeleteId;
+      const token = sessionStorage.getItem(SESSION_KEY);
+      deleteModal.style.display = 'none';
+      pendingDeleteId = null;
+
+      modalConfirm.textContent = 'Deleting…';
+      modalConfirm.disabled = true;
+
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.ok) {
+          allData = allData.filter(r => r.id !== id);
+          renderTable(allData);
+        } else {
+          alert('Delete failed — server returned an error.');
+        }
+      } catch (err) {
+        alert('Connection error. Please try again.');
+      } finally {
+        modalConfirm.textContent = 'Yes, Delete';
+        modalConfirm.disabled = false;
+      }
+    });
+
+    // Close modal on backdrop click
+    deleteModal.addEventListener('click', function(e) {
+      if (e.target === deleteModal) {
+        deleteModal.style.display = 'none';
+        pendingDeleteId = null;
+      }
+    });
+
+    // ── Helpers ────────────────────────────────────────────────
+    function showDashboard() {
+      loginScreen.style.display = 'none';
+      dashboard.style.display = 'block';
+    }
+
+    function logout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      loginScreen.style.display = 'flex';
+      dashboard.style.display = 'none';
+      passwordInput.value = '';
+    }
+
+    logoutBtn.addEventListener('click', logout);
+
+    function esc(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
+
+  <!-- ── Delete Confirmation Modal ──────────────────────────── -->
+  <div id="delete-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:200; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; padding:36px 40px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.35); text-align:center;">
+      <div style="width:52px; height:52px; background:#fee2e2; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+      <h3 style="font-family:Inter,Arial,sans-serif; font-size:1.1rem; font-weight:700; color:#1a2a4a; margin:0 0 8px;">Remove Submission?</h3>
+      <p style="font-family:Inter,Arial,sans-serif; font-size:0.88rem; color:#666; margin:0 0 24px; line-height:1.5;">This record will be permanently removed from your dashboard. This cannot be undone.</p>
+      <div style="display:flex; gap:12px; justify-content:center;">
+        <button id="modal-cancel" style="flex:1; padding:10px; border:2px solid #ddd; background:#fff; border-radius:8px; font-size:0.9rem; font-weight:600; cursor:pointer; color:#555; transition:all 0.15s;">Cancel</button>
+        <button id="modal-confirm" style="flex:1; padding:10px; border:none; background:#e74c3c; border-radius:8px; font-size:0.9rem; font-weight:600; cursor:pointer; color:#fff; transition:background 0.15s;">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

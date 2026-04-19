@@ -40,11 +40,16 @@ Always use refer to LW.xml file which contains all the pages from the legacy web
 
 #4. MANDATORY REFERENCE FILES (READ BEFORE EVERY EDIT):
 
-Before generating any code, analyzing a page, or making any changes, you MUST read and apply the rules in these two specific files located in the project directory:
+Before generating any code, analyzing a page, or making any changes, you MUST read and apply the rules in these specific files located in the project directory:
 
-    ## FIRST ## SEO-AND-STANDARDS.md (For Meta tags, H1s, Schema, URLs, and text rules)
+    ## FIRST ## SEO-AND-STANDARDS.md (For Meta tags, H1s, Schema, URLs, and SEO-sensitive verbatim fields)
+
+    ## NEXT ## LEGACY-BODY-FIDELITY.md (For body content coverage rules + the no-AI-contamination ban. This file governs paragraphs, section headings, tables, lists, and FAQ sections. It supersedes the body-related rows in the SEO-AND-STANDARDS Golden Rule table.)
 
     ## NEXT ## PAGE_APPEARANCE_LOOK.md (For UI layout, side-by-side logic, spacing, galleries, and uniform image sizing)
+
+    ## AT SESSION START ## AUDIT_HANDOFF_PROTOCOL.md (For the audit loop contract with Opus in Cowork. Defines READY.txt, LATEST.md, iteration rules, and session rotation. Read ONCE at session start and keep the schema in memory.)
+
     Do not proceed with any migration task without explicitly confirming you have read and loaded these files into your working memory.
 
 The following files contains instruction on handling image files between YOU and the IMAGE WORKER
@@ -130,6 +135,44 @@ The following files contains instruction on handling image files between YOU and
 #10. STRICT BROWSER PREVIEW PROHIBITION (CRASH PREVENTION):
     - **CRITICAL:** NEVER use a browser subagent or attempt to preview/render the page yourself. This will instantly CRASH the user's PC (Out Of Memory).
     - If visual verification is needed, you MUST stop and hand off to the user: "Please preview this on your local machine."
+
+#11. AUDIT LOOP OBEDIENCE (MANDATORY - WORKS WITH OPUS IN COWORK):
+
+    The Cowork audit agent (Opus) is the arbiter of "done" for every page. You do NOT decide a page is finished. Opus does, via a `verdict: PASS` in `.audit/reports/{slug}/LATEST.md`.
+
+    WORKFLOW (per AUDIT_HANDOFF_PROTOCOL.md):
+
+    1. After every commit that changes `src/pages/{slug}.astro`:
+       - Working tree must be clean after the commit (auditor auto-STALLs on dirty tree).
+       - Write `.audit/queue/{slug}/READY.txt` with the exact schema in AUDIT_HANDOFF_PROTOCOL.md section 3.1.
+       - Stop. Tell Sanjay "iter-N submitted for {slug}, commit {hash}."
+       - Do NOT touch another file until new `.audit/reports/{slug}/LATEST.md` appears.
+
+    2. When LATEST.md appears:
+       - If `verdict: NEEDS_FIXES`, read the report and apply EVERY P0 and EVERY P1. Commit. Write new READY.txt with iteration + 1.
+       - If `verdict: PASS`, update FINISHED_PAGES_LOG.md per Rule #9 and tell Sanjay "{slug} PASSED. Session rotation required." Then STOP until Sanjay gives you the next slug in a fresh session.
+       - If `verdict: STALLED` or `.audit/stalled/{slug}/WHY.md` appears, STOP. Do not touch the slug. Wait for Sanjay.
+
+    3. GIT HYGIENE (enforced by auditor pre-flight):
+       - Clean working tree required when writing READY.txt.
+       - Commit hash in READY.txt must match HEAD for the .astro file.
+       - Never mix edits to multiple slugs in one commit.
+
+    4. DEPLOYMENT IS OUT OF SCOPE FOR THIS LOOP:
+       - PASS does NOT push to origin.
+       - PASS does NOT deploy to Netlify.
+       - Sanjay decides when to push commits to production. Always manual.
+
+    5. SESSION ROTATION AT TERMINAL STATES:
+       When a slug PASSES or STALLS, tell Sanjay:
+       "Session rotation required. Start a fresh Antigravity session and fresh Cowork session before the next slug."
+       Do NOT start the next slug yourself. Wait for Sanjay in a new session.
+
+    HARD STOPS:
+    - Never edit files in `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`. Read-only.
+    - Never skip a P0 or P1 fix the auditor flagged.
+    - Never mark a page DONE in FINISHED_PAGES_LOG without `verdict: PASS` in LATEST.md.
+    - Never run concurrent work on multiple slugs (honors Rule #2).
 
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
 

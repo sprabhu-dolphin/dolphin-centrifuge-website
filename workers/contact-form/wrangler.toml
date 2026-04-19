@@ -1,0 +1,33 @@
+name = "dolphin-contact-form"
+main = "index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# ── D1 Database Binding ──────────────────────────────────────────────────────
+# After running: wrangler d1 create dolphin-submissions
+# Replace DATABASE_ID_HERE with the id printed by that command.
+[[d1_databases]]
+binding      = "DB"
+database_name = "dolphin-submissions"
+database_id  = "a5396fba-3578-4d7b-a802-8bcce711b77b"
+
+# ── DEPLOYMENT INSTRUCTIONS ──────────────────────────────────────────────────
+#
+# STEP 1 — Create the D1 database (run once, copy the database_id it prints):
+#   wrangler d1 create dolphin-submissions
+#   → paste the database_id above, replacing DATABASE_ID_HERE
+#
+# STEP 2 — Set secrets (run each, paste value when prompted):
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put ADMIN_PASSWORD
+#
+# STEP 3 — Create the database table:
+#   wrangler d1 execute dolphin-submissions --file=schema.sql --remote
+#
+# STEP 4 — Deploy the worker:
+#   wrangler deploy
+#
+# ── SECRETS (set via wrangler secret put — never hardcode here) ──────────────
+# RESEND_API_KEY    — from resend.com dashboard
+# TURNSTILE_SECRET_KEY — from Cloudflare Turnstile dashboard (optional)
+# ADMIN_PASSWORD    — your chosen password for the /admin/submissions dashboard
