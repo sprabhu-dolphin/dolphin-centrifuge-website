@@ -68,21 +68,35 @@ Before Pass A, run these gate checks. Any failure = immediate STALL, no scoring.
 
 If all pass, proceed to scoring.
 
-### Auto-heal on dirty-tree (do not STALL for editor corruption)
+### PERMANENT RULE - Always read via `extract-commit.sh`. Never read from the working copy.
 
-Windows-side file corruption after clean commits is a known issue on this machine (documented in AUDIT_HANDOFF_PROTOCOL.md §7.2). It shows up as mid-content truncation of files Sonnet just committed. The git object is intact; only the working copy is damaged.
+Windows-side editor autosave on Sanjay's machine randomly corrupts files AFTER Sonnet has committed cleanly (mid-content truncation, trailing whitespace, missing final newline). The git object is always intact; only the working copy gets poisoned. For months this caused stall-and-heal loops that wasted sessions.
 
-**When `git status --porcelain` shows modified tracked files:**
+**Solved permanently on 2026-04-19 by bypassing the working copy entirely.**
 
-1. First run CRLF diagnosis (AUDIT_HANDOFF_PROTOCOL.md §7.1). If `git diff -w --stat` is clean, it is line-ending noise. Not a stall. Proceed.
-2. If real drift exists, check whether ALL dirty files are in the last commit:
-   - `COMMIT_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)`
-   - `DIRTY_FILES=$(git status --porcelain | awk '{print $2}')`
-   - If every dirty file is in `COMMIT_FILES` → this is post-commit editor corruption. **Auto-heal, do not STALL.** Run `bash .audit/tools/verify-and-heal.sh`. Document the heal event in the audit report preamble (not as a P0). Then proceed to scoring.
-   - If any dirty file is NOT in the last commit → genuine uncommitted work. STALL with `dirty_tree_unresolvable`.
-3. Untracked files (`??` prefix) like `ga4-landing-pages-top100.xlsx`, the audit infrastructure folders themselves, or Excel lock files are not blockers. Ignore them for the dirty-tree gate.
+The audit agent does NOT audit the working-copy file. Ever. At the start of every audit, run:
 
-The commit hash is always the source of truth. Auditing the working copy when HEAD is clean would be auditing a ghost.
+```
+.audit/tools/extract-commit.sh <commit-sha> <slug>
+```
+
+That script uses `git show <commit>:<path>` to pull the committed blob directly out of git's object store into `.audit/_extracted/<slug>-<short-sha>/`. No working copy. No `.git/index.lock` to fight. No editor can touch it. The extracted tree is the only source the audit reads.
+
+**Mandatory pre-flight sequence:**
+
+1. Parse `READY.txt` for `audit_target_commit` (e.g. `a61ff56`).
+2. Run `.audit/tools/extract-commit.sh <commit> <slug>`.
+3. Read `.audit/_extracted/<slug>-<short-sha>/src/pages/<slug>.astro` - this is what you score.
+4. Legacy reference is read the same way (LW.xml is also copied into the extracted tree by the script).
+5. Ignore `git status --porcelain` output entirely for the purpose of scoring. Note it in the preamble if unusual, but do not STALL for it. The working copy is not in the audit loop anymore.
+
+**Rules of engagement:**
+
+- Do NOT run `git checkout --`, do NOT call `verify-and-heal.sh`, do NOT wait for `.git/index.lock` to clear before reading source. None of that is the audit agent's problem anymore.
+- If the extract script itself fails (e.g. commit not found, script missing), THEN STALL with `extract_failed`. That is the only stall reason related to working-copy / file-state issues.
+- The commit hash is the source of truth. Anything on disk after that commit is a disposable cache.
+
+The older `verify-and-heal.sh` still runs on Sonnet's side post-commit in Antigravity - that is for Sonnet's convenience, not the audit agent's. It stays, but the audit agent no longer depends on it.
 
 ---
 

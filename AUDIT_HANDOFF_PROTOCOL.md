@@ -242,23 +242,31 @@ Windows checkouts can show hundreds of "modified" files in `git status` even whe
 
 Do NOT freeze and ask Sanjay "Option A/B/C" on a dirty tree before running `git diff -w`. False-positive STALLs waste a session rotation.
 
-### 7.2 Post-commit working-copy corruption (auto-heal, do not STALL)
+### 7.2 Post-commit working-copy corruption - PERMANENTLY BYPASSED
 
-Diagnosed 2026-04-19 after two back-to-back STALLs on `disc-centrifuge-parts-glossary`. Signature:
+**Status as of 2026-04-19: SOLVED for the audit agent. Do not re-open.**
 
-- Sonnet commits cleanly. `git show {commit}:{file}` is correct.
-- Seconds later, the on-disk working copy of a committed file is truncated (mid-word, mid-tag, no trailing newline).
-- Only affects files just committed. Git object store is untouched.
+Root cause is some Windows-side process (IDE autosave, file-watcher, antivirus write-back) flushing a stale buffer after the commit has already written the git object. The commit is always fine; the working copy gets poisoned seconds later. For months this caused heal-then-re-corrupt loops that wasted entire sessions.
 
-Root cause is not Git, not Cowork, not Sonnet's logic. It is some Windows-side process (IDE autosave, file-watcher, antivirus write-back) flushing a stale buffer after the commit has already written the object.
+**The permanent fix: the audit agent no longer reads the working copy. Period.**
 
-**Guard rails in place:**
+At the start of every audit, Opus runs:
 
-1. `.git/hooks/post-commit` - snapshots each committed file's SHA at T+0 and T+15s. Any drift gets logged to `.audit/_diagnostic/post-commit-sentinel.log`. This is diagnostic only, not a blocker.
-2. `.audit/tools/verify-and-heal.sh` - Sonnet runs this before writing READY.txt (STEP 3.5). Auto-restores corrupted working copies from HEAD.
-3. Auditor-side auto-heal - Opus no longer STALLs on dirty-tree if the only drift is for files in the last commit AND HEAD version is intact. Opus runs the heal script itself, documents the heal in the report, and proceeds to audit the commit (which is the source of truth anyway).
+```
+.audit/tools/extract-commit.sh <commit-sha> <slug>
+```
 
-**The rule:** if disk differs from HEAD for a file in the last commit, and HEAD is intact, **heal instead of stalling**. Document the heal in the log, do not rotate sessions for it.
+This uses `git show <commit>:<path>` to pull the committed blob directly out of git's object store into `.audit/_extracted/<slug>-<short-sha>/`. That extracted tree is the ONLY source the audit reads. The working copy can be as corrupted as Windows wants - it is not in the audit loop.
+
+**Consequences:**
+
+- Opus does not call `git checkout --`, does not wait on `.git/index.lock`, does not run `verify-and-heal.sh`, does not STALL for dirty tree. All of that is gone from the auditor-side flow.
+- Sonnet-side guard rails still exist for her own convenience:
+  - `.git/hooks/post-commit` sentinel logs drift to `.audit/_diagnostic/post-commit-sentinel.log` (diagnostic only).
+  - `.audit/tools/verify-and-heal.sh` heals Sonnet's working copy so her next `git status` is clean. Optional for the audit loop.
+- The only stall reason related to file-state is `extract_failed` - if `extract-commit.sh` itself errors (missing commit, missing script). Any other "dirty tree" observation is ignored.
+
+**The rule is simple and absolute: the commit hash is the source of truth. The audit reads from the commit object via extract-commit.sh. The working copy is out of scope.**
 
 ---
 
