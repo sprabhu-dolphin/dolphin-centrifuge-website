@@ -160,7 +160,7 @@ The following files contains instruction on handling image files between YOU and
 
     4. DEPLOYMENT IS OUT OF SCOPE FOR THIS LOOP:
        - PASS does NOT push to origin.
-       - PASS does NOT deploy to Netlify.
+       - PASS does NOT deploy to Cloudflare Pages.
        - Sanjay decides when to push commits to production. Always manual.
 
     5. SESSION ROTATION AT TERMINAL STATES:

@@ -1,6 +1,6 @@
 # Legacy Body Fidelity - Dolphin Centrifuge
 
-**Last updated:** 2026-04-19 by Sanjay
+**Last updated:** 2026-04-19 by Sanjay / CoWork
 **Scope:** Body content of every `.astro` page migrated from the legacy WordPress site
 **Authority:** This document is the source of truth for BODY content fidelity. It supersedes the body-related rows in the "GOLDEN RULE: LEGACY CONTENT ALWAYS WINS" table inside `SEO-AND-STANDARDS.md`.
 

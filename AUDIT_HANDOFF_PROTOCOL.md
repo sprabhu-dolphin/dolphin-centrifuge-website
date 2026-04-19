@@ -220,17 +220,29 @@ Session rotation applies to STALLED just like PASS.
 | Never commit without running the Mandatory Body Copy Verification Checklist | Enforced by astro-migration.md Rule #1. Auditor detects violations via body_score. |
 | Never push to origin / deploy to production automatically | PASS does NOT deploy. Sanjay decides when to push. |
 
+### 7.1 CRLF / line-ending false positives (DIAGNOSE BEFORE STALLING)
+
+Windows checkouts can show hundreds of "modified" files in `git status` even when no real edits exist. This is line-ending drift (CRLF on disk vs LF in HEAD), not real work. Treat dirty-tree as auto-STALL ONLY after this 3-step check:
+
+1. Run `git diff -w --stat` (the `-w` flag ignores whitespace including line endings).
+   - If output shows zero files or only files you actually edited → it is CRLF noise. NOT a dirty tree. Proceed.
+   - If output shows many unrelated files with real content changes → genuine dirty tree. STALL.
+2. If CRLF noise is confirmed, the project's `.gitattributes` (`* text=auto eol=lf`) plus `git add --renormalize .` will make it permanent. If `.gitattributes` is missing, flag it to Sanjay before writing any READY.txt.
+3. Excel lock files (`~$*.xlsx`) and OS junk (`.DS_Store`, `Thumbs.db`) must be in `.gitignore`. If they appear in `git status`, that is a `.gitignore` gap, not a dirty tree - flag it.
+
+Do NOT freeze and ask Sanjay "Option A/B/C" on a dirty tree before running `git diff -w`. False-positive STALLs waste a session rotation.
+
 ---
 
 ## 8. Deployment is out of scope
 
 The audit loop runs on **source files**, not the live site. You never need to:
 - Run `npm run dev`
-- Deploy to Netlify
+- Deploy to Cloudflare Pages
 - Preview in a browser
 - Take screenshots
 
-Opus audits `.astro` source against `LW.xml`. Period. When a page PASSES, commits sit in the local repo. Sanjay chooses when to push to origin and when Netlify deploys. That decision is not automated.
+Opus audits `.astro` source against `LW.xml`. Period. When a page PASSES, commits sit in the local repo. Sanjay chooses when to push to origin and when Cloudflare Pages deploys. That decision is not automated.
 
 ---
 
