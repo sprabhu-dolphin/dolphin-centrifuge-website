@@ -213,4 +213,11 @@ Your tone should be direct, highly technical, and strictly focused on code accur
     with a `WORKING TREE CORRUPTION (P0)` finding. The corruption was caused by Excel and editor
     autosave processes writing to disk between commit and READY.txt submission. Closing Excel and
     other file-modifying tools before committing eliminated the issue.
-
+
+#13. NO TRUNCATION OR PLACEHOLDERS:
+
+    You must generate the ENTIRE .astro file from top to bottom.
+
+    NEVER use placeholders like // ... rest of the code ... or ``.
+
+    If the legacy page is too long and you hit your token limit, stop cleanly. The user will type "continue", and you must resume exactly where you left off without repeating previous lines.

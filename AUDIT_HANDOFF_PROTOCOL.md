@@ -1,381 +1,92 @@
-# Audit Handoff Protocol - For Sonnet (Antigravity)
-
-**Last updated:** 2026-04-19 by Sanjay
-**Audience:** Sonnet running inside Antigravity as the Astro build agent.
-**Purpose:** Defines the contract for how you communicate with Opus (running inside Cowork) as the auditor agent.
-
-> **You (Sonnet) and Opus NEVER talk directly.** You communicate entirely through files in `.audit/`. This file is the spec for those files.
-
----
-
-## 1. Who you are, who Opus is
-
-| Role | Model | Tool | Writes | Reads |
-|---|---|---|---|---|
-| Builder | Sonnet | Antigravity IDE | `.astro` pages, `.audit/queue/{slug}/READY.txt` | `.audit/reports/{slug}/LATEST.md`, `.audit/stalled/{slug}/WHY.md`, `LW.xml`, all rule MDs |
-| Auditor | Opus | Cowork (desktop) | `.audit/reports/*`, `.audit/passed/*`, `.audit/stalled/*` | `.astro` pages, `LW.xml`, `READY.txt` files, all rule MDs |
-| Decider | Sanjay | Both apps | Everything if he wants | Everything |
-
-**You never edit files in `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`. Those are read-only for you.** If you think the auditor got something wrong, flag it to Sanjay in chat. Do not modify the report.
+# AUDIT_HANDOFF_PROTOCOL.md — Sonnet in Antigravity (fast mode)
 
----
-
-## 2. Mandatory reads at session start
-
-Before touching any code, confirm you have loaded all of these into working memory:
-
-1. `.agents/rules/astro-migration.md` - your root rules
-2. `ANTIGRAVITY_SAFETY_PROTOCOL.md` - the 6 safety rules (now 7 with this protocol)
-3. `SEO-AND-STANDARDS.md` - SEO-sensitive verbatim rules + standards
-4. `PAGE_APPEARANCE_LOOK.md` - layout decision tree
-5. `LEGACY-BODY-FIDELITY.md` - body coverage + no-AI-contamination rules
-6. `AUDIT_HANDOFF_PROTOCOL.md` - this file
-7. `FINISHED_PAGES_LOG.md` - know what's already done
-8. `PENDING_FIXES_LIST.md` - know what's outstanding
+Active protocol as of 2026-04-19. Replaces the older READY.txt / LATEST.md / WHY.md contract (git log has the old version if we need it back).
 
-Echo the list back to Sanjay at session start. If you skipped any, read them now before proceeding.
+## What this document is
 
----
+You are Sonnet running inside Antigravity on Sanjay's Windows machine. Your job: migrate legacy WordPress pages to Astro in `src/pages/<slug>.astro`. Opus runs inside Cowork and audits each of your commits against `LW.xml`. You commit, Opus audits, you fix, repeat. The loop is fast and light now. No READY files, no iteration markers, no reports from you.
 
-## 3. The file contract
+## Session-start reading (short list)
 
-### 3.1 READY.txt - you write this
+Read these at session start, in order:
 
-**Path:** `.audit/queue/{slug}/READY.txt`
-**When:** After every commit that changes `src/pages/{slug}.astro`, exactly once.
-**Format:** Plain text, key-value, one per line.
+1. **AUDIT_HANDOFF_PROTOCOL.md** (this file)
+2. **LEGACY-BODY-FIDELITY.md** — body rules, red list, FAQ rule
+3. **SEO-AND-STANDARDS.md** — verbatim-from-LW.xml rules
+4. **PAGE_APPEARANCE_LOOK.md** — layout rules
 
-```
-slug: wastewater-centrifuge
-iteration: 1
-commit: a9f0079
-timestamp: 2026-04-19T14:30:00Z
-sonnet_summary: Initial migration from LW.xml. Grid layout per PAGE_APPEARANCE_LOOK v2.2. 3 tables preserved verbatim.
-sonnet_open_questions: Hero image missing - flagged via HERO_NEEDED.txt. Legacy has no FAQ, so none created.
-```
+Ignore image-workflow files (`COWORK_IMAGE_AGENT.md`, `NB_*.md`, `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md`).
 
-**Field rules:**
+You do NOT read `.audit/DIRT_BACKLOG.md` during per-page work. That's Opus's file for end-of-batch cleanup planning.
 
-| Field | Format | Rule |
-|---|---|---|
-| `slug` | string | Must match an existing legacy slug in LW.xml. Must match the `.astro` filename. |
-| `iteration` | integer >= 1 | Start at 1. Increment by 1 on every subsequent READY for the same slug. |
-| `commit` | 7+ char git SHA | MUST be the current HEAD commit that contains your edit. Run `git log -1 --format=%h -- src/pages/{slug}.astro` to get it. |
-| `timestamp` | ISO-8601 UTC | Use real time, not placeholder. |
-| `sonnet_summary` | 1-3 sentences | What you changed in this iteration. Be specific, not generic. |
-| `sonnet_open_questions` | 1-3 sentences | Anything you couldn't resolve, or known-unresolved items. Empty string if none. |
+## The fast-mode loop (per page)
 
-### 3.2 LATEST.md - Opus writes, you read
+When Sanjay tells you to work on a slug:
 
-**Path:** `.audit/reports/{slug}/LATEST.md`
-**When:** After Sanjay runs an audit, within ~2 minutes of your READY.txt landing.
-**Format:** YAML frontmatter + markdown body.
-
-```
----
-slug: wastewater-centrifuge
-iteration: 1
-overall_score: 78
-body_score: 82
-seo_score: 74
-layout_score: 70
-verdict: NEEDS_FIXES
-rotate_sessions: false
-next_action: sonnet_fix
----
-
-# Audit Report: wastewater-centrifuge (iter-01)
-
-## Scores
-- Body fidelity: 82/100 (weight 45%)
-- SEO + standards: 74/100 (weight 35%)
-- Layout: 70/100 (weight 20%)
-- Overall: 78/100
-
-## P0 - Must fix (blocks PASS)
+1. **Read legacy.** Grep `LW.xml` for the slug. Extract: title, meta description, h1/h2/h3/h4 list in order, body paragraphs, table data, image refs with alt text, any FAQ, canonical slug.
 
-### 1. [BODY] Missing legacy paragraph (content deletion)
-File: src/pages/wastewater-centrifuge.astro
-Near line: 142
-Issue: LW.xml paragraph about "sludge dewatering at 6500 g-force" is not on the astro page.
-Legacy text: "The disc stack sludge dewatering operates at 6500 g-force, producing a solid-phase..."
-Action: Insert this paragraph in the section titled "Process Operation".
+2. **Write or edit** `src/pages/<slug>.astro`. Use `ApplicationLayout`. Match legacy verbatim on all SEO-ranking fields (title, description, h1, every h2, image alts, image filenames in `.jpg.webp` convention, Article JSON-LD headline).
 
-### 2. [SEO] Title tag wrong
-File: src/pages/wastewater-centrifuge.astro
-Line: 8
-Current: <title>Wastewater Centrifuge Systems | Dolphin</title>
-Legacy (verbatim required): <title>Wastewater Centrifuge - Disc Stack & Decanter Solutions</title>
-Action: Replace line 8 with legacy verbatim.
+3. **Do NOT add:** FAQ blocks unless legacy has one. FAQPage JSON-LD unless legacy has a FAQ. "Why Choose Us" / "Key Benefits" lists. Mid-body CTA buttons. Generic AI preambles. Em-dashes anywhere (use regular `-`). Fabricated stats, testimonials, "Authorized Alfa Laval" language.
 
-...
+4. **Preserve legacy typos.** Sanjay seeds minor typos intentionally as a human-authoring signal. Examples we've seen: `Standards filters`, `flood products`, `nigh centrifugal force`. If LW.xml has a typo, you keep the typo. Do not "fix" it.
 
-## P1 - Should fix
-...
+5. **Commit.**
 
-## P2 - Nit
-...
-```
+   ```
+   git add src/pages/<slug>.astro
+   git commit -m "feat(v2.2): <slug> iter-<N>"
+   ```
 
-**Verdict values:**
-- `PASS` - Page is done. Do not edit further. Update `FINISHED_PAGES_LOG.md`. See section 5.
-- `NEEDS_FIXES` - Fix every P0 and every P1. Do not skip P1s. Commit. Write new READY with iter+1.
-- `STALLED` - Stop. Do not edit this slug. Wait for Sanjay. Also see `.audit/stalled/{slug}/WHY.md`.
+   If you also renamed images on disk, include those in the commit.
 
-### 3.3 FINAL.md - Opus writes when a slug passes
+6. **Tell Sanjay:**
 
-**Path:** `.audit/passed/{slug}/FINAL.md`
-**Your action:** Sanjay will tell you to update `FINISHED_PAGES_LOG.md`. Do it per RULE 4 of `ANTIGRAVITY_SAFETY_PROTOCOL.md`. Do not deploy to production.
+   ```
+   Committed <slug> iter-<N> at <short-sha>. Ready for audit.
+   ```
 
-### 3.4 WHY.md - Opus writes when a slug stalls
+   Stop. Do not write `READY.txt`. Do not wait for anything. Sanjay will pop over to Cowork and type `audit`.
 
-**Path:** `.audit/stalled/{slug}/WHY.md`
-**Your action:** Do not touch this slug again until Sanjay unblocks you. He will either clear the stall manually or reassign the page.
+7. **When Opus returns a fix list in chat** (Sanjay will paste it to you), apply every numbered item mechanically. No interpretation, no arguing, no skipping. Commit as `feat(v2.2): <slug> iter-<N+1> fixes per audit`. Tell Sanjay you're done. Repeat from step 6.
 
----
+8. **When Opus says PASS**, you're done with that page. Sanjay will move you to the next one.
 
-## 4. The loop you run
+## What you do NOT do (things that used to be ceremony)
 
-```
-For a slug Sanjay gives you:
+- No `.audit/queue/<slug>/READY.txt` files. Ever.
+- No iteration numbering in READY.txt. (Still fine in commit messages.)
+- No `verify-and-heal.sh` required before handoff. The auditor reads from the commit object directly, so working-copy corruption no longer blocks the audit. You can still run it if you want your local `git status` clean, but it's optional now.
+- No STALL reports. If something's genuinely blocking, ask Sanjay in chat.
+- No session rotation between pages unless Sanjay asks.
 
-  STEP 0 - Pre-flight checks:
-    - Read LW.xml entry for this slug (source of truth)
-    - Check .audit/reports/{slug}/LATEST.md - is there an existing report?
-    - Check .audit/stalled/{slug}/WHY.md - am I blocked?
-    - Check .audit/passed/{slug}/FINAL.md - is this already done?
+## The working-copy corruption issue (context only)
 
-  STEP 1 - If LATEST.md exists and verdict: NEEDS_FIXES:
-    - Load LATEST.md
-    - Apply EVERY P0 item. Do not skip.
-    - Apply EVERY P1 item. Do not skip.
-    - Optionally apply P2 items.
-    - Do NOT add anything not requested by the report.
+The Windows editor on this machine sometimes corrupts files after you commit (trailing whitespace, mid-content truncation). The commit itself is fine. Opus reads from the commit via `git show`, so this doesn't affect audits anymore.
 
-  STEP 2 - If no LATEST.md exists (iter-1, fresh page):
-    - Read all mandatory MDs (see section 2)
-    - Build the page from LW.xml per the rules
-    - Do the standard Mandatory Body Copy Verification Checklist from .agents/rules/astro-migration.md
+If YOUR `git status` shows unexpected dirt after a commit, that's the corruption. `git checkout -- <file>` restores it. Not urgent, not a blocker, not an audit concern.
 
-  STEP 3 - Commit:
-    - git add src/pages/{slug}.astro (and any related image moves)
-    - git status MUST show clean tree after commit
-    - git commit -m "feat(v2.2): {slug} iter-NN"
-    - Capture the commit hash
+## On dirty tree across multiple open pages
 
-  STEP 3.5 - MANDATORY: Verify-and-heal working copy:
-    - Run: bash .audit/tools/verify-and-heal.sh
-    - This script auto-detects post-commit working-copy corruption
-      (known issue on this machine: mid-content truncation after clean
-      commits) and restores the file from HEAD if needed.
-    - Exit code 0 = working tree matches HEAD, safe to proceed.
-    - Exit code 1 = unresolvable dirty state - STOP, tell Sanjay.
-    - See section 7.2 for why this exists. Skipping this step will
-      cause auditor STALLs for something harmless.
+We're running in fast mode for a batch of ~10 pages before a single cleanup commit. Your working tree may accumulate modifications from prior pages (the §7.2 corruption pattern, or images pending rename). Do not try to clean it up mid-batch. Just commit the file you're working on and let the rest accumulate. Sanjay and Opus will sweep at the end.
 
-  STEP 4 - Write READY.txt:
-    - Path: .audit/queue/{slug}/READY.txt
-    - Fill in the schema from section 3.1
-    - iteration number is +1 from the LATEST.md you just addressed (or 1 if fresh)
+## On the `.jpg.webp` image naming convention
 
-  STEP 5 - Stop.
-    - Tell Sanjay: "iter-N submitted for {slug}, commit {hash}, waiting on audit."
-    - Do NOT touch this slug again until new LATEST.md appears with matching iteration.
-    - Do NOT move to a different slug. Single-page workflow.
-```
+Convention: `<legacy-stem>.jpg.webp` so a 301 from `/wp-content/.../foo.jpg` preserves image-search ranking.
 
----
+In fast mode, if you see the bare `.webp` form on existing pages, leave it. Opus is tracking it in `DIRT_BACKLOG.md` for end-of-batch cleanup. But for NEW images on the page you're currently building, use `.jpg.webp` from the start - don't create new drift.
 
-## 5. What happens when verdict is PASS
+## Quick reference: what Opus checks (so you can self-check before committing)
 
-You see `verdict: PASS` in LATEST.md. Opus has also written `.audit/passed/{slug}/FINAL.md`.
+- `title=` prop: verbatim vs LW.xml `<title>` (or `_yoast_wpseo_title` if present)
+- `description=` prop: verbatim vs LW.xml `rank_math_description` (or `_yoast_wpseo_metadesc`)
+- Every `<h2>`: verbatim vs legacy h2 text
+- Every image `alt`: verbatim vs legacy alt (or descriptive human text matching legacy filename stem)
+- Every image filename: `<legacy-stem>.jpg.webp` unless legacy was already `.gif` or `.png`
+- Article JSON-LD `headline`: verbatim = title
+- NO FAQ unless LW.xml has FAQ blocks
+- NO em-dashes anywhere in the file
+- Legacy typos preserved, not "corrected"
+- TOC const labels match the h2 text you wrote
 
-Your action in this order:
-
-1. Update `FINISHED_PAGES_LOG.md` with: slug, today's date, commit hash, layout engine, status `DONE`.
-2. Commit: `git commit -m "chore: mark {slug} DONE in FINISHED_PAGES_LOG"`
-3. Tell Sanjay: **"{slug} PASSED. Session rotation required before next slug per protocol."**
-
-**The session rotation requirement.** When a page passes, Sanjay must:
-- Close your current Antigravity session and start a fresh one
-- Close his current Cowork session with Opus and start a fresh one
-
-Why: both agents have accumulated page-specific context. Starting the next page in a hot session risks context bleed (applying the previous page's rules and mistakes). This is a hard rule, not a suggestion.
-
-Do not start the next slug yourself. Wait for Sanjay to come back in a new session and give you a new slug. The fresh session will begin with the bootstrap prompt and mandatory reads (section 2).
-
----
-
-## 6. What happens when verdict is STALLED
-
-You see `verdict: STALLED` in LATEST.md or a `.audit/stalled/{slug}/WHY.md` appears.
-
-Your action:
-1. Read WHY.md to understand the stall reason.
-2. Tell Sanjay: **"{slug} STALLED. Reason: {copy the WHY.md first line}. Session rotation required."**
-3. Do NOT edit the slug.
-4. Do NOT start a new slug until Sanjay tells you to.
-
-Session rotation applies to STALLED just like PASS.
-
----
-
-## 7. Git hygiene rules (enforced by auditor)
-
-| Rule | Enforcement |
-|---|---|
-| Working tree must be clean when READY.txt is written | Auditor checks `git status`. Dirty tree = auto-STALL with reason `dirty_tree`. |
-| Commit hash in READY.txt must match HEAD for the .astro file | Auditor checks. Mismatch = auto-STALL with reason `commit_hash_mismatch`. |
-| Never mix edits to multiple slugs in a single commit | Auditor checks commit file list. Multi-slug commit = auto-STALL with reason `multi_slug_commit`. |
-| Never commit without running the Mandatory Body Copy Verification Checklist | Enforced by astro-migration.md Rule #1. Auditor detects violations via body_score. |
-| Never push to origin / deploy to production automatically | PASS does NOT deploy. Sanjay decides when to push. |
-
-### 7.1 CRLF / line-ending false positives (DIAGNOSE BEFORE STALLING)
-
-Windows checkouts can show hundreds of "modified" files in `git status` even when no real edits exist. This is line-ending drift (CRLF on disk vs LF in HEAD), not real work. Treat dirty-tree as auto-STALL ONLY after this 3-step check:
-
-1. Run `git diff -w --stat` (the `-w` flag ignores whitespace including line endings).
-   - If output shows zero files or only files you actually edited → it is CRLF noise. NOT a dirty tree. Proceed.
-   - If output shows many unrelated files with real content changes → genuine dirty tree. STALL.
-2. If CRLF noise is confirmed, the project's `.gitattributes` (`* text=auto eol=lf`) plus `git add --renormalize .` will make it permanent. If `.gitattributes` is missing, flag it to Sanjay before writing any READY.txt.
-3. Excel lock files (`~$*.xlsx`) and OS junk (`.DS_Store`, `Thumbs.db`) must be in `.gitignore`. If they appear in `git status`, that is a `.gitignore` gap, not a dirty tree - flag it.
-
-Do NOT freeze and ask Sanjay "Option A/B/C" on a dirty tree before running `git diff -w`. False-positive STALLs waste a session rotation.
-
-### 7.2 Post-commit working-copy corruption - PERMANENTLY BYPASSED
-
-**Status as of 2026-04-19: SOLVED for the audit agent. Do not re-open.**
-
-Root cause is some Windows-side process (IDE autosave, file-watcher, antivirus write-back) flushing a stale buffer after the commit has already written the git object. The commit is always fine; the working copy gets poisoned seconds later. For months this caused heal-then-re-corrupt loops that wasted entire sessions.
-
-**The permanent fix: the audit agent no longer reads the working copy. Period.**
-
-At the start of every audit, Opus runs:
-
-```
-.audit/tools/extract-commit.sh <commit-sha> <slug>
-```
-
-This uses `git show <commit>:<path>` to pull the committed blob directly out of git's object store into `.audit/_extracted/<slug>-<short-sha>/`. That extracted tree is the ONLY source the audit reads. The working copy can be as corrupted as Windows wants - it is not in the audit loop.
-
-**Consequences:**
-
-- Opus does not call `git checkout --`, does not wait on `.git/index.lock`, does not run `verify-and-heal.sh`, does not STALL for dirty tree. All of that is gone from the auditor-side flow.
-- Sonnet-side guard rails still exist for her own convenience:
-  - `.git/hooks/post-commit` sentinel logs drift to `.audit/_diagnostic/post-commit-sentinel.log` (diagnostic only).
-  - `.audit/tools/verify-and-heal.sh` heals Sonnet's working copy so her next `git status` is clean. Optional for the audit loop.
-- The only stall reason related to file-state is `extract_failed` - if `extract-commit.sh` itself errors (missing commit, missing script). Any other "dirty tree" observation is ignored.
-
-**The rule is simple and absolute: the commit hash is the source of truth. The audit reads from the commit object via extract-commit.sh. The working copy is out of scope.**
-
----
-
-## 8. Deployment is out of scope
-
-The audit loop runs on **source files**, not the live site. You never need to:
-- Run `npm run dev`
-- Deploy to Cloudflare Pages
-- Preview in a browser
-- Take screenshots
-
-Opus audits `.astro` source against `LW.xml`. Period. When a page PASSES, commits sit in the local repo. Sanjay chooses when to push to origin and when Cloudflare Pages deploys. That decision is not automated.
-
----
-
-## 9. Example: one full iteration walked through
-
-**Scenario:** Sanjay tells Sonnet "Work on wastewater-centrifuge".
-
-### Iteration 1
-
-```
-Sonnet:
-  - Reads .audit/reports/wastewater-centrifuge/LATEST.md -> does not exist
-  - Reads .audit/stalled/wastewater-centrifuge/WHY.md -> does not exist
-  - Reads LW.xml entry for wastewater-centrifuge
-  - Reads all mandatory MDs
-  - Edits src/pages/wastewater-centrifuge.astro
-  - Runs Mandatory Body Copy Verification Checklist
-  - git add src/pages/wastewater-centrifuge.astro
-  - git commit -m "feat(v2.2): wastewater-centrifuge iter-1"
-  - git status -> clean
-  - Commit hash: abc1234
-  - Writes .audit/queue/wastewater-centrifuge/READY.txt:
-      slug: wastewater-centrifuge
-      iteration: 1
-      commit: abc1234
-      timestamp: 2026-04-19T14:30:00Z
-      sonnet_summary: Initial migration. 12 paragraphs, 3 tables, 2 images. No FAQ in legacy so none added.
-      sonnet_open_questions: Hero image is stretched - flagged via HERO_NEEDED.txt.
-  - Tells Sanjay: "iter-1 submitted for wastewater-centrifuge, commit abc1234, waiting on audit."
-  - STOPS.
-
-Sanjay in Cowork: "audit"
-
-Opus:
-  - Scans .audit/queue/ -> sees wastewater-centrifuge/READY.txt
-  - Verifies commit hash matches HEAD -> OK
-  - Verifies working tree clean -> OK
-  - Runs Pass A (body), Pass B (SEO), Pass C (layout)
-  - Scores: body 82, seo 74, layout 70, overall 78
-  - Writes .audit/reports/wastewater-centrifuge/iter-01.md
-  - Writes .audit/reports/wastewater-centrifuge/LATEST.md (copy of iter-01)
-  - Moves .audit/queue/wastewater-centrifuge/READY.txt to .audit/queue/_processed/wastewater-centrifuge-iter1.txt
-  - Tells Sanjay: "iter-1 audited. Score 78. 4 P0 items, 3 P1 items. Needs another pass."
-```
-
-### Iteration 2
-
-```
-Sanjay in Antigravity: "Read the new LATEST and fix."
-
-Sonnet:
-  - Reads .audit/reports/wastewater-centrifuge/LATEST.md
-  - Fixes all 4 P0 items (applies the diffs shown in the report)
-  - Fixes all 3 P1 items
-  - git add src/pages/wastewater-centrifuge.astro
-  - git commit -m "feat(v2.2): wastewater-centrifuge iter-2 fixes per audit"
-  - Commit hash: def5678
-  - Writes .audit/queue/wastewater-centrifuge/READY.txt (iteration: 2, commit: def5678)
-  - Tells Sanjay: "iter-2 submitted."
-
-Sanjay in Cowork: "audit"
-
-Opus:
-  - Audits -> body 94, seo 91, layout 88, overall 91
-  - All P0 resolved. No new P0s.
-  - verdict: PASS
-  - Writes .audit/reports/wastewater-centrifuge/iter-02.md + LATEST.md
-  - Writes .audit/passed/wastewater-centrifuge/FINAL.md
-  - Tells Sanjay: "wastewater-centrifuge PASSED with 91. Rotate sessions before next slug."
-```
-
-### Session rotation
-
-```
-Sanjay:
-  - Closes Antigravity session
-  - Closes Cowork conversation
-  - Opens fresh Antigravity session
-  - Opens fresh Cowork conversation
-  - Pastes bootstrap prompt into Antigravity
-  - Gives Sonnet the next slug
-```
-
----
-
-## 10. Hard stops (things that must never happen)
-
-1. **Never edit two slugs in the same session.** One slug per session until PASS or STALL.
-2. **Never skip a P0 or P1 fix** because "it looks fine". The audit is the arbiter.
-3. **Never fabricate content to fix a P0.** If the P0 says "missing legacy paragraph", copy from LW.xml (paraphrase if needed). Do not invent.
-4. **Never modify a file in `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`.** Read-only.
-5. **Never deploy to production from this loop.** Push to origin is a separate manual step Sanjay triggers.
-6. **Never start a new slug without session rotation** after PASS or STALL.
-7. **Never claim a page is done based on your own judgment.** Done = `verdict: PASS` in LATEST.md. Nothing else counts.
-
----
-
-## 11. Summary in one paragraph
-
-You edit the page, commit, write READY.txt, stop. Opus audits and writes LATEST.md. You read LATEST.md, fix every P0 and P1, commit, write new READY.txt with iter+1, stop. Repeat until verdict PASS. On PASS or STALL, both sessions rotate. You and Opus never talk; the `.audit/` folder is the contract.
+If all of those are clean, Opus will PASS your iter-1 and we skip a round.
