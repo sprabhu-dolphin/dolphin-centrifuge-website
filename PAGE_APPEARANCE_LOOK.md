@@ -88,4 +88,5 @@ Doing so crashes the PC due to memory limits. Instead, hand off to the user.
 Ask Sanjay to preview the page and answer:
 1.  **Hero Quality:** "Is the hero sharp and 16:9? If no, replacement needed?"
 2.  **Legacy Sketches:** "Are there hand-drawn or blurry graphs? Should I draw clean SVGs?"
-3.  **Starting Line:** "Are the Image and Table aligned perfectly at the top?" 
+3.  **Starting Line:** "Are the Image and Table aligned perfectly at the top?"
+4.  **Invisible Text:** "Can you read ALL text on dark/navy background boxes?" — Check headings, links, and body text inside CTA boxes. The `.prose-dolphin` CSS forces `color: navy` on `h2/h3/h4` and `p a` elements. Any element with `text-white` on a dark box needs the `!important` override already in `ApplicationLayout.astro`. If text is invisible, add `text-white` to the element **and** verify the CSS override exists. 
