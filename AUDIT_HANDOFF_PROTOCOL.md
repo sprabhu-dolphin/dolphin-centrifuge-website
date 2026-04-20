@@ -1,92 +1,66 @@
-# AUDIT_HANDOFF_PROTOCOL.md — Sonnet in Antigravity (fast mode)
+# AUDIT_HANDOFF_PROTOCOL.md - Sonnet in Antigravity (fast mode)
 
-Active protocol as of 2026-04-19. Replaces the older READY.txt / LATEST.md / WHY.md contract (git log has the old version if we need it back).
+Active protocol as of 2026-04-20.
 
 ## What this document is
 
-You are Sonnet running inside Antigravity on Sanjay's Windows machine. Your job: migrate legacy WordPress pages to Astro in `src/pages/<slug>.astro`. Opus runs inside Cowork and audits each of your commits against `LW.xml`. You commit, Opus audits, you fix, repeat. The loop is fast and light now. No READY files, no iteration markers, no reports from you.
+You are Sonnet in Antigravity on Sanjay's Windows machine. You write `src/pages/<slug>.astro` files migrated from legacy WordPress. Opus in Cowork audits each of your commits against `LW.xml` and returns a fix list in chat. You commit, Opus audits, you fix, repeat.
 
-## Session-start reading (short list)
+## Session-start reading, in order
 
-Read these at session start, in order:
+1. AUDIT_HANDOFF_PROTOCOL.md (this file)
+2. LEGACY-BODY-FIDELITY.md - body rules, red list, FAQ rule
+3. SEO-AND-STANDARDS.md - verbatim-from-LW.xml fields
+4. PAGE_APPEARANCE_LOOK.md - layout rules
 
-1. **AUDIT_HANDOFF_PROTOCOL.md** (this file)
-2. **LEGACY-BODY-FIDELITY.md** — body rules, red list, FAQ rule
-3. **SEO-AND-STANDARDS.md** — verbatim-from-LW.xml rules
-4. **PAGE_APPEARANCE_LOOK.md** — layout rules
+Ignore `COWORK_IMAGE_AGENT.md`, `NB_*.md`, `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md`. Do NOT read `.audit/DIRT_BACKLOG.md` - that's Opus's file for end-of-batch planning.
 
-Ignore image-workflow files (`COWORK_IMAGE_AGENT.md`, `NB_*.md`, `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md`).
+## The loop (per page)
 
-You do NOT read `.audit/DIRT_BACKLOG.md` during per-page work. That's Opus's file for end-of-batch cleanup planning.
+1. **Read legacy.** Grep `LW.xml` for the slug. Pull title, `rank_math_description` (fallback `_yoast_wpseo_metadesc`), h1/h2/h3 list in order, body paragraphs, tables, image refs + alts, any FAQ.
 
-## The fast-mode loop (per page)
+2. **Write or edit** `src/pages/<slug>.astro` using `ApplicationLayout`. Match legacy verbatim on: `title` prop, `description` prop, Article JSON-LD `headline` + `description`, every h2 text, every image `alt`. For new image filenames use `<legacy-stem>.jpg.webp` (preserves the legacy `.jpg` URL stem for 301 redirect image-search continuity).
 
-When Sanjay tells you to work on a slug:
+3. **Do NOT add:**
+   - FAQ blocks, unless legacy has one OR Sanjay has explicitly sanctioned FAQ for this specific slug.
+   - FAQPage JSON-LD, unless FAQ is present.
+   - "Why Choose Us" / "Key Benefits" lists.
+   - Mid-body CTA buttons.
+   - Generic AI preambles.
+   - Em-dashes anywhere. Use regular `-`.
+   - Fabricated stats, testimonials, "Authorized Alfa Laval" language.
 
-1. **Read legacy.** Grep `LW.xml` for the slug. Extract: title, meta description, h1/h2/h3/h4 list in order, body paragraphs, table data, image refs with alt text, any FAQ, canonical slug.
+4. **Preserve legacy typos.** Sanjay seeds minor typos intentionally as a human-authoring signal. Examples seen: `Standards filters`, `flood products`, `nigh centrifugal force`. If LW.xml has a typo, keep it. Do NOT "fix" it.
 
-2. **Write or edit** `src/pages/<slug>.astro`. Use `ApplicationLayout`. Match legacy verbatim on all SEO-ranking fields (title, description, h1, every h2, image alts, image filenames in `.jpg.webp` convention, Article JSON-LD headline).
+5. **Self-check before committing:**
+   - `title` = legacy `<title>` verbatim
+   - `description` = legacy `rank_math_description` verbatim
+   - every `<h2>` = legacy h2 text verbatim
+   - every image `alt` = legacy alt or descriptive human text
+   - TOC const labels match your h2 text exactly
+   - no ` — ` em-dashes anywhere
+   - legacy typos preserved
 
-3. **Do NOT add:** FAQ blocks unless legacy has one. FAQPage JSON-LD unless legacy has a FAQ. "Why Choose Us" / "Key Benefits" lists. Mid-body CTA buttons. Generic AI preambles. Em-dashes anywhere (use regular `-`). Fabricated stats, testimonials, "Authorized Alfa Laval" language.
-
-4. **Preserve legacy typos.** Sanjay seeds minor typos intentionally as a human-authoring signal. Examples we've seen: `Standards filters`, `flood products`, `nigh centrifugal force`. If LW.xml has a typo, you keep the typo. Do not "fix" it.
-
-5. **Commit.**
-
+6. **Commit:**
    ```
    git add src/pages/<slug>.astro
    git commit -m "feat(v2.2): <slug> iter-<N>"
    ```
 
-   If you also renamed images on disk, include those in the commit.
-
-6. **Tell Sanjay:**
-
+7. **Tell Sanjay:**
    ```
    Committed <slug> iter-<N> at <short-sha>. Ready for audit.
    ```
+   Stop. No READY.txt file. No `verify-and-heal.sh` required. Sanjay will pop to Cowork and type `audit`.
 
-   Stop. Do not write `READY.txt`. Do not wait for anything. Sanjay will pop over to Cowork and type `audit`.
+8. **When Sanjay pastes a fix list from Opus:** apply every numbered item mechanically. No interpretation. Commit as `feat(v2.2): <slug> iter-<N+1> fixes per audit`. Tell Sanjay the new short-sha. Repeat from step 7.
 
-7. **When Opus returns a fix list in chat** (Sanjay will paste it to you), apply every numbered item mechanically. No interpretation, no arguing, no skipping. Commit as `feat(v2.2): <slug> iter-<N+1> fixes per audit`. Tell Sanjay you're done. Repeat from step 6.
+9. **When Opus says PASS:** done. Wait for next slug.
 
-8. **When Opus says PASS**, you're done with that page. Sanjay will move you to the next one.
+## On working-copy corruption (context only)
 
-## What you do NOT do (things that used to be ceremony)
+Windows editor autosave sometimes corrupts files after clean commits. The commit itself is fine - Opus reads from the committed git object, not from disk, so this does not block audits. If your `git status` shows unexpected dirt after committing, `git checkout -- <file>` restores it. Not urgent, not a blocker.
 
-- No `.audit/queue/<slug>/READY.txt` files. Ever.
-- No iteration numbering in READY.txt. (Still fine in commit messages.)
-- No `verify-and-heal.sh` required before handoff. The auditor reads from the commit object directly, so working-copy corruption no longer blocks the audit. You can still run it if you want your local `git status` clean, but it's optional now.
-- No STALL reports. If something's genuinely blocking, ask Sanjay in chat.
-- No session rotation between pages unless Sanjay asks.
+## On dirty tree during the batch
 
-## The working-copy corruption issue (context only)
-
-The Windows editor on this machine sometimes corrupts files after you commit (trailing whitespace, mid-content truncation). The commit itself is fine. Opus reads from the commit via `git show`, so this doesn't affect audits anymore.
-
-If YOUR `git status` shows unexpected dirt after a commit, that's the corruption. `git checkout -- <file>` restores it. Not urgent, not a blocker, not an audit concern.
-
-## On dirty tree across multiple open pages
-
-We're running in fast mode for a batch of ~10 pages before a single cleanup commit. Your working tree may accumulate modifications from prior pages (the §7.2 corruption pattern, or images pending rename). Do not try to clean it up mid-batch. Just commit the file you're working on and let the rest accumulate. Sanjay and Opus will sweep at the end.
-
-## On the `.jpg.webp` image naming convention
-
-Convention: `<legacy-stem>.jpg.webp` so a 301 from `/wp-content/.../foo.jpg` preserves image-search ranking.
-
-In fast mode, if you see the bare `.webp` form on existing pages, leave it. Opus is tracking it in `DIRT_BACKLOG.md` for end-of-batch cleanup. But for NEW images on the page you're currently building, use `.jpg.webp` from the start - don't create new drift.
-
-## Quick reference: what Opus checks (so you can self-check before committing)
-
-- `title=` prop: verbatim vs LW.xml `<title>` (or `_yoast_wpseo_title` if present)
-- `description=` prop: verbatim vs LW.xml `rank_math_description` (or `_yoast_wpseo_metadesc`)
-- Every `<h2>`: verbatim vs legacy h2 text
-- Every image `alt`: verbatim vs legacy alt (or descriptive human text matching legacy filename stem)
-- Every image filename: `<legacy-stem>.jpg.webp` unless legacy was already `.gif` or `.png`
-- Article JSON-LD `headline`: verbatim = title
-- NO FAQ unless LW.xml has FAQ blocks
-- NO em-dashes anywhere in the file
-- Legacy typos preserved, not "corrected"
-- TOC const labels match the h2 text you wrote
-
-If all of those are clean, Opus will PASS your iter-1 and we skip a round.
+Fast mode runs ~10 pages before a single cleanup sweep. Your working tree may accumulate mods from prior pages. Do NOT try to clean mid-batch. Commit only the file you are working on. Sanjay and Opus sweep at the end.
