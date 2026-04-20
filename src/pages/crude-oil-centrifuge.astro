@@ -1,29 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is a crude oil centrifuge?",
-    answer: "A crude oil centrifuge is an industrial centrifuge designed to dewater crude oil and separate particulate matter. These centrifuges exert high centrifugal forces (over 8,000 Gs) to continuously remove all water and sludge particles from crude oil streams, producing sale oil with less than 0.1% BS&W."
-  },
-  {
-    question: "What is BS&W in crude oil?",
-    answer: "BS&W stands for Basic Sediment and Water — the total water and solids content in crude oil. Sale oil specifications typically require less than 0.5% to 1% BS&W. A crude oil centrifuge system can reliably produce oil with less than 0.1% BS&W."
-  },
-  {
-    question: "What is a tank bottoms recovery centrifuge?",
-    answer: "Tank bottoms are the residue in crude oil settling tanks — a mixture of oil, water, and sediment. A tank bottoms recovery centrifuge processes this residue to recover saleable crude oil. Dolphin's Oil Recovery System (ORS) uses a three-step process: pre-straining, decanter de-sludging, and disc stack polishing to recover oil with less than 0.1% BS&W."
-  },
-  {
-    question: "What are the advantages of centrifuges over heater treaters for crude oil?",
-    answer: "Centrifuges offer high throughput (thousands of Gs vs. 1 G for gravity settling), compact size, energy efficiency (inline heating vs. heating thousands of barrels), quick deployment, lower capital expense, reduced oil losses (less than 1% BS&W), better quality oil, and reduced disposal costs due to drier sludge cake output."
-  },
-  {
-    question: "What is the difference between a decanter and a disc stack centrifuge for crude oil?",
-    answer: "A decanter centrifuge is used as the first line of defense for removing heavy, abrasive solids (sludge) from crude oil streams. A disc stack centrifuge operates at higher speeds (7,000+ Gs) to separate liquid phases — removing water and fine sediment from de-sludged oil to produce sale-quality crude. Most crude oil processing systems use both in sequence."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -40,19 +16,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -72,15 +35,14 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'design-operation', label: 'Design and Operation' },
-  { id: 'applications', label: 'Applications in Oil & Gas' },
+  { id: 'applications', label: 'Applications in Oil &amp; Gas' },
   { id: 'specifications', label: 'Specifications' },
   { id: 'advantages', label: 'Advantages' },
   { id: 'modules', label: 'Centrifuge Modules' },
-  { id: 'faq', label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -98,7 +60,7 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Crude Oil Centrifuge | Operation, Uses, Specs & Benefits | Dolphin Centrifuge"
+  title="Crude Oil Centrifuge | Operation, Uses, Specs &amp; Benefits | Dolphin Centrifuge"
   description="Disc centrifuges for crude oil dewatering and desalting. Remove BS&W to pipeline spec. Dolphin Centrifuge supplies WHPX-series purifiers. Call for pricing."
   category="applications"
   categoryLabel="Oil &amp; Gas Application"
@@ -112,37 +74,30 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text leading-relaxed italic">Dolphin Centrifuge supplies three-phase disc stack and decanter centrifuge systems for crude oil dewatering, tank bottom recovery, and refinery slop oil treatment. Operating at 7,000+ Gs with 25-40 GPM throughput, these systems continuously reduce BS&W below 0.1%. Based in Warren, Michigan, with over 40 years of petroleum centrifugation experience.</p>
-  </div>
-
   <!-- Design and Operation -->
   <h2 id="design-operation">Design and Operation</h2>
 
-  <div class="not-prose flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p class="text-text mb-4 leading-relaxed">
-        An <a href="/industrial-centrifuge/" class="text-navy font-medium underline decoration-gold underline-offset-3 hover:text-gold-dark">industrial centrifuge</a> designed to dewater crude oil and separate particulate matter is called a crude oil centrifuge. These centrifuges exert high centrifugal forces (over 8,000 Gs) to continuously remove all water and sludge particles. Sale oil with less than 0.1% BS&amp;W can be reliably reclaimed.
-      </p>
-      <p class="text-text mb-4 leading-relaxed">
-        Crude oil centrifuges are mechanical separating machines used in O&amp;G production applications. They perform a variety of separating functions in petroleum production. From drilling mud recovery to oil washing, centrifuges are versatile tools in the petroleum industry.
-      </p>
-      <p class="text-text leading-relaxed">
-        Heavy sludge is the primary contaminant in all types of crude oil-related streams. It must be removed to protect downstream equipment such as pumps, separators, wellheads, etc.
-      </p>
-    </div>
-    <div class="shrink-0 w-full md:w-[280px]">
-      <img
-        src="/images/crude-oil-centrifuge/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-Crude-Oil-Slop.webp"
-        alt="DMPX-042 Self Cleaning Disc Stack Centrifuge for Crude Oil Slop"
-        width="800" height="981"
-        loading="lazy"
-        class="rounded-xl w-full shadow-sm"
-      />
-      <p class="text-xs text-text-muted mt-2 text-center">DMPX-042 Self-Cleaning Disc Stack Centrifuge for Crude Oil Slop</p>
-    </div>
+  <p>
+    An <a href="/industrial-centrifuge/" class="text-navy font-medium underline decoration-gold underline-offset-3 hover:text-gold-dark">industrial centrifuge</a> designed to dewater crude oil and separate particulate matter is called a crude oil centrifuge. These centrifuges exert high centrifugal forces (over 8,000 Gs) to continuously remove all water and sludge particles. Sale oil with less than 0.1% BS&amp;W can be reliably reclaimed.
+  </p>
+  <p>
+    Crude oil centrifuges are mechanical separating machines used in O&amp;G production applications. They perform a variety of separating functions in petroleum production. From drilling mud recovery to oil washing, centrifuges are versatile tools in the petroleum industry.
+  </p>
+
+  <div class="not-prose my-6">
+    <img
+      src="/images/crude-oil-centrifuge/Alfa-Laval-3-Phase-Centrifuge-Class-1-Div-2-Crude-Oil-Hawaii-600.webp"
+      alt="Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil Hawaii"
+      width="600" height="400"
+      loading="lazy"
+      class="rounded-xl mx-auto block shadow-sm"
+    />
+    <p class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval 3-Phase Centrifuge Class 1 Div 2 Crude Oil (Hawaii)</strong></p>
   </div>
 
+  <p>
+    Heavy sludge is the primary contaminant in all types of crude oil-related streams. It must be removed to protect downstream equipment such as pumps, separators, wellheads, etc.
+  </p>
   <p>
     A decanter centrifuge is the first line of defense for these heavy, abrasive solids. Alfa Laval <a href="/three-phase-decanter/">three-phase decanters</a> efficiently remove sludge and produce sludge-free oil. De-sludged oil is much easier to handle and treat for recovery of sale oil.
   </p>
@@ -171,7 +126,7 @@ const relatedProducts = [
     <li>Transfer pumps.</li>
     <li>Clean fluid tanks and return pumps.</li>
     <li>Sludge transfer conveyor.</li>
-    <li>Automated VFD control systems.</li>
+    <li> Automated VFD control systems.</li>
   </ul>
 
   <h3 id="obm">Oil-Based Drilling Mud Recovery</h3>
@@ -189,31 +144,15 @@ const relatedProducts = [
   </p>
 
   <h3 id="tank-bottoms">Tank Bottoms Recovery</h3>
-
-  <div class="not-prose flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p class="text-text mb-4 leading-relaxed">
-        Crude oil extracted from wells carries saltwater and sand or other sediments. Producers use settling tanks to skim sale oil from the top of settling tanks. The residue left in the settling tanks is known as tank bottoms.
-      </p>
-      <p class="text-text mb-4 leading-relaxed">
-        Tank bottoms contain Basic Sediment &amp; Water (BS&amp;W). Skimming of sale oil leaves plenty of good oil in tank bottoms. This oil can be recoverable using our centrifuge system for extra revenue.
-      </p>
-      <p class="text-text leading-relaxed">
-        An oilfield centrifuge is a cost-effective solution for <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-medium underline decoration-gold underline-offset-3 hover:text-gold-dark">tank bottom processing</a> to recover sale oil. The centrifuge also reduces tank bottom sludge, thus significantly reducing tank cleaning costs.
-      </p>
-    </div>
-    <div class="shrink-0 w-full md:w-[280px]">
-      <img
-        src="/images/crude-oil-centrifuge/Crude-Oil-Tank-Bottom-Recovery-System.webp"
-        alt="Crude-Oil-Tank-Bottom-Recovery-System"
-        width="600" height="241"
-        loading="lazy"
-        class="rounded-xl w-full shadow-sm"
-      />
-      <p class="text-xs text-text-muted mt-2 text-center">Crude Oil Container &mdash; Virtual 3D Tour of Containerized ORS Module</p>
-    </div>
-  </div>
-
+  <p>
+    Crude oil extracted from wells carries saltwater and sand or other sediments. Producers use settling tanks to skim sale oil from the top of settling tanks. The residue left in the settling tanks is known as tank bottoms.
+  </p>
+  <p>
+    Tank bottoms contain Basic Sediment &amp; Water (BS&amp;W). Skimming of sale oil leaves plenty of good oil in tank bottoms. This oil can be recoverable using our centrifuge system for extra revenue.
+  </p>
+  <p>
+    An oilfield centrifuge is a cost-effective solution for <a href="/crude-oil-tank-bottom-recovery-centrifuge/" class="text-navy font-medium underline decoration-gold underline-offset-3 hover:text-gold-dark">tank bottom processing</a> to recover sale oil. The centrifuge also reduces tank bottom sludge, thus significantly reducing tank cleaning costs.
+  </p>
   <p>
     Salt Water Disposals (SWDs) use Alfa Laval three-phase centrifuges for dewatering crude oil from produced water.
   </p>
@@ -228,7 +167,7 @@ const relatedProducts = [
     Dolphin Centrifuge has been working with owners and operators to recover tank bottom oil. We have engineered robust solutions for efficient, low-cost oil recovery using specially designed produced water centrifuges.
   </p>
   <p>
-    Dolphin-designed &amp; manufactured <strong>Oil Recovery System (ORS)</strong> is an ingenious solution for oil recovery. Our ORS incorporates the 3-step process listed below for crude oil de-watering:
+    Dolphin-designed &amp; manufactured <strong>Oil Recovery System (ORS)</strong> is an ingenious solution for oil recovery. Our ORS incorporates the 3-step process listed below for crude oil de-watering.
   </p>
   <ul>
     <li>Heating and <strong>pre-straining remove large impurities,</strong> i.e., rocks, organics, etc.</li>
@@ -236,8 +175,20 @@ const relatedProducts = [
     <li>Polishing the de-sludged oil through a <strong>disc stack centrifuge</strong> to separate all free water and remaining fine sediment.</li>
   </ul>
 
-  <h3 id="containerized">Containerized Tank Bottom Recovery System</h3>
-  <h4>Containerized Crude Oil Recovery Module &mdash; Three-Phase Alfa Laval Centrifuge</h4>
+  <h4 id="containerized">Containerized Tank Bottom Recovery System</h4>
+  <h5>Containerized Crude Oil Recovery Module &mdash; Three-Phase Alfa Laval Centrifuge</h5>
+
+  <div class="not-prose mb-6">
+    <img
+      src="/images/crude-oil-centrifuge/Crude-Oil-Tank-Bottom-Recovery-System.webp"
+      alt="Crude-Oil-Tank-Bottom-Recovery-System"
+      width="600" height="241"
+      loading="lazy"
+      class="rounded-xl mx-auto block shadow-sm"
+    />
+    <p class="text-xs text-text-muted mt-2 text-center"><strong>Containerized Crude Oil Recovery Module &mdash; Three-Phase Alfa Laval Centrifuge</strong></p>
+  </div>
+
   <p>
     We have integrated a pre-strainer, decanter &amp; crude oil centrifuge into a standard 40&prime; container. This system includes accessories such as pumps, heaters, sludge augers, buffer tanks, etc.
   </p>
@@ -247,51 +198,40 @@ const relatedProducts = [
   <p>
     Our <a href="/containerized-industrial-centrifuge/">containerized Oil Recovery System (ORS)</a> is a &lsquo;self-contained&rsquo; module. We designed it to process tank bottoms and recover sale oil with <strong>less than 0.1% BS&amp;W.</strong>
   </p>
+  <p>The following video shows the latest version of our containerized ORS.</p>
 
-  <div class="not-prose flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <img
-        src="/images/crude-oil-centrifuge/Alfa-Laval-NX418-1.webp"
-        alt="Alfa Laval NX-418 Decanter Centrifuge in Crude Oil Recovery System"
-        width="400" height="400"
+  <div class="not-prose mb-6">
+    <div class="relative w-full" style="padding-bottom: 56.25%;">
+      <iframe
+        title="Crude Oil Tank Bottom Sludge Centrifuge by Dolphin Centrifuge in Detroit!"
+        class="absolute inset-0 w-full h-full rounded-xl"
+        src="https://www.youtube.com/embed/HyvPNYvUgBU"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
         loading="lazy"
-        class="rounded-xl w-full shadow-sm"
-      />
-      <p class="text-xs text-text-muted mt-2 text-center">Alfa Laval NX-418 Decanter in ORS Module</p>
-    </div>
-    <div class="flex-1">
-      <img
-        src="/images/crude-oil-centrifuge/algae-centrifuge-alfa-laval-40GPM-2.webp"
-        alt="Alfa Laval MOPX 207 Self-Cleaning Disc Centrifuge for Frac-Water"
-        width="300" height="300"
-        loading="lazy"
-        class="rounded-xl w-full shadow-sm"
-      />
-      <p class="text-xs text-text-muted mt-2 text-center">Alfa Laval MOPX 207 Self-Cleaning Disc Centrifuge</p>
+      ></iframe>
     </div>
   </div>
 
-  <h3 id="skid">Skid Mounted Crude Oil Recovery System</h3>
+  <h4 id="skid">Skid Mounted Crude Oil Recovery System</h4>
+  <p>
+    The ORS is also available in a &lsquo;Skid Mounted&rsquo; design, which is suitable for fixed installation in existing facilities. We supply each of the 3-step components as an individual skid-mounted system.
+  </p>
+  <p>
+    The customer has the flexibility to configure the ORS around pre-installed tanks or other assets. Also, the skid-mounted configuration offers lower costs and shorter lead times.
+  </p>
+  <p>The following image shows our Skid Mounted Oil Recovery System.</p>
 
-  <div class="not-prose flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p class="text-text mb-4 leading-relaxed">
-        The ORS is also available in a &lsquo;Skid Mounted&rsquo; design, which is suitable for fixed installation in existing facilities. We supply each of the 3-step components as an individual skid-mounted system.
-      </p>
-      <p class="text-text leading-relaxed">
-        The customer has the flexibility to configure the ORS around pre-installed tanks or other assets. Also, the skid-mounted configuration offers lower costs and shorter lead times.
-      </p>
-    </div>
-    <div class="shrink-0 w-full md:w-[280px]">
-      <img
-        src="/images/crude-oil-centrifuge/algae-centrifuge-alfa-laval-15GPM-2.webp"
-        alt="Alfa Laval WHPX 405 Self-Cleaning Disc Centrifuge for Crude Oil"
-        width="551" height="600"
-        loading="lazy"
-        class="rounded-xl w-full shadow-sm"
-      />
-      <p class="text-xs text-text-muted mt-2 text-center">Alfa Laval WHPX 405 Self-Cleaning Disc Centrifuge</p>
-    </div>
+  <div class="not-prose mb-6">
+    <img
+      src="/images/crude-oil-centrifuge/DMPX-042-Self-Cleaning-Disc-Stack-Centrifuge-for-Crude-Oil-Slop.webp"
+      alt="DMPX-042 Self Cleaning Disc Stack Centrifuge for Crude Oil Slop"
+      width="800" height="981"
+      loading="lazy"
+      class="rounded-xl mx-auto block shadow-sm max-w-[600px] w-full"
+    />
+    <p class="text-xs text-text-muted mt-2 text-center">DMPX-042 Self-Cleaning Disc Stack Centrifuge for Crude Oil Slop</p>
   </div>
 
   <h3 id="slop-oil">Refinery Slop Oil</h3>
@@ -319,7 +259,7 @@ const relatedProducts = [
     Of course, this process creates a stream of water with adsorbed heavy metals. This contaminated water stream needs disposal through proper means.
   </p>
   <p>
-    <a href="/contact-for-alfa-laval-centrifuges/">Contact Dolphin Centrifuge</a> for further information regarding the use of crude oil centrifuges. Let us use our expertise to your benefit!
+    <a href="/contact-for-alfa-laval-centrifuges/">Contact Dolphin Centrifuge</a>&nbsp;for further information regarding the use of crude oil centrifuges. Let us use our expertise to your benefit!
   </p>
 
   <!-- Specifications -->
@@ -332,7 +272,7 @@ const relatedProducts = [
     <table class="w-full text-sm border-collapse rounded-xl overflow-hidden border border-gray-200">
       <thead>
         <tr class="bg-navy text-white">
-          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider">Parameter</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider">Centrifuge Type &#9658;</th>
           <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider"><a href="/alfa-laval-whpx-510-centrifuge/" class="text-gold hover:underline">Alfa Laval WHPX-510</a></th>
           <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider"><a href="/alfa-laval-whpx-513/" class="text-gold hover:underline">Alfa Laval WHPX-513</a></th>
         </tr>
@@ -345,8 +285,8 @@ const relatedProducts = [
         </tr>
         <tr class="border-b border-gray-200 bg-light-bg">
           <td class="py-3 px-3 font-semibold text-navy">Centrifuge Type</td>
-          <td class="py-3 px-3 text-sm">Self-Cleaning, <a href="/disc-stack-centrifuge/" class="text-navy hover:text-gold-dark underline decoration-gold underline-offset-2">Disc-Stack Centrifuge</a> (Auto Ejects Concentrated Sludge)</td>
-          <td class="py-3 px-3 text-sm">Self-Cleaning, Disc-Stack Centrifuge (Auto Ejects Concentrated Sludge)</td>
+          <td class="py-3 px-3 text-sm">Self-Cleaning, <a href="/disc-stack-centrifuge/" class="text-navy hover:text-gold-dark underline decoration-gold underline-offset-2">Disc-Stack Centrifuge</a><br />(Auto Ejects Concentrated Sludge)</td>
+          <td class="py-3 px-3 text-sm">Self-Cleaning, Disc-Stack Centrifuge<br />(Auto Ejects Concentrated Sludge)</td>
         </tr>
         <tr class="border-b border-gray-200">
           <td class="py-3 px-3 font-semibold text-navy">Bowl Speed</td>
@@ -387,57 +327,16 @@ const relatedProducts = [
   <p>
     Centrifuges offer several benefits over conventional heating and settling of crude oil to separate BS&amp;W. The following is a list of the main advantages of crude oil centrifuges.
   </p>
-
-  <div class="not-prose space-y-3 mb-6">
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">High Throughput:</strong> Centrifuges exert thousands of times the force of gravity, thereby causing instant separation of crude oil from the bottom sediment and water. Traditional settling works under a single force of gravity and takes much longer.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Compact Size:</strong> Settling tanks have large footprints and therefore require considerable real estate for deployment. Centrifuges are comparatively much smaller to handle the same volume of oil.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Energy Efficient:</strong> Centrifuges process the crude oil continuously. Therefore, they can use inline heating, which heats up only when the oil is separated. Heater treaters heat thousands of barrels of oil which is colossal energy waste.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Quick Deployment:</strong> Compared to tank farms with related permitting and land acquisition, the centrifuge can be deployed in a fraction of the time.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Less Capital Expense:</strong> Considering the cost of land, tankage, permits, and disposal facilities, the cost of heating and settling is far greater than that of a centrifuge system.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Reduced Oil Losses:</strong> It is possible to produce oil with less than 1% BS&amp;W with a centrifuge system with minimal losses. A considerable amount of oil is lost in drained bottoms to achieve similar quality oil.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Better Quality Oil:</strong> The high g-force exerted by centrifuges leads to a much higher quality of crude oil when compared to oil produced by simple gravity settling.
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <span class="text-gold font-bold mt-0.5 shrink-0">&#10003;</span>
-      <div class="text-text text-sm leading-relaxed">
-        <strong class="text-navy">Reduced Disposal Costs:</strong> A centrifuge-produced dry sludge cake (reduced disposal volume) reduces disposal costs. Conventional tank bottoms contain higher amounts of oil and water, leading to larger disposal volumes.
-      </div>
-    </div>
-  </div>
+  <ul>
+    <li><strong>High Throughput:</strong> Centrifuges exert thousands of times the force of gravity, thereby causing instant separation of crude oil from the bottom sediment and water. Traditional settling works under a single force of gravity and takes much longer.</li>
+    <li><strong>Compact Size:</strong> Settling tanks have large footprints and therefore require considerable real estate for deployment. Centrifuges are comparatively much smaller to handle the same volume of oil.</li>
+    <li><strong>Energy Efficient:</strong> Centrifuges process the crude oil continuously. Therefore, they can use inline heating, which heats up only when the oil is separated. Heater treaters heat thousands of barrels of oil which is colossal energy waste.</li>
+    <li><strong>Quick Deployment:</strong> Compared to tank farms with related permitting and land acquisition, the centrifuge can be deployed in a fraction of the time.</li>
+    <li><strong>Less Capital Expense:</strong> Considering the cost of land, tankage, permits, and disposal facilities, the cost of heating and settling is far greater than that of a centrifuge system.</li>
+    <li><strong>Reduced OIl Losses:</strong> It is possible to produce oil with less than 1% BS%W with a centrifuge system with minimal losses. A considerable amount of oil is lost in drained bottoms to achieve similar quality oil.</li>
+    <li><strong>Better Quality Oil:</strong> The high g-force exerted by centrifuges leads to a much higher quality of crude oil when compared to oil produced by simple gravity settling.</li>
+    <li><strong>Reduced Disposal Costs:</strong> A centrifuge-produced dry sludge cake (reduced disposal volume) reduces disposal costs. Conventional tank bottoms contain higher amounts of oil and water, leading to larger disposal volumes.</li>
+  </ul>
 
   <!-- Centrifuge Modules -->
   <h2 id="modules">Alfa Laval Crude Oil Centrifuge Modules</h2>
@@ -491,40 +390,6 @@ const relatedProducts = [
       <p class="text-xs text-text-muted">Tank Bottom De-Sludging</p>
       <p class="text-xs font-mono text-gold font-semibold mt-1">2 BPM on API 38 Crude Oil</p>
     </a>
-  </div>
-
-  <!-- Mid-Page CTA -->
-  <div class="not-prose bg-gold/10 border border-gold rounded-xl p-6 md:p-8 mb-8">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold text-navy mb-2">Have a Crude Oil or Tank Bottoms Application?</h3>
-        <p class="text-text">Our engineers will evaluate your application and recommend the optimal centrifuge system for your BS&amp;W target and throughput requirements.</p>
-      </div>
-      <div class="flex flex-wrap gap-3 shrink-0">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-yellow-400 transition-colors whitespace-nowrap">Get a Quote</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border-2 border-navy text-navy font-semibold px-6 py-3 rounded-lg hover:bg-navy hover:text-white transition-colors whitespace-nowrap">Sample Testing</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <FAQ items={faqItems} heading="Crude Oil Centrifuge FAQ" />
-
-  <!-- Bottom CTA Bar -->
-  <div class="not-prose bg-navy rounded-xl p-8 text-white text-center mt-8">
-    <h2 class="text-2xl font-bold mb-2">Ready to Recover Your Crude Oil?</h2>
-    <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-      Dolphin Centrifuge has 40+ years of experience in petroleum centrifugation. Contact us to discuss your crude oil dewatering, tank bottoms recovery, or refinery slop treatment application.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-8 py-3 rounded-lg hover:bg-yellow-400 transition-colors">
-        Get a Quote
-      </a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">
-        Sample Testing
-      </a>
-    </div>
-    <p class="text-blue-200 mt-4 text-sm">Call us: <a href="tel:+12485222573" class="text-gold font-semibold">(248) 522-2573</a> &bull; <a href="mailto:sales@dolphincentrifuge.com" class="text-gold font-semibold">sales@dolphincentrifuge.com</a></p>
   </div>
 
 </ApplicationLayout>
