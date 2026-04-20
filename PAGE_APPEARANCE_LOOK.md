@@ -68,9 +68,9 @@ Doing so crashes the PC due to memory limits. Instead, hand off to the user.
 
 - **Images:** 
     - `w-full h-auto object-contain rounded-xl shadow-sm border border-gray-100`
-    - **CENTERING RULE:** Any image that renders less than full container width MUST be centered. Always add `mx-auto block` to the image class. Use `style="max-width: Xpx;"` (inline, not Tailwind) to cap at native width - then `mx-auto block` will center it. Tailwind `max-w-*` classes get overridden by `.prose-dolphin img` and must not be used for width caps.
+    - **CENTERING RULE:** images inside `.prose-dolphin` are centered automatically by the global rule. Just add the `img-cap-N` class. Do not add `mx-auto block`, do not add `rounded-xl`, do not add `shadow-sm` — all are inherited.
     - **NEVER** use `max-h` on vertical (tall) images. It shortens them and ruins the professional look.
-    - âš ï¸ **NO UPSCALING RULE:** NEVER render an image wider than its native pixel width. If the image file is 600px wide, add `style="max-width: 600px; width: 100%;"` and `mx-auto block`. Using `w-full` alone on a small image will stretch it beyond native resolution, causing visible blur. NOTE: Tailwind classes like `max-w-[600px]` get overridden by `.prose-dolphin img` - always use **inline style** for max-width caps.
+    - **NO UPSCALING RULE (simplified 2026-04-20):** body images on `ApplicationLayout` pages MUST use an `img-cap-N` utility class on the `<img>` tag. Available sizes: `img-cap-300`, `img-cap-400`, `img-cap-450`, `img-cap-500`, `img-cap-600`, `img-cap-700`, `img-cap-800`. Pick the class whose number is the closest cap at or above the image native pixel width. Never use `style="max-width:..."`, never use Tailwind `max-w-[Npx]`, never wrap in `<figure style="max-width:...">`. The `img-cap` classes use `!important` and are the single source of truth for body-image sizing.
     - âš ï¸ **NO ANCHOR WRAPPING:** NEVER wrap `<img>` in an `<a href="image.webp">` tag. The global `Lightbox.astro` component auto-attaches click-to-zoom on ALL content images. An `<a>` wrapper intercepts the click and opens the image in a new browser tab instead of the lightbox.
 - **Boxes in the Same Row:**
     - MUST be **equal height**. Use `items-stretch` on the grid + `flex flex-col` on each box + `flex-1` on the image wrapper.
