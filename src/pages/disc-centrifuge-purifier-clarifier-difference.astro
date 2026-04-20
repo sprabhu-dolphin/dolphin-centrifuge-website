@@ -1,203 +1,187 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Difference Between Purifier and Clarifier Centrifuge",
-    "description": "A purifier centrifuge separates two liquids plus solids (three-phase), while a clarifier separates solids from one liquid. Learn operational differences.",
-    "author": {
-      "@type": "Person",
-      "name": "Sanjay Prabhu MSME",
-      "jobTitle": "Centrifuge Applications Engineer",
-      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
-    },
-    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2021-01-01",
-    "url": "https://dolphincentrifuge.com/disc-centrifuge-purifier-clarifier-difference/",
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Difference Between Purifier and Clarifier Centrifuge",
+  "description": "A purifier centrifuge separates two liquids plus solids (three-phase), while a clarifier separates solids from one liquid. Learn operational differences.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is the difference between a purifier and clarifier centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A purifier centrifuge performs three-phase separation — it simultaneously separates two immiscible liquids (such as oil and water) plus suspended solids. It has two liquid outlets (light phase and heavy phase) and requires a gravity disc to control the liquid interface position. A clarifier performs two-phase separation — it removes solids from a single liquid with one outlet. Clarifiers don't need a gravity disc and are used when only one liquid phase is present (e.g., removing metal fines from coolant)." }
-      },
-      {
-        "@type": "Question",
-        "name": "When should I use a purifier vs. clarifier centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Use a purifier when your feed contains two immiscible liquid phases that need to be separated (oil + water, for example) along with solids. Use a clarifier when your feed is a single liquid phase contaminated only with solids. Common purifier applications: diesel purification, waste oil reclamation, lube oil treatment. Common clarifier applications: machining coolant recovery, parts washer fluid clarification, metalworking fluid recycling." }
-      },
-      {
-        "@type": "Question",
-        "name": "Can a purifier centrifuge work as a clarifier?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A purifier centrifuge can be configured to operate as a clarifier by selecting the largest available gravity disc, which moves the liquid interface to the maximum radius and effectively closes off the heavy phase outlet. Both separated phases exit through the light phase outlet. This is useful when the application temporarily shifts from two-phase (oil + water) to single-phase (solids removal only). However, purpose-built clarifiers offer better efficiency for single-phase applications." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is a gravity disc and why does a purifier need one?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The gravity disc (also called the regulating ring or interface disc) is a replaceable disc installed at the heavy phase outlet that controls the radial position of the liquid-liquid interface inside the rotating bowl. A larger gravity disc outer diameter pushes the interface outward (toward the bowl wall), increasing the light phase volume. A smaller diameter pulls the interface inward, increasing the heavy phase volume. Selecting the correct gravity disc size is critical to purifier performance — the wrong size causes liquid seal break or phase cross-contamination." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is a concentrator centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A concentrator centrifuge is a purifier centrifuge configured to handle feeds where the heavy phase (water) is the majority phase and the light phase (oil) is the minority to be separated. The disc stack holes are moved radially inward to create more settling area for the water phase. Common concentrator applications include water-based machining coolant de-oiling and parts washer fluid clarification." }
-      }
-    ]
-  }
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "datePublished": "2021-01-01",
+  "url": "https://dolphincentrifuge.com/disc-centrifuge-purifier-clarifier-difference/",
+};
+
+const toc = [
+  { id: "synopsis", label: "Synopsis" },
+  { id: "purifier-operation", label: "Purifier Centrifuge Operation" },
+  { id: "purifier-applications", label: "Purifier Centrifuge Applications" },
+  { id: "clarifier-operation", label: "Clarifier Centrifuge Operation" },
+  { id: "clarifier-applications", label: "Clarifier Centrifuge Applications" },
+  { id: "conversion", label: "Conversion Between Purifier and Clarifier Centrifuges" },
+  { id: "operational-differences", label: "Operational Differences Between Purifier and Clarifier Centrifuges" },
+  { id: "concentrator", label: "What is a Concentrator Centrifuge?" },
+  { id: "summary", label: "Summary" },
+];
+
+const relatedApplications = [
+  { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+  { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
+  { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
+];
+
+const relatedProducts = [
+  { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
+  { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
 ];
 ---
 
 <ApplicationLayout
-  title="Difference Between Purifier and Clarifier Centrifuge | Dolphin Centrifuge"
-  description="Disc centrifuge purifier vs clarifier explained: three-phase vs two-phase separation, gravity disc differences, and which configuration your application needs."
+  title="Difference Between Purifier and Clarifier Centrifuge"
+  description="A purifier centrifuge separates two liquids plus solids (three-phase), while a clarifier separates solids from one liquid. Learn operational differences."
   canonicalUrl="https://dolphincentrifuge.com/disc-centrifuge-purifier-clarifier-difference/"
   heroImage="/images/disc-centrifuge-purifier-clarifier-difference/Bowl-Cross-Section-Purifier-1000.webp"
   heroImageAlt="Disc centrifuge purifier bowl cross-section showing three-phase separation of oil, water, and solids"
   category="knowledge"
   categoryLabel="Knowledge Base"
-  toc={[
-    { id: "synopsis", label: "Synopsis" },
-    { id: "purifier-operation", label: "Purifier Centrifuge Operation" },
-    { id: "purifier-applications", label: "Purifier Centrifuge Applications" },
-    { id: "clarifier-operation", label: "Clarifier Centrifuge Operation" },
-    { id: "clarifier-applications", label: "Clarifier Centrifuge Applications" },
-    { id: "conversion", label: "Conversion Between Purifier and Clarifier" },
-    { id: "operational-differences", label: "Operational Differences" },
-    { id: "concentrator", label: "What is a Concentrator Centrifuge?" },
-    { id: "summary", label: "Summary" },
-    { id: "faq", label: "Frequently Asked Questions" },
-  ]}
-  relatedApplications={[
-    { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
-    { label: "Fuel Oil Centrifuge", href: "/fuel-oil-centrifuge/" },
-    { label: "Lube Oil Centrifuge", href: "/lube-oil-centrifuge/" },
-  ]}
-  relatedProducts={[
-    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
-    { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
-  ]}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   jsonLd={jsonLd}
 >
-  <article class="prose-dolphin max-w-none">
 
-    <!-- AI Summary -->
-    <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge explains the difference between purifier and clarifier disc stack centrifuges operating at 8,000+ Gs. A purifier separates three phases (two liquids plus solids) using a gravity disc; a clarifier removes solids from a single liquid phase. Dolphin Centrifuge converts disc centrifuges between configurations for all models.</p>
-    </div>
+  <!-- Synopsis -->
+  <h2 id="synopsis">Synopsis</h2>
+  <p><strong>The primary difference between a purifier and a clarifier centrifuge is that a purifier separates one liquid from another liquid and solids simultaneously. Therefore, a purifier is a three-phase separator. A clarifier centrifuge separates a liquid from solids, which is also known as two-phase separation.</strong></p>
+  <p>This illustrated article explains the technical differences between these two types of disc-stack centrifuges.</p>
 
-    <!-- Synopsis -->
-    <h2 id="synopsis">Synopsis</h2>
-    <p><strong>The primary difference between a purifier and a clarifier centrifuge is that a purifier separates one liquid from another liquid and solids simultaneously. Therefore, a purifier is a three-phase separator. A clarifier centrifuge separates a liquid from solids, which is also known as two-phase separation.</strong></p>
-    <p>This illustrated article explains the technical differences between these two types of <a href="/disc-stack-centrifuge-faq/">disc-stack centrifuges</a>.</p>
+  <!-- Purifier Operation -->
+  <h2 id="purifier-operation">Purifier Centrifuge Operation</h2>
+  <p>A purifier is a disc-stack centrifuge that separates one liquid from another liquid and solid particles (if any). A purifier centrifuge can continuously separate two liquid phases and one solid phase.</p>
+  <p>The illustration below shows the bowl cross-section of a purifier centrifuge. The incoming process fluid enters the disc stack through the hole in the <a href="/disc-centrifuge-parts-glossary/#distributor">distributor</a>. The corresponding holes on the bowl discs line up and create a vertical passage for the process liquid.</p>
+  <p>As it passes through the discs, the centrifugal force causes the solids to move towards the bowl periphery. The solids being the heaviest, accumulate in the sludge space at the outer edge of the bowl.</p>
+  <p>These separated solids are intermittently ejected from the bowl by the self-cleaning operation of the bowl. In manual cleaning centrifuges, the operator must manually remove the sludge from the bowl.</p>
+  <p>The dense phase (water) also moves radially outward from the bowl rotation axis. The water collects in the water space, as shown in the diagram.</p>
+  <p>The incoming separated water displaces and pushes this accumulated water over the top disc into the water chamber at the top of the bowl assembly. The water gets pressurized by the water-paring disc and escapes the bowl through the heavy phase outlet.</p>
+  <p>The separated light phase (oil) moves towards the center of the rotating bowl. It rises through the oil passage on the distributor. The oil then enters the light phase chamber inside the top disc. The paring disc pump expels the separated oil under pressure from the bowl.</p>
 
-    <!-- Purifier Operation -->
-    <h2 id="purifier-operation">Purifier Centrifuge Operation</h2>
-    <p>A purifier is a disc-stack centrifuge that separates one liquid from another liquid and solid particles (if any). A purifier centrifuge can continuously separate two liquid phases and one solid phase.</p>
-    <p>The illustration below shows the bowl cross-section of a purifier centrifuge. The incoming process fluid enters the disc stack through the hole in the <a href="/disc-centrifuge-parts-glossary/#distributor">distributor</a>. The corresponding holes on the bowl discs line up and create a vertical passage for the process liquid.</p>
-    <p>As it passes through the discs, the centrifugal force causes the solids to move towards the bowl periphery. The solids being the heaviest, accumulate in the sludge space at the outer edge of the bowl.</p>
-    <p>These separated solids are intermittently ejected from the bowl by the self-cleaning operation of the bowl. In manual cleaning centrifuges, the operator must manually remove the sludge from the bowl.</p>
-    <p>The dense phase (water) also moves radially outward from the bowl rotation axis. The water collects in the water space, as shown in the diagram.</p>
-    <p>The incoming separated water displaces and pushes this accumulated water over the top disc into the water chamber at the top of the bowl assembly. The water gets pressurized by the water-paring disc and escapes the bowl through the heavy phase outlet.</p>
-    <p>The separated light phase (oil) moves towards the center of the rotating bowl. It rises through the oil passage on the distributor. The oil then enters the light phase chamber inside the top disc. The paring disc pump expels the separated oil under pressure from the bowl.</p>
+  <figure>
+    <img
+      src="/images/disc-centrifuge-purifier-clarifier-difference/Bowl-Cross-Section-Purifier-Centrifuge-800-HD.jpg.webp"
+      alt="Disc Centrifuge - Purifier Bowl Cross Section"
+      loading="lazy"
+      class="rounded-lg object-contain mx-auto block"
+      style="max-width: 600px; width: 100%;"
+    />
+    <figcaption class="text-gray-500 text-sm mt-1 text-center">Disc Centrifuge - Purifier Bowl Cross Section</figcaption>
+  </figure>
 
-    <img src="/images/disc-centrifuge-purifier-clarifier-difference/Bowl-Cross-Section-Purifier-Centrifuge-800-300x200-1.webp" alt="Disc Centrifuge Purifier Bowl Cross Section showing oil, water, and solids separation paths" width="300" height="200" loading="lazy" />
-    <p class="text-sm text-gray-500 text-center">Disc Centrifuge — Purifier Bowl Cross Section</p>
+  <!-- Purifier Applications -->
+  <h3 id="purifier-applications">Purifier Centrifuge Applications</h3>
+  <p>In most purifier centrifuge applications, the light phase is the predominant phase, and the heavy phase is a much smaller proportion of the process fluid. The following are some real-world purifier centrifuge applications.</p>
+  <ul>
+    <li><a href="/lube-oil-centrifuge/">Lube oil separation from water and solids</a></li>
+    <li><a href="/diesel-fuel-purifier/">Diesel fuel separation from water and sludge</a></li>
+    <li><a href="/hydraulic-oil-centrifuge/">Hydraulic oil purification from water and sludge</a></li>
+    <li><a href="/machine-coolant-centrifuge/">Machining coolant separation from tramp oil and metal fines</a></li>
+    <li><a href="/wvo-centrifuge-separator/">Waste vegetable oil (WVO) separation from water and food particles</a></li>
+    <li><a href="/crude-oil-centrifuge/">Crude oil recovery from salt water and tank bottom sludge</a></li>
+    <li>Clarified butter separation from water and milk solids</li>
+    <li>Milk classification from fat and solids</li>
+    <li>Animal fat purification from water and particles</li>
+    <li>Fish oil purification from water and fish-meal</li>
+  </ul>
 
-    <!-- Purifier Applications -->
-    <h3 id="purifier-applications">Purifier Centrifuge Applications</h3>
-    <p>In most purifier centrifuge applications, the light phase is the predominant phase, and the heavy phase is a much smaller proportion of the process fluid. The following are some real-world purifier centrifuge applications.</p>
-    <ul>
-      <li><a href="/lube-oil-centrifuge/">Lube oil separation from water and solids</a></li>
-      <li><a href="/diesel-centrifuge/">Diesel fuel separation from water and sludge</a></li>
-      <li><a href="/hydraulic-oil-centrifuge/">Hydraulic oil purification from water and sludge</a></li>
-      <li><a href="/machine-coolant-centrifuge/">Machining coolant separation from tramp oil and metal fines</a></li>
-      <li><a href="/wvo-centrifuge-separator/">Waste vegetable oil (WVO) separation from water and food particles</a></li>
-      <li><a href="/crude-oil-centrifuge/">Crude oil recovery from salt water and tank bottom sludge</a></li>
-      <li>Clarified butter separation from water and milk solids</li>
-      <li>Milk classification from fat and solids</li>
-      <li>Animal fat purification from water and particles</li>
-      <li>Fish oil purification from water and fish-meal</li>
-    </ul>
+  <!-- Clarifier Operation -->
+  <h2 id="clarifier-operation">Clarifier Centrifuge Operation</h2>
+  <p>A clarifier centrifuge separates a liquid phase from the solids in the fluid. In other words, it is a liquid-solid separation device. Therefore a clarifier continuously separates the solids from liquid-carrying solids.</p>
+  <p>The diagram below shows the cross-section of a clarifier centrifuge bowl.</p>
+  <p>The process fluid enters the bowl through the distributor to the underside of the distributor. A blind disc (without holes) is assembled at the bottom of the disc stack.</p>
+  <p>This closure prevents the fluid from entering the disc stack through the bottom holes or fluid passage mentioned above.</p>
+  <p>The incoming liquid enters the disc stack from the outside. As the fluid passes through the disc stack, the heavier solids move outward due to the centrifugal force.</p>
+  <p>Also, in a clarifier centrifuge, the gravity disc is replaced by a sealing ring (clarifier disc), closing the passage of water to the water chamber in the bowl top. This closure of the heavy phase pathway essentially blocks one fluid passage from the bowl.</p>
+  <p>All the processed fluid moves towards the only exit in the bowl. The liquid passes through the disc stack into the fluid passage between the distributor's ribs. The fluid then enters the light-phase chamber inside the top disc.</p>
+  <p>The centripetal pump (paring disc) converts the liquid's rotational energy into pressure, and the pressurized fluid exits the bowl through the light phase pathway.</p>
 
-    <!-- Clarifier Operation -->
-    <h2 id="clarifier-operation">Clarifier Centrifuge Operation</h2>
-    <p>A clarifier centrifuge separates a liquid phase from the solids in the fluid. In other words, it is a liquid-solid separation device. Therefore a clarifier continuously separates the solids from liquid-carrying solids.</p>
-    <p>The diagram below shows the cross-section of a clarifier centrifuge bowl.</p>
-    <p>The process fluid enters the bowl through the distributor to the underside of the distributor. A blind disc (without holes) is assembled at the bottom of the disc stack.</p>
-    <p>This closure prevents the fluid from entering the disc stack through the bottom holes or fluid passage mentioned above.</p>
-    <p>The incoming liquid enters the disc stack from the outside. As the fluid passes through the disc stack, the heavier solids move outward due to the centrifugal force.</p>
-    <p>Also, in a clarifier centrifuge, the gravity disc is replaced by a sealing ring (clarifier disc), closing the passage of water to the water chamber in the bowl top. This closure of the heavy phase pathway essentially blocks one fluid passage from the bowl.</p>
-    <p>All the processed fluid moves towards the only exit in the bowl. The liquid passes through the disc stack into the fluid passage between the distributor's ribs. The fluid then enters the light-phase chamber inside the top disc.</p>
-    <p>The centripetal pump (paring disc) converts the liquid's rotational energy into pressure, and the pressurized fluid exits the bowl through the light phase pathway.</p>
+  <figure>
+    <img
+      src="/images/disc-centrifuge-purifier-clarifier-difference/Bowl-Cross-Section-Clarifier-Centrifuge-800-HD.jpg.webp"
+      alt="Disc Centrifuge - Clarifier Bowl Cross Section"
+      loading="lazy"
+      class="rounded-lg object-contain mx-auto block"
+      style="max-width: 600px; width: 100%;"
+    />
+    <figcaption class="text-gray-500 text-sm mt-1 text-center">Disc Centrifuge - Clarifier Bowl Cross Section</figcaption>
+  </figure>
 
-    <img src="/images/disc-centrifuge-purifier-clarifier-difference/Bowl-Cross-Section-Clarifier-Centrifuge-800-300x200-1.webp" alt="Disc Centrifuge Clarifier Bowl Cross Section showing single-phase liquid and solids separation" width="300" height="200" loading="lazy" />
-    <p class="text-sm text-gray-500 text-center">Disc Centrifuge — Clarifier Bowl Cross Section</p>
+  <!-- Clarifier Applications -->
+  <h3 id="clarifier-applications">Clarifier Centrifuge Applications</h3>
+  <p>Clarification applications involved the separation of solids from one liquid phase. Clarifier centrifuges are used in all of these applications.</p>
+  <ul>
+    <li><a href="/beer-wine-centrifuge/">Beer clarification from yeast</a></li>
+    <li>Wine clarification from solids</li>
+    <li><a href="/hemp-extraction-centrifuge/">Ethanol clarification from waxes and lipids for CBD oil</a></li>
+    <li><a href="/cannabis-thc-extraction-centrifuge/">Ethanol from marijuana biomass for THC recovery</a></li>
+    <li>Fruit juice separation from pulp</li>
+    <li>Chemical and catalyst separation</li>
+    <li><a href="/pyrolysis-oil-centrifuge/">Pyrolysis oil separation from biochar</a></li>
+    <li><a href="/quench-oil-centrifuge/">Quench oil clarification from ash and scale particles</a></li>
+    <li><a href="/algae-centrifuge/">Algae cell harvesting from water</a></li>
+    <li><a href="/liquid-humus-centrifuge/">Humus biomass separation from liquid humus fertilizer</a></li>
+    <li>Silicon dioxide from water in wafer grinding</li>
+  </ul>
 
-    <!-- Clarifier Applications -->
-    <h3 id="clarifier-applications">Clarifier Centrifuge Applications</h3>
-    <p>Clarification applications involve the separation of solids from one liquid phase. Clarifier centrifuges are used in all of these applications.</p>
-    <ul>
-      <li><a href="/beer-wine-centrifuge/">Beer clarification from yeast</a></li>
-      <li>Wine clarification from solids</li>
-      <li>Ethanol clarification from waxes and lipids for CBD oil</li>
-      <li>Ethanol from marijuana biomass for THC recovery</li>
-      <li>Fruit juice separation from pulp</li>
-      <li>Chemical and catalyst separation</li>
-      <li><a href="/pyrolysis-oil-centrifuge/">Pyrolysis oil separation from biochar</a></li>
-      <li><a href="/quench-oil-centrifuge/">Quench oil clarification from ash and scale particles</a></li>
-      <li><a href="/algae-centrifuge/">Algae cell harvesting from water</a></li>
-      <li><a href="/liquid-humus-centrifuge/">Humus biomass separation from liquid humus fertilizer</a></li>
-      <li>Silicon dioxide from water in wafer grinding</li>
-    </ul>
+  <!-- Conversion -->
+  <h2 id="conversion">Conversion Between Purifier and Clarifier Centrifuges</h2>
+  <p>As mentioned above, two essential components are required to convert a purifier to a clarifier centrifuge. The first and most crucial part is a clarifier disc or a sealing ring.</p>
+  <p>A standard purifier has a <a href="/disc-centrifuge-parts-glossary/#gravity-disc">gravity disc</a> installed in it, which regulates the bowl's oil-water interface location. A seal ring, which is a gravity disc with the smallest opening, replaces the gravity disc.</p>
+  <p>The second component that needs to be replaced is the bottom bowl disc in the disc stack. A blind disc replaces the bottom disc. This replacement closes out the rising fluid pathway through the disc stack.</p>
+  <p>It is important to note that though it is possible to convert all purifiers to a clarifier, switching a clarifier to a purifier centrifuge is not always possible.</p>
+  <p>This inability to modify is because some centrifuges designed as clarifiers do not have a water chamber. They may also lack the water-paring disc pump and not have a provision to install a gravity disc.</p>
 
-    <!-- Conversion -->
-    <h2 id="conversion">Conversion Between Purifier and Clarifier Centrifuges</h2>
-    <p>As mentioned above, two essential components are required to convert a purifier to a clarifier centrifuge. The first and most crucial part is a clarifier disc or a sealing ring.</p>
-    <p>A standard purifier has a <a href="/disc-centrifuge-parts-glossary/#gravity-disc">gravity disc</a> installed in it, which regulates the bowl's oil-water interface location. A seal ring, which is a gravity disc with the smallest opening, replaces the gravity disc.</p>
-    <p>The second component that needs to be replaced is the bottom bowl disc in the disc stack. A blind disc replaces the bottom disc. This replacement closes out the rising fluid pathway through the disc stack.</p>
-    <p>It is important to note that though it is possible to convert all purifiers to a clarifier, switching a clarifier to a purifier centrifuge is not always possible.</p>
-    <p>This inability to modify is because some centrifuges designed as clarifiers do not have a water chamber. They may also lack the water-paring disc pump and not have a provision to install a gravity disc.</p>
+  <!-- Related Articles (legacy blockquote) -->
+  <blockquote>
+    <p><em><strong>Other disc-centrifuge articles of interest......</strong></em></p>
+    <p><a href="/disc-centrifuge-backpressure/">Disc Centrifuge Backpressure - Comprehensive Guide</a><br />
+    <a href="/picking-the-right-industrial-centrifuge/">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a><br />
+    <a href="/centrifuge-rcf-rpm-difference-calculation/">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a><br />
+    <a href="/disadvantages-disc-stack-centrifuge/">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a><br />
+    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></p>
+  </blockquote>
 
-    <!-- Related Articles Callout -->
-    <blockquote class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 my-6 not-italic">
-      <p class="font-semibold text-sm mb-2">Other disc-centrifuge articles of interest:</p>
-      <ul class="text-sm space-y-1 list-none pl-0">
-        <li><a href="/disc-centrifuge-backpressure/">Disc Centrifuge Backpressure - Comprehensive Guide</a></li>
-        <li><a href="/picking-the-right-industrial-centrifuge/">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
-        <li><a href="/centrifuge-rcf-rpm-difference-calculation/">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
-        <li><a href="/disadvantages-disc-stack-centrifuge/">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
-        <li><a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
-      </ul>
-    </blockquote>
+  <!-- Operational Differences -->
+  <h2 id="operational-differences">Operational Differences Between Purifier and Clarifier Centrifuges</h2>
+  <p>A clarifier is a simplified version of a purifier centrifuge. This difference between the centrifuge configurations reflects in the operation of either design.</p>
+  <p>Firstly, a clarifier does not require sealing liquid due to the absence of the gravity ring. Since the heavy phase outlet is closed out by the sealing ring, the incoming process liquid fills the bowl and can only exit the bowl through the light phase outlet.</p>
+  <p>In a purifier, sealing liquid is needed before feeding the process fluid to the bowl. This liquid is also known as the priming fluid and typically consists of the fluid's heavy phase.</p>
+  <p>The priming liquid prevents the incoming process fluid from escaping the bowl through the heavy phase outlet.</p>
+  <p>Secondly, back-pressure on the light phase outlet is essential for the operation of a purifier. The back pressure stabilizes the liquid column within the bowl and helps keep the paring disc pump immersed in the light phase. Backpressure is not essential to the operation of a clarifier centrifuge.</p>
+  <p>Thirdly, selecting the correct gravity ring is crucial for effectively separating the two phases in a purifier centrifuge. A clarifier does not have a gravity ring, so problems associated with an incorrect gravity disc do not apply to clarifiers.</p>
+  <p>Fourthly, liquid seal breaking is a common occurrence in purifier centrifuges. When the heavy phase or sealing liquid is not present in the bowl or escapes the bowl during operation, the light phase exits the bowl through the heavy phase outlet.</p>
+  <p>This issue is known as a "liquid seal break" condition. Since there is no sealing liquid in a clarifier, this problem does not occur in clarifiers.</p>
 
-    <!-- Operational Differences -->
-    <h2 id="operational-differences">Operational Differences Between Purifier and Clarifier Centrifuges</h2>
-    <p>A clarifier is a simplified version of a purifier centrifuge. This difference between the centrifuge configurations reflects in the operation of either design.</p>
-    <p>Firstly, a clarifier does not require sealing liquid due to the absence of the gravity ring. Since the heavy phase outlet is closed out by the sealing ring, the incoming process liquid fills the bowl and can only exit the bowl through the light phase outlet.</p>
-    <p>In a purifier, sealing liquid is needed before feeding the process fluid to the bowl. This liquid is also known as the priming fluid and typically consists of the fluid's heavy phase.</p>
-    <p>The priming liquid prevents the incoming process fluid from escaping the bowl through the heavy phase outlet.</p>
-    <p>Secondly, <a href="/disc-centrifuge-backpressure/">back-pressure on the light phase outlet</a> is essential for the operation of a purifier. The back pressure stabilizes the liquid column within the bowl and helps keep the paring disc pump immersed in the light phase. Backpressure is not essential to the operation of a clarifier centrifuge.</p>
-    <p>Thirdly, selecting the correct gravity ring is crucial for effectively separating the two phases in a purifier centrifuge. A clarifier does not have a gravity ring, so problems associated with an incorrect gravity disc do not apply to clarifiers.</p>
-    <p>Fourthly, <a href="/disc-stack-centrifuge-liquid-seal-break/">liquid seal breaking</a> is a common occurrence in purifier centrifuges. When the heavy phase or sealing liquid is not present in the bowl or escapes the bowl during operation, the light phase exits the bowl through the heavy phase outlet.</p>
-    <p>This issue is known as a "liquid seal break" condition. Since there is no sealing liquid in a clarifier, this problem does not occur in clarifiers.</p>
+  <hr />
 
-    <p class="text-sm italic font-semibold"><a href="/disc-stack-centrifuge-faq/">Read our Disc Centrifuge FAQ - 101 Questions Answered!</a></p>
+  <p><em><strong><a href="/disc-stack-centrifuge-faq/">Read our Disc Centrifuge FAQ - 101 Questions Answered!</a></strong></em></p>
 
-    <!-- Concentrator -->
-    <h2 id="concentrator">What is a Concentrator Centrifuge?</h2>
-    <p>A concentrator centrifuge is a purifier centrifuge specially configured to separate fluids with a large proportion of the heavy phase (water) from a smaller percentage of the light liquid (oil).</p>
-    <p>It is also a three-phase centrifuge, which implies it simultaneously separates the solid particles as well.</p>
-    <p>An example of a concentrator application is separating water-based machining fluid from tramp oil and metal fines. In this case, the coolant is mainly water and is the majority phase that the user wants to separate from the tramp oil.</p>
-    <p>Another example of a concentrator centrifuge application is the separation of oil from water-based parts washer fluids.</p>
-    <p>A purifier centrifuge with minor modifications is known as a concentrator. The main change is the position of the holes in the distributor and disc stack.</p>
-    <p>The holes in a concentrator disc stack are moved radially inward towards the axis of rotation. This change allows for a more settling area for the coolant, which is the desired fluid.</p>
+  <hr />
 
-    <p>The following is a list of concentrator centrifuges and their processing capacities available from Dolphin Centrifuge.</p>
+  <!-- Concentrator -->
+  <h2 id="concentrator">What is a Concentrator Centrifuge?</h2>
+  <p>A concentrator centrifuge is a purifier centrifuge specially configured to separate fluids with a large proportion of the heavy phase (water) from a smaller percentage of the light liquid (oil).</p>
+  <p>It is also a three-phase centrifuge, which implies it simultaneously separates the solid particles as well.</p>
+  <p>An example of a concentrator application is separating water-based machining fluid from tramp oil and metal fines. In this case, the coolant is mainly water and is the majority phase that the user wants to separate from the tramp oil.</p>
+  <p>Another example of a concentrator centrifuge application is the separation of oil from water-based parts washer fluids.</p>
+  <p>A purifier centrifuge with minor modifications is known as a concentrator. The main change is the position of the holes in the distributor and disc stack.</p>
+  <p>The holes in a concentrator disc stack are moved radially inward towards the axis of rotation. This change allows for a more settling area for the coolant, which is the desired fluid.</p>
+  <p>The following is a list of concentrator centrifuges and their processing capacities available from Dolphin Centrifuge.</p>
 
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
     <table>
       <thead>
         <tr>
@@ -206,78 +190,17 @@ const jsonLd = [
         </tr>
       </thead>
       <tbody>
-        <tr><td>Alfa Laval WSPX-303</td><td>3&ndash;5 GPM</td></tr>
-        <tr><td>Alfa Laval WSPX-207</td><td>8&ndash;12 GPM</td></tr>
-        <tr><td>Alfa Laval WSPX-307</td><td>15&ndash;22 GPM</td></tr>
-        <tr><td>Alfa Laval WSPX-213</td><td>35&ndash;45 GPM</td></tr>
+        <tr><td>Alfa Laval WSPX 303</td><td>3~5 GPM</td></tr>
+        <tr><td>Alfa Laval WSPX-207</td><td>8 ~ 12 GPM</td></tr>
+        <tr><td>Alfa Laval WSPX-307</td><td>15~22 GPM</td></tr>
+        <tr><td>Alfa Laval WSPX-213</td><td>35~45 GPM</td></tr>
       </tbody>
     </table>
-
-    <!-- Summary -->
-    <h2 id="summary">Summary</h2>
-    <p>In summary, a clarifier centrifuge is a simplified version of a purifier centrifuge. The clarifier version is modified to separate the liquid from solids, whereas the purifier centrifuge can separate the primary liquid from another liquid and solids.</p>
-    <p class="text-sm italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
-
-    <!-- Mid-page CTA -->
-    <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-6 my-8 not-prose">
-      <p class="text-navy font-semibold text-lg mb-2">Unsure whether your application needs a purifier or clarifier?</p>
-      <p class="text-text-light mb-4">Send us a small fluid sample. Our engineers will test it and recommend the correct disc centrifuge configuration at no cost.</p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/industrial-centrifuge-sample-testing/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-5 py-2 rounded-lg transition-colors">Sample Testing</a>
-        <a href="/contact-for-alfa-laval-centrifuges/" class="border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Get a Quote</a>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <h2 id="faq">Frequently Asked Questions</h2>
-    <div class="space-y-3 not-prose">
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-          What is the difference between a purifier and clarifier centrifuge?
-          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-        </summary>
-        <p class="text-text-light text-sm mt-3">A purifier performs three-phase separation — simultaneously separating two immiscible liquids (oil and water) plus solids, with two liquid outlets and a gravity disc to control the interface position. A clarifier performs two-phase separation — removing solids from a single liquid with one outlet. Clarifiers don't need a gravity disc and are used when only one liquid phase is present (e.g., removing metal fines from coolant).</p>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-          When should I use a purifier vs. clarifier centrifuge?
-          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-        </summary>
-        <p class="text-text-light text-sm mt-3">Use a purifier when your feed contains two immiscible liquid phases that need to be separated (oil + water) along with solids. Use a clarifier when your feed is a single liquid contaminated only with solids. Purifier applications: diesel purification, <a href="/waste-oil-centrifuge/" class="text-navy font-semibold hover:text-gold">waste oil reclamation</a>, lube oil treatment. Clarifier applications: machining coolant recovery, parts washer fluid clarification, metalworking fluid recycling.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-          Can a purifier centrifuge work as a clarifier?
-          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-        </summary>
-        <p class="text-text-light text-sm mt-3">Yes. A purifier can be configured as a clarifier by selecting the largest available gravity disc, which moves the liquid interface to the maximum radius and effectively closes off the heavy phase outlet. Both phases then exit through the light phase outlet. Purpose-built clarifiers offer better efficiency for single-phase applications, but this configuration is useful for temporary process changes.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-          What is a gravity disc and why does a purifier need one?
-          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-        </summary>
-        <p class="text-text-light text-sm mt-3">The gravity disc (also called the regulating ring or interface disc) is a replaceable disc at the heavy phase outlet that controls the radial position of the liquid-liquid interface inside the bowl. A larger gravity disc outer diameter pushes the interface outward (increasing light phase volume); a smaller diameter pulls it inward (increasing heavy phase volume). The wrong gravity disc size causes liquid seal break or phase cross-contamination.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-        <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-          What is a concentrator centrifuge?
-          <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-        </summary>
-        <p class="text-text-light text-sm mt-3">A concentrator centrifuge is a purifier configured to handle feeds where water is the majority phase and oil is the minority to be separated. The disc stack holes are moved radially inward to increase settling area for the water phase. Common applications include water-based machining coolant de-oiling and parts washer fluid clarification.</p>
-      </details>
-    </div>
-
-  </article>
-
-  <!-- Bottom CTA bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 mt-8 mb-6 text-white text-center not-prose">
-    <h2 class="text-xl font-bold mb-2">Need help selecting the right disc centrifuge configuration?</h2>
-    <p class="text-white/80 mb-4">Dolphin Centrifuge engineers configure purifier and clarifier disc centrifuges for oil, fuel, coolant, and industrial fluids. 40+ years of application experience, Warren MI.</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-gold/90 transition-colors">Get a Quote</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">Send Us a Sample</a>
-    </div>
-    <p class="text-white/60 text-sm mt-4">(248) 522-2573 &bull; sales@dolphincentrifuge.com &bull; Warren, MI 48089</p>
   </div>
+
+  <!-- Summary -->
+  <h2 id="summary">Summary</h2>
+  <p>In summary, a clarifier centrifuge is a simplified version of a purifier centrifuge. The clarifier version is modified to separate the liquid from solids, whereas the purifier centrifuge can separate the primary liquid from another liquid and solids.</p>
+  <p><em>by Sanjay Prabhu MSME</em><br /><em>Engineering Manager, Dolphin Centrifuge</em></p>
+
 </ApplicationLayout>
