@@ -21,10 +21,6 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `disc-centrifuge-parts-glossary` | 2026-04-19 | `2297eeb` | ApplicationLayout | ✅ DONE |
 | `diesel-centrifuge` | 2026-04-19 | `3d25d79` | ApplicationLayout | ✅ DONE |
 | `centrifugal-filter` | 2026-04-20 | `5a32649` | ApplicationLayout | ✅ DONE |
-
-
----
-
-### **MANDATORY MAINTENANCE RULE:**
-1.  Every time a page is committed, the agent MUST update this log.
-2.  If it is not in this log, it is **UNFINISHED**, even if it exists in the repository.
+| `disc-centrifuge-purifier-clarifier-difference` | 2026-04-20 | `5201128` | ApplicationLayout | ✅ DONE |
+| `oil-centrifuge` | 2026-04-20 | `71dcae2` | ApplicationLayout | ✅ DONE |
+| `decanter-centrifuge-optimization` | 2026-04-20 | `683ed68` | ApplicationLayout | ✅ DONE |
