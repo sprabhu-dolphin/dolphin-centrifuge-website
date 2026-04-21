@@ -1,29 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "Why is a centrifuge better than a filter for lube oil purification?",
-    answer: "A centrifuge removes both water and solid contaminants simultaneously in a single pass — filters can only capture solids. Centrifuge performance remains constant over time, while filters lose efficiency as they clog. With no consumable media to replace, centrifuges deliver significantly lower total cost of ownership over their 30+ year service life."
-  },
-  {
-    question: "How do I size a lube oil centrifuge for my turbine?",
-    answer: "Sizing is based on reservoir volume. A 1,500-gallon reservoir typically needs a 2 GPM system, while reservoirs over 5,000 gallons require 15-24 GPM capacity. The goal is to process the entire reservoir volume multiple times per day in a kidney-loop configuration. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your reservoir size for a specific recommendation."
-  },
-  {
-    question: "What is a kidney loop centrifuge system?",
-    answer: "A kidney loop is a continuous recirculation arrangement where the centrifuge draws oil from the bottom of the reservoir (where contaminants settle), purifies it, and returns clean oil to the top. This operates 24/7 alongside the turbine or engine without interrupting equipment operation, maintaining oil cleanliness near zero contamination levels."
-  },
-  {
-    question: "Do power plant lube oil centrifuges need to be explosion-proof?",
-    answer: "Generally no. Lube oil flash points are well above ambient operating temperatures, so standard centrifuge systems are appropriate for most power plant installations. However, offshore platform installations and certain classified areas may require Class 1, Division 2 (C1D2) certified systems. Our engineers can advise based on your specific installation environment."
-  },
-  {
-    question: "What contaminants does a lube oil centrifuge remove?",
-    answer: "A lube oil centrifuge removes three categories of contaminants simultaneously: free water (from condensate leaks and cooling system infiltration), fine metal wear particles from bearing and gear surfaces, and soot or oxidation products from high-temperature operation. The centrifuge operates at over 6,000 Gs to separate particles down to 1 micron and removes all free water — unlike filters, which cannot remove water at all."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -40,19 +16,6 @@ const productJsonLd = {
     "priceCurrency": "USD",
     "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
 };
 
 const articleJsonLd = {
@@ -77,7 +40,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'What Is a Lube Oil Centrifuge?' },
@@ -88,7 +51,6 @@ const toc = [
   { id: 'system-setup', label: 'System Setup' },
   { id: 'sizing', label: 'Sizing by Reservoir Volume' },
   { id: 'models', label: 'Available Systems' },
-  { id: 'legacy-models', label: 'Legacy Alfa Laval Models' },
 ];
 
 const relatedApplications = [
@@ -128,14 +90,17 @@ const relatedProducts = [
 
   <h2 id="overview">What Is a Lube Oil Centrifuge?</h2>
 
-  <img
-    src="/images/lube-oil-centrifuge/Lube-Oil-Centrifuge-System.webp"
-    alt="Lube Oil Centrifuge System Diagram"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="600"
-    height="463"
-  />
+  <div class="mb-6">
+    <img
+      src="/images/lube-oil-centrifuge/Lube-Oil-Centrifuge-System.webp"
+      alt="Lube Oil Centrifuge System Diagram"
+      loading="lazy"
+      width="600"
+      height="463"
+      class="img-cap-600"
+    />
+    <p class="text-xs text-text-muted mt-2 text-center"><strong>Lube Oil Centrifuge System Diagram</strong></p>
+  </div>
 
   <p>A lube oil centrifuge is an <a href="/alfa-laval-centrifuge/">Alfa Laval</a> separator used for separating water and solids from the lube oil. A disc-type <a href="/industrial-centrifuge/">industrial centrifuge</a> uses centrifugal force to separate the lube oil from water and solid contaminants. Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built disc stack centrifuge systems for this application, generating over 6,000 Gs of centrifugal force.
   </p>
@@ -144,44 +109,34 @@ const relatedProducts = [
     In power plants and industrial facilities, turbine lube oil reservoirs range from 1,500 to over 5,000 gallons. A centrifuge operates in a continuous <strong>kidney loop</strong> arrangement, constantly circulating and cleaning the oil to keep contamination levels near zero.
   </p>
 
-  <blockquote>
+  <p>
     Dolphin Centrifuge supplies turnkey lube oil purification systems for steam turbines, gas turbines, and large industrial equipment &mdash; from 3 GPM to over 45 GPM capacity.
-  </blockquote>
+  </p>
 
   <h2 id="operation">How Does a Lube Oil Centrifuge Work?</h2>
 
-  <img
-    src="/images/lube-oil-centrifuge/Alfa-Laval-Lubricating-Oil-Purifier.webp"
-    alt="Alfa Laval MAB206 Lubricating Oil Purifier"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="600"
-    height="600"
-  />
-
-  <p>
-    The centrifuge bowl spins at high speed, generating centrifugal forces over <strong>6,000 Gs</strong>. Under this force, heavier components (water and metal particles) are pushed outward toward the bowl periphery, while lighter clean oil moves inward toward the center.
-  </p>
-
-  <p>
-    Clean oil exits through the <strong>light-phase outlet</strong> and returns to the reservoir. Separated water is continuously discharged through a dedicated heavy-phase outlet. Solid contaminants accumulate in the bowl and are either ejected automatically (self-cleaning models) or removed during scheduled manual cleaning.
-  </p>
-
-  <p>
-    For lube oil applications, the centrifuge provides <strong>three-phase separation</strong> &mdash; simultaneously removing both water and solids from the oil in a single pass. This is the key advantage over filters, which can only address solids.
-  </p>
-
-  <!-- Mid-Page CTA -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-2">Need Help With Your Lube Oil System?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your turbine or engine lube oil application and recommend the optimal centrifuge system.</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start my-8">
+    <div class="md:col-span-1">
+      <img
+        src="/images/lube-oil-centrifuge/Alfa-Laval-Lubricating-Oil-Purifier.webp"
+        alt="Alfa Laval MAB206 Lubricating Oil Purifier"
+        loading="lazy"
+        width="600"
+        height="600"
+        class="img-cap-400"
+      />
+      <p class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval MAB206 Lubricating Oil Purifier</strong></p>
+    </div>
+    <div class="md:col-span-2">
+      <p>
+        The centrifuge bowl spins at high speed, generating centrifugal forces over <strong>6,000 Gs</strong>. Under this force, heavier components (water and metal particles) are pushed outward toward the bowl periphery, while lighter clean oil moves inward toward the center.
+      </p>
+      <p>
+        Clean oil exits through the <strong>light-phase outlet</strong> and returns to the reservoir. Separated water is continuously discharged through a dedicated heavy-phase outlet. Solid contaminants accumulate in the bowl and are either ejected automatically (self-cleaning models) or removed during scheduled manual cleaning.
+      </p>
+      <p>
+        For lube oil applications, the centrifuge provides <strong>three-phase separation</strong> &mdash; simultaneously removing both water and solids from the oil in a single pass. This is the key advantage over filters, which can only address solids.
+      </p>
     </div>
   </div>
 
@@ -215,56 +170,66 @@ const relatedProducts = [
     Manual-clean centrifuges are the <strong>preferred choice for turbine lube oil</strong> because lube oil contamination is primarily water with minimal solids. The low sludge volume makes automatic ejection unnecessary, and manual-clean units offer excellent value.
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>DMB-004</th>
-        <th>DMB-007</th>
-        <th>DMB-019</th>
-        <th>DMB-028</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Type</td><td>2-Phase; Manual-Clean</td><td>2-Phase; Manual-Clean</td><td>2-Phase; Manual-Clean</td><td>2-Phase; Manual-Clean</td></tr>
-      <tr><td>Lube Oil (R&amp;O) Capacity</td><td>2 GPM</td><td>4 GPM</td><td>10 GPM</td><td>15 GPM</td></tr>
-      <tr><td>Steam Turbine Oil Capacity</td><td>4 GPM</td><td>6 GPM</td><td>&mdash;</td><td>&mdash;</td></tr>
-      <tr><td>Separation Efficiency</td><td>1&mu; particles; all free water</td><td>1&mu; particles; all free water</td><td>1&mu; particles; all free water</td><td>1&mu; particles; all free water</td></tr>
-      <tr><td>Drive Motor</td><td>1 HP</td><td>1&ndash;2 HP</td><td>5 HP</td><td>7.5 HP</td></tr>
-      <tr><td>Bowl Speed</td><td>8,600 RPM</td><td>8,600 RPM</td><td>&mdash;</td><td>&mdash;</td></tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Specification</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMB-004</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMB-007</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMB-019</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMB-028</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Type</td><td class="py-3 px-3 font-mono text-sm">2-Phase; Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">2-Phase; Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">2-Phase; Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">2-Phase; Manual-Clean</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Lube Oil (R&amp;O) Capacity</td><td class="py-3 px-3 font-mono text-sm">2 GPM</td><td class="py-3 px-3 font-mono text-sm">4 GPM</td><td class="py-3 px-3 font-mono text-sm">10 GPM</td><td class="py-3 px-3 font-mono text-sm">15 GPM</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Steam Turbine Oil Capacity</td><td class="py-3 px-3 font-mono text-sm">4 GPM</td><td class="py-3 px-3 font-mono text-sm">6 GPM</td><td class="py-3 px-3 font-mono text-sm">&mdash;</td><td class="py-3 px-3 font-mono text-sm">&mdash;</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Separation Efficiency</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Drive Motor</td><td class="py-3 px-3 font-mono text-sm">1 HP</td><td class="py-3 px-3 font-mono text-sm">1&ndash;2 HP</td><td class="py-3 px-3 font-mono text-sm">5 HP</td><td class="py-3 px-3 font-mono text-sm">7.5 HP</td></tr>
+        <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Bowl Speed</td><td class="py-3 px-3 font-mono text-sm text-white">8,600 RPM</td><td class="py-3 px-3 font-mono text-sm text-white">8,600 RPM</td><td class="py-3 px-3 font-mono text-sm text-white">&mdash;</td><td class="py-3 px-3 font-mono text-sm text-white">&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h3>Self-Cleaning Systems (High-Volume or Higher Sludge Applications)</h3>
 
-  <img
-    src="/images/lube-oil-centrifuge/DMPX-014-Lube-Oil-Centrifuge-1000-822x1024.webp"
-    alt="DMPX-014 Lube Oil Centrifuge"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="411"
-    height="512"
-  />
-
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>DMPX-014</th>
-        <th>DMPX-028</th>
-        <th>DMPX-042</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Type</td><td>3-Phase; Self-Cleaning</td><td>3-Phase; Self-Cleaning</td><td>3-Phase; Self-Cleaning</td></tr>
-      <tr><td>Lube Oil (R&amp;O) Capacity</td><td>7&ndash;8 GPM</td><td>10&ndash;14 GPM</td><td>15&ndash;24 GPM</td></tr>
-      <tr><td>Steam Turbine Oil Capacity</td><td>14&ndash;16 GPM</td><td>21&ndash;26 GPM</td><td>34&ndash;46 GPM</td></tr>
-      <tr><td>Separation Efficiency</td><td>1&mu; particles; all free water</td><td>1&mu; particles; all free water</td><td>1&mu; particles; all free water</td></tr>
-      <tr><td>Centrifugal Force</td><td>8,000 Gs</td><td>7,200 Gs</td><td>6,800 Gs</td></tr>
-      <tr><td>Drive Motor</td><td>4 HP</td><td>7.5 HP</td><td>15 HP</td></tr>
-      <tr><td>Power</td><td>460V; 20A</td><td>460V; 30A</td><td>460V; 60A</td></tr>
-    </tbody>
-  </table>
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8 items-start my-8">
+    <div class="md:col-span-2">
+      <img
+        src="/images/lube-oil-centrifuge/DMPX-014-Lube-Oil-Centrifuge-1000-822x1024.webp"
+        alt="DMPX-014 Lube Oil Centrifuge"
+        loading="lazy"
+        width="411"
+        height="512"
+        class="img-cap-400"
+      />
+      <p class="text-xs text-text-muted mt-2 text-center"><strong>DMPX-014 Self-Cleaning Lube Oil Centrifuge</strong></p>
+    </div>
+    <div class="md:col-span-3">
+      <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-navy text-white">
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Specification</th>
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMPX-014</th>
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMPX-028</th>
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">DMPX-042</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Type</td><td class="py-3 px-3 font-mono text-sm">3-Phase; Self-Cleaning</td><td class="py-3 px-3 font-mono text-sm">3-Phase; Self-Cleaning</td><td class="py-3 px-3 font-mono text-sm">3-Phase; Self-Cleaning</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Lube Oil (R&amp;O) Capacity</td><td class="py-3 px-3 font-mono text-sm">7&ndash;8 GPM</td><td class="py-3 px-3 font-mono text-sm">10&ndash;14 GPM</td><td class="py-3 px-3 font-mono text-sm">15&ndash;24 GPM</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Steam Turbine Oil Capacity</td><td class="py-3 px-3 font-mono text-sm">14&ndash;16 GPM</td><td class="py-3 px-3 font-mono text-sm">21&ndash;26 GPM</td><td class="py-3 px-3 font-mono text-sm">34&ndash;46 GPM</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Separation Efficiency</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td><td class="py-3 px-3 font-mono text-sm">1&mu; particles; all free water</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Centrifugal Force</td><td class="py-3 px-3 font-mono text-sm font-bold">8,000 Gs</td><td class="py-3 px-3 font-mono text-sm font-bold">7,200 Gs</td><td class="py-3 px-3 font-mono text-sm font-bold">6,800 Gs</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Drive Motor</td><td class="py-3 px-3 font-mono text-sm">4 HP</td><td class="py-3 px-3 font-mono text-sm">7.5 HP</td><td class="py-3 px-3 font-mono text-sm">15 HP</td></tr>
+            <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Power</td><td class="py-3 px-3 font-mono text-sm text-white">460V; 20A</td><td class="py-3 px-3 font-mono text-sm text-white">460V; 30A</td><td class="py-3 px-3 font-mono text-sm text-white">460V; 60A</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <h3>Legacy Alfa Laval Reference Specifications</h3>
 
@@ -272,29 +237,31 @@ const relatedProducts = [
     The following legacy Alfa Laval models are the original OEM centrifuges on which Dolphin systems are based. These specifications are provided for reference.
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>Alfa Laval MAB 103</th>
-        <th>Alfa Laval MAB 205</th>
-        <th>Alfa Laval MOPX 210</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Centrifuge Efficiency</td><td colspan="3">Solid Particles &gt; 1&mu;; Free Water &gt; 2&mu;</td></tr>
-      <tr><td>Sludge Handling</td><td>Manual Clean</td><td>Manual Clean</td><td>Self-Ejecting / Auto Desludging</td></tr>
-      <tr><td>Bowl Speed</td><td>8,600 RPM</td><td>8,700 RPM</td><td>5,180 RPM</td></tr>
-      <tr><td>Rated Capacity</td><td>5 GPM</td><td>28 GPM</td><td>72 GPM</td></tr>
-      <tr><td>ISO 32 Lube Oil Capacity</td><td>3 GPM</td><td>18 GPM</td><td>45 GPM</td></tr>
-      <tr><td>Sludge Space</td><td>0.15 Gal</td><td>0.54 Gal</td><td>1.5 Gal</td></tr>
-      <tr><td>Motor Power</td><td>1 HP</td><td>5 HP</td><td>15 HP</td></tr>
-      <tr><td>Module Dimensions*</td><td>2' x 3' x 3' (H)</td><td>3' x 4' x 4' (H)</td><td>5' x 6' x 7' (H)</td></tr>
-      <tr><td>Module Weight*</td><td>800 Lbs</td><td>1,500 Lbs</td><td>3,000 Lbs</td></tr>
-      <tr><td>Operating Voltage</td><td>110V, 230/460V</td><td>230/460V</td><td>230/460V</td></tr>
-      <tr><td>Utilities Required**</td><td>Power, Water</td><td>Power, Water, Air</td><td>Power, Water, Air</td></tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Specification</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Alfa Laval MAB 103</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Alfa Laval MAB 205</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Alfa Laval MOPX 210</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Centrifuge Efficiency</td><td colspan="3" class="py-3 px-3 font-mono text-sm">Solid Particles &gt; 1&mu;; Free Water &gt; 2&mu;</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Sludge Handling</td><td class="py-3 px-3 font-mono text-sm">Manual Clean</td><td class="py-3 px-3 font-mono text-sm">Manual Clean</td><td class="py-3 px-3 font-mono text-sm">Self-Ejecting / Auto Desludging</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Bowl Speed</td><td class="py-3 px-3 font-mono text-sm">8,600 RPM</td><td class="py-3 px-3 font-mono text-sm">8,700 RPM</td><td class="py-3 px-3 font-mono text-sm">5,180 RPM</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Rated Capacity</td><td class="py-3 px-3 font-mono text-sm">5 GPM</td><td class="py-3 px-3 font-mono text-sm">28 GPM</td><td class="py-3 px-3 font-mono text-sm">72 GPM</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">ISO 32 Lube Oil Capacity</td><td class="py-3 px-3 font-mono text-sm">3 GPM</td><td class="py-3 px-3 font-mono text-sm">18 GPM</td><td class="py-3 px-3 font-mono text-sm">45 GPM</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Sludge Space</td><td class="py-3 px-3 font-mono text-sm">0.15 Gal</td><td class="py-3 px-3 font-mono text-sm">0.54 Gal</td><td class="py-3 px-3 font-mono text-sm">1.5 Gal</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Motor Power</td><td class="py-3 px-3 font-mono text-sm">1 HP</td><td class="py-3 px-3 font-mono text-sm">5 HP</td><td class="py-3 px-3 font-mono text-sm">15 HP</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Module Dimensions*</td><td class="py-3 px-3 font-mono text-sm">2' x 3' x 3' (H)</td><td class="py-3 px-3 font-mono text-sm">3' x 4' x 4' (H)</td><td class="py-3 px-3 font-mono text-sm">5' x 6' x 7' (H)</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Module Weight*</td><td class="py-3 px-3 font-mono text-sm">800 Lbs</td><td class="py-3 px-3 font-mono text-sm">1,500 Lbs</td><td class="py-3 px-3 font-mono text-sm">3,000 Lbs</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Operating Voltage</td><td class="py-3 px-3 font-mono text-sm">110V, 230/460V</td><td class="py-3 px-3 font-mono text-sm">230/460V</td><td class="py-3 px-3 font-mono text-sm">230/460V</td></tr>
+        <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Utilities Required**</td><td class="py-3 px-3 font-mono text-sm text-white">Power, Water</td><td class="py-3 px-3 font-mono text-sm text-white">Power, Water, Air</td><td class="py-3 px-3 font-mono text-sm text-white">Power, Water, Air</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <p class="text-sm text-text-light italic">* Base module without options. ** Module with optional accessories.</p>
 
@@ -318,70 +285,86 @@ const relatedProducts = [
 
   <h2 id="sizing">Sizing by Reservoir Volume</h2>
 
-  <img
-    src="/images/lube-oil-centrifuge/Alfa-Laval-MAB206-Turbine-Lube-Oil.webp"
-    alt="Alfa Laval MAB206 Turbine Lube Oil"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="600"
-    height="600"
-  />
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start my-8">
+    <div class="md:col-span-1">
+      <img
+        src="/images/lube-oil-centrifuge/Alfa-Laval-MAB206-Turbine-Lube-Oil.webp"
+        alt="Alfa Laval MAB206 Turbine Lube Oil"
+        loading="lazy"
+        width="600"
+        height="600"
+        class="img-cap-400"
+      />
+      <p class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval MAB206 Turbine Lube Oil Centrifuge</strong></p>
+    </div>
+    <div class="md:col-span-2">
+      <p>
+        The correct centrifuge size depends on the lube oil reservoir volume and the type of equipment being protected. General guidelines:
+      </p>
 
-  <p>
-    The correct centrifuge size depends on the lube oil reservoir volume and the type of equipment being protected. General guidelines:
-  </p>
+      <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mt-4">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-navy text-white">
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Reservoir Volume</th>
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Recommended System</th>
+              <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Lube Oil Flow Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Up to 1,500 gallons</td><td class="py-3 px-3 font-mono text-sm">DMB-004</td><td class="py-3 px-3 font-mono text-sm">2 GPM</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">1,500 &ndash; 2,000 gallons</td><td class="py-3 px-3 font-mono text-sm">DMB-007</td><td class="py-3 px-3 font-mono text-sm">4 GPM</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">3,000 &ndash; 5,000 gallons</td><td class="py-3 px-3 font-mono text-sm">DMB-019 or DMB-028</td><td class="py-3 px-3 font-mono text-sm">10&ndash;15 GPM</td></tr>
+            <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">5,000+ gallons</td><td class="py-3 px-3 font-mono text-sm text-white">DMPX-042</td><td class="py-3 px-3 font-mono text-sm text-white">15&ndash;24 GPM</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Reservoir Volume</th>
-        <th>Recommended System</th>
-        <th>Lube Oil Flow Rate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Up to 1,500 gallons</td><td>DMB-004</td><td>2 GPM</td></tr>
-      <tr><td>1,500 &ndash; 2,000 gallons</td><td>DMB-007</td><td>4 GPM</td></tr>
-      <tr><td>3,000 &ndash; 5,000 gallons</td><td>DMB-019 or DMB-028</td><td>10&ndash;15 GPM</td></tr>
-      <tr><td>5,000+ gallons</td><td>DMPX-042</td><td>15&ndash;24 GPM</td></tr>
-    </tbody>
-  </table>
-
-  <img
-    src="/images/lube-oil-centrifuge/explosion-proof-compressor-oil-centrifuge.webp"
-    alt="Alfa Laval Compressor Oil Centrifuge Package"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="600"
-    height="600"
-  />
-
-  <p>
-    <strong>Note:</strong> Power plant lube oil applications <em>normally do not require explosion-proof</em> centrifuge systems. Lube oil flash points are well above ambient operating temperatures. For offshore platform installations, <a href="/explosion-proof-centrifuge/">Class 1 Div 2 certified systems</a> may be required.
-  </p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start my-8">
+    <div class="md:col-span-1">
+      <img
+        src="/images/lube-oil-centrifuge/explosion-proof-compressor-oil-centrifuge.webp"
+        alt="Alfa Laval Compressor Oil Centrifuge Package"
+        loading="lazy"
+        width="600"
+        height="600"
+        class="img-cap-400"
+      />
+      <p class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval Compressor Oil Centrifuge Package</strong></p>
+    </div>
+    <div class="md:col-span-2">
+      <p>
+        <strong>Note:</strong> Power plant lube oil applications <em>normally do not require explosion-proof</em> centrifuge systems. Lube oil flash points are well above ambient operating temperatures. For offshore platform installations, <a href="/explosion-proof-centrifuge/">Class 1 Div 2 certified systems</a> may be required.
+      </p>
+    </div>
+  </div>
 
   <h2 id="models">Available Lube Oil Centrifuge Systems</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>System</th>
-        <th>Type</th>
-        <th>Lube Oil Capacity</th>
-        <th>Best For</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>DMB-004</td><td>Manual-Clean</td><td>2 GPM</td><td>Small turbines / compressors</td></tr>
-      <tr><td>DMB-007</td><td>Manual-Clean</td><td>4 GPM</td><td>Medium turbines / engines</td></tr>
-      <tr><td>DMB-013</td><td>Manual-Clean</td><td>7 GPM</td><td>Larger turbines</td></tr>
-      <tr><td>DMB-019</td><td>Manual-Clean</td><td>10 GPM</td><td>Large turbines / multi-unit</td></tr>
-      <tr><td>DMB-028</td><td>Manual-Clean</td><td>15 GPM</td><td>High-volume industrial</td></tr>
-      <tr><td>DMPX-014</td><td>Self-Cleaning</td><td>7&ndash;8 GPM</td><td>Higher sludge / continuous</td></tr>
-      <tr><td>DMPX-028</td><td>Self-Cleaning</td><td>10&ndash;14 GPM</td><td>Large-scale / high sludge</td></tr>
-      <tr><td>DMPX-042</td><td>Self-Cleaning</td><td>15&ndash;24 GPM</td><td>5,000+ gallon reservoirs</td></tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">System</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Type</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Lube Oil Capacity</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">DMB-004</td><td class="py-3 px-3 font-mono text-sm">Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">2 GPM</td><td class="py-3 px-3 text-sm">Small turbines / compressors</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">DMB-007</td><td class="py-3 px-3 font-mono text-sm">Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">4 GPM</td><td class="py-3 px-3 text-sm">Medium turbines / engines</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">DMB-013</td><td class="py-3 px-3 font-mono text-sm">Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">7 GPM</td><td class="py-3 px-3 text-sm">Larger turbines</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">DMB-019</td><td class="py-3 px-3 font-mono text-sm">Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">10 GPM</td><td class="py-3 px-3 text-sm">Large turbines / multi-unit</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">DMB-028</td><td class="py-3 px-3 font-mono text-sm">Manual-Clean</td><td class="py-3 px-3 font-mono text-sm">15 GPM</td><td class="py-3 px-3 text-sm">High-volume industrial</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">DMPX-014</td><td class="py-3 px-3 font-mono text-sm">Self-Cleaning</td><td class="py-3 px-3 font-mono text-sm">7&ndash;8 GPM</td><td class="py-3 px-3 text-sm">Higher sludge / continuous</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">DMPX-028</td><td class="py-3 px-3 font-mono text-sm">Self-Cleaning</td><td class="py-3 px-3 font-mono text-sm">10&ndash;14 GPM</td><td class="py-3 px-3 text-sm">Large-scale / high sludge</td></tr>
+        <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">DMPX-042</td><td class="py-3 px-3 font-mono text-sm text-white">Self-Cleaning</td><td class="py-3 px-3 font-mono text-sm text-white">15&ndash;24 GPM</td><td class="py-3 px-3 text-sm text-white">5,000+ gallon reservoirs</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>
     All systems include the centrifuge, feed pump, controls, and piping &mdash; ready for installation. Pre-heaters are available as an option for all models. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a recommendation based on your reservoir size, oil type, and contamination levels.
@@ -395,61 +378,78 @@ const relatedProducts = [
 
   <p>Manual-Clean &middot; Hi-Speed &middot; Disc Centrifuge</p>
 
-  <table>
-    <thead>
-      <tr><th colspan="2">MAB 205 Technical Specs</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Capacity</td><td>15 GPM on Turbine Lube Oil</td></tr>
-      <tr><td>Motor HP</td><td>5 HP</td></tr>
-      <tr><td>Voltages</td><td>110V / 230V / 460V</td></tr>
-      <tr><td>Skid Dimensions</td><td>~4' x 5'</td></tr>
-      <tr><td>Skid Weight</td><td>~1,800 lbs</td></tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th colspan="2" class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">MAB 205 Technical Specs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">15 GPM on Turbine Lube Oil</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">5 HP</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">110V / 230V / 460V</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">~4' x 5'</td></tr>
+        <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Skid Weight</td><td class="py-3 px-3 font-mono text-sm text-white">~1,800 lbs</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h4>Alfa Laval MAB 206 Lube Oil Centrifuge</h4>
 
   <p>Manual-Clean &middot; Hi-Speed &middot; Disc Centrifuge</p>
 
-  <table>
-    <thead>
-      <tr><th colspan="2">MAB 206 Technical Specs</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Capacity</td><td>20 GPM on Lubricating Oil</td></tr>
-      <tr><td>Motor HP</td><td>7.5 HP</td></tr>
-      <tr><td>Voltages</td><td>230V / 460V</td></tr>
-      <tr><td>Skid Dimensions</td><td>4' x 5'</td></tr>
-      <tr><td>Skid Weight</td><td>~2,000 lbs</td></tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th colspan="2" class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">MAB 206 Technical Specs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">20 GPM on Lubricating Oil</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">7.5 HP</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">230V / 460V</td></tr>
+        <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">4' x 5'</td></tr>
+        <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Skid Weight</td><td class="py-3 px-3 font-mono text-sm text-white">~2,000 lbs</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h4>Alfa Laval MAB 103 Lube Oil Centrifuge</h4>
 
-  <img
-    src="/images/lube-oil-centrifuge/Alfa-Laval-MAB103-Class1Div2.webp"
-    alt="Alfa Laval MAB103 Class1Div2 Lube Oil Centrifuge"
-    loading="lazy"
-    class="rounded-lg w-full md:w-auto md:float-right md:ml-6 md:mb-4"
-    width="600"
-    height="600"
-  />
-
-  <p>Manual-Clean &middot; Hi-Speed &middot; Disc Centrifuge</p>
-
-  <table>
-    <thead>
-      <tr><th colspan="2">MAB 103 Technical Specs</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Capacity</td><td>3 GPM on Steam Turbine Lube Oil</td></tr>
-      <tr><td>Motor HP</td><td>1 HP</td></tr>
-      <tr><td>Voltages</td><td>230V / 460V</td></tr>
-      <tr><td>Skid Dimensions</td><td>3' x 4'</td></tr>
-      <tr><td>Skid Weight</td><td>~1,500 lbs</td></tr>
-    </tbody>
-  </table>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start my-8">
+    <div class="md:col-span-1">
+      <img
+        src="/images/lube-oil-centrifuge/Alfa-Laval-MAB103-Class1Div2.webp"
+        alt="Alfa Laval MAB103 Class1Div2 Lube Oil Centrifuge"
+        loading="lazy"
+        width="600"
+        height="600"
+        class="img-cap-400"
+      />
+      <p class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval MAB 103 Class 1 Div 2 Lube Oil Centrifuge</strong></p>
+    </div>
+    <div class="md:col-span-2">
+      <p>Manual-Clean &middot; Hi-Speed &middot; Disc Centrifuge</p>
+      <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mt-4">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-navy text-white">
+              <th colspan="2" class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">MAB 103 Technical Specs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">3 GPM on Steam Turbine Lube Oil</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">1 HP</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">230V / 460V</td></tr>
+            <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">3' x 4'</td></tr>
+            <tr class="bg-navy text-white"><td class="py-3 px-3 font-semibold text-white">Skid Weight</td><td class="py-3 px-3 font-mono text-sm text-white">~1,500 lbs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <hr />
 
@@ -465,7 +465,5 @@ const relatedProducts = [
     <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a> |
     <a href="/picking-the-right-industrial-centrifuge/">Picking the Right Industrial Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
 
 </ApplicationLayout>
