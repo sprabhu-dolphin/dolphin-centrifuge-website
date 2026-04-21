@@ -26,3 +26,4 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `decanter-centrifuge-optimization` | 2026-04-20 | `683ed68` | ApplicationLayout | ✅ DONE |
 | `crude-oil-centrifuge` | 2026-04-20 | `e0557d3` | ApplicationLayout | ✅ DONE |
 | `disc-centrifuge-troubleshoot-bowl` | 2026-04-21 | `e26128f` | ApplicationLayout | ✅ DONE |
+| `difference-between-decanter-centrifuge-disc-centrifuge` | 2026-04-21 | `2c9c99d` | ApplicationLayout | ✅ DONE |
