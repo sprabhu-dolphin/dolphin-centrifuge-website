@@ -330,6 +330,56 @@ const breadcrumbs = [
     border-bottom-color: rgba(255, 255, 255, 0.15) !important;
   }
 
+  /* ── UNIVERSAL INVISIBLE-LINK FIX (added 2026-04-21) ────────────────
+     The .prose-dolphin th a / td a / p a rules force link color to navy.
+     On any dark background that makes links invisible. Override: any
+     link with an explicit .text-gold class, and any link inside a
+     tr.bg-navy cell, render gold with !important.
+     ──────────────────────────────────────────────────────────────────── */
+
+  .prose-dolphin p a.text-gold,
+  .prose-dolphin li a.text-gold,
+  .prose-dolphin td a.text-gold,
+  .prose-dolphin th a.text-gold,
+  .prose-dolphin blockquote a.text-gold,
+  .prose-dolphin h2 a.text-gold,
+  .prose-dolphin h3 a.text-gold,
+  .prose-dolphin h4 a.text-gold,
+  a.text-gold {
+    color: var(--color-gold) !important;
+  }
+
+  .prose-dolphin p a.text-gold:hover,
+  .prose-dolphin li a.text-gold:hover,
+  .prose-dolphin td a.text-gold:hover,
+  .prose-dolphin th a.text-gold:hover,
+  a.text-gold:hover {
+    color: var(--color-gold-light) !important;
+  }
+
+  .prose-dolphin tr.bg-navy td a,
+  .prose-dolphin tr.bg-navy th a,
+  tr.bg-navy td a,
+  tr.bg-navy th a {
+    color: var(--color-gold) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-dolphin tr.bg-navy td a:hover,
+  .prose-dolphin tr.bg-navy th a:hover,
+  tr.bg-navy td a:hover,
+  tr.bg-navy th a:hover {
+    color: #ffffff !important;
+  }
+
+  [class*="bg-navy"] p a:not(.text-gold):not([class*="text-white"]),
+  [class*="bg-navy"] li a:not(.text-gold):not([class*="text-white"]) {
+    color: #ffffff !important;
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+  }
+
   .prose-dolphin p a:hover,
   .prose-dolphin li a:hover,
   .prose-dolphin td a:hover,
