@@ -24,3 +24,5 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `disc-centrifuge-purifier-clarifier-difference` | 2026-04-20 | `5201128` | ApplicationLayout | ✅ DONE |
 | `oil-centrifuge` | 2026-04-20 | `71dcae2` | ApplicationLayout | ✅ DONE |
 | `decanter-centrifuge-optimization` | 2026-04-20 | `683ed68` | ApplicationLayout | ✅ DONE |
+| `crude-oil-centrifuge` | 2026-04-20 | `e0557d3` | ApplicationLayout | ✅ DONE |
+| `disc-centrifuge-troubleshoot-bowl` | 2026-04-21 | `e26128f` | ApplicationLayout | ✅ DONE |
