@@ -400,9 +400,15 @@ const breadcrumbs = [
     background-color: var(--color-light-bg);
   }
 
-  /* Navy highlight rows must not be overridden by the zebra-stripe rule above */
+  /* Navy highlight rows must not be overridden by the zebra-stripe rule above.
+     Also forces white text on th/td inside not-prose tables where prose-dolphin
+     thead styles don't cascade. */
   .prose-dolphin tbody tr.bg-navy td,
-  .prose-dolphin thead tr.bg-navy td {
+  .prose-dolphin tbody tr.bg-navy th,
+  .prose-dolphin thead tr.bg-navy td,
+  .prose-dolphin thead tr.bg-navy th,
+  tr.bg-navy td,
+  tr.bg-navy th {
     background-color: var(--color-navy) !important;
     color: white !important;
   }
