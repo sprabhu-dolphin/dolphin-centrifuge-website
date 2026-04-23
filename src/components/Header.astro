@@ -88,10 +88,10 @@ const navItems = [
 
 <header
   id="site-header"
-  class="sticky top-0 z-50 bg-navy text-white transition-all duration-300"
+  class="sticky top-0 z-50 bg-navy text-white transition-[background-color,box-shadow] duration-300"
 >
   {/* Top utility bar */}
-  <div class="bg-navy-dark text-xs hidden md:block">
+  <div id="utility-bar" class="bg-navy-dark text-xs hidden md:block">
     <div class="container-dolphin flex items-center justify-between py-1.5">
       <div class="flex items-center gap-4 text-gray-300">
         <a href="tel:+12485222573" class="flex items-center gap-1.5 text-gray-300 hover:text-gold transition-colors">
@@ -127,22 +127,23 @@ const navItems = [
     {/* Desktop nav links */}
     <div class="hidden lg:flex items-center gap-1">
       {navItems.map((item) => (
-        <div class="relative group">
+        <div class="relative nav-group" data-nav-group>
           <a
             href={item.href}
-            class="flex items-center gap-1 px-3 py-2 text-sm font-semibold text-gray-200 hover:text-white rounded-md hover:bg-white/10 transition-all"
+            class="nav-trigger flex items-center gap-1 px-3 py-2 text-sm font-semibold text-gray-200 hover:text-white rounded-md hover:bg-white/10 transition-colors"
           >
             {item.label}
             {(item.children || item.flyout) && (
-              <svg class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 nav-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <svg class="nav-arrow w-3.5 h-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             )}
           </a>
-          {/* Flyout dropdown (Applications) — LW-style progressive disclosure */}
+
+          {/* Flyout dropdown (Applications) */}
           {item.flyout && item.appItems && (
-            <div class="absolute left-0 top-full pt-2 z-50 nav-dropdown">
-              <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[280px]">
+            <div class="nav-dropdown absolute left-0 top-full z-50">
+              <div class="mt-2 bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[280px]">
                 {item.appItems.map((app) => (
                   app.children ? (
                     <div class="app-flyout-group relative">
@@ -155,8 +156,8 @@ const navItems = [
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                       </a>
-                      <div class="app-flyout-sub absolute left-full top-0 pl-1">
-                        <div class="bg-white rounded-lg shadow-xl border border-gray-100 py-2 min-w-[240px]">
+                      <div class="app-flyout-sub absolute left-full top-0 z-50">
+                        <div class="ml-1 bg-white rounded-lg shadow-xl border border-gray-100 py-2 min-w-[240px]">
                           {app.children.map((sub) => (
                             <a href={sub.href} class="block px-4 py-2 text-sm text-gray-600 hover:text-navy hover:bg-light-bg transition-colors">
                               {sub.label}
@@ -181,10 +182,11 @@ const navItems = [
               </div>
             </div>
           )}
-          {/* Simple dropdown (other nav items) */}
-          {item.children && !item.mega && (
-            <div class="absolute left-0 top-full pt-2 z-50 nav-dropdown">
-              <div class="bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[220px]">
+
+          {/* Simple dropdown */}
+          {item.children && (
+            <div class="nav-dropdown absolute left-0 top-full z-50">
+              <div class="mt-2 bg-white rounded-xl shadow-2xl shadow-black/15 border border-gray-100 py-2 min-w-[220px]">
                 {item.children.map((child) => (
                   <a
                     href={child.href}
@@ -267,7 +269,7 @@ const navItems = [
             </div>
           )}
           {/* Regular children (non-mega) */}
-          {item.children && !item.mega && (
+          {item.children && (
             <div class="pl-6 space-y-0.5">
               {item.children.map((child) => (
                 <a
@@ -298,59 +300,124 @@ const navItems = [
 </header>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
+  // ─── Mobile menu ────────────────────────────────────────────────
+  const btn  = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
-  const header = document.getElementById('site-header');
-
   btn?.addEventListener('click', () => {
     const isOpen = menu?.classList.toggle('hidden') === false;
     btn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  // Slim header on scroll
-  let lastScroll = 0;
+  // ─── Desktop nav: JS-managed open state with close delay ────────
+  const CLOSE_DELAY = 120; // ms — prevents flicker on slow cursor moves
+
+  document.querySelectorAll<HTMLElement>('[data-nav-group]').forEach((group) => {
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const openGroup = () => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      // Close siblings first
+      document.querySelectorAll('[data-nav-group].is-open').forEach((g) => {
+        if (g !== group) g.classList.remove('is-open');
+      });
+      group.classList.add('is-open');
+    };
+
+    const scheduleClose = () => {
+      closeTimer = setTimeout(() => {
+        group.classList.remove('is-open');
+      }, CLOSE_DELAY);
+    };
+
+    const cancelClose = () => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    };
+
+    // Trigger on the whole group (covers trigger link + dropdown)
+    group.addEventListener('mouseenter', openGroup);
+    group.addEventListener('mouseleave', scheduleClose);
+
+    // Extra insurance: entering the dropdown cancels the close timer
+    const dropdown = group.querySelector('.nav-dropdown');
+    dropdown?.addEventListener('mouseenter', cancelClose);
+    dropdown?.addEventListener('mouseleave', scheduleClose);
+  });
+
+  // Close all when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element).closest('[data-nav-group]')) {
+      document.querySelectorAll('[data-nav-group].is-open').forEach((g) => g.classList.remove('is-open'));
+    }
+  });
+
+  // ─── Scroll: slim header — freeze while any menu is open ────────
+  const utilityBar = document.getElementById('utility-bar');
   window.addEventListener('scroll', () => {
-    const utilityBar = header?.querySelector('.bg-navy-dark');
+    // Do nothing if a desktop menu is open (prevents jump)
+    if (document.querySelector('[data-nav-group].is-open')) return;
     if (window.scrollY > 60) {
       utilityBar?.classList.add('!hidden');
     } else {
       utilityBar?.classList.remove('!hidden');
     }
-    lastScroll = window.scrollY;
   }, { passive: true });
 </script>
 
 <style>
-  /* Smooth dropdown: delay visibility:hidden until opacity fade completes */
+  /* ── Dropdown open state (JS-driven, not CSS hover) ─────────── */
   .nav-dropdown {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.18s ease, visibility 0s 0.18s;
+    pointer-events: none;
+    /* delay visibility:hidden until opacity fades — no snap */
+    transition: opacity 0.16s ease, visibility 0s 0.16s;
   }
-  .group:hover > .nav-dropdown {
+  .nav-group.is-open > .nav-dropdown {
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.18s ease, visibility 0s 0s;
+    pointer-events: auto;
+    transition: opacity 0.16s ease, visibility 0s 0s;
   }
 
-  /* Smooth arrow rotation — no abrupt jump */
-  .nav-arrow {
-    transition: transform 0.25s ease, opacity 0.15s ease;
+  /* Invisible hover bridge above dropdown — no dead zone */
+  .nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
   }
-  .group:hover .nav-arrow {
+
+  /* ── Chevron — smooth, follows is-open not raw hover ─────────── */
+  .nav-arrow {
+    transition: transform 0.22s ease, opacity 0.15s ease;
+  }
+  .nav-group.is-open .nav-arrow {
     transform: rotate(180deg);
     opacity: 1;
   }
 
-  /* Applications sub-menu */
+  /* ── Applications sub-flyout ────────────────────────────────── */
   .app-flyout-sub {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.15s ease, visibility 0s 0.15s;
+    pointer-events: none;
+    transition: opacity 0.12s ease, visibility 0s 0.12s;
+  }
+  /* Invisible bridge to the left of the sub-flyout */
+  .app-flyout-sub::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -4px;
+    width: 4px;
   }
   .app-flyout-group:hover > .app-flyout-sub {
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.15s ease, visibility 0s 0s;
+    pointer-events: auto;
+    transition: opacity 0.12s ease, visibility 0s 0s;
   }
 </style>
