@@ -1,48 +1,25 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the difference between RCF and RPM in centrifuge specifications?",
-      "acceptedAnswer": { "@type": "Answer", "text": "RPM (revolutions per minute) measures rotational speed, while RCF (relative centrifugal force, in × g) measures the centrifugal force at the bowl wall. Two centrifuges running at the same RPM produce very different RCF values depending on bowl diameter — larger bowls produce higher g-force at the same RPM." }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is RCF more important than RPM for comparing centrifuges?",
-      "acceptedAnswer": { "@type": "Answer", "text": "RCF directly determines separation performance — it governs whether particles of a given size and density will sediment within the available residence time. RPM alone is meaningless without knowing bowl radius. When comparing centrifuges for a separation application, always compare on RCF, not RPM." }
-    },
-    {
-      "@type": "Question",
-      "name": "How is RCF calculated from RPM and bowl radius?",
-      "acceptedAnswer": { "@type": "Answer", "text": "RCF = 1.118 × 10⁻⁵ × r × N², where r is the bowl radius in centimeters and N is the speed in RPM. This gives the centrifugal force at the bowl wall as a multiple of gravitational acceleration (× g). Dolphin Centrifuge can provide RCF values for specific centrifuge models on request." }
-    }
-  ]
-};
-
 const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Centrifuge RCF vs RPM: Formula & Calculator",
-    "description": "RCF vs RPM explained: the formula for relative centrifugal force, why RCF matters more than RPM, and a reference table for common centrifuge bowl sizes.",
+    "headline": "Centrifuge RCF and RPM | Difference & RCF Calculation",
+    "description": "RCF and RPM are both centrifuge related terms. However, the RPM is a measure of rotational speed while the RCF is a measure of centrifugal force.",
     "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2020-10-01",
+    "datePublished": "2020-10-20",
     "url": "https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/",
   },
-  faqJsonLd,
 ];
 ---
 
 <ApplicationLayout
-  title="Centrifuge RCF vs RPM Calculator | Dolphin Centrifuge"
-  description="RCF vs RPM explained: the relative centrifugal force formula, why g-force matters more than RPM for centrifuge selection, with RCF reference table by bowl size."
+  title="Centrifuge RCF and RPM | Difference & RCF Calculation"
+  description="RCF and RPM are both centrifuge related terms. However, the RPM is a measure of rotational speed while the RCF is a measure of centrifugal force."
   canonicalUrl="https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/"
-  heroImage="/images/centrifuge-rcf-rpm-difference-calculation/RCF-vs-RPM-Force-vs-Speed-1000.webp"
+  heroImage="/images/centrifuge-rcf-rpm-difference-calculation/Centrifuge-RCF-vs-RPM-Force-vs-Speed-1400.webp"
   heroImageAlt="Centrifuge RCF vs RPM force versus speed comparison diagram"
   categoryLabel="Knowledge Base"
   toc={[
@@ -50,18 +27,15 @@ const jsonLd = [
     { id: "what-is-rpm", label: "What is RPM?" },
     { id: "difference-rcf-rpm", label: "Difference Between RCF & RPM" },
     { id: "why-rcf-not-rpm", label: "Why Use RCF and Not RPM?" },
-    { id: "example-rcf-rpm", label: "Example of RCF and RPM" },
+    { id: "example-rcf-rpm", label: "Example of RCF and RPM in a Centrifuge" },
     { id: "rcf-formula", label: "Formula to Calculate RCF from RPM" },
     { id: "rcf-calculator", label: "Live RCF Calculator" },
     { id: "rcf-disc-stack", label: "RCF in Disc Stack Centrifuge" },
-    { id: "rcf-reference-table", label: "RCF Reference Table" },
-    { id: "practical-guidance", label: "Practical Guidance" },
     { id: "summary", label: "Summary" },
-    { id: "faq", label: "Frequently Asked Questions" },
   ]}
   relatedProducts={[
-    { label: "DMPX-042 Disc Stack Centrifuge", href: "/centrifuges/dmpx-042/", description: "Up to 7,200 RCF — fuel & lube oil" },
-    { label: "DMPX-070 Disc Stack Centrifuge", href: "/centrifuges/dmpx-070/", description: "Up to 8,600 RCF — high-capacity industrial" },
+    { label: "DMPX-042 Disc Stack Centrifuge", href: "/centrifuges/dmpx-042/", description: "Up to 7,200 RCF - fuel & lube oil" },
+    { label: "DMPX-070 Disc Stack Centrifuge", href: "/centrifuges/dmpx-070/", description: "Up to 8,600 RCF - high-capacity industrial" },
     { label: "Disc Stack Centrifuge Overview", href: "/disc-stack-centrifuge/", description: "Full model range & capacity guide" },
   ]}
   relatedApplications={[
@@ -74,17 +48,13 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
 
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems with rated G-forces of 7,000+ RCF (DMPX series at 7,200–8,600 RPM) and decanter centrifuges at 2,000–4,000 RCF. Understanding the difference between RPM and RCF is essential for comparing centrifuge performance across different bowl sizes. Based in Warren, Michigan, Dolphin Centrifuge has over 40 years of experience in centrifugal separation engineering.</p>
-  </div>
 
   <!-- Intro -->
   <p class="text-text-light leading-relaxed mb-6">RCF and RPM are standard terms in the context of centrifuges. This article explains the difference between the two terms and why RCF is more relevant to centrifuges. Though the two terms are related mathematically, they are vastly different from the application's perspective.</p>
 
   <!-- What is RCF -->
   <h2 id="what-is-rcf" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What is RCF?</h2>
-  <p class="text-text-light leading-relaxed mb-6">RCF stands for <strong>Relative Centrifugal Force</strong>. The force experienced by any mass (solid, liquid, or gaseous) that rotates around a fixed axis is known as the centrifugal force. RCF is this centrifugal force expressed in terms of gravity. In other words, RCF is the centrifugal force ratio to gravitational force. Therefore it is also referred to as <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">g-force</a>.</p>
+  <p class="text-text-light leading-relaxed mb-6">RCF stands for <strong>Relative Centrifugal Force</strong>. The force experienced by any mass (solid, liquid, or gaseous) that rotates around a fixed axis is known as the centrifugal force. RCF is this centrifugal force expressed in terms of gravity. In other words, RCF is the centrifugal force ratio to gravitational force. Therefore it is also referred to as g-force.</p>
 
   <!-- What is RPM -->
   <h2 id="what-is-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What is RPM?</h2>
@@ -96,36 +66,34 @@ const jsonLd = [
   <p class="text-text-light leading-relaxed mb-6">While the RPM is the speed of rotation of the bowl, the RCF functions as the RPM and the rotating object's radius.</p>
 
   <!-- Why use RCF and not RPM -->
-  <h2 id="why-rcf-not-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Why Use RCF and Not RPM?</h2>
-  <p class="text-text-light leading-relaxed mb-4">The RCF measures the centrifugal force generated by the centrifuge. This force (g-force) is directly related to the efficiency of the centrifuge. This is because the RCF indicates the centrifuge force exerted, which defines the centrifuge's <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">separation efficiency</a>.</p>
+  <h2 id="why-rcf-not-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Why use RCF and not RPM?</h2>
+  <p class="text-text-light leading-relaxed mb-4">As explained above, the RCF measures the centrifugal force generated by the centrifuge. This force (g-force) is directly related to the efficiency of the centrifuge. This is because the RCF indicates the centrifuge force exerted, which defines the centrifuge's <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">separation efficiency</a>.</p>
   <p class="text-text-light leading-relaxed mb-6">The centrifuge RPM merely indicates the bowl speed but does not define the centrifugal force. In conjunction with the RPM, the rotation radius determines the centrifugal force shown by the RCF formula below.</p>
 
   <!-- Example of RPM vs. RCF -->
-  <h2 id="example-rcf-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Example of RCF and RPM in a Centrifuge</h2>
+  <h2 id="example-rcf-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Example of RPM vs. RCF in a Centrifuge</h2>
   <p class="text-text-light leading-relaxed mb-4">For example, consider two centrifuge bowls rotating at the same speed, say 5,000 RPM. One bowl has a radius of 5 cm, while the other has a radius of 25 cm.</p>
   <p class="text-text-light leading-relaxed mb-4">Based on the formula, the RCF for the first bowl is 1,400 g-force. However, for the same RPM, the RCF generated by the second (larger) bowl is 7,000 g-force!</p>
   <p class="text-text-light leading-relaxed mb-4">The centrifuge's separation efficiency with the 7,000g RCF will be much higher than that of the centrifuge with the 1,400g RCF.</p>
-  <p class="text-text-light leading-relaxed mb-10">Therefore, if the user selected the centrifuge solely based on RPM, they would make the wrong choice based on centrifuge effectiveness.</p>
+  <p class="text-text-light leading-relaxed mb-6">Therefore, if the user selected the centrifuge solely based on RPM, they would make the wrong choice based on centrifuge effectiveness.</p>
 
   <!-- Formula -->
   <h2 id="rcf-formula" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Formula to Calculate RCF from RPM</h2>
   <p class="text-text-light leading-relaxed mb-4">The following formula calculates a centrifuge's Relative Centrifugal Force (RCF) based on the RPM and Centrifuge Bowl Radius. The diagram also illustrates the two terms, namely RPM and bowl radius (r), in the context of the centrifuge bowl.</p>
-  <img src="/images/centrifuge-rcf-rpm-difference-calculation/centrifuge-bowl-RCF-RPM-formula-1000.webp" alt="RCF and RPM difference formula diagram showing bowl radius and rotational speed" width="1000" height="400" loading="lazy" class="rounded-lg w-full mb-4" />
 
-  <div class="bg-navy text-white rounded-xl p-6 mb-4 font-mono text-center">
-    <p class="text-xl md:text-2xl font-bold text-gold mb-2">RCF = 1.118 &times; 10<sup>-5</sup> &times; r &times; n<sup>2</sup></p>
-    <p class="text-gray-300 text-sm">Where: r = radius (cm) &nbsp;&nbsp;|&nbsp;&nbsp; n = rotational speed (RPM)</p>
-  </div>
+  <figure class="mb-6">
+    <img
+      src="/images/centrifuge-rcf-rpm-difference-calculation/centrifuge-bowl-RCF-RPM-formula-1000.webp"
+      alt="RCF and RPM Difference & Formula"
+      width="1000"
+      height="400"
+      loading="lazy"
+      class="img-cap-800"
+    />
+    <figcaption class="text-sm text-gray-500 mt-2 text-center"><strong>RCF and RPM Difference &amp; Formula</strong></figcaption>
+  </figure>
 
-  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-10">
-    <h3 class="font-bold text-navy mb-3">Variable Definitions</h3>
-    <ul class="space-y-2 text-text-light">
-      <li><strong class="text-navy">RCF</strong> — Relative Centrifugal Force (dimensionless; expressed as &times;g)</li>
-      <li><strong class="text-navy">r</strong> — Radius in centimeters from the axis of rotation to the point of measurement (typically the inner bowl wall for solids; the disc stack midpoint for liquid separation)</li>
-      <li><strong class="text-navy">n</strong> — Rotational speed in RPM</li>
-      <li><strong class="text-navy">1.118 &times; 10<sup>-5</sup></strong> — Constant derived from converting RPM to rad/s and dividing by gravitational acceleration (9.81 m/s²)</li>
-    </ul>
-  </div>
+  <p class="text-text-light leading-relaxed mb-6">RCF&nbsp;=&nbsp;1.118 &times; r &times; n<sup>2</sup> &times; 10<sup>-5</sup></p>
 
   <!-- Live RCF Calculator -->
   <h2 id="rcf-calculator" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Live RCF Calculator</h2>
@@ -144,18 +112,18 @@ const jsonLd = [
     <!-- Inputs -->
     <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
       <div>
-        <label for="rcf-bowl-radius" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Bowl Radius (cm)</label>
-        <input id="rcf-bowl-radius" type="number" value="20" min="1" max="100" step="0.5"
+        <label for="rcf-bowl-radius" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Bowl Radius (inches)</label>
+        <input id="rcf-bowl-radius" type="number" value="8" min="1" max="40" step="0.5"
           class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
           oninput="calcRCF()" />
-        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 10–30 cm; decanter: 15–50 cm</p>
+        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 4-12 in; decanter: 6-20 in</p>
       </div>
       <div>
         <label for="rcf-speed" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Bowl Speed (RPM)</label>
         <input id="rcf-speed" type="number" value="6000" min="100" max="20000" step="100"
           class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
           oninput="calcRCF()" />
-        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 4,000–8,000 RPM</p>
+        <p class="text-xs text-gray-400 mt-1">Typical disc stack: 4,000-8,000 RPM</p>
       </div>
     </div>
 
@@ -163,48 +131,54 @@ const jsonLd = [
     <div class="mx-6 mb-6 rounded-xl bg-navy/5 border border-navy/10 px-6 py-5 flex flex-col md:flex-row items-center gap-4">
       <div class="flex-1">
         <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">RCF Formula</p>
-        <p class="font-mono text-gray-500 text-sm mt-1">1.118 &times; 10<sup>-5</sup> &times; <span id="rcf-display-radius">20</span> &times; <span id="rcf-display-rpm">6,000</span><sup>2</sup></p>
+        <p class="font-mono text-gray-500 text-sm mt-1">2.840 &times; 10<sup>-5</sup> &times; <span id="rcf-display-radius">8</span> &times; <span id="rcf-display-rpm">6,000</span><sup>2</sup></p>
       </div>
       <div class="text-center">
-        <p id="rcf-result" class="text-5xl font-bold font-mono text-gold leading-none">8,050</p>
+        <p id="rcf-result" class="text-5xl font-bold font-mono text-gold leading-none">8,179</p>
         <p class="text-xs text-navy font-semibold mt-1 uppercase tracking-wide">&times;g (RCF)</p>
       </div>
       <div class="flex-1 text-right">
-        <div id="rcf-status" class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-green-100 text-green-700">
-          <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-          <span>Disc Stack Range</span>
+        <div id="rcf-status" class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700">
+          <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
+          <span>High Performance</span>
         </div>
-        <p id="rcf-guidance" class="text-xs text-gray-500 mt-1 max-w-[200px] ml-auto">Suitable for lube oil &amp; light fuel oil.</p>
+        <p id="rcf-guidance" class="text-xs text-gray-500 mt-1 max-w-[200px] ml-auto">HFO, beverage clarification, coolant fine solids.</p>
       </div>
     </div>
 
-    <p class="text-xs text-gray-400 text-center pb-4">© Dolphin Centrifuge — reference only. Contact engineers for application-specific RCF requirements.</p>
+    <p class="text-xs text-gray-400 text-center pb-4">&copy; Dolphin Centrifuge - reference only. Contact engineers for application-specific RCF requirements.</p>
   </div>
 
   <script is:inline>
   function calcRCF() {
-    const r = parseFloat(document.getElementById('rcf-bowl-radius').value) || 0;
-    const n = parseFloat(document.getElementById('rcf-speed').value) || 0;
-    const rcf = 1.118e-5 * r * n * n;
+    const radiusInput = document.getElementById('rcf-bowl-radius');
+    const speedInput = document.getElementById('rcf-speed');
+    const r = Math.max(parseFloat(radiusInput.value) || 0, 0);
+    const n = Math.max(parseFloat(speedInput.value) || 0, 0);
+    // Radius entered in inches. Convert to cm: r_cm = r_in x 2.54
+    // RCF = 1.118e-5 * r_cm * n^2 = 1.118e-5 * 2.54 * r_in * n^2 = 2.840e-5 * r_in * n^2
+    const rcf = 2.840e-5 * r * n * n;
     const result = document.getElementById('rcf-result');
     const status = document.getElementById('rcf-status');
     const guidance = document.getElementById('rcf-guidance');
     const dispR = document.getElementById('rcf-display-radius');
     const dispN = document.getElementById('rcf-display-rpm');
 
+    radiusInput.value = r || '';
+    speedInput.value = n || '';
     dispR.textContent = r;
     dispN.textContent = n.toLocaleString();
     result.textContent = Math.round(rcf).toLocaleString();
 
-    if (rcf < 1000) {
+    if (rcf < 2000) {
       status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 text-gray-600';
-      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-400 inline-block"></span><span>Low — Basic Separation</span>';
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-400 inline-block"></span><span>Low - Basic Separation</span>';
       guidance.textContent = 'Suitable only for coarse solids settlement.';
-    } else if (rcf < 3000) {
+    } else if (rcf < 4000) {
       status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700';
       status.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span><span>Decanter Range</span>';
-      guidance.textContent = 'Typical decanter centrifuge range (2,000–4,000 ×g).';
-    } else if (rcf < 6000) {
+      guidance.textContent = 'Typical decanter centrifuge range (2,000-4,000 xg).';
+    } else if (rcf < 7000) {
       status.className = 'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-green-100 text-green-700';
       status.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span>Disc Stack Range</span>';
       guidance.textContent = 'Suitable for lube oil & light fuel oil purification.';
@@ -224,119 +198,13 @@ const jsonLd = [
   <!-- RCF in Disc Stack Centrifuge -->
   <h2 id="rcf-disc-stack" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">RCF in Disc Stack Centrifuge</h2>
   <p class="text-text-light leading-relaxed mb-4">The Relative Centrifugal Force (RCF) is the crucial factor differentiating a <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">disc-stack centrifuge</a> from other types of centrifuges.</p>
-  <p class="text-text-light leading-relaxed mb-4">A disc centrifuge generates a higher centrifugal force (g-force) than simple open-bowl or <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuges</a>. This higher force allows the disc-stack centrifuge to have higher separation efficiency.</p>
+  <p class="text-text-light leading-relaxed mb-4">An Alfa Laval disc centrifuge generates a higher centrifugal force (g-force) than simple open-bowl or <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuges</a>. This higher force allows the disc-stack centrifuge to have higher separation efficiency.</p>
   <p class="text-text-light leading-relaxed mb-10">Therefore, these centrifugal separators can separate much smaller particles than other centrifuges. They can also separate immiscible liquids with small specific gravity differentials due to their high g-force.</p>
-
-  <!-- Reference Table -->
-  <h2 id="rcf-reference-table" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-2">RCF Reference Table</h2>
-  <p class="text-text-light leading-relaxed mb-6">The table below shows calculated RCF values for five common disc stack centrifuge bowl radii at RPM steps from 4,000 to 8,000 RPM. Values are rounded to the nearest whole number.</p>
-
-  <div class="overflow-x-auto mb-10">
-    <table class="w-full bg-white rounded-xl border border-gray-200 text-sm">
-      <thead>
-        <tr class="bg-navy text-white">
-          <th class="text-left px-4 py-3 font-semibold">RPM</th>
-          <th class="text-center px-4 py-3 font-semibold">r = 15 cm</th>
-          <th class="text-center px-4 py-3 font-semibold">r = 17.5 cm</th>
-          <th class="text-center px-4 py-3 font-semibold">r = 20 cm</th>
-          <th class="text-center px-4 py-3 font-semibold">r = 22.5 cm</th>
-          <th class="text-center px-4 py-3 font-semibold">r = 25 cm</th>
-        </tr>
-        <tr class="bg-navy/80 text-gray-300 text-xs">
-          <th class="px-4 py-1"></th>
-          <th class="text-center px-4 py-1">RCF (&times;g)</th>
-          <th class="text-center px-4 py-1">RCF (&times;g)</th>
-          <th class="text-center px-4 py-1">RCF (&times;g)</th>
-          <th class="text-center px-4 py-1">RCF (&times;g)</th>
-          <th class="text-center px-4 py-1">RCF (&times;g)</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        <tr class="hover:bg-warm-white transition-colors">
-          <td class="px-4 py-3 font-mono font-bold text-navy">4,000</td>
-          <td class="px-4 py-3 text-center text-text-light">2,683</td>
-          <td class="px-4 py-3 text-center text-text-light">3,130</td>
-          <td class="px-4 py-3 text-center text-text-light">3,578</td>
-          <td class="px-4 py-3 text-center text-text-light">4,026</td>
-          <td class="px-4 py-3 text-center text-text-light">4,472</td>
-        </tr>
-        <tr class="hover:bg-warm-white transition-colors">
-          <td class="px-4 py-3 font-mono font-bold text-navy">5,000</td>
-          <td class="px-4 py-3 text-center text-text-light">4,193</td>
-          <td class="px-4 py-3 text-center text-text-light">4,891</td>
-          <td class="px-4 py-3 text-center text-text-light">5,590</td>
-          <td class="px-4 py-3 text-center text-text-light">6,289</td>
-          <td class="px-4 py-3 text-center text-text-light">6,988</td>
-        </tr>
-        <tr class="hover:bg-warm-white transition-colors">
-          <td class="px-4 py-3 font-mono font-bold text-navy">6,000</td>
-          <td class="px-4 py-3 text-center text-gold font-semibold">6,038</td>
-          <td class="px-4 py-3 text-center text-gold font-semibold">7,044</td>
-          <td class="px-4 py-3 text-center text-gold font-semibold">8,050</td>
-          <td class="px-4 py-3 text-center text-gold font-semibold">9,056</td>
-          <td class="px-4 py-3 text-center text-gold font-semibold">10,062</td>
-        </tr>
-        <tr class="hover:bg-warm-white transition-colors">
-          <td class="px-4 py-3 font-mono font-bold text-navy">7,000</td>
-          <td class="px-4 py-3 text-center text-text-light">8,218</td>
-          <td class="px-4 py-3 text-center text-text-light">9,587</td>
-          <td class="px-4 py-3 text-center text-text-light">10,957</td>
-          <td class="px-4 py-3 text-center text-text-light">12,327</td>
-          <td class="px-4 py-3 text-center text-text-light">13,697</td>
-        </tr>
-        <tr class="hover:bg-warm-white transition-colors">
-          <td class="px-4 py-3 font-mono font-bold text-navy">8,000</td>
-          <td class="px-4 py-3 text-center text-text-light">10,726</td>
-          <td class="px-4 py-3 text-center text-text-light">12,514</td>
-          <td class="px-4 py-3 text-center text-text-light">14,301</td>
-          <td class="px-4 py-3 text-center text-text-light">16,089</td>
-          <td class="px-4 py-3 text-center text-text-light">17,877</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="text-text-light text-sm mb-10 italic">Values calculated using RCF = 1.118 &times; 10<sup>-5</sup> &times; r &times; n<sup>2</sup>. Highlighted row (6,000 RPM) represents a common operating range for mid-size disc stack separators. r values are approximate bowl inner radii (in cm) for the relevant size class.</p>
-
-  <!-- Practical Guidance -->
-  <h2 id="practical-guidance" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Practical Guidance: How Much RCF Do You Need?</h2>
-  <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
-    <ul class="space-y-3 text-text-light">
-      <li><strong class="text-navy">Light fuel oil (diesel, MDO):</strong> 3,000&ndash;5,000 &times;g is generally sufficient for water and particulate removal.</li>
-      <li><strong class="text-navy">Heavy fuel oil (HFO, bunker):</strong> 6,000&ndash;9,000 &times;g recommended due to high viscosity and small density differential between oil and water.</li>
-      <li><strong class="text-navy">Lube oil and gear oil:</strong> 5,000&ndash;8,000 &times;g depending on contamination level and particle size.</li>
-      <li><strong class="text-navy">Beverage clarification (beer, wine):</strong> 6,000&ndash;10,000 &times;g for removal of yeast, protein, and fine solids.</li>
-      <li><strong class="text-navy">Pharmaceutical liquids:</strong> 8,000&ndash;12,000+ &times;g for sub-micron particle removal.</li>
-      <li><strong class="text-navy">Coolant and metalworking fluid:</strong> 4,000&ndash;7,000 &times;g for tramp oil removal and metal fines separation.</li>
-    </ul>
-  </div>
-
-  <p class="text-text-light leading-relaxed mb-4">These are general ranges. Actual RCF requirements depend on the density differential between phases, viscosity of the continuous phase, and required separation sharpness. Dolphin Centrifuge engineers can calculate the required G-factor for your specific application and recommend the appropriate <a href="/disc-stack-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge model</a>.</p>
-
-  <p class="text-text-light leading-relaxed mb-6">Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a> for application-specific RCF calculations.</p>
 
   <!-- Summary -->
   <h2 id="summary" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Summary</h2>
   <p class="text-text-light leading-relaxed mb-4">RCF and RPM are commonly confused and interchanged terms in the centrifuge world. These two terms are significantly different, as explained above.</p>
   <p class="text-text-light leading-relaxed mb-10">For the end-user, the RCF (aka g-force) is a crucial term because it defines the effectiveness of the centrifuge. The RPM is the bowl speed indicator, but the RPM does not convey any useful information for the application or the process.</p>
-
-  <!-- FAQ -->
-  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-10 mb-6">
-    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-6">
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">What is the difference between RCF and RPM in centrifuge specifications?</h3>
-        <p class="text-text-light text-sm">RPM (revolutions per minute) measures rotational speed, while RCF (relative centrifugal force, in × g) measures the centrifugal force at the bowl wall. Two centrifuges running at the same RPM produce very different RCF values depending on bowl diameter — larger bowls generate higher g-force at the same RPM.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">Why is RCF more important than RPM for comparing centrifuges?</h3>
-        <p class="text-text-light text-sm">RCF directly determines separation performance — it governs whether particles of a given size and density will sediment within the available residence time. RPM alone is meaningless without knowing bowl radius. When comparing centrifuges for a separation application, always compare on RCF, not RPM.</p>
-      </div>
-      <div>
-        <h3 class="text-base font-semibold text-navy mb-2">How is RCF calculated from RPM and bowl radius?</h3>
-        <p class="text-text-light text-sm">RCF = 1.118 × 10⁻⁵ × r × N², where r is the bowl radius in centimeters and N is the speed in RPM. This gives the centrifugal force at the bowl wall as a multiple of gravitational acceleration (× g). Dolphin Centrifuge can provide RCF values for specific centrifuge models on request.</p>
-      </div>
-    </div>
-  </div>
 
   <!-- Related Articles -->
   <div class="mt-10">
@@ -367,7 +235,7 @@ const jsonLd = [
 
   <div class="bg-navy rounded-xl p-6 md:p-8 text-center mt-8">
     <h2 class="text-xl font-bold text-white mb-2">Need RCF Calculations for Your Application?</h2>
-    <p class="text-white/80 mb-4">Dolphin Centrifuge engineers calculate required g-force for your specific fluid, particle size, and separation target — then recommend the right centrifuge model.</p>
+    <p class="text-white/80 mb-4">Dolphin Centrifuge engineers calculate required g-force for your specific fluid, particle size, and separation target - then recommend the right centrifuge model.</p>
     <div class="flex flex-wrap gap-3 justify-center">
       <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-6 py-3 rounded-lg transition-colors">Request RCF Calculation</a>
       <a href="tel:+12485222573" class="border border-white/50 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-colors">(248) 522-2573</a>
