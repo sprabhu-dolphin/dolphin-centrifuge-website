@@ -5,3 +5,4 @@
 | decanter-centrifuge-vibration | 3931fa8 | 2 | 2026-04-22 | PASS |
 | machine-coolant-centrifuge | c198354 | — | 2026-04-22 | PASS |
 | algae-centrifuge | 4d8d40b | — | 2026-04-22 | PASS |
+| alfa-laval-centrifuges | a658882 | — | 2026-04-23 | PASS |
