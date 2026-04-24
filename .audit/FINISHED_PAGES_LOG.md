@@ -8,3 +8,4 @@
 | alfa-laval-centrifuges | a658882 | - | 2026-04-23 | PASS |
 | centrifuge-rcf-rpm-difference-calculation | a6c900b | - | 2026-04-23 | PASS |
 | fuel-oil-centrifuge | 7f6821e | - | 2026-04-24 | PASS |
+| biodiesel-centrifuge | 8898f51 | 2 | 2026-04-24 | PASS |
