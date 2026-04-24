@@ -7,3 +7,4 @@
 | algae-centrifuge | 4d8d40b | — | 2026-04-22 | PASS |
 | alfa-laval-centrifuges | a658882 | - | 2026-04-23 | PASS |
 | centrifuge-rcf-rpm-difference-calculation | a6c900b | - | 2026-04-23 | PASS |
+| fuel-oil-centrifuge | 7f6821e | - | 2026-04-24 | PASS |
