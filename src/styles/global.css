@@ -70,9 +70,30 @@ a[href^="tel"].text-white {
   color: #ffffff !important;
 }
 
-/* mailto: links — force navy so they don't inherit gold from sibling tel: links */
-a[href^="mailto"] {
-  color: var(--color-navy) !important;
+/*
+  Semantic contact link utilities
+  Use these classes on tel/mailto links instead of any global protocol selector.
+
+  contact-link-dark   — for dark (navy) backgrounds: header, footer, sidebar card
+                        renders gray-300, turns gold on hover
+  contact-link-accent — for light backgrounds: inline phone/email pairs in callout
+                        boxes on white/near-white. Renders navy, turns gold-dark on hover.
+*/
+.contact-link-dark {
+  color: #d1d5db;        /* gray-300 */
+  transition: color 0.15s;
+}
+.contact-link-dark:hover {
+  color: var(--color-gold);
+}
+
+.contact-link-accent {
+  color: var(--color-navy);
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.contact-link-accent:hover {
+  color: var(--color-gold-dark);
 }
 
 /* ── Utility Classes ───────────────────────────────────────── */
