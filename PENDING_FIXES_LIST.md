@@ -11,7 +11,8 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 | Page | Section | Asset/Issue | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | `alfa-laval-centrifugal-separator` | Disc Stack Separators | `alfa-laval-disc-centrifuge-bowl-cross-section-600-1.webp` | ✅ DONE | Re-processed from 1000px backup source via NB. All labels verified correct. Final file in `_Image_NB_Fixed/alfa-laval-centrifugal-separator/`. Astro agent to embed. |
-| `alfa-laval-centrifuge-selection-guide` | Hero | `Alfa-Laval-Centrifuge-Selection-Guide-600.webp` | OPEN | Current hero is 600x300 px - below the 1440x500 minimum spec. Needs a replacement 1440px+ wide hero image. |
+| `alfa-laval-centrifuge-selection-guide` | Hero | `Alfa-Laval-Centrifuge-Selection-Guide_Hero_1400.webp` | ✅ DONE | Upgraded from 600x300 to 1400x550. Deployed from `_Image_NB_Fixed/`. |
+| `disc-stack-centrifuge-liquid-seal-break` | Hero | `disc_stack_centrifuge_liquid_seal_break_hero_1400.webp` | ✅ DONE | Upgraded from 600x299 to 1400px. Deployed from `_New_Hero_Image/`. Old hero in `Fix_Hero_/`. |
 
 ---
 

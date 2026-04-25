@@ -1,379 +1,246 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+// Legacy rank_math_description exists for this page (LW.xml line 141940).
+
 const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Disc Centrifuge Liquid Seal Break or Breakover | Causes, Detection, Fixes",
-    "description": "What causes liquid seal break or breakover in disc stack centrifuges, how to detect it mechanically and electronically, and corrective measures for each cause. Technical guide by Dolphin Centrifuge.",
+    "description": "Disc centrifuge liquid seal break is caused by operator error or incorrect centrifuge assembly or both. This article explains the causes and fixes.",
     "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2021-02-01",
+    "datePublished": "2021-02-13",
     "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-liquid-seal-break/"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is liquid seal break in a disc stack centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Liquid seal break (also called breakover or loss of liquid seal) is when the rotating liquid ring that seals the centrifuge bowl collapses, allowing air to enter the bowl. This causes the separated light phase (oil or clean liquid) to be lost from the centrate outlet, process liquid to flood out of the machine, and immediate separation failure. The liquid seal is maintained by the balance between feed flow rate, gravity disc size, and back-pressure — any disruption can trigger a break." }
-      },
-      {
-        "@type": "Question",
-        "name": "What causes liquid seal break in a centrifuge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Common causes of liquid seal break include: (1) incorrect gravity disc size — too large a disc diameter reduces the seal, (2) low feed flow rate — insufficient liquid to maintain the seal ring, (3) high centrate back-pressure — excessive downstream resistance, (4) feed interruption or pump cavitation, (5) incorrect operating water volume during startup. Density changes in the process fluid (due to temperature swings or batch variation) can also destabilize the seal." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I detect liquid seal break?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Mechanical signs of liquid seal break include: liquid flooding from the centrate outlet and bowl hood, a sudden drop in centrate flow, and process fluid mixing between phases. Electronic detection methods include centrate conductivity probes (detects heavy phase in light phase outlet), flow meters on each outlet, and pressure sensors monitoring centrate back-pressure. Some installations use a turbidity probe to detect liquid loss in the centrate." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I fix a liquid seal break?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To recover from a liquid seal break: (1) immediately stop feed flow, (2) maintain operating water supply to re-establish the liquid ring, (3) check that the gravity disc size is correct for the current fluid density, (4) reduce centrate back-pressure by checking downstream valves and piping for restrictions, (5) confirm feed flow rate is within the rated range. If the break recurs consistently, re-evaluate the gravity disc selection using the density difference calculation for your specific light and heavy phases." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I select the correct gravity disc to prevent liquid seal break?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Gravity disc selection is based on the density of the light phase (oil) and heavy phase (water) being separated. The OEM provides a nomogram or formula using the density difference to calculate the correct disc inner diameter. A larger disc diameter raises the liquid interface (reducing seal margin), while a smaller diameter lowers it (increasing seal margin but risking heavy-phase carryover into the oil). When in doubt, select a smaller disc diameter for a more stable seal, then widen to optimize separation quality." }
-      }
-    ]
   }
+];
+
+const toc = [
+  { id: "what-is-liquid-seal-break", label: "What is Liquid Seal Break or Breakover?" },
+  { id: "is-liquid-seal-break-same", label: "Is Liquid Seal Break the Same as Breakover?" },
+  { id: "main-causes", label: "Main Causes of Liquid Seal Break" },
+  { id: "incorrect-gravity-disc", label: "Incorrect Gravity Disc (Hole Too Big)" },
+  { id: "process-fluid-temperature", label: "Process Fluid Temperature" },
+  { id: "high-fluid-flow-rate", label: "High Fluid Flow-Rate" },
+  { id: "light-phase-outlet-valve-closed", label: "Light Phase Outlet Valve Closed" },
+  { id: "priming-liquid-volume", label: "Priming Liquid Volume" },
+  { id: "gasket-defective", label: "Gasket at Gravity Disc or Small Lock Ring Defective" },
+  { id: "nylon-seal-ring", label: "Nylon Seal Ring is Worn, or Sliding Piston Lip Is Damaged" },
+  { id: "disc-stack-clogged", label: "Disc Stack is Clogged with Sludge" },
+  { id: "low-bowl-speed", label: "Low Bowl Speed" },
+  { id: "bowl-not-assembled", label: "Bowl Not Assembled Properly" },
+  { id: "detecting-liquid-seal-break", label: "Detecting Liquid Seal Break" },
+  { id: "mechanical-detection", label: "Mechanical Detection" },
+  { id: "electronic-detection", label: "Electronic Detection" },
+  { id: "summary", label: "Summary" },
+];
+
+const relatedApplications = [
+  { label: "Disc Centrifuge Backpressure Guide", href: "/disc-centrifuge-backpressure/" },
+  { label: "Disc Stack Centrifuge Mechanical Issues & Fixes", href: "/disc-stack-centrifuge-mechanical-issues-fixes/" },
+  { label: "Centrifuge RCF and RPM Calculation", href: "/centrifuge-rcf-rpm-difference-calculation/" },
+  { label: "Disadvantages of a Disc-Stack Centrifuge", href: "/disadvantages-disc-stack-centrifuge/" },
+];
+
+const relatedProducts = [
+  { label: "Disc Stack Centrifuge Overview", href: "/disc-stack-centrifuge/", description: "Types, specs, and applications" },
+  { label: "Disc Centrifuge Parts Glossary", href: "/disc-centrifuge-parts-glossary/", description: "Complete parts reference" },
 ];
 ---
 
 <ApplicationLayout
-  title="Disc Centrifuge Liquid Seal Break | Dolphin Centrifuge"
-  description="What causes liquid seal break in disc centrifuges and how to fix it: gravity disc size, temperature, flow rate, priming, worn seals, and bowl speed explained."
-  heroImage="/images/disc-stack-centrifuge-liquid-seal-break/disc-bowl-cross-section-seal-break-600.webp"
-  heroImageAlt="Disc centrifuge bowl cross section showing liquid seal break pathway"
-  category="knowledge"
+  title="Disc Centrifuge Liquid Seal Break or Breakover | Causes, Detection, Fixes"
+  description="Disc centrifuge liquid seal break is caused by operator error or incorrect centrifuge assembly or both. This article explains the causes and fixes."
+  heroImage="/images/disc-stack-centrifuge-liquid-seal-break/disc_stack_centrifuge_liquid_seal_break_hero_1400.webp"
+  heroImageAlt="Disc centrifuge bowl cross section showing oil water interface positions and liquid seal break"
   categoryLabel="Knowledge Base"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-liquid-seal-break/"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
   jsonLd={jsonLd}
-  relatedApplications={[
-    { label: "Disc Centrifuge Backpressure Guide", href: "/disc-centrifuge-backpressure/" },
-    { label: "Disc Stack Centrifuge Mechanical Issues & Fixes", href: "/disc-stack-centrifuge-mechanical-issues-fixes/" },
-    { label: "9 Steps to Selecting the Right Industrial Centrifuge", href: "/picking-the-right-industrial-centrifuge/" },
-    { label: "Centrifuge RCF and RPM Calculation", href: "/centrifuge-rcf-rpm-difference-calculation/" },
-    { label: "Disadvantages of a Disc-Stack Centrifuge", href: "/disadvantages-disc-stack-centrifuge/" },
-    { label: "Difference Between Decanter & Disc Centrifuge", href: "/difference-between-decanter-centrifuge-disc-centrifuge/" },
-  ]}
 >
+  <!-- Legacy visible Table of Contents (mandatory per LEGACY TOC RULE) -->
+  <p><strong>Table of Contents</strong></p>
+  <ul>
+    <li><a href="#what-is-liquid-seal-break">What is Liquid Seal Break or Breakover in Disc Centrifuges?</a></li>
+    <li><a href="#is-liquid-seal-break-same">Is Liquid Seal Break the same as Breakover?</a></li>
+    <li><a href="#main-causes">Main Causes of Liquid Seal Break</a>
+      <ul>
+        <li><a href="#incorrect-gravity-disc">Incorrect Gravity Disc (Hole Too Big)</a></li>
+        <li><a href="#process-fluid-temperature">Process Fluid Temperature</a></li>
+        <li><a href="#high-fluid-flow-rate">High Fluid Flow-Rate</a></li>
+        <li><a href="#light-phase-outlet-valve-closed">Light Phase Outlet Valve Closed</a></li>
+        <li><a href="#priming-liquid-volume">Priming Liquid Volume</a></li>
+        <li><a href="#gasket-defective">Gasket at Gravity Disc or Small Lock Ring Defective</a></li>
+        <li><a href="#nylon-seal-ring">Nylon Seal Ring is Worn, or Sliding Piston Lip Is Damaged</a></li>
+        <li><a href="#disc-stack-clogged">Disc Stack is Clogged with Sludge</a></li>
+        <li><a href="#low-bowl-speed">Low Bowl Speed</a></li>
+        <li><a href="#bowl-not-assembled">Bowl Not Assembled Properly</a></li>
+      </ul>
+    </li>
+    <li><a href="#detecting-liquid-seal-break">Detecting Liquid Seal Break</a>
+      <ul>
+        <li><a href="#mechanical-detection">Mechanical Detection</a></li>
+        <li><a href="#electronic-detection">Electronic Detection</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+  <hr />
 
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides expert troubleshooting for disc stack centrifuge liquid seal break — a failure mode where the heavy-phase water seal (maintained at 5,000-10,000 G) collapses, discharging oil through the water outlet. This guide covers 10 root causes, mechanical and electronic detection methods, and corrective measures for each.</p>
-  </div>
+  <!-- What is Liquid Seal Break or Breakover in Disc Centrifuges? -->
+  <h2 id="what-is-liquid-seal-break">What is Liquid Seal Break or Breakover in Disc Centrifuges?</h2>
 
-  <!-- What is Liquid Seal Break -->
-  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">What is Liquid Seal Break or Breakover in Disc Centrifuges?</h2>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <div class="space-y-3 text-text-light">
-      <p>During the normal 3-phase separation process in a disc-stack centrifuge, the heavy phase (typically water) forms a liquid seal around the periphery of the bowl.</p>
-      <p>Under certain conditions, the light phase pushes out the heavy phase and escapes through the heavy phase outlet. This operating condition is known as <strong>Liquid Seal Break</strong> or <strong>Break-Over</strong>.</p>
-      <p>This article discusses the common causes of liquid seal breaking and the respective corrective measure for each of these causes.</p>
-    </div>
-  </div>
+  <p>During the normal 3-phase separation process in a disc-stack centrifuge, the heavy phase (typically water) forms a liquid seal around the periphery of the bowl.</p>
+  <p>Under certain conditions, the light phase pushes out the heavy phase and escapes through the heavy phase outlet. This operating condition is known as Liquid Seal Break or Break-Over.</p>
+  <p>This article will discuss the common causes of liquid seal breaking and the respective corrective measure for each of these causes.</p>
 
-  <!-- Is it the same as Breakover? -->
-  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Is Liquid Seal Break the Same as Breakover?</h2>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <p class="text-text-light">A liquid seal break and breakover are the same condition in disc-stack centrifuge operation. These terms refer to the condition during which the light phase of the separating liquid 'breakover' or 'breaks the heavy phase liquid seal' and comes out through the heavy phase outlet.</p>
-  </div>
+  <!-- Is Liquid Seal Break the same as Breakover? -->
+  <h2 id="is-liquid-seal-break-same">Is Liquid Seal Break the same as Breakover?</h2>
 
-  <!-- Main Causes -->
-  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Main Causes of Liquid Seal Break</h2>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <p class="text-text-light">The following is a list of causes of a 'liquid seal break' or breakover condition during the operation of disc-stack centrifuges. Corrective measures to fix the breakover for each cause are also included.</p>
-  </div>
+  <p>A liquid seal break and breakover are the same condition in disc-stack centrifuge operation. These terms refer to the condition during which the light phase of the separating liquid 'breakover' or 'breaks the heavy phase liquid seal' and comes out through the heavy phase outlet.</p>
+
+  <!-- Main Causes of Liquid Seal Break -->
+  <h2 id="main-causes">Main Causes of Liquid Seal Break</h2>
+
+  <p>The following is a list of causes causing a 'liquid seal break' or breakover condition during the operation of disc-stack centrifuges. Corrective measures to fix the breakover for each of the causes are also mentioned in this article.</p>
 
   <!-- Cause 1: Incorrect Gravity Disc -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
-      <h3 class="text-xl font-bold text-navy">Incorrect Gravity Disc (Hole Too Big)</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The gravity disc in the centrifuge bowl regulates the oil-water interface within the centrifuge. For best separation results, the oil-water interface should be closest to the bowl periphery without breaking the water seal.</p>
-      <p>This interface positioning allows maximum g-force exerted by the rotation to act on the separation interface (shown below).</p>
+  <h3 id="incorrect-gravity-disc">Incorrect Gravity Disc (Hole Too Big)</h3>
 
-      <img
-        src="/images/disc-stack-centrifuge-liquid-seal-break/disc-centrifuge-oil-water-interface-400.webp"
-        alt="Disc Centrifuge Oil Water Interface Effects showing interface positioning inside bowl"
-        width="400" height="133"
-        loading="lazy"
-        class="rounded-lg w-full my-4"
-      />
-      <p class="text-sm text-center text-gray-500 -mt-2 mb-4 italic">Disc Centrifuge Oil Water Interface Effects</p>
+  <p>The gravity disc in the centrifuge bowl regulates the oil-water interface within the centrifuge. For best separation results, the oil-water interface should be closest to the bowl periphery without breaking the water seal.</p>
+  <p>This interface positioning allows maximum g-force exerted by the rotation to act on the separation interface (shown below).</p>
 
-      <p>A gravity disc with a larger hole diameter than the correct size (as determined by the nomogram) pushes the oil-water interface radially outwards. This incorrect interface positioning causes the light phase (oil) to be outside the top disc.</p>
-      <p>The light phase can now exit the centrifuge bowl through the heavy phase passage and out through the heavy phase outlet. This, by definition, is a broken liquid seal.</p>
-      <p>In this case, the process fluid (oil) comes out of the heavy phase (water) side causing fluid loss, which is highly undesirable.</p>
-      <p><strong>Fix:</strong> The correct gravity disc with a smaller diameter hole (as indicated by the nomogram) will prevent the liquid seal from breaking. Using the gravity disc with a smaller hole diameter will remedy this cause of liquid seal breaking or breakover.</p>
-    </div>
-  </div>
+  <img
+    src="/images/disc-stack-centrifuge-liquid-seal-break/disc_stack_centrifuge_liquid_seal_break_800.webp"
+    alt="Disc Centrifuge Oil Water Interface"
+    width="800" height="267"
+    loading="lazy"
+    class="img-cap-800"
+  />
+  <p class="text-xs text-text-muted mt-2 text-center"><strong>Disc Centrifuge Oil Water Interface Effects</strong></p>
+
+  <p>A gravity disc with a larger hole diameter than the correct size (as determined by the nomogram) pushes the oil-water interface radially outwards. This incorrect interface positioning causes the light phase (oil) to be outside the top disc.</p>
+  <p>The light phase can now exit the centrifuge bowl through the heavy phase passage and out through the heavy phase outlet. This, by definition, is a broken liquid seal.</p>
+  <p>In this case, the process fluid (oil) comes out of the heavy phase (water) side causing fluid loss, which is highly undesirable.</p>
+  <p>The correct gravity disc with a smaller diameter hole (as indicated by the nomogram) will prevent the liquid seal from breaking. Therefore using the gravity disc with a smaller hole diameter will remedy this cause of liquid seal breaking or breakover.</p>
 
   <!-- Cause 2: Process Fluid Temperature -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">2</span>
-      <h3 class="text-xl font-bold text-navy">Process Fluid Temperature</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The nomogram defines the correct gravity disc based on the specific gravity of the process fluid at a specific temperature. If the process fluid is not at the appropriate temperature, the gravity disc installed in the centrifuge bowl may cause the fluid interface to move radially outward beyond the top disc.</p>
-      <p>Under this condition, the light phase will exit the bowl through the heavy phase outlet (as explained above), causing a liquid seal break.</p>
-      <p><strong>Fix:</strong> Maintaining the process fluid at the correct operating temperature throughout the process will prevent the liquid seal from breaking.</p>
-    </div>
-  </div>
+  <h3 id="process-fluid-temperature">Process Fluid Temperature</h3>
+
+  <p>The nomogram defines the correct gravity disc based on the specific gravity of the process fluid at a specific temperature. If the process fluid is not at the appropriate temperature, the gravity disc installed in the centrifuge bowl may cause the fluid interface to move radially outward beyond the top disc.</p>
+  <p>Under this condition, the light phase will exit the bowl through the heavy phase outlet (as explained above), causing a liquid seal break.</p>
+  <p>Maintaining the process fluid at the correct operating temperature throughout the process will prevent the liquid seal from breaking.</p>
 
   <!-- Cause 3: High Fluid Flow-Rate -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">3</span>
-      <h3 class="text-xl font-bold text-navy">High Fluid Flow-Rate</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The centrifuge bowl size limits the amount of fluid of a given viscosity to pass through the disc stack. If the process fluid flow rate exceeds the bowl's capacity, the process fluid will push the liquid seal out of the bowl. Subsequently, the light phase will escape the bowl through the heavy phase outlet causing a liquid seal to break.</p>
-      <p><strong>Fix:</strong> Reducing the process fluid flow rate will allow the light phase through the disc stack and ensure proper separation.</p>
-    </div>
-  </div>
+  <h3 id="high-fluid-flow-rate">High Fluid Flow-Rate</h3>
+
+  <p>The centrifuge bowl size limits the amount of fluid of a given viscosity to pass through the disc stack. If the process fluid flow rate exceeds the bowl's capacity, the process fluid will push the liquid seal out of the bowl. Subsequently, the light phase will escape the bowl through the heavy phase outlet causing a liquid seal to break.</p>
+  <p>Reducing the process fluid flow rate will allow the light phase through the disc stack and ensure proper separation.</p>
 
   <!-- Cause 4: Light Phase Outlet Valve Closed -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">4</span>
-      <h3 class="text-xl font-bold text-navy">Light Phase Outlet Valve Closed</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>In most centrifuge systems, a regulating valve is provided on the light phase outlet pipe to apply back pressure for optimum separation. If the light phase outlet valve is accidentally closed, the light phase fluid cannot exit the bowl through its designed outlet.</p>
-      <p>The light phase fluid will then push out the heavy phase liquid seal and exit the bowl through the heavy phase outlet. This causes a breakover.</p>
-      <p><strong>Fix:</strong> The light phase outlet valve should be checked and opened if it is closed. A pressure sensor on the light phase outlet can be installed to detect excessive pressure on the light phase outlet to activate an alarm and prevent this from causing a breakover.</p>
-    </div>
-  </div>
+  <h3 id="light-phase-outlet-valve-closed">Light Phase Outlet Valve Closed</h3>
+
+  <p>In most centrifuge systems, a regulating valve is provided on the light phase outlet pipe to apply back pressure for optimum separation. If the light phase outlet valve is accidentally closed, the light phase fluid cannot exit the bowl through its designed outlet.</p>
+  <p>The light phase fluid will then push out the heavy phase liquid seal and exit the bowl through the heavy phase outlet. This causes a breakover.</p>
+  <p>The light phase outlet valve should be checked and opened if it is closed. A pressure sensor on the light phase outlet can be installed to detect excessive pressure on the light phase outlet to activate an alarm and prevent this from causing a breakover.</p>
 
   <!-- Cause 5: Priming Liquid Volume -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">5</span>
-      <h3 class="text-xl font-bold text-navy">Priming Liquid Volume</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The first step during the startup of a disc-stack centrifuge is the bowl's priming with the heavy phase liquid, which is often water. The centrifuge bowl should be fed with priming liquid till the heavy phase liquid comes out through the heavy phase outlet.</p>
-      <p>This heavy fluid exiting the centrifuge bowl indicates that the bowl's heavy phase space is filled with the priming liquid.</p>
-      <p>In an automated centrifuge system, the priming liquid is supplied to the bowl through a solenoid valve operated by a timer. If the water pressure or flow changes, the allocated time may not be sufficient to fill the bowl with an adequate amount of heavy-phase liquid.</p>
-      <p>In such cases, the light phase liquid will displace the heavy phase liquid and break the liquid seal.</p>
-      <p><strong>Fix:</strong> Ensure the priming timer is set appropriately for the actual water pressure and flow. Verify that the bowl's heavy phase space is fully primed before introducing the process fluid.</p>
-    </div>
-  </div>
+  <h3 id="priming-liquid-volume">Priming Liquid Volume</h3>
 
-  <!-- Cause 6: Gasket Defective -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">6</span>
-      <h3 class="text-xl font-bold text-navy">Gasket at Gravity Disc or Small Lock Ring Defective</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
+  <p>The first step during the startup of a disc-stack centrifuge is the bowl's priming with the heavy phase liquid, which is often water. The centrifuge bowl should be fed with priming liquid till the heavy phase liquid comes out through the heavy phase outlet.</p>
+  <p>This heavy fluid exiting the centrifuge bowl indicates that the bowl's heavy phase space is filled with the priming liquid.</p>
+  <p>In an automated centrifuge system, the priming liquid is supplied to the bowl through a solenoid valve operated by a timer. If the water pressure or flow changes, the allocated time may not be sufficient to fill the bowl with an adequate amount of heavy-phase liquid.</p>
+  <p>In such cases, the light phase liquid will displace the heavy phase liquid and break the liquid seal.</p>
 
-      <img
-        src="/images/disc-stack-centrifuge-liquid-seal-break/disc-bowl-cross-section-seal-break-400.webp"
-        alt="Disc Centrifuge Breakover caused by leaking gasket at gravity disc"
-        width="400" height="199"
-        loading="lazy"
-        class="rounded-lg w-full my-4"
-      />
-      <p class="text-sm text-center text-gray-500 -mt-2 mb-4 italic">Disc Centrifuge Breakover — Leaking Gasket</p>
+  <!-- Cause 6: Gasket at Gravity Disc or Small Lock Ring Defective -->
+  <h3 id="gasket-defective">Gasket at Gravity Disc or Small Lock Ring Defective</h3>
 
-      <p>The heavy phase's flow path goes from the outer bowl periphery, above the top disc, then under the gravity disc, then into the heavy phase chamber, and finally out of the bowl. A couple of sealing parts (gasket and O-Ring) prevent the heavy phase from leaking out of the bowl.</p>
-      <p>An O-ring situated under the gravity disc seals the interface between the gravity disc and the bowl hood. If this o-ring is damaged, the heavy phase will escape through this interface due to the extremely high pressure generated by centrifugal force.</p>
-      <p>This unintentional reduction in the heavy phase will cause the liquid seal to break.</p>
-      <p>Similarly, a flat gasket above the gravity disc seals the interface between the gravity disc and the small lock ring. If this gasket is damaged or torn, it will allow the liquid seal to escape causing a liquid seal to break.</p>
-      <p><strong>Fix:</strong> These seals should be routinely checked and replaced (if damaged) to prevent breakover during operation.</p>
-    </div>
-  </div>
+  <img
+    src="/images/disc-stack-centrifuge-liquid-seal-break/disc-bowl-cross-section-seal-break-600.webp"
+    alt="Disc Centrifuge Breakover - Leaking Gasket"
+    width="600" height="299"
+    loading="lazy"
+    class="img-cap-600"
+  />
+  <p class="text-xs text-text-muted mt-2 text-center"><strong>Disc Centrifuge Breakover - Leaking Gasket</strong></p>
 
-  <!-- Mid-article cross-references (from legacy) -->
-  <div class="bg-navy/5 border-l-4 border-navy/30 rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm font-semibold text-navy mb-2">Other disc centrifuge articles of interest:</p>
-    <ul class="text-sm text-text-light space-y-1 list-disc list-inside">
-      <li><a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold transition-colors">Disc Centrifuge Backpressure — Comprehensive Guide</a></li>
-      <li><a href="/picking-the-right-industrial-centrifuge/" class="text-navy hover:text-gold transition-colors">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
-      <li><a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy hover:text-gold transition-colors">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
-      <li><a href="/disadvantages-disc-stack-centrifuge/" class="text-navy hover:text-gold transition-colors">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
-      <li><a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy hover:text-gold transition-colors">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
-    </ul>
-  </div>
+  <p>The heavy phase's flow path goes from the outer bowl periphery, above the top disc, then under the gravity disc, then into the heavy phase chamber, and finally out of the bowl. A couple of sealing parts (gasket and O-Ring) prevent the heavy phase from leaking out of the bowl.</p>
+  <p>An O-ring situated under the gravity disc seals the interface between the gravity disc and the bowl hood. If this o-ring is damaged, the heavy phase will escape through this interface due to the high centrifugal force's extremely high pressure.</p>
+  <p>This unintentional reduction in the heavy phase will cause the liquid seal to break.</p>
+  <p>Similarly, a flat gasket above the gravity disc seals the interface between the gravity disc and the small lock ring. If this gasket is damaged or torn, it will allow the liquid seal to escape causing a liquid seal to break.</p>
+  <p>These seals should be routinely checked and replaced (if damaged) to prevent breakover during operation.</p>
 
-  <!-- Cause 7: Nylon Seal Ring -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">7</span>
-      <h3 class="text-xl font-bold text-navy">Nylon Seal Ring is Worn, or Sliding Piston Lip Is Damaged</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The nylon seal ring embedded in the bowl hood presses against the lip of the sliding piston to form the main bowl seal that prevents the process fluid from escaping the bowl during separation. The priming liquid (heavy phase) is adjacent to this seal between the nylon seal ring and the sliding piston.</p>
-      <p>If the nylon seal ring is worn out, it will allow the heavy phase (prime liquid) to escape the bowl. Similarly, if the mating lip seal on the sliding piston is damaged, gouged, or worn, it will have a similar effect. In either case, the unintentional exit of the prime liquid will cause the liquid seal to break.</p>
-      <p><strong>Fix:</strong> The nylon seal ring is a sacrificial part and should be replaced periodically before it wears and causes breakovers and other operating problems. The sliding piston sealing lip should also be checked regularly to avoid such issues.</p>
-      <p>Please read our article about <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="text-navy font-semibold hover:text-gold transition-colors">top mechanical issues and fixes related to disc centrifuges</a>.</p>
-    </div>
-  </div>
+  <!-- Mid-article cross-references (legacy reusable block ref:10661) -->
+  <hr />
+  <blockquote>
+    <p><strong><em>Other disc-centrifuge articles of interest......</em></strong></p>
+    <p><a href="/disc-centrifuge-backpressure/">Disc Centrifuge Backpressure - Comprehensive Guide</a></p>
+    <p><a href="/picking-the-right-industrial-centrifuge/">9 Steps to Selecting & Buying the Right Industrial Centrifuge</a></p>
+    <p><a href="/centrifuge-rcf-rpm-difference-calculation/">Centrifuge RCF and RPM | Difference & RCF Calculation</a></p>
+    <p><a href="/disadvantages-disc-stack-centrifuge/">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></p>
+    <p><a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Difference Between Decanter & Disc Centrifuge | Technical Comparison</a></p>
+  </blockquote>
+  <hr />
 
-  <!-- Cause 8: Disc Stack Clogged -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">8</span>
-      <h3 class="text-xl font-bold text-navy">Disc Stack is Clogged with Sludge</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>In rare cases, if the process sludge builds up and enters the gap between the discs, it will block the light phase's passage towards the center of the bowl. This disc blockage will cause the light phase to displace the heavy phase and, as a result, cause a breakover.</p>
-      <p><strong>Fix:</strong> Under clogged disc stack conditions, the centrifuge should be stopped immediately and the disc stack thoroughly cleaned to remedy this cause of liquid seal break (breakover).</p>
-    </div>
-  </div>
+  <!-- Cause 7: Nylon Seal Ring is Worn, or Sliding Piston Lip Is Damaged -->
+  <h3 id="nylon-seal-ring">Nylon Seal Ring is Worn, or Sliding Piston Lip Is Damaged</h3>
+
+  <p>The nylon seal ring embedded in the bowl hood presses against the lip of the sliding piston to form the main bowl seal that prevents the process fluid from escaping the bowl during separation. The priming liquid (heavy phase) is adjacent to this seal between the nylon seal ring and the sliding piston.</p>
+  <p>If the nylon seal ring is worn out, it will allow the heavy phase (prime liquid) to escape the bowl. Similarly, if the mating lip seal on the sliding piston is damaged, gouged, or worn, it will have a similar effect. In either case, the unintentional exit of the prime liquid will cause the liquid seal to break.</p>
+  <p>The nylon seal ring is a sacrificial part and should be replaced periodically before it wears and causes breakovers and other operating problems. The sliding piston sealing lip should also be checked regularly to avoid such issues.</p>
+  <p>Please read our article about <a href="/disc-stack-centrifuge-mechanical-issues-fixes/">top mechanical and fixes issues related to disc centrifuges.</a></p>
+
+  <!-- Cause 8: Disc Stack is Clogged with Sludge -->
+  <h3 id="disc-stack-clogged">Disc Stack is Clogged with Sludge</h3>
+
+  <p>In rare cases, if the process sludge builds up and enters the gap between the discs, it will block the light phase's passage towards the center of the bowl. This disc blockage will cause the light phase to displace the heavy phase and, as a result, cause a breakover.</p>
+  <p>Under clogged disc stack conditions, the centrifuge should be stopped immediately and the disc stack thoroughly cleaned to remedy this cause of liquid seal break (breakover).</p>
 
   <!-- Cause 9: Low Bowl Speed -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">9</span>
-      <h3 class="text-xl font-bold text-navy">Low Bowl Speed</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The centrifuge bowl speed generates the centrifugal force, which helps close the bowl through the operating water pressure under the sliding piston.</p>
-      <p>If the centrifuge bowl speed is low due to a mechanical or electrical fault, the operating water pressure is insufficient to close the bowl properly. An improperly closed bowl allows the priming water to exit the bowl, which causes the liquid seal to break or breakover.</p>
-      <p>The revolution counter on the centrifuge frame indicates the bowl speed to the operator. This speed should be periodically monitored to identify lower bowl speed.</p>
-      <p><strong>Fix:</strong> Ensuring the centrifuge bowl is rotating at the designed speed will prevent low bowl speed from causing the liquid seal to break or breakover.</p>
-    </div>
-  </div>
+  <h3 id="low-bowl-speed"><a href="/disc-stack-centrifuge-mechanical-issues-fixes/#low-bowl-speed">Low Bowl Speed</a></h3>
+
+  <p>The centrifuge bowl speed generates the centrifugal force, which helps close the bowl through the operating water pressure under the sliding piston.</p>
+  <p>If the centrifuge bowl speed is low due to a mechanical or electrical fault, the operating water pressure is insufficient to close the bowl properly. An improperly closed bowl allows the priming water to exit the bowl, which causes the liquid seal to break or breakover.</p>
+  <p>The revolution counter on the centrifuge frame indicates the bowl speed to the operator. This speed should be periodically monitored to identify lower bowl speed.</p>
+  <p>Ensuring the centrifuge bowl is rotating at the designed speed will prevent low bowl speed from causing the liquid seal to break or breakover.</p>
 
   <!-- Cause 10: Bowl Not Assembled Properly -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">10</span>
-      <h3 class="text-xl font-bold text-navy">Bowl Not Assembled Properly</h3>
-    </div>
-    <div class="space-y-3 text-text-light">
-      <p>The disc centrifuge bowl is designed and manufactured very precisely. It is quite easy for an untrained operator to assemble the bowl incorrectly, which can cause some seals not to compress and seal adequately. For example, if the small lock ring is not tightened properly, the priming liquid (heavy phase) will escape the bowl through this inadequate seal causing the liquid seal to break.</p>
-      <p>If the bowl hood is not positioned correctly on the sliding piston, the resulting uneven seal between the nylon seal ring and sliding piston will cause the heavy phase to escape, causing the liquid seal to break.</p>
-      <p><strong>Fix:</strong> Proper bowl assembly is critical to prevent breakover from occurring and for the safe and reliable operation of the disc-stack centrifuge.</p>
-    </div>
-  </div>
+  <h3 id="bowl-not-assembled">Bowl Not Assembled Properly</h3>
+
+  <p>The disc centrifuge bowl is designed and manufactured very precisely. It is quite easy for an untrained operator to assemble the bowl incorrectly, which can cause some seals not to compress and seal adequately. For example, if the small lock ring is not tightened properly, the priming liquid (heavy phase) will escape the bowl through this inadequate seal causing the liquid seal to break.</p>
+  <p>If the bowl hood is not positioned correctly on the sliding piston, the resulting uneven seal between the nylon seal ring and sliding piston will cause the heavy phase to escape, causing the liquid seal to break.</p>
+  <p>Proper bowl assembly is critical to prevent breakover from occurring and for the safe and reliable operation of the disc-stack centrifuge.</p>
 
   <!-- Detecting Liquid Seal Break -->
-  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Detecting Liquid Seal Break</h2>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <div class="space-y-3 text-text-light">
-      <p>A liquid seal break is detected by monitoring the fluid flowing out of the centrifuge. When the liquid seal breaks, it interrupts the fluid flow in the light phase outlet.</p>
-      <p>It also causes a sudden excess fluid flow through the heavy phase outlet. Mechanical or electronic devices can detect either of these indicators.</p>
+  <h2 id="detecting-liquid-seal-break">Detecting Liquid Seal Break</h2>
 
-      <h3 class="text-lg font-bold text-navy mt-6 mb-3">Mechanical Detection</h3>
-      <p>The routing of the heavy phase outlet of the centrifuge is through a collection tank. This tank has a bottom drain with an adjustable valve. The valve allows the typical volume of heavy phase to drain through it.</p>
-      <p>But, in case of a liquid seal break, the excessive light phase volume accumulates in this tank. This accumulation of the light phase causes the tank level to rise and activates a level switch mounted in the tank.</p>
-      <p>The change of state of the level switch triggers an alarm in the centrifuge control system, which activates corrective action.</p>
+  <p>A liquid seal break is detected by monitoring the fluid flowing out of the centrifuge. When the liquid seal breaks, it interrupts the fluid flow in the light phase outlet.</p>
+  <p>It also causes a sudden excess fluid flow through the heavy phase outlet. Mechanical or electronic devices can detect either of these indicators.</p>
 
-      <h3 class="text-lg font-bold text-navy mt-6 mb-3">Electronic Detection</h3>
-      <p>As mentioned above, the liquid seal break stops the flow in the centrifuge's light phase outlet. During normal operation, a <a href="/disc-centrifuge-backpressure/" class="text-navy font-semibold hover:text-gold transition-colors">back-pressure</a> valve maintains pressure in this line.</p>
-      <p>When a liquid seal break occurs, this pressure in the outlet line drops. A pressure sensor installed on this line senses the loss of pressure and thus detects the liquid seal break.</p>
-      <p>Based on this trigger, the centrifuge control system stops the flow and activates an alarm.</p>
-    </div>
-  </div>
+  <!-- Mechanical Detection -->
+  <h3 id="mechanical-detection">Mechanical Detection</h3>
+
+  <p>A liquid seal break is detected by monitoring the fluid flowing out of the centrifuge. When the liquid seal breaks, it interrupts the fluid flow in the light phase outlet.</p>
+  <p>It also causes a sudden excess fluid flow through the heavy phase outlet. Mechanical or electrical devices can detect either of these indicators.</p>
+  <p>The routing of the heavy phase outlet of the centrifuge is through a collection tank. This tank has a bottom drain with an adjustable valve. The valve allows the typical volume of heavy phase to drain through it.</p>
+  <p>But, in case of a liquid seal break, the excessive light phase volume accumulates in this tank. This accumulation of the light phase causes the tank level to rise and activates a level switch mounted in the tank.</p>
+  <p>The change of state of the level switch triggers an alarm in the centrifuge control system, which activates corrective action.</p>
+
+  <!-- Electronic Detection -->
+  <h3 id="electronic-detection">Electronic Detection</h3>
+
+  <p>As mentioned above, the liquid seal break stops the flow in the centrifuge's light phase outlet. During normal operation, a <a href="/disc-centrifuge-backpressure/">back-pressure</a> valve maintains pressure in this line.</p>
+  <p>When a liquid seal break occurs, this pressure in the outlet line drop. A pressure sensor installed on this line senses the loss of pressure and thus detects liquid seal break.</p>
+  <p>Based on this trigger, the centrifuge control system stops the flow and activates an alarm.</p>
 
   <!-- Summary -->
-  <h2 class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Summary</h2>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <div class="space-y-3 text-text-light">
-      <p>The liquid seal breaking is a common problem most disc centrifuge operators are familiar with. The primary causes and remedies mentioned above should help correct the vast majority of liquid seal breaks occurring in disc centrifuges.</p>
-      <p>As seen above, most of these causes can be eliminated by periodic centrifuge maintenance and replacement of critical gaskets on the first sign of wear or damage.</p>
-      <p class="text-sm italic">by <strong>Sanjay Prabhu MSME</strong>, Engineering Manager, Dolphin Centrifuge</p>
-    </div>
-  </div>
+  <h2 id="summary">Summary</h2>
 
-  <!-- CTA -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <h2 class="text-xl font-bold text-navy mb-3">Liquid Seal or Separation Problems?</h2>
-    <p class="text-text-light mb-4">Recurring liquid seal break problems despite correct settings and flow rates indicate a machine configuration issue that requires professional diagnosis. Dolphin Centrifuge provides technical support, gravity disc selection, and <a href="/industrial-disc-centrifuge-repair/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge repair and audit services</a> to resolve persistent separation and liquid seal issues.</p>
-    <p class="text-text-light mb-4">Contact us at <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold transition-colors">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class="text-navy font-semibold hover:text-gold transition-colors">sales@dolphincentrifuge.com</a>.</p>
-    <div class="flex flex-wrap gap-3 mt-4">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold-light text-navy font-bold px-6 py-3 rounded-lg transition-colors">Contact for Support</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border border-navy text-navy font-semibold px-6 py-3 rounded-lg hover:bg-navy hover:text-white transition-colors">Sample Testing</a>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <h2 id="faq" class="text-2xl font-bold text-navy mb-4">Frequently Asked Questions</h2>
-  <div class="space-y-3 not-prose mb-8">
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        What is liquid seal break in a disc stack centrifuge?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Liquid seal break occurs when the rotating liquid ring that seals the centrifuge bowl collapses, allowing air to enter. This causes the separated light phase to be lost from the centrate outlet, process liquid to flood out of the machine, and immediate separation failure. The seal is maintained by the balance between feed flow rate, gravity disc size, and back-pressure.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        What causes liquid seal break in a centrifuge?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Common causes: incorrect gravity disc size (too large reduces the seal), low feed flow rate (insufficient liquid to maintain the ring), high centrate back-pressure, feed interruption or pump cavitation, or incorrect operating water volume during startup. Density changes in the process fluid due to temperature swings can also destabilize the seal.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        How do I detect liquid seal break?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Mechanical signs include: liquid flooding from the centrate outlet and bowl hood, a sudden drop in centrate flow, and phase mixing. Electronic detection uses centrate conductivity probes, flow meters on each outlet, and centrate back-pressure sensors. Turbidity probes can also detect liquid loss in the centrate stream.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        How do I fix a liquid seal break?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">To recover: (1) immediately stop feed flow, (2) maintain operating water supply to re-establish the liquid ring, (3) check that the gravity disc size is correct for current fluid density, (4) reduce centrate back-pressure by checking downstream valves and piping, (5) confirm feed flow rate is within rated range. If the break recurs consistently, re-evaluate gravity disc selection using the density difference calculation for your specific fluid phases.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        How do I select the correct gravity disc to prevent liquid seal break?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Gravity disc selection is based on the density of the light phase (oil) and heavy phase (water) being separated. The OEM provides a nomogram or formula using the density difference to calculate the correct disc inner diameter. A larger disc diameter raises the liquid interface (reducing seal margin), while a smaller diameter lowers it (increasing seal margin but risking heavy-phase carryover into the oil). When in doubt, select a smaller disc diameter for a more stable seal, then widen to optimize separation quality.</p>
-    </details>
-  </div>
-
-  <!-- Bottom CTA bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 mt-8 mb-6 text-white text-center not-prose">
-    <h2 class="text-xl font-bold mb-2">Recurring liquid seal breaks or separation problems?</h2>
-    <p class="text-white/80 mb-4">Dolphin Centrifuge provides gravity disc selection, remote diagnosis, and on-site service for all Alfa Laval disc centrifuge models. Call or send a sample — we'll resolve persistent issues fast.</p>
-    <div class="flex flex-wrap gap-3 justify-center">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-gold/90 transition-colors">Get Expert Help</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">Send Us a Sample</a>
-    </div>
-    <p class="text-white/60 text-sm mt-4">(248) 522-2573 &bull; sales@dolphincentrifuge.com &bull; Warren, MI 48089</p>
-  </div>
-
-  <!-- Related Articles -->
-  <h2 class="text-2xl font-bold font-heading text-navy mb-4">Related Articles</h2>
-  <div class="grid sm:grid-cols-2 gap-4">
-    <a href="/disc-centrifuge-backpressure/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow group">
-      <h3 class="text-navy font-bold group-hover:text-gold transition-colors mb-2">Disc Centrifuge Backpressure — Comprehensive Guide</h3>
-      <p class="text-text-light text-sm">How back pressure affects disc centrifuge operation, correct settings, and troubleshooting pressure issues.</p>
-    </a>
-    <a href="/picking-the-right-industrial-centrifuge/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow group">
-      <h3 class="text-navy font-bold group-hover:text-gold transition-colors mb-2">9 Steps to Selecting the Right Industrial Centrifuge</h3>
-      <p class="text-text-light text-sm">A structured guide for evaluating and purchasing the correct industrial centrifuge for your application.</p>
-    </a>
-    <a href="/centrifuge-rcf-rpm-difference-calculation/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow group">
-      <h3 class="text-navy font-bold group-hover:text-gold transition-colors mb-2">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</h3>
-      <p class="text-text-light text-sm">How to calculate RCF from RPM and why g-force matters more than bowl speed for separation performance.</p>
-    </a>
-    <a href="/disc-stack-centrifuge-mechanical-issues-fixes/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow group">
-      <h3 class="text-navy font-bold group-hover:text-gold transition-colors mb-2">Disc Stack Centrifuge Mechanical Issues &amp; Fixes</h3>
-      <p class="text-text-light text-sm">Common mechanical problems in disc centrifuges including bowl speed, vibration, and seal wear — with solutions.</p>
-    </a>
-    <a href="/disadvantages-disc-stack-centrifuge/" class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow group">
-      <h3 class="text-navy font-bold group-hover:text-gold transition-colors mb-2">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</h3>
-      <p class="text-text-light text-sm">An honest look at the limitations and drawbacks of disc stack centrifuges to help operators make informed decisions.</p>
-    </a>
-  </div>
+  <p>The liquid seal breaking is a common problem most disc centrifuge operators are familiar with. The primary causes and remedies mentioned above should help correct the vast majority of liquid seal breaks occurring in disc centrifuges.</p>
+  <p>As seen above, most of these causes can be eliminated by periodic centrifuge maintenance and replacement of critical gaskets on the first sign of wear or damage.</p>
+  <p class="text-sm text-text-light italic">by Sanjay Prabhu MSME - Engineering Manager, Dolphin Centrifuge</p>
 
 </ApplicationLayout>
