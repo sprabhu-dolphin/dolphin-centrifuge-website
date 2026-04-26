@@ -41,3 +41,4 @@ All pages below have passed the v2.2 refactor audit.
 | about-dolphin-centrifuge | fb260d3 | - | 2026-04-26 | PASS |
 | beer-wine-centrifuge | 0bbaec3 | - | 2026-04-26 | PASS |
 | disc-stack-centrifuge-applications | 7e29d2a | - | 2026-04-26 | PASS |
+| disc-stack-centrifuge-options | 235b63b | - | 2026-04-26 | PASS |
