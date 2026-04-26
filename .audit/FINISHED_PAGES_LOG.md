@@ -43,3 +43,4 @@ All pages below have passed the v2.2 refactor audit.
 | disc-stack-centrifuge-applications | 7e29d2a | - | 2026-04-26 | PASS |
 | disc-stack-centrifuge-options | 235b63b | - | 2026-04-26 | PASS |
 | three-phase-decanter | c072de8 | - | 2026-04-26 | PASS |
+| disc-stack-centrifuge-operating-water | f660640 | hero-undersized | 2026-04-26 | PASS |
