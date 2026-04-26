@@ -13,6 +13,7 @@ interface Props {
   canonicalUrl?: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
   jsonLd?: Record<string, any> | Record<string, any>[];
+  disableTitleSuffix?: boolean;
 }
 
 const {
@@ -22,14 +23,17 @@ const {
   canonicalUrl,
   breadcrumbs = [],
   jsonLd,
+  disableTitleSuffix = false,
 } = Astro.props;
 
 const brandSuffix = ' | Dolphin Centrifuge';
 const fullTitle = title === 'Home'
   ? 'Alfa Laval Centrifuge Systems - from Dolphin Centrifuge'
-  : title.includes('Dolphin Centrifuge')
+  : disableTitleSuffix
     ? title
-    : `${title}${brandSuffix}`;
+    : title.includes('Dolphin Centrifuge')
+      ? title
+      : `${title}${brandSuffix}`;
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;

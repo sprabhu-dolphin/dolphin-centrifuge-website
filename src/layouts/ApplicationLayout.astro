@@ -5,6 +5,7 @@ import Hero from '../components/Hero.astro';
 interface TocItem {
   id: string;
   label: string;
+  subItems?: TocItem[];
 }
 
 interface RelatedLink {
@@ -28,6 +29,7 @@ interface Props {
   canonicalUrl?: string;
   ogImage?: string;
   jsonLd?: Record<string, any> | Record<string, any>[];
+  disableTitleSuffix?: boolean;
 }
 
 const {
@@ -45,6 +47,7 @@ const {
   canonicalUrl,
   ogImage,
   jsonLd,
+  disableTitleSuffix = false,
 } = Astro.props;
 
 const resolvedCategoryHref = categoryHref
@@ -68,6 +71,7 @@ const breadcrumbs = [
   ogImage={ogImage}
   breadcrumbs={breadcrumbs}
   jsonLd={jsonLd}
+  disableTitleSuffix={disableTitleSuffix}
 >
   {/* ── Application Hero — Frosted Glass Backdrop ── */}
   <Hero
@@ -104,6 +108,21 @@ const breadcrumbs = [
                       <span class="text-gold font-mono text-xs mt-0.5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
                       {item.label}
                     </a>
+                    {item.subItems && item.subItems.length > 0 && (
+                      <ol class="ml-6 mt-1 space-y-1">
+                        {item.subItems.map((subItem) => (
+                          <li>
+                            <a
+                              href={`#${subItem.id}`}
+                              class="flex items-start gap-2 text-sm text-text-light hover:text-navy transition-colors py-0.5"
+                            >
+                              <span class="text-gray-400 font-mono text-xs mt-0.5 shrink-0">-</span>
+                              {subItem.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
                   </li>
                 ))}
               </ol>
