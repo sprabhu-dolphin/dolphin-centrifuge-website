@@ -8,7 +8,9 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
 
 #1. DATA FIDELITY:
 
-    Never paraphrase, summarize, or alter legacy text.
+    Default to preserving legacy text exactly. For body copy, follow LEGACY-BODY-FIDELITY.md:
+    light rewording, paragraph splitting, and formatting changes are allowed only when they preserve
+    the same factual content, section coverage, order, and Sanjay's voice.
 
     Never split continuous paragraphs into artificial highlight boxes, callouts, or separate sections. Restore continuous paragraph flow exactly as it appears in the XML.
 
@@ -20,9 +22,29 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
     □ Every table cell — including blank cells, punctuation, symbols (-, not —)
     □ Every image caption — verbatim, no additions like "Click to Enlarge"
     □ Every bullet/list item — word-for-word
-    □ Links — only keep links that exist in legacy. Do NOT add <a href> to plain text.
+    □ Links — preserve legacy links. Added internal links are allowed only when Sanjay/auditor direction permits them for SEO/site cross-linking. Do NOT add external links or unrelated links.
     □ Punctuation — do NOT "improve" dashes (-) to em-dashes (—), F to °F, etc.
     □ No invented content — if a paragraph is not in the XML, it must NOT be in the .astro file
+    Meta description rule: copy legacy verbatim when present. If legacy meta_description is empty, Sanjay approves a short factual generated meta description by default. Do NOT invent specs, capacities, prices, percentages, guarantees, testimonials, or unsupported claims.
+
+    [] If legacy has a visible Table of Contents / linked summary block, its items, nesting, and order are preserved in the final Astro TOC
+
+    MANDATORY LEGACY TOC RULE:
+    If the legacy page contains a visible in-body "Table of Contents" block, linked summary list,
+    or similar heading plus anchor list, its TOC coverage MUST be preserved on the Astro page.
+
+    DEFAULT IMPLEMENTATION RULE:
+    The accepted sitewide pattern is the standard `ApplicationLayout` TOC driven by the page `toc`
+    prop. Use that as the default TOC implementation across the site.
+
+    Requirements:
+    - Preserve every TOC item from legacy in the Astro TOC.
+    - Preserve the same section coverage and order from legacy.
+    - If legacy includes linked subsection items, those subsection anchors must also exist in Astro.
+    - Do NOT shorten a legacy TOC to only top-level sections when legacy includes deeper linked items.
+    - Do NOT paste a second legacy-looking bullet-list TOC into the body when the standard Astro TOC already covers the same content.
+    - Do NOT ship two visible TOCs on the same page.
+    - Treat any missing legacy TOC coverage or any duplicate TOC as a content-fidelity failure.
 
 #2. STRICT SINGLE-PAGE WORKFLOW (ANTI-DIRTY GIT RULE):
 
@@ -48,18 +70,23 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
 
     ## NEXT ## PAGE_APPEARANCE_LOOK.md (For UI layout, side-by-side logic, spacing, galleries, and uniform image sizing)
 
-    ## AT SESSION START ## AUDIT_HANDOFF_PROTOCOL.md (For the audit loop contract with Opus in Cowork. Defines READY.txt, LATEST.md, iteration rules, and session rotation. Read ONCE at session start and keep the schema in memory.)
+    ## AT SESSION START ## AUDIT_HANDOFF_PROTOCOL.md (For the audit loop contract with the audit agent. Defines READY.txt, LATEST.md, iteration rules, and session rotation. Read ONCE at session start and keep the schema in memory.)
 
     Do not proceed with any migration task without explicitly confirming you have read and loaded these files into your working memory.
 
-IMPORTANT - COWORK ROLE CLARIFICATION:
-In this project, Cowork (Opus) is the AUDIT AGENT. See AUDIT_HANDOFF_PROTOCOL.md §1.
-Cowork does NOT process images, generate heroes, or fix diagrams as part of the normal loop.
-Image generation is a SEPARATE on-demand Cowork session that Sanjay runs by hand when a page
+IMPORTANT - AUDIT ROLE CLARIFICATION:
+In this project, the audit agent is the arbiter of page acceptance. See AUDIT_HANDOFF_PROTOCOL.md §1.
+The audit workflow does NOT process images, generate heroes, or fix diagrams as part of the normal loop.
+Image generation is a separate on-demand image session that Sanjay runs by hand when a page
 needs a new hero or redrawn diagram. Those sessions use COWORK_IMAGE_AGENT.md and the NB_*
 skills as their brief. Never assume there is a live "image worker" you can hand off to during
 the audit loop. If you find a bad image during a page, flag it in your commit message and
 in PENDING_FIXES_LIST.md per Rule #7 - do NOT pause the audit loop waiting for image work.
+
+CLARIFICATION (2026-04-25):
+The "Cowork" label is historical naming only. Do NOT treat it as a guaranteed live collaborator.
+Normal page work should assume no parallel helper is waiting for handoff unless Sanjay explicitly
+starts a separate image or audit session for that purpose.
 
 The following file (legacy reference) documents the old image-handoff workflow that predates
 the audit loop. It is preserved for the separate image-generation sessions only:
@@ -110,13 +137,88 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     2. After adding: visually verify the nav dropdown is still readable.
     3. Never commit global.css changes without testing the nav dropdown first.
 
+#6A. MANDATORY CHANGE-SCOPE CLASSIFICATION (LOCAL VS GLOBAL):
+
+    Before proposing or making ANY layout, spacing, color, typography, CTA, component, or CSS fix,
+    you MUST explicitly classify the change scope to Sanjay using one of these exact labels:
+
+    - Scope: LOCAL
+    - Scope: GLOBAL
+
+    DEFINITIONS:
+    - LOCAL = the change only affects the current page file or slug-specific markup.
+      Typical examples:
+      - `src/pages/<slug>.astro`
+      - one-off spacing/alignment fixes inside a single page
+      - page-specific text-color adjustments inside one page file
+
+    - GLOBAL = the change touches any shared style, layout, or component that may affect multiple pages.
+      Typical examples:
+      - `src/styles/*`
+      - `src/layouts/*`
+      - `src/components/*`
+      - shared utility classes
+      - reusable CTA/contact-link patterns
+      - any refactor intended to "fix this everywhere"
+
+    HARD RULE:
+    If the file is in `src/styles/`, `src/layouts/`, or `src/components/`, assume GLOBAL unless you
+    can prove otherwise.
+
+    REQUIRED REPORTING:
+    Before editing, tell Sanjay:
+    - which file will change
+    - whether the change is LOCAL or GLOBAL
+    - why
+
+    REQUIRED HANDOFF LINE:
+    Every layout/style handoff must include one explicit line:
+    - `Local change only - verify only this page.`
+    or
+    - `Global/shared change - verify all pages using this pattern.`
+
+    GLOBAL CHANGE SAFETY PROTOCOL:
+    If the change is GLOBAL, you MUST do all of the following:
+
+    1. State which shared file is being changed.
+    2. State which UI pattern(s) may be affected.
+    3. Instruct Sanjay to verify representative pages before closing the task.
+
+    MINIMUM REPRESENTATIVE VERIFICATION SET FOR GLOBAL UI CHANGES:
+    - 1 contact page
+    - 1 application page
+    - 1 product page
+    - 1 article / knowledge page
+    - 1 page with dark CTA or dark background links
+    - 1 page with inline phone/email links
+    - 1 page with FAQ, if FAQ styling/schema-related UI was touched
+
+    IMPORTANT:
+    Do NOT silently apply a shared fix and describe it as if it were page-local.
+    If a global fix is chosen, the agent must say so plainly and warn that other pages may need regression checks.
+
 #7. MANDATORY MAINTENANCE OF PENDING_FIXES_LIST.md:
 
-    Every time a page is committed with known issues (e.g., missing sharp images, broken diagrams waiting for COWORK agent, or SEO questions), you MUST document them in PENDING_FIXES_LIST.md.
+    Every time a page is committed with known issues (e.g., missing sharp images, broken diagrams waiting for a separate image session, or SEO questions), you MUST document them in PENDING_FIXES_LIST.md.
 
     - Auto-maintain/Update: Before ending a session or starting a new page, verify this file is current.
     - Consistency: Ensure the page slug, section, and specific asset names match the code exactly.
     - Finality: This list serves as the "Pre-Launch Punch List." Nothing can be launched until this file is empty.
+
+    GLOBAL UI DEFER / NON-BLOCKER RULE:
+    If Sanjay explicitly says a shared UI issue is "good enough for now" and wants to keep moving,
+    the agent MUST treat it as a deferred global cleanup item instead of repeatedly reopening it on
+    every page.
+
+    Current deferred example (2026-04-25):
+    - Dark navy CTA / info boxes across the site may still be slightly too tall vertically even after
+      partial tightening.
+    - This is a GLOBAL shared-pattern issue, but it is currently ACCEPTABLE and is NOT a blocker for
+      finishing individual page migrations.
+    - Do NOT keep re-polishing navy CTA vertical spacing during normal page work unless Sanjay
+      explicitly reopens that task.
+    - If relevant, record it once in PENDING_FIXES_LIST.md as a shared UI cleanup item rather than
+      treating it as a per-page blocker.
 
 
 #8. MANDATORY VERIFICATION & DISCOVERY LOCK (PREVENTING HALLUCINATIONS):
@@ -146,11 +248,40 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - **CRITICAL:** NEVER use a browser subagent or attempt to preview/render the page yourself. This will instantly CRASH the user's PC (Out Of Memory).
     - If visual verification is needed, you MUST stop and hand off to the user: "Please preview this on your local machine."
 
-#11. AUDIT LOOP OBEDIENCE (MANDATORY - WORKS WITH OPUS IN COWORK):
+#11. AUDIT LOOP OBEDIENCE (MANDATORY):
 
-    The Cowork audit agent (Opus) is the arbiter of "done" for every page. You do NOT decide a page is finished. Opus does, via a `verdict: PASS` in `.audit/reports/{slug}/LATEST.md`.
+    The audit agent is the arbiter of "done" for every page. You do NOT decide a page is finished.
 
-    WORKFLOW (per AUDIT_HANDOFF_PROTOCOL.md):
+    CURRENT SANJAY-MEDIATED CHAT AUDIT LOOP:
+    The audit-bridge JSON/inbox/outbox workflow is retired. Do NOT use
+    `C:\Users\sprab\Documents\audit-bridge\...` unless Sanjay explicitly re-enables it.
+
+    Normal current loop:
+    - Work on exactly one slug.
+    - Apply only Sanjay's current page-specific audit handoff.
+    - Commit the page fix.
+    - Run the post-commit integrity checks in Rule #12.
+    - Give Sanjay the commit hash and stop.
+    - Sanjay will pass the slug and commit hash to the audit agent in chat.
+    - The audit agent reviews the committed state directly and returns PASS or a fix-only handoff.
+
+    Do NOT write READY.txt, LATEST.md, or audit-bridge JSON files in the normal chat loop.
+    Do NOT decide that a page is done just because you committed it.
+
+    MANDATORY FINAL PASS GATES BEFORE TELLING SANJAY A PAGE IS READY FOR AUDIT:
+    - Content gate: legacy body copy, tables, captions, headings, links, and schema are checked against the required MD files.
+    - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, portrait/landscape placement, galleries, dark-background text contrast, spacing, and dash typography.
+    - Duplicate-pattern gate: do not duplicate ApplicationLayout features with page-local copies. This includes duplicate TOCs, duplicate FAQs/schema, and page-local bottom CTA blocks.
+    - ApplicationLayout CTA rule: Application pages already receive the standard hero CTA, sidebar quick contact, and bottom CTA from ApplicationLayout. A page-local mid-page CTA is allowed when useful, but a page-local bottom CTA after related resources/summary is a duplicate unless Sanjay explicitly approves it.
+    - A page with invisible text, broken image paths, uncapped huge body images, bad portrait/landscape layout, duplicate bottom CTA, duplicate TOC, or misleading schema is NOT ready for audit and must not be described as finished.
+    - Do not spin another iteration for microscopic polish after Sanjay has visually approved the page. Whitespace-only, spacing-only, harmless blank lines, one extra space around a hyphen, and tiny copy-polish items are not blockers unless they create a real rendering problem, SEO/schema mismatch, factual error, broken layout, invisible text, duplicate component, or user-visible trust problem.
+
+    LEGACY `.audit` WORKFLOW:
+    The older project workflow uses `verdict: PASS` in `.audit/reports/{slug}/LATEST.md`.
+    Use the `.audit` READY/LATEST loop only when Sanjay explicitly asks for it or when the local
+    automation files for that workflow are active for the current session.
+
+    IF USING THE LEGACY `.audit` WORKFLOW (per AUDIT_HANDOFF_PROTOCOL.md):
 
     1. After every commit that changes `src/pages/{slug}.astro`:
        - Working tree must be clean after the commit (auditor auto-STALLs on dirty tree).
@@ -175,7 +306,7 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     5. SESSION ROTATION AT TERMINAL STATES:
        When a slug PASSES or STALLS, tell Sanjay:
-       "Session rotation required. Start a fresh Antigravity session and fresh Cowork session before the next slug."
+       "Session rotation required. Start a fresh build session and fresh audit session before the next slug."
        Do NOT start the next slug yourself. Wait for Sanjay in a new session.
 
     HARD STOPS:
@@ -188,8 +319,9 @@ Your tone should be direct, highly technical, and strictly focused on code accur
 
 #12. MANDATORY POST-COMMIT WORKING-COPY INTEGRITY CHECK (established 2026-04-19):
 
-    After EVERY `git commit` or `git commit --amend` — and BEFORE writing READY.txt — the agent
-    MUST run these two commands in order and confirm both return clean output:
+    After EVERY `git commit` or `git commit --amend` — and BEFORE telling Sanjay
+    the page is ready for audit — the agent MUST run these two commands in order
+    and confirm both return clean output:
 
         git diff -w --stat
         git status
@@ -201,7 +333,7 @@ Your tone should be direct, highly technical, and strictly focused on code accur
     - `git status` must show "nothing added to commit" under tracked files.
 
     IF EITHER CHECK FAILS:
-    - STOP. Do NOT write READY.txt.
+    - STOP. Do NOT report the page as ready for audit.
     - Report to Sanjay: "Post-commit integrity check failed — working copy differs from HEAD.
       File X has changed since commit. Possible editor autosave or encoding issue."
     - Run `git diff -w` (full diff, no stat) to identify the exact lines that changed.
@@ -220,4 +352,23 @@ Your tone should be direct, highly technical, and strictly focused on code accur
 
     NEVER use placeholders like // ... rest of the code ... or ``.
 
-    If the legacy page is too long and you hit your token limit, stop cleanly. The user will type "continue", and you must resume exactly where you left off without repeating previous lines.
+    If the legacy page is too long and you hit your token limit, stop cleanly. The user will type "continue", and you must resume exactly where you left off without repeating previous lines.
+
+#14. STANDARD KICKOFF PROTOCOL (AUTO-TRIGGER):
+When the user gives you a page to migrate (e.g., "Migrate waste-oil-centrifuge"), you MUST automatically execute this sequence without being reminded:
+1. Run your Discovery Lock first and report the As-Is state (Rule #8).
+2. STRICTLY use `src/pages/hydraulic-oil-centrifuge.astro` as your structural blueprint and CSS Grid Golden Master.
+3. Never truncate the file; stop cleanly if you hit token limits (Rule #13).
+4. Execute the Image Quality Gate before staging or committing (Rule #5).
+
+# 15. DEV SERVER SAFETY PROTOCOL (UPDATED 2026-04-26):
+
+    DO NOT KILL THE LOCAL DEV SERVER. 
+    Sanjay explicitly requested that the dev server (`npm run dev`) must remain ALIVE at all times for local previewing.
+    
+    If you encounter file truncation or wiping issues, rely on Git commits (Rule #12) to restore state, but DO NOT stop the Node processes.
+    
+    THE RULES:
+    A. DO NOT KILL node processes before editing.
+    B. COMMIT IN SMALL BATCHES to protect against silent file wiping.
+    C. If a file drops below 1,000 bytes unexpectedly, restore from HEAD.
