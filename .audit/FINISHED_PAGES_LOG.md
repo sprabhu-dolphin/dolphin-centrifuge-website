@@ -37,3 +37,5 @@ All pages below have passed the v2.2 refactor audit.
 | disc-centrifuge-backpressure | d7ab6c7 | 5 | 2026-04-25 | PASS |
 | contact-for-alfa-laval-centrifuges | a098fba | - | 2026-04-25 | PASS |
 | disc-stack-centrifuge-liquid-seal-break | 87d7c4a | - | 2026-04-25 | PASS |
+| disc-stack-centrifuge-troubleshooting-bowl-leaking | 344d7da | - | 2026-04-26 | PASS |
+| about-dolphin-centrifuge | fb260d3 | - | 2026-04-26 | PASS |
