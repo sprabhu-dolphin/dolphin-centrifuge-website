@@ -1,29 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How often should an industrial disc centrifuge be serviced?",
-    answer: "Minor bowl service intervals range from 2-3 weeks (for aggressive chemicals or abrasive solids) to 3-6 months (for benign fluids like lubricating oil). Industrial centrifuge manufacturers recommend a major overhaul of the disc centrifuge every 2-3 years, based on the expected lifespan of transmission components and bowl wear."
-  },
-  {
-    question: "How much does it cost to repair an industrial centrifuge?",
-    answer: "Repair costs vary by centrifuge type and service level. Minor service starts at $800+ for small manual-clean disc centrifuges. Major service ranges from $2,000 to $13,000+. Complete rebuilds cost from $5,000 to $18,000+, depending on centrifuge size and type."
-  },
-  {
-    question: "How long does a centrifuge rebuild take?",
-    answer: "Rebuild turnaround time depends on centrifuge size and repair scope. A small disc centrifuge can be rebuilt in about three days, whereas a large capacity self-cleaning disc centrifuge can take four weeks or more for a complete overhaul."
-  },
-  {
-    question: "What is included in a complete centrifuge rebuild?",
-    answer: "A complete centrifuge rebuild includes stripping down to bare metal, cleaning all bowl and transmission parts, sandblasting and painting the frame with durable epoxy topcoat, inspecting and testing all critical parts for dimensional tolerance, replacing worn parts with new or rebuilt components, replacing all bearings with OEM-recommended high-speed bearings, replacing all consumable parts (O-Rings, Gaskets, Friction Material, Belts), rebuilding to original specifications, and full mechanical and operational testing."
-  },
-  {
-    question: "What service kits should centrifuge operators keep in stock?",
-    answer: "Centrifuge operators should keep bowl service kits (O-rings, seals, gaskets) in stock at all times. These kits are inexpensive and easy to store. Additional recommended stock includes bowl outlet gaskets, centrifuge-specific seal lubricant, operating water nozzles, friction pads (for friction clutch models), and drive belts (for belt-drive models). Stocking these kits reduces service downtime and prevents unplanned production losses."
-  }
-];
 
 const serviceJsonLd = {
   "@context": "https://schema.org",
@@ -47,19 +23,6 @@ const serviceJsonLd = {
   "areaServed": "United States"
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -78,19 +41,25 @@ const articleJsonLd = {
 
 const toc = [
   { id: "minor-service", label: "Minor Service and Maintenance" },
+  { id: "minor-bowl-interval", label: "Minor Bowl Service Interval" },
+  { id: "bowl-service", label: "Centrifuge Bowl Service (Re-Gasketting)" },
+  { id: "bowl-maintenance", label: "Centrifuge Bowl Maintenance" },
   { id: "major-service", label: "Major Service" },
+  { id: "major-interval", label: "Service Interval of Major Centrifuge Service" },
+  { id: "bowl-cleaning", label: "Bowl Cleaning" },
+  { id: "transmission-rebuild", label: "Transmission Rebuild" },
   { id: "centrifuge-rebuild", label: "Centrifuge Rebuild" },
+  { id: "rebuilt-testing", label: "Rebuilt Centrifuge Testing" },
   { id: "repair-cost", label: "Repair Cost and Time" },
-  { id: "parts-repair", label: "Parts Repair for Wear Damage" },
+  { id: "parts-repair", label: "Parts Repairing for Wear Damage" },
   { id: "system-upgrade", label: "Centrifuge System Upgrade" },
-  { id: "service-kits", label: "Recommended Service Kits to Stock" },
-  { id: "faq", label: "Frequently Asked Questions" },
+  { id: "service-kits", label: "Recommended Service Kits To Stock" },
 ];
 ---
 
 <ApplicationLayout
-  title="Industrial Centrifuge Repair | Disc Centrifuge Rebuild &amp; Testing"
-  description="Industrial disc centrifuge repair and rebuild services by Dolphin Centrifuge. Bowl overhaul, transmission rebuild, seal kits, and testing. Warren, MI."
+  title="Industrial Centrifuge Repair | Disc Centrifuge Rebuild & Testing"
+  description="Industrial disc centrifuge repair & re-manufacturing services for over 35 years! Dolphin Centrifuge is your one-stop centrifuge shop for sales, repairs & parts."
   canonicalUrl="https://dolphincentrifuge.com/industrial-disc-centrifuge-repair/"
   heroImage="/images/industrial-disc-centrifuge-repair/disc-stack-centrifuge-repair-600.webp"
   heroImageAlt="Disc Centrifuge Repair"
@@ -106,13 +75,9 @@ const toc = [
     { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
     { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
   ]}
-  jsonLd={[serviceJsonLd, faqJsonLd, articleJsonLd]}
+  jsonLd={[serviceJsonLd, articleJsonLd]}
 >
 
-  <!-- AI Citation Summary -->
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-8 not-prose">
-    <p class="text-sm text-text-muted leading-relaxed italic">Dolphin Centrifuge provides industrial disc centrifuge repair and rebuild services, from minor bowl re-gasketing ($800+) to complete overhauls ($18,000+) with tolerances held to 0.2 mm. Over 50 years of collective experience at their Warren, Michigan facility. OEM-spec major overhaul recommended every 2-3 years.</p>
-  </div>
 
   <!-- Introduction -->
   <p>
@@ -122,7 +87,7 @@ const toc = [
     Dolphin Centrifuge has the expertise and knowledge to service and repair <a href="https://www.alfalaval.us/service-and-support/local/service-and-support-in-the-usa/high-speed-separator-service/">Alfa Laval</a> disc centrifuges. We have more than 50+ years of collective centrifuge rebuild experience.
   </p>
   <p>
-    Dolphin Centrifuge's remanufacturing process brings new life to your old <a href="/industrial-centrifuge/">industrial centrifuge</a>. We use an industry-leading centrifuge rebuild process based on OEM specifications.
+    Dolphin Centrifuge's remanufacturing process brings new life to your old industrial centrifuge. We use an industry-leading centrifuge rebuild process based on OEM specifications.
   </p>
   <p>
     Dolphin also carries 200+ industrial centrifuges in our inventory. These are ready for remanufacture and sale.
@@ -208,15 +173,15 @@ const toc = [
       loading="lazy"
       class="rounded-lg"
     />
-    <figcaption class="text-xs text-text-muted mt-2 text-center">Electropolished Stack Discs</figcaption>
+    <figcaption class="text-xs text-text-muted mt-2 text-center"><strong>Electropolished Stack Discs</strong></figcaption>
   </figure>
 
   <h3 id="transmission-rebuild">Transmission Rebuild</h3>
   <p>
-    A major service of the disc centrifuge includes a transmission rebuild and the bowl cleaning mentioned above. This part of the service involves the replacement of all bearings and related parts. In a centrifuge with a <a href="/disc-centrifuge-friction-clutch/">friction clutch</a>, replacing friction pads is also a part of the service. These parts replacements reduce the possibility of unexpected centrifuge breakdown during operations.
+    A major service of the disc centrifuge includes a transmission rebuild and the bowl cleaning mentioned above. This part of the service involves the replacement of all bearings and related parts. In a centrifuge with a friction clutch, replacing friction pads is also a part of the service. These parts replacements reduce the possibility of unexpected centrifuge breakdown during operations.
   </p>
   <p>
-    The inspection of the gears in the gear train is a crucial part of this service. Uneven wear of the gear teeth may require the gears to be changed. Changing the transmission gears as a complete set, not as individual gears, is essential.
+    The inspection of the gears in the gear train is a crucial part of this service. Uneven wear of the gear teeth may require the gears to be changed. Changing the transmission gears as a complete set, not as individual gears, is essential. The image below shows a typical disc-centrifuge gear set.
   </p>
 
   <figure class="not-prose my-6">
@@ -228,7 +193,7 @@ const toc = [
       loading="lazy"
       class="rounded-lg"
     />
-    <figcaption class="text-xs text-text-muted mt-2 text-center">Disc Centrifuge Gear Set</figcaption>
+    <figcaption class="text-xs text-text-muted mt-2 text-center"><strong>Disc Centrifuge Gear Set</strong></figcaption>
   </figure>
 
   <p>
@@ -244,11 +209,13 @@ const toc = [
     An old disc centrifuge that has been out of service for a prolonged period requires a complete overhaul or rebuild. Often the centrifuge is of unknown origin without any information regarding its previous use.
   </p>
   <p>
-    In such cases, the centrifuge's complete and thorough rebuild is crucial for safe future operation. Our centrifuge rebuild process is detailed and involves the following steps.
+    In such cases, the centrifuge's complete and thorough rebuild is crucial for safe future operation.
+  </p>
+  <p>
+    Our centrifuge rebuild process is detailed and involves the following steps.
   </p>
 
-  <h3>Our Centrifuge Rebuild Process</h3>
-  <ol>
+  <ul>
     <li>Strip down your old centrifuge to bare metal.</li>
     <li>Clean all bowl and transmission parts.</li>
     <li>Sandblast and clean frame parts.</li>
@@ -259,28 +226,38 @@ const toc = [
     <li>Replace all consumable parts, i.e., O-Rings, Gaskets, Friction Material, Belts, etc.</li>
     <li>Rebuild centrifuge to original specifications.</li>
     <li>Test centrifuge for all mechanical parameters and operational functions.</li>
-  </ol>
+  </ul>
 
   <h3 id="rebuilt-testing">Rebuilt Centrifuge Testing</h3>
   <p>
     Testing the rebuilt centrifuge is essential to verify the machine's functionality and overall mechanical status. The functionality refers to the fluid flow through the centrifuge and the operation of the self-cleaning bowl.
   </p>
-  <ul>
-    <li><strong>Step 1 - Leak Test:</strong> Leakproof operation of the inlet and outlet fluid pathways is the first step. If the centrifuge system has external piping, pressure testing of the pipes is a crucial step in the process.</li>
-    <li><strong>Step 2 - Bowl Function Test:</strong> The bowl opening and closing during the sludge ejection process is the second step of the testing process. This step involves monitoring the operating water pressure and flow to determine the manufacturer's specifications parameters.</li>
-    <li><strong>Step 3 - Run Test:</strong> The testing could be with water or mineral oil, depending on the centrifuge application. Monitoring the drive motor current draw indicates the health of the centrifuge gear train.</li>
-  </ul>
+  <p>
+    Leakproof operation of the inlet and outlet fluid pathways is the first step if the centrifuge system has external piping, pressure testing of the pipes is a crucial step in the process.
+  </p>
+  <p>
+    The bowl opening and closing during the sludge ejection process is the second step of the testing process. This step involves monitoring the operating water pressure and flow to determine the manufacturer's specifications parameters.
+  </p>
+  <p>
+    The testing could be with water or mineral oil, depending on the centrifuge application.
+  </p>
+  <p>
+    Monitoring the drive motor current draw indicates the health of the centrifuge gear train.
+  </p>
 
   <!-- Repair Cost and Time -->
   <h2 id="repair-cost">Repair Cost and Time</h2>
   <p>
-    The cost of repairing an industrial centrifuge depends on the type of centrifuge and the extent of wear or damage that needs to be fixed. The following table lists the typical costs to repair common centrifuges.
+    The cost of repairing an industrial centrifuge depends on the type of centrifuge and the extent of wear or damage that needs to be fixed.
+  </p>
+  <p>
+    The following table lists the typical costs to repair common centrifuges.
   </p>
 
   <table>
     <thead>
       <tr>
-        <th>Type of Centrifuge</th>
+        <th>↓ Type of Centrifuge</th>
         <th>Minor Service</th>
         <th>Major Service</th>
         <th>Complete Rebuild</th>
@@ -314,14 +291,17 @@ const toc = [
     </tbody>
   </table>
 
-  <blockquote>
-    <strong>Repair Turnaround Time:</strong> The time for repair again depends on the size of the centrifuge and the type of repair. A small disc centrifuge can be rebuilt in about <strong>three days</strong>, whereas a large capacity self-cleaning disc centrifuge can take <strong>four weeks or more</strong> for a complete overhaul. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a specific turnaround estimate for your centrifuge.
-  </blockquote>
+  <p>
+    The time for repair again depends on the size of the centrifuge and the type of repair. For example, a small disc centrifuge can be rebuilt in about three days, whereas a large capacity self-cleaning disc centrifuge can take four weeks or more for a complete overhaul.
+  </p>
 
   <!-- Parts Repair for Wear Damage -->
   <h2 id="parts-repair">Parts Repairing for Wear Damage</h2>
   <p>
     Processing fluids with abrasive or metal particles has a detrimental effect on specific bowl components. The sliding piston is especially subject to wear and tear due to the separated solids' continuous contact during the sludge ejection process.
+  </p>
+  <p>
+    The image below shows the typical damage seen on the sliding piston.
   </p>
 
   <figure class="not-prose my-6">
@@ -333,11 +313,14 @@ const toc = [
       loading="lazy"
       class="rounded-lg"
     />
-    <figcaption class="text-xs text-text-muted mt-2 text-center">Centrifuge Sliding Piston - Erosion Damage</figcaption>
+    <figcaption class="text-xs text-text-muted mt-2 text-center"><strong>Alfa Laval Centrifuge Sliding Piston Erosion</strong></figcaption>
   </figure>
 
   <p>
-    Minimal wear on the piston is fixable by local sanding of high spots. Local pitting damage on parts exposed to operating water is often remedied by smoothening the surface with soft grinding. Excessive pitting beyond <strong>0.2 mm</strong> requires the replacement of the affected parts.
+    Minimal wear on the piston is fixable by local sanding of high spots.
+  </p>
+  <p>
+    Local pitting damage on parts exposed to operating water is often remedied by smoothening the surface with soft grinding. Excessive pitting beyond 0.2 mm requires the replacement of the affected parts.
   </p>
 
   <!-- System Upgrade -->
@@ -355,7 +338,6 @@ const toc = [
     Upgrading a bare disc centrifuge into a complete functioning module with PLC controls with built-in alarms, troubleshooting, feed, and discharge pumps, sludge collection, handling systems, etc., adds decades of service life and additional functionality.
   </p>
 
-  <h3>Centrifuge Upgrades Performed by Dolphin Centrifuge</h3>
   <p>
     The following is a list of centrifuge upgrades often performed by Dolphin Centrifuge.
   </p>
@@ -375,7 +357,7 @@ const toc = [
   </div>
 
   <!-- Service Kits -->
-  <h2 id="service-kits">Recommended Service Kits to Stock</h2>
+  <h2 id="service-kits">Recommended Service Kits To Stock</h2>
   <p>
     Centrifuge operators should keep certain centrifuge parts in the form of service kits in stock at all times. This stocking of kits reduces service downtime that can occur while waiting for service parts.
   </p>
@@ -391,6 +373,6 @@ const toc = [
     Have questions? Call us at (248) 522-2573 or <a href="/contact-for-alfa-laval-centrifuges/">contact Dolphin Centrifuge</a>. To know more about Dolphin Centrifuge, visit the <a href="/about-dolphin-centrifuge/">about us</a> page.
   </p>
 
-  <FAQ items={faqItems} />
+
 
 </ApplicationLayout>
