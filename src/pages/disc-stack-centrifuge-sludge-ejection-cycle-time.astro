@@ -198,35 +198,56 @@ const relatedProducts = [
 
     <h3 id="cycle-time-calculator" class="text-xl font-semibold text-navy mt-6 mb-3">Cycle Time Calculator</h3>
     <div class="not-prose bg-gray-50 border border-gray-200 rounded-xl p-6 mb-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-4">
         <div>
           <label for="calc-sludge-space" class="block text-sm font-semibold text-navy mb-1">Bowl Sludge Space (gallons)</label>
-          <input id="calc-sludge-space" type="number" min="0" step="any" placeholder="e.g. 0.77" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+          <input id="calc-sludge-space" type="number" min="0" step="any" placeholder="e.g. 0.774" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30" />
         </div>
         <div>
-          <label for="calc-percent-solids" class="block text-sm font-semibold text-navy mb-1">% Solids (enter 2 for 2%)</label>
-          <input id="calc-percent-solids" type="number" min="0" step="any" placeholder="e.g. 0.2" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+          <label for="calc-percent-solids" class="block text-sm font-semibold text-navy mb-1">% Solids</label>
+          <input id="calc-percent-solids" type="number" min="0" step="any" placeholder="e.g. 0.1 for 0.1%, 2 for 2%" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30" />
+          <p class="text-xs text-gray-500 mt-1">Enter the percentage as a number: 0.1 for 0.1%, 0.5 for 0.5%, 2 for 2%</p>
         </div>
         <div>
           <label for="calc-flow-rate" class="block text-sm font-semibold text-navy mb-1">Flow-Rate (GPM)</label>
-          <input id="calc-flow-rate" type="number" min="0" step="any" placeholder="e.g. 6" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+          <input id="calc-flow-rate" type="number" min="0" step="any" placeholder="e.g. 6" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-navy/30" />
         </div>
       </div>
-      <div id="calc-result" class="bg-navy text-white rounded-lg px-5 py-3 text-center font-semibold text-base hidden"></div>
+      <div class="flex gap-3 mb-4">
+        <button onclick="runCalcCycleTime()" class="bg-navy text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-navy/90 transition-colors">Calculate</button>
+        <button onclick="resetCalcCycleTime()" class="border border-gray-300 text-navy font-semibold text-sm px-5 py-2 rounded-lg hover:bg-gray-100 transition-colors">Reset</button>
+      </div>
+      <div id="calc-result-box" class="hidden rounded-lg px-5 py-3 text-center font-semibold text-base"></div>
     </div>
     <script>
-      function calcCycleTime() {
-        var space = parseFloat(document.getElementById('calc-sludge-space').value);
-        var solids = parseFloat(document.getElementById('calc-percent-solids').value);
-        var flow = parseFloat(document.getElementById('calc-flow-rate').value);
-        var result = document.getElementById('calc-result');
-        if (!isNaN(space) && !isNaN(solids) && !isNaN(flow) && solids > 0 && flow > 0) {
-          var cycleTime = space / (solids * flow);
-          result.textContent = 'Sludge Ejection Cycle Time = ' + cycleTime.toFixed(1) + ' minutes';
-          result.classList.remove('hidden');
-        } else {
-          result.classList.add('hidden');
+      function runCalcCycleTime() {
+        var spaceEl  = document.getElementById('calc-sludge-space');
+        var solidsEl = document.getElementById('calc-percent-solids');
+        var flowEl   = document.getElementById('calc-flow-rate');
+        var box      = document.getElementById('calc-result-box');
+        var space    = parseFloat(spaceEl.value);
+        var solids   = parseFloat(solidsEl.value);
+        var flow     = parseFloat(flowEl.value);
+        box.classList.remove('hidden', 'bg-navy', 'text-white', 'bg-red-100', 'text-red-800');
+        if (isNaN(space) || isNaN(solids) || isNaN(flow) || space <= 0 || solids <= 0 || flow <= 0) {
+          box.classList.add('bg-red-100', 'text-red-800');
+          box.textContent = 'Please enter valid values greater than zero in all three fields.';
+          return;
         }
+        /* Formula: Cycle Time (min) = (Bowl Sludge Space x 100) / (% Solids x Flow-Rate GPM)
+           % Solids is entered as a whole-number percentage: 0.1 for 0.1%, 2 for 2%.
+           Verified against sample table: 0.774 gal, 0.1%, 2 GPM = 387 min */
+        var cycleTime = (space * 100) / (solids * flow);
+        box.classList.add('bg-navy', 'text-white');
+        box.textContent = 'Sludge Ejection Cycle Time = ' + cycleTime.toFixed(1) + ' minutes';
+      }
+      function resetCalcCycleTime() {
+        document.getElementById('calc-sludge-space').value  = '';
+        document.getElementById('calc-percent-solids').value = '';
+        document.getElementById('calc-flow-rate').value     = '';
+        var box = document.getElementById('calc-result-box');
+        box.classList.add('hidden');
+        box.textContent = '';
       }
     </script>
 
