@@ -19,26 +19,27 @@ const toc = [
   { id: 'why-eject',        label: 'Why Does the Sludge Need to be Ejected?' },
   { id: 'how-ejected',      label: 'How is the Sludge Ejected?' },
   { id: 'what-is-cycle-time', label: 'What is the Sludge Ejection Cycle Time?' },
-  { id: 'factors',          label: 'Factors Affecting the Cycle Time', children: [
-    { id: 'bowl-sludge-space', label: 'Bowl Sludge Space', children: [
+  { id: 'factors',          label: 'Factors Affecting the Cycle Time', subItems: [
+    { id: 'bowl-sludge-space', label: 'Bowl Sludge Space', subItems: [
       { id: 'how-determine-bowl-sludge-space', label: 'How to Determine the Bowl Sludge Space?' },
     ]},
-    { id: 'flow-rate', label: 'Flow-Rate', children: [
+    { id: 'flow-rate', label: 'Flow-Rate', subItems: [
       { id: 'how-determine-flow-rate', label: 'How to Determine the Flow-Rate?' },
     ]},
-    { id: 'percentage-solids', label: 'Percentage Solids', children: [
+    { id: 'percentage-solids', label: 'Percentage Solids', subItems: [
       { id: 'how-determine-percentage-solids', label: 'How to Determine the Percentage of Solids?' },
     ]},
   ]},
-  { id: 'calculation',      label: 'Calculation of Sludge Ejection Cycle Time', children: [
+  { id: 'calculation',      label: 'Calculation of Sludge Ejection Cycle Time', subItems: [
     { id: 'formula',         label: 'Formula' },
+    { id: 'cycle-time-calculator', label: 'Cycle Time Calculator' },
     { id: 'sample-table',    label: 'Sample Table of Sludge Ejection Cycle Time' },
   ]},
-  { id: 'consequences',     label: 'Consequences of Incorrect Cycle Time', children: [
-    { id: 'results-too-long', label: 'Results of the Cycle Time Being Too Long', children: [
+  { id: 'consequences',     label: 'Consequences of Incorrect Cycle Time', subItems: [
+    { id: 'results-too-long', label: 'Results of the Cycle Time Being Too Long', subItems: [
       { id: 'detecting-longer', label: 'Detecting Longer Than Recommended Cycle Times' },
     ]},
-    { id: 'results-too-short', label: 'Results of the Cycle Time Being Too Short', children: [
+    { id: 'results-too-short', label: 'Results of the Cycle Time Being Too Short', subItems: [
       { id: 'detecting-shorter', label: 'Detecting Shorter Than Recommended Cycle Times' },
     ]},
   ]},
@@ -66,23 +67,14 @@ const relatedProducts = [
   categoryLabel="Knowledge Base"
   toc={toc}
   jsonLd={jsonLd}
-  heroImage="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Bowl-Sludge-Ports-600.webp"
-  heroImageAlt="Disc stack centrifuge bowl sludge ports for ejection cycle timing"
+  heroImage="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/alfa-laval-disc-centrifuge-bowl-sludge-discharge-parts-800.webp"
+  heroImageAlt="Disc Centrifuge Bowl Sludge Ports"
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
 >
 
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge explains how to calculate disc stack centrifuge sludge ejection cycle time using the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate GPM). Incorrect timing causes bowl overflow or excess product loss. Based in Warren, Michigan with 40+ years of centrifuge expertise.</p>
-  </div>
-
-  <!-- Intro image -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/alfa-laval-disc-centrifuge-bowl-sludge-discharge-parts-800.webp" alt="Disc Stack Centrifuge Sludge Ejection System Overview" width="800" height="322" loading="lazy" class="rounded-lg w-full mb-6" />
-    <p class="text-text leading-relaxed mb-4">One of the essential features of a self-cleaning disc centrifuge is to eject the separated solids while operating. The frequency of this ejection process is crucial to the process efficiency and centrifuge wellbeing.</p>
-    <p class="text-text leading-relaxed">This article discusses the various aspects of the sludge ejection cycle time, from calculating the cycle time to the results of incorrect cycle time.</p>
-  </div>
+  <p class="text-text leading-relaxed mb-4">One of the essential features of a self-cleaning disc centrifuge is to eject the separated solids while operating. The frequency of this ejection process is crucial to the process efficiency and centrifuge wellbeing.</p>
+  <p class="text-text leading-relaxed mb-8">This article discusses the various aspects of the sludge ejection cycle time, from calculating the cycle time to the results of incorrect cycle time.</p>
 
   <!-- Why Does the Sludge Need to be Ejected -->
   <div id="why-eject" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
@@ -97,7 +89,7 @@ const relatedProducts = [
   <div id="how-ejected" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
     <h2 class="text-2xl font-bold text-navy mb-4">How is the Sludge Ejected from the Centrifuge Bowl?</h2>
     <figure class="my-6">
-      <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc Centrifuge Self Cleaning Animation showing bowl opening mechanism" width="599" height="460" loading="lazy" class="rounded-lg mx-auto w-full" />
+      <img src="/images/shared/Disc-Centrifuge-Self-Cleaning-Animation-600.gif" alt="Disc Centrifuge Self Cleaning Animation" width="599" height="460" loading="lazy" class="img-cap-600" />
       <figcaption class="text-center text-sm text-gray-500 mt-2">Disc Centrifuge Self Cleaning Animation</figcaption>
     </figure>
     <p class="text-text leading-relaxed mb-4">Self-cleaning disc centrifuges eject the solids through a hydraulic mechanism that has to be triggered by a timer or a PLC. The hydraulic mechanism uses water which is known as operating water.</p>
@@ -105,12 +97,12 @@ const relatedProducts = [
     <p class="text-text leading-relaxed mb-4">As shown in the diagram below, a high-pressure operating water pulse pushes the operating slide downwards. The operating slide has three valve plugs on its upper surface.</p>
     <p class="text-text leading-relaxed mb-4">When the operating slide moves down, the valve plugs move away (down) from the closing water chamber's drain ports below the sliding piston.</p>
     <figure class="my-6">
-      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/alfa-laval-disc-centrifuge-bowl-sludge-discharge-parts-600.webp" alt="Disc Centrifuge Bowl Sludge Discharge Parts Diagram showing operating slide and sliding piston" width="600" height="333" loading="lazy" class="rounded-lg w-full" />
+      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/alfa-laval-disc-centrifuge-bowl-sludge-discharge-parts-600.webp" alt="Disc Centrifuge Bowl Sludge Discharge Parts" width="600" height="333" loading="lazy" class="img-cap-600" />
       <figcaption class="text-center text-sm text-gray-500 mt-2">Disc Centrifuge Bowl Sludge Discharge Parts Diagram</figcaption>
     </figure>
     <p class="text-text leading-relaxed mb-4">The opening of the drain ports allows the closing water to escape through the drain water passage. The sliding piston no longer has the upward pressure from the centrifugal force of the closing water. As a result, the sliding piston moves down due to the process fluid's internal centrifugal pressure.</p>
     <figure class="my-6">
-      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Bowl-Sludge-Ports-600.webp" alt="Disc Centrifuge Bowl Sludge Ports open during ejection cycle" width="600" height="449" loading="lazy" class="rounded-lg w-full" />
+      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Bowl-Sludge-Ports-600.webp" alt="Disc Centrifuge Bowl Sludge Ports" width="600" height="449" loading="lazy" class="img-cap-600" />
       <figcaption class="text-center text-sm text-gray-500 mt-2">Disc Centrifuge Bowl Sludge Ports</figcaption>
     </figure>
     <p class="text-text leading-relaxed">The downward movement of the sliding piston opens up the sludge ports around the bowl wall. See the image above showing bowl sludge ports. The high centrifugal force within the rotating bowl ejects the accumulated sludge out through these ports.</p>
@@ -168,7 +160,7 @@ const relatedProducts = [
     <h4 id="how-determine-percentage-solids" class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Percentage of Solids?</h4>
     <p class="text-text leading-relaxed mb-4">The primary way to determine the percentage of solids in the process fluid is to run a fluid sample through a benchtop centrifuge. Specially designed tube-centrifuges have graduated tubes that provide an accurate reading of the separated solids.</p>
     <figure class="my-6">
-      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Graduated-Tube-400.webp" alt="Centrifuge Graduated Tube for measuring percentage solids in process fluid" width="400" height="616" loading="lazy" class="rounded-lg mx-auto" />
+      <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Graduated-Tube-400.webp" alt="Centrifuge Graduated Tube" width="400" height="616" loading="lazy" class="img-cap-400" />
       <figcaption class="text-center text-sm text-gray-500 mt-2">Centrifuge Graduated Tube</figcaption>
     </figure>
     <p class="text-text leading-relaxed mb-4">Mass flow meters are another method of determining the percentage of solids in the process fluid. These devices measure the solid load in a liquid by electronic means and provide a precise and continuous measurement of the solids' percentage.</p>
@@ -198,40 +190,40 @@ const relatedProducts = [
         </thead>
         <tbody class="divide-y divide-gray-100">
           <tr><td class="px-5 py-3 font-medium text-navy">Flow-Rate</td><td class="px-5 py-3 text-text">Gallons-Per-Minute (GPM)</td></tr>
-          <tr><td class="px-5 py-3 font-medium text-navy">Solids Percentage</td><td class="px-5 py-3 text-text">As a Percentage (for 2% input 2, <em>not 0.02</em>)</td></tr>
+          <tr><td class="px-5 py-3 font-medium text-navy">Solids Percentage</td><td class="px-5 py-3 text-text">As a Percentage (for 2%  input 2 <strong><em>not 0.02</em></strong>)<br /><em>not to be confused with a decimal number</em></td></tr>
           <tr><td class="px-5 py-3 font-medium text-navy">Bowl Sludge Space</td><td class="px-5 py-3 text-text">Gallons</td></tr>
         </tbody>
       </table>
     </div>
 
+    <h3 id="cycle-time-calculator" class="text-xl font-semibold text-navy mt-6 mb-3">Cycle Time Calculator</h3>
+    <p class="text-text leading-relaxed mb-4">Use the formula above to calculate the sludge ejection cycle time for your centrifuge. Enter your bowl sludge space (gallons), the percent solids (as a whole number, e.g. 2 for 2%), and the flow rate (GPM) to determine the interval in minutes.</p>
+
     <h3 id="sample-table" class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
     <p class="text-text leading-relaxed mb-4">The sample below is an excerpt of a larger table that helps determine the sludge cycle time for a specific centrifuge for different flow rates and percent solids.</p>
     <p class="text-text leading-relaxed mb-4">The following table shows the discharge time in minutes for varying flow rates and % solids for the Alfa Laval MOPX-207 Self-Cleaning centrifuge.</p>
 
-    <div class="overflow-x-auto">
-      <table class="w-full bg-white rounded-lg border border-gray-200 text-sm">
-        <thead>
-          <tr class="bg-navy text-white">
-            <th class="text-left px-4 py-3 font-semibold">Flow GPM ↓ / % Solids →</th>
-            <th class="px-4 py-3 font-semibold text-center">0.1%</th>
-            <th class="px-4 py-3 font-semibold text-center">0.2%</th>
-            <th class="px-4 py-3 font-semibold text-center">0.3%</th>
-            <th class="px-4 py-3 font-semibold text-center">0.4%</th>
-            <th class="px-4 py-3 font-semibold text-center">0.5%</th>
-          </tr>
-        </thead>
+    <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+      <table class="w-full bg-white text-sm">
         <tbody class="divide-y divide-gray-100">
-          <tr><td class="px-4 py-2 font-medium text-navy">2 GPM</td><td class="px-4 py-2 text-center text-text">387</td><td class="px-4 py-2 text-center text-text">194</td><td class="px-4 py-2 text-center text-text">130</td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">77</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">4 GPM</td><td class="px-4 py-2 text-center text-text">194</td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">48</td><td class="px-4 py-2 text-center text-text">39</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">6 GPM</td><td class="px-4 py-2 text-center text-text">129</td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">43</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">26</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">8 GPM</td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">48</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">24</td><td class="px-4 py-2 text-center text-text">19</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">10 GPM</td><td class="px-4 py-2 text-center text-text">77</td><td class="px-4 py-2 text-center text-text">39</td><td class="px-4 py-2 text-center text-text">26</td><td class="px-4 py-2 text-center text-text">19</td><td class="px-4 py-2 text-center text-text">16</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">12 GPM</td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">22</td><td class="px-4 py-2 text-center text-text">16</td><td class="px-4 py-2 text-center text-text">13</td></tr>
-          <tr><td class="px-4 py-2 font-medium text-navy">14 GPM</td><td class="px-4 py-2 text-center text-text">55</td><td class="px-4 py-2 text-center text-text">28</td><td class="px-4 py-2 text-center text-text">18</td><td class="px-4 py-2 text-center text-text">14</td><td class="px-4 py-2 text-center text-text">11</td></tr>
+          <tr class="bg-navy text-white">
+            <td class="px-4 py-3 font-semibold"><strong>Flow GPM ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; % Solids →</strong></td>
+            <td class="px-4 py-3 font-semibold text-center"><strong>0.1</strong></td>
+            <td class="px-4 py-3 font-semibold text-center"><strong>0.2</strong></td>
+            <td class="px-4 py-3 font-semibold text-center"><strong>0.3</strong></td>
+            <td class="px-4 py-3 font-semibold text-center"><strong>0.4</strong></td>
+            <td class="px-4 py-3 font-semibold text-center"><strong>0.5</strong></td>
+          </tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>2</strong></td><td class="px-4 py-2 text-center text-text">387</td><td class="px-4 py-2 text-center text-text">194</td><td class="px-4 py-2 text-center text-text">130</td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">77</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>4</strong></td><td class="px-4 py-2 text-center text-text">194</td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">48</td><td class="px-4 py-2 text-center text-text">39</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>6</strong></td><td class="px-4 py-2 text-center text-text">129</td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">43</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">26</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>8</strong></td><td class="px-4 py-2 text-center text-text">97</td><td class="px-4 py-2 text-center text-text">48</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">24</td><td class="px-4 py-2 text-center text-text">19</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>10</strong></td><td class="px-4 py-2 text-center text-text">77</td><td class="px-4 py-2 text-center text-text">39</td><td class="px-4 py-2 text-center text-text">26</td><td class="px-4 py-2 text-center text-text">19</td><td class="px-4 py-2 text-center text-text">16</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>12</strong></td><td class="px-4 py-2 text-center text-text">65</td><td class="px-4 py-2 text-center text-text">32</td><td class="px-4 py-2 text-center text-text">22</td><td class="px-4 py-2 text-center text-text">16</td><td class="px-4 py-2 text-center text-text">13</td></tr>
+          <tr><td class="px-4 py-2 font-medium text-navy"><strong>14</strong></td><td class="px-4 py-2 text-center text-text">55</td><td class="px-4 py-2 text-center text-text">28</td><td class="px-4 py-2 text-center text-text">18</td><td class="px-4 py-2 text-center text-text">14</td><td class="px-4 py-2 text-center text-text">11</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="text-xs text-gray-500 mt-2">Values in minutes. Based on Alfa Laval MOPX-207 bowl sludge space capacity.</p>
   </div>
 
   <!-- Consequences of Incorrect Cycle Time -->
