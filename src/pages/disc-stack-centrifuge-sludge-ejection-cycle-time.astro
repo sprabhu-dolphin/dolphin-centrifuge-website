@@ -1,64 +1,48 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
-const faqItems = [
-  {
-    question: "How do I calculate sludge ejection cycle time for a disc stack centrifuge?",
-    answer: "Use the formula: Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate). Ensure consistent units — for US customers, use gallons for sludge space, GPM for flow rate, and percentage (e.g. 2 not 0.02) for solids. The result gives the time in minutes between ejections before the sludge space fills."
-  },
-  {
-    question: "What happens if sludge ejection cycle time is set too long?",
-    answer: "The sludge space overfills and excess sludge enters the interstitial space between the discs, clogging the disc stack and stopping separation. Solids appear in the liquid discharge, vibration increases from uneven sludge distribution, and in the worst case, sludge bridging between rotating and stationary parts can cause catastrophic centrifuge damage."
-  },
-  {
-    question: "What happens if sludge ejection cycle time is set too short?",
-    answer: "Shorter than optimal cycle times cause process fluid loss with every sludge discharge, increase the frequency of sludge discharge mechanism operation which reduces the centrifuge service life, and cause frequent motor current spikes that can lead to motor overheating and premature failure."
-  },
-  {
-    question: "What factors affect disc centrifuge sludge ejection cycle time?",
-    answer: "Three main factors determine cycle time: (1) Bowl sludge space — larger bowls hold more sludge allowing longer intervals, (2) Flow rate — higher flow rates carry solids to the bowl faster requiring shorter intervals, and (3) Percentage solids — higher solid load fills the sludge space faster. The formula is Cycle Time = Bowl Sludge Space / (% Solids x Flow-Rate)."
-  },
-  {
-    question: "How can I determine the bowl sludge space volume for my centrifuge?",
-    answer: "The manufacturer does not always publish the sludge space volume directly. You can estimate it by taking basic measurements of the bowl components and using simple geometric calculations. Alternatively, contact a knowledgeable supplier — Dolphin Centrifuge can provide sludge space volumes for all major disc centrifuge models to help you calculate accurate ejection cycle times."
-  }
-];
 
 const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Disc Stack Centrifuge | Sludge Ejection Cycle Time Calculation",
-    "description": "Complete guide to disc centrifuge sludge ejection cycle time: calculation formula, factors affecting cycle time, consequences of incorrect timing, and optimization tips.",
+    "description": "The sludge ejection cycle time for a self-cleaning disc stack centrifuge is an important factor. We discuss this cycle time in detail in this article.",
     "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
     "datePublished": "2021-03-01",
     "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-sludge-ejection-cycle-time/",
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqItems.map(item => ({
-      "@type": "Question",
-      "name": item.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.answer
-      }
-    }))
-  }
 ];
 
 const toc = [
   { id: 'why-eject',        label: 'Why Does the Sludge Need to be Ejected?' },
   { id: 'how-ejected',      label: 'How is the Sludge Ejected?' },
   { id: 'what-is-cycle-time', label: 'What is the Sludge Ejection Cycle Time?' },
-  { id: 'factors',          label: 'Factors Affecting the Cycle Time' },
-  { id: 'calculation',      label: 'Calculation of Sludge Ejection Cycle Time' },
-  { id: 'consequences',     label: 'Consequences of Incorrect Cycle Time' },
+  { id: 'factors',          label: 'Factors Affecting the Cycle Time', children: [
+    { id: 'bowl-sludge-space', label: 'Bowl Sludge Space', children: [
+      { id: 'how-determine-bowl-sludge-space', label: 'How to Determine the Bowl Sludge Space?' },
+    ]},
+    { id: 'flow-rate', label: 'Flow-Rate', children: [
+      { id: 'how-determine-flow-rate', label: 'How to Determine the Flow-Rate?' },
+    ]},
+    { id: 'percentage-solids', label: 'Percentage Solids', children: [
+      { id: 'how-determine-percentage-solids', label: 'How to Determine the Percentage of Solids?' },
+    ]},
+  ]},
+  { id: 'calculation',      label: 'Calculation of Sludge Ejection Cycle Time', children: [
+    { id: 'formula',         label: 'Formula' },
+    { id: 'sample-table',    label: 'Sample Table of Sludge Ejection Cycle Time' },
+  ]},
+  { id: 'consequences',     label: 'Consequences of Incorrect Cycle Time', children: [
+    { id: 'results-too-long', label: 'Results of the Cycle Time Being Too Long', children: [
+      { id: 'detecting-longer', label: 'Detecting Longer Than Recommended Cycle Times' },
+    ]},
+    { id: 'results-too-short', label: 'Results of the Cycle Time Being Too Short', children: [
+      { id: 'detecting-shorter', label: 'Detecting Shorter Than Recommended Cycle Times' },
+    ]},
+  ]},
   { id: 'summary',          label: 'Summary' },
-  { id: 'faq',              label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -75,8 +59,8 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Sludge Ejection Cycle Time Guide | Dolphin Centrifuge"
-  description="Disc centrifuge sludge ejection cycle time: calculation formula, factors affecting timing, consequences of incorrect intervals, and optimization tips."
+  title="Disc Stack Centrifuge | Sludge Ejection Cycle Time Calculation"
+  description="The sludge ejection cycle time for a self-cleaning disc stack centrifuge is an important factor. We discuss this cycle time in detail in this article."
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-sludge-ejection-cycle-time/"
   category="knowledge"
   categoryLabel="Knowledge Base"
@@ -162,7 +146,7 @@ const relatedProducts = [
     <p class="text-text leading-relaxed mb-4">The bowl sludge space is directly proportional to the sludge ejection cycle time for a set fluid with a set sludge load. Large sludge space allows for longer sludge ejection cycle time.</p>
     <p class="text-text leading-relaxed mb-4">Conversely, smaller sludge space leads to shorter sludge discharge cycle times or frequent sludge discharge cycles.</p>
 
-    <h4 class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Bowl Sludge Space?</h4>
+    <h4 id="how-determine-bowl-sludge-space" class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Bowl Sludge Space?</h4>
     <p class="text-text leading-relaxed mb-4">Though the manufacturer does not mention the actual bowl's sludge-space volume, it is possible to get the volume from a knowledgeable supplier.</p>
     <p class="text-text leading-relaxed">One can estimate the bowl sludge space by taking some basic measurements of the bowl components. Some simple geometric calculations will provide a reasonable estimate of the sludge space volume.</p>
 
@@ -172,7 +156,7 @@ const relatedProducts = [
     <p class="text-text leading-relaxed mb-4">The shorter retention time associated with higher flow rates reduces separation efficiency, thereby reducing the amount of separated sludge.</p>
     <p class="text-text leading-relaxed">However, it is better to be conservative and use a shorter cycle time to reduce the risk of undesirable results of longer than required cycle times.</p>
 
-    <h4 class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Flow-Rate?</h4>
+    <h4 id="how-determine-flow-rate" class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Flow-Rate?</h4>
     <p class="text-text leading-relaxed mb-4">The simplest way to measure the flow rate is with an electronic flow meter installed on the centrifuge inlet line. This device provides a constant flow rate measurement that a control system can utilize to regulate the flow and adjust the cycle time.</p>
     <p class="text-text leading-relaxed mb-4">A mechanical flow meter is also useful for monitoring the flow rate and adjusting the flow or cycle time.</p>
     <p class="text-text leading-relaxed">A positive displacement feed pump operated by a VFD (variable frequency drive) also functions as a flow meter. The direct correlation between the pump speed and the pump's flow indicates the flow rate.</p>
@@ -181,7 +165,7 @@ const relatedProducts = [
     <p class="text-text leading-relaxed mb-4">The percentage of solids in the process fluid is the third factor determining the sludge discharge cycle time. Also known as the solid load, the percentage of solids is inversely proportional to the sludge discharge cycle time.</p>
     <p class="text-text leading-relaxed">For a given flow rate and size of the centrifuge bowl, the higher the solid load, the shorter the sludge discharge cycle time. In other words, a higher proportion of solids fills up the sludge space faster, which requires a shorter time between sludge discharges.</p>
 
-    <h4 class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Percentage of Solids?</h4>
+    <h4 id="how-determine-percentage-solids" class="text-lg font-semibold text-navy mt-4 mb-2">How to Determine the Percentage of Solids?</h4>
     <p class="text-text leading-relaxed mb-4">The primary way to determine the percentage of solids in the process fluid is to run a fluid sample through a benchtop centrifuge. Specially designed tube-centrifuges have graduated tubes that provide an accurate reading of the separated solids.</p>
     <figure class="my-6">
       <img src="/images/disc-stack-centrifuge-sludge-ejection-cycle-time/Graduated-Tube-400.webp" alt="Centrifuge Graduated Tube for measuring percentage solids in process fluid" width="400" height="616" loading="lazy" class="rounded-lg mx-auto" />
@@ -196,7 +180,7 @@ const relatedProducts = [
     <h2 class="text-2xl font-bold text-navy mb-4">Calculation of Sludge Ejection Cycle Time</h2>
     <p class="text-text leading-relaxed mb-4">The actual calculation of the sludge discharge cycle time is quite simple. We are trying to calculate the time it will take for the bowl's sludge space to fill up. In other words, we are converting the percent solids in the fluid into the period to fill the sludge volume in the bowl.</p>
 
-    <h3 class="text-xl font-semibold text-navy mt-4 mb-3">Formula</h3>
+    <h3 id="formula" class="text-xl font-semibold text-navy mt-4 mb-3">Formula</h3>
     <p class="text-text leading-relaxed mb-4">We can convert the calculation described above into a simple formula shown below.</p>
     <div class="bg-navy text-white rounded-lg p-6 text-center my-6">
       <p class="font-mono text-lg font-bold">Sludge Cycle Time = Bowl Sludge Space / (% Solids × Flow-Rate)</p>
@@ -220,7 +204,7 @@ const relatedProducts = [
       </table>
     </div>
 
-    <h3 class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
+    <h3 id="sample-table" class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
     <p class="text-text leading-relaxed mb-4">The sample below is an excerpt of a larger table that helps determine the sludge cycle time for a specific centrifuge for different flow rates and percent solids.</p>
     <p class="text-text leading-relaxed mb-4">The following table shows the discharge time in minutes for varying flow rates and % solids for the Alfa Laval MOPX-207 Self-Cleaning centrifuge.</p>
 
@@ -255,28 +239,26 @@ const relatedProducts = [
     <h2 class="text-2xl font-bold text-navy mb-4">Consequences of Incorrect Cycle Time</h2>
     <p class="text-text leading-relaxed mb-4">It is essential to understand that incorrect cycle times cause product losses and possible detrimental effects on the centrifuge.</p>
 
-    <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
-      <p class="text-red-800 font-bold">WARNING: The operator should NEVER OVERESTIMATE the sludge discharge cycle time. Overestimation of the cycle time can lead to catastrophic failure of the centrifuge and possible injury or death. Irreparable damage to the centrifuge can also result from an overestimated cycle time.</p>
-    </div>
+    <p class="text-text leading-relaxed mb-4">However, the operator should <strong>NEVER OVERESTIMATE the sludge discharge cycle time. Overestimation of the cycle time can lead to catastrophic failure of the centrifuge and possible injury or death. Irreparable damage to the centrifuge can also result from an overestimated cycle time.</strong></p>
 
-    <h3 class="text-xl font-semibold text-navy mt-4 mb-3">Results of the Cycle Time Being Too Long</h3>
+    <h3 id="results-too-long" class="text-xl font-semibold text-navy mt-4 mb-3">Results of the Cycle Time Being Too Long</h3>
     <p class="text-text leading-relaxed mb-4">Longer than optimum cycle time will lead to over-accumulation of sludge in the centrifuge bowl. This overestimation has several detrimental effects on the centrifuge itself and its performance.</p>
     <p class="text-text leading-relaxed mb-4">Once the sludge space is filled up, and the sludge and a longer cycle time prevent the sludge ejection, the sludge buildup continues. The excess sludge then enters the interstitial space between the discs. These solids fill up the disc stack restricting the fluid flow, which stops the separation process.</p>
     <p class="text-text leading-relaxed mb-4">In the worst-case scenario, the solids can accumulate in the upper discharge chamber and create a bridge between the centrifuge's rotating and stationary parts. This bridging can impart a sudden braking effect on the rotating bowl assembly.</p>
     <p class="text-text leading-relaxed mb-4">The rotating bowl's momentum has tremendous energy, which can dissipate in a destructive way damaging the bowl or even dismantling the centrifuge. <strong>This rare event is known to cause catastrophic damage to and physical disintegration of the operating centrifuge.</strong></p>
 
-    <h4 class="text-lg font-semibold text-navy mt-4 mb-2">Detecting Longer Than Recommended Cycle Times</h4>
+    <h4 id="detecting-longer" class="text-lg font-semibold text-navy mt-4 mb-2">Detecting Longer Than Recommended Cycle Times</h4>
     <p class="text-text leading-relaxed mb-4">The first indication of too much sludge buildup due to a long cycle time is solids' appearance in the liquid phases. Once the sludge space is full, the separated solids have no room and will flow out with the separated fluid.</p>
     <p class="text-text leading-relaxed mb-4">A sudden appearance of solid in the otherwise clear centrate indicates the sludge space is full due to a longer than optimal cycle time.</p>
     <p class="text-text leading-relaxed mb-4">The accumulation of too much sludge can be irregular inside the bowl. This excess sludge causes an imbalance in the bowl leading to excessive vibrations. This sudden increase in the vibration level is another indication of too long a sludge discharge time.</p>
     <p class="text-text leading-relaxed">If the sludge enters the space between the discs and restricts the fluid flow, it will reduce centrifuge fluid discharge. The excess incoming fluid will overflow and come out through the frame or other unusual path. This fluid exit through an unusual outlet indicates a longer than required discharge cycle time.</p>
 
-    <h3 class="text-xl font-semibold text-navy mt-6 mb-3">Results of the Cycle Time Being Too Short</h3>
+    <h3 id="results-too-short" class="text-xl font-semibold text-navy mt-6 mb-3">Results of the Cycle Time Being Too Short</h3>
     <p class="text-text leading-relaxed mb-4">Shorter than optimal sludge discharge cycle times cause the sludge ejection before the sludge space is full. In this case, the loss of some of the process fluid occurs with every sludge discharge. This loss is not desirable from the operator's perspective.</p>
     <p class="text-text leading-relaxed mb-4">The frequency of sludge discharges increases due to unnecessarily short cycle times. This increase causes the sludge discharge mechanism's frequent operation and has a detrimental effect on the centrifuge's service life.</p>
     <p class="text-text leading-relaxed">The centrifuge motor current spikes during the sludge discharge process. If the sludge discharge cycle time is too short, the motor's frequent current spikes can cause the motor to overheat, leading to premature motor failure.</p>
 
-    <h4 class="text-lg font-semibold text-navy mt-4 mb-2">Detecting Shorter Than Recommended Cycle Times</h4>
+    <h4 id="detecting-shorter" class="text-lg font-semibold text-navy mt-4 mb-2">Detecting Shorter Than Recommended Cycle Times</h4>
     <p class="text-text leading-relaxed">The easiest way to detect shorter than optimal discharge cycle time is to monitor the discharge from the sludge outlet. The presence of large amounts of process fluid could be due to the short cycle time. Therefore it is essential to sample the sludge discharge periodically and quantify the proportion of sludge, and process fluid therein.</p>
   </div>
 
@@ -288,40 +270,5 @@ const relatedProducts = [
     <p class="text-sm text-gray-500 italic">by Sanjay Prabhu MSME, Engineering Manager, Dolphin Centrifuge</p>
   </div>
 
-  <!-- In-article CTA -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center mb-8">
-    <h2 class="text-2xl font-bold mb-3">Need Help Setting Optimal Ejection Timing?</h2>
-    <p class="text-gray-300 mb-6">Dolphin Centrifuge provides operating parameter optimization and support to establish correct ejection timing for your specific application.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="tel:+12485222573" class="bg-gold hover:bg-yellow-500 text-navy font-bold px-6 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-      <a href="mailto:sales@dolphincentrifuge.com" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">sales@dolphincentrifuge.com</a>
-      <a href="/contact-for-alfa-laval-centrifuges/" class="border border-white/30 hover:border-gold text-white font-semibold px-6 py-3 rounded-lg transition-colors">Contact for Support</a>
-    </div>
-  </div>
-
-  <!-- Mid-page CTA -->
-  <div class="bg-gold/10 border border-gold rounded-xl p-6 my-8 text-center">
-    <h3 class="text-lg font-bold text-navy mb-2">Not Sure What Cycle Time to Set?</h3>
-    <p class="text-text-light text-sm mb-4 max-w-lg mx-auto">Send us a sample of your process fluid. Our engineers will measure the solids content and recommend the correct ejection cycle time for your specific centrifuge and application.</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/industrial-centrifuge-sample-testing/" class="inline-flex items-center gap-2 bg-gold hover:bg-yellow-500 text-navy font-bold text-sm px-6 py-3 rounded-lg transition-colors">Sample Testing</a>
-      <a href="/industrial-disc-centrifuge-repair/" class="inline-flex items-center gap-2 border border-navy/20 hover:border-navy text-navy font-semibold text-sm px-6 py-3 rounded-lg transition-colors">Centrifuge Service</a>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <FAQ items={faqItems} />
-
-  <!-- Related Articles -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
-    <h2 class="text-xl font-bold text-navy mb-4">Related Knowledge Articles</h2>
-    <ul class="space-y-2">
-      <li><a href="/disc-stack-centrifuge-operating-water/" class="text-navy hover:text-gold transition-colors font-semibold">Disc Stack Centrifuge Operating Water Guide</a></li>
-      <li><a href="/disc-stack-centrifuge-performance/" class="text-navy hover:text-gold transition-colors font-semibold">8 External Factors Affecting Disc Centrifuge Performance</a></li>
-      <li><a href="/disc-stack-centrifuge-efficiency/" class="text-navy hover:text-gold transition-colors font-semibold">5 Ways to Increase Disc Stack Centrifuge Efficiency</a></li>
-      <li><a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold transition-colors font-semibold">Disc Centrifuge Backpressure — Comprehensive Guide</a></li>
-      <li><a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition-colors font-semibold">101 Frequently Asked Questions About Disc Stack Centrifuges</a></li>
-    </ul>
-  </div>
 
 </ApplicationLayout>

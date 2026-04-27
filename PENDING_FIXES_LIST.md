@@ -14,6 +14,7 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 | `alfa-laval-centrifuge-selection-guide` | Hero | `Alfa-Laval-Centrifuge-Selection-Guide_Hero_1400.webp` | ✅ DONE | Upgraded from 600x300 to 1400x550. Deployed from `_Image_NB_Fixed/`. |
 | `disc-stack-centrifuge-liquid-seal-break` | Hero | `disc_stack_centrifuge_liquid_seal_break_hero_1400.webp` | ✅ DONE | Upgraded from 600x299 to 1400px. Deployed from `_New_Hero_Image/`. Old hero in `Fix_Hero_/`. |
 | `disc-stack-centrifuge-operating-water` | Hero | `disc-stack-centrifuge-bowl-moving-parts-1050-768x293-1.webp` | ⏳ PENDING | Hero is only 768x293px. Minimum spec is 1440x500px. Sanjay approved keeping for now (commit `71511a2`). Needs a proper wide hero image before launch. |
+| `disc-stack-centrifuge-sludge-ejection-cycle-time` | Hero | `Bowl-Sludge-Ports-600.webp` | ⏳ PENDING | Hero is only 600px wide. Minimum spec is 1440x500px. Old hero copied to `_Old_Hero_Image/disc-stack-centrifuge-sludge-ejection-cycle-time/`. Place replacement in `_New_Hero_Image/` when ready. |
 
 ---
 
@@ -37,4 +38,4 @@ These items cannot be resolved without a strategic decision from Sanjay. They ar
 
 ---
 
-*Last Updated: 2026-04-26*
+*Last Updated: 2026-04-27*
