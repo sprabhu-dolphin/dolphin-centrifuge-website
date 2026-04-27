@@ -197,7 +197,38 @@ const relatedProducts = [
     </div>
 
     <h3 id="cycle-time-calculator" class="text-xl font-semibold text-navy mt-6 mb-3">Cycle Time Calculator</h3>
-    <p class="text-text leading-relaxed mb-4">Contact Dolphin Centrifuge with your bowl model, flow rate, and percent solids and we will calculate the sludge ejection cycle time for your application.</p>
+    <div class="not-prose bg-gray-50 border border-gray-200 rounded-xl p-6 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label for="calc-sludge-space" class="block text-sm font-semibold text-navy mb-1">Bowl Sludge Space (gallons)</label>
+          <input id="calc-sludge-space" type="number" min="0" step="any" placeholder="e.g. 0.77" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+        </div>
+        <div>
+          <label for="calc-percent-solids" class="block text-sm font-semibold text-navy mb-1">% Solids (enter 2 for 2%)</label>
+          <input id="calc-percent-solids" type="number" min="0" step="any" placeholder="e.g. 0.2" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+        </div>
+        <div>
+          <label for="calc-flow-rate" class="block text-sm font-semibold text-navy mb-1">Flow-Rate (GPM)</label>
+          <input id="calc-flow-rate" type="number" min="0" step="any" placeholder="e.g. 6" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" oninput="calcCycleTime()" />
+        </div>
+      </div>
+      <div id="calc-result" class="bg-navy text-white rounded-lg px-5 py-3 text-center font-semibold text-base hidden"></div>
+    </div>
+    <script>
+      function calcCycleTime() {
+        var space = parseFloat(document.getElementById('calc-sludge-space').value);
+        var solids = parseFloat(document.getElementById('calc-percent-solids').value);
+        var flow = parseFloat(document.getElementById('calc-flow-rate').value);
+        var result = document.getElementById('calc-result');
+        if (!isNaN(space) && !isNaN(solids) && !isNaN(flow) && solids > 0 && flow > 0) {
+          var cycleTime = space / (solids * flow);
+          result.textContent = 'Sludge Ejection Cycle Time = ' + cycleTime.toFixed(1) + ' minutes';
+          result.classList.remove('hidden');
+        } else {
+          result.classList.add('hidden');
+        }
+      }
+    </script>
 
     <h3 id="sample-table" class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
     <p class="text-text leading-relaxed mb-4">The sample below is an excerpt of a larger table that helps determine the sludge cycle time for a specific centrifuge for different flow rates and percent solids.</p>
