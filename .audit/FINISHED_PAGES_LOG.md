@@ -44,3 +44,5 @@ All pages below have passed the v2.2 refactor audit.
 | disc-stack-centrifuge-options | 235b63b | - | 2026-04-26 | PASS |
 | three-phase-decanter | c072de8 | - | 2026-04-26 | PASS |
 | disc-stack-centrifuge-operating-water | f660640 | hero-undersized | 2026-04-26 | PASS |
+| stainless-steel-centrifuge | 27a7c0e | - | 2026-04-27 | PASS |
+| alfa-laval-nx-418-decanter-centrifuge | 59180d0 | - | 2026-04-27 | PASS |
