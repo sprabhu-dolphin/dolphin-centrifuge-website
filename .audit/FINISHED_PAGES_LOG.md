@@ -47,3 +47,4 @@ All pages below have passed the v2.2 refactor audit.
 | stainless-steel-centrifuge | 27a7c0e | - | 2026-04-27 | PASS |
 | alfa-laval-nx-418-decanter-centrifuge | 59180d0 | - | 2026-04-27 | PASS |
 | industrial-disc-centrifuge-repair | f113e31 | - | 2026-04-27 | PASS |
+| disc-stack-centrifuge-efficiency | b568188 | - | 2026-04-27 | PASS |
