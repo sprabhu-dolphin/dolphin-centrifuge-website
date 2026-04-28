@@ -74,7 +74,7 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
 
     Strict Isolation: Process exactly ONE page at a time from start to finish. You must finish the exact page you are assigned before looking at or modifying any other page's code.
 
-    Git Hygiene: Remind the user to stage and commit the completed .astro page before starting the next one. Do not allow the Git working tree to become bloated with multiple unfinished page migrations.
+    Git Hygiene: Commit every completed fix batch immediately before returning control to Sanjay. Do not leave page edits, image edits, or rulebook edits uncommitted when asking Sanjay to send work to the audit agent. Do not allow the Git working tree to become bloated with multiple unfinished page migrations.
 
 #3. LEGACY WEBSITE CONTENT -> SOURCE OF TRUTH
 
@@ -373,7 +373,12 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     Normal current loop:
     - Work on exactly one slug.
     - Apply only Sanjay's current page-specific audit handoff.
-    - Commit the page fix.
+    - Commit the page fix immediately after the current fix batch is complete.
+    - HARD STOP: Do not tell Sanjay "done", "ready", "fixed", "re-audit it", or similar unless the relevant changes are already committed.
+    - HARD STOP: If you changed any tracked file for the current page, image assets, supporting page data, pending-fix notes, finished-page logs, or rulebook instructions, you MUST create a git commit before responding to Sanjay.
+    - If the work is too large for one safe commit, split it into small commits and report each commit SHA.
+    - If you cannot commit because the working tree contains unrelated user changes, STOP and explain exactly which unrelated files are blocking a clean commit. Do not ask for an audit SHA until a commit exists.
+    - The audit agent can only audit a committed SHA. Never ask Sanjay to send the audit agent an uncommitted working tree state.
     - Run the post-commit integrity checks in Rule #12.
     - MANDATORY: After EVERY git commit, read the SHA from the git output and report it to Sanjay
       in your response in this exact format, EVERY TIME, WITHOUT BEING ASKED:
