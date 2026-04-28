@@ -214,41 +214,46 @@ const relatedProducts = [
         </div>
       </div>
       <div class="flex gap-3 mb-4">
-        <button onclick="runCalcCycleTime()" class="bg-navy text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-navy/90 transition-colors">Calculate</button>
-        <button onclick="resetCalcCycleTime()" class="border border-gray-300 text-navy font-semibold text-sm px-5 py-2 rounded-lg hover:bg-gray-100 transition-colors">Reset</button>
+        <button id="calc-btn" type="button" class="bg-navy text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-navy/90 transition-colors">Calculate</button>
+        <button id="calc-reset-btn" type="button" class="border border-gray-300 text-navy font-semibold text-sm px-5 py-2 rounded-lg hover:bg-gray-100 transition-colors">Reset</button>
       </div>
       <div id="calc-result-box" class="hidden rounded-lg px-5 py-3 text-center font-semibold text-base"></div>
     </div>
     <script>
-      function runCalcCycleTime() {
+      document.addEventListener('DOMContentLoaded', function () {
         var spaceEl  = document.getElementById('calc-sludge-space');
         var solidsEl = document.getElementById('calc-percent-solids');
         var flowEl   = document.getElementById('calc-flow-rate');
         var box      = document.getElementById('calc-result-box');
-        var space    = parseFloat(spaceEl.value);
-        var solids   = parseFloat(solidsEl.value);
-        var flow     = parseFloat(flowEl.value);
-        box.classList.remove('hidden', 'bg-navy', 'text-white', 'bg-red-100', 'text-red-800');
-        if (isNaN(space) || isNaN(solids) || isNaN(flow) || space <= 0 || solids <= 0 || flow <= 0) {
-          box.classList.add('bg-red-100', 'text-red-800');
-          box.textContent = 'Please enter valid values greater than zero in all three fields.';
-          return;
-        }
-        /* Formula: Cycle Time (min) = (Bowl Sludge Space x 100) / (% Solids x Flow-Rate GPM)
-           % Solids is entered as a whole-number percentage: 0.1 for 0.1%, 2 for 2%.
-           Verified against sample table: 0.774 gal, 0.1%, 2 GPM = 387 min */
-        var cycleTime = (space * 100) / (solids * flow);
-        box.classList.add('bg-navy', 'text-white');
-        box.textContent = 'Sludge Ejection Cycle Time = ' + cycleTime.toFixed(1) + ' minutes';
-      }
-      function resetCalcCycleTime() {
-        document.getElementById('calc-sludge-space').value  = '';
-        document.getElementById('calc-percent-solids').value = '';
-        document.getElementById('calc-flow-rate').value     = '';
-        var box = document.getElementById('calc-result-box');
-        box.classList.add('hidden');
-        box.textContent = '';
-      }
+        var calcBtn  = document.getElementById('calc-btn');
+        var resetBtn = document.getElementById('calc-reset-btn');
+
+        calcBtn.addEventListener('click', function () {
+          var space  = parseFloat(spaceEl.value);
+          var solids = parseFloat(solidsEl.value);
+          var flow   = parseFloat(flowEl.value);
+          box.classList.remove('hidden', 'bg-navy', 'text-white', 'bg-red-100', 'text-red-800');
+          if (isNaN(space) || isNaN(solids) || isNaN(flow) || space <= 0 || solids <= 0 || flow <= 0) {
+            box.classList.add('bg-red-100', 'text-red-800');
+            box.textContent = 'Please enter valid values greater than zero in all three fields.';
+            return;
+          }
+          /* Formula: Cycle Time (min) = (Bowl Sludge Space x 100) / (% Solids x Flow-Rate GPM)
+             % Solids entered as whole-number percent: 0.1 for 0.1%, 2 for 2%.
+             Verified against sample table: 0.774 gal, 0.1%, 2 GPM = 387 min */
+          var cycleTime = (space * 100) / (solids * flow);
+          box.classList.add('bg-navy', 'text-white');
+          box.textContent = 'Sludge Ejection Cycle Time = ' + cycleTime.toFixed(1) + ' minutes';
+        });
+
+        resetBtn.addEventListener('click', function () {
+          spaceEl.value  = '';
+          solidsEl.value = '';
+          flowEl.value   = '';
+          box.classList.add('hidden');
+          box.textContent = '';
+        });
+      });
     </script>
 
     <h3 id="sample-table" class="text-xl font-semibold text-navy mt-6 mb-3">Sample Table of Sludge Ejection Cycle Time</h3>
