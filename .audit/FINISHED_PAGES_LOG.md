@@ -51,3 +51,4 @@ All pages below have passed the v2.2 refactor audit.
 | disc-stack-centrifuge-sludge-ejection-cycle-time | a6910af | hero-approved-exception | 2026-04-28 | PASS |
 | black-diesel-centrifuge | f2a4dd1 | - | 2026-04-28 | PASS |
 | sharples-p-3000-decanter | 4e193fa | - | 2026-04-28 | PASS |
+| disc-centrifuge-friction-clutch | b8d17c2 | - | 2026-04-28 | PASS |
