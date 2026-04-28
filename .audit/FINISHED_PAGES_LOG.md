@@ -52,3 +52,4 @@ All pages below have passed the v2.2 refactor audit.
 | black-diesel-centrifuge | f2a4dd1 | - | 2026-04-28 | PASS |
 | sharples-p-3000-decanter | 4e193fa | - | 2026-04-28 | PASS |
 | disc-centrifuge-friction-clutch | b8d17c2 | - | 2026-04-28 | PASS |
+| alfa-laval-g2-40-decanter | 747a874 | hero-undersized, body-images-undersized | 2026-04-28 | PASS |
