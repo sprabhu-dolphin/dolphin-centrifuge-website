@@ -1,6 +1,31 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Steps to Replace Friction Pads in a Disc Centrifuge",
+  "step": [
+    { "@type": "HowToStep", "text": "Shut off the centrifuge motor." },
+    { "@type": "HowToStep", "text": "Engage the manual brake." },
+    { "@type": "HowToStep", "text": "Let the centrifuge come to a complete stop." },
+    { "@type": "HowToStep", "text": "Lock out the power to the centrifuge motor." },
+    { "@type": "HowToStep", "text": "Wait for the friction clutch to cool down (about 15 minutes)." },
+    { "@type": "HowToStep", "text": "Remove the brake cover plate." },
+    { "@type": "HowToStep", "text": "Reach into the clutch nave and remove the bolts holding the 'L' brackets." },
+    { "@type": "HowToStep", "text": "Slide off each friction block from the pivot pin in the clutch hub." },
+    { "@type": "HowToStep", "text": "Wipe off and clean each block and pad to remove wear-dust and soot." },
+    { "@type": "HowToStep", "text": "Remove the brass screws that hold the friction pad on the friction block." },
+    { "@type": "HowToStep", "text": "Inspect the friction blocks for wear." },
+    { "@type": "HowToStep", "text": "Install the new friction pads with the new brass screw provided with the pads." },
+    { "@type": "HowToStep", "text": "Reinstall the friction blocks on the pivot pins in the clutch hub." },
+    { "@type": "HowToStep", "text": "Reinstall the 'L' brackets holding the friction blocks on the pins." },
+    { "@type": "HowToStep", "text": "Install the brake cover plate." },
+    { "@type": "HowToStep", "text": "Disengage the manual brake." },
+    { "@type": "HowToStep", "text": "Power up the centrifuge and check ramp-up time and motor current." }
+  ]
+};
+
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -22,44 +47,72 @@ const articleJsonLd = {
   "url": "https://dolphincentrifuge.com/disc-centrifuge-friction-clutch/"
 };
 
-const jsonLd = [articleJsonLd];
+const jsonLd = [articleJsonLd, howToJsonLd];
 
 const toc = [
   { id: 'purpose', label: 'What is the purpose of the friction clutch in the disc centrifuge?' },
-  { id: 'how-it-works', label: 'How does the disc centrifuge friction clutch work?' },
-  { id: 'startup-time', label: 'How long does it take for a disc centrifuge with a friction clutch to come up to operating speed?', level: 2 },
-  { id: 'inspection-time', label: 'How long does it take to inspect and replace the friction pads in the disc centrifuge friction clutch?', level: 2 },
-  { id: 'replacement-steps', label: 'Steps to Replace Friction Pads', level: 2 },
-  { id: 'benefits', label: 'Benefits of Friction Clutch', level: 2 },
-  { id: 'small-drive-motor', label: 'Small Drive Motor', level: 3 },
-  { id: 'low-startup-current', label: 'Low Startup Current', level: 3 },
-  { id: 'simple-motor-starter', label: 'Simple Motor Starter', level: 3 },
-  { id: 'shock-loads', label: 'Ability to Handle Sudden Shock Loads', level: 3 },
-  { id: 'limitations', label: 'Limitations of Friction Clutch', level: 2 },
-  { id: 'periodic-maintenance', label: 'Periodic Maintenance', level: 3 },
-  { id: 'spare-parts', label: 'Replaceable Spare Parts', level: 3 },
-  { id: 'long-startup', label: 'Long Startup Time', level: 3 },
-  { id: 'long-stoppage', label: 'Long Stoppage Time', level: 3 },
-  { id: 'heat-generation', label: 'Heat Generation', level: 3 },
-  { id: 'sparking', label: 'Sparking Potential', level: 3 },
-  { id: 'not-maintained', label: 'What happens if the friction clutch is not maintained?' },
-  { id: 'longer-startup-time', label: 'Longer Startup Time', level: 2 },
-  { id: 'low-speed', label: 'Low Centrifuge Speed', level: 2 },
-  { id: 'drum-damage', label: 'Damage to Clutch Drum and Friction Blocks', level: 2 },
-  { id: 'vibration', label: 'Centrifuge Vibration', level: 2 },
-  { id: 'telltale-signs', label: 'Telltale signs the friction clutch needs maintenance' },
-  { id: 'rampup-time', label: 'Longer than usual ramp-up time', level: 2 },
-  { id: 'no-operating-speed', label: 'Centrifuge does not reach operating speed', level: 2 },
-  { id: 'metal-sound', label: 'Metal to metal scraping or screeching sound', level: 2 },
-  { id: 'unusual-vibration', label: 'Unusual centrifuge vibration', level: 2 },
-  { id: 'maintenance-process', label: 'Friction Clutch Maintenance Process' },
-  { id: 'brake-plate', label: 'Removal of Brake Plate', level: 2 },
-  { id: 'l-bracket', label: "Removing the 'L' Shaped Bracket", level: 2 },
-  { id: 'extract-block', label: 'Extracting the Friction Block with Friction Pad Attached', level: 2 },
-  { id: 'inspection', label: 'Inspection of Friction Block and Replacement of Friction Pads (as needed)', level: 2 },
+  {
+    id: 'how-it-works', label: 'How does the disc centrifuge friction clutch work?',
+    subItems: [
+      { id: 'startup-time', label: 'How long does it take for a disc centrifuge with a friction clutch to come up to operating speed?' },
+      { id: 'inspection-time', label: 'How long does it take to inspect and replace the friction pads in the disc centrifuge friction clutch?' },
+      { id: 'replacement-steps', label: 'Steps to Replace Friction Pads' },
+      {
+        id: 'benefits', label: 'Benefits of Friction Clutch',
+        subItems: [
+          { id: 'small-drive-motor', label: 'Small Drive Motor' },
+          { id: 'low-startup-current', label: 'Low Startup Current' },
+          { id: 'simple-motor-starter', label: 'Simple Motor Starter' },
+          { id: 'shock-loads', label: 'Ability to Handle Sudden Shock Loads' },
+        ]
+      },
+      {
+        id: 'limitations', label: 'Limitations of Friction Clutch',
+        subItems: [
+          { id: 'periodic-maintenance', label: 'Periodic Maintenance' },
+          { id: 'spare-parts', label: 'Replaceable Spare Parts' },
+          { id: 'long-startup', label: 'Long Startup Time' },
+          { id: 'long-stoppage', label: 'Long Stoppage Time' },
+          { id: 'heat-generation', label: 'Heat Generation' },
+          { id: 'sparking', label: 'Sparking Potential' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'not-maintained', label: 'What happens if the friction clutch is not maintained?',
+    subItems: [
+      { id: 'longer-startup-time', label: 'Longer Startup Time' },
+      { id: 'low-speed', label: 'Low Centrifuge Speed' },
+      { id: 'drum-damage', label: 'Damage to Clutch Drum and Friction Blocks' },
+      { id: 'vibration', label: 'Centrifuge Vibration' },
+    ]
+  },
+  {
+    id: 'telltale-signs', label: 'Telltale signs the friction clutch needs maintenance',
+    subItems: [
+      { id: 'rampup-time', label: 'Longer than usual ramp-up time' },
+      { id: 'no-operating-speed', label: 'Centrifuge does not reach operating speed' },
+      { id: 'metal-sound', label: 'Metal to metal scraping or screeching sound' },
+      { id: 'unusual-vibration', label: 'Unusual centrifuge vibration' },
+    ]
+  },
+  {
+    id: 'maintenance-process', label: 'Friction Clutch Maintenance Process',
+    subItems: [
+      { id: 'brake-plate', label: 'Removal of Brake Plate' },
+      { id: 'l-bracket', label: "Removing the 'L' Shaped Bracket" },
+      { id: 'extract-block', label: 'Extracting the Friction Block with Friction Pad Attached' },
+      { id: 'inspection', label: 'Inspection of Friction Block and Replacement of Friction Pads (as needed)' },
+    ]
+  },
   { id: 'frequency', label: 'Frequency of Friction Clutch Maintenance' },
-  { id: 'direct-drive', label: 'Friction Clutch Replacement with Direct Drive Coupling' },
-  { id: 'convert-direct-drive', label: 'Can a friction clutch centrifuge be converted to direct-drive type transmission?', level: 2 },
+  {
+    id: 'direct-drive', label: 'Friction Clutch Replacement with Direct Drive Coupling',
+    subItems: [
+      { id: 'convert-direct-drive', label: 'Can a friction clutch centrifuge be converted to direct-drive type transmission?' },
+    ]
+  },
 ];
 
 const relatedApplications = [
@@ -77,11 +130,12 @@ const relatedProducts = [
 
 <ApplicationLayout
   title="Disc Centrifuge Friction Clutch Maintenance: A complete guide"
+  disableTitleSuffix={true}
   description="How to maintain the disc centrifuge friction clutch to avoid centrifuge breakdowns and unplanned maintenance downtime. A detailed guide!"
   category="knowledge"
   categoryLabel="Knowledge Center"
   heroImage="/images/disc-centrifuge-friction-clutch/disc-centrifuge-friction-clutch-hero-2000.webp"
-  heroImageAlt="Disc centrifuge friction clutch assembly — friction blocks, pads, drum, and brake plate during industrial maintenance service"
+  heroImageAlt="Disc centrifuge friction clutch assembly - friction blocks, pads, drum and brake plate during industrial maintenance"
   canonicalUrl="https://dolphincentrifuge.com/disc-centrifuge-friction-clutch/"
   jsonLd={jsonLd}
   toc={toc}
@@ -99,26 +153,12 @@ const relatedProducts = [
 
   <!-- Purpose -->
   <h2 id="purpose">What is the purpose of the friction clutch in the disc centrifuge?</h2>
-  <div class="flex flex-col md:flex-row gap-6 items-start not-prose mb-6">
-    <div class="md:w-1/2">
-      <p class="text-text-light mb-4">
-        The friction clutch transmits the power from the drive motor to the centrifuge's internal transmission. The centrifuge bowl is a relatively heavy mass that rotates within the centrifuge frame.
-      </p>
-      <p class="text-text-light">
-        Given the momentum of such a contracted mass, it is necessary to increase the bowl's speed gradually. The friction clutch functions as a transmitter of the torque gradually through friction between the friction pads rotating at the motor speed and the transmission pulley that rotates the bowl through a set of gears.
-      </p>
-    </div>
-    <div class="md:w-1/2">
-      <img
-        src="/images/disc-centrifuge-friction-clutch/disc-centrifuge-friction-clutch-repair-400.webp"
-        alt="Disc centrifuge friction clutch assembly diagram — friction blocks, pads, drum, and brake plate"
-        width="400" height="267"
-        loading="lazy"
-        class="rounded-lg shadow-md w-full"
-      />
-      <p class="text-xs text-text-muted mt-2 italic text-center">Disc Centrifuge Friction Clutch Assembly Parts</p>
-    </div>
-  </div>
+  <p>
+    The friction clutch transmits the power from the drive motor to the centrifuge's internal transmission. The centrifuge bowl is a relatively heavy mass that rotates within the centrifuge frame.
+  </p>
+  <p>
+    Given the momentum of such a contracted mass, it is necessary to increase the bowl's speed gradually. The friction clutch functions as a transmitter of the torque gradually through friction between the friction pads rotating at the motor speed and the transmission pulley that rotates the bowl through a set of gears.
+  </p>
 
   <!-- How It Works -->
   <h2 id="how-it-works">How does the disc centrifuge friction clutch work?</h2>
@@ -259,12 +299,12 @@ const relatedProducts = [
   <figure class="my-6">
     <img
       src="/images/disc-centrifuge-friction-clutch/disc-centrifuge-friction-clutch-repair-400.webp"
-      alt="Disc centrifuge friction clutch assembly diagram — friction blocks, pads, drum, and brake plate"
+      alt="Disc Centrifuge Friction Clutch Assembly Parts"
       width="400" height="267"
       loading="lazy"
-      class="rounded-lg w-full max-w-md"
+      class="img-cap-400"
     />
-    <figcaption class="text-sm text-gray-500 mt-2 italic"><strong>Disc Centrifuge Friction Clutch Assembly Parts</strong></figcaption>
+    <figcaption><strong>Disc Centrifuge Friction Clutch Assembly Parts</strong></figcaption>
   </figure>
 
   <h3 id="brake-plate">Removal of Brake Plate</h3>
