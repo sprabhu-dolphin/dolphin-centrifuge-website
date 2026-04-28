@@ -354,9 +354,26 @@ the audit loop. It is preserved for the separate image-generation sessions only:
        If any summary says a page is finished but the "Git Log" shows it is old, the Agent must STOP and inform the user of the discrepancy in ELI5 (Explain Like I'm 5) terms.
 
 #9. MANDATORY MAINTENANCE OF FINISHED_PAGES_LOG.md:
-    The agent MUST update `FINISHED_PAGES_LOG.md` immediately following every page commit. 
-    - Log the slug, date, commit hash, and layout engine.
+    HARD RULE: A page commit is NOT a finished page.
+
+    The agent MUST NOT update `FINISHED_PAGES_LOG.md` after a normal page commit, fix commit,
+    image commit, or refactor commit.
+
+    The agent may update `FINISHED_PAGES_LOG.md` ONLY AFTER Sanjay gives the audit agent's
+    explicit PASS / Page Done result for that exact slug and commit SHA.
+
+    Required order:
+    1. Finish the current fix batch.
+    2. Commit the fix batch.
+    3. Give Sanjay the commit SHA.
+    4. STOP and wait while Sanjay sends that SHA to the audit agent.
+    5. Only if the audit agent returns PASS / Page Done for that exact slug and SHA, update
+       `FINISHED_PAGES_LOG.md`.
+    6. Commit the `FINISHED_PAGES_LOG.md` update separately and report that commit SHA.
+
+    - Log the slug, date, auditor-passed commit hash, and layout engine.
     - If a page is not in the log, it is NOT FINISHED. No exceptions.
+    - If the auditor returns NEEDS FIXES, do not touch `FINISHED_PAGES_LOG.md`.
 
 #10. STRICT BROWSER PREVIEW PROHIBITION (CRASH PREVENTION):
     - **CRITICAL:** NEVER use a browser subagent or attempt to preview/render the page yourself. This will instantly CRASH the user's PC (Out Of Memory).
@@ -391,6 +408,8 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - Give Sanjay the commit hash and stop.
     - Sanjay will pass the slug and commit hash to the audit agent in chat.
     - The audit agent reviews the committed state directly and returns PASS or a fix-only handoff.
+    - HARD STOP: Do not update `FINISHED_PAGES_LOG.md` until Sanjay reports that the audit agent
+      returned PASS / Page Done for that exact slug and commit SHA.
 
     Do NOT write READY.txt, LATEST.md, or audit-bridge JSON files in the normal chat loop.
     Do NOT decide that a page is done just because you committed it.
