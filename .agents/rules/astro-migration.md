@@ -27,24 +27,44 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
     □ No invented content — if a paragraph is not in the XML, it must NOT be in the .astro file
     Meta description rule: copy legacy verbatim when present. If legacy meta_description is empty, Sanjay approves a short factual generated meta description by default. Do NOT invent specs, capacities, prices, percentages, guarantees, testimonials, or unsupported claims.
 
-    [] If legacy has a visible Table of Contents / linked summary block, its items, nesting, and order are preserved in the final Astro TOC
+    CRITICAL SEO FIELD MAPPING RULE (added 2026-04-27):
+    WordPress may store different values for:
+    - legacy SEO title (`rank_math_title`)
+    - legacy visible page title / H1
+    - legacy meta description (`rank_math_description`)
 
-    MANDATORY LEGACY TOC RULE:
+    They must be audited and migrated separately.
+
+    Required mapping:
+    - Astro `title=` -> legacy SEO title (`rank_math_title`) when present
+    - Astro `pageTitle=` or visible hero/H1 text -> legacy visible H1/page title
+    - Astro `description=` -> legacy meta description (`rank_math_description`)
+
+    Never assume the SEO title and visible H1 are the same.
+    Never compare the Astro SEO title against the legacy visible H1.
+    If the layout auto-appends a brand suffix, override it when needed so the final rendered title tag matches the legacy SEO title exactly.
+
+    [] If legacy has a visible Table of Contents / linked summary block, its items, nesting, and order are preserved in the final Astro TOC
+    [] If legacy has no visible Table of Contents, a single standard Astro TOC is still allowed and should not be treated as AI contamination
+
+    MANDATORY TOC RULE:
     If the legacy page contains a visible in-body "Table of Contents" block, linked summary list,
     or similar heading plus anchor list, its TOC coverage MUST be preserved on the Astro page.
 
     DEFAULT IMPLEMENTATION RULE:
     The accepted sitewide pattern is the standard `ApplicationLayout` TOC driven by the page `toc`
-    prop. Use that as the default TOC implementation across the site.
+    prop. Use that as the default TOC implementation across the site. A single standard Astro TOC
+    is allowed even when legacy did not have a visible TOC.
 
     Requirements:
-    - Preserve every TOC item from legacy in the Astro TOC.
-    - Preserve the same section coverage and order from legacy.
+    - If legacy has a TOC, preserve every TOC item from legacy in the Astro TOC.
+    - If legacy has a TOC, preserve the same section coverage and order from legacy.
     - If legacy includes linked subsection items, those subsection anchors must also exist in Astro.
     - Do NOT shorten a legacy TOC to only top-level sections when legacy includes deeper linked items.
     - Do NOT paste a second legacy-looking bullet-list TOC into the body when the standard Astro TOC already covers the same content.
     - Do NOT ship two visible TOCs on the same page.
     - Treat any missing legacy TOC coverage or any duplicate TOC as a content-fidelity failure.
+    - Do NOT fail a page merely because the standard Astro TOC exists when legacy had no TOC.
 
 #2. STRICT SINGLE-PAGE WORKFLOW (ANTI-DIRTY GIT RULE):
 
@@ -94,6 +114,57 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     ASTRO_AGENT_IMAGE_INSTRUCTIONS.md (legacy - image handoff format for on-demand image sessions)
 
 #5. IMAGE QUALITY STOP-AND-CHECK GATE (MANDATORY — BEFORE EVERY COMMIT):
+
+    IMAGE HANDOFF FOLDER RULE (added 2026-04-27):
+    When a page needs hero-image replacement work or body-image repair work, the Astro agent MUST use
+    the repo-root image staging folders below:
+
+    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
+    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
+    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
+    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+
+    For every page slug, the Astro agent MUST create slug subfolders inside the relevant staging folders.
+    Example for `disc-stack-centrifuge-efficiency`:
+
+    - `_Old_Hero_Image\disc-stack-centrifuge-efficiency\`
+    - `_New_Hero_Image\disc-stack-centrifuge-efficiency\`
+    - `_Image_Repair\disc-stack-centrifuge-efficiency\`
+    - `_Image_NB_Fixed\disc-stack-centrifuge-efficiency\`
+
+    COPY-ONLY RULE:
+    - Always COPY source/legacy images into these staging folders.
+    - NEVER move originals out of `public/images/` or any legacy/source location.
+    - NEVER delete the originals as part of this workflow.
+
+    PAGE-WORKFLOW RULE:
+    - Legacy/source hero images to be replaced go into `_Old_Hero_Image\{slug}\`
+    - Legacy/source body images that need repair/redraw go into `_Image_Repair\{slug}\`
+    - Sanjay's finished replacement hero images will be placed into `_New_Hero_Image\{slug}\`
+    - Sanjay's finished repaired body images will be placed into `_Image_NB_Fixed\{slug}\`
+
+    If a page does not need image work, do not create noise by copying sharp/correct images unnecessarily.
+
+    ============================================================
+    ❌ MANDATORY PRE-COMMIT IMAGE GATE — HARD STOP ❌
+    THIS MUST BE EXECUTED BEFORE ANY `git add` OR `git commit`.
+    DO NOT SKIP. DO NOT DEFER. DO NOT "DO IT AFTER THE COMMIT".
+    ============================================================
+
+    STEP 1 — ARCHIVE THE OLD HERO (always, if hero is being replaced or is undersized):
+      Copy-Item "<public/images/{slug}/{old-hero}.webp>" "_Old_Hero_Image\{slug}\{old-hero}.webp"
+      Verify the file landed: Get-ChildItem "_Old_Hero_Image\{slug}"
+
+    STEP 2 — ARCHIVE BODY IMAGES NEEDING REPAIR (always, if body images are low-res or legacy JPG):
+      Copy-Item "<public/images/{slug}/{body-image}.webp>" "_Image_Repair\{slug}\{body-image}.webp"
+      (Repeat for every body image that is undersized, blurry, or a legacy scan)
+      Verify the files landed: Get-ChildItem "_Image_Repair\{slug}"
+
+    STEP 3 — ONLY THEN proceed to `git add` and `git commit`.
+
+    FAILURE TO COMPLETE STEPS 1 AND 2 BEFORE COMMITTING IS A PROCESS VIOLATION.
+    This rule was added 2026-04-28 after being missed on three consecutive pages.
+    ============================================================
 
     Before staging and committing ANY page, the agent MUST stop and ask Sanjay:
 
@@ -197,6 +268,49 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     Do NOT silently apply a shared fix and describe it as if it were page-local.
     If a global fix is chosen, the agent must say so plainly and warn that other pages may need regression checks.
 
+#6B. INVISIBLE TEXT / FONT / COLOR FIXES - LOCAL FIRST, GLOBAL LAST (CRITICAL):
+
+    This rule exists because one shared CSS or layout tweak can quietly break 30-40 already-finished pages.
+    We do NOT accept "fix one page, regress the whole site."
+
+    DEFAULT RULE:
+    Any fix for invisible text, disappearing links, wrong font color, contrast problems, underline-only links,
+    odd link styling, or "font issue" reports MUST default to a LOCAL page-only fix first.
+
+    LOCAL-FIRST FIXES INCLUDE:
+    - changing a class on the current `src/pages/<slug>.astro`
+    - adding a page-local wrapper class on the current page
+    - changing one page's markup so it stops colliding with a shared selector
+    - adding a slug-specific override inside the current page file only
+
+    DO NOT default to editing shared files for these issues:
+    - `src/styles/global.css`
+    - `src/layouts/*`
+    - `src/components/*`
+    - shared prose rules
+    - shared CTA/link utility behavior
+
+    HARD RULE:
+    If the problem can be solved by changing only the current page's classes or markup, you MUST NOT use a global/shared CSS fix.
+
+    BEFORE ANY GLOBAL FIX:
+    1. Prove why a page-local fix is not sufficient.
+    2. Tell Sanjay plainly that the change is GLOBAL.
+    3. Name the exact shared file being changed.
+    4. Name the exact UI pattern that may regress on completed pages.
+    5. Require regression checks on representative completed pages before calling the task safe.
+
+    REQUIRED HANDOFF LANGUAGE:
+    - For page-only fixes: `Local change only - this should not affect other pages.`
+    - For shared fixes: `Global/shared change - this may affect completed pages and requires regression checks.`
+
+    SPECIAL WARNING:
+    Class-name collision bugs are COMMON. Example pattern:
+    - a light box uses a class like `bg-navy/5`
+    - a shared selector like `[class*="bg-navy"] a` treats it as a dark box
+    - links turn white or disappear
+    In these cases, prefer changing the page's class name or wrapper markup. Do NOT "fix" the shared selector first.
+
 #7. MANDATORY MAINTENANCE OF PENDING_FIXES_LIST.md:
 
     Every time a page is committed with known issues (e.g., missing sharp images, broken diagrams waiting for a separate image session, or SEO questions), you MUST document them in PENDING_FIXES_LIST.md.
@@ -271,7 +385,7 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     MANDATORY FINAL PASS GATES BEFORE TELLING SANJAY A PAGE IS READY FOR AUDIT:
     - Content gate: legacy body copy, tables, captions, headings, links, and schema are checked against the required MD files.
     - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, portrait/landscape placement, galleries, dark-background text contrast, spacing, and dash typography.
-    - Duplicate-pattern gate: do not duplicate ApplicationLayout features with page-local copies. This includes duplicate TOCs, duplicate FAQs/schema, and page-local bottom CTA blocks.
+    - Duplicate-pattern gate: do not duplicate ApplicationLayout features with page-local copies. This includes duplicate TOCs, duplicate FAQs/schema, and page-local bottom CTA blocks. A single standard Astro TOC is allowed even when legacy had no TOC.
     - ApplicationLayout CTA rule: Application pages already receive the standard hero CTA, sidebar quick contact, and bottom CTA from ApplicationLayout. A page-local mid-page CTA is allowed when useful, but a page-local bottom CTA after related resources/summary is a duplicate unless Sanjay explicitly approves it.
     - A page with invisible text, broken image paths, uncapped huge body images, bad portrait/landscape layout, duplicate bottom CTA, duplicate TOC, or misleading schema is NOT ready for audit and must not be described as finished.
     - Do not spin another iteration for microscopic polish after Sanjay has visually approved the page. Whitespace-only, spacing-only, harmless blank lines, one extra space around a hyphen, and tiny copy-polish items are not blockers unless they create a real rendering problem, SEO/schema mismatch, factual error, broken layout, invisible text, duplicate component, or user-visible trust problem.
