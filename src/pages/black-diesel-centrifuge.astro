@@ -1,36 +1,32 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
-const faqItems = [
-  {
-    question: "What is black diesel fuel?",
-    answer: "Black diesel is an alternative fuel produced by processing used motor oil, transmission fluid, and other waste petroleum products through a disc stack centrifuge. When properly purified to remove metallic particles, carbon soot, water, and ash, black diesel can substitute for conventional diesel in many applications including generators, industrial burners, and off-road equipment."
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Black Diesel Centrifuge: Applications, Benefits, Specifications",
+  "description": "Disc stack centrifuges purify used motor oil into black diesel fuel by removing metals, water, soot, and ash at 7,000+ Gs. Continuous 2-40 GPM systems.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/"
   },
-  {
-    question: "How many gallons of black diesel can a centrifuge produce per day?",
-    answer: "Dolphin Centrifuge black diesel systems range from 2 GPM (2,880 gallons/day) for small batch operations to 40 GPM (57,600 gallons/day) for high-volume commercial production. All self-cleaning models operate continuously with automatic sludge ejection, enabling 24/7 unattended production. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing based on your volume goals."
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
   },
-  {
-    question: "Is black diesel production profitable?",
-    answer: "Yes. Used motor oil is typically available at low or negative cost (waste haulers pay to have it removed), while the resulting fuel displaces conventional diesel at market prices. The centrifuge's low operating cost — no consumable filter media, just electricity for the drive motor — maximizes the margin between feedstock cost and fuel value."
-  },
-  {
-    question: "What contaminants does a black diesel centrifuge remove?",
-    answer: "A disc stack centrifuge removes metallic wear particles down to 0.5 microns, all free and emulsified water, carbon soot, and ash compounds (calcium, zinc, phosphorus) that cause engine deposits. Operating at over 7,000 Gs, it produces consistently clean fuel regardless of the incoming oil condition — something filters and settling tanks cannot achieve."
-  },
-  {
-    question: "Does a black diesel centrifuge need explosion-proof ratings?",
-    answer: "It depends on the installation environment. Indoor facilities with adequate ventilation may not require explosion-proof (EX) construction. However, outdoor installations, areas with limited air exchange, or facilities where flammable vapors can accumulate should use Class 1, Division 2 (C1D2) or ATEX Zone 2 rated electrical systems. Dolphin Centrifuge can specify the appropriate hazardous-area rating for your site during the engineering phase."
-  }
-];
+  "url": "https://dolphincentrifuge.com/black-diesel-centrifuge/",
+};
 
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "url": "https://dolphincentrifuge.com/black-diesel-centrifuge/",
   "name": "Black Diesel Centrifuge System",
-  "description": "Disc stack centrifuges for black diesel production from used motor oil. Remove sludge, metals, water, and ash to produce clean alternative fuel at up to 80 GPM.",
+  "description": "Disc stack centrifuges for black diesel production from used motor oil. Remove sludge, metals, water, and ash to produce clean alternative fuel.",
   "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
   "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "category": "Industrial Centrifuges",
@@ -42,30 +38,7 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const articleJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Black Diesel Centrifuge: Applications, Benefits, Specifications",
-  "description": "Disc stack centrifuges for black diesel production from used motor oil. Removes metals, water, soot, and ash at 7,000+ Gs. Turnkey systems from 2 to 40 GPM.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }, "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/" },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/black-diesel-centrifuge/",
-};
-
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'what-is-black-diesel', label: 'What is Black Diesel' },
@@ -91,10 +64,10 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Black Diesel Centrifuge: Applications &amp; Specs | Dolphin"
+  title="Black Diesel Centrifuge: Applications & Specs | Dolphin"
   description="Disc stack centrifuges purify used motor oil into black diesel fuel. Removes metals, water, soot, and ash at 7,000+ Gs. Continuous 2-40 GPM. Warren, Michigan."
-  heroImage="/images/black-diesel-centrifuge/Alfa-Laval-FOPX-613-Centrifuge-400.webp"
-  heroImageAlt="Alfa Laval Black - 60 GPM - Diesel Centrifuge Class 1 Div 1 Explosion Proof"
+  heroImage="/images/black-diesel-centrifuge/black-diesel-centrifuge-hero-2000.webp"
+  heroImageAlt="Black diesel centrifuge system — Alfa Laval disc stack centrifuge for purifying used oil into diesel fuel"
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/black-diesel-centrifuge/"
@@ -104,24 +77,25 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for black diesel production, purifying used motor oil into fuel-grade diesel by removing water, soot, and metal particles at 7,000+ Gs. Turnkey systems from 2 to 40 GPM. Based in Warren, Michigan.</p>
-  </div>
-
   <h2 id="what-is-black-diesel">What is Black Diesel?</h2>
 
-  <div class="flex flex-col md:flex-row gap-6 mb-6">
-    <div class="md:w-3/5">
-      <p>Black diesel is an alternative fuel for <a href="https://en.wikipedia.org/wiki/Diesel_engine">diesel engines</a> made from used motor oil, transmission fluid, or any mineral oil with calorific value. Often, a diesel fuel mixture with any used oils is also known as black diesel.</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-start not-prose">
+    <div>
+      <p class="text-base text-gray-700 leading-relaxed mb-4">Black diesel is an alternative fuel for <a href="https://en.wikipedia.org/wiki/Diesel_engine" class="text-navy underline hover:text-gold">diesel engines</a> made from used motor oil, transmission fluid, or any mineral oil with calorific value. Often, a diesel fuel mixture with any used oils is also known as black diesel.</p>
     </div>
-    <div class="md:w-2/5">
-      <img src="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp" alt="Alfa Laval Black Diesel Centrifuge — disc stack centrifuge system for purifying used oil into diesel fuel" width="600" height="848" loading="lazy" class="rounded-lg w-full" />
+    <div>
+      <img
+        src="/images/waste-oil-centrifuge/Alfa-Laval-Black-Diesel-Centrifuge-600.webp"
+        alt="Alfa Laval Black Diesel Centrifuge — disc stack centrifuge system for purifying used oil into diesel fuel"
+        width="600"
+        height="848"
+        loading="eager"
+        fetchpriority="high"
+        class="img-cap-600 rounded-xl border border-gray-200 object-contain w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center"><strong>Alfa Laval Black Diesel Centrifuge</strong></p>
     </div>
   </div>
-
-  <blockquote>
-    Dolphin Centrifuge supplies complete black diesel purification systems &mdash; from small 2 GPM manual-clean units to high-capacity 40 GPM self-cleaning centrifuge modules with pre-heaters and PLC controls.
-  </blockquote>
 
   <h2 id="purification-methods">Purification</h2>
 
@@ -145,14 +119,21 @@ const relatedProducts = [
 
   <h4>Three Phase Disc Stack Centrifuge</h4>
 
-  <div class="flex flex-col md:flex-row gap-6 mb-6">
-    <div class="md:w-3/5">
-      <p>A black diesel centrifuge continuously separates the water and fine solids from black diesel. This <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> exerts over 7,000 Gs to simultaneously separate all free water and small particles down to 0.5-micron.</p>
-      <p class="mt-4">The self-ejecting feature of the centrifuge allows it to eject out the separated sludge automatically. The separated water exits the centrifuge through a discrete port.</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-start not-prose">
+    <div>
+      <p class="text-base text-gray-700 leading-relaxed mb-4">A black diesel centrifuge continuously separates the water and fine solids from black diesel. This <a href="/disc-stack-centrifuge/" class="text-navy underline hover:text-gold">disc stack centrifuge</a> exerts over 7,000 Gs to simultaneously separate all free water and small particles down to 0.5-micron.</p>
+      <p class="text-base text-gray-700 leading-relaxed">The self-ejecting feature of the centrifuge allows it to eject out the separated sludge automatically. The separated water exits the centrifuge through a discrete port.</p>
     </div>
-    <div class="md:w-2/5">
-      <img src="/images/black-diesel-centrifuge/Alfa-Laval-MOPX205-Diesel-Centrifuge-Occidental-e1614261576568.webp" alt="Alfa Laval MOPX 205 Duplex Centrifuge System Diesel" width="250" height="250" loading="lazy" class="rounded-lg w-full" />
-      <p class="text-sm text-text-light mt-2 italic">Black Diesel Centrifuge</p>
+    <div>
+      <img
+        src="/images/black-diesel-centrifuge/Alfa-Laval-Self-Cleaning-Diesel-Centrifuge-Occidental-300.webp"
+        alt="Alfa Laval Self-Cleaning Diesel Centrifuge Occidental"
+        width="300"
+        height="300"
+        loading="lazy"
+        class="img-cap-300 rounded-xl border border-gray-200 object-contain w-full"
+      />
+      <p class="text-sm text-gray-500 mt-2 text-center"><strong>Black Diesel Centrifuge</strong></p>
     </div>
   </div>
 
@@ -175,17 +156,6 @@ const relatedProducts = [
   <p>In cold climates, used oil producers also use black diesel as heating fuel to heat industrial buildings and shops. Black diesel serves as fuel to heat fluids in cold climate industrial applications such as oil and gas drilling.</p>
 
   <p>Waste oil burners require the use of clean fuel to perform efficiently and to ensure long-term durability. That makes it all the more important to purify black diesel before its use for heating.</p>
-
-  <!-- Mid-Page CTA -->
-  <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 my-8 not-prose">
-    <h3 class="text-lg font-bold text-navy mb-2">Test Your Used Oil Feed — Sample Testing</h3>
-    <p class="text-text-light text-sm mb-4">Send Dolphin Centrifuge a sample of your used motor oil or black diesel feedstock. Our engineers will run a pilot test and confirm what separation is achievable before you invest in a system.</p>
-    <div class="flex flex-wrap gap-3">
-      <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Send a Sample →</a>
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy/5 transition-colors text-sm">Get a Quote</a>
-      <a href="tel:+12485222573" class="inline-block text-navy font-semibold px-5 py-2 text-sm">(248) 522-2573</a>
-    </div>
-  </div>
 
   <h2 id="benefits">Benefits</h2>
 
@@ -247,102 +217,65 @@ const relatedProducts = [
 
   <p>The following table lists the specifications of black diesel centrifuges manufactured by Alfa Laval.</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>Alfa Laval MAB 104</th>
-        <th><a href="/alfa-laval-whpx-405/">Alfa Laval WHPX 405</a></th>
-        <th><a href="/alfa-laval-mopx-207-centrifuge/">Alfa Laval MOPX 207</a></th>
-        <th><a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Capacity on Black Diesel</td>
-        <td>2 GPM</td>
-        <td>10 GPM</td>
-        <td>20 GPM</td>
-        <td>40 GPM</td>
-      </tr>
-      <tr>
-        <td>Motor</td>
-        <td>2 HP</td>
-        <td>4 HP</td>
-        <td>7.5 HP</td>
-        <td>15 HP</td>
-      </tr>
-      <tr>
-        <td>Size (Skid)</td>
-        <td>2' &times; 3' &times; 4' (H)</td>
-        <td>4' &times; 5' &times; 5' (H)</td>
-        <td>4' &times; 5' &times; 6' (H)</td>
-        <td>5' &times; 6' &times; 6' (H)</td>
-      </tr>
-      <tr>
-        <td>Weight (Skid)</td>
-        <td>600 Lbs</td>
-        <td>1,200 Lbs</td>
-        <td>2,000 Lbs</td>
-        <td>3,500 Lbs</td>
-      </tr>
-      <tr>
-        <td>Bowl RPM</td>
-        <td>7,800</td>
-        <td>7,600</td>
-        <td>7,200</td>
-        <td>4,140</td>
-      </tr>
-      <tr>
-        <td>Particle Efficiency</td>
-        <td colspan="4">Metal Particles &lt; 0.5 Microns; Other Particles &lt; 1.0 Microns</td>
-      </tr>
-      <tr>
-        <td>Sludge Discharge</td>
-        <td>Manual Clean</td>
-        <td colspan="3">Self-Clean</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>Dolphin Centrifuge Model Equivalents</h3>
-
-  <table>
-    <thead>
-      <tr>
-        <th>System</th>
-        <th>Type</th>
-        <th>Capacity</th>
-        <th>Best For</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a href="/centrifuges/dmb-007/">DMB-007</a></td>
-        <td>Manual-Clean</td>
-        <td>2 GPM</td>
-        <td>Small-scale / batch processing</td>
-      </tr>
-      <tr>
-        <td>DMPX-014</td>
-        <td>Self-Cleaning</td>
-        <td>10 GPM</td>
-        <td>Medium-scale continuous production</td>
-      </tr>
-      <tr>
-        <td><a href="/centrifuges/dmpx-028/">DMPX-028</a></td>
-        <td>Self-Cleaning</td>
-        <td>20 GPM</td>
-        <td>Commercial fuel production</td>
-      </tr>
-      <tr>
-        <td><a href="/centrifuges/dmpx-070/">DMPX-070</a></td>
-        <td>Self-Cleaning</td>
-        <td>40 GPM</td>
-        <td>High-volume industrial operations</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="text-left px-4 py-3 font-semibold text-navy border-b border-gray-200">Specification</th>
+          <th class="text-center px-4 py-3 font-semibold text-navy border-b border-gray-200">Alfa Laval MAB 104</th>
+          <th class="text-center px-4 py-3 font-semibold text-navy border-b border-gray-200"><a href="/alfa-laval-whpx-405/" class="text-navy underline hover:text-gold">Alfa Laval WHPX 405</a></th>
+          <th class="text-center px-4 py-3 font-semibold text-navy border-b border-gray-200"><a href="/alfa-laval-mopx-207-centrifuge/" class="text-navy underline hover:text-gold">Alfa Laval MOPX 207</a></th>
+          <th class="text-center px-4 py-3 font-semibold text-navy border-b border-gray-200"><a href="/alfa-laval-whpx-513/" class="text-navy underline hover:text-gold">Alfa Laval WHPX 513</a></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Capacity on Black Diesel</td>
+          <td class="px-4 py-3 text-center text-gray-700">2 GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">10 GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">20 GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">40 GPM</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Motor</td>
+          <td class="px-4 py-3 text-center text-gray-700">2 HP</td>
+          <td class="px-4 py-3 text-center text-gray-700">4 HP</td>
+          <td class="px-4 py-3 text-center text-gray-700">7.5 HP</td>
+          <td class="px-4 py-3 text-center text-gray-700">15 HP</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Size (Skid)</td>
+          <td class="px-4 py-3 text-center text-gray-700">2' &times; 3' &times; 4' (H)</td>
+          <td class="px-4 py-3 text-center text-gray-700">4' &times; 5' &times; 5' (H)</td>
+          <td class="px-4 py-3 text-center text-gray-700">4' &times; 5' &times; 6' (H)</td>
+          <td class="px-4 py-3 text-center text-gray-700">5' &times; 6' &times; 6' (H)</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Weight (Skid)</td>
+          <td class="px-4 py-3 text-center text-gray-700">600 Lbs</td>
+          <td class="px-4 py-3 text-center text-gray-700">1,200 Lbs</td>
+          <td class="px-4 py-3 text-center text-gray-700">2,000 Lbs</td>
+          <td class="px-4 py-3 text-center text-gray-700">3,500 Lbs</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Bowl RPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">7,800</td>
+          <td class="px-4 py-3 text-center text-gray-700">7,600</td>
+          <td class="px-4 py-3 text-center text-gray-700">7,200</td>
+          <td class="px-4 py-3 text-center text-gray-700">4,140</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Particle Efficiency</td>
+          <td class="px-4 py-3 text-center text-gray-700" colspan="4">Metal Particles &lt; 0.5 Microns; Other Particles &lt; 1.0 Microns</td>
+        </tr>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-700">Sludge Discharge</td>
+          <td class="px-4 py-3 text-center text-gray-700">Manual Clean</td>
+          <td class="px-4 py-3 text-center text-gray-700" colspan="3">Self-Clean</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>
     All systems are available as complete turnkey modules with feed pumps, pre-heaters, control panels, and interconnecting piping. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for a recommendation based on your feedstock volume, contamination levels, and production goals.
@@ -360,22 +293,5 @@ const relatedProducts = [
     <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
     <a href="/picking-the-right-industrial-centrifuge/">How to Pick the Right Centrifuge</a>
   </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mt-10 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-1">Start Your Black Diesel Production Today</h3>
-        <p class="text-blue-100 text-sm">Dolphin Centrifuge supplies complete black diesel purification systems — from 2 GPM manual-clean to 40 GPM continuous self-cleaning. Warren, Michigan. 40+ years of experience.</p>
-      </div>
-      <div class="flex flex-wrap gap-3 shrink-0">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Sample Testing</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
-    </div>
-  </div>
 
 </ApplicationLayout>
