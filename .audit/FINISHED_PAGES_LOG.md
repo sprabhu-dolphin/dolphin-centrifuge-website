@@ -48,4 +48,4 @@ All pages below have passed the v2.2 refactor audit.
 | alfa-laval-nx-418-decanter-centrifuge | 59180d0 | - | 2026-04-27 | PASS |
 | industrial-disc-centrifuge-repair | f113e31 | - | 2026-04-27 | PASS |
 | disc-stack-centrifuge-efficiency | b568188 | - | 2026-04-27 | PASS |
-| disc-stack-centrifuge-sludge-ejection-cycle-time | 516dc9b | hero-approved-exception | 2026-04-27 | PASS |
+| disc-stack-centrifuge-sludge-ejection-cycle-time | b2dca52 | hero-approved-exception | 2026-04-28 | PASS |
