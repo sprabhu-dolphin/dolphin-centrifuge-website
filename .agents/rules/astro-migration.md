@@ -375,6 +375,14 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - Apply only Sanjay's current page-specific audit handoff.
     - Commit the page fix.
     - Run the post-commit integrity checks in Rule #12.
+    - MANDATORY: After EVERY git commit, read the SHA from the git output and report it to Sanjay
+      in your response in this exact format, EVERY TIME, WITHOUT BEING ASKED:
+
+        > ✅ Commit SHA: `abc1234`
+
+      This applies to ALL commits — page commits, image commits, hotfixes, rulebook updates.
+      Failure to report the SHA is a process violation.
+      This rule was added 2026-04-28 after SHA was omitted on multiple consecutive commits.
     - Give Sanjay the commit hash and stop.
     - Sanjay will pass the slug and commit hash to the audit agent in chat.
     - The audit agent reviews the committed state directly and returns PASS or a fix-only handoff.
