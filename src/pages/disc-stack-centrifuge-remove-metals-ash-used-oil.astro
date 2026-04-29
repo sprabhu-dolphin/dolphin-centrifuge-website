@@ -1,88 +1,87 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Removing Metals from Used Engine Oil | Dolphin Centrifuge",
-    "description": "How a disc stack centrifuge removes heavy metals, ash, and water from used engine oil. Includes case study with before/after performance data showing 97% reduction in ash content.",
-    "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Dolphin Centrifuge",
-      "url": "https://dolphincentrifuge.com"
-    },
-    "datePublished": "2021-01-01",
-    "dateModified": "2024-06-01",
-    "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-remove-metals-ash-used-oil/"
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Removing Metals from Used Engine Oil | Industrial Centrifuge",
+  "description": "Industrial centrifuge system specially designed to remove metals and ash particles from used engine oil. Centrifuge specifications and demonstrated results.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Can a disc stack centrifuge remove metals from used engine oil?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Disc stack centrifuges effectively remove iron, copper, aluminum, lead, and chromium wear metal particles from used engine oil by exploiting the density difference between metal particles (7\u201311 g/cm\u00b3) and oil (0.87 g/cm\u00b3). Operating at 6,000\u201310,000 Gs, the centrifuge separates particles as small as 1 micron \u2014 far smaller than any filter can achieve. Case studies show 90\u201397% reduction in metal content after a single pass through a disc centrifuge at 180\u00b0F." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is ash in used engine oil and how does a centrifuge remove it?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Ash in used engine oil is the residue left after combustion \u2014 including burned additive packages (calcium, magnesium, zinc compounds), carbon soot, and combustion byproducts. These ash particles are denser than the oil and range from 0.5 to 50 microns. A disc centrifuge at 7,000+ Gs removes the dense inorganic ash fraction from the oil, reducing ash content to below 0.1% by weight. This dramatically extends oil life and allows re-refining or re-use of the treated oil." }
-      },
-      {
-        "@type": "Question",
-        "name": "What centrifuge model is recommended for used oil metal and ash removal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Dolphin Centrifuge recommends the DMPX-028 (45 GPM rated) or DMPX-042 (68 GPM rated) self-cleaning disc stack centrifuge modules for used engine oil processing. These systems include electric pre-heaters (180\u00b0F target temperature), a sludge tank for metal/ash collection, and PLC controls for automated ejection cycle management. For smaller volumes (under 15 GPM), the DMPX-014 is suitable. All systems include stainless steel bowls and are rated for continuous operation at elevated temperatures." }
-      },
-      {
-        "@type": "Question",
-        "name": "Does heating used oil improve centrifuge metal removal efficiency?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Heating used engine oil to 160\u2013200\u00b0F (70\u201393\u00b0C) dramatically improves centrifuge metal and ash removal efficiency by reducing oil viscosity from 100\u2013500 cSt (cold) to 15\u201330 cSt (hot). At lower viscosity, the centrifugal force can move metal particles and ash through the oil to the bowl wall much more rapidly, allowing either higher throughput at the same separation quality or finer particle removal at the same flow rate. Heating also reduces water content through partial flash evaporation." }
-      },
-      {
-        "@type": "Question",
-        "name": "How does a disc centrifuge compare to filtration for used oil metal removal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A disc stack centrifuge outperforms conventional filtration in three key ways for used oil metal removal: (1) particle size — centrifuges remove particles below 1 micron, filters typically stop at 5\u201310 microns; (2) continuous operation — no media replacement or disposal costs; (3) three-phase capability — simultaneously removes water and solids in one pass. Filtration requires separate stages for water removal and cannot handle sub-micron particles. For high-volume used oil processing, centrifuge total cost of ownership is significantly lower than filtration." }
-      }
-    ]
-  }
-];
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "datePublished": "2020-11-15T18:48:00Z",
+  "dateModified": "2022-11-26T16:54:45Z"
+};
+
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Used Motor Oil Separation using Alfa Laval Disc Stack Centrifuge 1080",
+  "description": "Using an Alfa Laval Disc Stack centrifuge, separating water, rag layer, and sludge from Used Motor Oil.",
+  "uploadDate": "2022-11-24",
+  "embedUrl": "https://www.youtube.com/embed/WvSYIQsDgUg",
+  "duration": "PT1M36S",
+  "thumbnailUrl": "https://dolphincentrifuge.com/wp-content/uploads/2019/11/Industrial-Waste-Oil-Self-Cleaning-Centrifuges.jpg",
+  "width": "1280",
+  "height": "720",
+  "isFamilyFriendly": true
+};
+
+const jsonLd = [articleJsonLd, videoJsonLd];
 
 const toc = [
-  { id: "what-is-used-oil", label: "Used Engine Oil \u2014 What Is It?" },
-  { id: "applications", label: "Applications of Used Engine Oil" },
-  { id: "contaminants", label: "Contaminants in Used Engine Oil" },
-  { id: "sources-metals", label: "Sources of Heavy Metals and Ash" },
-  { id: "why-remove", label: "Why Remove Metals and Ash?" },
-  { id: "centrifuge-method", label: "Purifying Used Oil with a Centrifuge" },
-  { id: "operating-params", label: "Operating Parameters" },
-  { id: "case-study", label: "Case Study" },
-  { id: "performance-data", label: "Disc Centrifuge Performance Data" },
-  { id: "summary", label: "Summary" },
+  { id: "what-is-used-engine-oil", label: "Used Engine Oil \u2013 What is it? Where Does it Come From?" },
+  { id: "applications-of-used-engine-oil", label: "Applications of Used Engine Oil" },
+  { id: "contaminants-in-used-engine-oil", label: "Contaminants in Used Engine Oil" },
+  { id: "what-are-the-sources-of-heavy-metals-and-ash", label: "What are the sources of heavy metals and ash in used engine oil?" },
+  { id: "why-remove-water-heavy-metals-and-ash", label: "Why remove water, heavy metals, and ash from used engine oil?" },
+  { id: "purifying-used-motor-oil-using-a-disc-stack-centrifuge", label: "Purifying used motor oil using a disc stack centrifuge",
+    children: [
+      { id: "operating-parameters-affecting-separation-efficiency", label: "Operating parameters affecting separation efficiency in a centrifuge." }
+    ]
+  },
+  { id: "case-study-large-scale-removal-of-heavy-metals", label: "Case Study \u2013 Large Scale Removal of Heavy Metals and Ash from Used Engine Oil",
+    children: [
+      { id: "customer-background", label: "Customer Background" },
+      { id: "used-engine-oil-processing-challenges", label: "Used Engine Oil Processing Challenges" },
+      { id: "industrial-centrifuge-testing-and-selection-process", label: "Industrial Centrifuge Testing and Selection Process" },
+      { id: "disc-centrifuge-performance-data-on-used-engine-oil", label: "Disc Centrifuge Performance Data on Used Engine Oil" }
+    ]
+  },
+  { id: "summary", label: "Summary" }
 ];
 
 const relatedApplications = [
-  { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/", description: "Complete guide to used motor and industrial oil centrifuge solutions." },
-  { label: "Used Oil Centrifuge", href: "/used-oil-centrifuge/", description: "Disc stack centrifuges for used lube and engine oil processing." },
-  { label: "Black Diesel Centrifuge", href: "/black-diesel-centrifuge/", description: "Centrifuge systems for diesel\u2013used oil blended fuel." },
-  { label: "Disc Stack Centrifuge Applications", href: "/disc-stack-centrifuge-applications/", description: "All industrial applications for disc centrifuge systems." },
-  { label: "Oil Centrifuge", href: "/oil-centrifuge/", description: "Disc stack centrifuges for fuel oil, lube oil, and hydraulic oil." },
+  { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
+  { label: "Used Oil Centrifuge", href: "/used-oil-centrifuge/" },
+  { label: "Black Diesel Centrifuge", href: "/black-diesel-centrifuge/" },
+  { label: "Disc Stack Centrifuge Applications", href: "/disc-stack-centrifuge-applications/" },
+  { label: "Oil Centrifuge", href: "/oil-centrifuge/" },
 ];
 
 const relatedProducts = [
-  { label: "DMPX-014", href: "/centrifuges/dmpx-014/", description: "Up to 15 GPM \u2014 ideal for smaller used oil volumes." },
-  { label: "DMPX-028", href: "/centrifuges/dmpx-028/", description: "45 GPM rated \u2014 recommended for most used engine oil applications." },
-  { label: "DMPX-042", href: "/centrifuges/dmpx-042/", description: "68 GPM rated \u2014 high-volume used oil metal and ash removal." },
+  { label: "DMPX-014", href: "/centrifuges/dmpx-014/" },
+  { label: "DMPX-028", href: "/centrifuges/dmpx-028/" },
+  { label: "DMPX-042", href: "/centrifuges/dmpx-042/" },
 ];
 ---
 
 <ApplicationLayout
-  title="Removing Metals from Used Engine Oil | Dolphin Centrifuge"
-  description="How disc stack centrifuges remove heavy metals, ash, and water from used engine oil. Case study data shows 97% ash reduction, 94% water removal at 10 GPM."
+  title="Removing Metals from Used Engine Oil | Industrial Centrifuge"
+  titleSuffix=""
+  pageTitle="Removing Metals from Used Engine Oil | Industrial Centrifuge"
+  description="Industrial centrifuge system specially designed to remove metals and ash particles from used engine oil. Centrifuge specifications and demonstrated results."
   heroImage="/images/disc-stack-centrifuge-remove-metals-ash-used-oil/Industrial-Waste-Oil-Self-Cleaning-Centrifuges.webp"
-  heroImageAlt="Industrial self-cleaning disc stack centrifuge for used engine oil purification removing metals and ash"
+  heroImageAlt="Industrial Waste Oil Self Cleaning Centrifuges"
   category="knowledge"
   categoryLabel="Knowledge Base"
   toc={toc}
@@ -92,351 +91,271 @@ const relatedProducts = [
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-remove-metals-ash-used-oil/"
 >
 
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge disc stack centrifuge systems remove heavy metals, ash, and water from used engine oil at up to 6,800 G. Case study results show 97% ash reduction and 94% water removal at 10 GPM in a single pass.</p>
+  <h2 id="what-is-used-engine-oil">Used Engine Oil &ndash; What is it? Where Does it Come From?</h2>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p><a href="https://en.wikipedia.org/wiki/Waste_oil" target="_blank" rel="noreferrer noopener">Used engine oil</a> is a term used to describe used lubricating oil from Internal Combustion (IC) engines. Lubricating oil tends to lose its lubricating properties with use.</p>
+    <p>Hence, the oil is periodically replaced to prolong engine life and prevent breakdowns. The oil that is replaced is then referred to as used engine oil.</p>
+    <p>Automotive oil change shops to lubricating oil replacements in large marine engines are all sources of used engine oil.</p>
   </div>
 
-  <!-- Used Engine Oil -->
-  <h2 id="what-is-used-oil">Used Engine Oil &mdash; What is it? Where Does it Come From?</h2>
-  <p>
-    Used engine oil is a term used to describe used lubricating oil from Internal Combustion (IC) engines. Lubricating oil tends to lose its lubricating properties with use.
-  </p>
-  <p>
-    Hence, the oil is periodically replaced to prolong engine life and prevent breakdowns. The oil that is replaced is then referred to as used engine oil.
-  </p>
-  <p>
-    Automotive oil change shops to lubricating oil replacements in large marine engines are all sources of used engine oil.
-  </p>
+  <h2 id="applications-of-used-engine-oil">Applications of Used Engine Oil</h2>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>Used engine oil has several use cases in its afterlife, including serving as a fuel source or feedstock for producing fresh lubricating oil.</p>
+    <p>When used as fuel, used engine oil is burnt as heating oil in residential and commercial heating. It is a low-cost heating source, especially for producers of such oil.</p>
+    <p>Diesel fuel blended with used engine oil produces &lsquo;black diesel&rsquo;. Black diesel can often be used as fuel, even in engines that operate on straight diesel fuel. Engine manufacturers allow a certain percentage of blended fuel in their engines. This blended fuel does not affect the manufacturer&rsquo;s warranty under certain conditions.</p>
+    <p>Furthermore, after being purified and distilled, used oil from engines can be used as feedstock for fresh lubricant manufacturing.</p>
+  </div>
 
-  <!-- Applications -->
-  <h2 id="applications">Applications of Used Engine Oil</h2>
-  <p>
-    Used engine oil has several use cases in its afterlife, including serving as a fuel source or feedstock for producing fresh lubricating oil.
-  </p>
-  <p>
-    When used as fuel, used engine oil is burnt as heating oil in residential and commercial heating. It is a low-cost heating source, especially for producers of such oil.
-  </p>
-  <p>
-    Diesel fuel blended with used engine oil produces &lsquo;black diesel&rsquo;. Black diesel can often be used as fuel, even in engines that operate on straight diesel fuel. Engine manufacturers allow a certain percentage of blended fuel in their engines. This blended fuel does not affect the manufacturer&rsquo;s warranty under certain conditions.
-  </p>
-  <p>
-    Furthermore, after being purified and distilled, used oil from engines can be used as feedstock for fresh lubricant manufacturing. See our <a href="/waste-oil-centrifuge/">waste oil centrifuge</a> guide for more on downstream processing options.
-  </p>
+  <h2 id="contaminants-in-used-engine-oil">Contaminants in Used Engine Oil</h2>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>Contaminants in engine oil can take the form of either liquids or solids. The liquid contaminant could be water or glycol from the automotive engine coolant. Condensation in storage tanks can also introduce water (moisture) to the oil.</p>
+    <p>Solid contaminants are categorized as non-metallic or metallic. Non-metallic contaminants include sludge, dirt, carbon, ash, etc. Metallic particles include bearing and engine-wear metal particles.</p>
+  </div>
 
-  <!-- Contaminants -->
-  <h2 id="contaminants">Contaminants in Used Engine Oil</h2>
-  <p>
-    Contaminants in engine oil can take the form of either liquids or solids. The liquid contaminant could be water or glycol from the automotive engine coolant. Condensation in storage tanks can also introduce water (moisture) to the oil.
-  </p>
-  <p>
-    Solid contaminants are categorized as non-metallic or metallic. Non-metallic contaminants include sludge, dirt, carbon, ash, etc. Metallic particles include bearing and engine-wear metal particles. A <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> handles both categories simultaneously in a single pass.
-  </p>
+  <h2 id="what-are-the-sources-of-heavy-metals-and-ash">What are the sources of heavy metals and ash in used engine oil?</h2>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>The most prominent example of a non-metallic engine oil contaminant is ash, a carbon-based particle generated as a by-product of combustion. Ash suspended in used engine oil causes the color of the oil to appear black.</p>
+    <p>Heavy metals present in fuel are major sources of metallic contaminants in engine oil. Heavy Fuel Oil (HFO) is the fuel of choice in large engines due to its low cost compared to diesel. HFO has high levels of heavy metals such as Chromium, Vanadium, Nickel, and Lead. These heavy metals can easily contaminate the engine lubricating oil.</p>
+    <p>The other source of heavy metals in engine oil is metal wear particles. As engine bearings and other parts wear due to friction, they release metal particles into the engine lube oil.</p>
+    <p>For example, the following table compares the metal content in virgin engine oil to used engine oil from marine engines.</p>
+  </div>
 
-  <!-- Sources of Metals -->
-  <h2 id="sources-metals">What are the Sources of Heavy Metals and Ash in Used Engine Oil?</h2>
-  <p>
-    The most prominent example of a non-metallic engine oil contaminant is ash, a carbon-based particle generated as a by-product of combustion. Ash suspended in used engine oil causes the color of the oil to appear black.
-  </p>
-  <p>
-    Heavy metals present in fuel are major sources of metallic contaminants in engine oil. Heavy Fuel Oil (HFO) is the fuel of choice in large engines due to its low cost compared to diesel. HFO has high levels of heavy metals such as Chromium, Vanadium, Nickel, and Lead. These heavy metals can easily contaminate the engine lubricating oil.
-  </p>
-  <p>
-    The other source of heavy metals in engine oil is metal wear particles. As engine bearings and other parts wear due to friction, they release metal particles into the engine lube oil.
-  </p>
-  <p>For example, the following table compares the metal content in virgin engine oil to used engine oil from marine engines.</p>
-  <div class="overflow-x-auto">
-    <table>
-      <caption class="text-left font-semibold text-navy mb-2">Engine Oil Metal Contamination &mdash; Virgin vs. Used</caption>
+  <div class="not-prose mb-8 overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <caption class="text-left font-semibold text-navy mb-2">Engine Oil Metal Contamination - Virgin vs. Used</caption>
       <thead>
-        <tr>
-          <th>Sample Type</th>
-          <th>Lead (ppm)</th>
-          <th>Iron (ppm)</th>
-          <th>Nickel (ppm)</th>
-          <th>Copper (ppm)</th>
-          <th>Chromium (ppm)</th>
+        <tr class="bg-navy/5">
+          <th class="p-3 border border-gray-200">Sample Type</th>
+          <th class="p-3 border border-gray-200 text-center">Lead (ppm)</th>
+          <th class="p-3 border border-gray-200 text-center">Iron (ppm)</th>
+          <th class="p-3 border border-gray-200 text-center">Nickel (ppm)</th>
+          <th class="p-3 border border-gray-200 text-center">Copper (ppm)</th>
+          <th class="p-3 border border-gray-200 text-center">Chromium (ppm)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="font-semibold">Virgin Engine Oil</td>
-          <td>5.5</td>
-          <td>55.0</td>
-          <td>2.0</td>
-          <td>3.25</td>
-          <td>2.0</td>
+          <td class="p-3 border border-gray-200 font-semibold">Virgin Engine Oil</td>
+          <td class="p-3 border border-gray-200 text-center">5.5</td>
+          <td class="p-3 border border-gray-200 text-center">55.0</td>
+          <td class="p-3 border border-gray-200 text-center">2.0</td>
+          <td class="p-3 border border-gray-200 text-center">3.25</td>
+          <td class="p-3 border border-gray-200 text-center">2.0</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Used Engine Oil</td>
-          <td>132.0</td>
-          <td>785.0</td>
-          <td>47.0</td>
-          <td>125.0</td>
-          <td>65.0</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Why Remove -->
-  <h2 id="why-remove">Why Remove Water, Heavy Metals, and Ash from Used Engine Oil?</h2>
-  <p>
-    Water removal is necessary for several reasons. Used oil with water reduces the sale value of used oil as fuel. The presence of water hampers the processing of used oil for lubricant feedstock. Used oil emulsion is caused by water and is not desirable for many reasons.
-  </p>
-  <p>
-    Removal of heavy metals and ash from used engine oil is essential for the following reasons.
-  </p>
-  <p>
-    When used engine oil is burnt as fuel, it releases heavy metals into the environment through combustion gases. This is a cause of environmental air pollution.
-  </p>
-  <p>
-    Air polluted with heavy metal compounds is detrimental to health. Polluted air introduces toxic metals into the oceans, which affect marine life. Soil and groundwater contamination is also a direct result of this pollution.
-  </p>
-  <p>
-    Ash in used engine oil causes processing challenges when converting used oil into lubricant feedstock. Ash residue causes distilling equipment to get gummed up with thick carbon sludge. This leads to frequent cleaning and low process efficiency.
-  </p>
-
-  <!-- Centrifuge Method -->
-  <h2 id="centrifuge-method">Purifying Used Motor Oil Using a Disc Stack Centrifuge</h2>
-  <h3>Used Motor Oil Centrifuge</h3>
-  <p>
-    An industrial disc-stack centrifuge uses mechanical separation to remove heavy metal and ash particles from used motor oil.
-  </p>
-  <p>
-    A disc-stack centrifuge exerts a centrifugal force of up to 10,000 g on the process fluid. In the case of used motor oil, this force is sufficient to extract fine metal and carbon particles from the oil.
-  </p>
-  <p>
-    Under this force, the heavier metal particles get pushed outward toward the centrifuge bowl wall. The ash particles flocculate to form bigger solids that separate under the high g-force.
-  </p>
-  <p>
-    Oil centrifuges are also uniquely equipped to handle three-phase separation. The centrifuge can separate the water phase from the used oil while simultaneously removing any solid contaminants. The separated water discharges through a discrete heavy phase outlet on the centrifuge. Learn more on our <a href="/disc-stack-centrifuge-applications/">disc stack centrifuge applications</a> page.
-  </p>
-
-  <!-- Operating Parameters -->
-  <h2 id="operating-params">Operating Parameters Affecting Separation Efficiency</h2>
-
-  <h3>Temperature</h3>
-  <p>
-    Oil temperature is inversely proportional to the viscosity of the oil. Thus, the hotter the oil, the lower the viscosity. Low-viscosity oil offers less resistance to the ash and metal particles from moving out of the oil. Oil temperature can be raised by adding an inline heater to the centrifuge system, in addition to the customer&rsquo;s heated tanks.
-  </p>
-
-  <h3>Centrifugal Force (G-Force)</h3>
-  <p>
-    Centrifugal force is directly proportional to the separation efficiency of a centrifuge. A disc-stack centrifuge produces the highest level of centrifugal force among industrial centrifuges. See <a href="/disc-stack-centrifuge-performance/">disc stack centrifuge performance data</a> for detailed G-force comparisons.
-  </p>
-
-  <h3>Flow Rate</h3>
-  <p>
-    Flow rate of the used oil through a centrifuge is inversely proportional to retention time. Retention time is the duration each particle of used oil is exposed to the high centrifugal force. Thus, the lower the flow rate, the higher the retention time, which leads to better separation efficiency.
-  </p>
-
-  <h3>Specific Gravity Differential</h3>
-  <p>
-    A disc stack centrifuge magnifies the difference in specific gravity between phases. This magnification causes accelerated separation of the phases. So, the heavy metal particles separate from the oil more quickly than the lighter ash particles.
-  </p>
-
-  <!-- Case Study -->
-  <h2 id="case-study">Case Study &mdash; Large Scale Removal of Heavy Metals and Ash from Used Engine Oil</h2>
-
-  <h3>Customer Background</h3>
-  <p>
-    A used oil collection and processing company based on the East coast collected used engine oil. Their collection came from cruise ships, naval vessels, and inland oil change shops.
-  </p>
-  <p>
-    They processed the used oil using filters and heating it to boil off the water. They then vacuum-distilled the cleaned oil to produce lube oil feedstock. The company faced many challenges while using this process.
-  </p>
-
-  <h3>Used Engine Oil Processing Challenges</h3>
-  <ul>
-    <li>High cost of fine filtration media</li>
-    <li>Labor costs associated with manual filtration</li>
-    <li>Energy cost of water evaporation through boiling</li>
-    <li>Inability to remove heavy metal particles and ash in the pre-distillation stage &mdash; this caused frequent cleaning and wear of expensive distillation equipment</li>
-    <li>Environmental compliance costs related to the emission of metal-contaminated gases from the distillation</li>
-  </ul>
-
-  <h3>Industrial Centrifuge Testing and Selection Process</h3>
-  <p>
-    The company contacted Dolphin Centrifuge to conduct a pilot-scale test on their used engine oil. We processed a small (&lt;1 gallon) sample through our pilot-scale disc centrifuge.
-  </p>
-  <p>
-    The customer then analyzed the clean oil sample from our test. There was a significant reduction in the used engine oil&rsquo;s heavy metal and ash contamination.
-  </p>
-  <p>
-    Dolphin Centrifuge recommended an oversized centrifuge based on the flow-rate reduction required for ash removal. The following table summarizes the technical specifications of the centrifuge supplied by Dolphin. See our <a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/">waste oil recovery case study</a> for a related large-scale deployment.
-  </p>
-
-  <div class="overflow-x-auto">
-    <table>
-      <caption class="text-left font-semibold text-navy mb-2">Used Engine Oil Centrifuge Specifications</caption>
-      <tbody>
-        <tr>
-          <td class="font-semibold w-1/2">Type of Centrifuge</td>
-          <td>Self-Cleaning, Disc Centrifuge</td>
-        </tr>
-        <tr>
-          <td class="font-semibold">RCF (Relative Centrifugal Force)</td>
-          <td>~6,800 G</td>
-        </tr>
-        <tr>
-          <td class="font-semibold">Rated Separation Efficiency</td>
-          <td>&lt;1 &micro; Metal Particles</td>
-        </tr>
-        <tr>
-          <td class="font-semibold">Rated Flow Rate</td>
-          <td>28 GPM on Diesel Fuel</td>
-        </tr>
-        <tr>
-          <td class="font-semibold">Flow on Used Engine Oil</td>
-          <td>10 GPM @ 180 F</td>
-        </tr>
-        <tr>
-          <td class="font-semibold">Drive Motor</td>
-          <td>7.5 HP</td>
+        <tr class="bg-gray-50">
+          <td class="p-3 border border-gray-200 font-semibold">Used Engine Oil</td>
+          <td class="p-3 border border-gray-200 text-center">132.0</td>
+          <td class="p-3 border border-gray-200 text-center">785.0</td>
+          <td class="p-3 border border-gray-200 text-center">47.0</td>
+          <td class="p-3 border border-gray-200 text-center">125.0</td>
+          <td class="p-3 border border-gray-200 text-center">65.0</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <img
-    src="/images/disc-stack-centrifuge-remove-metals-ash-used-oil/Alfa-Laval-MOPX207-Used-Oil-Skid.webp"
-    alt="Alfa Laval MOPX207 used oil purification centrifuge skid installed at customer site"
-    width="563" height="580"
-    loading="lazy"
-  />
-  <p class="text-sm text-gray-500 mt-2 italic text-center">Disc Stack Centrifuge Skid for Used Oil Purification</p>
+  <h2 id="why-remove-water-heavy-metals-and-ash">Why remove water, heavy metals, and ash from used engine oil?</h2>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>Water removal is necessary for several reasons. Used oil with water reduces the sale value of used oil as fuel. The presence of water hampers the processing of used oil for lubricant feedstock. Used oil emulsion is caused by water and is not desirable for many reasons.</p>
+    <p>Removal of heavy metals and ash from used engine oil is essential for the following reasons.</p>
+    <p>When used engine oil is burnt as fuel, it releases heavy metals into the environment through combustion gases. This is a cause of environmental air pollution.</p>
+    <p>Air polluted with heavy metal compounds is detrimental to health. Polluted air introduces toxic metals into the oceans, which affect marine life. Soil and groundwater contamination is also a direct result of this pollution.</p>
+    <p>Ash in used engine oil causes processing challenges when converting used oil into lubricant feedstock. Ash residue causes distilling equipment to get gummed up with thick carbon sludge. This leads to frequent cleaning and low process efficiency.</p>
+  </div>
 
-  <!-- Performance Data -->
-  <h2 id="performance-data">Disc Centrifuge Performance Data on Used Engine Oil</h2>
-  <p>
-    The centrifuge system supplied by Dolphin Centrifuge produced the following results on used engine oil purification at the customer site.
-  </p>
-  <div class="overflow-x-auto">
-    <table>
+  <h2 id="purifying-used-motor-oil-using-a-disc-stack-centrifuge">Purifying used motor oil using a disc stack centrifuge</h2>
+  
+  <div class="not-prose mb-8 flex justify-center">
+    <div class="w-full max-w-sm md:max-w-md">
+      <img
+        src="/images/disc-stack-centrifuge-remove-metals-ash-used-oil/waste-motor-oil-centrifuge-system.jpg"
+        alt="Used Motor Oil Centrifuge"
+        width="500"
+        height="500"
+        loading="lazy"
+        class="w-full object-contain mx-auto rounded-xl bg-white border border-gray-200 shadow-sm"
+      />
+      <p class="text-gray-500 text-sm mt-2 text-center"><strong>Used Motor Oil Centrifuge</strong></p>
+    </div>
+  </div>
+
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>An industrial disc-stack centrifuge uses mechanical separation to remove heavy metal and ash particles from used motor oil.</p>
+    <p>A <a href="/disc-stack-centrifuge/">disc-stack centrifuge</a> exerts a centrifugal force of up to 10,000 g on the process fluid. In the case of used motor oil, this force is sufficient to extract fine metal and carbon particles from the oil.</p>
+    <p>Under this force, the heavier metal particles get pushed outward toward the centrifuge bowl wall. The ash particles flocculate to form bigger solids that separate under the high g-force.</p>
+    <p><a href="/oil-centrifuge/">Oil centrifuges</a> are also uniquely equipped to handle the three-phase separation. The centrifuge can separate the water phase from the used oil while simultaneously removing any solid contaminants. The separated water discharges through a discreet heavy phase outlet on the centrifuge.</p>
+  </div>
+
+  <h3 class="text-2xl font-bold text-navy mb-4">Video: Used Motor Oil Sample Processing Through Disc Stack Centrifuge</h3>
+  
+  <div class="not-prose mb-8">
+    <YouTubeEmbed videoId="WvSYIQsDgUg" title="Used Motor Oil Separation using Alfa Laval Disc Stack Centrifuge 1080" />
+  </div>
+
+  <h3 id="operating-parameters-affecting-separation-efficiency" class="text-2xl font-bold text-navy mb-4 mt-8">Operating parameters affecting separation efficiency in a centrifuge.</h3>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p><strong>Temperature</strong><br>Oil temperature is inversely proportional to the viscosity of the oil. Thus, the hotter the oil, the lower the viscosity. Low-viscosity oil offers less resistance to the ash and metal particles from moving out of the oil.</p>
+    <p>Oil temperature can be raised by adding an inline heater to the centrifuge system. This is in addition to the customer&rsquo;s heated tanks.</p>
+    <p><strong>Centrifugal Force (G-Force)</strong><br>Centrifugal force is directly proportional to the separation efficiency of a centrifuge. A disc-stack centrifuge produces the highest level of centrifugal force among <a href="/industrial-centrifuge/">industrial centrifuges</a>.</p>
+    <p><strong>Flow-rate</strong><br>Flow-rate of the used oil through a centrifuge is inversely proportional to retention time. Retention time is the duration each particle of used oil is exposed to the high centrifugal force.</p>
+    <p>Thus, the lower the flow rate, the higher the retention time, which leads to better separation efficiency.</p>
+    <p><strong>Specific Gravity Differential</strong><br>A disc stack centrifuge magnifies the difference in specific gravity between phases. This magnification causes accelerated separation of the phases. So, the heavy metal particles separate from the oil more quickly than the lighter ash particles.</p>
+  </div>
+
+  <h2 id="case-study-large-scale-removal-of-heavy-metals">Case Study &ndash; Large Scale Removal of Heavy Metals and Ash from Used Engine Oil</h2>
+  
+  <h3 id="customer-background" class="text-2xl font-bold text-navy mb-4 mt-8">Customer Background</h3>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>A used oil collection and processing company based on the East coast collected used engine oil. Their collection came from cruise ships, naval vessels, and inland oil change shops.</p>
+    <p>They processed the used oil using filters and heating it to boil off the water. They then vacuum-distilled the cleaned oil to produce lube oil feedstock.</p>
+    <p>The company faced many challenges while using this process. Listed below are some of these challenges.</p>
+  </div>
+
+  <h3 id="used-engine-oil-processing-challenges" class="text-2xl font-bold text-navy mb-4 mt-8">Used Engine Oil Processing Challenges</h3>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <ul>
+      <li>High cost of fine filtration media.</li>
+      <li>Labor costs associated with manual filtration.</li>
+      <li>Energy cost of water evaporation through boiling.</li>
+      <li>Inability to remove heavy metal particles and ash in the pre-distillation stage. This caused frequent cleaning and wear of expensive distillation equipment.</li>
+      <li>Environmental compliance costs are related to the emission of metal-contaminated gases from the distillation.</li>
+    </ul>
+  </div>
+
+  <h3 id="industrial-centrifuge-testing-and-selection-process" class="text-2xl font-bold text-navy mb-4 mt-8">Industrial Centrifuge Testing and Selection Process</h3>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>The company contacted Dolphin Centrifuge to conduct a <a href="/industrial-centrifuge-sample-testing/" target="_blank" rel="noreferrer noopener">pilot-scale test</a> on their used engine oil. We processed a small (&lt; 1 gallon) sample through our pilot-scale <a href="https://en.wikipedia.org/wiki/Conical_plate_centrifuge" target="_blank" rel="noreferrer noopener">disc centrifuge</a>.</p>
+    <p>The customer then analyzed the clean oil sample from our test. There was a significant reduction in the used engine oil's heavy metal and ash contamination.</p>
+    <p>Dolphin Centrifuge recommended an oversized centrifuge. This was based on the flow-rate reduction required for ash removal. The following table summarizes the technical specifications of the centrifuge supplied by Dolphin.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 items-center">
+    <div class="not-prose overflow-x-auto w-full">
+      <table class="w-full text-left border-collapse">
+        <caption class="text-left font-semibold text-navy mb-2 text-lg">Used Engine Oil Centrifuge Specifications</caption>
+        <tbody>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">Type of Centrifuge</td>
+            <td class="p-3">Self-Cleaning, Disc Centrifuge</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">Manufacturer and Model</td>
+            <td class="p-3">Alfa Laval MOPX207</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">RCF (Relative Centrifugal Force)</td>
+            <td class="p-3">~ 6,800 G</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">Rated Separation Efficiency</td>
+            <td class="p-3">&lt; 1 &micro; Metal Particles</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">Rated Flow-Rate</td>
+            <td class="p-3">28 GPM on Diesel Fuel</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="p-3 font-semibold bg-gray-50">Flow on Used Engine Oil</td>
+            <td class="p-3">10 GPM @ 180 F</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-semibold bg-gray-50">Drive Motor</td>
+            <td class="p-3">7.5 HP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="not-prose flex justify-center w-full">
+      <img
+        src="/images/disc-stack-centrifuge-remove-metals-ash-used-oil/Alfa-Laval-MOPX207-Used-Oil-Skid.webp"
+        alt="Alfa-Laval-MOPX207-Used-Oil-Skid"
+        width="563" height="580"
+        loading="lazy"
+        class="w-full max-w-sm lg:max-w-md object-contain rounded-xl shadow-sm border border-gray-200 bg-white"
+      />
+    </div>
+  </div>
+
+  <h3 id="disc-centrifuge-performance-data-on-used-engine-oil" class="text-2xl font-bold text-navy mb-4 mt-8">Disc Centrifuge Performance Data on Used Engine Oil</h3>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>The centrifuge system supplied by Dolphin Centrifuge produced the following results on used engine oil purification at the customer site.</p>
+  </div>
+
+  <div class="not-prose mb-8 overflow-x-auto">
+    <table class="w-full text-left border-collapse">
       <thead>
-        <tr>
-          <th>Test Parameter</th>
-          <th>Units</th>
-          <th>Before Centrifuge</th>
-          <th>After Centrifuge</th>
+        <tr class="bg-navy text-white">
+          <th class="p-3 border-r border-navy-light">Test Parameter</th>
+          <th class="p-3 border-r border-navy-light text-center">Units</th>
+          <th class="p-3 border-r border-navy-light text-center">Before Centrifuge</th>
+          <th class="p-3 text-center">After Centrifuge</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="font-semibold">Water</td>
-          <td>wt %</td>
-          <td>12.65</td>
-          <td>0.80</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 font-semibold bg-gray-50">Water</td>
+          <td class="p-3 text-center">wt %</td>
+          <td class="p-3 text-center">12.65</td>
+          <td class="p-3 text-center">0.80</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Sediment</td>
-          <td>wt %</td>
-          <td>2.42</td>
-          <td>0.06</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 font-semibold bg-gray-50">Sediment</td>
+          <td class="p-3 text-center">wt %</td>
+          <td class="p-3 text-center">2.42</td>
+          <td class="p-3 text-center">0.06</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Ash Content</td>
-          <td>wt %</td>
-          <td>1.17</td>
-          <td>0.09</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 font-semibold bg-gray-50">Ash Content</td>
+          <td class="p-3 text-center">wt %</td>
+          <td class="p-3 text-center">1.17</td>
+          <td class="p-3 text-center">0.09</td>
         </tr>
-        <tr>
-          <td class="font-bold" colspan="4">Metals</td>
+        <tr class="bg-navy/5 font-bold border-b border-gray-200">
+          <td class="p-3" colspan="4">Metals</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Aluminum</td>
-          <td>ppm</td>
-          <td>495</td>
-          <td>12</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 bg-gray-50 pl-8">Aluminum</td>
+          <td class="p-3 text-center">ppm</td>
+          <td class="p-3 text-center">495</td>
+          <td class="p-3 text-center">12</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Chromium</td>
-          <td>ppm</td>
-          <td>522</td>
-          <td>31</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 bg-gray-50 pl-8">Chromium</td>
+          <td class="p-3 text-center">ppm</td>
+          <td class="p-3 text-center">522</td>
+          <td class="p-3 text-center">31</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Silicon</td>
-          <td>ppm</td>
-          <td>386</td>
-          <td>85</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 bg-gray-50 pl-8">Silicon</td>
+          <td class="p-3 text-center">ppm</td>
+          <td class="p-3 text-center">386</td>
+          <td class="p-3 text-center">85</td>
         </tr>
-        <tr>
-          <td class="font-semibold">Vanadium</td>
-          <td>ppm</td>
-          <td>128</td>
-          <td>31</td>
+        <tr class="border-b border-gray-200">
+          <td class="p-3 bg-gray-50 pl-8">Vanadium</td>
+          <td class="p-3 text-center">ppm</td>
+          <td class="p-3 text-center">128</td>
+          <td class="p-3 text-center">31</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Summary -->
   <h2 id="summary">Summary</h2>
-  <p>
-    Using a disc stack centrifuge to remove heavy metal and ash particles from used engine oil is efficient and cost-effective. This method is especially suitable for the large-scale processing of used engine oil. Contact <a href="/contact-for-alfa-laval-centrifuges/">Dolphin Centrifuge</a> to discuss centrifuge options for your used oil application, or review our <a href="/used-oil-centrifuge/">used oil centrifuge</a> page for system sizing guidance.
-  </p>
-
-  <!-- Mid-page CTA -->
-  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-6 my-8 not-prose">
-    <p class="text-navy font-semibold text-lg mb-2">Want to see what a disc centrifuge can do with your used engine oil?</p>
-    <p class="text-text-light mb-4">Send us a quart-size sample and we'll process it on our pilot centrifuge at 180°F, then provide a lab analysis showing before and after metal and ash reduction data — at no charge.</p>
-    <div class="flex flex-wrap gap-3">
-      <a href="/industrial-centrifuge-sample-testing/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-5 py-2 rounded-lg transition-colors">Sample Testing</a>
-      <a href="/contact-for-alfa-laval-centrifuges/" class="border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Get a Quote</a>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <h2 id="faq" class="text-2xl font-bold text-navy mb-4">Frequently Asked Questions</h2>
-  <div class="space-y-3 not-prose mb-6">
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        Can a disc stack centrifuge remove metals from used engine oil?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Yes. Disc stack centrifuges effectively remove iron, copper, aluminum, lead, and chromium wear metal particles from used engine oil by exploiting the density difference between metal particles (7&ndash;11 g/cm&sup3;) and oil (0.87 g/cm&sup3;). Operating at 6,000&ndash;10,000 Gs, the centrifuge separates particles as small as 1 micron. Case studies show 90&ndash;97% reduction in metal content after a single pass at 180&deg;F.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        What is ash in used engine oil and how does a centrifuge remove it?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Ash in used engine oil is the residue from combustion &mdash; including burned additive packages (calcium, magnesium, zinc compounds), carbon soot, and combustion byproducts. These denser particles range from 0.5 to 50 microns. A disc centrifuge at 7,000+ Gs removes the inorganic ash fraction, reducing ash content to below 0.1% by weight and dramatically extending oil life for re-use or re-refining.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        What centrifuge model is recommended for used oil metal and ash removal?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Dolphin Centrifuge recommends the DMPX-028 (45 GPM) or DMPX-042 (68 GPM) self-cleaning disc stack centrifuge modules for used engine oil processing. Systems include electric pre-heaters (180&deg;F target), a sludge tank for metal/ash collection, and PLC controls for automated ejection cycle management. For smaller volumes (under 15 GPM), the DMPX-014 is suitable.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        Does heating used oil improve centrifuge metal removal efficiency?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">Yes. Heating used engine oil to 160&ndash;200&deg;F dramatically improves metal and ash removal efficiency by reducing oil viscosity from 100&ndash;500 cSt (cold) to 15&ndash;30 cSt (hot). At lower viscosity, centrifugal force moves metal particles and ash to the bowl wall much more rapidly, allowing higher throughput or finer particle removal at the same flow rate. Heating also reduces water content through partial flash evaporation.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-gray-50 rounded-r-lg p-4 group">
-      <summary class="font-semibold text-navy cursor-pointer flex items-center justify-between">
-        How does a disc centrifuge compare to filtration for used oil metal removal?
-        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#8964;</span>
-      </summary>
-      <p class="text-text-light text-sm mt-3">A disc stack centrifuge outperforms conventional filtration for used oil metal removal: centrifuges remove particles below 1 micron (filters stop at 5&ndash;10 microns), operate continuously with no media replacement or disposal costs, and simultaneously remove water and solids in one pass. Filtration requires separate stages for water removal and cannot handle sub-micron particles. For high-volume used oil processing, centrifuge total cost of ownership is significantly lower than filtration.</p>
-    </details>
-  </div>
-
-  <!-- Bottom CTA bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 mt-8 mb-6 text-white text-center not-prose">
-    <h2 class="text-xl font-bold mb-2">Ready to reduce metals and ash in your used engine oil?</h2>
-    <p class="text-white/80 mb-4">Dolphin Centrifuge supplies complete used oil purification systems including centrifuge, heater, sludge tank, and PLC controls. Get a quote or send us a sample for pilot testing.</p>
-    <div class="flex flex-wrap gap-3 justify-center">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-bold px-6 py-3 rounded-lg hover:bg-gold/90 transition-colors">Get a Quote</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-navy transition-colors">Send Us a Sample</a>
-    </div>
-    <p class="text-white/60 text-sm mt-4">(248) 522-2573 &bull; sales@dolphincentrifuge.com &bull; Warren, MI 48089</p>
+  
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>Using a disc stack centrifuge to remove heavy metal and ash particles from used engine oil is efficient and cost-effective. This method is especially suitable for the large-scale processing of used engine oil.</p>
+    <p>To know more about Dolphin Centrifuge, visit our <a href="/about-dolphin-centrifuge/">About Us</a> page.</p>
   </div>
 
 </ApplicationLayout>
