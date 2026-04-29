@@ -16,7 +16,7 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 | `disc-stack-centrifuge-operating-water` | Hero | `disc-stack-centrifuge-bowl-moving-parts-1050-768x293-1.webp` | ⏳ PENDING | Hero is only 768x293px. Minimum spec is 1440x500px. Sanjay approved keeping for now (commit `71511a2`). Needs a proper wide hero image before launch. |
 | `disc-stack-centrifuge-sludge-ejection-cycle-time` | Hero | `Bowl-Sludge-Ports-600.webp` | ⏳ PENDING | Hero is only 600px wide. Minimum spec is 1440x500px. Old hero copied to `_Old_Hero_Image/disc-stack-centrifuge-sludge-ejection-cycle-time/`. Place replacement in `_New_Hero_Image/` when ready. |
 | `disadvantages-disc-stack-centrifuge` | Hero | `disc-stack-centrifuge-disadvantages-hero-2000.webp` | ✅ DONE | Replaced with high-res 2000px asset from `_New_Hero_Image`. |
-| `disadvantages-disc-stack-centrifuge` | Body | `disc-stack-bowl-disc-spacing-1000-768x307-1.webp`, etc. | ⏳ PENDING | Legacy diagrams and low-res body images copied to `_Image_Repair/disadvantages-disc-stack-centrifuge/`. |
+| `disadvantages-disc-stack-centrifuge` | Body | `centrifuge-disc-stack-spacing-800-high-quality.webp`, etc. | ✅ DONE | Replaced with high-res redrawn assets from `_Image_NB_Fixed`. |
 
 ---
 
