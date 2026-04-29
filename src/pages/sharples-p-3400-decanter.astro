@@ -1,97 +1,57 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the main difference between the Sharples P-3400 and P-3000?",
-    answer: "The P-3400 has a larger bowl volume than the P-3000, making it suited for higher-throughput applications. Both models share the same platform architecture and Sharples design philosophy. Choose the P-3400 when sludge volume or flow rate exceeds the P-3000's 25 GPM rated capacity. The P-3400 is rated at 50 GPM with a 25 HP drive motor."
-  },
-  {
-    question: "Does Dolphin Centrifuge stock parts for the P-3400?",
-    answer: "Yes. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, supporting rebuild and repair services for plants across North America that continue to operate these machines."
-  },
-  {
-    question: "Is the Sharples P-3400 still supported by Alfa Laval?",
-    answer: "Yes. The Sharples brand was acquired by Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge independently provides rebuild, repair, and parts support for P-3400 units outside the OEM channel."
-  },
-  {
-    question: "How long does a Sharples P-3400 rebuild take?",
-    answer: "A complete P-3400 mechanical rebuild typically takes 3–5 weeks depending on scope — scroll reconditioning, bearing replacement, gearbox overhaul, wear surface hard-facing, seal replacement, and final balance and test. Dolphin Centrifuge provides a detailed scope and timeline after initial inspection of the unit."
-  },
-  {
-    question: "Can the P-3400 handle ethanol biomass separation?",
-    answer: "Yes. The Sharples P-3400 has been used for ethanol biomass separation, with a rated capacity of 50 GPM on ethanol biomass feed. The 3,150 G separation force at 4,000 RPM is effective for dewatering fermentation biomass and other biological solids in ethanol production and bioprocessing applications."
-  }
-];
-
-const productJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Sharples P-3400 Decanter Centrifuge",
-  "description": "Sharples P-3400 decanter centrifuge — specifications, applications and rebuild services from Dolphin Centrifuge.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "telephone": "(248) 522-2573",
-    "email": "sales@dolphincentrifuge.com",
-    "url": "https://dolphincentrifuge.com"
-  },
-  "model": "P-3400",
-  "url": "https://dolphincentrifuge.com/sharples-p-3400-decanter/",
-  "offers": {
-    "@type": "Offer",
-    "seller": {
-      "@type": "Organization",
-      "name": "Dolphin Centrifuge"
-    }
-  }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Sharples P-3400 High-Capacity Decanter Centrifuge — Parts, Rebuild & Repair",
-  "description": "Sharples P-3400 decanter centrifuge parts, rebuild, and repair services from Dolphin Centrifuge. 50 GPM rated capacity, 3,150 Gs, 25 HP drive for industrial sludge dewatering.",
+  "headline": "Sharples P 3400 Decanter | Applications & Specifications",
+  "description": "Sharples P 3400 decanter centrifuge is a large capacity decanter that finds multiple uses for sludge thickening, biomass extraction & wastewater treatment",
   "author": {
     "@type": "Person",
     "name": "Sanjay Prabhu MSME",
     "jobTitle": "Centrifuge Applications Engineer",
     "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   },
-  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/sharples-p-3400-decanter/",
-  "mainEntityOfPage": "https://dolphincentrifuge.com/sharples-p-3400-decanter/"
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "datePublished": "2020-10-27",
+  "dateModified": "2025-04-03"
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Sharples P 3400 Decanter Centrifuge",
+  "description": "Sharples P 3400 decanter centrifuge is a large capacity decanter that finds multiple uses for sludge thickening, biomass extraction & wastewater treatment",
+  "image": "https://dolphincentrifuge.com/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp",
+  "brand": { "@type": "Brand", "name": "Sharples" },
+  "model": "P-3400",
+  "additionalProperty": [
+    { "@type": "PropertyValue", "name": "Rated Capacity", "value": "50 GPM on Ethanol Biomass Separation" },
+    { "@type": "PropertyValue", "name": "Bowl Speed", "value": "4000 RPM (3,150 Gs RCF)" },
+    { "@type": "PropertyValue", "name": "Drive Motor Power", "value": "25 HP" },
+    { "@type": "PropertyValue", "name": "Auger Differential Speed", "value": "1 ~ 42 RPM" },
+    { "@type": "PropertyValue", "name": "Gearbox Ratio", "value": "1: 95" },
+    { "@type": "PropertyValue", "name": "Conveyor Protection", "value": "Carbide Tile or Tungsten Carbide Hard-Surfacing" }
+  ]
+};
+
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
-  { id: 'about', label: 'About the Sharples P-3400' },
-  { id: 'specifications', label: 'P-3400 Specifications' },
   { id: 'applications', label: 'Applications' },
-  { id: 'p3400-vs-p3000', label: 'P-3400 vs. P-3000' },
-  { id: 'rebuild-service', label: 'Rebuild Service' },
-  { id: 'faq', label: 'Frequently Asked Questions' },
+  { id: 'specifications', label: 'Specifications' },
 ];
 
 const relatedApplications = [
-  { label: 'Decanter Centrifuge Applications', href: '/decanter-centrifuge-applications/' },
+  { label: 'Decanter Centrifuge', href: '/decanter-centrifuge/' },
   { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
-  { label: 'Dewatering Centrifuge', href: '/dewatering-centrifuge/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Liquid Humus Fertilizer', href: '/liquid-humus-centrifuge/' },
+  { label: 'Hemp Solvent Extraction', href: '/hemp-extraction-centrifuge/' },
 ];
 
 const relatedProducts = [
@@ -102,185 +62,123 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Sharples P-3400 Decanter Centrifuge | Dolphin Centrifuge"
-  description="Sharples P-3400 high-capacity decanter centrifuge — rebuild, parts, and repair services for heavy sludge dewatering applications. Dolphin Centrifuge, Warren MI."
+  title="Sharples P 3400 Decanter | Applications & Specifications"
+  disableTitleSuffix={true}
+  description="Sharples P 3400 decanter centrifuge is a large capacity decanter that finds multiple uses for sludge thickening, biomass extraction & wastewater treatment"
   heroImage="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
-  heroImageAlt="Sharples P-3400 high-capacity horizontal decanter centrifuge for oilfield and industrial sludge dewatering — Dolphin Centrifuge rebuild and parts"
+  heroImageAlt="Sharples P 3400 Decanter Centrifuge"
   category="products"
   categoryLabel="Products"
   canonicalUrl="https://dolphincentrifuge.com/sharples-p-3400-decanter/"
   jsonLd={jsonLd}
   toc={toc}
   relatedApplications={relatedApplications}
-  relatedProducts={relatedProducts}
 >
 
-  <!-- AI Summary — 30-50 words -->
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">The Sharples P-3400 is a high-capacity two-phase horizontal decanter centrifuge rated at 50 GPM with a 25 HP drive generating 3,150 Gs at 4,000 RPM. Dolphin Centrifuge provides parts, rebuilds, and repair from Warren, Michigan.</p>
+  <!-- Intro paragraphs (verbatim legacy) -->
+  <div class="prose prose-lg max-w-none mb-8">
+    <h1>Sharples P 3400 Decanter | Applications & Specifications</h1>
+    <p>The Sharples P-3400 <a href="/decanter-centrifuge/">Decanter Centrifuge</a> is a horizontal de-sludging centrifuge built for the two-phase separation of crude oil tank bottoms, refinery slop sludge, industrial sludge-thickening, municipal sludge dewatering, paint sludge handling, etc.</p>
+    <p>With a 25 HP Motor, the P 3400 decanter has a bowl RPM of 4,000 and can process 50 GPM on ethanol hemp biomass separation.</p>
   </div>
 
-  <!-- About -->
-  <h2 id="about">About the Sharples P-3400</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p>
-        The Sharples P-3400 is the larger-capacity model in the Sharples industrial horizontal <a href="/decanter-centrifuge/">decanter centrifuge</a> series, offering greater throughput than the <a href="/sharples-p-3000-decanter/">P-3000</a> while sharing the same proven platform architecture. The P-3400 is suited to higher-volume wastewater treatment plants, larger industrial process streams, and applications where the P-3000's capacity falls short of requirements.
-      </p>
-      <p>
-        As with the P-3000, the Sharples brand is now part of Alfa Laval, and the P-3400 is supported within the Alfa Laval service network. Dolphin Centrifuge maintains parts inventory and technical expertise for the P-3400 platform, providing rebuild and repair services to plants across North America that continue to operate these machines.
-      </p>
-    </div>
-    <img
-      src="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
-      alt="Sharples P-3400 decanter centrifuge installed in oilfield application — high-capacity horizontal scroll decanter"
-      width="600"
-      height="600"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
-
-  <!-- Specifications -->
-  <h2 id="specifications">P-3400 Specifications</h2>
-
-  <div class="overflow-x-auto mb-8">
-    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <tbody>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Model</td>
-          <td class="px-4 py-3 font-mono text-text-light">Sharples P-3400</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Centrifuge Type</td>
-          <td class="px-4 py-3 font-mono text-text-light">Horizontal Decanter, Two-Phase</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Capacity vs. P-3000</td>
-          <td class="px-4 py-3 font-mono text-text-light">Higher (larger bowl volume)</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Separation Configuration</td>
-          <td class="px-4 py-3 font-mono text-text-light">Liquid-Solid (Two-Phase)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-          <td class="px-4 py-3 font-mono text-text-light">50 GPM on Ethanol Biomass Separation</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">4,000 RPM (3,150 Gs RCF)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Drive Motor</td>
-          <td class="px-4 py-3 font-mono text-text-light">25 HP</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Auger Differential Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">1&ndash;42 RPM</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Gearbox Ratio</td>
-          <td class="px-4 py-3 font-mono text-text-light">1:95</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Area Equivalent (AE)</td>
-          <td class="px-4 py-3 font-mono text-text-light">1,500</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Conveyor Protection</td>
-          <td class="px-4 py-3 font-mono text-text-light">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Current Brand Ownership</td>
-          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval (acquired)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Service Support</td>
-          <td class="px-4 py-3 font-mono text-text-light">Parts, Rebuild &amp; Repair — Dolphin Centrifuge</td>
-        </tr>
-        <tr class="bg-gray-50">
-          <td class="px-4 py-3 font-semibold text-navy">Typical Applications</td>
-          <td class="px-4 py-3 font-mono text-text-light">Wastewater, Chemical, Industrial Sludge</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Product Image (centered) -->
+  <div class="flex flex-col items-center mb-10">
+    <a href="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp" data-lightbox="p3400-main" data-title="Sharples P 3400 Oilfield Decanter Centrifuge">
+      <img
+        src="/images/sharples-p-3400-decanter/sharples-p3400-oilfield-decanter.webp"
+        alt="Sharples P 3400 Oilfield Decanter Centrifuge"
+        width="600"
+        height="600"
+        loading="lazy"
+        class="rounded-lg border border-gray-200 bg-white object-contain img-cap-600"
+      />
+    </a>
+    <p class="text-gray-500 text-sm mt-2 text-center"><strong>Sharples P 3400 Oilfield Decanter Centrifuge</strong></p>
   </div>
 
   <!-- Applications -->
   <h2 id="applications">Applications</h2>
 
-  <p>The P-3400 handles the same <a href="/decanter-centrifuge-applications/">decanter centrifuge application</a> range as the P-3000, but at higher throughput:</p>
-  <div class="grid md:grid-cols-2 gap-x-8 gap-y-2 mb-6">
-    <ul class="space-y-2">
-      <li><a href="/wastewater-centrifuge/">Municipal wastewater sludge dewatering</a></li>
-      <li>Large-volume industrial effluent treatment</li>
-      <li>Chemical process sludge separation</li>
-      <li>Biological sludge thickening</li>
-    </ul>
-    <ul class="space-y-2">
-      <li>Food processing waste dewatering</li>
-      <li>Mining and mineral slurry processing</li>
-      <li>Paper and pulp mill sludge</li>
-      <li>Rendering and industrial by-products</li>
-    </ul>
+  <div class="overflow-x-auto mb-8">
+    <table>
+      <tbody>
+        <tr>
+          <td><a href="/hemp-extraction-centrifuge/">Hemp Solvent Extraction</a></td>
+          <td>Hemp biomass &amp; ethanol separation (Explosion Proof)</td>
+        </tr>
+        <tr>
+          <td><a href="/ethanol-extraction-centrifuges-technical-comparison/">Ethanol Extraction</a></td>
+          <td>Ethanol extraction of THC or CBD Oil</td>
+        </tr>
+        <tr>
+          <td><a href="/crude-oil-centrifuge/">Crude Oil Tank Bottom Sludge</a></td>
+          <td>Tank bottom BS&amp;W separation</td>
+        </tr>
+        <tr>
+          <td><a href="/wastewater-centrifuge/">Municipal Wastewater</a></td>
+          <td>Sludge thickening</td>
+        </tr>
+        <tr>
+          <td><a href="/liquid-humus-centrifuge/">Liquid Humus Fertilizer</a></td>
+          <td>Humus biomass separation</td>
+        </tr>
+        <tr>
+          <td><a href="/wastewater-centrifuge/">Fish Meal Separation</a></td>
+          <td>Fish oil &amp; fish meal separation from stickwater</td>
+        </tr>
+        <tr>
+          <td><a href="/centrifuge-pyrolysis-oil/">Pyrolysis Sludge Separation</a></td>
+          <td>Bio-oil separation from bio-char sludge</td>
+        </tr>
+        <tr>
+          <td><a href="/waste-oil-centrifuge/">Waste Oil De-sludging</a></td>
+          <td>Industrial waste oil de-sludging</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- P-3400 vs P-3000 -->
-  <h2 id="p3400-vs-p3000">P-3400 vs. P-3000: When to Choose the Larger Model</h2>
+  <!-- Specifications -->
+  <h2 id="specifications">Specifications</h2>
 
-  <p>
-    The P-3400 is the logical choice over the <a href="/sharples-p-3000-decanter/">P-3000</a> when plant throughput requirements exceed the smaller model's capacity. Higher daily sludge volumes, larger process flows, or the desire to operate a single larger unit instead of two smaller ones are the common drivers. Both models share the same Sharples design philosophy and are fully supported by Dolphin Centrifuge.
-  </p>
-  <p>
-    For plants evaluating whether to rebuild an existing P-3400 or upgrade to a current-generation decanter, our team can provide a comparative analysis of rebuild cost versus replacement value, spare parts availability, and performance expectations. Explore current-generation <a href="/alfa-laval-centrifuges/">Alfa Laval centrifuges</a> as upgrade options. If you need a temporary unit during rebuilding, ask about our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental</a> program.
-  </p>
-
-  <!-- Rebuild Service -->
-  <h2 id="rebuild-service">Dolphin Centrifuge P-3400 Rebuild Service</h2>
-
-  <ul>
-    <li>Complete bowl and scroll assembly inspection and reconditioning</li>
-    <li>Bearing replacement and precision alignment</li>
-    <li>Scroll wear surface hard-facing and replacement</li>
-    <li>Gearbox inspection and rebuild</li>
-    <li>Seal replacement and liquid end reconditioning</li>
-    <li><a href="/industrial-disc-centrifuge-repair/">Full centrifuge repair and refurbishment services</a></li>
-  </ul>
-
-  <!-- Mid-page CTA -->
-  <div class="bg-gold/10 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
-    <p class="text-navy font-bold text-lg mb-1">P-3400 needs rebuild or repair?</p>
-    <p class="text-text-light text-sm mb-3">Dolphin Centrifuge in Warren, Michigan stocks P-3400 parts and provides complete rebuild services. Contact us for an inspection estimate and rebuild timeline.</p>
-    <div class="flex flex-col sm:flex-row gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-5 py-2.5 rounded-lg hover:bg-yellow-500 transition-colors text-sm">Request Rebuild Quote</a>
-      <a href="/industrial-disc-centrifuge-repair/" class="inline-block border border-navy text-navy font-semibold px-5 py-2.5 rounded-lg hover:bg-navy/5 transition-colors text-sm">Centrifuge Repair Services</a>
-    </div>
-  </div>
-
-  <!-- FAQ Section -->
-  <h2 id="faq">Frequently Asked Questions</h2>
-
-  <div class="space-y-3 not-prose">
-    {faqItems.map(item => (
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
-        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
-          <span class="text-gold font-bold">+</span> {item.question}
-        </summary>
-        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
-      </details>
-    ))}
-  </div>
-
-  <!-- Bottom CTA Bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 mt-10 text-center not-prose">
-    <p class="text-white text-xl font-bold mb-2">Sharples P-3400 parts, rebuild, and repair — Warren, MI</p>
-    <p class="text-blue-100 text-sm mb-5">Dolphin Centrifuge maintains parts inventory and service expertise for Sharples P-3400 and P-3000 decanter centrifuges. Call (248) 522-2573 for immediate support.</p>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-bold px-7 py-3 rounded-lg hover:bg-yellow-500 transition-colors">Get a Rebuild Quote</a>
-      <a href="/decanter-centrifuge/" class="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3 rounded-lg transition-colors">Decanter Centrifuge Guide</a>
-    </div>
+  <div class="overflow-x-auto mb-8">
+    <table>
+      <tbody>
+        <tr>
+          <td>Model Type</td>
+          <td>Sharples P-3400</td>
+        </tr>
+        <tr>
+          <td>Rated Capacity</td>
+          <td>50 GPM on Ethanol Biomass Separation</td>
+        </tr>
+        <tr>
+          <td>Auger Differential Speed</td>
+          <td>1 ~ 42 RPM</td>
+        </tr>
+        <tr>
+          <td>Drive Motor Power</td>
+          <td>25 HP</td>
+        </tr>
+        <tr>
+          <td>Gearbox Ratio</td>
+          <td>1: 95</td>
+        </tr>
+        <tr>
+          <td>A<sub>E</sub> (Area Equivalent)</td>
+          <td>1,500</td>
+        </tr>
+        <tr>
+          <td>Bowl Speed</td>
+          <td>4000 RPM (3,150 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>)</td>
+        </tr>
+        <tr>
+          <td>Conveyor Protection</td>
+          <td>Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </ApplicationLayout>
