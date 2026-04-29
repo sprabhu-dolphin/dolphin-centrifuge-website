@@ -517,3 +517,28 @@ When the user gives you a page to migrate (e.g., "Migrate waste-oil-centrifuge")
     A. DO NOT KILL node processes before editing.
     B. COMMIT IN SMALL BATCHES to protect against silent file wiping.
     C. If a file drops below 1,000 bytes unexpectedly, restore from HEAD.
+
+#16. ENCODING AND LINE-ENDING SAFETY PROTOCOL (UPDATED 2026-04-29):
+
+    This repo stores text files as UTF-8 with LF line endings.
+
+    ROOT CAUSE TO AVOID:
+    Some Windows tools display valid UTF-8 characters incorrectly, for example showing an em dash
+    as garbled text. That display problem is not proof the file is corrupted. The more common real problem
+    is mixed line endings: an older CRLF working-copy file gets edited by a tool that inserts LF-only
+    lines, and Git then reports warning/dirt around the file.
+
+    HARD RULE:
+    Before committing any rulebook or Markdown instruction change, run:
+    `git ls-files --eol -- <file>`
+
+    Required result:
+    - The file must show `w/lf`.
+    - If it shows `w/mixed` or `w/crlf`, normalize the file to LF before staging.
+
+    Do not use PowerShell `Set-Content`, shell redirection, or copy/paste from a mojibake terminal
+    view to rewrite rulebook files. Preserve UTF-8 text and LF endings.
+
+    The repo includes `.gitattributes` and `.editorconfig` to enforce this. If either file is
+    missing or ignored by an editor, stop and fix the editor/config problem instead of committing
+    another line-ending churn patch.
