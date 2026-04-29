@@ -56,3 +56,4 @@ All pages below have passed the v2.2 refactor audit.
 | disc-centrifuge-friction-clutch | b8d17c2 | - | 2026-04-28 | PASS |
 | alfa-laval-g2-40-decanter | 34d370d | - | 2026-04-29 | PASS |
 | disc-stack-centrifuge-vibration | b2b979d | - | 2026-04-29 | PASS |
+| industrial-centrifuge-sample-testing | 40799aa | - | 2026-04-29 | PASS |
