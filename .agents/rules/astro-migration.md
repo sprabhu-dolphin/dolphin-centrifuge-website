@@ -115,56 +115,43 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
 #5. IMAGE QUALITY STOP-AND-CHECK GATE (MANDATORY — BEFORE EVERY COMMIT):
 
-    IMAGE HANDOFF FOLDER RULE (added 2026-04-27):
-    When a page needs hero-image replacement work or body-image repair work, the Astro agent MUST use
-    the repo-root image staging folders below:
+    IMAGE HANDOFF FOLDER RULE (updated 2026-04-29):
+    When a page needs hero-image replacement work or body-image repair work, the Astro agent MUST
+    prepare the repo-root image handoff folders before any `git add` or `git commit`.
 
-    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
-    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
-    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
-    - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+    HARD STOP:
+    - Do not stage or commit the page until this image handoff step is complete.
+    - Do not move or delete any original images.
+    - Always copy old/source images. Never move them.
+    - If the page does not need image work, do not create noise by copying sharp/correct images.
 
-    For every page slug, the Astro agent MUST create slug subfolders inside the relevant staging folders.
-    Example for `disc-stack-centrifuge-efficiency`:
+    For the current `{slug}`, create all four slug folders whenever any image work is needed:
+    - `_Old_Hero_Image\{slug}\`
+    - `_New_Hero_Image\{slug}\`
+    - `_Image_Repair\{slug}\`
+    - `_Image_NB_Fixed\{slug}\`
 
-    - `_Old_Hero_Image\disc-stack-centrifuge-efficiency\`
-    - `_New_Hero_Image\disc-stack-centrifuge-efficiency\`
-    - `_Image_Repair\disc-stack-centrifuge-efficiency\`
-    - `_Image_NB_Fixed\disc-stack-centrifuge-efficiency\`
+    Folder purpose:
+    - `_Old_Hero_Image\{slug}\` holds the old/current hero image copied from `public/images/{slug}/`.
+    - `_New_Hero_Image\{slug}\` is the empty receiving folder for Sanjay's finished replacement hero.
+    - `_Image_Repair\{slug}\` holds old/current body images that need repair, redraw, or replacement.
+    - `_Image_NB_Fixed\{slug}\` is the empty receiving folder for Sanjay's finished repaired body images.
 
-    COPY-ONLY RULE:
-    - Always COPY source/legacy images into these staging folders.
-    - NEVER move originals out of `public/images/` or any legacy/source location.
-    - NEVER delete the originals as part of this workflow.
+    Required commands, adjusted for the actual filenames:
+    1. Create all four slug folders:
+       `New-Item -ItemType Directory -Force "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
 
-    PAGE-WORKFLOW RULE:
-    - Legacy/source hero images to be replaced go into `_Old_Hero_Image\{slug}\`
-    - Legacy/source body images that need repair/redraw go into `_Image_Repair\{slug}\`
-    - Sanjay's finished replacement hero images will be placed into `_New_Hero_Image\{slug}\`
-    - Sanjay's finished repaired body images will be placed into `_Image_NB_Fixed\{slug}\`
+    2. If the hero is being replaced or is undersized, copy the old/current hero:
+       `Copy-Item "public\images\{slug}\{old-hero-file}" "_Old_Hero_Image\{slug}\{old-hero-file}"`
 
-    If a page does not need image work, do not create noise by copying sharp/correct images unnecessarily.
+    3. If any body image is low-res, blurry, a legacy JPG, a sketch, a scan, or needs redraw, copy it:
+       `Copy-Item "public\images\{slug}\{body-image-file}" "_Image_Repair\{slug}\{body-image-file}"`
 
-    ============================================================
-    ❌ MANDATORY PRE-COMMIT IMAGE GATE — HARD STOP ❌
-    THIS MUST BE EXECUTED BEFORE ANY `git add` OR `git commit`.
-    DO NOT SKIP. DO NOT DEFER. DO NOT "DO IT AFTER THE COMMIT".
-    ============================================================
+    4. Verify the handoff folders:
+       `Get-ChildItem "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
 
-    STEP 1 — ARCHIVE THE OLD HERO (always, if hero is being replaced or is undersized):
-      Copy-Item "<public/images/{slug}/{old-hero}.webp>" "_Old_Hero_Image\{slug}\{old-hero}.webp"
-      Verify the file landed: Get-ChildItem "_Old_Hero_Image\{slug}"
-
-    STEP 2 — ARCHIVE BODY IMAGES NEEDING REPAIR (always, if body images are low-res or legacy JPG):
-      Copy-Item "<public/images/{slug}/{body-image}.webp>" "_Image_Repair\{slug}\{body-image}.webp"
-      (Repeat for every body image that is undersized, blurry, or a legacy scan)
-      Verify the files landed: Get-ChildItem "_Image_Repair\{slug}"
-
-    STEP 3 — ONLY THEN proceed to `git add` and `git commit`.
-
-    FAILURE TO COMPLETE STEPS 1 AND 2 BEFORE COMMITTING IS A PROCESS VIOLATION.
-    This rule was added 2026-04-28 after being missed on three consecutive pages.
-    ============================================================
+    Failure to create the required `{slug}` folders or copy the old/source images before committing
+    is a process violation.
 
     Before staging and committing ANY page, the agent MUST stop and ask Sanjay:
 
