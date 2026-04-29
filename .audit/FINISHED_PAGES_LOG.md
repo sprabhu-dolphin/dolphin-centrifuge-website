@@ -53,3 +53,4 @@ All pages below have passed the v2.2 refactor audit.
 | sharples-p-3000-decanter | 4e193fa | - | 2026-04-28 | PASS |
 | disc-centrifuge-friction-clutch | b8d17c2 | - | 2026-04-28 | PASS |
 | alfa-laval-g2-40-decanter | 34d370d | - | 2026-04-29 | PASS |
+| disc-stack-centrifuge-vibration | b2b979d | - | 2026-04-29 | PASS |
