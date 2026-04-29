@@ -117,10 +117,21 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     IMAGE HANDOFF FOLDER RULE (updated 2026-04-29):
     When a page needs hero-image replacement work or body-image repair work, the Astro agent MUST
-    prepare the repo-root image handoff folders before any `git add` or `git commit`.
+    prepare the repo-root image handoff folders before the first-pass page build/refactor begins.
+    This is not a late pre-commit cleanup step. It must happen early so Sanjay has the old/source
+    images available while the rest of the page is being fixed.
+
+    REQUIRED ORDER:
+    1. Run the Discovery Lock for the assigned slug.
+    2. Inspect the legacy/current hero and body images for that slug.
+    3. Create the required image handoff folders and copy the old/source images that may need
+       replacement, repair, redraw, or Sanjay review.
+    4. Only after the old/source image copying is complete, begin first-pass page migration,
+       layout refactor, content fixes, schema fixes, or other page edits.
 
     HARD STOP:
-    - Do not stage or commit the page until this image handoff step is complete.
+    - Do not start first-pass page build/refactor work until this image handoff step is complete.
+    - Do not stage or commit the page until this image handoff step has been verified.
     - Do not move or delete any original images.
     - Always copy old/source images. Never move them.
     - If the page does not need image work, do not create noise by copying sharp/correct images.
@@ -150,8 +161,8 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     4. Verify the handoff folders:
        `Get-ChildItem "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
 
-    Failure to create the required `{slug}` folders or copy the old/source images before committing
-    is a process violation.
+    Failure to create the required `{slug}` folders or copy the old/source images before first-pass
+    page work begins is a process violation. Doing it only right before commit is too late.
 
     Before staging and committing ANY page, the agent MUST stop and ask Sanjay:
 
@@ -490,9 +501,10 @@ Your tone should be direct, highly technical, and strictly focused on code accur
 #14. STANDARD KICKOFF PROTOCOL (AUTO-TRIGGER):
 When the user gives you a page to migrate (e.g., "Migrate waste-oil-centrifuge"), you MUST automatically execute this sequence without being reminded:
 1. Run your Discovery Lock first and report the As-Is state (Rule #8).
-2. STRICTLY use `src/pages/hydraulic-oil-centrifuge.astro` as your structural blueprint and CSS Grid Golden Master.
-3. Never truncate the file; stop cleanly if you hit token limits (Rule #13).
-4. Execute the Image Quality Gate before staging or committing (Rule #5).
+2. Execute the Image Quality Gate immediately after Discovery Lock and BEFORE the first-pass page build/refactor begins (Rule #5).
+3. STRICTLY use `src/pages/hydraulic-oil-centrifuge.astro` as your structural blueprint and CSS Grid Golden Master.
+4. Never truncate the file; stop cleanly if you hit token limits (Rule #13).
+5. Re-check the Image Quality Gate before staging or committing (Rule #5).
 
 # 15. DEV SERVER SAFETY PROTOCOL (UPDATED 2026-04-26):
 
