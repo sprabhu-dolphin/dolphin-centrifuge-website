@@ -15,7 +15,6 @@ All pages below have passed the v2.2 refactor audit.
 | disc-stack-centrifuge | — | — | — | PASS |
 | alfa-laval-centrifuge | — | — | — | PASS |
 | alfa-laval-centrifuge-parts | — | — | — | PASS |
-| sharples-p-3400-decanter | — | — | — | PASS |
 | disc-centrifuge-parts-glossary | — | — | — | PASS |
 | diesel-centrifuge | — | — | — | PASS |
 | centrifugal-filter | — | — | — | PASS |
