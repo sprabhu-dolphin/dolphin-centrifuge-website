@@ -4,6 +4,7 @@ All pages below have passed the v2.2 refactor audit.
 
 | Slug | Commit | Open Items | Date | Status |
 |------|--------|------------|------|--------|
+| disadvantages-disc-stack-centrifuge | bf4d748 | PENDING_FIXES_LIST.md | 2026-04-29 | PASS |
 | / | — | — | 2026-04-25 | PASS |
 | alfa-laval-centrifugal-separator | — | — | — | PASS |
 | waste-oil-centrifuge | — | — | — | PASS |
