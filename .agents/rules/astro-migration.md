@@ -134,7 +134,8 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - Do not stage or commit the page until this image handoff step has been verified.
     - Do not move or delete any original images.
     - Always copy old/source images. Never move them.
-    - If the page does not need image work, do not create noise by copying sharp/correct images.
+    - ALWAYS copy ALL body images to `_Image_Repair\{slug}\` for Sanjay's review. The agent
+      does NOT judge image quality. Sanjay decides what is acceptable.
 
     For the current `{slug}`, create all four slug folders whenever any image work is needed:
     - `_Old_Hero_Image\{slug}\`
@@ -145,7 +146,7 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     Folder purpose:
     - `_Old_Hero_Image\{slug}\` holds the old/current hero image copied from `public/images/{slug}/`.
     - `_New_Hero_Image\{slug}\` is the empty receiving folder for Sanjay's finished replacement hero.
-    - `_Image_Repair\{slug}\` holds old/current body images that need repair, redraw, or replacement.
+    - `_Image_Repair\{slug}\` holds ALL old/current body images for Sanjay's quality review.
     - `_Image_NB_Fixed\{slug}\` is the empty receiving folder for Sanjay's finished repaired body images.
 
     Required commands, adjusted for the actual filenames:
@@ -155,8 +156,9 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     2. If the hero is being replaced or is undersized, copy the old/current hero:
        `Copy-Item "public\images\{slug}\{old-hero-file}" "_Old_Hero_Image\{slug}\{old-hero-file}"`
 
-    3. If any body image is low-res, blurry, a legacy JPG, a sketch, a scan, or needs redraw, copy it:
+    3. Copy ALL body images (every .webp/.jpg in the slug folder, excluding the hero) to _Image_Repair:
        `Copy-Item "public\images\{slug}\{body-image-file}" "_Image_Repair\{slug}\{body-image-file}"`
+       Do NOT skip images because they "look fine". Sanjay decides quality. Agent copies everything.
 
     4. Verify the handoff folders:
        `Get-ChildItem "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
@@ -203,8 +205,8 @@ the audit loop. It is preserved for the separate image-generation sessions only:
       p { margin: 0; }
 
     1. Ask: "Is this rule scoped to a specific class or attribute?" → If NO, wrap in @layer base.
-    2. After adding: visually verify the nav dropdown is still readable.
-    3. Never commit global.css changes without testing the nav dropdown first.
+    2. After adding: file-check the nav dropdown classes/selectors for readable colors.
+    3. Never commit global.css changes without file-checking the affected nav dropdown selectors first. If real visual confirmation is needed, ask Sanjay to preview locally.
 
 #6A. MANDATORY CHANGE-SCOPE CLASSIFICATION (LOCAL VS GLOBAL):
 
@@ -242,16 +244,16 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     REQUIRED HANDOFF LINE:
     Every layout/style handoff must include one explicit line:
-    - `Local change only - verify only this page.`
+    - `Local change only - file-based verification only for this page.`
     or
-    - `Global/shared change - verify all pages using this pattern.`
+    - `Global/shared change - file-based verification only for all pages using this pattern; ask Sanjay for visual preview if needed.`
 
     GLOBAL CHANGE SAFETY PROTOCOL:
     If the change is GLOBAL, you MUST do all of the following:
 
     1. State which shared file is being changed.
     2. State which UI pattern(s) may be affected.
-    3. Instruct Sanjay to verify representative pages before closing the task.
+    3. Instruct Sanjay to visually preview representative pages before closing the task. Agents must not open browser previews.
 
     MINIMUM REPRESENTATIVE VERIFICATION SET FOR GLOBAL UI CHANGES:
     - 1 contact page
@@ -375,7 +377,10 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
 #10. STRICT BROWSER PREVIEW PROHIBITION (CRASH PREVENTION):
     - **CRITICAL:** NEVER use a browser subagent or attempt to preview/render the page yourself. This will instantly CRASH the user's PC (Out Of Memory).
-    - If visual verification is needed, you MUST stop and hand off to the user: "Please preview this on your local machine."
+    - NEVER launch a browser, open localhost, run browser preview, use browser testing tools, use Playwright/browser automation, or tell another agent to do any of those things.
+    - All agent-side verification must be file-based only: inspect `.astro`, CSS, image dimensions, routes, schemas, and committed files from disk/Git.
+    - If visual verification is truly needed, you MUST stop and hand off to Sanjay: "Please preview this on your local machine."
+    - In handoffs and commit notes, never write ambiguous commands such as "verify in browser" or "visually verify" for an agent. Write "file-based verification only" or "Sanjay visual preview required."
 
 #11. AUDIT LOOP OBEDIENCE (MANDATORY):
 
