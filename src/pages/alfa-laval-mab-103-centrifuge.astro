@@ -1,29 +1,5 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "What is the capacity of the Alfa Laval MAB 103 centrifuge?",
-    answer: "The Alfa Laval MAB 103 centrifuge can process 3 GPM of diesel fuel (13 cSt), 2.5 GPM of turbine lube oil, or 2 GPM of hydraulic oil. It operates at 8,600 RPM with a 1 HP motor, generating approximately 8,500 Gs of centrifugal force for separation of solids down to 0.5 microns."
-  },
-  {
-    question: "Can the MAB 103 be configured for explosion-proof applications?",
-    answer: "Yes. The MAB 103 can be configured for hazardous area installation with an explosion-proof motor, direct-drive transmission (replacing the friction clutch), classified field sensors, NEMA 7 electrical enclosure, and appropriate cables, conduits, and glands. This configuration is similar to the Alfa Laval OCM-103-Ex with ATEX Zone II rating for offshore applications."
-  },
-  {
-    question: "What is the difference between the MAB 103 and the WSB 203?",
-    answer: "The Alfa Laval WSB 203 is a concentrator version of the MAB 103, specifically designed for water-based industrial fluids such as <a href='/machine-coolant-centrifuge/'>machining coolant</a>, washer fluid, and water-soluble cutting oils. While the MAB 103 is a purifier for mineral oil and fuels, the WSB 203 concentrates oil from water-based fluids. Both share the same 1 HP motor and 8,600 RPM bowl speed, but the WSB 203 features an all-stainless-steel distributor and top disc instead of the bronze components found in the MAB 103."
-  },
-  {
-    question: "What materials are used in the MAB 103 centrifuge bowl?",
-    answer: "The MAB 103 bowl body and bowl hood are made of 316L Duplex Stainless Steel, as is the disc stack. The distributor and top disc are Marine Grade Bronze (or 316 Stainless Steel by special order). The top covers are Silium (Aluminum Alloy) and the frame is Nodular Cast Iron. For applications involving corrosive chemicals such as aqueous ammonia, the bowl parts can be upgraded to full stainless steel construction."
-  },
-  {
-    question: "What modifications are available for the MAB 103 centrifuge?",
-    answer: "Common modifications include direct drive for explosion-proof configuration, non-sparking friction blocks, pump reconfiguration for different fluid viscosities, Viton or EPDM seal elastomers for <a href='/biodiesel-centrifuge/'>biodiesel</a> or corrosive chemicals, gear pump replacement for water-based fluids, operating frequency conversion (50 or 60 Hz), single-phase motor adaptation (110 V or 220 V), bowl parts material upgrade to stainless steel, and purifier-to-clarifier conversion for 2-phase separation mode."
-  }
-];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -58,24 +34,11 @@ const productJsonLd = {
   }
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Alfa Laval MAB 103 Centrifuge — Parts, Service & Specifications",
-  "description": "Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval MAB 103 solid-retaining disc-stack centrifuges. 1 HP, 8,600 RPM, 3 GPM on diesel. All modifications available.",
+  "headline": "Alfa Laval MAB 103 Centrifuge | Specs, Uses, Capacity, Operation",
+  "description": "Alfa Laval MAB 103 disc centrifuge — specs, capacity ratings, parts, and service. Bowl rebuilds, seal kits, and replacement units. Call (248) 522-2573.",
   "author": {
     "@type": "Person",
     "name": "Sanjay Prabhu MSME",
@@ -89,25 +52,26 @@ const articleJsonLd = {
   "mainEntityOfPage": "https://dolphincentrifuge.com/alfa-laval-mab-103-centrifuge/"
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [articleJsonLd, productJsonLd];
 
 const toc = [
   { id: 'overview', label: 'Overview' },
   { id: 'dimensions', label: 'Dimensions' },
-  { id: 'specifications', label: 'Specifications' },
-  { id: 'material-of-construction', label: 'Material of Construction' },
-  { id: 'applications', label: 'Applications' },
-  { id: 'explosion-proof', label: 'Explosion Proof Configuration' },
+  { id: 'specifications', label: 'Specifications', subItems: [
+    { id: 'material-of-construction', label: 'Material of Construction' },
+  ]},
+  { id: 'applications', label: 'Applications', subItems: [
+    { id: 'explosion-proof', label: 'Explosion Proof Configuration' },
+  ]},
   { id: 'modifications', label: 'Modifications' },
   { id: 'operation', label: 'Operation' },
-  { id: 'dolphin-service', label: 'Dolphin MAB 103 Service' },
-  { id: 'wsb-203', label: 'Alfa Laval WSB 203 Concentrator' },
-  { id: 'wsb-203-specs', label: 'WSB 203 Specifications' },
-  { id: 'wsb-203-applications', label: 'WSB 203 Applications' },
-  { id: 'wsb-203-operation', label: 'WSB 203 Operation' },
-  { id: 'gallery', label: 'MAB 103 Modules Gallery' },
-  { id: 'higher-capacity', label: 'Higher Capacity Centrifuges' },
-  { id: 'faq', label: 'Frequently Asked Questions' },
+  { id: 'wsb-203', label: 'Alfa Laval WSB 203 70 Manual Clean, Concentrator Disc-Stack Centrifuge', subItems: [
+    { id: 'wsb-203-specs', label: 'Specifications' },
+    { id: 'wsb-203-applications', label: 'Applications' },
+    { id: 'wsb-203-operation', label: 'Operation' },
+  ]},
+  { id: 'gallery', label: 'Alfa Laval MAB 103 Centrifuge Modules' },
+  { id: 'higher-capacity', label: 'Higher Capacity Centrifuges - Manual Clean' },
 ];
 
 const relatedApplications = [
@@ -126,9 +90,9 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Alfa Laval MAB 103 Centrifuge | Specs, Uses, Capacity & Operation"
+  title="Alfa Laval MAB 103 Centrifuge | Specs, Uses, Capacity, Operation"
   description="Alfa Laval MAB 103 disc centrifuge — specs, capacity ratings, parts, and service. Bowl rebuilds, seal kits, and replacement units. Call (248) 522-2573."
-  heroImage="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Class1Div2-300.webp"
+  heroImage="/images/alfa-laval-mab-103-centrifuge/Alfa_Laval_MAB_103_Class1_Div2_Hero_1400.webp"
   heroImageAlt="Alfa Laval MAB 103 Explosion Proof Skid for Compressor Lube Oil in Olefin Plant"
   category="products"
   categoryLabel="Products"
@@ -138,11 +102,6 @@ const relatedProducts = [
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
 >
-
-  <!-- AI Summary — 30-50 words -->
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">The Alfa Laval MAB 103 is a 1 HP manual-clean disc stack centrifuge processing up to 3 GPM of diesel at 8,600 RPM. Dolphin Centrifuge supplies reconditioned MAB 103 modules for fuel and lube oil purification.</p>
-  </div>
 
   <!-- Overview -->
   <h2 id="overview">Overview</h2>
@@ -156,32 +115,33 @@ const relatedProducts = [
         With a 1 HP Motor, the MAB 103 centrifuge has a bowl RPM of 8,600 and can process 3 GPM of Diesel Fuel or 1 GPM of Turbine Lube Oil.
       </p>
     </div>
-    <img
-      src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Class1Div2-300.webp"
-      alt="Alfa Laval MAB 103 Explosion Proof Skid for Compressor Lube Oil in Olefin plant"
-      width="300"
-      height="400"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
+    <figure>
+      <img
+        src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Class1Div2-300.webp"
+        alt="Alfa Laval MAB103 Explosion Proof Skid"
+        width="300"
+        height="400"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Alfa Laval MAB 103 Explosion Proof Skid for Compressor Lube Oil in Olefin plant</strong></figcaption>
+    </figure>
   </div>
 
 
   <!-- Dimensions -->
   <h2 id="dimensions">Dimensions</h2>
 
-  <!-- Dimensions drawing -->
-
-  <figure class="text-center my-6">
+  <figure>
     <img
       src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB-103-Dimensions-600.webp"
-      alt="Alfa Laval MAB 103 Centrifuge Dimensions drawing — 24 x 30 x 26 inches"
+      alt="Alfa Laval MAB 103 Dimensions"
       width="600"
       height="330"
       loading="lazy"
-      class="mx-auto w-full max-w-xl"
+      class="img-cap-600"
     />
-    <figcaption class="text-sm text-gray-500 mt-2">Alfa Laval MAB 103 Dimensions</figcaption>
+    <figcaption><strong>Alfa Laval MAB 103 Dimensions</strong></figcaption>
   </figure>
 
   <!-- Specifications -->
@@ -190,25 +150,25 @@ const relatedProducts = [
   <table>
     <thead>
       <tr>
-        <th>Parameter</th>
-        <th>Alfa Laval MAB 103 B 24-60</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Centrifuge Model</td>
-        <td class="font-mono">Alfa Laval MAB 103 B 24-60</td>
+      <tr class="bg-navy">
+        <td><strong>Centrifuge Model</strong></td>
+        <td><strong>Alfa Laval MAB 103 B 24-60</strong></td>
       </tr>
       <tr>
-        <td>Capacity — Diesel</td>
+        <td>Capacity - Diesel</td>
         <td class="font-mono">3 GPM on 13 cSt Diesel Fuel</td>
       </tr>
       <tr>
-        <td>Capacity — Turbine Lube Oil</td>
+        <td>Capacity - Turbine Lube Oil</td>
         <td class="font-mono">2.5 GPM</td>
       </tr>
       <tr>
-        <td>Capacity — Hydraulic Oil</td>
+        <td>Capacity - Hydraulic Oil</td>
         <td class="font-mono">2 GPM</td>
       </tr>
       <tr>
@@ -248,8 +208,8 @@ const relatedProducts = [
   <table>
     <thead>
       <tr>
-        <th>Component</th>
-        <th>Material</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -280,16 +240,18 @@ const relatedProducts = [
     </tbody>
   </table>
 
-  <!-- FAQ Callout -->
+  <!-- FAQ Callout with legacy <hr> separators -->
+  <hr />
   <blockquote>
-    If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+    <em><strong>If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></strong></em>
   </blockquote>
+  <hr />
 
   <!-- Applications -->
   <h2 id="applications">Applications</h2>
 
   <p>
-    The Alfa Laval MAB-103 is a purifier-type disc-stack centrifuge. It is designed to separate water (moisture) and fine sediment from mineral oil and lubricating oil. It is primarily used for purifying fuels such as <a href="/diesel-centrifuge/">diesel</a>, kerosene, etc.
+    The Alfa Laval MAB-103 is a purifier-type disc-stack centrifuge. It is designed to separate water (moisture) and fine sediment from mineral oil and lubricating oil. It is primarily used for purifying fuels such as <a href="/diesel-fuel-purifier/">diesel</a>, kerosene, etc.
   </p>
   <p>
     The MAB-103 is also used for separating water and fine sediment from <a href="/lube-oil-centrifuge/">lubricating oil</a>, <a href="/hydraulic-oil-centrifuge/">hydraulic oil</a>, and other mineral oils.
@@ -298,28 +260,27 @@ const relatedProducts = [
   <!-- Explosion Proof -->
   <h3 id="explosion-proof">Explosion Proof Configuration</h3>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p>
-        The installation of the MAB-103 centrifuge in hazardous areas requires the centrifuge system to be specially designed and configured with an explosion-proof motor, direct-drive transmission (replace friction clutch), and classified field sensors.
-      </p>
-      <p>
-        The control system upgrade includes a NEMA 7 electrical enclosure, cables, conduits, and glands suitable for the specific zone of the centrifuge installation.
-      </p>
-      <p>
-        We configure our MAB-103 centrifuge similar to the Alfa Laval OCM-103-Ex configuration with explosion-proof ATEX Zone II for offshore applications. You can read more about our <a href="/disc-stack-centrifuge-offshore-applications/">disc-stack centrifuges for offshore applications.</a>
-      </p>
-    </div>
+  <figure>
     <img
       src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Class-1-Div-2-Compressor-Oil-250.webp"
-      alt="Explosion Proof Centrifuge Alfa Laval MAB 103 — Class 1 Div 2 Compressor Oil Application"
+      alt="Explosion-Proof-Centrifuge-Alfa-Laval-MAB103"
       width="250"
       height="250"
       loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[250px] shrink-0"
+      class="img-cap-300"
     />
-  </div>
+    <figcaption><strong>Explosion Proof Centrifuge Alfa Laval MAB103</strong></figcaption>
+  </figure>
 
+  <p>
+    The installation of the MAB-103 centrifuge in hazardous areas requires the centrifuge system to be specially designed and configured with an explosion-proof motor, direct-drive transmission (replace friction clutch), and classified field sensors.
+  </p>
+  <p>
+    The control system upgrade includes a NEMA 7 electrical enclosure, cables, conduits, and glands suitable for the specific zone of the centrifuge installation.
+  </p>
+  <p>
+    We configure our MAB-103 centrifuge similar to the Alfa Laval OCM-103-Ex configuration with explosion-proof ATEX Zone II for offshore applications. You can read more about our <a href="/disc-stack-centrifuge-offshore-applications/">disc-stack centrifuges for offshore applications.</a>
+  </p>
 
   <!-- Modifications -->
   <h2 id="modifications">Modifications</h2>
@@ -331,8 +292,8 @@ const relatedProducts = [
   <table>
     <thead>
       <tr>
-        <th>Centrifuge Modification</th>
-        <th>Application / Purpose</th>
+        <th><strong>Centrifuge Modification</strong></th>
+        <th><strong>Application / Purpose</strong></th>
       </tr>
     </thead>
     <tbody>
@@ -385,15 +346,6 @@ const relatedProducts = [
     This separated sludge should be manually evacuated by the operator. The heavy phase (water) phase also settles out and exits the bowl through a separate outlet.
   </p>
 
-  <!-- Dolphin Service -->
-  <h2 id="dolphin-service">Dolphin Centrifuge MAB 103 Service</h2>
-  <p>
-    Dolphin Centrifuge supplies both new and factory-rebuilt Alfa Laval MAB 103 centrifuges. Rebuilt units are fully disassembled, inspected, worn components replaced, and reassembled to original specifications with a Dolphin warranty. Our Warren, Michigan facility maintains inventory of MAB 103 bowl assemblies, disc stacks, seals, and drive components for fast turnaround.
-  </p>
-  <p>
-    We also provide full <a href="/industrial-disc-centrifuge-repair/">centrifuge repair and rebuilding services</a> for existing MAB 103 installations — including bowl reconditioning, bearing replacement, friction clutch service, and all <a href="#modifications">modifications listed above</a>. <a href="/industrial-centrifuge-sample-testing/">Sample testing</a> is available to verify separation performance on your specific fluid before purchase.
-  </p>
-
   <!-- WSB 203 -->
   <h2 id="wsb-203">Alfa Laval WSB 203 70 Manual Clean, Concentrator Disc-Stack Centrifuge</h2>
 
@@ -406,14 +358,17 @@ const relatedProducts = [
         With a 1 HP Motor, the WSB 203 centrifuge has a bowl RPM of 8,600 and can process 1 GPM of water-based synthetic coolant.
       </p>
     </div>
-    <img
-      src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-WSB-203-Coolant-Centrifuge.webp"
-      alt="Alfa Laval WSB 203 Coolant Tramp Oil Centrifuge for machining coolant and washer fluid"
-      width="209"
-      height="225"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[209px] shrink-0"
-    />
+    <figure>
+      <img
+        src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-WSB-203-Coolant-Centrifuge.webp"
+        alt="Washer Fluid Centrifuge - Alfa Laval WSB-203"
+        width="209"
+        height="225"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Alfa Laval WSB 203 Coolant Tramp Oil Centrifuge</strong></figcaption>
+    </figure>
   </div>
 
   <!-- WSB 203 Specs -->
@@ -422,8 +377,8 @@ const relatedProducts = [
   <table>
     <thead>
       <tr>
-        <th>Parameter</th>
-        <th>Alfa Laval WSB 203 70</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -459,8 +414,8 @@ const relatedProducts = [
   <table>
     <thead>
       <tr>
-        <th>Component</th>
-        <th>Material</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -492,14 +447,14 @@ const relatedProducts = [
   </table>
 
   <!-- WSB 203 Applications -->
-  <h3 id="wsb-203-applications">WSB 203 Applications</h3>
+  <h3 id="wsb-203-applications">Applications</h3>
 
   <p>
     The Alfa Laval WSB-203 is a concentrator version of the MAB-103 disc-stack centrifuge. It is specifically designed to concentrate oil from water-based industrial fluids such as <a href="/machine-coolant-centrifuge/">machine coolant</a>, <a href="/industrial-washer-fluid-centrifuge/">washer fluid, parts washer solvent</a>, water-soluble <a href="/cutting-oil-centrifuge/">cutting oils</a>, <a href="/waste-oil-emulsion-centrifuge/">de-oiling of split emulsions</a>, etc.
   </p>
 
   <!-- WSB 203 Operation -->
-  <h3 id="wsb-203-operation">WSB 203 Operation</h3>
+  <h3 id="wsb-203-operation">Operation</h3>
 
   <p>
     The process fluid is fed to the rotating centrifuge bowl from the top (1) and is sped up in the distributor (2). It then enters the disc stack (3), and it is between the discs that the separation occurs.
@@ -517,14 +472,17 @@ const relatedProducts = [
         The rotating bowl assembly is mounted on a vertical 'bowl spindle' (7). A horizontally mounted motor rotates the spindle via a worm gear.
       </p>
     </div>
-    <img
-      src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-WSB-203-Centrifuge-Bowl-251x300-1.webp"
-      alt="Alfa Laval WSB 203 Centrifuge Bowl cross-section diagram showing flow paths"
-      width="251"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[251px] shrink-0"
-    />
+    <figure>
+      <img
+        src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-WSB-203-Centrifuge-Bowl-251x300-1.webp"
+        alt="Alfa-Laval-WSB-203-Centrifuge-Bowl-251x300"
+        width="251"
+        height="300"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption>Alfa-Laval-WSB-203-Centrifuge-Bowl</figcaption>
+    </figure>
   </div>
 
   <!-- Gallery -->
@@ -537,7 +495,7 @@ const relatedProducts = [
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Hydraulic-Oil-Module-250.webp"
-        alt="Alfa Laval MAB 103 Hydraulic Oil Mobile Cart configuration"
+        alt="Hydraulic Oil Mobile Cart "
         width="250" height="250"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
@@ -547,7 +505,7 @@ const relatedProducts = [
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB-103-Turbine-Lube-Oil-Centrifuge-250.webp"
-        alt="Mobile Turbine Lube Oil Module — Alfa Laval MAB 103"
+        alt="Mobile Turbine Lube Oil Module"
         width="250" height="250"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
@@ -557,7 +515,7 @@ const relatedProducts = [
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB-103-Offshore-Explosion-Proof-Diesel-250.webp"
-        alt="Offshore Explosion Proof Diesel Skid — Alfa Laval MAB 103"
+        alt="Offshore Explosion Proof Diesel Skids"
         width="250" height="250"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
@@ -567,17 +525,17 @@ const relatedProducts = [
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-Class-1-Div-2-Compressor-Oil-250.webp"
-        alt="Compressor Oil Explosion Proof configuration — Alfa Laval MAB 103"
+        alt="Compressor Oil – Explosion Proof "
         width="250" height="250"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
       />
-      <figcaption class="text-sm text-gray-600 mt-2 font-medium">Compressor Oil -- Explosion Proof</figcaption>
+      <figcaption class="text-sm text-gray-600 mt-2 font-medium">Compressor Oil &#x2013; Explosion Proof</figcaption>
     </figure>
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/turbine-lubricating-oil-centrifuge-trolley.webp"
-        alt="Steam Turbine Lube Oil Trolley — Alfa Laval MAB 103 mobile centrifuge cart"
+        alt="Steam Turbine Lube Oil Trolley"
         width="250" height="250"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
@@ -587,7 +545,7 @@ const relatedProducts = [
     <figure class="text-center">
       <img
         src="/images/alfa-laval-mab-103-centrifuge/Alfa-Laval-MAB103-XP-Nabors.webp"
-        alt="Alfa Laval MAB 103 explosion proof centrifuge — Steam Turbine Lube Oil Cart"
+        alt="Steam Turbine Lube Oil Cart"
         width="300" height="300"
         loading="lazy"
         class="rounded-lg shadow w-full object-cover h-40"
@@ -597,31 +555,11 @@ const relatedProducts = [
   </div>
 
   <!-- Higher Capacity -->
-  <h2 id="higher-capacity">Higher Capacity Centrifuges — Manual Clean</h2>
+  <h2 id="higher-capacity">Higher Capacity Centrifuges - Manual Clean</h2>
 
   <ul>
     <li><a href="/alfa-laval-mab-104-centrifuge/">Alfa Laval MAB-104 (12 GPM Max.)</a></li>
-    <li><a href="/alfa-laval-mab-centrifuge/">Alfa Laval MAB 204 – MAB 209 (20 ~ 90 GPM)</a></li>
+    <li><a href="/alfa-laval-mab-centrifuge/">Alfa Laval MAB 204 - MAB 209 (20 ~ 90 GPM)</a></li>
   </ul>
-
-  <!-- Mid-page CTA -->
-  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
-    <p class="font-bold text-navy text-base mb-1">Need Alfa Laval MAB 103 Parts or a Rebuilt Unit?</p>
-    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge stocks MAB 103 spare parts and offers complete remanufacturing services. All modifications available including explosion-proof, stainless-steel bowl, and biodiesel-compatible configurations.</p>
-    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors">Get a Quote &rarr;</a>
-  </div>
-
-  <!-- FAQ -->
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA Bar -->
-  <div class="bg-navy rounded-xl p-6 mt-10 not-prose text-center">
-    <p class="text-white font-bold text-lg mb-2">Ready to Source Alfa Laval MAB 103 Parts or a Remanufactured Unit?</p>
-    <p class="text-white/80 text-sm mb-4">Call Dolphin Centrifuge at <a href="tel:+12485222573" class="text-gold font-semibold">(248) 522-2573</a> or request a quote online.</p>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-gold/90 transition-colors text-sm">Get a Quote</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="bg-white/10 text-white border border-white/30 font-semibold px-6 py-2.5 rounded-lg hover:bg-white/20 transition-colors text-sm">Sample Testing</a>
-    </div>
-  </div>
 
 </ApplicationLayout>
