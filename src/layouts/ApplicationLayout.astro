@@ -119,6 +119,21 @@ const breadcrumbs = [
                               <span class="text-gray-400 font-mono text-xs mt-0.5 shrink-0">-</span>
                               {subItem.label}
                             </a>
+                            {subItem.subItems && subItem.subItems.length > 0 && (
+                              <ol class="ml-6 mt-0.5 space-y-0.5">
+                                {subItem.subItems.map((leaf) => (
+                                  <li>
+                                    <a
+                                      href={`#${leaf.id}`}
+                                      class="flex items-start gap-2 text-xs text-text-muted hover:text-navy transition-colors py-0.5"
+                                    >
+                                      <span class="text-gray-300 font-mono text-xs mt-0.5 shrink-0">&bull;</span>
+                                      {leaf.label}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ol>
+                            )}
                           </li>
                         ))}
                       </ol>
