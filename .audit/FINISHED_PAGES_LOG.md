@@ -58,3 +58,4 @@ All pages below have passed the v2.2 refactor audit.
 | disc-stack-centrifuge-vibration | b2b979d | - | 2026-04-29 | PASS |
 | industrial-centrifuge-sample-testing | 40799aa | - | 2026-04-29 | PASS |
 | alfa-laval-mab-103-centrifuge | ff20198 | - | 2026-04-29 | PASS |
+| crude-oil-tank-bottom-recovery-centrifuge | 59a5855 | - | 2026-04-30 | PASS |
