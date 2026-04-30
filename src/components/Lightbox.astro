@@ -55,11 +55,24 @@
     '.site-logo img',
   ];
 
-  function openLightbox(src: string, alt: string) {
+  function cleanCaptionText(value: string | null | undefined) {
+    return (value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function getLightboxCaption(el: HTMLImageElement) {
+    const explicitCaption = cleanCaptionText(el.dataset.lightboxCaption);
+    if (explicitCaption) return explicitCaption;
+
+    const figureCaption = el.closest('figure')?.querySelector('figcaption');
+    return cleanCaptionText(figureCaption?.textContent);
+  }
+
+  function openLightbox(src: string, alt: string, captionText: string) {
     if (!overlay || !img || !caption) return;
     img.src = src;
     img.alt = alt;
-    caption.textContent = alt;
+    caption.textContent = captionText;
+    caption.hidden = !captionText;
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     // Animate in
@@ -104,7 +117,8 @@
         // Use data-src or current src (in case of lazy load)
         const src = el.dataset.src || el.src;
         const alt = el.alt || 'Image';
-        openLightbox(src, alt);
+        const captionText = getLightboxCaption(el);
+        openLightbox(src, alt, captionText);
       });
     });
   }

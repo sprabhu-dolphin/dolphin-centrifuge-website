@@ -40,6 +40,7 @@ That writes the committed blob to `.audit/_extracted/<slug>-<short-sha>/`. Audit
    - **Body contamination (P0):** astro paragraphs with no legacy source; "corrected" legacy typos (always restore - typos are intentional human-authoring signal per memory `feedback_preserve_legacy_typos`).
    - **Em-dashes (P0):** zero tolerance. Flag every ` — ` with the replacement ` - `.
    - **Coverage (P0):** legacy paragraphs or sections missing from astro.
+   - **Lightbox captions (P0 global UI):** `src/components/Lightbox.astro` must not use image `alt` text as the visible popup caption. Popup captions must come from `data-lightbox-caption`, then nearest `<figcaption>`, otherwise blank. Flag `caption.textContent = alt` or equivalent alt-as-caption behavior.
    - **Layout drift (P1 - defer to DIRT_BACKLOG):** bare `.webp` vs `.jpg.webp` convention, hero not panoramic, TOC labels stale, h2 scaffolding.
 
 5. **Reply in chat, one of two forms.**

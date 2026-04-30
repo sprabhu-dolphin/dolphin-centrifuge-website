@@ -27,6 +27,13 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
     □ No invented content — if a paragraph is not in the XML, it must NOT be in the .astro file
     Meta description rule: copy legacy verbatim when present. If legacy meta_description is empty, Sanjay approves a short factual generated meta description by default. Do NOT invent specs, capacities, prices, percentages, guarantees, testimonials, or unsupported claims.
 
+    LIGHTBOX CAPTION RULE (GLOBAL):
+    - Do NOT use image `alt` text as the visible popup/lightbox caption.
+    - Alt text is for accessibility and SEO. It may be longer and more descriptive than what should appear under the enlarged image.
+    - Lightbox popup captions must come from explicit `data-lightbox-caption` text first, then the nearest `<figcaption>`, and otherwise be blank.
+    - If a page needs a visible/lightbox caption, add or preserve a real `<figcaption>` from legacy or Sanjay-approved wording. Do not invent new captions.
+    - Before marking image appearance complete, file-check `src/components/Lightbox.astro` and confirm it does not contain `caption.textContent = alt` or equivalent alt-as-caption behavior.
+
     CRITICAL SEO FIELD MAPPING RULE (added 2026-04-27):
     WordPress may store different values for:
     - legacy SEO title (`rank_math_title`)
@@ -419,7 +426,7 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     MANDATORY FINAL PASS GATES BEFORE TELLING SANJAY A PAGE IS READY FOR AUDIT:
     - Content gate: legacy body copy, tables, captions, headings, links, and schema are checked against the required MD files.
-    - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, portrait/landscape placement, galleries, dark-background text contrast, spacing, and dash typography.
+    - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, portrait/landscape placement, galleries, dark-background text contrast, lightbox caption source behavior, spacing, and dash typography.
     - Duplicate-pattern gate: do not duplicate ApplicationLayout features with page-local copies. This includes duplicate TOCs, duplicate FAQs/schema, and page-local bottom CTA blocks. A single standard Astro TOC is allowed even when legacy had no TOC.
     - ApplicationLayout CTA rule: Application pages already receive the standard hero CTA, sidebar quick contact, and bottom CTA from ApplicationLayout. A page-local mid-page CTA is allowed when useful, but a page-local bottom CTA after related resources/summary is a duplicate unless Sanjay explicitly approves it.
     - A page with invisible text, broken image paths, uncapped huge body images, bad portrait/landscape layout, duplicate bottom CTA, duplicate TOC, or misleading schema is NOT ready for audit and must not be described as finished.
