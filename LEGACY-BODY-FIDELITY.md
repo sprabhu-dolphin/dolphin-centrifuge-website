@@ -53,6 +53,30 @@ For every element below in `LW.xml` for this slug, a corresponding element must 
 
 **Coverage miss = P0 fix.** Any legacy paragraph, heading, list item, or table row missing from the astro page is a content deletion. Auditor flags it as P0.
 
+### Rule 1b: TABLE OF CONTENTS IS ALLOWED, BUT MUST NOT BE DUPLICATED
+
+If the legacy page contains a visible in-body `Table Of Contents` block, linked summary list, or similar heading plus anchor list, that TOC coverage must appear on the Astro page.
+
+For this project, the accepted Astro implementation is the standard page TOC rendered through the page `toc` prop and layout TOC component already used across the site. Legacy TOC fidelity is about preserving the TOC content, structure, and order. It does not require pasting the old legacy bullet-list block into the body when the standard Astro TOC can represent it.
+
+A single standard Astro TOC is also allowed when legacy did not have a visible TOC. That standard Astro TOC is not treated as AI contamination. But the TOC must appear only once.
+
+Required:
+- Preserve the legacy TOC coverage when it exists.
+- Preserve every legacy TOC item in the Astro TOC.
+- Preserve the item order from legacy.
+- Preserve subsection or nested TOC items when legacy includes them.
+- Use the accepted Astro TOC format by default, whether the TOC came from legacy coverage or from the Astro page structure.
+- Ensure the final page has only one visible TOC for that content area.
+
+Not allowed:
+- Replacing the accepted Astro TOC component with a pasted legacy-looking bullet list or raw body TOC, unless Sanjay explicitly asks for that page-specific exception.
+- Keeping the standard Astro TOC and also showing a pasted legacy in-body TOC, sticky TOC, sidebar TOC, or second anchor-list TOC on the same page.
+- Adding a second in-body TOC when the page already has a layout TOC.
+- Treating "legacy TOC preserved" as satisfied when the page still visibly duplicates navigation.
+
+**Duplicate TOC or wrong TOC format = P0 fix.** The default fix is to keep the accepted single Astro TOC. If legacy had a TOC, update the Astro TOC items so they fully reflect the legacy TOC content and order. If legacy did not have a TOC, the single standard Astro TOC may remain.
+
 ### Rule 1a: TABLE DATA IS VERBATIM
 
 Tables are the one body-content exception. Data cell values (numbers, specs, model codes, temperatures) must be **character-exact** to legacy. Why:
@@ -118,6 +142,20 @@ These are P0 fixes when the auditor finds them:
 5. **Generating a summary or TL;DR section.** If legacy didn't have one, astro doesn't get one.
 6. **Adding section numbering, step numbering, or "Part 1 / Part 2" labels** not in legacy.
 7. **Turning passive legacy text into call-to-action marketing copy.** "Available in 200 and 400 sizes" does not become "Choose from our versatile 200 and 400 sizes today!"
+
+---
+
+### Shared-style safety note (critical)
+
+When fixing a body-content visibility problem such as invisible links, disappearing text, or a suspected "font issue", do not solve a single-page problem by changing shared CSS unless that shared change is explicitly approved as GLOBAL.
+
+Default rule:
+- Fix the current page locally first.
+- Do not broaden one page's repair into a sitewide prose/layout/style rewrite.
+
+Why:
+- A shared CSS change can alter already-finished pages that are not part of the current slug.
+- This project audits and fixes one page at a time. It must not create regressions on unrelated completed pages.
 
 ---
 

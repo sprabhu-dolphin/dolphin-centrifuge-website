@@ -26,6 +26,15 @@ Astro Agent Phase 1          YOU                      Astro Agent Phase 2
 
 The Astro agent has already done the page audit, Sanjay preview, and placed bad images in `_Image_Repair\{slug}\`. Your job is to process those images and deliver finished files to the handoff folders. You do NOT edit Astro files.
 
+The repo-root staging folders are:
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+
+Every page uses slug-named subfolders inside those folders.
+The Astro agent is responsible for creating/populating the input slug folders by COPYING files, never moving them.
+
 ---
 
 ## Read These Skills At Session Start
@@ -113,5 +122,6 @@ When done with the page:
 - Always verify files saved before moving on — NB output is ephemeral
 - Always flag diagram label hallucinations in your report
 - Keep NB prompts under 500 tokens
+- Never move, delete, or reorganize the Astro agent's source files in the staging workflow
 - **STRICT SINGLE-PAGE WORKFLOW:** Process ONLY one '{slug}' folder at a time. NEVER process multiple folders concurrently.
 - **NO PARALLEL JOBS:** To prevent conflicting operations, do NOT spawn parallel background subagents or attempt to multitask on multiple pages. All processing must be strictly synchronous and one-by-one.

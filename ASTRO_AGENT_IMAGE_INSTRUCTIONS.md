@@ -16,6 +16,36 @@
 
 ---
 
+## Repo-Root Image Staging Folders (authoritative)
+
+All image handoff work for this project uses these repo-root folders:
+
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
+- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+
+### Slug subfolder rule
+
+For every page, create a subfolder named exactly after the page slug inside the relevant staging folders.
+
+Example:
+
+```
+_Old_Hero_Image\disc-stack-centrifuge-efficiency\
+_New_Hero_Image\disc-stack-centrifuge-efficiency\
+_Image_Repair\disc-stack-centrifuge-efficiency\
+_Image_NB_Fixed\disc-stack-centrifuge-efficiency\
+```
+
+### Copy-only rule
+
+- Always COPY files into these staging folders.
+- NEVER MOVE files out of their original location.
+- NEVER delete the original source/legacy image as part of handoff.
+
+---
+
 ## System Process Flow (LEGACY - image-only sessions)
 
 The Astro agent has **two phases** per page. The CoWork Image Agent runs between them.
@@ -62,6 +92,11 @@ Identify images that need fixing:
 | Hero banner | Missing, broken, stretched, wrong | Flag as "hero needed" (see below) |
 | Any image | Already sharp and correct | Leave in place — do NOT copy |
 
+Before copying any file for image work:
+- Ensure the slug subfolder exists in the destination staging folder.
+- Copy the file into the correct slug folder.
+- Leave the original file untouched in its source location.
+
 ### Step 3 — Hero flag
 
 If the page needs a new hero, create a flag file:
@@ -98,9 +133,13 @@ _New_Hero_Image\{slug}\{slug}_hero.webp   (1440×500px WebP, 50–150KB)
 
 **Step-by-step:**
 1. Check `_New_Hero_Image\{slug}\{slug}_hero.webp` exists
-2. Archive old hero → `_Old_Hero_Image\{slug}\{slug}_hero.webp`
+2. COPY old hero → `_Old_Hero_Image\{slug}\{original-hero-filename}`
 3. Copy new hero → correct Astro `public/images/` location per page frontmatter
 4. Rename `{slug}_hero.webp` → `{slug}_hero.webp.done` (prevents double-processing)
+
+Important:
+- Step 2 is COPY ONLY. Do not move the old hero out of its original location.
+- Keep the archived copy in the slug folder under `_Old_Hero_Image\`.
 
 ### Body Diagrams
 
@@ -123,7 +162,7 @@ Keep original `width=` attribute unchanged. CSS constrains display. Lightbox ope
 ## Phase 2 — STOP After Deploy
 
 After copying files and updating src= references:
-- ✅ Archive old hero to `_Old_Hero_Image\`
+- ✅ Copy old hero to `_Old_Hero_Image\{slug}\`
 - ✅ Deploy new hero to `public/images/`
 - ✅ Deploy fixed diagrams to `public/images/`
 - ✅ Update all `src=` references in `.astro` file
@@ -140,9 +179,10 @@ Sanjay will review on his own machine and return with the verdict.
 ## What NOT To Do
 
 - ❌ Do not re-compress, resize, or convert any file from `_Image_NB_Fixed\` or `_New_Hero_Image\`
-- ❌ Do not place a hero without archiving the old one first
+- ❌ Do not place a hero without first copying the old one into `_Old_Hero_Image\{slug}\`
 - ❌ Do not reference `_Image_Repair\` anywhere in Astro
 - ❌ Do not delete anything from `_Old_Hero_Image\`
+- ❌ Do not move any original file into a staging folder
 - ❌ Do not proceed to Phase 2 until Image CoWork Agent confirms it is done
 
 ---
