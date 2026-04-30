@@ -29,3 +29,4 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `disc-centrifuge-troubleshoot-bowl` | 2026-04-21 | `e26128f` | ApplicationLayout | ✅ DONE |
 | `difference-between-decanter-centrifuge-disc-centrifuge` | 2026-04-21 | `2c9c99d` | ApplicationLayout | ✅ DONE |
 | `smallest-industrial-centrifuges` | 2026-04-26 | `9f602a4` | ApplicationLayout | ✅ DONE |
+| `alfa-laval-mab-104-centrifuge` | 2026-04-30 | `5baee0e` | ApplicationLayout | ✅ DONE |
