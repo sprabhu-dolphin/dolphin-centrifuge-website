@@ -60,3 +60,4 @@ All pages below have passed the v2.2 refactor audit.
 | alfa-laval-mab-103-centrifuge | ff20198 | - | 2026-04-29 | PASS |
 | crude-oil-tank-bottom-recovery-centrifuge | 59a5855 | - | 2026-04-30 | PASS |
 | alfa-laval-btpx-205-biotech-centrifuge | 2fda458 | - | 2026-04-30 | PASS |
+| disc-centrifuge-cannot-reach-operating-speed | 564ce32 | - | 2026-05-01 | PASS |
