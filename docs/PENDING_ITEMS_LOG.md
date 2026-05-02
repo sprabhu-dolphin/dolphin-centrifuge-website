@@ -5,6 +5,15 @@ Return to these items in a future session.
 
 ---
 
+## can-a-centrifuge-separate-salt-from-water
+
+| # | Issue | Priority | Notes |
+|---|---|---|---|
+| 1 | **Hero image review** - old hero copied to `_Old_Hero_Image/can-a-centrifuge-separate-salt-from-water/` | 🟡 Medium | Image-agent to evaluate. `_New_Hero_Image/` ready for replacement. |
+| 2 | **Body images review** - ALL body images copied to `_Image_Repair/can-a-centrifuge-separate-salt-from-water/` | 🟡 Medium | Image-agent to review quality. `_Image_NB_Fixed/` ready for replacements. |
+
+---
+
 ## fish-processing-centrifuge
 
 | # | Issue | Priority | Notes |
