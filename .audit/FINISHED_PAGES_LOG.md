@@ -62,3 +62,4 @@ All pages below have passed the v2.2 refactor audit.
 | alfa-laval-btpx-205-biotech-centrifuge | 2fda458 | - | 2026-04-30 | PASS |
 | disc-centrifuge-cannot-reach-operating-speed | 564ce32 | - | 2026-05-01 | PASS |
 | alfa-laval-mopx-207-centrifuge | cc85f89 | - | 2026-05-02 | PASS |
+| fish-processing-centrifuge | b28e0cd | - | 2026-05-02 | PASS |
