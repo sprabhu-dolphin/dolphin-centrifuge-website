@@ -65,3 +65,4 @@ All pages below have passed the v2.2 refactor audit.
 | fish-processing-centrifuge | b28e0cd | - | 2026-05-02 | PASS |
 | can-a-centrifuge-separate-salt-from-water | d1b2fa7 | - | 2026-05-02 | PASS |
 | explosion-proof-centrifuge | 92254f3 | - | 2026-05-02 | PASS |
+| alfa-laval-lapx-404-disc-centrifuge | 8a13c78 | - | 2026-05-02 | PASS |
