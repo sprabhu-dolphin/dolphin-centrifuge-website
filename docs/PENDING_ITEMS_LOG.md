@@ -5,6 +5,15 @@ Return to these items in a future session.
 
 ---
 
+## fish-processing-centrifuge
+
+| # | Issue | Priority | Notes |
+|---|---|---|---|
+| 1 | **Hero image review** - old hero copied to `_Old_Hero_Image/fish-processing-centrifuge/` | 🟡 Medium | Image-agent to evaluate. `_New_Hero_Image/` ready for replacement. |
+| 2 | **Body images review** - ALL body images copied to `_Image_Repair/fish-processing-centrifuge/` | 🟡 Medium | Image-agent to review quality. `_Image_NB_Fixed/` ready for replacements. |
+
+---
+
 ## alfa-laval-centrifuge-parts
 
 | # | Issue | Priority | Notes |
