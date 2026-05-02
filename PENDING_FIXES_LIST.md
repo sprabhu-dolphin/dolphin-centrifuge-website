@@ -18,7 +18,7 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 | `disadvantages-disc-stack-centrifuge` | Hero | `disc-stack-centrifuge-disadvantages-hero-2000.webp` | ✅ DONE | Replaced with high-res 2000px asset from `_New_Hero_Image`. |
 | `disadvantages-disc-stack-centrifuge` | Body | `centrifuge-disc-stack-spacing-800-high-quality.webp`, etc. | ✅ DONE | Replaced with high-res redrawn assets from `_Image_NB_Fixed`. |
 | `alfa-laval-mab-104-centrifuge` | Body | Content & specs discrepancy vs LW.xml | ⏳ PENDING | LW.xml has a brochure page (8.8 GPM, 0.3 Gal, 432 Lbs). Astro page has detailed specs (6 GPM, 0.25 Gal, 400 Lbs), mods table, WSB 104 section. FAQ purged. SEO fixed. Sanjay to confirm which specs are correct and whether brochure content should merge in. |
-| `waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery` | Hero | `waste-oil-centrifuge-guam.webp` | ⏳ PENDING | Hero is only 800x476px. Minimum spec is 1440x500px. Old hero copied to `_Old_Hero_Image/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/`. Place replacement in `_New_Hero_Image/` when ready. |
+| `waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery` | Hero | `Dolphin_Waste_Oil-Centrifuge_Guam_Navy_Facility_Hero.webp` | ✅ DONE | Replaced 800x476 hero with 2172x724 asset from `_New_Hero_Image`. |
 
 ---
 
