@@ -63,3 +63,4 @@ All pages below have passed the v2.2 refactor audit.
 | disc-centrifuge-cannot-reach-operating-speed | 564ce32 | - | 2026-05-01 | PASS |
 | alfa-laval-mopx-207-centrifuge | cc85f89 | - | 2026-05-02 | PASS |
 | fish-processing-centrifuge | b28e0cd | - | 2026-05-02 | PASS |
+| can-a-centrifuge-separate-salt-from-water | d1b2fa7 | - | 2026-05-02 | PASS |
