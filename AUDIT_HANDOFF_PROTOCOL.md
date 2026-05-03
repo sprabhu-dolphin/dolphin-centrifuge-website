@@ -1,66 +1,72 @@
-# AUDIT_HANDOFF_PROTOCOL.md - Sonnet in Antigravity (fast mode)
+# AUDIT_HANDOFF_PROTOCOL.md - Current Chat Loop
 
-Active protocol as of 2026-04-20.
+Active protocol as of 2026-05-03.
 
-## What this document is
+## Purpose
 
-You are Sonnet in Antigravity on Sanjay's Windows machine. You write `src/pages/<slug>.astro` files migrated from legacy WordPress. Opus in Cowork audits each of your commits against `LW.xml` and returns a fix list in chat. You commit, Opus audits, you fix, repeat.
+This file defines the normal builder-to-auditor loop for one migrated Astro page at a time.
 
-## Session-start reading, in order
+The current workflow is Sanjay-mediated chat:
+- The Astro builder edits one `src/pages/<slug>.astro` page.
+- The builder commits the fix batch.
+- The builder gives Sanjay the commit SHA.
+- Sanjay sends that slug and SHA to the audit agent.
+- The audit agent replies in chat with PASS or a fix-only handoff.
 
-1. AUDIT_HANDOFF_PROTOCOL.md (this file)
-2. LEGACY-BODY-FIDELITY.md - body rules, red list, FAQ rule
-3. SEO-AND-STANDARDS.md - verbatim-from-LW.xml fields
-4. PAGE_APPEARANCE_LOOK.md - layout rules
+No READY.txt, LATEST.md, bridge JSON, or `.audit/queue` file is used in the normal loop.
 
-Ignore `COWORK_IMAGE_AGENT.md`, `NB_*.md`, `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md`. Do NOT read `.audit/DIRT_BACKLOG.md` - that's Opus's file for end-of-batch planning.
+## Builder Startup Order
 
-## The loop (per page)
+Read these before page work:
 
-1. **Read legacy.** Grep `LW.xml` for the slug. Pull title, `rank_math_description` (fallback `_yoast_wpseo_metadesc`), h1/h2/h3 list in order, body paragraphs, tables, image refs + alts, any FAQ.
+1. `.agents/rules/astro-migration.md`
+2. `SEO-AND-STANDARDS.md`
+3. `LEGACY-BODY-FIDELITY.md`
+4. `PAGE_APPEARANCE_LOOK.md`
+5. `AUDIT_HANDOFF_PROTOCOL.md`
 
-2. **Write or edit** `src/pages/<slug>.astro` using `ApplicationLayout`. Match legacy verbatim on: `title` prop, `description` prop, Article JSON-LD `headline` + `description`, every h2 text, every image `alt`. For new image filenames use `<legacy-stem>.jpg.webp` (preserves the legacy `.jpg` URL stem for 301 redirect image-search continuity).
+Ignore image-only docs unless Sanjay explicitly starts an image task:
+- `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md`
+- `COWORK_IMAGE_AGENT.md`
+- `NB_IMAGE_SKILL.md`
+- `NB_HERO_DRAWINGS_FIX_SKILL.md`
 
-3. **Do NOT add:**
-   - FAQ blocks, unless legacy has one OR Sanjay has explicitly sanctioned FAQ for this specific slug.
-   - FAQPage JSON-LD, unless FAQ is present.
-   - "Why Choose Us" / "Key Benefits" lists.
-   - Mid-body CTA buttons.
-   - Generic AI preambles.
-   - Em-dashes anywhere. Use regular `-`.
-   - Fabricated stats, testimonials, "Authorized Alfa Laval" language.
+## Builder Loop
 
-4. **Preserve legacy typos.** Sanjay seeds minor typos intentionally as a human-authoring signal. Examples seen: `Standards filters`, `flood products`, `nigh centrifugal force`. If LW.xml has a typo, keep it. Do NOT "fix" it.
+1. Work on exactly one slug.
+2. Read legacy source from `LW.xml`.
+3. Edit only the current page and directly required support files.
+4. Preserve legacy SEO fields, visible H1, body coverage, table data, captions, links, schema facts, and approved user exceptions.
+5. Use `ApplicationLayout` patterns. Do not use a single existing page as a universal template.
+6. Keep image work copy-only and Sanjay-managed when he has replaced or approved images.
+7. Commit the current fix batch.
+8. Give Sanjay the exact commit SHA and stop for audit.
 
-5. **Self-check before committing:**
-   - `title` = legacy `<title>` verbatim
-   - `description` = legacy `rank_math_description` verbatim
-   - every `<h2>` = legacy h2 text verbatim
-   - every image `alt` = legacy alt or descriptive human text
-   - TOC const labels match your h2 text exactly
-   - no ` — ` em-dashes anywhere
-   - legacy typos preserved
+## Do Not Add
 
-6. **Commit:**
-   ```
-   git add src/pages/<slug>.astro
-   git commit -m "feat(v2.2): <slug> iter-<N>"
-   ```
+- FAQ blocks unless legacy has one or Sanjay approved that exact page FAQ.
+- FAQPage JSON-LD unless the rendered FAQ exists and matches.
+- Generic "Why Choose Us", "Key Benefits", or AI summary sections unless approved for the page.
+- Page-local bottom CTA when `ApplicationLayout` already provides the standard bottom CTA.
+- Duplicate TOCs.
+- Unsupported Product, Article, manufacturer, brand, capacity, pricing, or performance claims in schema.
+- Em-dashes or new AI-authored en-dashes.
 
-7. **Tell Sanjay:**
-   ```
-   Committed <slug> iter-<N> at <short-sha>. Ready for audit.
-   ```
-   Stop. No READY.txt file. No `verify-and-heal.sh` required. Sanjay will pop to Cowork and type `audit`.
+## Verification Before Audit
 
-8. **When Sanjay pastes a fix list from Opus:** apply every numbered item mechanically. No interpretation. Commit as `feat(v2.2): <slug> iter-<N+1> fixes per audit`. Tell Sanjay the new short-sha. Repeat from step 7.
+Before telling Sanjay a page is ready for audit, verify file-based:
 
-9. **When Opus says PASS:** done. Wait for next slug.
+- The committed page is the intended slug.
+- SEO title, visible H1, and meta description are checked separately.
+- Legacy body content coverage and table data are preserved.
+- Required schema and `BreadcrumbList` behavior are present and truthful.
+- Referenced images exist in the committed tree.
+- Body/content images use factual dimensions, approved `img-cap-*` sizing, and real `<figure><figcaption>` markup unless Sanjay approved a no-caption exception.
+- Dark blocks have readable text and links.
+- There is no duplicate TOC, duplicate FAQ/schema, or duplicate bottom CTA.
 
-## On working-copy corruption (context only)
+## Legacy `.audit` Files
 
-Windows editor autosave sometimes corrupts files after clean commits. The commit itself is fine - Opus reads from the committed git object, not from disk, so this does not block audits. If your `git status` shows unexpected dirt after committing, `git checkout -- <file>` restores it. Not urgent, not a blocker.
+The `.audit` READY/LATEST workflow is retired for normal work. Do not write `.audit` queue, report, passed, or stalled files unless Sanjay explicitly re-enables that legacy workflow for the current page.
 
-## On dirty tree during the batch
-
-Fast mode runs ~10 pages before a single cleanup sweep. Your working tree may accumulate mods from prior pages. Do NOT try to clean mid-batch. Commit only the file you are working on. Sanjay and Opus sweep at the end.
+Never edit `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`.

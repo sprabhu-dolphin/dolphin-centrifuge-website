@@ -1,198 +1,48 @@
-# Image Handoff Instructions — Astro Build Agent
+# ASTRO_AGENT_IMAGE_INSTRUCTIONS.md - Image Handoff Folders
 
-> ⚠️ **SCOPE NOTE (2026-04-19):** The two-phase "Phase 1 audit / Phase 2 embed" workflow
-> described below is **LEGACY**. Page auditing is no longer done by Sonnet in Phase 1 -
-> it is now done by Opus in Cowork via the `.audit/` folder contract
-> (see `AUDIT_HANDOFF_PROTOCOL.md`).
->
-> This file is preserved only for the **separate, on-demand image-generation Cowork
-> sessions** Sanjay runs when a page needs a new hero or redrawn diagram. In that context,
-> the handoff folders (`_Image_Repair\`, `_New_Hero_Image\`, `_Image_NB_Fixed\`) and the
-> file conventions below still apply.
->
-> In the normal audit loop: if you (Sonnet) find a bad image during a page, flag it in
-> `PENDING_FIXES_LIST.md` and in your commit message. Do NOT treat this two-phase flow
-> as active - there is no live "image worker" waiting between your passes.
+Active protocol as of 2026-05-03.
 
----
+## Scope
 
-## Repo-Root Image Staging Folders (authoritative)
+This file is only for separate, on-demand image work. It is not part of the normal page-audit loop unless Sanjay explicitly asks for image processing, image repair, hero replacement, or image handoff.
 
-All image handoff work for this project uses these repo-root folders:
+There is no assumed live image worker during normal page migration. Do not stop page work waiting for another agent unless Sanjay starts that image session.
 
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+## Repo-Root Folders
 
-### Slug subfolder rule
+All image handoff work uses slug-named subfolders under these repo-root folders:
 
-For every page, create a subfolder named exactly after the page slug inside the relevant staging folders.
+- `_Old_Hero_Image\{slug}\`
+- `_New_Hero_Image\{slug}\`
+- `_Image_Repair\{slug}\`
+- `_Image_NB_Fixed\{slug}\`
 
-Example:
+## Folder Meaning
 
-```
-_Old_Hero_Image\disc-stack-centrifuge-efficiency\
-_New_Hero_Image\disc-stack-centrifuge-efficiency\
-_Image_Repair\disc-stack-centrifuge-efficiency\
-_Image_NB_Fixed\disc-stack-centrifuge-efficiency\
-```
+- `_Old_Hero_Image\{slug}\` holds a copy of the old/current hero for reference or fallback.
+- `_New_Hero_Image\{slug}\` receives Sanjay-approved or image-session finished hero files.
+- `_Image_Repair\{slug}\` holds old/current body images that may need repair, redraw, or Sanjay review.
+- `_Image_NB_Fixed\{slug}\` receives finished repaired body images.
 
-### Copy-only rule
+## Hard Rules
 
-- Always COPY files into these staging folders.
-- NEVER MOVE files out of their original location.
-- NEVER delete the original source/legacy image as part of handoff.
+- Copy only. Never move source images.
+- Never delete original/source images.
+- Never overwrite Sanjay-supplied or Sanjay-approved replacement images unless he explicitly says to replace that exact file.
+- Never reference `_Image_Repair\` or `_Image_NB_Fixed\` directly from Astro page source. Finished files must be copied into the correct `public/images/{slug}/` location before page wiring.
+- Keep one slug at a time.
+- Use file-based verification only. Do not open a browser or localhost preview.
 
----
+## Normal Handoff Steps
 
-## System Process Flow (LEGACY - image-only sessions)
+1. Create the four slug folders when image work is needed.
+2. Copy the old/current hero into `_Old_Hero_Image\{slug}\` if hero replacement is being considered.
+3. Copy body images needing repair or review into `_Image_Repair\{slug}\`.
+4. Leave `_New_Hero_Image\{slug}\` and `_Image_NB_Fixed\{slug}\` ready for finished files.
+5. When finished images are supplied, copy them into `public/images/{slug}/`.
+6. Update the page image references, factual `width` and `height`, `img-cap-*` sizing class, `alt`, and real `<figure><figcaption>` captions.
+7. Ask Sanjay for visual preview if the image choice, crop, or technical fidelity needs human review.
 
-The Astro agent has **two phases** per page. The CoWork Image Agent runs between them.
+## Current-File Lists
 
-```
-ASTRO AGENT — Phase 1         IMAGE COWORK AGENT           ASTRO AGENT — Phase 2
-──────────────────────    →   ──────────────────────   →   ──────────────────────
-Text fidelity check           Generates hero banner         Pick up hero from
-SEO checks                    Sharpens bad diagrams         _New_Hero_Image\
-PAGE_APPEARANCE_LOOK.md       Drops finished files          Pick up diagrams from
-Sanjay preview                in handoff folders            _Image_NB_Fixed\
-↓                                                           Embed in page
-Identify bad images
-Place in _Image_Repair\
-Flag hero if needed
-STOP — hand off to
-Image CoWork Agent
-```
-
----
-
-## STRICT SINGLE-PAGE WORKFLOW
-**CRITICAL:** Under NO CIRCUMSTANCES should you spawn multiple sub-agents or attempt to run Phase 1 or Phase 2 concurrently across multiple pages. All operations must be strictly synchronous and limited to **ONE SINGLE PAGE AT A TIME** to avoid corrupting the Git working tree.
-
----
-
-## PHASE 1 — Page Audit & Image Triage (Do This First)
-
-### Step 1 — Standard page checks
-- Text fidelity vs Legacy WordPress page (SOURCE OF TRUTH)
-- SEO checks
-- Apply `PAGE_APPEARANCE_LOOK.md`
-- Get Sanjay to preview
-
-### Step 2 — Image triage (after Sanjay preview)
-
-Identify images that need fixing:
-
-| Image Type | Condition | Action |
-|---|---|---|
-| Technical diagram / drawing | Blurry, pixelated, low-res | Copy to `_Image_Repair\{slug}\` |
-| Graph / cross-section / sketch | Blurry, pixelated, low-res | Copy to `_Image_Repair\{slug}\` |
-| Product photo | Blurry or wrong | Copy to `_Image_Repair\{slug}\` |
-| Hero banner | Missing, broken, stretched, wrong | Flag as "hero needed" (see below) |
-| Any image | Already sharp and correct | Leave in place — do NOT copy |
-
-Before copying any file for image work:
-- Ensure the slug subfolder exists in the destination staging folder.
-- Copy the file into the correct slug folder.
-- Leave the original file untouched in its source location.
-
-### Step 3 — Hero flag
-
-If the page needs a new hero, create a flag file:
-```
-_Image_Repair\{slug}\HERO_NEEDED.txt
-```
-Contents of the file:
-```
-Page: {slug}
-Page type: [Application | Model | KB-product | KB-engineering | KB-troubleshooting]
-Notes: [any specific notes for the Image Agent e.g. "machine is WHPX-513"]
-```
-The Image Agent reads this flag and knows to generate a hero for this page.
-
-### Step 4 — Hand off to Image CoWork Agent
-
-Once `_Image_Repair\{slug}\` is populated:
-- Notify Sanjay that image triage is complete for `{slug}`
-- Stop work on this page
-- The Image CoWork Agent takes over
-
-Do NOT continue building the page until the Image CoWork Agent has delivered finished files.
-
----
-
-## PHASE 2 — Embed Finished Images (After Image CoWork Agent)
-
-### Hero Banner
-
-**Where to find it:**
-```
-_New_Hero_Image\{slug}\{slug}_hero.webp   (1440×500px WebP, 50–150KB)
-```
-
-**Step-by-step:**
-1. Check `_New_Hero_Image\{slug}\{slug}_hero.webp` exists
-2. COPY old hero → `_Old_Hero_Image\{slug}\{original-hero-filename}`
-3. Copy new hero → correct Astro `public/images/` location per page frontmatter
-4. Rename `{slug}_hero.webp` → `{slug}_hero.webp.done` (prevents double-processing)
-
-Important:
-- Step 2 is COPY ONLY. Do not move the old hero out of its original location.
-- Keep the archived copy in the slug folder under `_Old_Hero_Image\`.
-
-### Body Diagrams
-
-**Where to find them:**
-```
-_Image_NB_Fixed\{slug}\{filename-600}.webp
-```
-One file per diagram. The number in the filename = actual pixel width of the sharpened file.
-
-**How to wire in Astro — one file, two uses:**
-```
-src=   "_Image_NB_Fixed/{slug}/{name-600}.webp"   ← Astro resizes to original display width
-```
-Keep original `width=` attribute unchanged. CSS constrains display. Lightbox opens at full pixel size automatically.
-
-`_Image_Repair\` is NEVER referenced in Astro source. It is the Image Agent's input only.
-
----
-
-## Phase 2 — STOP After Deploy
-
-After copying files and updating src= references:
-- ✅ Copy old hero to `_Old_Hero_Image\{slug}\`
-- ✅ Deploy new hero to `public/images/`
-- ✅ Deploy fixed diagrams to `public/images/`
-- ✅ Update all `src=` references in `.astro` file
-- 🛑 **STOP. DO NOT OPEN A BROWSER OR BROWSER SUBAGENT. DO NOT PREVIEW THE PAGE.**
-
-Tell Sanjay: **"Phase 2 complete. Images deployed. Please review on your end and reply 'Commit' or 'Changes needed'."**
-
-Sanjay will review on his own machine and return with the verdict.
-**CRITICAL SAFETY WARNING:** Opening the browser crashes the user's PC due to memory overload. It is 100% forbidden for any agent to run a browser preview here or anywhere else.
-
-
----
-
-## What NOT To Do
-
-- ❌ Do not re-compress, resize, or convert any file from `_Image_NB_Fixed\` or `_New_Hero_Image\`
-- ❌ Do not place a hero without first copying the old one into `_Old_Hero_Image\{slug}\`
-- ❌ Do not reference `_Image_Repair\` anywhere in Astro
-- ❌ Do not delete anything from `_Old_Hero_Image\`
-- ❌ Do not move any original file into a staging folder
-- ❌ Do not proceed to Phase 2 until Image CoWork Agent confirms it is done
-
----
-
-## Current Files Ready for Pickup (Phase 2)
-
-| Slug | Asset | Type | Status |
-|---|---|---|---|
-| `alfa-laval-centrifugal-separator` | `{slug}_hero.webp` | Hero 1440×500 | ✅ Ready |
-| `alfa-laval-centrifugal-separator` | `alfa-laval-disc-centrifuge-bowl-cross-section-600-1.webp` | Diagram | ✅ Ready |
-| `alfa-laval-centrifugal-separator` | `decanter-bowl-scroll-rotation-600.webp` | Diagram | ✅ Ready |
-| `used-oil-centrifuge` | `Used_Oil_Centrifuge_Hero_1440.webp` | Hero 1440×500 | ✅ Deployed |
-| `used-oil-centrifuge` | `Used-Oil-Centrifuge-Plant-Layout-850.webp` | Diagram | ✅ Deployed |
+Do not keep page-specific "ready for pickup" lists in this file. Those become stale quickly. Use the actual slug folders and committed page state as the source of truth.

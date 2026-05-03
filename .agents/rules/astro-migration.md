@@ -14,7 +14,17 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
 
     Never split continuous paragraphs into artificial highlight boxes, callouts, or separate sections. Restore continuous paragraph flow exactly as it appears in the XML.
 
-    Audit for and restore all missing legacy images. Retain legacy filenames, alt text, and captions with 100% accuracy.
+    Audit for and restore all missing legacy images only during the initial migration pass, and only when Sanjay has not replaced or approved newer images.
+    Sanjay often replaces bad legacy images manually. Once Sanjay is modifying, replacing, repairing, or approving images for a page, DO NOT restore, revert, or swap those images back to legacy filenames unless Sanjay explicitly asks for that exact image replacement.
+
+    USER-MANAGED IMAGE REPLACEMENT OVERRIDE:
+    - Image choice belongs to Sanjay once he starts replacing or approving page images.
+    - Do not treat non-legacy image filenames as a problem by themselves.
+    - Do not tell another agent to restore old legacy images after Sanjay has worked on images.
+    - Audit current images for: committed file exists, factual width/height attributes, approved `img-cap-*` sizing, correct layout, real `<figcaption>` on every body/content image, and alt text that fits the actual current image and page context.
+    - If an image choice looks questionable, ask Sanjay before changing it or instructing any restore/revert/swap.
+    - Captions and alt text still matter. The actual image selection should not be overridden without Sanjay's explicit approval.
+    - Every body/content image, excluding only hero images, logos, icons, and purely decorative UI assets, MUST use real `<figure><figcaption>` markup so the shared gray caption bar renders. Missing `figcaption` is a blocker unless Sanjay explicitly approves a no-caption exception for that specific image.
 
     MANDATORY BODY COPY VERIFICATION CHECKLIST (run BEFORE marking any section ✅):
     □ Every paragraph — compared word-for-word against LW.xml
@@ -31,7 +41,7 @@ You must strictly adhere to the .md files at the git repo root folder, with abso
     - Do NOT use image `alt` text as the visible popup/lightbox caption.
     - Alt text is for accessibility and SEO. It may be longer and more descriptive than what should appear under the enlarged image.
     - Lightbox popup captions must come from explicit `data-lightbox-caption` text first, then the nearest `<figcaption>`, and otherwise be blank.
-    - If a page needs a visible/lightbox caption, add or preserve a real `<figcaption>` from legacy or Sanjay-approved wording. Do not invent new captions.
+    - Every body/content image needs a visible gray-bar caption through real `<figure><figcaption>` markup, excluding only hero images, logos, icons, and purely decorative UI assets. Use legacy caption text when present. For Sanjay-replaced images or legacy images with no caption, use Sanjay-approved or clear filename/page-context caption text that matches the actual current image. Do not leave body images without `<figcaption>` unless Sanjay explicitly approves that specific no-caption exception.
     - Before marking image appearance complete, file-check `src/components/Lightbox.astro` and confirm it does not contain `caption.textContent = alt` or equivalent alt-as-caption behavior.
 
     CRITICAL SEO FIELD MAPPING RULE (added 2026-04-27):
@@ -97,7 +107,7 @@ Before generating any code, analyzing a page, or making any changes, you MUST re
 
     ## NEXT ## PAGE_APPEARANCE_LOOK.md (For UI layout, side-by-side logic, spacing, galleries, and uniform image sizing)
 
-    ## AT SESSION START ## AUDIT_HANDOFF_PROTOCOL.md (For the audit loop contract with the audit agent. Defines READY.txt, LATEST.md, iteration rules, and session rotation. Read ONCE at session start and keep the schema in memory.)
+    ## AT SESSION START ## AUDIT_HANDOFF_PROTOCOL.md (For the current Sanjay-mediated chat audit loop. READY.txt, LATEST.md, and .audit queue files are legacy-only and must not be used unless Sanjay explicitly re-enables that workflow.)
 
     Do not proceed with any migration task without explicitly confirming you have read and loaded these files into your working memory.
 
@@ -120,77 +130,25 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     ASTRO_AGENT_IMAGE_INSTRUCTIONS.md (legacy - image handoff format for on-demand image sessions)
 
-#5. IMAGE QUALITY STOP-AND-CHECK GATE (MANDATORY — BEFORE EVERY COMMIT):
+#5. IMAGE HANDOFF FOLDER RULE (COPY-ONLY):
 
-    IMAGE HANDOFF FOLDER RULE (updated 2026-04-29):
-    When a page needs hero-image replacement work or body-image repair work, the Astro agent MUST
-    prepare the repo-root image handoff folders before the first-pass page build/refactor begins.
-    This is not a late pre-commit cleanup step. It must happen early so Sanjay has the old/source
-    images available while the rest of the page is being fixed.
+    Image work is separate from the normal page-audit loop. Do not assume there is a live image
+    worker waiting. Do not pause page work for image generation unless Sanjay explicitly starts an
+    image session or asks for image repair before the page continues.
 
-    REQUIRED ORDER:
-    1. Run the Discovery Lock for the assigned slug.
-    2. Inspect the legacy/current hero and body images for that slug.
-    3. Create the required image handoff folders and copy the old/source images that may need
-       replacement, repair, redraw, or Sanjay review.
-    4. Only after the old/source image copying is complete, begin first-pass page migration,
-       layout refactor, content fixes, schema fixes, or other page edits.
+    When image work is needed for the current `{slug}`, use these repo-root folders with matching
+    slug subfolders:
+    - `_Old_Hero_Image\{slug}\` - copy of the old/current hero for reference or fallback
+    - `_New_Hero_Image\{slug}\` - finished replacement hero from Sanjay/image session
+    - `_Image_Repair\{slug}\` - old/current body images that may need repair or Sanjay review
+    - `_Image_NB_Fixed\{slug}\` - finished repaired body images from Sanjay/image session
 
-    HARD STOP:
-    - Do not start first-pass page build/refactor work until this image handoff step is complete.
-    - Do not stage or commit the page until this image handoff step has been verified.
-    - Do not move or delete any original images.
-    - Always copy old/source images. Never move them.
-    - ALWAYS copy ALL body images to `_Image_Repair\{slug}\` for Sanjay's review. The agent
-      does NOT judge image quality. Sanjay decides what is acceptable.
-
-    For the current `{slug}`, create all four slug folders whenever any image work is needed:
-    - `_Old_Hero_Image\{slug}\`
-    - `_New_Hero_Image\{slug}\`
-    - `_Image_Repair\{slug}\`
-    - `_Image_NB_Fixed\{slug}\`
-
-    Folder purpose:
-    - `_Old_Hero_Image\{slug}\` holds the old/current hero image copied from `public/images/{slug}/`.
-    - `_New_Hero_Image\{slug}\` is the empty receiving folder for Sanjay's finished replacement hero.
-    - `_Image_Repair\{slug}\` holds ALL old/current body images for Sanjay's quality review.
-    - `_Image_NB_Fixed\{slug}\` is the empty receiving folder for Sanjay's finished repaired body images.
-
-    Required commands, adjusted for the actual filenames:
-    1. Create all four slug folders:
-       `New-Item -ItemType Directory -Force "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
-
-    2. If the hero is being replaced or is undersized, copy the old/current hero:
-       `Copy-Item "public\images\{slug}\{old-hero-file}" "_Old_Hero_Image\{slug}\{old-hero-file}"`
-
-    3. Copy ALL body images (every .webp/.jpg in the slug folder, excluding the hero) to _Image_Repair:
-       `Copy-Item "public\images\{slug}\{body-image-file}" "_Image_Repair\{slug}\{body-image-file}"`
-       Do NOT skip images because they "look fine". Sanjay decides quality. Agent copies everything.
-
-    4. Verify the handoff folders:
-       `Get-ChildItem "_Old_Hero_Image\{slug}", "_New_Hero_Image\{slug}", "_Image_Repair\{slug}", "_Image_NB_Fixed\{slug}"`
-
-    Failure to create the required `{slug}` folders or copy the old/source images before first-pass
-    page work begins is a process violation. Doing it only right before commit is too late.
-
-    Before staging and committing ANY page, the agent MUST stop and ask Sanjay:
-
-    HERO IMAGE:
-    - Required spec: 1440 × 500 px minimum · WebP · max 200 KB · subject center-frame
-    - Aspect ratio: 16:9 or wider. The Hero component renders object-cover full-width.
-    - Many legacy hero images are stretched, low-resolution, or barely visible.
-    - If the hero image is poor quality, flag it and ask: "Do you want a replacement hero image before we commit?"
-    - Reference PAGE_APPEARANCE_LOOK.md → 'Universal Hero Image Specification' for full details.
-
-
-    LEGACY SKETCHES / DRAWINGS / GRAPHS:
-    - Review each inline image on the page.
-    - Flag any image that is: a hand-drawn sketch, a low-res scan, a blurry diagram, or a pixelated graph.
-    - Ask: "Do you want any of these images redrawn or replaced before we finalize this page?"
-    - Reference SEO-AND-STANDARDS.md Section: 'Graphs & Technical Diagrams (Redrawn Assets)' for the redraw workflow.
-
-    RULE: Never commit a page with a known bad hero image or a legacy sketch without Sanjay's explicit OK.
-    The question must be asked EVEN IF you believe the image is acceptable.
+    Rules:
+    - Copy only. Never move, delete, or overwrite original/source images.
+    - Create the slug folders before image handoff work so the source and destination locations are clear.
+    - If Sanjay supplies, moves, repairs, or approves replacement images, do not restore old images unless he explicitly asks for that exact replacement.
+    - For current-page audits, judge images by committed file existence, factual width/height attributes, approved `img-cap-*` sizing, layout fit, real `<figure><figcaption>` captions for body/content images, and alt text that fits the actual current image.
+    - If an image choice looks questionable, ask Sanjay before instructing a swap, restore, or revert.
 
 #6. ⚠️ TAILWIND V4 CSS LAYER — GLOBAL.CSS DANGER ZONE (HARD STOP):
 
@@ -393,10 +351,6 @@ the audit loop. It is preserved for the separate image-generation sessions only:
 
     The audit agent is the arbiter of "done" for every page. You do NOT decide a page is finished.
 
-    CURRENT SANJAY-MEDIATED CHAT AUDIT LOOP:
-    The audit-bridge JSON/inbox/outbox workflow is retired. Do NOT use
-    `C:\Users\sprab\Documents\audit-bridge\...` unless Sanjay explicitly re-enables it.
-
     Normal current loop:
     - Work on exactly one slug.
     - Apply only Sanjay's current page-specific audit handoff.
@@ -421,54 +375,27 @@ the audit loop. It is preserved for the separate image-generation sessions only:
     - HARD STOP: Do not update `FINISHED_PAGES_LOG.md` until Sanjay reports that the audit agent
       returned PASS / Page Done for that exact slug and commit SHA.
 
-    Do NOT write READY.txt, LATEST.md, or audit-bridge JSON files in the normal chat loop.
+    Do NOT write legacy bridge, READY, or LATEST files in the normal chat loop.
     Do NOT decide that a page is done just because you committed it.
 
     MANDATORY FINAL PASS GATES BEFORE TELLING SANJAY A PAGE IS READY FOR AUDIT:
     - Content gate: legacy body copy, tables, captions, headings, links, and schema are checked against the required MD files.
-    - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, portrait/landscape placement, galleries, dark-background text contrast, lightbox caption source behavior, spacing, and dash typography.
+    - Appearance gate: PAGE_APPEARANCE_LOOK.md is checked for image existence, image caps, factual image dimensions, gray-bar `<figcaption>` captions on every body/content image, portrait/landscape placement, galleries, dark-background text contrast, lightbox caption source behavior, spacing, and dash typography. For Sanjay-managed replacement images, do not require legacy filenames or legacy image choices. Check only existence, factual dimensions, approved sizing, captions, alt text, and layout unless Sanjay explicitly asks for image replacement.
     - Duplicate-pattern gate: do not duplicate ApplicationLayout features with page-local copies. This includes duplicate TOCs, duplicate FAQs/schema, and page-local bottom CTA blocks. A single standard Astro TOC is allowed even when legacy had no TOC.
     - ApplicationLayout CTA rule: Application pages already receive the standard hero CTA, sidebar quick contact, and bottom CTA from ApplicationLayout. A page-local mid-page CTA is allowed when useful, but a page-local bottom CTA after related resources/summary is a duplicate unless Sanjay explicitly approves it.
     - A page with invisible text, broken image paths, uncapped huge body images, bad portrait/landscape layout, duplicate bottom CTA, duplicate TOC, or misleading schema is NOT ready for audit and must not be described as finished.
     - Do not spin another iteration for microscopic polish after Sanjay has visually approved the page. Whitespace-only, spacing-only, harmless blank lines, one extra space around a hyphen, and tiny copy-polish items are not blockers unless they create a real rendering problem, SEO/schema mismatch, factual error, broken layout, invisible text, duplicate component, or user-visible trust problem.
 
     LEGACY `.audit` WORKFLOW:
-    The older project workflow uses `verdict: PASS` in `.audit/reports/{slug}/LATEST.md`.
-    Use the `.audit` READY/LATEST loop only when Sanjay explicitly asks for it or when the local
-    automation files for that workflow are active for the current session.
-
-    IF USING THE LEGACY `.audit` WORKFLOW (per AUDIT_HANDOFF_PROTOCOL.md):
-
-    1. After every commit that changes `src/pages/{slug}.astro`:
-       - Working tree must be clean after the commit (auditor auto-STALLs on dirty tree).
-       - Write `.audit/queue/{slug}/READY.txt` with the exact schema in AUDIT_HANDOFF_PROTOCOL.md section 3.1.
-       - Stop. Tell Sanjay "iter-N submitted for {slug}, commit {hash}."
-       - Do NOT touch another file until new `.audit/reports/{slug}/LATEST.md` appears.
-
-    2. When LATEST.md appears:
-       - If `verdict: NEEDS_FIXES`, read the report and apply EVERY P0 and EVERY P1. Commit. Write new READY.txt with iteration + 1.
-       - If `verdict: PASS`, update FINISHED_PAGES_LOG.md per Rule #9 and tell Sanjay "{slug} PASSED. Session rotation required." Then STOP until Sanjay gives you the next slug in a fresh session.
-       - If `verdict: STALLED` or `.audit/stalled/{slug}/WHY.md` appears, STOP. Do not touch the slug. Wait for Sanjay.
-
-    3. GIT HYGIENE (enforced by auditor pre-flight):
-       - Clean working tree required when writing READY.txt.
-       - Commit hash in READY.txt must match HEAD for the .astro file.
-       - Never mix edits to multiple slugs in one commit.
-
-    4. DEPLOYMENT IS OUT OF SCOPE FOR THIS LOOP:
-       - PASS does NOT push to origin.
-       - PASS does NOT deploy to Cloudflare Pages.
-       - Sanjay decides when to push commits to production. Always manual.
-
-    5. SESSION ROTATION AT TERMINAL STATES:
-       When a slug PASSES or STALLS, tell Sanjay:
-       "Session rotation required. Start a fresh build session and fresh audit session before the next slug."
-       Do NOT start the next slug yourself. Wait for Sanjay in a new session.
+    The READY.txt / LATEST.md / `.audit/queue` workflow is retired for the normal chat loop.
+    Do not write `.audit` queue, report, passed, or stalled files unless Sanjay explicitly re-enables
+    that legacy workflow for the current page. In the normal loop, Sanjay gives the audit agent the
+    slug and commit hash in chat, and the audit agent replies in chat with PASS or a fix-only handoff.
 
     HARD STOPS:
-    - Never edit files in `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`. Read-only.
+    - Never edit files in `.audit/reports/`, `.audit/passed/`, or `.audit/stalled/`.
     - Never skip a P0 or P1 fix the auditor flagged.
-    - Never mark a page DONE in FINISHED_PAGES_LOG without `verdict: PASS` in LATEST.md.
+    - Never mark a page DONE in FINISHED_PAGES_LOG without an explicit auditor PASS from Sanjay for that exact slug and commit.
     - Never run concurrent work on multiple slugs (honors Rule #2).
 
 Your tone should be direct, highly technical, and strictly focused on code accuracy. Do not offer microscopic diffs (like whitespace changes) unless explicitly asked. Focus entirely on structural, data, and layout perfection.
@@ -513,10 +440,10 @@ Your tone should be direct, highly technical, and strictly focused on code accur
 #14. STANDARD KICKOFF PROTOCOL (AUTO-TRIGGER):
 When the user gives you a page to migrate (e.g., "Migrate waste-oil-centrifuge"), you MUST automatically execute this sequence without being reminded:
 1. Run your Discovery Lock first and report the As-Is state (Rule #8).
-2. Execute the Image Quality Gate immediately after Discovery Lock and BEFORE the first-pass page build/refactor begins (Rule #5).
-3. STRICTLY use `src/pages/hydraulic-oil-centrifuge.astro` as your structural blueprint and CSS Grid Golden Master.
+2. If image handoff work is needed, use the copy-only image folder rule before changing page image references (Rule #5).
+3. Use the existing `ApplicationLayout` patterns and the current page's legacy content as the guide. Do not treat any single existing page as a universal template.
 4. Never truncate the file; stop cleanly if you hit token limits (Rule #13).
-5. Re-check the Image Quality Gate before staging or committing (Rule #5).
+5. Re-check image paths, dimensions, captions, and handoff status before staging or committing when image work was involved (Rule #5).
 
 # 15. DEV SERVER SAFETY PROTOCOL (UPDATED 2026-04-26):
 

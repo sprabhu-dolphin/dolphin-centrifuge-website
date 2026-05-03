@@ -208,37 +208,20 @@ surface has realistic industrial texture. Lighting is consistent across the enti
 
 ---
 
-## Environment Library (Proven + Candidates)
+## Environment Examples
 
-| Application | Environment | Lighting Match | Notes |
-|-------------|-------------|---------------|-------|
-| **Waste Oil** | Indoor processing plant, collection tanks, drum storage, transfer piping, concrete floor, gritty but organized | Bright overhead fluorescent | ✅ PROVEN — V3 locked |
-| **Fuel Oil** | Marine engine room or fuel treatment room, heavy piping, fuel day tanks, bulkheads | Warm overhead caged fixtures | ✅ PROVEN — V1 locked |
-| **Diesel** | Bright engine room with fluorescent strips, diesel generators, fuel day tanks, diamond-plate deck | Bright fluorescent (match centrifuge) | ✅ PROVEN — V4 locked (bright engine room) |
-| **Crude Oil / Petroleum** | Indoor refinery process hall, grated steel floors, columns, reactor piping, red valve handwheels | Bright industrial bay lighting | ✅ PROVEN — V6 with connected hoses |
-| **Lube Oil** | Clean mechanical room, turbine hall, precision piping, compressor housings | Bright clean industrial | ✅ PROVEN — V2 locked |
-| **Algae / Bioprocess** | Bioprocess facility, translucent algae pipes with green slurry, holding tanks, mezzanine | Overhead fluorescent, muted | ✅ PROVEN — V1 locked |
-| **Coolant / Machining** | Large CNC machine shop, coolant sumps, chip conveyors, organized industrial | Bright shop fluorescent | ✅ PROVEN — V5 with connections |
-| **Cutting Oil** | Large gear hobbing/grinding shop, oil reservoirs, amber cutting oil visible, machine tools | Bright bay lighting | ✅ PROVEN — V5 (correct fluid + scale) |
-| **Tramp Oil** | CNC machining center area, coolant sump nearby, organized metalworking | Bright shop fluorescent | ✅ PROVEN — V1 locked |
-| **Biodiesel** | Biodiesel production facility, methanol/glycerin tanks, reaction vessels | Bright industrial | ✅ PROVEN — V2 locked |
-| **Wastewater** | Water treatment facility, clarifier tanks, aeration basins, pipe bridges | Bright outdoor/indoor mix | ✅ PROVEN — V5 locked |
-| **Hydraulic Oil** | Steel mill hydraulic room, heavy presses, hydraulic power units, steel grating | Warm industrial bay | ✅ PROVEN — V3 locked |
-| **Explosion Proof** | Hazardous area fuel processing, Ex-rated conduit, flame-proof housings, zone markings | Bright Ex-rated lighting | ✅ PROVEN — V5 locked |
-| **Food Grade / Chemical Precipitate** | Chemical processing lab, stainless steel vessels, sanitary piping, clean room adjacent | Bright hygienic | ✅ PROVEN — direct NB image used |
-| **Black Diesel** | Fuel depot / dark fuel processing, storage drums, transfer pumps, industrial shed | Warm overhead | ✅ PROVEN — V1 locked |
-| **Containerized** | Shipping container interior, compact layout, visible through open container doors, outdoor industrial yard | Natural daylight + interior | ✅ PROVEN — V1 locked (save all 3) |
-| **Fish Processing** | Fish processing plant, stainless conveyors, drainage channels, wet environment | Bright hygienic | ✅ PROVEN — V1 locked (save all 3) |
-| **Quench Oil** | Heat treatment facility, quench tanks, hardening furnaces, steel billets | Warm industrial | Candidate |
-| **Pyrolysis Oil** | Oil processing facility with reactor vessel, used tire mounds visible outside through shop opening | Bright industrial interior | Candidate — Sanjay's specific brief |
-| **Used Oil** | Re-refining plant, collection tanks, drum storage, vacuum distillation units | Bright industrial | Candidate |
-| **WVO (Waste Vegetable Oil)** | Restaurant grease collection depot, stainless totes, yellow grease drums | Bright warehouse | Candidate |
-| **Yellow Grease** | Rendering plant, grease processing, heated tanks, insulated piping | Warm industrial | Candidate |
-| **Liquid Humus** | Composting/biogas facility, digestate tanks, agricultural processing | Bright open structure | Candidate |
-| **Manure** | Dairy/livestock processing facility, lagoon pumps, anaerobic digester tanks | Bright outdoor/shed | Candidate |
-| **Ethanol** | Distillery/bioethanol plant, fermentation tanks, column stills, grain handling | Bright industrial | Candidate |
-| **Services / Repair** | Service shop with crane, workbenches, spare parts shelving, open centrifuge bowls | Bright shop lighting | Candidate |
-| **Decanter** | Heavy industrial dewatering, sludge handling, conveyors, large-diameter piping | Bright industrial | Candidate |
+These are optional image-generation examples, not migration templates and not audit rules.
+Never treat any application example as a page-structure template.
+
+| Application | Possible environment | Lighting direction |
+|-------------|----------------------|--------------------|
+| Waste oil / used oil | Indoor processing plant, collection tanks, transfer piping, concrete floor | Bright industrial |
+| Fuel oil / diesel | Engine room or fuel treatment room with heavy piping and day tanks | Warm or bright industrial |
+| Crude oil / petroleum | Refinery process hall with grated floors, columns, piping, valves | Bright industrial |
+| Lube oil / hydraulic oil / coolant | Clean mechanical room, shop floor, or equipment bay | Clean industrial |
+| Food grade / chemical | Stainless process room, vessels, sanitary piping | Bright hygienic |
+| Wastewater | Treatment facility with clarifier tanks, basins, pipe bridges | Bright outdoor or mixed |
+| Explosion proof | Hazardous area processing with Ex-rated conduit and zone markings | Bright Ex-rated industrial |
 
 ---
 

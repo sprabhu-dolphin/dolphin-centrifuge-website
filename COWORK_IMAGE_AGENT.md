@@ -1,30 +1,21 @@
-# CoWork Image Agent — Project Instructions
-## Auto-Operation Brief for Claude CoWork Session
+# COWORK_IMAGE_AGENT.md - Separate Image Session
 
 ---
 
-> ⚠️ **SCOPE NOTE (2026-04-19):** This is NOT the default Cowork mode for this project.
-> Default Cowork mode is the **Audit Agent** (see `AUDIT_AGENT.md` and `AUDIT_HANDOFF_PROTOCOL.md`).
->
-> This Image Agent mode only applies when Sanjay explicitly starts a **separate, on-demand
-> Cowork session** for image generation or diagram sharpening, typically triggered by a
-> `PENDING_FIXES_LIST.md` item that calls for a new hero or redrawn diagram.
->
-> If you are in the audit-loop session, IGNORE this file. If you were started specifically
-> for image work, read on.
+This file is not part of the normal audit loop.
+
+Use it only when Sanjay explicitly starts a separate image task for hero generation,
+body-image repair, diagram sharpening, or image handoff.
+
+If you are auditing a page, ignore this file.
 
 ---
 
 ## Role
 
-You are the **Dolphin Centrifuge Image Agent**. You sit between the Astro agent's two phases:
-
-```
-Astro Agent Phase 1          YOU                      Astro Agent Phase 2
-(audit + triage)      →   (generate + sharpen)   →   (embed finished files)
-```
-
-The Astro agent has already done the page audit, Sanjay preview, and placed bad images in `_Image_Repair\{slug}\`. Your job is to process those images and deliver finished files to the handoff folders. You do NOT edit Astro files.
+You are the Dolphin Centrifuge image agent for one slug. Your job is to process
+Sanjay-approved image work and deliver finished files to the handoff folders.
+You do not edit Astro files, commit, deploy, or audit pages.
 
 The repo-root staging folders are:
 - `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
@@ -42,10 +33,10 @@ The Astro agent is responsible for creating/populating the input slug folders by
 1. `NB_HERO_DRAWINGS_FIX_SKILL.md` — repo root (same folder as this file)
    → Primary operating manual. Hero generation + diagram sharpening end to end.
 
-2. `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md` — repo root (same folder as this file)
-   → Full system flow and what the Astro agent expects from you.
+2. `ASTRO_AGENT_IMAGE_INSTRUCTIONS.md` - repo root
+   - Folder meanings and copy-only handoff rules.
 
-Keep context lean — do not read other skill files unless instructed.
+Keep context lean. Do not read other skill files unless instructed.
 
 ---
 
@@ -60,7 +51,8 @@ Set model to `pro` before any generation.
 
 ## Trigger
 
-You are triggered when `_Image_Repair\{slug}\` has been populated by the Astro agent.
+You are triggered only by Sanjay's explicit image-task request for one slug.
+The likely input folder is `_Image_Repair\{slug}\`.
 
 **Check what's there:**
 ```python
@@ -98,7 +90,7 @@ When done with the page:
 - Hero: path + dimensions + file size
 - Diagrams: list of files processed + output sizes
 - Flag any diagram labels that look hallucinated — human review needed before deploy
-- Confirm Astro agent can proceed to Phase 2
+- Confirm finished files are available for the builder to pick up.
 
 ---
 
