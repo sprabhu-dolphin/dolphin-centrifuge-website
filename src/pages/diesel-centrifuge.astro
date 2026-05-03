@@ -363,3 +363,14 @@ const relatedProducts = [
   </div>
 
 </ApplicationLayout>
+
+<style is:inline>
+  /* Page-local fix: the global .prose-dolphin figure { width: fit-content }
+     overrides Tailwind md:w-1/3 on Diesel's side-by-side image/text blocks.
+     Reset width so the flex child sizing works correctly on desktop. */
+  @media (min-width: 768px) {
+    .prose-dolphin .md\:flex > figure {
+      width: 33.333% !important;
+    }
+  }
+</style>
