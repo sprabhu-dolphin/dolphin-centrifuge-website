@@ -21,6 +21,26 @@ Use `LW.xml` and the matching legacy page content as the source of truth.
 - Do not use any existing page as a universal template. Use `ApplicationLayout` patterns plus the current page's legacy content.
 - Do not open a browser or localhost preview. Use file-based verification. If a visual check is needed, ask Sanjay to preview.
 
+## Image Handoff (First Step)
+
+Before editing the page, set up all 4 image handoff folders at the repo root. This is mandatory for every page.
+
+**Copy old images into these folders:**
+1. **Old hero image:** Copy the hero JPG from `public/images/<slug>/` to `_Old_Hero_Image/<slug>/`
+2. **Old body images:** Copy every body JPG from `public/images/<slug>/` to `_Image_Repair/<slug>/`
+
+**Create empty folders ready for Sanjay's fixed images:**
+3. **New hero image:** Create empty `_New_Hero_Image/<slug>/`
+4. **Fixed body images:** Create empty `_Image_NB_Fixed/<slug>/`
+
+All 4 paths are at the repo root:
+- `_Old_Hero_Image/<slug>/` - old hero JPG goes here
+- `_Image_Repair/<slug>/` - all old body JPGs go here
+- `_New_Hero_Image/<slug>/` - empty, ready for Sanjay's new hero
+- `_Image_NB_Fixed/<slug>/` - empty, ready for Sanjay's fixed body images
+
+Create the slug subfolder if it does not exist. These folders are gitignored by design.
+
 ## Legacy Content
 
 - Preserve all legacy body sections, headings, paragraphs, lists, links, tables, captions, and image references unless Sanjay approved an exception.
