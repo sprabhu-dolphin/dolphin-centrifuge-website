@@ -1,378 +1,251 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqItems = [
-  {
-    question: "What is the rated capacity of the Alfa Laval WHPX 513?",
-    answer: "The WHPX 513 is rated at 72 GPM on diesel fuel (13 cSt viscosity). On lighter fluids throughput can exceed 90+ GPM. On heavier fluids like intermediate fuel oil, throughput is reduced proportionally to viscosity. The WHPX 513 is powered by a 15 HP motor with a 3.87-gallon sludge space."
-  },
-  {
-    question: "What is the difference between the WHPX 513 and the FOPX 613?",
-    answer: "The WHPX 513 is a three-phase self-cleaning disc centrifuge suited for diesel, waste oil, and intermediate fuel oil. The FOPX 613 is a partial-discharge centrifuge specifically engineered for heavy fuel oil (HFO) processing at 380 cSt viscosity, rated at 30 GPM on bunker fuel. Choose the FOPX 613 when processing heavy bunker fuel with high wax content."
-  },
-  {
-    question: "Is the WHPX 513 available in explosion-proof configuration?",
-    answer: "Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications."
-  },
-  {
-    question: "What Dolphin system uses the WHPX 513 centrifuge?",
-    answer: "The Dolphin DMPX-070 centrifuge module is built around the Alfa Laval WHPX 513 (or equivalent MOPX 213 / MAPX 313 / FOPX 613) centrifuge bowl. The DMPX-070 is a complete turnkey system rated at 59–72 GPM on diesel fuel, with full PLC controls, electric heaters, and piping."
-  },
-  {
-    question: "Can Dolphin Centrifuge repair or supply parts for the WHPX 513?",
-    answer: "Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WHPX 513, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WHPX 513 centrifuges are available. Each rebuilt unit is tested to factory specifications before shipment."
-  }
-];
-
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Alfa Laval WHPX 513 Diesel Fuel Oil Centrifuge",
-  "description": "Alfa Laval WHPX 513 self-cleaning disc stack centrifuge for diesel, fuel oil, and waste oil. 72 GPM on diesel, 15 HP. Also covers FOPX 613 and MOPX 213.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "url": "https://dolphincentrifuge.com/alfa-laval-whpx-513/",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" }
-  }
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const articleJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Alfa Laval WHPX 513 Self-Cleaning Diesel and Fuel Oil Centrifuge",
-  "description": "Technical overview of the Alfa Laval WHPX 513 self-cleaning disc stack centrifuge for diesel, fuel oil, waste oil, and crude oil purification at 72 GPM.",
-  "author": {
-    "@type": "Person",
-    "name": "Sanjay Prabhu MSME",
-    "jobTitle": "Centrifuge Applications Engineer",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Dolphin Centrifuge"
-    }
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  },
+  "name": "Alfa Laval WHPX 513 Self-Cleaning, Diesel Fuel Oil Centrifuge",
+  "description": "Alfa Laval WHPX-513 Partial Discharge centrifuge finds multiple uses for fuel, lube oil, waste oil, and other 3-phase, fluid purification applications.",
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-513/"
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd];
 
 const toc = [
-  { id: 'overview', label: 'WHPX 513 Overview' },
-  { id: 'specifications', label: 'WHPX 513 Specifications' },
-  { id: 'fopx-613', label: 'FOPX 613 for Heavy Fuel Oil' },
-  { id: 'mopx-213', label: 'MOPX 213 Total-Discharge' },
-  { id: 'applications', label: 'Applications' },
-  { id: 'faq', label: 'Frequently Asked Questions' },
+  { id: 'overview', label: 'Overview' },
+  { id: 'application', label: 'Application' },
+  { id: 'whpx-513-specifications', label: 'WHPX 513 Specifications' },
+  { id: 'fopx-613', label: 'FOPX 613 Partial-Discharge Centrifuge' },
+  { id: 'fopx-613-specifications', label: 'FOPX 613 Specifications' },
+  { id: 'mopx-213', label: 'MOPX 213 Total-Discharge Centrifuge' },
+  { id: 'mopx-213-specifications', label: 'MOPX 213 Specifications' },
+  { id: 'WHPX-513-Gallery', label: 'WHPX 513 Centrifuge Modules Gallery' },
 ];
 
 const relatedApplications = [
-  { label: 'Diesel Fuel Centrifuge', href: '/diesel-centrifuge/' },
-  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+  { label: 'Diesel Fuel Centrifuge', href: '/diesel-fuel-purifier/' },
   { label: 'Fuel Oil Centrifuge', href: '/fuel-oil-centrifuge/' },
-  { label: 'Crude Oil Centrifuge', href: '/crude-oil-centrifuge/' },
+  { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
   { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
-];
-
-const relatedProducts = [
-  { label: 'DMPX-070 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: '59-72 GPM diesel, WHPX 513 bowl' },
-  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: '32-47 GPM mid-range' },
-  { label: 'WHPX 513 Clarifier Module', href: '/alfa-laval-whpx-513-clarifier-centrifuge-module/', description: '60 GPM wastewater clarification' },
+  { label: 'Machine Coolant Centrifuge', href: '/machine-coolant-centrifuge/' },
 ];
 ---
 
 <ApplicationLayout
-  title="Alfa Laval WHPX 513 Fuel Centrifuge | Dolphin Centrifuge"
-  description="Alfa Laval WHPX 513 self-cleaning disc centrifuge for diesel, fuel oil, and waste oil purification. 72 GPM, 15 HP, 4,150 RPM. Parts and rebuilds available."
+  title="Alfa Laval WHPX 513 Self-Cleaning, Diesel Fuel Oil Centrifuge"
+  description="Alfa Laval WHPX-513 Partial Discharge centrifuge finds multiple uses for fuel, lube oil, waste oil, and other 3-phase, fluid purification applications."
   category="products"
   categoryLabel="Products"
   heroImage="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-600.webp"
-  heroImageAlt="Alfa Laval WHPX513 self-cleaning centrifuge skid for diesel and fuel oil"
+  heroImageAlt="Alfa Laval WHPX513 Centrifuge Skid"
   canonicalUrl="https://dolphincentrifuge.com/alfa-laval-whpx-513/"
   jsonLd={jsonLd}
   toc={toc}
   relatedApplications={relatedApplications}
-  relatedProducts={relatedProducts}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WHPX 513 self-cleaning disc stack centrifuges rated at 72 GPM on diesel fuel (15 HP, 4,150 RPM). Available as the DMPX-070 turnkey module for diesel, fuel oil, waste oil, and crude oil purification. Warren, Michigan — over 40 years of experience.</p>
-  </div>
+  <h3 id="overview">Overview</h3>
 
-  <h2 id="overview">WHPX 513 Overview</h2>
+  <p>The Alfa Laval WHPX 513 Centrifuge is a self-cleaning <a href="/disc-stack-centrifuge/">disc-stack centrifuge</a> built for the three-phase separation of mixed fluids and sludge.</p>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <p>
-        The Alfa Laval WHPX 513 is a self-cleaning <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> built for the three-phase separation of mixed fluids and sludge. Powered by a 15 HP motor, the WHPX 513 achieves a bowl speed of 4,150 RPM and can process 72 GPM of diesel fuel.
-      </p>
-      <p>
-        This centrifuge is widely used across marine and industrial applications, from shipboard fuel treatment to refinery slop oil processing. Its large bowl volume and generous sludge space make it particularly suited for high-throughput applications where solids loading is moderate to heavy.
-      </p>
-    </div>
-    <img
-      src="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
-      alt="Alfa Laval WHPX513 centrifuge skid for diesel and waste oil"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
+  <p>With a 15 HP Motor, the WHPX 513 centrifuge has a bowl RPM of 4,150 and can process 72 GPM of Diesel Fuel.</p>
 
-  <p>
-    Available in explosion-proof configurations for hazardous area installations, the WHPX 513 is a workhorse centrifuge found in re-refineries, fuel terminals, marine vessels, and industrial <a href="/waste-oil-centrifuge/">waste oil</a> processing facilities worldwide.
-  </p>
+  <h3 id="application">Application</h3>
 
-  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
-    <p class="text-base font-semibold text-navy mb-1">Need parts, repairs, or a remanufactured WHPX 513?</p>
-    <p class="text-sm text-text-light mb-3">Dolphin Centrifuge supplies complete modules with pre-heaters, starters, and PLC control panels — available as the DMPX-070 turnkey system or as individual centrifuge rebuild services for diesel, fuel oil, waste oil, and crude oil applications.</p>
-    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold hover:bg-gold/80 text-navy font-bold px-6 py-2 rounded-lg transition-colors text-sm">Request a Quote &rarr;</a>
-  </div>
+  <p>The Alfa Laval WHPX 513 Centrifuge is widely used in marine and industrial applications. Some of these applications are:</p>
 
-  <h2 id="specifications">WHPX 513 Specifications</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <table>
-        <tbody>
-          <tr><td><strong>Model Type</strong></td><td>Alfa Laval WHPX 513 TGD 24-60</td></tr>
-          <tr><td><strong>Rated Capacity</strong></td><td>72 GPM on 13 cSt Diesel Fuel</td></tr>
-          <tr><td><strong>Sludge Space</strong></td><td>3.87 Gallons</td></tr>
-          <tr><td><strong>Motor HP</strong></td><td>15 HP</td></tr>
-          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <img
-      src="/images/alfa-laval-whpx-513/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
-      alt="Alfa Laval explosion proof centrifuge for hazardous area installations"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
-
-  <h2 id="fopx-613">Also Available: FOPX 613 for Heavy Fuel Oil</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX-613-Centrifuge-400.webp"
-      alt="Alfa Laval FOPX 613 heavy fuel oil centrifuge"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-    <div class="flex-1">
-      <p>
-        The Alfa Laval FOPX 613 is a partial-discharge disc stack centrifuge specifically designed for <a href="/fuel-oil-centrifuge/">heavy fuel oil (HFO)</a> treatment. The "FO" designation stands for Fuel Oil. With a bowl speed of 4,100 RPM, the FOPX 613 is available in Class 1 Div 1 explosion-proof configuration.
-      </p>
-      <table>
-        <tbody>
-          <tr><td><strong>Model Type</strong></td><td>Alfa Laval FOPX 613 TGD 24-60</td></tr>
-          <tr><td><strong>Rated Capacity</strong></td><td>30 GPM on 380 cSt Heavy Fuel Oil</td></tr>
-          <tr><td><strong>Sludge Space</strong></td><td>3.95 Gallons</td></tr>
-          <tr><td><strong>Motor HP</strong></td><td>15 HP</td></tr>
-          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <h3>FOPX 613 Complete System Module</h3>
-      <p>
-        Dolphin Centrifuge supplies the FOPX 613 as a complete turnkey system with electric heaters, PLC controls, feed pump, and all piping. The system is designed for continuous processing of bunker fuel, intermediate fuel oil, and other heavy petroleum products. <a href="/explosion-proof-centrifuge/">Explosion-proof configurations</a> are available for marine and refinery installations.
-      </p>
-    </div>
-    <img
-      src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX613-HFO-Centrifuge-System.webp"
-      alt="Alfa Laval FOPX613 HFO centrifuge system with feed pump and sludge tank"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
-
-  <h2 id="mopx-213">Also Available: MOPX 213 Total-Discharge</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/alfa-laval-whpx-513/Reconditioned-Alfa-Laval-MAPX313-Used-Oil-Centrifuge-e1614020926108.webp"
-      alt="Reconditioned Alfa Laval MAPX313 used oil centrifuge"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-    <div class="flex-1">
-      <p>
-        The Alfa Laval MOPX 213 is a total-discharge centrifuge for three-phase separation of <a href="/fuel-oil-centrifuge/">fuel oil</a>, <a href="/hydraulic-oil-centrifuge/">hydraulic oil</a>, <a href="/cutting-oil-centrifuge/">cutting oil</a>, and other mineral oils and fuels. With a bowl speed of 4,150 RPM, it processes 42 GPM of used engine oil at 180&deg;F.
-      </p>
-      <table>
-        <tbody>
-          <tr><td><strong>Model Type</strong></td><td>Alfa Laval MOPX 213 TGT 20-60</td></tr>
-          <tr><td><strong>Rated Capacity</strong></td><td>42 GPM on Used Motor Oil @ 180&deg;F</td></tr>
-          <tr><td><strong>Sludge Space</strong></td><td>3.61 Gallons</td></tr>
-          <tr><td><strong>Motor HP</strong></td><td>15 HP</td></tr>
-          <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <h2 id="applications">Applications</h2>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <ul>
-        <li><a href="/diesel-centrifuge/">Diesel fuel purification</a></li>
-        <li><a href="/black-diesel-centrifuge/">Black diesel separation</a></li>
-        <li><a href="/fuel-oil-centrifuge/">Intermediate &amp; heavy fuel oils (IFO, HFO)</a></li>
-        <li><a href="/waste-oil-centrifuge/">Waste oil reclamation</a></li>
-        <li><a href="/machine-coolant-centrifuge/">Industrial fluids &amp; machining coolants</a></li>
-        <li><a href="/lube-oil-centrifuge/">Lubricating oils</a></li>
-        <li><a href="/crude-oil-centrifuge/">Crude oil dehydration</a></li>
-      </ul>
-    </div>
-    <img
-      src="/images/alfa-laval-whpx-513/waste-motor-oil-centrifuge-system-e1614020990533.webp"
-      alt="Waste motor oil centrifuge system for refinery and re-refining"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/alfa-laval-whpx-513/refinery-waste-oil-centrifuge-e1614021036369.webp"
-      alt="Refinery waste oil centrifuge installation"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-    <div class="flex-1">
-      <h3>Waste Oil and Crude Oil Applications</h3>
-      <p>
-        The WHPX 513's 3.87-gallon sludge space and 72 GPM capacity make it the preferred choice for <a href="/waste-oil-centrifuge/">waste oil re-refining</a> and <a href="/crude-oil-centrifuge/">crude oil</a> BS&amp;W reduction. Dolphin Centrifuge supplies fully reconditioned <a href="/alfa-laval-centrifuge-parts/">WHPX 513 centrifuges</a> with new seals, bearings, and wear components, tested to factory specifications before shipment.
-      </p>
-    </div>
-  </div>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <img
-      src="/images/alfa-laval-whpx-513/alfa-laval-centrifuge-crude-oil-tank-bottom-e1614020807901.webp"
-      alt="Alfa Laval centrifuge for crude oil tank bottom separation"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-    <div class="flex-1">
-      <h3>Crude Oil Tank Bottom Separation</h3>
-      <p>
-        The WHPX 513 is effective for <a href="/crude-oil-centrifuge/">crude oil tank bottom</a> processing, separating water and sediment from crude oil sludge recovered from storage tanks. Its large sludge space handles the heavy solids loading typical of tank bottom material.
-      </p>
-    </div>
-  </div>
-
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6">
-    <div class="flex-1">
-      <h3>Oilfield and Marine Applications</h3>
-      <p>
-        The WHPX 513 is widely deployed on offshore platforms and in oilfield tank battery installations for <a href="/crude-oil-centrifuge/">crude oil dehydration</a>. Its self-cleaning design allows uninterrupted continuous operation, critical for 24/7 production environments. Contact our team for <a href="/industrial-centrifuge-sample-testing/">sample testing</a> to confirm suitability for your application. For ongoing maintenance, see our <a href="/industrial-disc-centrifuge-repair/">centrifuge repair services</a>.
-      </p>
-    </div>
-    <img
-      src="/images/alfa-laval-whpx-513/oilfield-centrifuge-crude-oil-e1614020863236.webp"
-      alt="Oilfield centrifuge for crude oil dehydration"
-      width="300"
-      height="300"
-      loading="lazy"
-      class="rounded-lg w-full md:w-auto md:max-w-[280px] shrink-0"
-    />
-  </div>
-
-  <h3>Related Resources</h3>
   <ul>
-    <li><a href="/alfa-laval-whpx-513-clarifier-centrifuge-module/">WHPX 513 Clarifier Module (Turnkey System)</a></li>
-    <li><a href="/disc-stack-centrifuge-faq/">101 Disc Stack Centrifuge FAQs</a></li>
-    <li><a href="/alfa-laval-centrifuge-parts/">Centrifuge Parts &amp; Spares</a></li>
-    <li><a href="/alfa-laval-centrifuge-selection-guide/">Alfa Laval Centrifuge Selection Guide</a></li>
-    <li><a href="/industrial-disc-centrifuge-repair/">Disc Centrifuge Repair &amp; Rebuild</a></li>
+    <li><strong><a href="/diesel-fuel-purifier/">Diesel Fuel</a></strong></li>
+    <li><a href="/black-diesel-centrifuge/"><strong>Black Diesel</strong></a></li>
+    <li><strong><a href="/fuel-oil-centrifuge/">Intermediate and Heavy Fuel Oils (IFO, HFO)</a></strong></li>
+    <li><strong><a href="/waste-oil-centrifuge/">Waste Oil</a></strong></li>
+    <li><strong><a href="/machine-coolant-centrifuge/">Industrial Fluids &amp; Machining Coolants</a></strong></li>
+    <li><strong><a href="/lube-oil-centrifuge/">Lubricating Oils</a></strong>.</li>
   </ul>
 
-  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
-    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
-      What is the rated capacity of the Alfa Laval WHPX 513?
-      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
-    </summary>
-    <p class="text-text-light mt-2 pb-2">The WHPX 513 is rated at 72 GPM on diesel fuel (13 cSt viscosity). On lighter fluids throughput can exceed 90+ GPM. On heavier fluids like intermediate fuel oil, throughput is reduced proportionally to viscosity. The WHPX 513 is powered by a 15 HP motor with a 3.87-gallon sludge space.</p>
-  </details>
-  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
-    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
-      What is the difference between the WHPX 513 and the FOPX 613?
-      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
-    </summary>
-    <p class="text-text-light mt-2 pb-2">The WHPX 513 is a three-phase self-cleaning disc centrifuge suited for diesel, waste oil, and intermediate fuel oil. The FOPX 613 is a partial-discharge centrifuge specifically engineered for heavy fuel oil (HFO) processing at 380 cSt viscosity, rated at 30 GPM on bunker fuel. Choose the FOPX 613 when processing heavy bunker fuel with high wax content.</p>
-  </details>
-  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
-    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
-      Is the WHPX 513 available in explosion-proof configuration?
-      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
-    </summary>
-    <p class="text-text-light mt-2 pb-2">Yes. The WHPX 513 is available with explosion-proof (Class 1 Div 1 / ATEX Zone 1) motors and controls for installation in hazardous locations. Dolphin Centrifuge supplies explosion-proof WHPX 513 systems as complete skid packages with explosion-proof controls and wiring. Contact Dolphin Centrifuge for hazardous-area specifications.</p>
-  </details>
-  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
-    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
-      What Dolphin system uses the WHPX 513 centrifuge?
-      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
-    </summary>
-    <p class="text-text-light mt-2 pb-2">The Dolphin <a href="/centrifuges/dmpx-070/">DMPX-070</a> centrifuge module is built around the Alfa Laval WHPX 513 (or equivalent MOPX 213 / MAPX 313 / FOPX 613) centrifuge bowl. The DMPX-070 is a complete turnkey system rated at 59–72 GPM on diesel fuel, with full PLC controls, electric heaters, and piping.</p>
-  </details>
-  <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
-    <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
-      Can Dolphin Centrifuge repair or supply parts for the WHPX 513?
-      <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
-    </summary>
-    <p class="text-text-light mt-2 pb-2">Yes. Dolphin Centrifuge supplies genuine and compatible replacement parts for the WHPX 513, including disc stacks, seals, bearings, and discharge valve components. Complete bowl rebuilds and remanufactured WHPX 513 centrifuges are available. Each rebuilt unit is tested to factory specifications before shipment.</p>
-  </details>
+  <figure>
+    <img
+      src="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-600.webp"
+      alt="Alfa Laval WHPX513 Centrifuge Skid"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>Alfa Laval WHPX 513 Centrifuge System with Feed Pump, Sludge Tank</figcaption>
+  </figure>
 
-  <div class="bg-navy rounded-xl p-8 text-center mt-12 not-prose">
-    <h2 class="text-2xl font-bold text-white mb-3">Parts, Repairs &amp; Remanufactured WHPX 513</h2>
-    <p class="text-gray-300 mb-6 max-w-lg mx-auto">Contact Dolphin Centrifuge for pricing, availability, and application support. Sample testing available for qualifying applications.</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/80 text-navy font-bold px-8 py-3 rounded-lg transition-colors">Get a Quote</a>
-      <a href="/industrial-centrifuge-sample-testing/" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">Sample Testing</a>
-      <a href="tel:+12485222573" class="border border-white/30 hover:border-gold text-white font-semibold px-8 py-3 rounded-lg transition-colors">(248) 522-2573</a>
-    </div>
+  <h3 id="whpx-513-specifications">Specifications</h3>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <tbody>
+        <tr><td>Model Type</td><td>Alfa Laval WHPX 513 TGD 24-60</td></tr>
+        <tr><td>Rated Capacity</td><td>72 GPM on 13 cSt Diesel Fuel</td></tr>
+        <tr><td>Sludge Space</td><td>3.87 Gallons</td></tr>
+        <tr><td>Motor HP:</td><td>15 HP</td></tr>
+        <tr><td>Voltages:</td><td>230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="fopx-613">Alfa Laval FOPX 613 TFD Partial-Discharge Disc-Stack Centrifuge</h2>
+
+  <p>The Alfa Laval FOPX 613 Centrifuge is a self-cleaning disc-stack centrifuge specially built for the three-phase separation of fuel oils, such as <a href="/fuel-oil-centrifuge/">heavy fuel oil</a> (HFO). The <strong>FO </strong>in FOPX stands for <strong>F</strong>uel <strong>O</strong>il.</p>
+
+  <p>With a 15 HP Motor, the FOPX 613 centrifuge has a bowl RPM of 4,100 and can process 30 GPM of ISO 380 cSt Heavy Fuel Oil.</p>
+
+  <figure>
+    <img
+      src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX613-HFO-Centrifuge-System.webp"
+      alt="Heavy Fuel Oil Separator System - Alfa Laval"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>Alfa Laval FOPX 613 Centrifuge System with Feed Pump, Sludge Tank</figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="/images/alfa-laval-whpx-513/Alfa-Laval-FOPX-613-Centrifuge-400.webp"
+      alt="Alfa Laval FOPX-613 Centrifuge"
+      width="400"
+      height="400"
+      loading="lazy"
+      class="img-cap-400"
+    />
+    <figcaption>Alfa Laval FOPX-613 Class 1 Div 1 Explosion Proof Centrifuge</figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="/images/alfa-laval-whpx-513/Alfa-Laval-Explosion-Proof-Centrifuge-600-2.webp"
+      alt="Alfa Laval Explosion Proof Centrifuge"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>Alfa Laval FOPX-613 Explosion Proof Centrifuge</figcaption>
+  </figure>
+
+  <h3 id="fopx-613-specifications">Specifications</h3>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <tbody>
+        <tr><td>Model Type</td><td>Alfa Laval FOPX 613 TGD 24-60</td></tr>
+        <tr><td>Rated Capacity</td><td>30 GPM on 380 cSt Heavy Fuel oil (HFO)</td></tr>
+        <tr><td>Sludge Space</td><td>3.95 Gallons</td></tr>
+        <tr><td>Motor HP:</td><td>15 HP</td></tr>
+        <tr><td>Voltages:</td><td>230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="mopx-213">Alfa Laval MOPX 213 TGT Total-Discharge Disc-Stack Centrifuge</h2>
+
+  <p>The Alfa Laval MOPX 213 Centrifuge is a self-cleaning disc-stack centrifuge designed for the three-phase separation of <a href="/fuel-oil-centrifuge/">fuel oil</a>, <a href="/hydraulic-oil-centrifuge/">hydraulic oil</a>, <a href="/cutting-oil-centrifuge/">cutting oil</a>, and other mineral oil and fuel.</p>
+
+  <p>With a 15 HP Motor, the MOPX 213 centrifuge has a bowl RPM of 4,150 and can process 40 GPM of Used Engine Oil at 180 F.</p>
+
+  <figure>
+    <img
+      src="/images/alfa-laval-whpx-513/waste-motor-oil-centrifuge-system.webp"
+      alt="Waste Motor Oil Centrifuge System"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>Waste Motor Oil Centrifuge System. Includes clean oil tank, pumps, sludge handling system heater, and PLC controls.</figcaption>
+  </figure>
+
+  <h3 id="mopx-213-specifications">Specifications</h3>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <tbody>
+        <tr><td>Model Type</td><td>Alfa Laval MOPX 213 TGT 20-60</td></tr>
+        <tr><td>Rated Capacity</td><td>42 GPM on Used Motor Oil @ 180 F</td></tr>
+        <tr><td>Sludge Space</td><td>3.61 Gallons</td></tr>
+        <tr><td>Motor HP:</td><td>15 HP</td></tr>
+        <tr><td>Voltages:</td><td>230 / 460 V</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="WHPX-513-Gallery">Used (Re-Manufactured) Alfa Laval WHPX 513 Centrifuges Modules</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8 not-prose">
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
+        alt="Alfa Laval WHPX513 Centrifuge Skid"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>WVO</strong></figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/alfa-laval-centrifuge-crude-oil-tank-bottom-e1614020807901.webp"
+        alt="Alfa Laval Centrifuge for Crude Oil Tank Bottom"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Crude Tank Bottom</strong></figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/oilfield-centrifuge-crude-oil-e1614020863236.webp"
+        alt="Oilfield Centrifuge for Crude Oil Separation"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Crude Oilfield</strong></figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/Reconditioned-Alfa-Laval-MAPX313-Used-Oil-Centrifuge-e1614020926108.webp"
+        alt="Reconditioned-Alfa-Laval-MAPX313-Used-Oil-Centrifuge"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Used Oil</strong></figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/waste-motor-oil-centrifuge-system-e1614020990533.webp"
+        alt="Waste Motor Oil Centrifuge System"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Waste Motor Oil</strong></figcaption>
+    </figure>
+    <figure>
+      <img
+        src="/images/alfa-laval-whpx-513/refinery-waste-oil-centrifuge-e1614021036369.webp"
+        alt="Refinery Waste Oil Centrifuge"
+        width="250"
+        height="250"
+        loading="lazy"
+        class="img-cap-300"
+      />
+      <figcaption><strong>Refinery Slop Oil</strong></figcaption>
+    </figure>
   </div>
 
 </ApplicationLayout>
