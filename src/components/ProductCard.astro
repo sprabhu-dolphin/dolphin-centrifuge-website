@@ -1,13 +1,13 @@
 ---
 /**
- * ProductCard — Reusable product/model card with UNIFORM image sizing.
+ * ProductCard — Reusable product/model card with semantic image markup.
  *
- * STRUCTURAL RULE: All ProductCards in a grid row will have identical
- * image heights via aspect-ratio, eliminating jagged card layouts.
+ * STRUCTURAL RULE: All ProductCard images use figure/figcaption with
+ * img-cap-* classes. Width/height must match native image file dimensions.
  *
  * Usage:
  * <div class="grid grid-cols-1 md:grid-cols-3 gap-6 not-prose">
- *   <ProductCard title="Model X" href="/model-x/" image="/images/model-x.webp" imageAlt="..." :specs={specs} />
+ *   <ProductCard title="Model X" href="/model-x/" image="/images/model-x.webp" imageAlt="..." imageWidth={300} imageHeight={300} :specs={specs} />
  * </div>
  */
 
@@ -21,24 +21,30 @@ interface Props {
   href: string;
   image: string;
   imageAlt: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  caption?: string;
   specs?: Spec[];
 }
 
-const { title, href, image, imageAlt, specs = [] } = Astro.props;
+const { title, href, image, imageAlt, imageWidth, imageHeight, caption, specs = [] } = Astro.props;
 ---
 
 <div class="product-card border border-gray-200 rounded-xl overflow-hidden hover:shadow-md hover:border-gold transition-all bg-white">
-  {/* ── Image — fixed aspect ratio, ALWAYS uniform height ── */}
-  <a href={href} class="block">
-    <div class="aspect-square overflow-hidden bg-gray-50 p-3">
+  {/* ── Image — semantic figure/figcaption ── */}
+  <figure>
+    <a href={href} class="block">
       <img
         src={image}
         alt={imageAlt}
+        width={imageWidth}
+        height={imageHeight}
         loading="lazy"
-        class="w-full h-full object-contain"
+        class="img-cap-300"
       />
-    </div>
-  </a>
+    </a>
+    <figcaption>{caption || title}</figcaption>
+  </figure>
 
   {/* ── Content ── */}
   <div class="p-4">
@@ -60,3 +66,4 @@ const { title, href, image, imageAlt, specs = [] } = Astro.props;
     )}
   </div>
 </div>
+
