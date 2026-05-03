@@ -2,55 +2,8 @@
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const title = 'Disc Stack Centrifuge Installation | An Illustrated Step By Step Guide';
-const description = 'Disc stack centrifuge installation guide covering storage, 36-inch clearances, foundation, piping, utilities, venting, and tank placement for DMPX series.';
+const description = 'An illustrated, step-by-step guide detailing all aspects of an Alfa Laval disc stack centrifuge installation. From centrifuge location to utility connections.';
 const canonicalUrl = 'https://dolphincentrifuge.com/disc-stack-centrifuge-installation/';
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What clearances are required around a disc stack centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Disc stack centrifuges require a minimum of 36 inches clearance on the service side (for bowl removal) and 24 inches on other sides. Overhead clearance must accommodate bowl lift during service — typically 4–6 feet above the bowl top. Always consult the specific centrifuge model's installation manual for exact clearance requirements."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does a disc stack centrifuge require a special foundation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Most disc stack centrifuges can be installed on a standard reinforced concrete floor rated for the centrifuge weight plus dynamic loads. Anti-vibration mounts are recommended to isolate normal operating vibration from the building structure. Some larger models may require anchor bolts into the floor. The floor must be level to within 2mm across the centrifuge base frame."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What utilities does a disc stack centrifuge require?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A disc stack centrifuge typically requires: (1) Electrical power — 230/460 VAC three-phase for the main motor; (2) Operating water — clean water at 10–15 PSI for bowl ejection cycles; (3) Compressed air — 80–100 PSI for pneumatically operated valves (if equipped); (4) Steam or hot water for feed preheating (if heaters are not electric). Specific utilities depend on the model and configuration."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can a disc stack centrifuge be installed outdoors?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard disc stack centrifuges are not designed for outdoor installation — they require shelter from rain, direct sunlight, and freezing temperatures. For outdoor or remote applications, a weatherproof enclosure or containerized centrifuge system (ISO container) provides the necessary protection. Explosion-proof models can be specified for outdoor hazardous area locations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How high should the feed and discharge tanks be positioned relative to the centrifuge?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The feed tank should ideally be positioned above the centrifuge feed pump to provide positive suction head. The clean oil discharge tank should be at or below the centrifuge discharge level to avoid back pressure from static head. Sludge and water discharge lines should drain by gravity to collection tanks — avoid any upward runs that create back pressure on centrifuge discharge ports."
-      }
-    }
-  ]
-};
 
 const jsonLd = [
   {
@@ -68,7 +21,7 @@ const jsonLd = [
       }
     },
     "url": canonicalUrl,
-    "datePublished": "2021-03-01",
+    "datePublished": "2021-04-09",
     "publisher": {
       "@type": "Organization",
       "name": "Dolphin Centrifuge",
@@ -83,19 +36,59 @@ const jsonLd = [
       "@id": canonicalUrl
     },
     "image": "https://dolphincentrifuge.com/images/disc-stack-centrifuge-installation/Alfa-Laval-Centrifuge-Installation-Manual.webp"
-  },
-  faqJsonLd
+  }
 ];
 
 const toc = [
-  { id: 'storage-before-installation', label: 'Storage Before Installation' },
-  { id: 'physical-installation', label: 'Physical Installation' },
-  { id: 'indoor-and-outdoor-installations', label: 'Indoor and Outdoor Installations' },
-  { id: 'centrifuge-location-in-relation-to-accessory-tanks', label: 'Centrifuge Location & Accessory Tanks' },
-  { id: 'location-of-electrical-control-system', label: 'Location of Electrical Control System' },
-  { id: 'piping', label: 'Piping' },
-  { id: 'utilities', label: 'Utilities' },
-  { id: 'venting', label: 'Venting' },
+  { id: 'storage-before-installation', label: 'Storage Before Installation', children: [
+    { id: 'location', label: 'Location' },
+    { id: 'storage-temperature', label: 'Storage Temperature' },
+  ]},
+  { id: 'physical-installation', label: 'Physical Installation', children: [
+    { id: 'placement', label: 'Placement' },
+    { id: 'clearances', label: 'Clearances', children: [
+      { id: 'overhead', label: 'Overhead' },
+      { id: 'side-access', label: 'Side Access' },
+    ]},
+    { id: 'foundation-and-anchoring', label: 'Foundation & Anchoring' },
+    { id: 'elevated-platform-installation', label: 'Elevated Platform Installation', children: [
+      { id: 'platform-design', label: 'Platform Design' },
+      { id: 'service-access-provision', label: 'Service Access Provision (Catwalk)' },
+    ]},
+  ]},
+  { id: 'indoor-and-outdoor-installations', label: 'Indoor and Outdoor Installations', children: [
+    { id: 'indoor-installation', label: 'Indoor Installation' },
+    { id: 'outdoor-installation', label: 'Outdoor Installation' },
+  ]},
+  { id: 'centrifuge-location-in-relation-to-accessory-tanks', label: 'Centrifuge Location In Relation To Accessory Tanks', children: [
+    { id: 'supply-feed-tank-and-pump', label: 'Supply (Feed) Tank & Pump' },
+    { id: 'processed-clean-fluid-tank', label: 'Processed (Clean) Fluid Tank' },
+    { id: 'sludge-tank', label: 'Sludge Tank' },
+  ]},
+  { id: 'location-of-electrical-control-system', label: 'Location of Electrical Control System', children: [
+    { id: 'ambient-temperature', label: 'Ambient Temperature' },
+    { id: 'proximity-to-heat-source', label: 'Proximity to Heat Source' },
+    { id: 'controls-placement', label: 'Placement' },
+  ]},
+  { id: 'piping', label: 'Piping', children: [
+    { id: 'process-fluid-pipe-size', label: 'Process Fluid Pipe Size' },
+    { id: 'heat-tracing-and-pipe-insulation', label: 'Heat Tracing and Pipe Insulation' },
+    { id: 'operating-water-pipe', label: 'Operating Water Pipe' },
+    { id: 'sludge-pipe', label: 'Sludge Pipe' },
+    { id: 'air-pipe', label: 'Air Pipe (Tube)' },
+  ]},
+  { id: 'utilities', label: 'Utilities', children: [
+    { id: 'power', label: 'Power' },
+    { id: 'water', label: 'Water' },
+    { id: 'compressed-air', label: 'Compressed Air' },
+    { id: 'inert-gas', label: 'Inert Gas' },
+    { id: 'water-drain', label: 'Water Drain' },
+  ]},
+  { id: 'venting', label: 'Venting', children: [
+    { id: 'sludge-tank-vent', label: 'Sludge Tank Vent' },
+    { id: 'centrifuge-casing-vent', label: 'Centrifuge Casing Vent' },
+    { id: 'installation-area-vent', label: 'Installation Area Vent' },
+  ]},
   { id: 'summary', label: 'Summary' },
 ];
 
@@ -126,12 +119,8 @@ const relatedProducts = [
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
   jsonLd={jsonLd}
+  disableTitleSuffix={true}
 >
-
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge provides disc stack centrifuge installation guidance for all DMPX series systems. Proper installation — including 36-inch minimum service-side clearance, level concrete foundation, and correctly sized piping — prevents most common operational issues. Over 40 years of centrifuge installation experience.</p>
-  </div>
 
   <!-- Introduction -->
   <p class="text-lg text-text leading-relaxed mb-4">
@@ -159,9 +148,9 @@ const relatedProducts = [
       width="286"
       height="418"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-300"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Disc Stack Centrifuge - Outdoor Storage</figcaption>
+    <figcaption>Disc Stack Centrifuge - Outdoor Storage</figcaption>
   </figure>
 
   <p>
@@ -197,9 +186,9 @@ const relatedProducts = [
       width="273"
       height="350"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-300"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Alfa Laval Centrifuge - Vertical Clearance</figcaption>
+    <figcaption>Alfa Laval Centrifuge - Vertical Clearance</figcaption>
   </figure>
   <p>
     The disc stack centrifuge has a vertical orientation. The centrifuge bowl extraction occurs through the top of the centrifuge. A mechanical assist device such as a hoist or a crane is the preferred extraction mode.
@@ -216,12 +205,12 @@ const relatedProducts = [
       width="375"
       height="240"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-400"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Alfa Laval Centrifuge - Horizontal Clearance</figcaption>
+    <figcaption>Alfa Laval Centrifuge - Horizontal Clearance</figcaption>
   </figure>
   <p>
-    The main drive motor on a disc stack centrifuge has a horizontal orientation. Therefore adequate clearance behind the motor is essential for the extraction for the repair or replacement of the centrifuge motor. See the reference horizontal clearance diagram above.
+    The main drive motor on a disc stack centrifuge has a horizontal orientation. Therefore adequate clearance behind the motor is essential for the extraction for the repair or replacement of the centrifuge motor.&nbsp; See reference horizontal clearance diagram above.
   </p>
 
   <h3 id="foundation-and-anchoring">Foundation &amp; Anchoring</h3>
@@ -241,11 +230,10 @@ const relatedProducts = [
   <p>
     A qualified structural engineer needs to design the centrifuge elevation platform. The static and dynamic loads of the centrifuge are vital inputs in the design calculations. The designer should also consider the platform's resonant frequency with the centrifuge's natural frequencies.
   </p>
-  <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg my-6">
-    <p class="text-red-800 font-semibold italic">
-      Platforms designed without proper considerations mentioned above can lead to catastrophic structural failure and personal injury.
-    </p>
-  </div>
+
+  <hr class="my-6" />
+  <p><strong><em>Platforms designed without proper considerations mentioned above can lead to catastrophic structural failure and personal injury.</em></strong></p>
+  <hr class="my-6" />
 
   <h4 id="service-access-provision">Service Access Provision (Catwalk)</h4>
   <p>
@@ -260,7 +248,7 @@ const relatedProducts = [
     Most centrifuge installations are indoors or within some structural enclosure, such as a building. These types of climate-controlled locations are ideal for reliable and long-term centrifuge performance.
   </p>
   <p>
-    The constant temperature within buildings helps with the trouble-free operation of the centrifuge. This reliability is mainly because wide temperature fluctuations can cause the electrical and mechanical components to malfunction.
+    The constant temperature within buildings helps with the trouble-free operation of the centrifuge. This reliability is mainly because wide temperature fluctuations can the electrical and mechanical components to malfunction.
   </p>
   <p>
     Indoor installations also protect the centrifuge system from natural elements such as rain, snow, dust, etc.
@@ -278,51 +266,26 @@ const relatedProducts = [
       width="600"
       height="338"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-600"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Alfa Laval Centrifuge Outdoor Installation - Guam</figcaption>
+    <figcaption>Alfa Laval Centrifuge Outdoor Installation - Guam</figcaption>
   </figure>
 
   <p>
     At a minimum, an overhead canopy or roof over the centrifuge is highly recommended as shown in the image above.
   </p>
 
-  <!-- Related Articles Callout -->
-  <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 my-6">
-    <h4 class="text-lg font-bold text-navy mb-3">Other Disc-Centrifuge Articles of Interest</h4>
-    <ul class="space-y-2">
-      <li>
-        <a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold transition font-medium">
-          Disc Centrifuge Backpressure - Comprehensive Guide
-        </a>
-      </li>
-      <li>
-        <a href="/picking-the-right-industrial-centrifuge/" class="text-navy hover:text-gold transition font-medium">
-          9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge
-        </a>
-      </li>
-      <li>
-        <a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy hover:text-gold transition font-medium">
-          Centrifuge RCF and RPM | Difference &amp; RCF Calculation
-        </a>
-      </li>
-      <li>
-        <a href="/disadvantages-disc-stack-centrifuge/" class="text-navy hover:text-gold transition font-medium">
-          Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide
-        </a>
-      </li>
-      <li>
-        <a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy hover:text-gold transition font-medium">
-          Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison
-        </a>
-      </li>
-    </ul>
+  <!-- Legacy FAQ Callout (from wp:block ref:10661) -->
+  <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6 mb-2">
+    <p class="text-text font-semibold">
+      Read our <a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition underline">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
+    </p>
   </div>
 
   <!-- Centrifuge Location In Relation To Accessory Tanks -->
   <h2 id="centrifuge-location-in-relation-to-accessory-tanks">Centrifuge Location In Relation To Accessory Tanks</h2>
   <p>
-    A disc stack centrifuge typically has a supply or feed tank that contains the contaminated fluid, and it also has a clean (separated) fluid receptacle or discharge tank. The centrifuge sucks the dirty fluid from the feed tank and discharges the clean fluid to the discharge tank. The following are points to consider for the location of these tanks.
+    A disc stack centrifuge typically has a supply or feed tank that contains the contaminated fluid, and It also has a clean (separated) fluid receptacle or discharge tank. The centrifuge sucks the dirty fluid from the feed tank and discharges the clean fluid to the discharge tank. The following are points to consider for the location of these tanks.
   </p>
 
   <h3 id="supply-feed-tank-and-pump">Supply (Feed) Tank &amp; Pump</h3>
@@ -340,9 +303,9 @@ const relatedProducts = [
       width="750"
       height="200"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-800"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Disc Centrifuge Feed and Discharge Tank Locations</figcaption>
+    <figcaption>Disc Centrifuge Feed and Discharge Tank Locations</figcaption>
   </figure>
 
   <h3 id="processed-clean-fluid-tank">Processed (Clean) Fluid Tank</h3>
@@ -360,13 +323,6 @@ const relatedProducts = [
   <p>
     If a sludge tank needs to be provided, the tank's ideal position is directly below the centrifuge skid. The sludge can fall directly into the tank in this configuration.
   </p>
-
-  <!-- FAQ Callout -->
-  <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6 mb-2">
-    <p class="text-text font-semibold">
-      Read our <a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition underline">101 Frequently Asked Questions about Disc Stack Centrifuges!</a>
-    </p>
-  </div>
 
   <!-- Location of Electrical Control System -->
   <h2 id="location-of-electrical-control-system">Location of Electrical Control System</h2>
@@ -387,9 +343,9 @@ const relatedProducts = [
       width="590"
       height="200"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-600"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Disc Centrifuge Controls Location</figcaption>
+    <figcaption>Disc Centrifuge Controls Location</figcaption>
   </figure>
   <p>
     As mentioned earlier, the centrifuge control panel should not be close to any external heat source, such as electric heaters. The indirect heat from these sources can overheat the control system causing system malfunction.
@@ -435,9 +391,9 @@ const relatedProducts = [
       width="500"
       height="202"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-500"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Disc Stack Centrifuge - Sludge Tank Pipe</figcaption>
+    <figcaption>Disc Stack Centrifuge - Sludge Tank Pipe</figcaption>
   </figure>
   <p>
     The sludge pipe conveys the separated sludge into the sludge tank. The centrifuge discharges the sludge accompanied by a pressure pulse. The sludge pipe must have a constant size (diameter) without any reducers or bends.
@@ -483,9 +439,9 @@ const relatedProducts = [
       width="600"
       height="148"
       loading="lazy"
-      class="rounded-lg w-full"
+      class="img-cap-600"
     />
-    <figcaption class="text-sm text-gray-600 mt-2 text-center font-medium">Disc Centrifuge Operating Water System</figcaption>
+    <figcaption>Disc Centrifuge Operating Water System</figcaption>
   </figure>
 
   <p>
@@ -500,7 +456,7 @@ const relatedProducts = [
 
   <h3 id="compressed-air">Compressed Air</h3>
   <p>
-    The 3-way diverter valve uses compressed air to divert the incoming fluid flow to the centrifuge or the recirculating line. The sludge pump (if included on the skid) also uses compressed air for its operation. The supply of dry, filtered air is key to the trouble-free operation of these devices.
+    The 3-way diverter valve used compressed air to divert the incoming fluid flow to the centrifuge or the recirculating line. The sludge pump (if included on the skid) also uses compressed air for its operation. The supply of dry, filtered air is key to the trouble-free operation of these devices.
   </p>
 
   <h3 id="inert-gas">Inert Gas</h3>
@@ -560,71 +516,5 @@ const relatedProducts = [
   <p>
     The end-user centrifuge installation plan should consider these specifications to ensure ease of centrifuge startup and continued operation.
   </p>
-
-  <!-- Author -->
-  <p class="text-text italic mt-8 mb-1">by Sanjay Prabhu MSME</p>
-  <p class="text-text italic mb-8">Engineering Manager, Dolphin Centrifuge</p>
-
-  <!-- Mid-page CTA -->
-  <blockquote class="border-l-4 border-gold bg-gold/10 rounded-r-xl p-5 my-8 not-prose">
-    <p class="text-navy font-semibold text-lg mb-1">Need help planning your centrifuge installation?</p>
-    <p class="text-text mb-4">Dolphin Centrifuge engineers can review your facility layout, tank placement, and utility requirements before you break ground — avoiding costly rework during startup.</p>
-    <div class="flex flex-wrap gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors">Request an Installation Review</a>
-      <a href="/disc-stack-centrifuge-operating-water/" class="inline-block border-2 border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Operating Water Guide</a>
-    </div>
-  </blockquote>
-
-  <!-- FAQ Section -->
-  <h2 class="text-2xl font-bold text-navy mb-6 mt-10">Frequently Asked Questions</h2>
-  <div class="space-y-3 not-prose">
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-      <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-        What clearances are required around a disc stack centrifuge?
-        <span class="text-gold ml-2">+</span>
-      </summary>
-      <p class="px-5 pb-4 text-text text-sm leading-relaxed">Disc stack centrifuges require a minimum of 36 inches clearance on the service side (for bowl removal) and 24 inches on other sides. Overhead clearance must accommodate bowl lift during service — typically 4–6 feet above the bowl top. Always consult the specific centrifuge model's installation manual for exact clearance requirements.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-      <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-        Does a disc stack centrifuge require a special foundation?
-        <span class="text-gold ml-2">+</span>
-      </summary>
-      <p class="px-5 pb-4 text-text text-sm leading-relaxed">Most disc stack centrifuges can be installed on a standard reinforced concrete floor rated for the centrifuge weight plus dynamic loads. Anti-vibration mounts are recommended to isolate normal operating vibration from the building structure. Some larger models may require anchor bolts into the floor. The floor must be level to within 2mm across the centrifuge base frame.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-      <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-        What utilities does a disc stack centrifuge require?
-        <span class="text-gold ml-2">+</span>
-      </summary>
-      <p class="px-5 pb-4 text-text text-sm leading-relaxed">A disc stack centrifuge typically requires: (1) Electrical power — 230/460 VAC three-phase for the main motor; (2) Operating water — clean water at 10–15 PSI for bowl ejection cycles; (3) Compressed air — 80–100 PSI for pneumatically operated valves (if equipped); (4) Steam or hot water for feed preheating (if heaters are not electric).</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-      <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-        Can a disc stack centrifuge be installed outdoors?
-        <span class="text-gold ml-2">+</span>
-      </summary>
-      <p class="px-5 pb-4 text-text text-sm leading-relaxed">Standard disc stack centrifuges are not designed for outdoor installation — they require shelter from rain, direct sunlight, and freezing temperatures. For outdoor or remote applications, a weatherproof enclosure or containerized centrifuge system (ISO container) provides the necessary protection. Explosion-proof models can be specified for outdoor hazardous area locations.</p>
-    </details>
-    <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-      <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-        How should feed and discharge tanks be positioned relative to the centrifuge?
-        <span class="text-gold ml-2">+</span>
-      </summary>
-      <p class="px-5 pb-4 text-text text-sm leading-relaxed">The feed tank should ideally be positioned above the centrifuge feed pump to provide positive suction head. The clean oil discharge tank should be at or below the centrifuge discharge level to avoid back pressure from static head. Sludge and water discharge lines should drain by gravity to collection tanks — avoid any upward runs that create back pressure on centrifuge discharge ports.</p>
-    </details>
-  </div>
-
-  <!-- Bottom CTA -->
-  <div class="bg-navy rounded-xl p-8 my-10 text-center not-prose">
-    <h2 class="text-2xl font-bold text-white mb-3">Ready to Install a Dolphin Centrifuge?</h2>
-    <p class="text-white/80 mb-6 max-w-xl mx-auto">Our engineering team provides installation guidance, commissioning support, and operator training for all DMPX series disc stack centrifuges.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-bold px-7 py-3 rounded-lg hover:bg-gold/90 transition-colors">Contact an Engineer</a>
-      <a href="/disc-stack-centrifuge/" class="inline-block border-2 border-white text-white font-semibold px-7 py-3 rounded-lg hover:bg-white/10 transition-colors">Disc Stack Centrifuge Overview</a>
-    </div>
-  </div>
-
-  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
 </ApplicationLayout>
