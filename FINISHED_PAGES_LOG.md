@@ -32,3 +32,4 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `alfa-laval-mab-104-centrifuge` | 2026-04-30 | `5baee0e` | ApplicationLayout | ✅ DONE |
 | `disc-stack-centrifuge-installation` | 2026-05-03 | `5364a22` | ApplicationLayout | ✅ DONE |
 | `hydraulic-oil-centrifuge` | 2026-05-04 | `e9558ff` | ApplicationLayout | ✅ DONE |
+| `alfa-laval-industrial-centrifuges` | 2026-05-04 | `c0a96fb` | ApplicationLayout | ? DONE |
