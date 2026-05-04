@@ -13,6 +13,17 @@ Before editing a page, read:
 
 Use `LW.xml` and the matching legacy page content as the source of truth.
 
+## Rule Cascade
+
+Use this file as the short operating checklist.
+
+When deciding a page issue:
+1. Sanjay's current page-specific instruction wins.
+2. SEO/title/meta/schema/canonical/TOC/CTA rules come from `SEO-AND-STANDARDS.md`.
+3. Body text, tables, FAQ authenticity, and AI-added content rules come from `LEGACY-BODY-FIDELITY.md`.
+4. Visual layout, image captions, `img-cap-*` sizing, page-context alt text, and contrast rules come from `PAGE_APPEARANCE_LOOK.md`.
+5. If two files appear to conflict, stop and ask Sanjay instead of guessing.
+
 ## Work Scope
 
 - Work on one slug and one `src/pages/<slug>.astro` page at a time.
