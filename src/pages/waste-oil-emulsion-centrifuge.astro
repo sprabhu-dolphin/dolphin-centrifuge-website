@@ -1,15 +1,22 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const productJsonLd = {
+const articleJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Waste Oil Emulsion Centrifuge System",
-  "url": "https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/",
+  "@type": "BlogPosting",
+  "headline": "Waste Oil Emulsion Breaking with an Industrial Centrifuge",
   "description": "Emulsion breaking with an industrial centrifuge! Possible? With a high g-force, a disc stack centrifuge can break oil-water emulsion by mechanical separation.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "category": "Industrial Centrifuges",
+  "url": "https://dolphincentrifuge.com/waste-oil-emulsion-centrifuge/",
+  "datePublished": "2021-05-10T16:41:00-04:00",
+  "dateModified": "2022-08-06T15:02:07-04:00",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://dolphincentrifuge.com/images/waste-oil-emulsion-centrifuge/Alfa-Laval-Waste-Oil-Centrifuge-P-615.webp"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu"
+  }
 };
 
 const videoJsonLd = {
@@ -26,15 +33,23 @@ const videoJsonLd = {
   "isFamilyFriendly": true
 };
 
-const jsonLd = [productJsonLd, videoJsonLd];
+const jsonLd = [articleJsonLd, videoJsonLd];
 
 const toc = [
   { id: 'synopsis', label: 'Synopsis' },
   { id: 'what-is-an-emulsion', label: 'What is an emulsion?' },
-  { id: 'types-of-oil-water-emulsions', label: 'Types of Oil-Water Emulsions' },
+  { id: 'types-of-oil-water-emulsions', label: 'Types of Oil-Water Emulsions', subItems: [
+    { id: 'oil-in-water-emulsion', label: 'Oil in Water (O/W) emulsion' },
+    { id: 'water-in-oil-emulsion', label: 'Water in Oil (W/O) emulsion' },
+  ]},
   { id: 'what-causes-emulsion-in-waste-oil', label: 'What causes emulsion in waste oil?' },
-  { id: 'methods-of-splitting-water-in-oil-emulsions', label: 'Methods of splitting water in oil emulsions' },
-  { id: 'pilot-scale-disc-stack-centrifuge-test', label: 'Pilot-scale disc-stack centrifuge test' },
+  { id: 'methods-of-splitting-water-in-oil-emulsions', label: 'Methods of splitting water in oil emulsions', subItems: [
+    { id: 'what-are-coalescence-and-flocculation', label: 'What are coalescence and flocculation?' },
+    { id: 'flocculation-and-coalescence-illustration', label: 'Flocculation and Coalescence Illustration' },
+  ]},
+  { id: 'pilot-scale-disc-stack-centrifuge-test', label: 'Pilot-scale disc-stack centrifuge test', subItems: [
+    { id: 'disc-stack-waste-oil-centrifuge', label: 'Disc Stack Waste Oil Centrifuge' },
+  ]},
   { id: 'how-does-a-disc-stack-centrifuge-separate-emulsified-water-from-oil', label: 'How does a disc stack centrifuge separate emulsified water from oil?' },
   { id: 'case-study-of-centrifuge-on-emulsified-waste-oil', label: 'Case study of centrifuge on emulsified waste oil' },
   { id: 'results-of-centrifuge-treatment-of-emulsified-oil', label: 'Results of centrifuge treatment of emulsified oil' },
@@ -48,14 +63,13 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMPX-014 Self-Cleaning System', href: '/centrifuges/dmpx-014/', description: '~13 GPM on waste oil at 200°F' },
-  { label: 'DMPX-028 Self-Cleaning System', href: '/centrifuges/dmpx-028/', description: '~20 GPM on waste oil at 200°F' },
-  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: '~32 GPM on waste oil at 200°F' },
+  { label: 'DMPX-014 Self-Cleaning System', href: '/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/', description: '~13 GPM on waste oil at 200°F' },
 ];
 ---
 
 <ApplicationLayout
   title="Waste Oil Emulsion Breaking with an Industrial Centrifuge"
+  disableTitleSuffix={true}
   description="Emulsion breaking with an industrial centrifuge! Possible? With a high g-force, a disc stack centrifuge can break oil-water emulsion by mechanical separation."
   category="applications"
   categoryLabel="Applications"
@@ -96,11 +110,11 @@ const relatedProducts = [
     <figcaption>Types of Oil-Water Emulsions</figcaption>
   </figure>
 
-  <h3>Oil in Water (O/W) emulsion</h3>
+  <h3 id="oil-in-water-emulsion">Oil in Water (O/W) emulsion</h3>
 
   <p>The dispersion of a small amount of oil in a large volume of water is known as oil in water emulsion (O/W). Water-based machining coolant is an example of an O/W emulsion. In this case, the coolant disperses oil droplets in a water medium. This emulsion is desirable because it provides lubrication from the oil and cooling from the water phase.</p>
 
-  <h3>Water in Oil (W/O) emulsion</h3>
+  <h3 id="water-in-oil-emulsion">Water in Oil (W/O) emulsion</h3>
 
   <p>The dispersal of a small amount of water in a large quantity of oil is known as water in oil emulsion (W/O). Waste oil emulsion is an example of a W/O emulsion. W/O has water as the dispersed medium in the oil. This emulsion is undesirable because it has reduced value as fuel or lubricant feedstock.</p>
 
@@ -120,11 +134,11 @@ const relatedProducts = [
 
   <p>Chemical demulsifiers break the chemical bonds to help split emulsions. However, on a larger scale, the cost of chemicals adds up.</p>
 
-  <h3>What are coalescence and flocculation?</h3>
+  <h3 id="what-are-coalescence-and-flocculation">What are coalescence and flocculation?</h3>
 
   <p>The process of combining small water droplets into larger, separable droplets is coalescence. The aggregation of micro-suspended solid particles is flocculation.</p>
 
-  <h3>Flocculation and Coalescence Illustration</h3>
+  <h3 id="flocculation-and-coalescence-illustration">Flocculation and Coalescence Illustration</h3>
 
   <p>The diagram below shows a magnified section of an industrial centrifuge bowl. The following section describes the separation process in detail.</p>
 
@@ -143,7 +157,7 @@ const relatedProducts = [
   <!-- ── Pilot-scale disc-stack centrifuge test ── -->
   <h2 id="pilot-scale-disc-stack-centrifuge-test">Pilot-scale disc-stack centrifuge test</h2>
 
-  <h2 id="disc-stack-waste-oil-centrifuge">Disc Stack Waste <a href="/oil-centrifuge/">Oil Centrifuge</a></h2>
+  <h3 id="disc-stack-waste-oil-centrifuge">Disc Stack Waste <a href="/oil-centrifuge/">Oil Centrifuge</a></h3>
 
   <p>A disc stack centrifuge has enough g-force to separate the particles from the emulsified oil to break the globules mechanically. The flocculation of the small sediment holding the emulsion through the centrifugal force helps break down the emulsion.</p>
 
@@ -256,7 +270,7 @@ const relatedProducts = [
         <td>Temp. Var. 2</td>
         <td>200 F</td>
         <td>12 GPM</td>
-        <td colspan="4" class="text-center italic text-gray-500">Feed Ratio Constant</td>
+        <td rowspan="3" colspan="4" class="text-center italic text-gray-500">Feed Ratio Constant</td>
         <td>96.4%</td>
         <td>3.00%</td>
         <td>0.50%</td>
@@ -267,7 +281,6 @@ const relatedProducts = [
         <td>Flow Var. 1</td>
         <td>140 F</td>
         <td>6 GPM</td>
-        <td colspan="4" class="text-center italic text-gray-500">Feed Ratio Constant</td>
         <td>95.9%</td>
         <td>2.70%</td>
         <td>0.60%</td>
@@ -278,7 +291,6 @@ const relatedProducts = [
         <td>Flow &amp; Temp. Var.</td>
         <td>200 F</td>
         <td>6 GPM</td>
-        <td colspan="4" class="text-center italic text-gray-500">Feed Ratio Constant</td>
         <td>98.7%</td>
         <td>0.90%</td>
         <td>0.35%</td>
@@ -310,9 +322,7 @@ const relatedProducts = [
         <th>Gal/Day</th>
         <th>% Recovery</th>
         <th>Gal/Day</th>
-        <th>Gallons</th>
-        <th></th>
-        <th></th>
+        <th colspan="3">Gallons</th>
       </tr>
     </thead>
     <tbody>
