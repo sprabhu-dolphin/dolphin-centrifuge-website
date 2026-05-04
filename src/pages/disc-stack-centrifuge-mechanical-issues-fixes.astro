@@ -25,16 +25,62 @@ const jsonLd = {
 
 const toc = [
   { id: "synopsis", label: "Synopsis" },
-  { id: "excessive-vibration", label: "Centrifuge Excessive Vibration" },
-  { id: "unusual-smell", label: "Unusual Smell" },
-  { id: "excessive-noise", label: "Excessive Noise" },
-  { id: "low-operating-speed", label: "Low Operating Speed" },
-  { id: "high-current", label: "High Current on Startup" },
-  { id: "low-current", label: "Low Current on Startup" },
+  { id: "excessive-vibration", label: "Centrifuge Excessive Vibration", subItems: [
+    { id: "bowl-out-of-balance", label: "Bowl Out of Balance", subItems: [
+      { id: "incorrect-bowl-assembly", label: "Incorrect Bowl Assembly" },
+    ]},
+    { id: "uneven-sludge-distribution", label: "Uneven Sludge Distribution" },
+    { id: "incorrect-paring-disc-height", label: "Incorrect Light-Phase Paring Disc Height" },
+    { id: "bowl-spindle-wobble", label: "Bowl Spindle Wobble (Runout)" },
+    { id: "bearing-worn-or-damaged", label: "Bearing Worn Out or Damaged" },
+    { id: "vibration-dampers-worn", label: "Vibration Dampers are Worn" },
+    { id: "spindle-springs-damaged", label: "Spindle Bearing Support Springs Damaged" },
+  ]},
+  { id: "unusual-smell", label: "Unusual Smell", subItems: [
+    { id: "normal-startup-friction", label: "Normal Startup Friction" },
+    { id: "smell-brake-engaged", label: "Brake is Engaged" },
+    { id: "smell-gear-oil-low", label: "Gear Oil Level Too Low" },
+  ]},
+  { id: "excessive-noise", label: "Excessive Noise", subItems: [
+    { id: "noise-gear-oil-low", label: "Gear Oil Level Too Low" },
+    { id: "paring-disc-height", label: "Paring Disc Height" },
+    { id: "transmission-gears-worn", label: "Transmission Gears Worn Out" },
+    { id: "worn-or-damaged-bearing", label: "Worn or Damaged Bearing" },
+    { id: "coupling-pulley-elastic-plate", label: "Coupling Pulley Pressing Elastic Plate" },
+  ]},
+  { id: "low-operating-speed", label: "Low Operating Speed", subItems: [
+    { id: "speed-brake-engaged", label: "Brake is Engaged" },
+    { id: "friction-pads-oil-worn", label: "Friction Pads are Oil Coated or Worn" },
+    { id: "bowl-is-leaking", label: "Bowl is Leaking" },
+    { id: "speed-motor-faulty", label: "Motor is Faulty" },
+    { id: "speed-bearings-damaged", label: "Bearings Damaged or Worn Out" },
+    { id: "incorrect-transmission-gears", label: "Incorrect Transmission Gears" },
+    { id: "speed-incorrect-friction-blocks", label: "Incorrect Friction Blocks" },
+  ]},
+  { id: "high-current", label: "High Current on Startup", subItems: [
+    { id: "high-current-friction-blocks", label: "Incorrect Friction Blocks" },
+    { id: "rotation-direction-incorrect", label: "Rotation Direction Incorrect" },
+    { id: "high-current-brake-engaged", label: "Brake is Engaged" },
+  ]},
+  { id: "low-current", label: "Low Current on Startup", subItems: [
+    { id: "low-current-friction-blocks", label: "Incorrect Friction Blocks" },
+    { id: "low-current-friction-pads", label: "Friction Pads are Oil Coated or Worn" },
+    { id: "low-current-motor-faulty", label: "Motor is Faulty" },
+  ]},
   { id: "long-starting-time", label: "Long Starting Time" },
-  { id: "long-stoppage-time", label: "Long Stoppage Time" },
-  { id: "water-in-housing", label: "Water in Transmission Housing" },
-  { id: "oil-leaking", label: "Oil Leaking from Transmission Housing" },
+  { id: "long-stoppage-time", label: "Long Stoppage Time", subItems: [
+    { id: "brake-pad-oil-worn", label: "Brake Pad is Oil Coated or Worn" },
+  ]},
+  { id: "water-in-housing", label: "Water in Transmission Housing", subItems: [
+    { id: "casing-drain-blocked", label: "Casing Drain is Blocked" },
+    { id: "top-bearing-seal-leaking", label: "Top Bearing Seal Leaking" },
+    { id: "water-condensation", label: "Water Condensation" },
+  ]},
+  { id: "oil-leaking", label: "Oil Leaking from Transmission Housing", subItems: [
+    { id: "bottom-bushing-seal-damage", label: "Bottom Bushing Seal Damage" },
+    { id: "bottom-bushing-loose", label: "Bottom Bushing Loose" },
+    { id: "too-much-oil-gearbox", label: "Too Much Oil in Gearbox" },
+  ]},
   { id: "summary", label: "Summary" },
 ];
 
@@ -84,35 +130,35 @@ const allJsonLd = [jsonLd];
 
   <p>The following is a list of typical causes of excessive vibration levels in a disc-stack centrifuge. We explain each reason separately with a suitable remedy to alleviate the vibration. We have a detailed article about <a href="/disc-stack-centrifuge-vibration/">disc-stack centrifuge bowl vibration</a> in our blogs.</p>
 
-  <h3>Bowl Out of Balance</h3>
+  <h3 id="bowl-out-of-balance">Bowl Out of Balance</h3>
 
   <p>A disc centrifuge vibrates primarily due to the bowl being out of balance. Uneven sludge distribution and incorrect assembly are causes of an unbalanced bowl. At the operating speed of over 5,000 RPM, this unbalance leads to the centrifuge bowl's excessive vibration and, therefore, the centrifuge itself.</p>
 
   <p>The following table lists the leading causes of bowl imbalance with individual fixes.</p>
 
-  <h4>Incorrect Bowl Assembly</h4>
+  <h4 id="incorrect-bowl-assembly">Incorrect Bowl Assembly</h4>
 
   <p><strong>- Bowl Parts Misaligned:</strong> Disassemble centrifuge bowl and check assembly. It is quite common to see misaligned interior bowl parts before bowl tightening.<br><strong>- Not Enough Bowl Discs:</strong> Count the number of bowl discs per Parts Catalog. An incorrect number of discs leads to a loose bowl assembly that causes vibration.<br><strong>- Mismatched Bowl Parts: </strong>Check the bowl serial number of matching parts. There are multiple centrifuges of the same type, and accidental interchange of bowl parts between the centrifuge in locations where there are numerous centrifuges occurs. Since each bowl assembly part is individually balanced, these mismatched parts cause the bowl to vibrate.</p>
 
-  <h3>Uneven Sludge Distribution</h3>
+  <h3 id="uneven-sludge-distribution">Uneven Sludge Distribution</h3>
 
   <p>If the sludge is sticky or clumps up, the sludge can build up within the bowl unevenly. This non-uniform sludge distribution causes an imbalance in the bowl leading to vibrations.</p>
 
   <p>The operator needs to open and clean the bowl to get the bowl back in balance.</p>
 
-  <h3>Incorrect Light-Phase Paring Disc Height</h3>
+  <h3 id="incorrect-paring-disc-height">Incorrect Light-Phase Paring Disc Height</h3>
 
   <p>The top chamber of the top disc houses the oil-paring disc. The incorrect height of the paring disc causes the top disc to contact the paring disc. This contact can be intermittent, which leads to the vibration of the entire bowl assembly.</p>
 
   <p>Dismantling the bowl and checking the paring disc height shown in the operation manual is the corrective action needed to remedy this cause of vibration.</p>
 
-  <h3>Bowl Spindle Wobble (Runout)</h3>
+  <h3 id="bowl-spindle-wobble">Bowl Spindle Wobble (Runout)</h3>
 
   <figure>
     <img
       src="/images/disc-stack-centrifuge-mechanical-issues-fixes/Disc_Centrifuge_Bowl_Spindle_Wobble_Check.webp"
       alt="Disc Centrifuge Spindle Wobble"
-      width="1832" height="858"
+      width="600" height="281"
       loading="lazy"
       class="img-cap-600"
     />
@@ -123,13 +169,13 @@ const allJsonLd = [jsonLd];
 
   <p>If the spindle wobble exceeds the specified tolerance, it is necessary to replace the spindle to fix this cause of vibration.</p>
 
-  <h3>Bearing Worn Out or Damaged</h3>
+  <h3 id="bearing-worn-or-damaged">Bearing Worn Out or Damaged</h3>
 
   <p>Precision, high-speed bearings facilitate the bowl's rotation at operating RPM with a heavy, dynamic load. Foreign metallic impurities in the lubricating oil and general wear cause bearings to lose their efficiency over time. A worn-out bearing causes the spindle to move laterally, which leads to significant vibration at operating speed.</p>
 
   <p>All bearings of the disc-stack centrifuge should be replaced as part of the centrifuge's major overhaul periodically to avoid vibration caused due to bearing wear.</p>
 
-  <h3>Vibration Dampers are Worn</h3>
+  <h3 id="vibration-dampers-worn">Vibration Dampers are Worn</h3>
 
   <p>Disc-stack centrifuges are mounted on the base frame through vibration-isolating dampeners. These dampers are also known as rubber cushions. The elastomer of these rubber discs loses its elasticity over time and rigidize. </p>
 
@@ -137,7 +183,7 @@ const allJsonLd = [jsonLd];
 
   <p>Replacement of centrifuge vibration dampers is essential to eliminate this potential cause of centrifuge vibration.</p>
 
-  <h3>Spindle Bearing Support Springs Damaged</h3>
+  <h3 id="spindle-springs-damaged">Spindle Bearing Support Springs Damaged</h3>
 
   <p>The vertical bowl spindle is supported by the spring casing, which houses radial springs to absorb the spindle vibration. If one of these springs breaks due to material defect or wear, the spring casing cannot absorb the vibration of the spindle, leading to the bowl and centrifuge vibrating.</p>
 
@@ -148,17 +194,17 @@ const allJsonLd = [jsonLd];
 
   <p>An unusual smell from a disc-stack centrifuge is typically a burning or charring smell. Often this smell is routine. However, frequent smells and associated vibration or other indicators are worth investigating quickly.</p>
 
-  <h3>Normal Startup Friction</h3>
+  <h3 id="normal-startup-friction">Normal Startup Friction</h3>
 
   <p>The majority of older-style disc centrifuges use a friction clutch for torque transmission. The friction between the clutch pads and the steel drum is at high speed, and that can cause some smell. This smell is a regular occurrence on startup and dissipates once the centrifuge is up to speed.</p>
 
-  <h3>Brake is Engaged</h3>
+  <h3 id="smell-brake-engaged">Brake is Engaged</h3>
 
   <p>The friction brake slows down the bowl during the shutdown process gradually. However, it is vital to release the brake once the centrifuge has come to a stop. Often the operator forgets to release the brake. On startup, the brake pad is pushing against the transmission drum. The ensuing friction causes the smell.</p>
 
   <p>Therefore it is essential to release the brake once the centrifuge has come to a stop. Also, it is a good idea to check the brake state before starting the centrifuge.</p>
 
-  <h3>Gear Oil Level Too Low</h3>
+  <h3 id="smell-gear-oil-low">Gear Oil Level Too Low</h3>
 
   <p>The gear oil refers to the lubricating oil in the disc centrifuge transmission housing in the lower frame. It is crucial to maintain the oil level in this housing to the prescribed level.</p>
 
@@ -166,16 +212,29 @@ const allJsonLd = [jsonLd];
 
   <p>The operator must maintain proper lubrication oil in the gearbox housing.</p>
 
+  <hr />
+
+  <p><strong><em>Other disc-centrifuge articles of interest......</em></strong></p>
+  <ul>
+    <li><a href="/disc-centrifuge-backpressure/">Disc Centrifuge Backpressure - Comprehensive Guide</a></li>
+    <li><a href="/industrial-centrifuge-buying-guide/">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
+    <li><a href="/centrifuge-rcf-rpm-difference-calculation/">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
+    <li><a href="/disadvantages-disc-stack-centrifuge/">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
+    <li><a href="/decanter-centrifuge-disc-centrifuge-technical-comparison/">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
+  </ul>
+
+  <hr />
+
   <!-- 3. Excessive Noise -->
   <h2 id="excessive-noise">Excessive Noise</h2>
 
   <p>All centrifuges generate a certain amount of noise while operating. However, increased operating noise from a centrifuge indicates a possible mechanical fault or impending failure. The following are some of the leading causes of excessive noise in a disc stack centrifuge.</p>
 
-  <h3>Gear Oil Level Too Low</h3>
+  <h3 id="noise-gear-oil-low">Gear Oil Level Too Low</h3>
 
   <p>As explained above, low gear oil causes excessive noise in addition to the smell. The loss of friction between the gears causes the engaging gears to cause unusual noise.</p>
 
-  <h3>Paring Disc Height</h3>
+  <h3 id="paring-disc-height">Paring Disc Height</h3>
 
   <p>The paring disc pump is a centripetal pump within the disc-stack centrifuge bowl, which converts the fluid's rotational energy to pressure. This part resides in the top chamber of the top disc. This chamber has close tolerances, and therefore, the height adjustment of the paring disc is critical.</p>
 
@@ -183,7 +242,7 @@ const allJsonLd = [jsonLd];
 
   <p>The paring disc height must be checked and immediately corrected to remedy this issue. This correction will eliminate the noise associated with the contact.</p>
 
-  <h3>Transmission Gears Worn Out</h3>
+  <h3 id="transmission-gears-worn">Transmission Gears Worn Out</h3>
 
   <p>A disc centrifuge has main transmission gears housed in the bottom gearbox housing.&nbsp;</p>
 
@@ -191,11 +250,11 @@ const allJsonLd = [jsonLd];
 
   <p>Inspection of the gear set and replacement of the complete set is the remedy to fix this cause of the noise.</p>
 
-  <h3>Worn or Damaged Bearing</h3>
+  <h3 id="worn-or-damaged-bearing">Worn or Damaged Bearing</h3>
 
   <p>Any worn-out or faulty bearing will cause unusual noise from the centrifuge. As explained in the previous section, replacing the bearings is the solution to this issue.</p>
 
-  <h3>Coupling Pulley Pressing Elastic Plate</h3>
+  <h3 id="coupling-pulley-elastic-plate">Coupling Pulley Pressing Elastic Plate</h3>
 
   <p>The coupling pulley transmits the torque to the horizontal shaft through the elastic rubber plate. There is a specified clearance of 2 millimeters between the two surfaces.&nbsp;</p>
 
@@ -203,7 +262,7 @@ const allJsonLd = [jsonLd];
     <img
       src="/images/disc-stack-centrifuge-mechanical-issues-fixes/Disc_Centrifuge_Elastic_Plate.webp"
       alt="Centrifuge Elastic Plate Clearance"
-      width="1774" height="887"
+      width="600" height="300"
       loading="lazy"
       class="img-cap-600"
     />
@@ -221,13 +280,13 @@ const allJsonLd = [jsonLd];
 
   <p>The operator can monitor the bowl speed by checking the Revolution Counter's rotation on the front cover in the front of the centrifuge. See the photo below, showing the revolution counter.</p>
 
-  <h3>Brake is Engaged</h3>
+  <h3 id="speed-brake-engaged">Brake is Engaged</h3>
 
   <p>As expected, if the brake is engaged, the friction between the brake pad and the transmission drum puts a drag on the spindle's rotation preventing the centrifuge from coming up to speed.</p>
 
   <p>Releasing the brake is the solution for this cause of slow bowl speed.</p>
 
-  <h3>Friction Pads are Oil Coated or Worn</h3>
+  <h3 id="friction-pads-oil-worn">Friction Pads are Oil Coated or Worn</h3>
 
   <p>Sometimes, the gearbox's oil can seep over to the clutch side through a leaking oil seal between the two compartments. This oil can coat the friction pads reducing their ability to transmit the torque to the horizontal shaft. </p>
 
@@ -235,31 +294,31 @@ const allJsonLd = [jsonLd];
 
   <p>A quick inspection of the friction pads is needed to ascertain this condition. The replacement of friction pads is the obvious solution for both scenarios.</p>
 
-  <h3>Bowl is Leaking</h3>
+  <h3 id="bowl-is-leaking">Bowl is Leaking</h3>
 
   <p>A leaking bowl (as explained in the "<a href="/disc-stack-centrifuge-troubleshooting-bowl-leaking/">Bowl leaking troubleshooting guide</a>") causes the fluid to eject from the bowl through the sludge ports. The escaping fluid causes friction with the air in the bowl cavity. This obstruction causes resistance to the free rotation of the bowl, which reduces the bowl's speed.</p>
 
   <p>The first indication of a leaking bowl is higher than average motor current and fluid flow through the sludge outlet. In either case, stopping the centrifuge and checking the bowl seals for the cause of leakage is the solution to this problem.</p>
 
-  <h3>Motor is Faulty</h3>
+  <h3 id="speed-motor-faulty">Motor is Faulty</h3>
 
   <p>A motor defect causes the motor to generate insufficient torque, which causes the bowl not to get to operational speed.</p>
 
   <p>A thorough check of the motor and motor cables will confirm this as the centrifuge slow-down cause. The replacement of the centrifuge motor is the remedy for this problem.</p>
 
-  <h3>Bearings Damaged or Worn Out</h3>
+  <h3 id="speed-bearings-damaged">Bearings Damaged or Worn Out</h3>
 
   <p>Again, bad bearings directly lead to abnormal friction, which leads to low operating speed.&nbsp;</p>
 
   <p>A periodic check of bearings and replacement as needed is the only solution to many mechanical centrifuge issues.</p>
 
-  <h3>Incorrect Transmission Gears</h3>
+  <h3 id="incorrect-transmission-gears">Incorrect Transmission Gears</h3>
 
   <p>Disc-stack centrifuges for different current frequencies have different gear sets. The difference is that the 50 Hz motor operates at 1,500 RPM while the 60 Hz motor runs at 1,800 RPM. Given that the centrifuge bowl needs to rotate at basically the same speed, the transmission gears' design ensures that the bowl spindle rotates at the same RPM, irrespective of the voltage frequency.</p>
 
   <p>Now, if a set of gears designed for 60Hz voltage frequency is accidentally installed and operated with 50 Hz voltage, the gear ratio will prevent the bowl from coming up to the designed speed. Checking the gear set and replacing it with the correct set of gears fixes this cause of low bowl speed.</p>
 
-  <h3>Incorrect Friction Blocks</h3>
+  <h3 id="speed-incorrect-friction-blocks">Incorrect Friction Blocks</h3>
 
   <p>Following the above description, the centrifuges for 50 Hz and 60 Hz operation also have friction blocks of different weights. The weight difference between the two friction blocks transmits the same torque via friction at a lower (50 Hz) speed as at a higher speed (60 Hz). The 60 Hz blocks are lighter than the 50 Hz blocks.</p>
 
@@ -276,13 +335,13 @@ const allJsonLd = [jsonLd];
 
   <p>The following are the common mechanical causes of high startup current in disc-stack centrifuges.</p>
 
-  <h3>Incorrect Friction Blocks</h3>
+  <h3 id="high-current-friction-blocks">Incorrect Friction Blocks</h3>
 
   <p>As explained in the previous section, the operator may inadvertently install incorrect friction blocks in the centrifuge. If the operator installs a set of friction blocks designed for 50 Hz operation in a 60 Hz centrifuge, the extra weight of the blocks will exert higher torque on the transmission. This additional load on the motor will cause the motor to draw a high current on startup.</p>
 
   <p>Checking and replacing the friction blocks (in case of wrong ones are installed) is the fix to this cause of high startup current.</p>
 
-  <h3>Rotation Direction Incorrect</h3>
+  <h3 id="rotation-direction-incorrect">Rotation Direction Incorrect</h3>
 
   <p>All disc centrifuges have a designated rotation direction, as indicated by an arrow on the centrifuge frame and motor. The clutches rotating in the wrong direction cause incorrect contact, which leads to excessive friction and high current.</p>
 
@@ -299,7 +358,7 @@ const allJsonLd = [jsonLd];
 
   <p>As a regular practice during maintenance, the motor direction of rotation should be checked to avoid this cause of high startup current.</p>
 
-  <h3>Brake is Engaged</h3>
+  <h3 id="high-current-brake-engaged">Brake is Engaged</h3>
 
   <p>If the brake is engaged, it puts a drag on the horizontal shaft. This drag is acting against the motor, which leads to a high current during startup.</p>
 
@@ -310,19 +369,19 @@ const allJsonLd = [jsonLd];
 
   <p>As mentioned above, each centrifuge has a specific range of startup current depending on the voltage and motor size. Under certain conditions, this current may be lower than usual. The following are possible causes of low startup current.<br><br>Most of the causes and remedies of low startup current are similar to those of low bowl speed.</p>
 
-  <h3>Incorrect Friction Blocks</h3>
+  <h3 id="low-current-friction-blocks">Incorrect Friction Blocks</h3>
 
   <p>Following the discussion above regarding incorrect friction blocks causing low bowl speed, in the same situation, the motor current also will be lower than usual because the friction blocks are not able to transmit the design torque. Thus incorrect friction blocks (lightweight) lead to low startup current.</p>
 
   <p>As in the low bowl speed citation, it is using the correct friction blocks is the fix to this condition.</p>
 
-  <h3>Friction Pads are Oil Coated or Worn</h3>
+  <h3 id="low-current-friction-pads">Friction Pads are Oil Coated or Worn</h3>
 
   <p>Oily and worn-out friction pads slip and are unable to transmit the torque. Similar to being the cause of low bowl speed, they are also often responsible for low starting currents.</p>
 
   <p>The replacement of friction pads is the solution to this issue as well.</p>
 
-  <h3>Motor is Faulty</h3>
+  <h3 id="low-current-motor-faulty">Motor is Faulty</h3>
 
   <p>A defective, faulty, or worn-out motor cannot produce enough power to get the centrifuge to operating speed due to fiction block slippage. This slippage causes the motor to draw less than the normal amperes.</p>
 
@@ -348,7 +407,7 @@ const allJsonLd = [jsonLd];
 
   <p>The stoppage time is the duration between the brake's application and the centrifuge bowl coming to a complete stop. Long stoppage time is usually due to brake-related issues. The main is similar to the one listed above related to the friction pads slipping.&nbsp;</p>
 
-  <h3>Brake Pad is Oil Coated or Worn</h3>
+  <h3 id="brake-pad-oil-worn">Brake Pad is Oil Coated or Worn</h3>
 
   <p>The brake system uses a brake pad to slow down the rotating drum gradually. However, if the brake pad gets coated with oil or is worn, the brake becomes ineffective.</p>
 
@@ -363,17 +422,17 @@ const allJsonLd = [jsonLd];
 
   <p>The following are the leading causes and individual fixes for water in the transmission housing.</p>
 
-  <h3>Casing Drain is Blocked</h3>
+  <h3 id="casing-drain-blocked">Casing Drain is Blocked</h3>
 
   <p>The casing drain in the main outlet for the <a href="/disc-stack-centrifuge-operating-water/">operating water</a> to exit the centrifuge bowl cavity. An accidental plugin or closing of this drain causes the water to accumulate inside the bowl cavity. This water can then seep into the transmission housing below, contaminating the oil.</p>
 
-  <h3>Top Bearing Seal Leaking</h3>
+  <h3 id="top-bearing-seal-leaking">Top Bearing Seal Leaking</h3>
 
   <p>The spring casing supports the upper bearing on the bowl spindle. There is a seal under the spring casing which isolates the bottom transmission housing from the upper chamber. If this seal is damaged or not fitted during reassembly, water from the operating water device can enter the bottom transmission housing.</p>
 
   <p>Replacing this upper bearing seal is necessary if water is present in the transmission housing. The operator should fill fresh, clean oil in the transmission housing after replacing the bearing seal.</p>
 
-  <h3>Water Condensation</h3>
+  <h3 id="water-condensation">Water Condensation</h3>
 
   <p>Another source of water in the transmission housing is condensation. Water condenses inside the housing, especially in humid climates. This water can accumulate over time and damages the gears and bearings.</p>
 
@@ -382,19 +441,19 @@ const allJsonLd = [jsonLd];
 
   <p>On rare occasions, the operator might notice oil under the centrifuge base. It is the first sign of oil leaking from the gearbox or transmission housing. The following are the three leading causes of oil leakage and relevant fixes for each.</p>
 
-  <h3>Bottom Bushing Seal Damage</h3>
+  <h3 id="bottom-bushing-seal-damage">Bottom Bushing Seal Damage</h3>
 
   <p>The centrifuge bottom bushing holds the bottom bearing. There is a seal or gasket under the bottom bushing, which keeps the oil from leaking. Incorrect installation of this seal or gasket is the leading cause of oil leaking from the centrifuge gearbox.</p>
 
   <p>The removal and inspection of the bottom bushing is the only way to identify this issue, and replacement of the seal or gasket is the relevant fix.</p>
 
-  <h3>Bottom Bushing Loose</h3>
+  <h3 id="bottom-bushing-loose">Bottom Bushing Loose</h3>
 
   <p>An external locknut holds the bottom bushing in place within the centrifuge frame in specific disc-stack centrifuges. This nut can loosen over time due to the centrifuge vibration, and a loose nut allows the oil to leak out from under the bushing.&nbsp;</p>
 
   <p>A loose locknut also allows the bottom bushing to rotate along with the rotating spindle. This bushing rotation can cause severe damage to the bushing and the frame leading to major repairs.</p>
 
-  <h3>Too Much Oil in Gearbox</h3>
+  <h3 id="too-much-oil-gearbox">Too Much Oil in Gearbox</h3>
 
   <p>Each disc centrifuge requires a specified volume of lubricating oil that needs to be in the gearbox. A sight-glass on the bottom frame indicates the level of oil. The oil level in the transmission should be to the mid-level of the sight glass.</p>
 
