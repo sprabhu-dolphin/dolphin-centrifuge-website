@@ -1,86 +1,27 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How does a decanter centrifuge compare to a screw press for manure separation?",
-    answer: "A decanter centrifuge captures particles down to 25–50 microns and produces solids at up to 50% dryness, compared to 100–200 micron capture and 25–35% dryness from a typical screw press. The centrifuge also requires no filter screens or media replacement and runs fully automated with minimal labor. This finer separation captures significantly more phosphorus bound to small particles."
-  },
-  {
-    question: "What capacity manure centrifuge systems are available?",
-    answer: "Dolphin Centrifuge manure dewatering systems range from 25 GPM compact decanters for smaller dairy and swine operations to 50+ GPM high-capacity systems for large commercial livestock facilities. Sizing depends on manure volume, solids concentration, and desired cake dryness. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> for sizing recommendations based on your herd size and manure handling setup."
-  },
-  {
-    question: "Does a manure centrifuge remove phosphorus from the liquid fraction?",
-    answer: "Yes. The majority of phosphorus in manure is bound to solid particles. A decanter centrifuge captures these fine solids — including colloidal particles that gravity separators and screw presses miss — concentrating phosphorus in the solid fraction. This helps livestock operations meet nutrient management plan requirements by reducing phosphorus levels in the liquid applied to fields."
-  },
-  {
-    question: "What are the end products from centrifugal manure separation?",
-    answer: "A manure centrifuge produces two streams: dewatered solids (cake) and clarified liquid (centrate). The solids can be composted for premium bedding, sold as organic fertilizer, or used as soil amendment. The liquid centrate retains approximately 50% of the nitrogen content, making it a valuable fertigation resource that reduces commercial fertilizer purchases."
-  },
-  {
-    question: "Can a manure centrifuge handle swine, dairy, and poultry waste equally?",
-    answer: "Yes. Decanter centrifuges handle manure from all livestock types. Swine and poultry manure tend to have finer particle distribution, benefiting most from the centrifuge's ability to capture particles down to 25 microns. Dairy manure is typically higher in fiber content and separates readily. Sizing differs by species and herd size — contact Dolphin Centrifuge for a recommendation based on your specific operation."
-  }
-];
 
 const productJsonLd = {
-  "@context": "https://schema.org",
   "@type": "Product",
-  "url": "https://dolphincentrifuge.com/manure-centrifuge-separator/",
-  "name": "Manure Centrifuge Separator System",
-  "description": "Industrial manure centrifuge separator for livestock operations. Decanter centrifuge technology produces dry solids and nutrient-rich liquid at 3,000+ Gs with continuous, automated operation.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "category": "Industrial Centrifuges",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
-
-const articleJsonLd = {
-  "@type": "Article",
-  "headline": "Manure Centrifuge Separator",
-  "description": "Dolphin Centrifuge supplies manure centrifuge separators for dairy, swine, and poultry operations. Decanter at 3,150 Gs — continuous automated separation.",
-  "author": {
-    "@type": "Person",
-    "name": "Sanjay Prabhu MSME",
-    "jobTitle": "Centrifuge Applications Engineer",
-    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
-  },
-  "publisher": {
+  "name": "Manure Centrifuge Separator",
+  "description": "Manure solids and liquid separation using an industrial manure centrifuge. This continuous separator exerts 3,000 G to separate solids from liquid manure.",
+  "brand": {
     "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "url": "https://dolphincentrifuge.com"
-  }
+    "name": "Dolphin Centrifuge"
+  },
+  "category": "Industrial Centrifuges"
 };
 
-const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
+const jsonLd = [productJsonLd];
 
 const toc = [
   { id: 'why-separate-manure', label: 'Why Separate Manure?' },
   { id: 'separation-process', label: 'Separation Process' },
-  { id: 'operation', label: 'Centrifuge Operation' },
+  { id: 'operation', label: 'Operation' },
   { id: 'specifications', label: 'Specifications' },
-  { id: 'benefits', label: 'Benefits' },
-  { id: 'advantages-over-filter-press', label: 'Advantages over Filter Press' },
+  { id: 'benefits', label: 'Benefits', subItems: [
+    { id: 'advantages-over-filter-press', label: 'Advantages Over Filter Press' },
+  ]},
 ];
 
 const relatedApplications = [
@@ -91,196 +32,115 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Compact manure dewatering &mdash; 25 GPM' },
-  { label: 'NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'High-capacity manure processing &mdash; 50+ GPM' },
+  { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Compact manure dewatering - 25 GPM' },
+  { label: 'NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: 'High-capacity manure processing - 50+ GPM' },
 ];
 ---
 
 <ApplicationLayout
-  title="Manure Centrifuge Separator | Dolphin Centrifuge"
-  description="Dolphin Centrifuge supplies manure centrifuge separators for dairy, swine, and poultry operations. Decanter at 3,150 Gs — continuous automated separation."
+  title="Manure Centrifuge | Benefits, Specs & Operation"
+  description="Manure solids and liquid separation using an industrial manure centrifuge. This continuous separator exerts 3,000 G to separate solids from liquid manure."
   category="applications"
   categoryLabel="Applications"
-  heroImage="/images/manure-centrifuge-separator/sharples-p3000-wastewater-decanter.webp"
-  heroImageAlt="Sharples P3000 decanter centrifuge for manure and livestock wastewater separation"
+  heroImage="/images/manure-centrifuge-separator/manure-centrifuge-separator.webp"
+  heroImageAlt="Sharples P3000 Wastewater Decanter"
   canonicalUrl="https://dolphincentrifuge.com/manure-centrifuge-separator/"
   jsonLd={jsonLd}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
+  disableTitleSuffix={true}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies decanter centrifuge systems for livestock manure separation — dewatering slurry at 3,150 Gs into solids up to 50% dry and nutrient-rich liquid retaining 50% nitrogen. Continuous, automated operation for dairy, swine, and poultry facilities. Warren, Michigan.</p>
-  </div>
+  <p>Manure handling and disposal in the <a href="https://nlpa.org/" target="_blank" rel="noreferrer noopener">livestock industry</a> is one of the critical factors affecting cost and viability in a highly competitive market.</p>
+
+  <p>Effective waste handling can bring higher revenues from a previously resource-intensive operating expense.</p>
 
   <h2 id="why-separate-manure">Why Separate Manure?</h2>
 
-  <p>Dolphin Centrifuge, based in Warren, Michigan, supplies decanter centrifuge systems for manure separation, operating at 3,150 Gs. Raw manure from dairy, swine, and poultry operations presents significant storage, transportation, and nutrient management challenges. Separating manure into solid and liquid fractions addresses all three:
-  </p>
+  <p>The separation of manure into its solid and liquid components is important for two reasons.</p>
 
-  <ul>
-    <li><strong>Dry solids have higher value:</strong> Separated solids can be composted for premium bedding, sold as organic fertilizer, or used as soil amendment &mdash; all commanding higher prices than raw slurry</li>
-    <li><strong>Transportation becomes practical:</strong> Dewatered solids weigh a fraction of raw manure, dramatically reducing hauling costs to off-site fields or compost facilities</li>
-    <li><strong>Phosphorus reduction:</strong> The majority of phosphorus binds to solid particles. Removing solids from the liquid fraction prevents over-application of phosphorus to fields, helping operations meet nutrient management plan requirements</li>
-  </ul>
+  <p>Firstly, the value of dry manure is much more than that of the wetter kind.</p>
 
-  <h2 id="separation-process">Manure Separation Process</h2>
+  <p>Secondly, dry manure solids' transportation is practical and cost-effective compared to manure cost with a large water percentage.</p>
 
-  <p>
-    Not all separation methods deliver the same results. The three most common approaches differ significantly in efficiency, operating cost, and solids dryness:
-  </p>
+  <p>Besides, the solids' physical separation reduces the phosphorus, which is crucial for the separated water's disposal consideration.</p>
 
-  <h3>Gravity Separation</h3>
-  <p>
-    Settling basins and weir boxes rely on gravity alone. While simple and inexpensive to build, they produce wet solids with high moisture content and cannot capture fine particles or colloidal phosphorus.
-  </p>
+  <h2 id="separation-process">Separation Process</h2>
 
-  <h3>Screw Press / Filter Press</h3>
-  <p>
-    Mechanical presses squeeze liquid out of manure through screens or filter media. They require regular screen replacement, produce moderately dry solids, and struggle with fine particles that blind the filter media.
-  </p>
+  <p>The separation of manure is the process of fractionating the manure into its liquid and solid phases. Separated manure sludge yields more value as a fertilizer and is easy to transport.</p>
 
-  <h3>Decanter Centrifuge</h3>
-  <p>
-    A <a href="/decanter-centrifuge/">decanter centrifuge</a> generates <strong>3,000+ Gs</strong> of centrifugal force to separate manure continuously. No filter media, no screens, no batch cycling. The centrifuge produces the driest solids of any mechanical method while capturing fine particles that gravity and presses miss.
-  </p>
+  <p>The water separated from the manure is mostly free of solids and nutrients, making it suitable for disposal. <a href="/dewatering-centrifuge/">Dewatering centrifuges</a> play a critical role in this application.</p>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start not-prose my-6">
-    <div class="md:w-1/2">
-      <img
-        src="/images/manure-centrifuge-separator/manure-decanter-section-600.webp"
-        alt="Cross-section diagram of a manure decanter centrifuge showing bowl, auger conveyor, and solids discharge ports"
-        width="600" height="250"
-        loading="lazy"
-        class="rounded-lg w-full"
-      />
-      <p class="text-sm text-text-muted mt-2 text-center">Cross-section of a manure decanter centrifuge</p>
-    </div>
-    <div class="md:w-1/2">
-      <img
-        src="/images/manure-centrifuge-separator/sharples-p3000-wastewater-decanter.webp"
-        alt="Sharples P3000 horizontal scroll decanter centrifuge used for manure and wastewater dewatering"
-        width="600" height="600"
-        loading="lazy"
-        class="rounded-lg w-full"
-      />
-      <p class="text-sm text-text-muted mt-2 text-center">Sharples P3000 wastewater decanter centrifuge</p>
-    </div>
+  <p>Physical means of manure separation range from gravity separation in lagoons to media separation devices (presses) and mechanical separator centrifuges.</p>
+
+  <p>Though each separation method has a role in the livestock industry waste management, the <a href="/decanter-centrifuge/">decanter centrifuge</a> is the most durable, cost-effective long-term solution.</p>
+
+  <figure class="not-prose mb-8">
+    <img
+      src="/images/manure-centrifuge-separator/manure-decanter-section-600.webp"
+      alt="Manure Centrifuge Operation"
+      width="600" height="250"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption><strong>Manure Centrifuge Diagram</strong></figcaption>
+  </figure>
+
+  <h2 id="operation">Operation</h2>
+
+  <p>A manure centrifuge separates manure solids from the water using high centrifugal forces over 3,000 Gs. The solids are heavier and settle out to the rotating bowl wall.</p>
+
+  <p>The relatively lighter water stays in the center and flows out the liquid end. The rotating conveyor scrapes the manure solids to the solids' end of the bowl.</p>
+
+  <p>It is important to note that most Phosphorus is bound to the solids and therefore ends up the separated solids. About 50% of the Nitrogen is retained in the liquid manure.</p>
+
+  <p>Introducing some chemical flocculants enhances the separation process, allowing smaller particles, less than 50 µm, to be separated.</p>
+
+  <h2 id="specifications">Specifications</h2>
+
+  <p>The following are the specifications for a typical Alfa Laval decanter centrifuge for manure separation.</p>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Specification</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Processing Capacity</td><td>25 GPM on Untreated Liquid Manure</td></tr>
+        <tr><td>Centrifuge Type</td><td>Horizontal, Scroll Type Decanter Centrifuge</td></tr>
+        <tr><td>Bowl Speed</td><td>4,000 RPM</td></tr>
+        <tr><td>Centrifugal Force (RCF)</td><td>3,150 Gs</td></tr>
+        <tr><td>Scroll Differential Speed</td><td>6 ~ 50 RPM</td></tr>
+        <tr><td>Gear Box (Torque & Type)</td><td>2.5 kN-M; Planetary</td></tr>
+        <tr><td>Motor Power</td><td>15 HP (11 kW)</td></tr>
+        <tr><td>Dimensions & Weight</td><td>3' x 8' x 5' (H)   2,500 Lbs</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <h2 id="operation">Centrifuge Operation</h2>
-
-  <p>
-    The horizontal decanter centrifuge operates on a simple principle: manure slurry enters a spinning bowl rotating at high speed. Centrifugal force &mdash; over <strong>3,000 Gs</strong> &mdash; drives solid particles to the bowl wall within seconds. An internal scroll (auger) rotating at a slightly different speed conveys the accumulated solids toward the discharge end.
-  </p>
-
-  <p>
-    The separation produces two distinct streams:
-  </p>
+  <h2 id="benefits">Benefits</h2>
 
   <ul>
-    <li><strong>Solids fraction:</strong> Dewatered cake discharged continuously from the conical end of the bowl. Phosphorus, which is bound to solid particles, concentrates in this fraction &mdash; removing it from the liquid stream</li>
-    <li><strong>Liquid fraction (centrate):</strong> Clarified liquid exits through adjustable weir plates at the opposite end. Approximately <strong>50% of nitrogen</strong> remains dissolved in the liquid, making it a valuable fertigation resource</li>
+    <li><strong>Higher Value of Liquid Manure</strong><br />The centrifugal solids separation leaves the separated liquid with minimal Phosphorus. This reduction in P-content vastly increases the applicability of liquid manure as fertilizer.</li>
+    <li><strong>Reduced Storage and Transportation Costs</strong><br />Separated phases (solid and liquid) are much easier to handle and store as needed. Solids can be further dried and stored for longer terms. Considerable reduction in volume is the key to transportation-related cost benefits.</li>
+    <li><strong>Higher Value Fertilizer</strong><br />The retained nutrients and Phosphorus in the separated solids can be used as periodic fertilizer or even sold as a more organic substitute for expensive, commercial chemical fertilizers.</li>
+    <li><strong>Dredging Cost Savings</strong><br />Upfront solids separation using a centrifuge means lesser solids end up in the open pits or lagoons. The storage pits maintain their capacity without needing frequent dredging to reclaim storage volume.</li>
   </ul>
 
-  <p>
-    The entire process is continuous and automated. A <a href="/industrial-centrifuge-controls/">PLC control panel</a> manages feed rate, bowl speed, differential speed, and discharge torque without operator intervention.
-  </p>
+  <h3 id="advantages-over-filter-press">Advantages Over Filter Press</h3>
 
-  <h2 id="specifications">Manure Decanter Specifications</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Parameter</th>
-        <th>Specification</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Capacity</td><td>25 GPM (nominal)</td></tr>
-      <tr><td>Centrifuge Type</td><td>Horizontal Scroll Decanter</td></tr>
-      <tr><td>Bowl Speed</td><td>4,000 RPM</td></tr>
-      <tr><td>G-Force</td><td>3,150 Gs</td></tr>
-      <tr><td>Scroll Differential</td><td>6&ndash;50 RPM (adjustable)</td></tr>
-      <tr><td>Gearbox Torque</td><td>2.5 kN&middot;m planetary</td></tr>
-      <tr><td>Drive Motor</td><td>15 HP</td></tr>
-      <tr><td>Dimensions (L &times; W &times; H)</td><td>3&prime; &times; 8&prime; &times; 5&prime;</td></tr>
-      <tr><td>Weight</td><td>2,500 lbs</td></tr>
-      <tr><td>Power</td><td>460V &ndash; 3 Phase</td></tr>
-    </tbody>
-  </table>
-
-  <!-- Mid-Page CTA -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mb-8 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-2">Need Help With Your Manure Separation System?</h3>
-        <p class="text-gray-200">Our engineers will evaluate your livestock operation and recommend the optimal decanter centrifuge system for manure dewatering.</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white/10 font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
-    </div>
-  </div>
-
-  <h2 id="benefits">Benefits of Centrifugal Manure Separation</h2>
+  <p>Centrifuges offer many advantages over other mechanical separation devices like filter presses, belt presses, etc.</p>
 
   <ul>
-    <li><strong>Higher liquid value:</strong> Clarified centrate with balanced nitrogen content is ideal for fertigation, reducing commercial fertilizer purchases</li>
-    <li><strong>Reduced storage and transport costs:</strong> Dewatered solids occupy a fraction of the volume of raw slurry, cutting storage lagoon requirements and hauling trips</li>
-    <li><strong>Higher-value fertilizer product:</strong> Concentrated solids with high phosphorus content command premium pricing as organic compost or soil amendment</li>
-    <li><strong>Lagoon dredging savings:</strong> Continuous solids removal reduces sludge accumulation in storage lagoons, extending lagoon life and reducing or eliminating costly dredging operations</li>
-    <li><strong>Nutrient management compliance:</strong> Phosphorus removal from liquid fraction helps meet regulatory nutrient application limits</li>
+    <li><strong>Separation Efficiency</strong><br />With centrifugal forces over 3,000 Gs, centrifuges can separate solids in the 25 ~ 50 µm range. Other conventional technologies only go down to 300 µm level or higher.</li>
+    <li><strong>Drier Solids</strong><br />Solid cake dryness is adjustable with a decanter centrifuge. Solids with 50% dryness are attainable using <a href="/decanter-centrifuge-pond-depth/">pond-depth adjustment</a> of the centrifuge. Drier solids are easier to transport and readily applicable as fertilizer.</li>
+    <li><strong>Reduce or Eliminate Chemical Use</strong><br />With the use of centrifugal force to enhance separation, flocculants and other separation aids are significantly reduced, leading to immediate cost savings.</li>
+    <li><strong>Minimum Labor Cost</strong><br />The purely mechanical separation offered by centrifuges allows for unattended and reliable separation of manure solids. This reliability reduces labor costs associated with presses and other mechanical separation methods.</li>
+    <li><strong>No Media Costs</strong><br />Since centrifuges do not use any separation media (like filter mesh, paper, or cloth), recurring costs related to such consumables are eliminated. This saving also reflects on the used media disposal costs.</li>
   </ul>
-
-  <h2 id="advantages-over-filter-press">Advantages over Filter Press</h2>
-
-  <p>
-    While screw presses and belt presses are common in manure handling, a decanter centrifuge offers measurable advantages across every performance metric:
-  </p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Parameter</th>
-        <th>Filter / Screw Press</th>
-        <th>Decanter Centrifuge</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Separation Efficiency</td><td>100&ndash;200 &mu;m particles</td><td>25&ndash;50 &mu;m particles</td></tr>
-      <tr><td>Solids Dryness</td><td>25&ndash;35%</td><td>Up to 50% dry solids</td></tr>
-      <tr><td>Chemical Addition</td><td>Often required (polymer)</td><td>Reduced or eliminated</td></tr>
-      <tr><td>Labor Requirements</td><td>Screen changes, monitoring</td><td>Minimum &mdash; fully automated</td></tr>
-      <tr><td>Filter Media Costs</td><td>Ongoing screen/belt replacement</td><td>None &mdash; no media required</td></tr>
-      <tr><td>Fine Particle Capture</td><td>Poor &mdash; particles pass through</td><td>Excellent &mdash; captures colloidal solids</td></tr>
-      <tr><td>Phosphorus Removal</td><td>Limited</td><td>High &mdash; bound to captured fines</td></tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <p>
-    <strong>Related resources:</strong>
-    <a href="/decanter-centrifuge/">Decanter Centrifuge Guide</a> |
-    <a href="/dewatering-centrifuge/">Dewatering Centrifuge</a> |
-    <a href="/industrial-centrifuge/">Industrial Centrifuge Guide</a> |
-    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
-    <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Decanter vs. Disc Centrifuge</a>
-  </p>
-
-  <FAQ items={faqItems} />
-
-  <!-- Bottom CTA -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center my-8 not-prose">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4 font-heading">Ready to Upgrade Your Manure Handling?</h2>
-    <p class="text-gray-200 mb-6 max-w-2xl mx-auto">Dolphin Centrifuge supplies reconditioned decanter centrifuge systems for livestock operations. Contact us for sizing and pricing based on your herd size and manure volume.</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold text-navy font-semibold px-8 py-3 rounded-lg hover:bg-gold/90 transition-colors">Get a Quote</a>
-      <a href="tel:+12485222573" class="border border-white text-white px-8 py-3 rounded-lg hover:bg-white/10 transition-colors">(248) 522-2573</a>
-    </div>
-  </div>
 
 </ApplicationLayout>
