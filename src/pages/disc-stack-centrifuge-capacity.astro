@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const toc = [
   { id: 'terminology', label: 'Disc Stack Centrifuge Capacity Terminology', subItems: [
@@ -21,6 +22,7 @@ const toc = [
     { id: 'desired-results', label: 'Desired Results' },
     { id: 'design', label: 'Centrifuge Design' },
   ]},
+  { id: 'faq', label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -36,6 +38,42 @@ const relatedProducts = [
   { label: 'Oil Centrifuge Systems', href: '/oil-centrifuge/', description: 'Fuel & lube oil purification' },
 ];
 
+const faqItems = [
+  {
+    question: "What factors affect disc stack centrifuge capacity?",
+    answer: "The main factors that affect disc stack centrifuge capacity are the fluid viscosity, contamination level, and centrifuge settings."
+  },
+  {
+    question: "Does a disc stack centrifuge need to operate at rated capacity?",
+    answer: "The rated capacity is just theoretical 'swallowing capacity', and it rarely is the true throughput of a centrifuge. A disc stack centrifuge can process flow rates lower than the rated capacity and the separation is typically better."
+  },
+  {
+    question: "Can we increase the capacity of our disc stack centrifuge?",
+    answer: "A user may increase the capacity of a disc stack centrifuge by heating the process fluid and thus lowering the viscosity, which leads to higher throughput."
+  },
+  {
+    question: "What are the capacity measuring units for disc stack centrifuges?",
+    answer: "The capacities of disc stack centrifuges are typically rated in m3/hr, which means cubic meters of fluid per hour. Other measures of centrifuge capacity are GPM which is Gallons per Minute, or GPM, which is Gallons per Hour."
+  },
+  {
+    question: "Can a user modify a disc stack centrifuge to increase its capacity?",
+    answer: "The original bowl size and design determine a disc stack centrifuge capacity. Therefore, the user cannot modify to increase the capacity of the centrifuge."
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
 const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -47,6 +85,7 @@ const jsonLd = [
     "datePublished": "2021-08-14",
     "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-capacity/",
   },
+  faqJsonLd,
 ];
 ---
 
@@ -63,7 +102,6 @@ const jsonLd = [
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-capacity/"
   jsonLd={jsonLd}
   disableTitleSuffix={true}
-  hideBottomCTA={true}
 >
 
   <!-- Intro -->
@@ -134,6 +172,8 @@ const jsonLd = [
       </tbody>
     </table>
   </div>
+
+  <FAQ items={faqItems} heading="FAQ" />
 
   <!-- Factor Affecting Capacity -->
   <h2 id="factors" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">Factor Affecting Capacity</h2>
