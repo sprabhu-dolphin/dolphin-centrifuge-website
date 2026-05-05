@@ -1,66 +1,12 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-
-const faqItems = [
-  {
-    question: "How does a centrifuge extend cutting oil life?",
-    answer: "A disc stack centrifuge continuously removes metal fines, swarf, and tramp contaminants from cutting oil in a kidney-loop configuration. This prevents the progressive contamination buildup that degrades oil performance. Typical cutting oil life extension is 5 to 10 times compared to filter-only systems, dramatically reducing new oil purchases and disposal costs."
-  },
-  {
-    question: "What particle size can a cutting oil centrifuge remove?",
-    answer: "Disc stack centrifuges operating at up to 7,000 Gs separate metal particles down to 0.5 microns from cutting oil — far finer than conventional filters can achieve economically. The disc stack design creates thin oil layers between closely spaced conical discs, enabling capture of extremely fine metal fines that would pass through standard filtration."
-  },
-  {
-    question: "Can a centrifuge process draw oil and rolling oil?",
-    answer: "Yes. Disc stack centrifuges are widely used for draw oil purification in wire, rod, and tube drawing operations, and for rolling oil cleaning in both hot and cold rolling mills. The centrifuge handles the higher viscosities typical of draw oils (40–80 cSt) by adjusting flow rates for adequate residence time. <a href='/contact-for-alfa-laval-centrifuges/'>Contact us</a> with your oil viscosity for specific sizing."
-  },
-  {
-    question: "What size centrifuge do I need for cutting oil?",
-    answer: "Sizing depends on oil viscosity, sump volume, and contamination rate. Self-cleaning systems range from 12 GPM for copper broaching oil (40 cSt) to 25 GPM for aluminum machining oil (14 cSt). Higher viscosity oils require lower flow rates for effective separation. Our engineers will recommend the right system based on your specific application."
-  },
-  {
-    question: "Can a cutting oil centrifuge handle water contamination as well?",
-    answer: "Yes. A three-phase disc stack centrifuge simultaneously separates solid metal particles, free water, and clean cutting oil in a single pass. This is particularly valuable for emulsified cutting oil systems where water ingress from coolant splash or condensation degrades the oil. The centrifuge removes both the metallic fines and any free water, returning dry, clean cutting oil to the sump."
-  }
-];
-
-const productJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "url": "https://dolphincentrifuge.com/cutting-oil-centrifuge/",
-  "name": "Cutting Oil Centrifuge System",
-  "description": "Industrial cutting oil centrifuges for continuous removal of metal fines from cutting oil, draw oil, and rolling oil. Particle separation down to 0.5 microns at 7,000 Gs with self-ejecting disc stack centrifuge technology.",
-  "brand": { "@type": "Brand", "name": "Dolphin Centrifuge" },
-  "manufacturer": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-  "category": "Industrial Centrifuges",
-  "offers": {
-    "@type": "Offer",
-    "availability": "https://schema.org/InStock",
-    "priceCurrency": "USD",
-    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge" },
-  },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
 
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "url": "https://dolphincentrifuge.com/cutting-oil-centrifuge/",
-  "headline": "Cutting Oil Centrifuge | Metal Fines Removal for Machining, Drawing & Rolling",
-  "description": "Industrial cutting oil centrifuges remove metal fines from cutting, draw, and rolling oil at 7,000 Gs — separation to 0.5 microns. Dolphin Centrifuge, Warren MI.",
+  "headline": "Cutting Oil Centrifuge | Continuous Metal Fines Removal",
+  "description": "Cutting oil centrifuge for removing metal paticles from cutting fluid. Continuous separation of draw oil and rolling oil from process sediment contaminants.",
   "author": {
     "@type": "Person",
     "name": "Sanjay Prabhu MSME",
@@ -70,18 +16,37 @@ const articleJsonLd = {
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [articleJsonLd];
 
 const toc = [
-  { id: 'what-is-cutting-oil', label: 'What is Cutting Oil' },
-  { id: 'need-to-recycle', label: 'Need to Recycle' },
-  { id: 'operation', label: 'Operation' },
-  { id: 'benefits', label: 'Benefits' },
-  { id: 'draw-oil', label: 'Draw Oil' },
-  { id: 'rolling-oil', label: 'Rolling Oil' },
-  { id: 'materials', label: 'Materials' },
-  { id: 'specifications', label: 'Specifications' },
-  { id: 'faq', label: 'Frequently Asked Questions' },
+  {
+    id: 'cutting-oil',
+    label: 'Cutting Oil',
+    subItems: [
+      { id: 'what-is-cutting-oil', label: 'What is Cutting Oil?' },
+      { id: 'need-to-recycle', label: 'Need to Recycle Cutting Oil' },
+    ]
+  },
+  {
+    id: 'cutting-oil-centrifuge',
+    label: 'Cutting Oil Centrifuge',
+    subItems: [
+      { id: 'operation', label: 'Operation' },
+      { id: 'benefits', label: 'Benefits' },
+      { id: 'specifications', label: 'Specifications' },
+      { id: 'material-of-construction', label: 'Material of Construction' },
+    ]
+  },
+  { id: 'draw-oil', label: 'Draw Oil Centrifuge',
+    subItems: [
+      { id: 'draw-oil-operation', label: 'Operation' },
+    ]
+  },
+  { id: 'rolling-oil', label: 'Rolling Oil',
+    subItems: [
+      { id: 'rolling-oil-centrifuge', label: 'Rolling Oil Centrifuge' },
+    ]
+  },
 ];
 
 const relatedApplications = [
@@ -90,17 +55,11 @@ const relatedApplications = [
   { label: 'Oil Centrifuge (General)', href: '/oil-centrifuge/' },
   { label: 'Quench Oil Centrifuge', href: '/quench-oil-centrifuge/' },
 ];
-
-const relatedProducts = [
-  { label: 'DMPX-014 Self-Cleaning', href: '/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/', description: '12 GPM on cutting oil' },
-  { label: 'DMPX-028 Self-Cleaning', href: '/centrifuges/dmpx-028/', description: '~20 GPM on cutting oil' },
-  { label: 'DMPX-042 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: '25 GPM on cutting oil' },
-];
 ---
 
 <ApplicationLayout
   title="Cutting Oil Centrifuge | Continuous Metal Fines Removal"
-  description="Cutting oil centrifuges remove metal fines at 7,000 Gs down to 0.5 microns. Self-cleaning systems for cutting, draw, and rolling oil. Dolphin Centrifuge."
+  description="Cutting oil centrifuge for removing metal paticles from cutting fluid. Continuous separation of draw oil and rolling oil from process sediment contaminants."
   heroImage="/images/cutting-oil-centrifuge/cutting-oil-fluids-centrifuge-1000.webp"
   heroImageAlt="Cutting oil fluids centrifuge system for industrial metalworking oil purification"
   category="applications"
@@ -109,44 +68,30 @@ const relatedProducts = [
   jsonLd={jsonLd}
   toc={toc}
   relatedApplications={relatedApplications}
-  relatedProducts={relatedProducts}
+  hideBottomCTA={true}
 >
 
-  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies disc stack centrifuge systems for cutting oil purification, removing metal fines down to 0.5 microns from cutting, draw, and rolling oils at 7,000 Gs. Self-cleaning separators process 12&ndash;25 GPM continuously without consumable filter media.</p>
-  </div>
+  <!-- ── Cutting Oil ── -->
+  <h2 id="cutting-oil">Cutting Oil</h2>
 
-  <h2 id="what-is-cutting-oil">What is Cutting Oil?</h2>
+  <h3 id="what-is-cutting-oil">What is Cutting Oil?</h3>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6 not-prose">
-    <div class="md:w-[42%] shrink-0">
-      <img
-        src="/images/cutting-oil-centrifuge/Alfa-Laval-MOPX209-Cutting-Oil-Centrifuge-300.webp"
-        alt="Cutting Oil Self-Cleaning Centrifuge"
-        width="300" height="346"
-        loading="lazy"
-        class="rounded-lg w-full h-auto"
-      />
-    </div>
-    <div class="flex-1 min-w-0 prose prose-lg max-w-none">
-      <p>Machining metal generates heat, which damages the cutting tool and the machined part. Cutting oil, also known as cutting fluid, dissipates the heat generated during machining. The oil also reduces the friction between the cutting tool and the machined surface, extending tool life.</p>
-      <p>Cutting oil is widely used in turning, milling, saw-cutting, gear hobbing, and other machining processes. Dolphin Centrifuge, based in Warren, Michigan, supplies purpose-built <a href="/disc-stack-centrifuge/">disc stack centrifuge</a> systems for cutting oil purification at 7,000 Gs with separation down to 0.5 microns.</p>
-    </div>
-  </div>
+  <p>
+    Machining metal generates heat, which damages the cutting tool and the machined part. Cutting oil, also known as cutting fluid, dissipates the heat generated during machining.
+  </p>
 
-  <blockquote>
-    Dolphin Centrifuge supplies turnkey cutting oil purification systems for machining, drawing, and rolling operations &mdash; removing metal particles as fine as 0.5 microns without consumable filter media.
-  </blockquote>
+  <p>The oil also reduces the friction between the cutting tool and the machined surface, extending tool life.</p>
 
-  <!-- ── Need to Recycle ── -->
-  <h2 id="need-to-recycle">Need to Recycle Cutting Oil</h2>
+  <p>Cutting oil is widely used in turning, milling, saw-cutting, gear hobbing, and other machining processes.</p>
+
+  <h3 id="need-to-recycle">Need to Recycle Cutting Oil</h3>
 
   <p>
     Oils are expensive to buy and sometimes even more expensive to dispose of. Environmental regulations are becoming demanding, with laws banning the &ldquo;wear-out and throw-away&rdquo; approach.
   </p>
 
   <p>
-    In other words, companies today must keep their oils in service for as long as possible. With an <a href="/industrial-centrifuge/">industrial centrifuge</a>, they can &mdash; sometimes indefinitely!
+    In other words, companies today must keep their oils in service for as long as possible. With an <a href="/industrial-centrifuge/">industrial centrifuge</a>, they can &ndash; sometimes indefinitely!
   </p>
 
   <p>
@@ -154,217 +99,154 @@ const relatedProducts = [
   </p>
 
   <!-- ── Cutting Oil Centrifuge ── -->
+  <h2 id="cutting-oil-centrifuge">Cutting Oil Centrifuge</h2>
+
   <p>
     An industrial centrifuge specially modified to recover used cutting oil is known as a cutting <a href="/oil-centrifuge/">oil centrifuge</a>. It separates metal sediment contaminants and water (if any) from industrial cutting oil.
   </p>
 
-  <!-- ── Operation ── -->
-  <h2 id="operation">Centrifuge Operation on Cutting Oil</h2>
+  <h3 id="operation">Operation</h3>
 
   <div class="flex flex-col md:flex-row gap-6 items-start mb-6 not-prose">
     <div class="flex-1 min-w-0 prose prose-lg max-w-none">
-      <p>A disc stack centrifuge processes cutting oil by generating centrifugal forces up to <strong>7,000 Gs</strong> &mdash; thousands of times the force of gravity. At this force level, metal particles as small as <strong>0.5 microns</strong> are driven outward to the bowl wall and captured, while clean oil flows inward through the <a href="/disc-stack-centrifuge-parts/">disc stack</a> and exits the centrifuge.</p>
-      <p>The centrifuge bowl contains a stack of closely spaced conical discs that divide the oil flow into thin layers. This reduces the distance a contaminant particle must travel to reach a collection surface, enabling the capture of extremely fine metal fines that would pass through conventional filters.</p>
+      <p>A cutting oil centrifuge removes fine metal particles from the oil used to machine ferrous and non-ferrous components. The high centrifugal force <strong>(7,000 Gs) exerted by a disc-stack centrifuge separates small metal particles (0.5 microns)</strong> from the cutting oil.</p>
+
+      <p>The centrifuge self-ejects the separated particles periodically.</p>
+
+      <p>Clean cutting fluid recovered by the centrifuge is reusable, thus saving replacement oil and disposal costs.</p>
     </div>
     <div class="md:w-[42%] shrink-0">
-      <img
-        src="/images/cutting-oil-centrifuge/Alfa-Laval-MOPX207-System-for-Industrial-Oils-300.webp"
-        alt="Alfa Laval MOPX207 System for Industrial Oils"
-        width="300" height="300"
-        loading="lazy"
-        class="rounded-lg w-full h-auto"
-      />
+      <figure class="img-cap-300">
+        <img
+          src="/images/cutting-oil-centrifuge/Alfa-Laval-MOPX209-Cutting-Oil-Centrifuge-300.webp"
+          alt="Cutting Oil Self-Cleaning Centrifuge"
+          width="300" height="346"
+          loading="lazy"
+        />
+        <figcaption><strong>Cutting Oil Self-Cleaning Centrifuge</strong></figcaption>
+      </figure>
     </div>
   </div>
 
-  <p>
-    The centrifuge self-ejects the separated particles periodically. Clean cutting fluid recovered by the centrifuge is reusable, thus saving replacement oil and disposal costs.
-  </p>
-
-  <p>
-    In <strong>self-ejecting</strong> (self-cleaning) models, accumulated sludge is automatically discharged from the bowl at timed intervals through peripheral ports. The bowl opens momentarily, ejects the collected metal fines and contaminants, then closes and resumes separation &mdash; all without stopping the centrifuge or interrupting the process.
-  </p>
-
-  <p>
-    The centrifuge typically operates in a <strong>kidney loop</strong> arrangement, continuously drawing contaminated oil from the machine sump or central reservoir, cleaning it, and returning purified oil. This maintains consistent oil quality around the clock without operator intervention.
-  </p>
-
   <!-- ── Benefits ── -->
-  <h2 id="benefits">Benefits of Centrifuge Cutting Oil Purification</h2>
+  <h3 id="benefits">Benefits</h3>
 
   <p>Centrifuges offer several benefits for industrial fluids. Some of them are listed below.</p>
 
   <ul>
-    <li>Reduced purchasing and disposal costs for oils</li>
-    <li>Reduction in cutting tool replacement cost</li>
-    <li>Reduced downtime of auxiliary equipment such as pumps</li>
-    <li>Consistent machined parts quality</li>
-    <li>Filtration-related media and labor cost reduction</li>
-    <li>Automatic operation &mdash; <a href="/industrial-centrifuge-controls/">PLC-controlled systems</a> run unattended with automatic sludge ejection</li>
+    <li>Reduced purchasing and disposal costs for oils.</li>
+    <li>Reduction in cutting tool replacement cost.</li>
+    <li>Reduced downtime of auxiliary equipment such as pumps.</li>
+    <li>Consistent machined parts quality.</li>
+    <li>Filtration-related media and labor cost reduction.</li>
   </ul>
 
-  <!-- Mid-Page CTA -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white my-8 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-2">Need a Cutting Oil Purification System?</h3>
-        <p class="text-blue-100">Our engineers will evaluate your oil type, viscosity, and sump volume to recommend the optimal centrifuge system.</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
-    </div>
-  </div>
+  <!-- ── Specifications ── -->
+  <h3 id="specifications">Specifications</h3>
 
-  <!-- ── Draw Oil ── -->
-  <h2 id="draw-oil">Draw Oil Centrifuge Applications</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Centrifuge Model &gt;&gt;</strong></td>
+        <td><strong>Alfa Laval MOPX 205</strong></td>
+        <td><strong>Alfa Laval MOPX 210</strong></td>
+      </tr>
+      <tr><td>Application</td><td>Copper Broaching Oil</td><td>Aluminum Machining Oil</td></tr>
+      <tr><td>Viscosity</td><td>40 cSt @ 50 C</td><td>14 cSt @ 50 C</td></tr>
+      <tr><td>Separation Efficiency</td><td>0.5-Micron Metal Particles</td><td>0.5-Micron Metal Particles</td></tr>
+      <tr><td>Max. Capacity</td><td>12 GPM</td><td>25 GPM</td></tr>
+      <tr><td>Sludge Space</td><td>0.6 Gallons</td><td>1.5 Gallons</td></tr>
+      <tr><td>Oil Cleanliness</td><td>0.01% Solids in Clean Oil @ 5 GPM</td><td>0.01% Solids in Clean Oil @ 10 GPM</td></tr>
+      <tr><td>Oil Cleanliness</td><td>0.025% Solids in Clean Oil @ 10 GPM</td><td>0.025% Solids in Clean Oil @ 20 GPM</td></tr>
+      <tr><td>Motor Drive</td><td>4 HP</td><td>10 HP</td></tr>
+      <tr>
+        <td>System Features</td>
+        <td>VFD Feed Pump<br />5 Micron Polishing Filter<br />Sludge Tank &amp; Pump</td>
+        <td>Clean Oil Tank w/ VFD Pump<br />Sludge Tank &amp; Pump<br />60 kW Electric Pre-Heater</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <div class="flex flex-col md:flex-row gap-6 items-start mb-6 not-prose">
-    <div class="md:w-[42%] shrink-0">
-      <img
-        src="/images/cutting-oil-centrifuge/alfa-laval-draw-oil-centrifuge-400.webp"
-        alt="Alfa Laval Draw Oil Centrifuge"
-        width="400" height="400"
-        loading="lazy"
-        class="rounded-lg w-full h-auto"
-      />
-    </div>
-    <div class="flex-1 min-w-0 prose prose-lg max-w-none">
-      <p>Draw oil reduces the friction between metal-forming dies and the formed metal. It is a high-viscosity oil that sticks to the drawn metal and drawing die surface, providing essential lubrication during the stretching process. Sheet metal parts, metal extrusion, wire drawing, etc., all use drawing lubricants.</p>
-      <p>The severe friction between the die and drawn metal causes wear on the forming raw metal surface. These wear particles contaminate the drawing oil reducing its useful lifespan.</p>
-    </div>
-  </div>
+  <!-- ── Material of Construction ── -->
+  <h3 id="material-of-construction">Material of Construction</h3>
 
   <p>
-    Traditionally filtration is the way to remove these fine particles from drawing oil. However, considering filters' media and labor costs, the <a href="/industrial-centrifuge/">industrial centrifuge</a> is often the most cost-effective option.
-  </p>
-
-  <h3>Draw Oil Centrifuge Operation</h3>
-
-  <p>
-    A draw oil centrifuge is a high-speed disc centrifuge that separates small wear metal particles from the drawing oil. An industrial centrifuge generating over 7,000 g-force removes all fine metal particles down to 1/2 micron level consistently from draw oil.
-  </p>
-
-  <p>
-    The higher viscosity of drawing oil reduces the throughput capacity of the centrifuge. Increasing the drawing oil temperature through a heater reduces the viscosity, increasing the centrifuge efficiency and throughput.
-  </p>
-
-  <p>
-    <strong>Aluminum wire drawing</strong> is a typical application where large amounts of very fine aluminum powder contaminate the drawing oil. A self-cleaning centrifuge produces high enough centrifugal force to clean the drawing oil to a reusable level effectively.
-  </p>
-
-  <p>
-    Multiple aluminum wire drawing companies are using Dolphin Centrifuge-manufactured draw oil centrifuge systems. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for capacity and performance details.
-  </p>
-
-  <!-- ── Rolling Oil ── -->
-  <h2 id="rolling-oil">Rolling Oil Centrifuge Applications</h2>
-
-  <p>
-    Forming plates and sheets of metal by squeezing large billets between two rollers is known as rolling. Rolling is a standard process in manufacturing sheets from steel, aluminum, copper, and other metals.
-  </p>
-
-  <p>
-    Rolling oil is a lubricant used to reduce the friction between the rollers and the rolled metal. The lubrication facilitates smooth processing and the desired surface finish of the sheets produced.
-  </p>
-
-  <p>
-    The hot rolling process causes scaling on the surface of the feedstock that contaminates the rolling oil. It is imperative to separate these solid particles from the oil for their reuse.
-  </p>
-
-  <p>
-    Again, filters are used to remove these slag or scale particles from rolling oil. The cost of filtration media and related labor adds up over time. Mechanical separation with an industrial centrifuge is worth considering, especially in high rolling oil volumes.
-  </p>
-
-  <p>
-    Cold rolling of steel and copper alloys uses oil emulsion. This emulsion is a specific blend of water-soluble rolling oil with water. Rolling oil emulsions get contaminated with fine metal debris and oil from the rolled metal.
-  </p>
-
-  <p>
-    Separating water-based emulsions from undesirable oil and particles is the perfect application for our <a href="/machine-coolant-centrifuge/">machine coolant centrifuges</a>.
-  </p>
-
-  <h3>Rolling Oil Centrifuge</h3>
-
-  <p>
-    A high-speed, disc-stack centrifuge is ideal for recovering rolling oil by separating metal particles from the oil.
-  </p>
-
-  <p>
-    Given the higher proportion of solids, a &lsquo;self-cleaning&rsquo; type centrifuge can remove all solids down to a half-micron level from the rolling oil. They are thus extending the useful life of the oil multiple times, saving replacement and disposal costs.
-  </p>
-
-  <!-- ── Materials ── -->
-  <h2 id="materials">Materials of Construction</h2>
-
-  <p>
-    The cutting oil centrifuge is designed for mineral oil and fuel separation applications. Therefore, the material used in its construction is well suited for such uses. The following table lists the various components of the centrifuge and the material it is made of.
+    The Alfa Laval MOPX 205 Cutting Oil centrifuge is designed for mineral oil and fuel separation applications. Therefore, the material used in its construction is well suited for such uses. The following table lists the various components of the centrifuge and the material it is made of.
   </p>
 
   <table>
-    <thead>
-      <tr>
-        <th>Component</th>
-        <th>Material</th>
-      </tr>
-    </thead>
     <tbody>
       <tr><td>Bowl Body &amp; Bowl Hood</td><td>316L Duplex Stainless Steel</td></tr>
       <tr><td>Disc Stack</td><td>316L Duplex Stainless Steel</td></tr>
-      <tr><td>Distributor (Disc Carrier)</td><td>Marine Grade Bronze or 316 Stainless Steel (Special Order)</td></tr>
+      <tr><td>Distributor or Disc Carrier</td><td>Marine Grade Bronze or 316 Stainless Steel (Special Order)</td></tr>
       <tr><td>Top Disc</td><td>Marine Grade Bronze or 316 Stainless Steel (Special Order)</td></tr>
       <tr><td>Top Covers (Collecting)</td><td>Silium (Aluminum Alloy)</td></tr>
       <tr><td>Frame</td><td>Nodular Cast Iron</td></tr>
     </tbody>
   </table>
 
-  <!-- ── Specifications ── -->
-  <h2 id="specifications">Specifications</h2>
+  <!-- ── Draw Oil Centrifuge ── -->
+  <h2 id="draw-oil">Draw Oil Centrifuge</h2>
+
+  <p>Draw oil reduces the friction between metal-forming dies and the formed metal. It is a high-viscosity oil that sticks to the drawn metal and drawing die surface, providing essential lubrication during the stretching process. Sheet metal parts, metal extrusion, wire drawing, etc., all use drawing lubricants.</p>
+
+  <p>The severe friction between the die and drawn metal causes wear on the forming raw metal surface. These wear particles contaminate the drawing oil reducing its useful lifespan.</p>
+
+  <p>Traditionally filtration is the way to remove these fine particles from drawing oil. However, considering filters' media and labor costs, the industrial centrifuge is often the most cost-effective option.</p>
+
+  <h3 id="draw-oil-operation">Operation</h3>
+
+  <p>A draw oil centrifuge is a high-speed disc centrifuge that separates small wear metal particles from the drawing oil. An industrial centrifuge generating over 7,000 g-force removes all fine metal particles down to 1/2 micron level consistently from draw oil.</p>
+
+  <p>The higher viscosity of drawing oil reduces the throughput capacity of the centrifuge. Increasing the drawing oil temperature through a heater reduces the viscosity, increasing the centrifuge efficiency and throughput.</p>
+
+  <figure class="img-cap-400 not-prose">
+    <img
+      src="/images/cutting-oil-centrifuge/alfa-laval-draw-oil-centrifuge-400.webp"
+      alt="Alfa Laval Draw Oil Centrifuge"
+      width="400" height="400"
+      loading="lazy"
+    />
+    <figcaption><strong>Alfa Laval Aluminum Draw Oil Centrifuge</strong></figcaption>
+  </figure>
 
   <p>
-    The following table compares specifications for our most common cutting oil centrifuge models. Both are self-cleaning disc stack centrifuges with automatic sludge ejection.
+    <strong>Aluminum wire drawing</strong> is a typical application where large amounts of very fine aluminum powder contaminate the drawing oil. An Alfa Laval self-cleaning centrifuge produces high enough centrifugal force to clean the drawing oil to a reusable level effectively.
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Specification</th>
-        <th>DMPX-014</th>
-        <th>DMPX-042</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Typical Application</td><td>Copper Broaching Oil</td><td>Aluminum Machining Oil</td></tr>
-      <tr><td>Oil Viscosity</td><td>40 cSt @ 50&deg;C</td><td>14 cSt @ 50&deg;C</td></tr>
-      <tr><td>Separation Efficiency</td><td>0.5&mu; metal particles</td><td>0.5&mu; metal particles</td></tr>
-      <tr><td>Max Throughput</td><td>12 GPM</td><td>25 GPM</td></tr>
-      <tr><td>Bowl Sludge Space</td><td>0.6 Gal</td><td>1.5 Gal</td></tr>
-      <tr><td>Oil Cleanliness</td><td>0.01% Solids in Clean Oil @ 5 GPM</td><td>0.01% Solids in Clean Oil @ 10 GPM</td></tr>
-      <tr><td>Oil Cleanliness</td><td>0.025% Solids in Clean Oil @ 10 GPM</td><td>0.025% Solids in Clean Oil @ 20 GPM</td></tr>
-      <tr><td>Drive Motor</td><td>4 HP</td><td>10 HP</td></tr>
-      <tr><td>System Features</td><td>VFD Feed Pump, 5 Micron Polishing Filter, Sludge Tank &amp; Pump</td><td>Clean Oil Tank w/ VFD Pump, Sludge Tank &amp; Pump, 60 kW Electric Pre-Heater</td></tr>
-    </tbody>
-  </table>
+  <p>Multiple aluminum wire drawing companies are using Dolphin Centrifuge-manufactured draw oil centrifuge systems. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for capacity and performance details.</p>
 
-  <p>
-    <strong>Note:</strong> Actual throughput depends on oil viscosity and process temperature. Higher temperatures reduce viscosity and allow higher flow rates. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for sizing on your specific cutting oil.
-  </p>
+  <!-- ── Rolling Oil ── -->
+  <h2 id="rolling-oil">Rolling Oil</h2>
 
-  <hr />
+  <p>Forming plates and sheets of metal by squeezing large billets between two rollers is known as rolling. Rolling is a standard process in manufacturing sheets from steel, aluminum, copper, and other metals.</p>
 
-  <p>
-    <strong>Related resources:</strong>
-    <a href="/machine-coolant-centrifuge/">Machine Coolant Centrifuges</a> |
-    <a href="/oil-centrifuge/">Oil Centrifuges</a> |
-    <a href="/disc-stack-centrifuge-faq/">Centrifuge FAQ (101 Questions)</a> |
-    <a href="/disc-stack-centrifuge/">Self-Cleaning Centrifuge</a> |
-    <a href="/industrial-centrifuge-sample-testing/">Sample Testing Program</a> |
-    <a href="/picking-the-right-industrial-centrifuge/">How to Pick the Right Centrifuge</a>
-  </p>
+  <p>Rolling oil is a lubricant used to reduce the friction between the rollers and the rolled metal. The lubrication facilitates smooth processing and the desired surface finish of the sheets produced.</p>
 
-  <div id="faq">
-    <FAQ items={faqItems} />
-  </div>
+  <p>The hot rolling process causes scaling on the surface of the feedstock that contaminates the rolling oil. It is imperative to separate these solid particles from the oil for their resue.</p>
+
+  <p>Again, filters are used to remove these slag or scale particles from rolling oil. The cost of filtration media and related labor adds up over time. Mechanical separation with an industrial centrifuge is worth considering, especially in high rolling oil volumes.</p>
+
+  <p>Cold rolling of steel and copper alloys uses oil emulsion. This emulsion is a specific blend of water-soluble rolling oil with water. Rolling oil emulsions get contaminated with fine metal debris and oil from the rolled metal.</p>
+
+  <p>Separating water-based emulsions from undesirable oil and particles is the perfect application for our <a href="/machine-coolant-centrifuge/">machine coolant centrifuges</a>.</p>
+
+  <h3 id="rolling-oil-centrifuge">Rolling Oil Centrifuge</h3>
+
+  <figure class="img-cap-300 not-prose">
+    <img
+      src="/images/cutting-oil-centrifuge/Alfa-Laval-MOPX207-System-for-Industrial-Oils-300.webp"
+      alt="Alfa Laval MOPX207 System for Industrial Oils"
+      width="300" height="300"
+      loading="lazy"
+    />
+    <figcaption><strong>Alfa Laval MOPX 207 for Industrial Oils</strong></figcaption>
+  </figure>
+
+  <p>A high-speed, disc-stack centrifuge is ideal for recovering rolling oil by separating metal particles from the oil.</p>
+
+  <p>Given the higher proportion of solids, a &lsquo;self-cleaning&rsquo; type centrifuge can remove all solids down to a half-micron level from the rolling oil.</p>
+
+  <p>They are thus extending the useful life of the oil multiple times, saving replacement and disposal costs.</p>
 
 </ApplicationLayout>
