@@ -1,29 +1,8 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
-const faqItems = [
-  {
-    question: "What types of applications qualify for disc stack centrifuge rental from Dolphin Centrifuge?",
-    answer: "Dolphin Centrifuge rents disc stack centrifuges primarily for qualifying oil applications. These include crude oil purification, used oil recovery, waste oil processing, lube oil and engine oil cleaning, hydraulic oil polishing, diesel fuel and fuel oil purification, and similar oil separation work. Rentals are generally not available for non-oil applications such as wastewater, food-grade, or chemical processing. Contact us to discuss whether your application qualifies."
-  },
-  {
-    question: "Why does Dolphin Centrifuge limit disc stack rentals to oil applications?",
-    answer: "Disc stack centrifuge rentals involve significant logistical and technical complexity. Dolphin Centrifuge focuses rental availability on oil separation applications because these are the areas where our rebuilt DMPX-series units are pre-configured and validated. Non-oil applications typically require custom setup, alternative equipment types, or a lab sample test before any rental commitment. For non-oil projects, contact us to discuss sample testing, purchase, or rebuild options instead."
-  },
-  {
-    question: "Can I rent a centrifuge to test my oil application before buying?",
-    answer: "Yes, for qualifying oil applications, rental is one option. Dolphin Centrifuge also offers a sample testing service at our Warren, MI facility where you can send a fluid sample and we run it through the centrifuge before any rental commitment. This is often a faster and lower-cost way to validate your application. Contact us to determine whether a lab sample test, a rental trial, or a direct purchase is the best path for your situation."
-  },
-  {
-    question: "What is included in a disc stack centrifuge rental package?",
-    answer: "Rental packages for qualifying oil applications include a fully rebuilt centrifuge with new bearings, seals, and O-rings, a feed pump, motor, starter, and basic piping connections. An operating manual with process-specific parameters, phone and email technical support, and startup commissioning assistance (remote or on-site) are also included. A spare parts kit covering basic consumables for the rental duration is provided. Scope may vary depending on the model and application."
-  },
-  {
-    question: "How quickly can a rental disc stack centrifuge be delivered?",
-    answer: "For qualifying oil applications, Dolphin Centrifuge can typically ship a rental unit within 5 to 10 business days from rental agreement execution, depending on model availability and freight scheduling. Contact us directly at (248) 522-2573 to discuss availability for your specific situation."
-  }
-];
+
+
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -41,18 +20,7 @@ const jsonLd = {
   "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-rental/",
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
+
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -80,7 +48,7 @@ const toc = [
   { id: 'included', label: "What's Included" },
   { id: 'comparison', label: 'Rental vs. Purchase' },
   { id: 'terms', label: 'Rental Terms' },
-  { id: 'faq', label: 'FAQ' },
+
 ];
 
 const relatedApplications = [
@@ -104,7 +72,7 @@ const relatedProducts = [
   heroImage="/images/disc-stack-centrifuge-rental/Alfa-Laval-Disc-Centrifuge-Rental.webp"
   heroImageAlt="Alfa Laval Disc Centrifuge Rental Skid"
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-rental/"
-  jsonLd={[jsonLd, faqJsonLd, articleJsonLd]}
+  jsonLd={[jsonLd, articleJsonLd]}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
@@ -309,6 +277,6 @@ const relatedProducts = [
   </ul>
   <p>Looking for a decanter centrifuge instead? See our <a href="/decanter-centrifuge-rental/">decanter centrifuge rental program</a> for NX and G2-series units.</p>
 
-  <FAQ items={faqItems} />
+
 
 </ApplicationLayout>
