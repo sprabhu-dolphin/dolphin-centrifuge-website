@@ -35,3 +35,4 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `alfa-laval-industrial-centrifuges` | 2026-05-04 | `c0a96fb` | ApplicationLayout | ? DONE |
 | `disc-stack-centrifuge-capacity` | 2026-05-04 | `ea46c54` | ApplicationLayout | ? DONE |
 | `cutting-oil-centrifuge` | 2026-05-05 | `fc17ff9` | ApplicationLayout | ? DONE |
+| `alfa-laval-clara-20-food-grade-centrifuge` | 2026-05-05 | `3567209` | ApplicationLayout | ✅ DONE |
