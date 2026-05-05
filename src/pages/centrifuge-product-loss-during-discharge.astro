@@ -4,67 +4,60 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const jsonLd = [
   {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Centrifuge Product Loss at Discharge: Causes & How to Minimize",
-    "description": "Why product escapes during disc centrifuge sludge ejection, the factors that drive loss, and proven techniques to minimize yield loss. Technical guide from Dolphin Centrifuge.",
+    "@type": "BlogPosting",
+    "headline": "Alfa Laval Centrifuge Product Loss During Discharge",
+    "description": "Centrifuge product loss during discharge is a common issue for Alfa Laval self-cleaning centrifuges. We discuss the causes and fixes of this occurrence.",
     "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2021-04-01",
+    "datePublished": "2021-04-23",
     "url": "https://dolphincentrifuge.com/centrifuge-product-loss-during-discharge/",
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Why does a disc centrifuge lose product during sludge discharge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "During sludge ejection, the bowl opens momentarily to discharge accumulated solids. A small volume of product fluid exits with the sludge — this is normal and unavoidable. Excessive product loss occurs when discharge intervals are too frequent, discharge duration is too long, the discharge water volume is excessive, or the centrifuge is operating in full-discharge mode when partial discharge would be appropriate." }
-      },
-      {
-        "@type": "Question",
-        "name": "How can I minimize product loss during centrifuge discharge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Optimize discharge intervals to match actual sludge accumulation rate (discharge as infrequently as possible while avoiding bowl clogging), use partial-discharge mode when available, reduce the discharge water volume, and install product recovery trays to capture and recycle the discharged fluid." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the difference between a full discharge and a partial discharge?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A full discharge opens the bowl completely to its maximum aperture, ejecting all accumulated sludge and a significant volume of product. A partial discharge opens the bowl for a shorter duration, ejecting most sludge while retaining more product in the bowl. Partial discharge reduces product loss per cycle but may leave some sludge behind if not timed correctly." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is displacement water and how does it reduce product loss?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Displacement water is feed water introduced into the centrifuge bowl while temporarily blocking the water outlet. The incoming water pushes process fluid out through the clean fluid outlet, recovering it before the discharge cycle ejects the remaining water with the sludge. This technique is common in high-value fluid processing where even small yield improvements justify the additional step." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I calculate my centrifuge product loss rate?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Collect sludge discharge from a single ejection event, allow solids to settle, and measure the volume of clarified liquid fraction. Multiply the loss per discharge by discharge frequency per hour to estimate hourly product loss. For precise measurement, centrifuge sample testing can establish a controlled baseline before optimizing discharge parameters." }
-      }
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dolphincentrifuge.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Knowledge Base", "item": "https://dolphincentrifuge.com/knowledge-center/" },
+      { "@type": "ListItem", "position": 3, "name": "Centrifuge Product Loss During Discharge", "item": "https://dolphincentrifuge.com/centrifuge-product-loss-during-discharge/" }
     ]
   }
 ];
 
 const toc = [
-  { id: "sludge-discharge-cycle", label: "Sludge Discharge Cycle" },
-  { id: "why-product-escapes", label: "How Product Is Lost" },
-  { id: "factors-affecting-loss", label: "Causes and Fixes" },
-  { id: "minimize-product-loss", label: "Techniques to Minimize Loss" },
-  { id: "calculating-loss-rate", label: "Measuring Product Loss" },
-  { id: "faq", label: "Frequently Asked Questions" },
+  {
+    id: "sludge-discharge-cycle",
+    label: "Disc Centrifuge Sludge Discharge Cycle",
+    subItems: [
+      { id: "reason-for-sludge-discharge-cycle", label: "Reason for Sludge Discharge Cycle" },
+      { id: "discharge-cycle-mechanism", label: "Discharge Cycle Mechanism" },
+    ],
+  },
+  { id: "how-is-product-lost", label: "How is product lost during sludge discharge?" },
+  {
+    id: "causes-and-fixes",
+    label: "Causes and Fixes of Product Loss During Discharge",
+    subItems: [
+      { id: "centrifuge-bowl-design", label: "Centrifuge Bowl Design" },
+      { id: "frequent-discharge-cycles", label: "Frequent Discharge Cycles" },
+      { id: "bowl-leakage", label: "Bowl Leakage" },
+      { id: "lack-of-displacement-water", label: "Lack Of Displacement Water" },
+    ],
+  },
 ];
 ---
 
 <ApplicationLayout
-  title="Centrifuge Product Loss at Discharge | Dolphin Centrifuge"
-  description="Why product escapes during disc centrifuge sludge ejection, the causes of loss, and proven techniques to minimize yield loss. Guide from Dolphin Centrifuge."
+  title="Alfa Laval Centrifuge Product Loss During Discharge"
+  disableTitleSuffix={true}
+  description="Centrifuge product loss during discharge is a common issue for Alfa Laval self-cleaning centrifuges. We discuss the causes and fixes of this occurrence."
   canonicalUrl="https://dolphincentrifuge.com/centrifuge-product-loss-during-discharge/"
   category="knowledge"
   categoryLabel="Knowledge Base"
   heroImage="/images/centrifuge-product-loss-during-discharge/Product-Loss-With-Sludge-Discharge-800.webp"
-  heroImageAlt="Product loss with centrifuge sludge discharge diagram"
+  heroImageAlt="Centrifuge Product Loss With Sludge Discharge"
   toc={toc}
   jsonLd={jsonLd}
+  hideBottomCTA={true}
   relatedProducts={[
     { label: "DMPX Disc Stack Centrifuges", href: "/centrifuges/", description: "Self-cleaning DMPX systems with programmable discharge control" },
     { label: "Centrifuge Sample Testing", href: "/industrial-centrifuge-sample-testing/", description: "Establish baseline loss rate before full-scale optimization" },
@@ -78,137 +71,72 @@ const toc = [
   ]}
 >
 
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies DMPX self-cleaning disc stack centrifuges with programmable partial-discharge cycles that keep product loss below 0.5% of throughput at 5,000–10,000 G separation force. Warren, Michigan — 40+ years of centrifuge optimization.</p>
-  </div>
-
-  <!-- Opening Summary Card -->
-  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-    <img src="/images/centrifuge-product-loss-during-discharge/Product-Loss-With-Sludge-Discharge-800.webp" alt="Product loss with centrifuge sludge discharge diagram" width="800" height="375" loading="lazy" class="rounded-lg w-full mb-4" />
-    <p class="text-text-light leading-relaxed"><strong>Summary:</strong> Product loss during discharge is inherent to the self-cleaning disc centrifuge design — it cannot be eliminated entirely, but it can be controlled. The main conduit for product loss is sludge ejection. This article discusses the various aspects of product loss with centrifuges and ways to mitigate such losses.</p>
+  <!-- Opening paragraphs -->
+  <div class="space-y-3 text-text-light mb-8">
+    <p>Often times a centrifuge user experiences the loss of process fluid or product during centrifuge processing. The main conduit for product loss is sludge ejection.</p>
+    <p>This article discusses the various aspects of product loss with centrifuges and ways to mitigate such losses.</p>
   </div>
 
   <!-- Disc Centrifuge Sludge Discharge Cycle -->
   <h2 id="sludge-discharge-cycle">Disc Centrifuge Sludge Discharge Cycle</h2>
   <div class="space-y-3 text-text-light mb-8">
-    <p>During the regular operation of a <a href="/disc-stack-centrifuge/">disc stack centrifuge</a>, the high centrifugal force pushes the heavier solid particles outward towards the bowl wall. The particles accumulate in the designed sludge space while the clarified fluid exits the bowl. This accumulation of sediment particles forms the separated sludge.</p>
-    <p>Self-cleaning centrifuges discharge the separated sludge intermittently during a sludge discharge cycle. During this cycle, the sludge holding space is momentarily open, and the bowl discharges the separated sludge.</p>
+    <p>During the regular operation of an <a href="http://alfalaval.com" target="_blank" rel="noreferrer noopener">Alfa Laval</a> disc centrifuge, the high centrifugal force pushes the heavier solid particles outward towards the bowl wall. The particles accumulate in the designed sludge space while the clarified fluid exits the bowl. This accumulation of sediment particles forms the separated sludge.</p>
+    <p>Alfa Laval self-cleaning centrifuges discharge the separated sludge intermittently during a sludge discharge cycle. During this cycle, the sludge holding space is momentarily open, and the bowl discharges the separated sludge.</p>
 
-    <h3>Reason for Sludge Discharge Cycle</h3>
-    <p>The accumulation of sludge fills the sludge and water space within the centrifuge bowl. As this space fills up, the inside perimeter of the sludge moves radially inwards toward the center of the bowl that houses the liquid separation space.</p>
+    <h3 id="reason-for-sludge-discharge-cycle">Reason for Sludge Discharge Cycle</h3>
+    <p>The accumulation of sludge fills the sludge and water space with the centrifuge bowl. As this space fills up, the inside perimeter of the sludge moves radially inwards toward the center of the bowl that houses the liquid separation space.</p>
     <p>If too much sludge accumulates, the sludge starts to block the flow passage of the separated fluid(s). Therefore, it is essential to discharge the sludge before encroaching on the fluid passages.</p>
-    <p>Excessive sludge accumulation can lead to the sludge entering the inter-disc space, blocking the space between <a href="/centrifuge-clogged-bowl-discs/">bowl discs</a>. It is very important to avoid this from happening because it causes a complete blockage of the fluid flow, which can cause vibrations and can be a safety hazard.</p>
+    <p>Excessive sludge accumulation can lead to the sludge entering the inter-disc space blocking the space between bowl discs. It is very important to avoid this from happening because it causes a complete blockage of the fluid flow, which can cause vibrations and can be a safety hazard.</p>
 
-    <h3>Discharge Cycle Mechanism</h3>
-    <p>A hydraulic mechanism executes the sludge discharge from the centrifuge bowl. The sliding piston moves downward by releasing the water underneath it. This movement of the sliding piston opens the sludge discharge ports around the bowl periphery.</p>
+    <h3 id="discharge-cycle-mechanism">Discharge Cycle Mechanism</h3>
+    <p>A hydraulic mechanism executes the sludge discharge from the centrifuge bowl. The sliding piston (shown above) moves downward by releasing the water underneath it. This movement of the sliding piston opens the sludge discharge ports around the bowl periphery.</p>
     <p>The high centrifugal force within the bowl causes the accumulated sludge to eject out through the ports instantly. The sliding piston moves back upward after the discharge to close out the sludge ports.</p>
     <p>The water harness controls the <a href="/disc-stack-centrifuge-operating-water/">operating water</a> working this hydraulic mechanism through electric solenoid valves.</p>
   </div>
 
   <!-- How Is Product Lost -->
-  <h2 id="why-product-escapes">How Is Product Lost During Sludge Discharge?</h2>
+  <h2 id="how-is-product-lost">How is product lost during sludge discharge?</h2>
   <div class="space-y-3 text-text-light mb-8">
-    <p>Ideally, the centrifuge should discharge only the separated sludge to minimize fluid product loss. However, due to the reasons discussed below, some process fluid escapes the bowl with the sludge leading to product loss.</p>
-    <p>When a discharge is triggered, the sliding bowl bottom drops open momentarily — creating a brief annular gap around the entire bowl circumference. This gap expels the sludge by centrifugal force. The problem is that the sludge holding space is not completely isolated from the liquid-filled bowl interior. When the gap opens:</p>
-    <ul>
-      <li>The pressure equalization between the sludge space and bowl interior forces clarified liquid outward with the sludge.</li>
-      <li>The turbulence created by the opening event temporarily disrupts the separated layers in the disc stack.</li>
-      <li>Any liquid sitting above the sludge layer at the bowl periphery exits before the gap closes.</li>
-    </ul>
-    <p>The result is that every discharge event sends some quantity of clarified product to the sludge discharge, depending on configuration and timing.</p>
+    <p>Ideally, the centrifuge should discharge only the separated sludge to minimize fluid product loss. However, due to the reasons mentioned below, some process fluid escapes the bowl and the sludge leading to product loss.</p>
   </div>
 
-  <!-- Causes and Fixes of Product Loss During Discharge -->
-  <h2 id="factors-affecting-loss">Causes and Fixes of Product Loss During Discharge</h2>
-  <img src="/images/centrifuge-product-loss-during-discharge/Product-Loss-With-Sludge-Discharge-600.webp" alt="Product loss with centrifuge sludge discharge - causes and contributing factors" width="600" height="281" loading="lazy" class="rounded-lg w-full mb-4" />
+  <!-- Causes and Fixes -->
+  <h2 id="causes-and-fixes">Causes and Fixes of Product Loss During Discharge</h2>
+
+  <!-- Body image with figcaption -->
+  <figure class="img-cap-600 mb-6">
+    <img
+      src="/images/centrifuge-product-loss-during-discharge/Product-Loss-With-Sludge-Discharge-600.webp"
+      alt="Product Loss With Centrifuge Sludge Discharge"
+      width="600"
+      height="281"
+      loading="lazy"
+    />
+    <figcaption>Product Loss With Centrifuge Sludge Discharge</figcaption>
+  </figure>
+
   <div class="space-y-3 text-text-light mb-8">
     <p>The main reasons for the product loss from the centrifuge bowl are explained below.</p>
 
-    <h3>Centrifuge Bowl Design</h3>
-    <p>Self-cleaning disc stack centrifuge bowls have different designs for sludge ejection. The older version of these bowls has a "full-shoot" design wherein the centrifuge ejects the entire bowl contents during the discharge cycle. The bowl typically has 70% of the product within during the process. A full-shoot bowl discharges all the products leading to product loss.</p>
-    <p>The newer design of self-cleaning centrifuges features a "partial-ejection" design wherein the bowl opens and closes the sludge ports within a short period of time. This short sludge ejection cycle allows the centrifuge to eject only the accumulated sludge while retaining the fluid product. This design reduces product loss significantly.</p>
+    <h3 id="centrifuge-bowl-design">Centrifuge Bowl Design</h3>
+    <p>Self-cleaning disc stack centrifuge bowls have different designs for sludge ejection. The older version of these bowls has a 'full-shoot' design wherein the centrifuge ejects the entire bowl contents during the discharge cycle. The bowl typically has 70% of the product within during the process. A full-shoot bowl discharges all the products leading to product loss.</p>
+    <p>The newer design of self-cleaning centrifuges features a '<a href="https://www.alfalaval.com/globalassets/documents/local/south-east-asia/palm-oil/po_papx307_doc.pdf" target="_blank" rel="noreferrer noopener">partial-ejection</a>' design wherein the bowl opens and closes the sludge ports within a short period of time. This short sludge ejection cycle allows the centrifuge to eject only the accumulated sludge while retaining the fluid product. This design reduces product loss significantly.</p>
 
-    <h3>Frequent Discharge Cycles</h3>
+    <h3 id="frequent-discharge-cycles">Frequent Discharge Cycles</h3>
     <p>The discharge cycle time is based on the percentage of solids and the flow rate. However, if there is any error or miscalculation in the cycle time, it is possible to have sludge ejection cycles too frequently.</p>
     <p>An ejection during the cycle where the sludge space is not full with sludge implies that fluid product is present in the sludge space. A premature sludge discharge cycle will eject out the product along with the sludge leading to product loss.</p>
     <p>To minimize the amount of product loss during discharge, it is necessary to calculate the <a href="/disc-stack-centrifuge-sludge-ejection-cycle-time/">sludge discharge cycle</a> accurately. The sludge discharge reference chart is a good starting point to estimate the cycle time.</p>
 
-    <h3>Bowl Leakage</h3>
-    <p>If the bowl is not fully closed or the sliding piston leaks, the sludge can leak out through the sliding piston seal. Once the local sludge has exited, the process fluid follows to escape through the opening leading to product loss. Read our article on <a href="/disc-stack-centrifuge-troubleshooting-bowl-leaking/">causes and fixes for centrifuge bowl leaking</a>.</p>
+    <h3 id="bowl-leakage">Bowl Leakage</h3>
+    <p>If the bowl is not fully closed or the sliding piston leaks, the sludge can leak out through the sliding piston seal. Once the local sludge has exited, the process fluid follows to escape through the opening leading to product loss.</p>
+    <p>Read our article on <a href="/disc-stack-centrifuge-troubleshooting-bowl-leaking/">causes and fixes for centrifuge bowl leaking</a>.</p>
 
-    <h3>Lack of Displacement Water</h3>
+    <h3 id="lack-of-displacement-water">Lack Of Displacement Water</h3>
     <p>Under certain circumstances, the process fluid is displaced with water before the discharge cycle. The water used to displace the product fluid is known as displacement water.</p>
     <p>The water outlet from the centrifuge bowl is temporarily blocked, and water is fed into the centrifuge bowl. The incoming water pushes out some of the process fluid through the clean fluid outlet. The displaced water is then discharged with the sludge in the discharge cycle.</p>
-    <p>The displaced process fluid is recovered from the bowl and not lost with the sludge. If the displacement water is not used, the displaced product is lost during the sludge ejection cycle.</p>
+    <p>The displaced process fluid is recovered from the bowl and not lost with the sludge.</p>
+    <p>If the displacement water is not used, the displaced product is lost during the sludge ejection cycle.</p>
     <p>The implementation of a displacement water step, if feasible, is recommended to alleviate the loss of product fluid under such conditions.</p>
-
-    <p>If your machine is also producing <a href="/disc-stack-centrifuge-bad-separation/">bad separation quality</a>, the two problems are often linked and should be diagnosed together.</p>
-  </div>
-
-  <!-- How to Minimize Loss -->
-  <h2 id="minimize-product-loss">Proven Techniques to Minimize Product Loss</h2>
-
-  <h3>1. Use Partial Ejection</h3>
-  <p class="text-text-light mb-4">Partial ejection is the single most effective tool for reducing product loss. Instead of fully opening the bowl bottom, partial ejection briefly pulses the sliding bowl bottom — ejecting a fraction of the sludge volume while limiting the liquid that escapes. Many modern centrifuge controls offer partial ejection as a programmable option. When the application allows it, use partial ejections for routine sludge removal and reserve total ejections for periodic deep cleaning cycles.</p>
-
-  <h3>2. Cut Feed Before Discharge</h3>
-  <p class="text-text-light mb-4">Stopping the feed pump 30–60 seconds before triggering a discharge allows feed introduction to cease and the bowl contents to stabilize. This sharper liquid-sludge interface at the periphery means less clarified liquid is adjacent to the discharge ports when they open. On automated systems, this feed cutoff delay should be programmed into the discharge sequence.</p>
-
-  <h3>3. Optimize Discharge Interval</h3>
-  <p class="text-text-light mb-4">Discharge too frequently and you lose more product than necessary. Discharge too infrequently and the sludge space overflows, contaminating the clarified product. The optimal interval fills the sludge space to roughly 70–80% capacity before discharge. This requires knowing your feed's solids concentration (measured by centrifuge tube or turbidity sensor) and correlating it to the bowl's sludge holding capacity.</p>
-
-  <h3>4. Optimize Discharge Duration</h3>
-  <p class="text-text-light mb-4">The gap open time (controlled by the operating water solenoid valve duration in water-triggered designs) should be set to the minimum required to fully expel the sludge. Excessive duration keeps the gap open after the sludge has exited, wasting clarified product. Start with the manufacturer's recommended baseline and adjust in 0.1-second increments while monitoring sludge discharge dryness.</p>
-
-  <h3>5. Use Displacement Water</h3>
-  <p class="text-text-light mb-8">On applications where product value justifies the step, displacement water is fed into the centrifuge bowl while temporarily blocking the water outlet. The incoming water pushes process fluid out through the clean fluid outlet, recovering it before the discharge cycle ejects the remaining water with the sludge. This technique is common in high-value fluid processing.</p>
-
-  <!-- Measuring and Reducing Product Loss -->
-  <h2 id="calculating-loss-rate">Measuring and Reducing Product Loss</h2>
-  <div class="space-y-3 text-text-light mb-8">
-    <p>Before investing in optimization, establish your baseline loss rate by collecting sludge discharge from a single ejection event, allowing solids to settle, and measuring the volume of clarified liquid fraction. Multiply the loss per discharge by discharge frequency to estimate hourly product loss.</p>
-    <p>For high-value applications where even small loss reductions justify significant effort, <a href="/industrial-centrifuge-sample-testing/">centrifuge sample testing</a> can establish a controlled baseline and validate optimization steps before full-scale implementation.</p>
-    <p>If you are also experiencing <a href="/disc-stack-centrifuge-troubleshooting-bowl-leaking/">bowl leakage issues</a>, address those first — a leaking bowl distorts loss measurements and compounds overall yield problems.</p>
-  </div>
-
-  <p class="text-text-light leading-relaxed mb-10">To discuss product loss optimization for your specific centrifuge and application, contact Dolphin Centrifuge at <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a>.</p>
-
-  <!-- Mid-page CTA -->
-  <div class="bg-gold/10 border border-gold rounded-xl p-6 my-8 text-center">
-    <h3 class="text-lg font-bold text-navy mb-2">Losing Too Much Product at Discharge?</h3>
-    <p class="text-text-light text-sm mb-4 max-w-lg mx-auto">Dolphin Centrifuge engineers can analyze your discharge cycle parameters and recommend proven optimizations to minimize product loss. Start with a sample test to establish your baseline.</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/industrial-centrifuge-sample-testing/" class="bg-gold text-navy font-bold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Sample Testing</a>
-      <a href="/industrial-disc-centrifuge-repair/" class="border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors text-sm">Centrifuge Service</a>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <div id="faq" class="mt-10 mb-6">
-    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-white p-4 shadow-sm">
-        <summary class="font-semibold text-navy cursor-pointer">Why does a disc centrifuge lose product during sludge discharge?</summary>
-        <p class="text-text-light text-sm mt-3">During sludge ejection, the bowl opens momentarily to discharge accumulated solids. A small volume of product fluid exits with the sludge — this is normal and unavoidable. Excessive product loss occurs when discharge intervals are too frequent, discharge duration is too long, or the centrifuge is operating in full-discharge mode when partial discharge would be appropriate.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-white p-4 shadow-sm">
-        <summary class="font-semibold text-navy cursor-pointer">How can I minimize product loss during centrifuge discharge?</summary>
-        <p class="text-text-light text-sm mt-3">Optimize discharge intervals to match actual sludge accumulation rate (discharge as infrequently as possible while avoiding bowl clogging), use partial-discharge mode when available, reduce the discharge water volume, and install product recovery trays to capture and recycle the discharged fluid.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-white p-4 shadow-sm">
-        <summary class="font-semibold text-navy cursor-pointer">What is the difference between a full discharge and a partial discharge?</summary>
-        <p class="text-text-light text-sm mt-3">A full discharge opens the bowl completely to its maximum aperture, ejecting all accumulated sludge and a significant volume of product. A partial discharge opens the bowl for a shorter duration, ejecting most sludge while retaining more product in the bowl. Partial discharge reduces product loss per cycle.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-white p-4 shadow-sm">
-        <summary class="font-semibold text-navy cursor-pointer">What is displacement water and how does it reduce product loss?</summary>
-        <p class="text-text-light text-sm mt-3">Displacement water is feed water introduced into the centrifuge bowl while temporarily blocking the water outlet. The incoming water pushes process fluid out through the clean fluid outlet, recovering it before the discharge cycle ejects the remaining water with the sludge. This technique is common in high-value fluid processing.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-white p-4 shadow-sm">
-        <summary class="font-semibold text-navy cursor-pointer">How do I calculate my centrifuge product loss rate?</summary>
-        <p class="text-text-light text-sm mt-3">Collect sludge discharge from a single ejection event, allow solids to settle, and measure the volume of clarified liquid fraction. Multiply the loss per discharge by discharge frequency per hour to estimate hourly product loss. For precise measurement, centrifuge sample testing establishes a controlled baseline before optimizing discharge parameters.</p>
-      </details>
-    </div>
   </div>
 
 </ApplicationLayout>
