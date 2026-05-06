@@ -38,3 +38,4 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `alfa-laval-clara-20-food-grade-centrifuge` | 2026-05-05 | `3567209` | ApplicationLayout | ✅ DONE |
 | `explosion-proof-stainless-steel-centrifuge` | 2026-05-05 | `8d2cfe3` | ApplicationLayout | ✅ DONE |
 | `yellow-grease-purification-centrifuge` | 2026-05-06 | `bc9d6c2` | ApplicationLayout | ✅ DONE |
+| lfa-laval-mab-centrifuge | 2026-05-06 | `e9c9ac7` | ApplicationLayout | No. DONE |
