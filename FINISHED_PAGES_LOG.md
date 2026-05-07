@@ -1,4 +1,4 @@
-﻿# Finished Pages Log â€” Dolphin Centrifuge Refactor (v2.2)
+# Finished Pages Log â€” Dolphin Centrifuge Refactor (v2.2)
 
 âš“ **THE SOURCE OF TRUTH FOR COMPLETION**
 
@@ -39,6 +39,5 @@ Only pages listed here with a "âœ… DONE" status are considered finished to t
 | `explosion-proof-stainless-steel-centrifuge` | 2026-05-05 | `8d2cfe3` | ApplicationLayout | âœ… DONE |
 | `yellow-grease-purification-centrifuge` | 2026-05-06 | `bc9d6c2` | ApplicationLayout | âœ… DONE |
 | `alfa-laval-mab-centrifuge` | 2026-05-06 | `e9c9ac7` | ApplicationLayout | âœ… DONE |
-| `hydraulic-oil-centrifuge` | 2026-05-07 | `7807a46` | ApplicationLayout | âœ… DONE |
 | `used-oil-centrifuge-plant` | 2026-05-07 | `a6c4325` | ApplicationLayout | âœ… DONE |
 
