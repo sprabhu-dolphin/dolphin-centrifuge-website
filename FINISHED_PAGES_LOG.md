@@ -39,3 +39,5 @@ Only pages listed here with a "✅ DONE" status are considered finished to the v
 | `explosion-proof-stainless-steel-centrifuge` | 2026-05-05 | `8d2cfe3` | ApplicationLayout | ✅ DONE |
 | `yellow-grease-purification-centrifuge` | 2026-05-06 | `bc9d6c2` | ApplicationLayout | ✅ DONE |
 | lfa-laval-mab-centrifuge | 2026-05-06 | `e9c9ac7` | ApplicationLayout | No. DONE |
+- used-oil-centrifuge-plant (SHA: 047b044)
+- hydraulic-oil-centrifuge (SHA: 7807a46)
