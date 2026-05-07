@@ -1,59 +1,55 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Disc Stack Centrifuge Performance - 8 External Factors",
-    "description": "Understand the 8 external factors affecting disc stack centrifuge performance: ambient temperature, tank setup, pump selection, discharge piping, and more.",
-    "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
-    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2021-03-01",
-    "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-performance/",
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Disc Stack Centrifuge Performance - 8 External Factors",
+  "description": "Disc stack centrifuge performance is affected by these external factors. A brief explanation and example of each of these 8 factors.",
+  "url": "https://dolphincentrifuge.com/disc-stack-centrifuge-performance/",
+  "datePublished": "2021-03-14T21:07:13+00:00",
+  "dateModified": "2022-08-06T15:31:14-04:00",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://dolphincentrifuge.com/images/disc-stack-centrifuge-performance/disc_stack_centrifuge_setup_hero.webp"
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What external factors affect disc stack centrifuge performance?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The 8 main external factors affecting disc centrifuge performance are: (1) feed temperature — lower temperatures increase viscosity and reduce separation efficiency, (2) feed tank agitation — settled feed has variable sludge content that disrupts stable operation, (3) feed pump selection — incorrect pump type causes pulsation or cavitation, (4) pre-filtration — oversized particles bypass the disc stack and contaminate the centrate, (5) discharge piping back-pressure, (6) sludge ejection cycle timing, (7) operating water quality and pressure, (8) ambient temperature affecting gearbox oil viscosity and feed fluid properties." }
-      },
-      {
-        "@type": "Question",
-        "name": "How does feed temperature affect centrifuge separation performance?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Feed temperature directly determines the viscosity of the liquid being separated. Lower viscosity (higher temperature) allows centrifugal force to move particles more rapidly through the liquid. For every 10°C reduction in temperature, viscosity typically increases 10–20%, reducing separation efficiency proportionally. Heavy oils must be heated to 180–200°F to achieve acceptable viscosity. Even water-based coolants benefit from operating above 70°F for optimal sub-micron particle removal." }
-      },
-      {
-        "@type": "Question",
-        "name": "Why does feed tank agitation matter for centrifuge performance?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Without agitation, sludge settles to the bottom of the feed tank and the centrifuge receives alternating feeds of clean liquid (from the top) and highly concentrated sludge (from the bottom). These concentration spikes overload the bowl's sludge space and cause premature bowl filling, liquid seal instability, and inconsistent centrate quality. A properly sized agitator keeps sludge uniformly suspended, ensuring a consistent, manageable sludge load throughout operation." }
-      },
-      {
-        "@type": "Question",
-        "name": "What back-pressure is acceptable on a disc centrifuge centrate outlet?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Acceptable centrate back-pressure for most disc centrifuge models is 0–15 PSIG on the light phase outlet and 0–10 PSIG on the heavy phase outlet. Excessive back-pressure compresses the liquid seal ring and can cause liquid seal break. Back-pressure is created by long or undersized centrate piping, elevation changes, flow control valves, and downstream equipment resistance. Always minimize discharge piping length and elevation changes." }
-      },
-      {
-        "@type": "Question",
-        "name": "Why should the sludge tank under a disc centrifuge be vented?",
-        "acceptedAnswer": { "@type": "Answer", "text": "During sludge ejection, the high centrifugal force creates a pressure pulse that accompanies the discharged sludge. A sealed sludge tank traps this pressure and can cause ejected sludge to deflect back into the centrifuge bowl, interfering with the bowl opening mechanism. In worst-case scenarios, pressure buildup can rupture the tank, causing equipment damage or operator injury. Always vent the sludge tank to atmosphere." }
-      }
-    ]
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
   }
-];
+};
 
 const toc = [
-  { id: 'ambient-temperature', label: 'Ambient Temperature' },
-  { id: 'feed-tank-type', label: 'Type of Feed Tank' },
-  { id: 'feed-tank-location', label: 'Location of Feed Tank' },
-  { id: 'discharge-tank-location', label: 'Location of Discharge Tank' },
-  { id: 'discharge-tank-connection', label: 'Discharge Tank Connection Location' },
+  { id: 'ambient-temperature', label: 'Ambient Temperature', subItems: [
+    { id: 'physical-effects-on-centrifuge-mechanics', label: 'Physical Effects on Centrifuge Mechanics' },
+    { id: 'lubricating-oil-viscosity', label: 'Lubricating Oil Viscosity' },
+    { id: 'operating-water-temperature', label: 'Operating Water Temperature' },
+    { id: 'gelling-of-process-fluid-constituents', label: 'Gelling of Process Fluid Constituents' },
+  ]},
+  { id: 'type-of-feed-tank', label: 'Type of Feed Tank' },
+  { id: 'location-of-feed-tank', label: 'Location of Feed Tank' },
+  { id: 'location-of-discharge-tank', label: 'Location of Discharge Tank', subItems: [
+    { id: 'centrifuge-back-pressure', label: 'Centrifuge Back Pressure' },
+    { id: 'climate-effect-on-discharge-piping', label: 'Climate Effect on Discharge Piping' },
+  ]},
+  { id: 'discharge-tank-connection-location', label: 'Discharge Tank Connection Location' },
   { id: 'feed-tank-agitation', label: 'Feed Tank Agitation' },
-  { id: 'feed-pump-type', label: 'Type of Feed Transfer Pump' },
-  { id: 'sludge-tank', label: 'Sludge Tank' },
+  { id: 'type-of-feed-transfer-pump', label: 'Type of Feed Transfer Pump' },
+  { id: 'sludge-tank', label: 'Sludge Tank', subItems: [
+    { id: 'venting', label: 'Venting' },
+    { id: 'location', label: 'Location' },
+    { id: 'connection', label: 'Connection' },
+  ]},
 ];
 
 const relatedApplications = [
@@ -66,243 +62,147 @@ const relatedApplications = [
 ---
 
 <ApplicationLayout
-  title="Disc Centrifuge Performance: 8 Factors | Dolphin Centrifuge"
-  description="Understand the 8 external factors affecting disc stack centrifuge performance: ambient temperature, tank setup, pump selection, discharge piping, and more."
+  title="Disc Stack Centrifuge Performance - 8 External Factors"
+  disableTitleSuffix={true}
+  description="Disc stack centrifuge performance is affected by these external factors. A brief explanation and example of each of these 8 factors."
   canonicalUrl="https://dolphincentrifuge.com/disc-stack-centrifuge-performance/"
   category="knowledge"
   categoryLabel="Knowledge Center"
-  heroImage="/images/disc-stack-centrifuge-performance/Disc-Centrifuge-Discharge-Tank-Setup-800.webp"
-  heroImageAlt="Disc Centrifuge Correct Discharge Tank Setup"
+  categoryHref="/knowledge-center/"
+  heroImage="/images/disc-stack-centrifuge-performance/disc_stack_centrifuge_setup_hero.webp"
+  heroImageAlt="Disc Centrifuge Discharge Tank Setup"
   toc={toc}
   relatedApplications={relatedApplications}
-  jsonLd={jsonLd}
+  jsonLd={[jsonLd]}
+  hideBottomCTA={true}
 >
 
-  <!-- AI Summary -->
-  <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge identifies eight external factors — feed tank type, pump selection, discharge piping back-pressure (0-15 PSIG max), and ambient temperature — that determine whether a disc stack centrifuge operating at 5,000-10,000 RPM achieves rated separation capacity.</p>
-  </div>
-
   <!-- Intro -->
-  <p class="text-text leading-relaxed mb-4"><a href="https://en.wikipedia.org/wiki/Conical_plate_centrifuge">Disc stack centrifuge</a> performance depends on several factors that are internal and external. Internal factors are those which are related to the centrifuge and the process fluid.</p>
-  <p class="text-text leading-relaxed mb-4">We will discuss the external factors here. You can also read our blog about <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">internal factors that affect centrifuge efficiency</a>.</p>
-  <div class="bg-navy/5 border border-navy/20 rounded-lg p-4 mb-8">
-    <p class="text-navy font-semibold"><a href="/disc-stack-centrifuge-faq/" class="hover:text-gold transition-colors">Read our 101 Frequently Asked Questions about Disc Stack Centrifuges!</a></p>
-  </div>
+  <p><a href="https://en.wikipedia.org/wiki/Conical_plate_centrifuge">Disc stack centrifuge</a> performance depends on several factors that are internal and external. Internal factors are those which are related to the centrifuge and the process fluid.</p>
+  <p>We will discuss the external factors here. You can also read our blog about <a href="/disc-stack-centrifuge-efficiency/">internal factors that affect centrifuge efficiency</a>.</p>
+
+  <hr />
+  <p class="text-center"><strong><em>Read our <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges!</a></em></strong></p>
+  <hr />
 
   <!-- 1. Ambient Temperature -->
-  <h2 id="ambient-temperature">1. Ambient Temperature</h2>
-  <p class="text-text leading-relaxed mb-4">The ambient temperature of the centrifuge location affects the performance of the centrifuge in a few ways. Colder environments are detrimental to centrifuge performance. This effect is exacerbated if the process fluid is temperature-sensitive.</p>
+  <h2 id="ambient-temperature">Ambient Temperature</h2>
+  <p>The ambient temperature of the centrifuge location affects the performance of the centrifuge in a few ways. Colder environments are detrimental to centrifuge performance. This effect is exasperated if the process fluid is temperature-sensitive.</p>
 
-  <h3>Physical Effects on Centrifuge Mechanics</h3>
-  <p class="text-text leading-relaxed mb-4">Extreme ambient temperature affects the centrifuge in a few ways. One is the effect of temperature on the internal centrifuge lubrication.</p>
-  <p class="text-text leading-relaxed mb-4">The temperature of the operating water and clogging of the centrifuge passages by process fluid constituents are other possible effects.</p>
+  <h3 id="physical-effects-on-centrifuge-mechanics">Physical Effects on Centrifuge Mechanics</h3>
+  <p>Extreme ambient temperature affects the centrifuge in a few ways. One is the effect of temperature on the internal centrifuge lubrication.</p>
+  <p>The temperature of the operating water and clogging of the centrifuge passages by process fluid constituents are other possible effects.</p>
 
-  <h4>Lubricating Oil Viscosity</h4>
-  <p class="text-text leading-relaxed mb-4">In colder environments, the viscosity of the lubricating oil in the centrifuge gearbox increases. The viscous lube oil increases the resistance to the gear motion. As a result, the motor's current draw increases, which may also cause the motor to heat up.</p>
-  <p class="text-text leading-relaxed mb-4">The heat generated by the centrifuge operation gradually increases the lubricating oil's temperature and reduces the viscosity. With the lower lube oil viscosity, the motor current draw typically falls back into the normal operating range.</p>
-  <figure class="my-6">
-    <img src="/images/disc-stack-centrifuge-performance/disc-centrifuge-splash-lubrication.webp" alt="Disc Centrifuge Splash Lubrication" width="300" height="400" loading="lazy" class="rounded-lg mx-auto" />
-    <figcaption class="text-center text-sm text-gray-500 mt-2">Disc Centrifuge Splash Lubrication</figcaption>
+  <h4 id="lubricating-oil-viscosity">Lubricating Oil Viscosity</h4>
+  <p>In colder environments, the viscosity of the lubricating oil in the centrifuge gearbox increases. The viscous lube oil increases the resistance to the gear motion. As a result, the motor's current draw increases, which may also cause the motor to heat up.</p>
+  <p>The heat generated by the centrifuge operation gradually increases the lubricating oil's temperature and reduces the viscosity. With the lower lube oil viscosity, the motor current draw typically falls back into the normal operating range.</p>
+
+  <figure>
+    <img
+      src="/images/disc-stack-centrifuge-performance/disc-centrifuge-splash-lubrication.webp"
+      alt="Disc Centrifuge Splash Lubrication"
+      width="300"
+      height="400"
+      loading="lazy"
+      class="img-cap-300"
+    />
+    <figcaption><strong>Disc Centrifuge Splash Lubrication</strong></figcaption>
   </figure>
-  <p class="text-text leading-relaxed mb-4">It is important to note that the centrifuge incorporates a splash lubrication system that relies on the lubricant's viscosity. The thicker lubricant in cold environments may affect the lubrication of the centrifuge bearings.</p>
-  <p class="text-text leading-relaxed mb-4">As mentioned above, the friction between the gears and other components generates heat in the gearbox. High ambient temperatures can overheat the lubricant, leading to the transmission components' premature failure, including the bearings and gears.</p>
 
-  <h4>Operating Water Temperature</h4>
-  <p class="text-text leading-relaxed mb-4">As explained in our articles on <a href="/disc-stack-centrifuge-operating-water/" class="text-navy font-semibold hover:text-gold transition-colors">centrifuge operating water systems</a>, the centrifuge's hydraulic mechanism requires the water to be in a fluid state. Sub-zero temperatures will freeze the operating water and prevent the centrifuge from working as intended. Therefore, the user should never operate the centrifuge in sub-zero ambient temperatures.</p>
-  <p class="text-text leading-relaxed mb-4">Cold operating water also has a cooling effect on the centrifuge bowl. If the process fluid is temperature-sensitive, the cold water will have a cooling effect on the process fluid. The cooling will increase the fluid's viscosity, adversely affecting the separation efficiency and centrifuge performance.</p>
+  <p>It is important to note that the centrifuge incorporates a <a href="https://en.wikipedia.org/wiki/Splash_lubrication">splash lubrication</a> system that relies on the lubricant's viscosity. The thicker lubricant in cold environments may affect the lubrication of the centrifuge bearings.</p>
+  <p>As mentioned above, the friction between the gears and other components generates heat in the gearbox. High ambient temperatures can overheat the lubricant, leading to the transmission components' premature failure, including the bearings and gears.</p>
 
-  <h4>Gelling of Process Fluid Constituents</h4>
-  <p class="text-text leading-relaxed mb-4">In some applications, the process fluid carries components that gel at lower temperatures. For example, in crude oil processing, paraffin is often present in crude oil. At lower temperatures, this paraffin becomes solid and sticks to narrow internal bowl passages. This accumulation of the paraffin causes a restriction of the fluid flow affecting the centrifuge performance.</p>
-  <p class="text-text leading-relaxed mb-4">It is necessary to remove these restrictions by flushing the bowl with hot water or a solvent in such applications. This extra step further affects centrifuge performance and uptime.</p>
+  <h4 id="operating-water-temperature">Operating Water Temperature</h4>
+  <p>As explained in our articles on <a href="/disc-stack-centrifuge-operating-water/">centrifuge operating water systems</a>, the centrifuge's hydraulic mechanism requires the water to be in a fluid state. Sub-zero temperatures will freeze the operating water and prevent the centrifuge from working as intended. Therefore,  the user should never operate the centrifuge in sub-zero ambient temperatures.</p>
+  <p>Cold operating water also has a cooling effect on the centrifuge bowl. If the process fluid is temperature-sensitive, the cold water will have a cooling effect on the process fluid. The cooling will increase the fluid's viscosity, adversely affecting the separation efficiency and centrifuge performance.</p>
 
-  <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-6 mb-8">
-    <p class="text-sm font-semibold text-navy mb-2">Other disc-centrifuge articles of interest...</p>
-    <ul class="space-y-1 text-sm">
-      <li><a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold transition-colors">Disc Centrifuge Backpressure - Comprehensive Guide</a></li>
-      <li><a href="/picking-the-right-industrial-centrifuge/" class="text-navy hover:text-gold transition-colors">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
-      <li><a href="/centrifuge-rcf-rpm-difference-calculation/" class="text-navy hover:text-gold transition-colors">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
-      <li><a href="/disadvantages-disc-stack-centrifuge/" class="text-navy hover:text-gold transition-colors">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
-      <li><a href="/difference-between-decanter-centrifuge-disc-centrifuge/" class="text-navy hover:text-gold transition-colors">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
-    </ul>
-  </div>
+  <h4 id="gelling-of-process-fluid-constituents">Gelling of Process Fluid Constituents</h4>
+  <p>In some applications, the process fluid carries components that gel at lower temperatures. For example, in crude oil processing, paraffin is often present in crude oil. At lower temperatures, this paraffin becomes solid and sticks to narrow internal bowl passages. This accumulation of the paraffin causes a restriction of the fluid flow affecting the centrifuge performance.</p>
+  <p>It is necessary to remove these restrictions by flushing the bowl with hot water or a solvent in such applications. This extra step further affects centrifuge performance and uptime.</p>
+
+  <!-- Legacy reusable block ref:10661 — Related Articles Callout -->
+  <hr />
+  <p class="text-center"><strong><em>Other disc-centrifuge articles of interest</em></strong></p>
+  <ul>
+    <li><a href="/disc-centrifuge-backpressure/">Disc Centrifuge Backpressure - Comprehensive Guide</a></li>
+    <li><a href="/picking-the-right-industrial-centrifuge/">9 Steps to Selecting &amp; Buying the Right Industrial Centrifuge</a></li>
+    <li><a href="/centrifuge-rcf-rpm-difference-calculation/">Centrifuge RCF and RPM | Difference &amp; RCF Calculation</a></li>
+    <li><a href="/disadvantages-disc-stack-centrifuge/">Disadvantages of a Disc-Stack Centrifuge | Illustrated Guide</a></li>
+    <li><a href="/difference-between-decanter-centrifuge-disc-centrifuge/">Difference Between Decanter &amp; Disc Centrifuge | Technical Comparison</a></li>
+  </ul>
+  <hr />
 
   <!-- 2. Type of Feed Tank -->
-  <h2 id="feed-tank-type">2. Type of Feed Tank</h2>
-  <p class="text-text leading-relaxed mb-4">Industrial centrifuges perform optimally when the process fluid is homogeneous. This homogeneity means that the process fluid is consistent in the proportion of the contaminants. In other words, process fluid fed from an agitated tank is highly desirable.</p>
-  <p class="text-text leading-relaxed mb-4">Conversely, cone bottom or other types of settling tanks are not suitable as feed tanks for disc-stack centrifuges. The cone bottom tank design is to collect the solids via gravity separation. So, if the process fluid comes to the disc-stack centrifuge from such a tank, it is likely that the initial fluid will carry large amounts of settled sludge.</p>
-  <p class="text-text leading-relaxed mb-4">This glut of solids will cause the disc-stack to get packed with solids and effectively render the centrifuge unable to process.</p>
-  <p class="text-text leading-relaxed mb-4">Ideally, a centrifuge feed tank should be a flat bottom tank with constant agitation. The agitation keeps the solids in suspension, avoiding the issue mentioned above.</p>
+  <h2 id="type-of-feed-tank">Type of Feed Tank</h2>
+  <p>Industrial centrifuges perform optimally when the process fluid is homogeneous. This homogeneity means that the process fluid is consistent in the proportion of the contaminants. In other words, process fluid fed from an agitated tank is highly desirable.</p>
+  <p>Conversely, cone bottom or other types of settling tanks are not suitable as feed tanks for disc-stack centrifuges. The Cone bottom tank design is to collect the solids via gravity separation. So, if the process fluid comes to the disc-stack centrifuge from such a tank, it is likely that the initial fluid will carry large amounts of settled sludge.</p>
+  <p>This glut of solids will cause the disc-stack to get packed with solids and effectively render the centrifuge unable to process.</p>
+  <p>Ideally, a centrifuge feed tank should be a flat bottom tank with constant agitation. The agitation keeps the solids in suspension, avoiding the issue mentioned above.</p>
 
   <!-- 3. Location of Feed Tank -->
-  <h2 id="feed-tank-location">3. Location of Feed Tank</h2>
-  <p class="text-text leading-relaxed mb-4">Industrial centrifuge users often feed the centrifuge from a feed tank located outdoor. In colder climates, the outdoor location cools down the process fluid quickly. Again, this affects the centrifuge performance for temperature-sensitive fluids that become more viscous at lower temperatures.</p>
-  <p class="text-text leading-relaxed mb-4">We recommend an indoor local feed tank in the vicinity of the centrifuge. This tank uses less energy to keep warm and therefore increases the total process efficiency. The tank capacity should be adequate to supply the centrifuge with the required amount of fluid for the anticipated batch.</p>
+  <h2 id="location-of-feed-tank">Location of Feed Tank</h2>
+  <p>Industrial centrifuge users often feed the centrifuge from a feed tank located outdoor. In colder climates, the outdoor location cools down the process fluid quickly. Again, this affects the centrifuge performance for temperature-sensitive fluids that become more viscous at lower temperatures.</p>
+  <p>We recommend an indoor local feed tank in the vicinity of the centrifuge. This tank uses less energy to keep warm and therefore increases the total process efficiency. The tank capacity should be adequate to supply the centrifuge with the required amount of fluid for the anticipated batch.</p>
 
   <!-- 4. Location of Discharge Tank -->
-  <h2 id="discharge-tank-location">4. Location of Discharge Tank</h2>
-  <p class="text-text leading-relaxed mb-4">The location and elevation of the discharge or clean fluid collection tank are crucial. A remotely located collection tank has a few disadvantages that affect centrifuge performance.</p>
+  <h2 id="location-of-discharge-tank">Location of Discharge Tank</h2>
+  <p>The location and elevation of the discharge or clean fluid collection tank are crucial. A remotely located collection tank has a few disadvantages that affect centrifuge performance.</p>
 
-  <h3>Centrifuge Back Pressure</h3>
-  <p class="text-text leading-relaxed mb-4">Most disc-stack centrifuges discharge the clean fluid under pressure through an internal paring disc pump. Considerable pressure is required to transfer the processed fluid to a remote tank. This transfer-related pressure exerts back pressure on the centrifuge. Excessive back pressure affects the performance of the centrifuge.</p>
+  <h4 id="centrifuge-back-pressure">Centrifuge Back Pressure</h4>
+  <p>Most disc-stack centrifuges discharge the clean fluid under pressure through an internal paring disc pump. Considerable pressure is required to transfer the processed fluid to a remote tank. This transfer-related pressure exerts back pressure on the centrifuge. Excessive back pressure affects the performance of the centrifuge.</p>
 
-  <h3>Climate Effect on Discharge Piping</h3>
-  <p class="text-text leading-relaxed mb-4">If the discharge tank location is outdoor, the colder climates' external temperature cools down the process fluid. This cooling increases the viscosity of oils, exerting pressure on the centrifuge.</p>
-  <p class="text-text leading-relaxed mb-4">Under such conditions, the insulation and heat tracing of the discharge piping is desirable.</p>
+  <h4 id="climate-effect-on-discharge-piping">Climate Effect on Discharge Piping</h4>
+  <p>If the discharge tank location is outdoor, the colder climates' external temperature cools down the process fluid. This cooling increases the viscosity of oils, exerting pressure on the centrifuge.</p>
+  <p>Under such conditions, the insulation and heat tracing of the discharge piping is desirable.</p>
 
   <!-- 5. Discharge Tank Connection Location -->
-  <h2 id="discharge-tank-connection">5. Discharge Tank Connection Location</h2>
-  <figure class="my-6">
-    <img src="/images/disc-stack-centrifuge-performance/Disc-Centrifuge-Discharge-Tank-Setup-600.webp" alt="Disc Centrifuge Discharge Tank Setup" width="600" height="237" loading="lazy" class="rounded-lg w-full" />
-    <figcaption class="text-center text-sm text-gray-500 mt-2">Disc Centrifuge — Correct Discharge Tank Setup</figcaption>
-  </figure>
-  <p class="text-text leading-relaxed mb-4">As previously explained, disc centrifuges work best under consistent operating conditions. The connection between the discharge pipe and the discharge tank is often overlooked.</p>
-  <p class="text-text leading-relaxed mb-4">Connecting the discharge pipe to the bottom of the collection tank is easy to install. However, this location is not desirable for centrifuge performance.</p>
-  <p class="text-text leading-relaxed mb-4">A discharge connection to the tank bottom will create pressure in the discharge pipe based on the tank's fluid level. With the changing fluid level, the backpressure in the discharge pipe will also change. Disc-centrifuge performance is affected by back pressure.</p>
-  <p class="text-text leading-relaxed mb-4">Therefore, a discharge pipe connected to the tank bottom is unsuitable for optimal centrifuge performance.</p>
-  <p class="text-text leading-relaxed mb-4">The centrifuge discharge pipe ideally connects to the top of the discharge tank. In this configuration, the pressure exerted by the fluid in the pipe remains constant and does not affect centrifuge operation.</p>
+  <h2 id="discharge-tank-connection-location">Discharge Tank Connection Location</h2>
 
-  <div class="grid md:grid-cols-2 gap-4 mt-6 mb-8">
-    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-      <p class="text-sm font-semibold text-green-800 mb-1">Correct: Top Connection</p>
-      <p class="text-green-700 text-sm">Discharge pipe enters the top of the tank. Pressure in the pipe remains constant regardless of tank level. Ensures consistent centrifuge operation.</p>
-    </div>
-    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-      <p class="text-sm font-semibold text-red-800 mb-1">Incorrect: Bottom Connection</p>
-      <p class="text-red-700 text-sm">Discharge pipe enters the tank bottom. Backpressure varies with fluid level. Causes inconsistent separation and potential breakover.</p>
-    </div>
-  </div>
+  <figure>
+    <img
+      src="/images/disc-stack-centrifuge-performance/Disc-Centrifuge-Discharge-Tank-Setup-600.webp"
+      alt="Disc Centrifuge Discharge Tank Setup"
+      width="600"
+      height="237"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption><strong>Disc Centrifuge - Correct Discharge Tank Setup</strong></figcaption>
+  </figure>
+
+  <p>As previously explained, disc centrifuges work best under consistent operating conditions. The connection between the discharge pipe and the discharge tank is often overlooked.</p>
+  <p>Connecting the discharge pipe to the bottom of the collection tank is easy to install. However, this location is not desirable for centrifuge performance.</p>
+  <p>A discharge connection to the tank bottom will create pressure in the discharge pipe based on the tank's fluid level. With the changing fluid level, the backpressure in the discharge pipe will also change. Disc-centrifuge performance is affected by back pressure.</p>
+  <p>Therefore, a discharge pipe connected to the tank bottom is unsuitable for optimal centrifuge performance.</p>
+  <p>The centrifuge discharge pipe ideally connects to the top of the discharge tank. In this configuration, the pressure exerted by the fluid in the pipe remains constant and does not affect centrifuge operation.</p>
 
   <!-- 6. Feed Tank Agitation -->
-  <h2 id="feed-tank-agitation">6. Feed Tank Agitation</h2>
-  <p class="text-text leading-relaxed mb-4">Homogenous process fluid ensures optimum centrifuge performance, as explained previously. The simplest way is to mix the process fluid through agitation. A supply tank fitted with an industrial agitator serves this purpose effectively.</p>
-  <p class="text-text leading-relaxed mb-4">A top-mounted paddle mixer rotating at a low RPM is ideal for keeping the solids in suspension.</p>
+  <h2 id="feed-tank-agitation">Feed Tank Agitation</h2>
+  <p>Homogenous process fluid ensures optimum centrifuge performance, as explained previously. The simplest way is to mix the process fluid through agitation. A supply tank fitted with an <a href="https://en.wikipedia.org/wiki/Industrial_agitator">industrial agitator</a> serves this purpose effectively.</p>
+  <p>A top-mounted paddle mixer rotating at a low RPM is ideal for keeping the solids in suspension.</p>
 
   <!-- 7. Type of Feed Transfer Pump -->
-  <h2 id="feed-pump-type">7. Type of Feed Transfer Pump</h2>
-  <p class="text-text leading-relaxed mb-4">We recommend positive displacement pumps for feeding disc-stack centrifuges. These types of pumps do not churn the liquid and thus avoid the creation of emulsions.</p>
-  <p class="text-text leading-relaxed mb-4">Gear pumps or progressive cavity pumps are best suited for feeding centrifuges.</p>
-  <p class="text-text leading-relaxed mb-4">Centrifugal pumps churn the fluid, possibly creating undesirable emulsions in certain types of oil-water mixes.</p>
-  <p class="text-text leading-relaxed mb-4">Air diaphragm pumps create pressure pulses in the feed liquid. This pulsation affects the liquid-liquid interface in the bowl affecting centrifuge performance. Therefore, air diaphragm pumps are also not recommended for disc centrifuges.</p>
-
-  <div class="overflow-x-auto mt-4 mb-8">
-    <table class="w-full bg-white rounded-lg border border-gray-200 text-sm">
-      <thead>
-        <tr class="bg-navy text-white">
-          <th class="text-left px-5 py-3 font-semibold">Pump Type</th>
-          <th class="text-left px-5 py-3 font-semibold">Suitability</th>
-          <th class="text-left px-5 py-3 font-semibold">Notes</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        <tr><td class="px-5 py-3 font-medium text-navy">Gear Pump</td><td class="px-5 py-3 text-text">Recommended</td><td class="px-5 py-3 text-text">Smooth, non-pulsating flow; does not create emulsions</td></tr>
-        <tr><td class="px-5 py-3 font-medium text-navy">Progressive Cavity</td><td class="px-5 py-3 text-text">Recommended</td><td class="px-5 py-3 text-text">Ideal for viscous fluids and fluids with suspended solids</td></tr>
-        <tr><td class="px-5 py-3 font-medium text-navy">Centrifugal Pump</td><td class="px-5 py-3 text-text">Not Recommended</td><td class="px-5 py-3 text-text">Churns the fluid, can create emulsions in oil-water mixtures</td></tr>
-        <tr><td class="px-5 py-3 font-medium text-navy">Air Diaphragm (AODD)</td><td class="px-5 py-3 text-text">Not Recommended</td><td class="px-5 py-3 text-text">Pressure pulsations disturb the liquid-liquid interface in the bowl</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <h2 id="type-of-feed-transfer-pump">Type of Feed Transfer Pump</h2>
+  <p>We recommend positive displacement pumps for feeding disc-stack centrifuges. These types of pumps do not churn the liquid and thus avoid the creation of emulsions.</p>
+  <p>Ger pumps or progressive cavity pumps are best suited for feeding centrifuges.</p>
+  <p>Centrifugal pumps churn the fluid, possibly creating undesirable emulsions in certain types of oil-water mixes.</p>
+  <p>Air diaphragm pumps create pressure pulses in the feed liquid. This pulsation affects the liquid-liquid interface in the bowl affecting centrifuge performance. Therefore, air diaphragm pumps are also not recommended for disc centrifuges.</p>
 
   <!-- 8. Sludge Tank -->
-  <h2 id="sludge-tank">8. Sludge Tank</h2>
-  <p class="text-text leading-relaxed mb-4">Disc-stack centrifuges discharge the sludge through the bottom of the frame. The sludge ejection is in a downward direction under gravity. The following factors related to the sludge collection tank affect centrifuge performance.</p>
+  <h2 id="sludge-tank">Sludge Tank</h2>
+  <p>Alfa Laval disc-stack centrifuges discharge the sludge through the bottom of the frame. The sludge ejection is in a downward direction under gravity. The following factors related to the sludge collection tank affect centrifuge performance.</p>
 
-  <h3>Venting</h3>
-  <p class="text-text leading-relaxed mb-4">The high centrifugal force within the centrifuge bowl causes a pressure pulse to accompany the discharged sludge. Therefore, venting the sludge tank is crucial to allow this pressure to escape into the atmosphere.</p>
-  <p class="text-text leading-relaxed mb-4">A sealed sludge tank can cause the ejected sludge to deflect back into the centrifuge. The deflected sludge accumulates in the bowl operating cavity and interferes with the bowl opening mechanism affecting the centrifuge's performance.</p>
-  <p class="text-text leading-relaxed mb-4">In worst-case scenarios, the pressurized sludge can cause the sludge tank to explode, causing equipment damage and possible operator injury.</p>
+  <h3 id="venting">Venting</h3>
+  <p>The high centrifugal force within the centrifuge bowl causes a pressure pulse to accompany the discharged sludge. Therefore, <a href="https://www.wartsila.com/encyclopedia/term/cargo-tank-venting">venting the sludge tank</a> is crucial to allow this pressure to escape into the atmosphere.</p>
+  <p>A sealed sludge tank can cause the ejected sludge to deflect back into the centrifuge. The deflected sludge accumulates in the bowl operating cavity and interferes with the bowl opening mechanism affecting the centrifuge's performance.</p>
+  <p>In worst-case scenarios, the pressurized sludge can cause the sludge tank to explode, causing equipment damage and possible operator injury.</p>
 
-  <h3>Location</h3>
-  <p class="text-text leading-relaxed mb-4">The centrifuge ejects the sludge through the frame bottom downward. Therefore, the ideal sludge tank location is directly under the centrifuge.</p>
+  <h3 id="location">Location</h3>
+  <p>The centrifuge ejects the sludge through the frame bottom downward. Therefore, the ideal sludge tank location is directly under the centrifuge.</p>
 
-  <h3>Connection</h3>
-  <p class="text-text leading-relaxed mb-4">Given that the ejected sludge comes out at significant velocity, it is best to avoid obstructions such as bends or size reductions in the sludge outlet chute. In other words, the sludge tank connection hose should be of uniform cross-section and in a vertical position.</p>
+  <h3 id="connection">Connection</h3>
+  <p>Given that the ejected sludge comes out at significant velocity, it is best to avoid obstructions such as bends or size reductions in the sludge outlet chute. In other words, the sludge tank connection hose should be of uniform cross-section and in a vertical position.</p>
 
-  <p class="text-text leading-relaxed mb-4">For detailed guidance on internal efficiency factors, read our companion article on <a href="/disc-stack-centrifuge-efficiency/" class="text-navy font-semibold hover:text-gold transition-colors">5 Ways to Increase Disc Stack Centrifuge Efficiency</a>.</p>
-  <p class="text-sm text-gray-500 italic mb-8">by Sanjay Prabhu MSME, Centrifuge Applications Engineer, Dolphin Centrifuge</p>
-
-  <!-- Mid-page CTA -->
-  <blockquote class="border-l-4 border-gold bg-gold/10 rounded-r-xl p-5 my-8 not-prose">
-    <p class="text-navy font-semibold text-lg mb-1">Is poor installation hurting your centrifuge performance?</p>
-    <p class="text-text mb-4">Dolphin Centrifuge engineers can evaluate your current setup — tank placement, pump type, backpressure, sludge tank venting — and identify the root cause of underperformance.</p>
-    <div class="flex flex-wrap gap-3">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors">Request a Performance Review</a>
-      <a href="/disc-stack-centrifuge-installation/" class="inline-block border-2 border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Installation Guide</a>
-    </div>
-  </blockquote>
-
-  <!-- FAQ -->
-  <div id="faq" class="mb-6">
-    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-          What external factors affect disc stack centrifuge performance?
-          <span class="text-gold ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 text-text text-sm leading-relaxed">
-          The 8 main external factors are: (1) feed temperature — lower temps increase viscosity and reduce efficiency, (2) feed tank agitation — settled feed creates sludge spikes that disrupt operation, (3) feed pump selection — incorrect type causes pulsation or cavitation, (4) pre-filtration — oversized particles contaminate the centrate, (5) discharge piping back-pressure, (6) sludge ejection cycle timing, (7) operating water quality and pressure, (8) ambient temperature affecting gearbox oil viscosity and feed properties.
-        </div>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-          How does feed temperature affect centrifuge separation performance?
-          <span class="text-gold ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 text-text text-sm leading-relaxed">
-          Feed temperature determines the viscosity of the liquid being separated. Lower viscosity (higher temperature) allows centrifugal force to move particles more rapidly. For every 10°C reduction in temperature, viscosity typically increases 10–20%, reducing separation efficiency proportionally. Heavy oils must be heated to 180–200°F. Even water-based coolants benefit from operating above 70°F for optimal sub-micron particle removal.
-        </div>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-          Why does feed tank agitation matter for centrifuge performance?
-          <span class="text-gold ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 text-text text-sm leading-relaxed">
-          Without agitation, sludge settles to the bottom and the centrifuge receives alternating clean liquid (from the top) and highly concentrated sludge (from the bottom). These concentration spikes overload the bowl's sludge space causing premature filling, liquid seal instability, and inconsistent centrate quality. A properly sized agitator keeps sludge uniformly suspended throughout operation.
-        </div>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-          What back-pressure is acceptable on a disc centrifuge centrate outlet?
-          <span class="text-gold ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 text-text text-sm leading-relaxed">
-          Acceptable centrate back-pressure is typically 0–15 PSIG on the light phase outlet and 0–10 PSIG on the heavy phase outlet. Excessive back-pressure compresses the liquid seal ring and can cause seal break. Back-pressure is created by long or undersized centrate piping, elevation changes, flow control valves, and downstream equipment resistance.
-        </div>
-      </details>
-      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm overflow-hidden">
-        <summary class="px-5 py-4 font-semibold text-navy cursor-pointer hover:bg-gold/5 transition-colors list-none flex items-center justify-between">
-          Why should the sludge tank under a disc centrifuge be vented?
-          <span class="text-gold ml-2">+</span>
-        </summary>
-        <div class="px-5 pb-4 text-text text-sm leading-relaxed">
-          During sludge ejection, the high centrifugal force creates a pressure pulse with the discharged sludge. A sealed sludge tank traps this pressure and causes ejected sludge to deflect back into the centrifuge bowl, interfering with the bowl opening mechanism. In worst-case scenarios, pressure buildup can rupture the tank, causing equipment damage or operator injury. Always vent the sludge tank to atmosphere.
-        </div>
-      </details>
-    </div>
-  </div>
-
-  <!-- Related Articles -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
-    <h2 class="text-xl font-bold text-navy mb-4">Related Knowledge Articles</h2>
-    <ul class="space-y-2">
-      <li><a href="/disc-stack-centrifuge-efficiency/" class="text-navy hover:text-gold transition-colors font-semibold">5 Ways to Increase Disc Stack Centrifuge Efficiency</a></li>
-      <li><a href="/disc-centrifuge-backpressure/" class="text-navy hover:text-gold transition-colors font-semibold">Disc Centrifuge Backpressure — Comprehensive Guide</a></li>
-      <li><a href="/disc-stack-centrifuge-operating-water/" class="text-navy hover:text-gold transition-colors font-semibold">Disc Stack Centrifuge Operating Water Guide</a></li>
-      <li><a href="/disc-stack-centrifuge-sludge-ejection-cycle-time/" class="text-navy hover:text-gold transition-colors font-semibold">Disc Stack Centrifuge Sludge Ejection Cycle Time</a></li>
-      <li><a href="/disc-stack-centrifuge-faq/" class="text-navy hover:text-gold transition-colors font-semibold">101 Frequently Asked Questions About Disc Stack Centrifuges</a></li>
-    </ul>
-  </div>
-
-  <!-- Bottom CTA -->
-  <div class="bg-navy rounded-xl p-8 my-10 text-center not-prose">
-    <h2 class="text-2xl font-bold text-white mb-3">Optimize Your Centrifuge System</h2>
-    <p class="text-white/80 mb-6 max-w-xl mx-auto">From feed tank design to sludge handling — Dolphin Centrifuge engineers help you get maximum performance from your disc stack centrifuge installation.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-white font-bold px-7 py-3 rounded-lg hover:bg-gold/90 transition-colors">Talk to an Engineer</a>
-      <a href="/disc-stack-centrifuge/" class="inline-block border-2 border-white text-white font-semibold px-7 py-3 rounded-lg hover:bg-white/10 transition-colors">Disc Stack Centrifuge Overview</a>
-    </div>
-  </div>
+  <p><em>by Sanjay Prabhu MSME</em><br/><em>Engineering Manager, Dolphin Centrifuge</em></p>
 
 </ApplicationLayout>
