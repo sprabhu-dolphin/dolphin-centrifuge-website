@@ -1,60 +1,34 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What centrifuge types are used in pyrolysis oil production?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Pyrolysis oil production typically uses a two-stage centrifuge process: a decanter centrifuge for primary separation of heavy char solids from crude pyrolysis oil, followed by a disc stack centrifuge for fine polishing to remove residual particles and metal contaminants. The decanter handles the high solids load; the disc centrifuge achieves final product clarity." }
-    },
-    {
-      "@type": "Question",
-      "name": "What particle sizes does a disc centrifuge remove from pyrolysis oil?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Industrial disc stack centrifuges operating at 6,000–12,000 × g can remove particles down to 0.5–2 microns from pyrolysis oil. This level of solids removal meets most pyrolysis bio-oil specifications for storage stability and combustion quality." }
-    },
-    {
-      "@type": "Question",
-      "name": "What temperature and viscosity requirements apply to pyrolysis oil centrifuge systems?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Pyrolysis oil is typically heated to 60–80°C before centrifuging to reduce viscosity and improve separation efficiency. Feed viscosity should ideally be below 20 cSt at processing temperature for effective disc centrifuge operation. Dolphin Centrifuge supplies integrated heating systems for pyrolysis oil centrifuge installations." }
-    },
-    {
-      "@type": "Question",
-      "name": "Can a centrifuge handle the char and metal particles in tire-derived pyrolysis oil?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tire-derived pyrolysis oil contains steel wire particles from tire reinforcement mesh and sticky char residue that rapidly clogs conventional filters. A self-cleaning disc stack centrifuge removes metal particles at high G-force continuously, automatically ejecting accumulated sludge. The DMPX-014-BO is a purpose-built 2-phase clarifier variant optimized specifically for pyrolysis oil at up to 20 GPM." }
-    },
-    {
-      "@type": "Question",
-      "name": "What output quality does a pyrolysis oil centrifuge achieve?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A properly configured two-stage centrifuge system (decanter + disc stack) produces pyrolysis bio-oil with less than 0.1% residual sludge. This quality level is suitable for direct sale, further refining into diesel and fuel oil, or combustion in industrial burners. Send a sample to Dolphin Centrifuge for a pilot test to confirm results for your specific feedstock." }
-    }
-  ]
-};
-
 const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Pyrolysis Oil Centrifuge: Large-Scale Tire Bio-Oil Production",
-    "description": "Case study on using industrial centrifuges for pyrolysis oil production from tires. Decanter and disc stack centrifuge separation of char and metal particles.",
+    "headline": "Pyrolysis Oil Centrifuge Application: Large Scale Production from Tires",
+    "description": "A case study of applying a pyrolysis oil centrifuge for large-scale pyrolysis oil production from used tires.",
     "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }, "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/" },
-    "datePublished": "2020-05-01",
+    "datePublished": "2021-03-04",
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
     "url": "https://dolphincentrifuge.com/pyrolysis-oil-centrifuge/",
   },
-  faqJsonLd,
 ];
 
 const toc = [
-  { id: "ai-summary", label: "Overview" },
-  { id: "pyrolysis-process", label: "The Pyrolysis Process" },
-  { id: "separation-challenge", label: "The Separation Challenge" },
-  { id: "two-stage-solution", label: "Two-Stage Centrifuge Solution" },
-  { id: "real-world-installation", label: "Real-World Installation" },
-  { id: "centrifuges-vs-filters", label: "Why Centrifuges Over Filters" },
-  { id: "faq", label: "Frequently Asked Questions" },
+  { id: "pyrolysis-process-brief-description", label: "Pyrolysis Process - Brief Description" },
+  { id: "byproducts-of-pyrolysis", label: "Byproducts of Pyrolysis" },
+  { id: "separating-challenges-in-pyrolysis-production", label: "Separating Challenges in Pyrolysis Production" },
+  { id: "industrial-centrifuges-processing-solution", label: "Industrial Centrifuges - Processing Solution", children: [
+    { id: "types-and-capabilities", label: "Types and Capabilities", children: [
+      { id: "decanter-centrifuge", label: "Decanter Centrifuge" },
+      { id: "self-cleaning-disc-stack-centrifuge", label: "Self Cleaning, Disc Stack Centrifuge" },
+    ]},
+    { id: "applicability-to-pyrolysis-oil-production", label: "Applicability to Pyrolysis Oil Production" },
+  ]},
+  { id: "real-world-application", label: "Real World Application of Industrial Centrifuges for Pyrolysis Production", children: [
+    { id: "centrifuge-specifications", label: "Centrifuge Specifications" },
+  ]},
+  { id: "summary", label: "Summary" },
 ];
 
 const relatedApplications = [
@@ -65,18 +39,20 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: "Disc Stack Centrifuges", href: "/disc-stack-centrifuge/", description: "6,000–12,000 × g, 2–100+ GPM" },
-  { label: "Decanter Centrifuges", href: "/decanter-centrifuge/", description: "Bulk solids removal, up to 350+ GPM" },
+  { label: "Disc Stack Centrifuges", href: "/disc-stack-centrifuge/", description: "Self-cleaning disc stack centrifuges" },
+  { label: "Decanter Centrifuges", href: "/decanter-centrifuge/", description: "Horizontal scroll decanter centrifuges" },
   { label: "Centrifuge Controls", href: "/industrial-centrifuge-controls/", description: "PLC/HMI automation packages" },
   { label: "Sample Testing", href: "/industrial-centrifuge-sample-testing/", description: "Lab trials before you commit" },
 ];
 ---
 
 <ApplicationLayout
-  title="Pyrolysis Oil Centrifuge: Tire Bio-Oil Production | Dolphin"
-  description="Industrial centrifuge systems for pyrolysis oil clarification. Two-stage decanter and disc stack process removes char and metal particles to &lt;0.1% at 30 GPM."
+  title="Pyrolysis Oil Centrifuge Application: Large Scale Production from Tires"
+  pageTitle="Pyrolysis Oil Centrifuge Application: Large Scale Production from Tires"
+  disableTitleSuffix={true}
+  description="A case study of applying a pyrolysis oil centrifuge for large-scale pyrolysis oil production from used tires."
   heroImage="/images/pyrolysis-oil-centrifuge/Industrial-Centrifuge-for-Pyrolysis-Oil.webp"
-  heroImageAlt="Industrial disc stack centrifuge system for pyrolysis oil clarification — removing char and metal particles from tire bio-oil"
+  heroImageAlt="Industrial Centrifuge for Pyrolysis Oil"
   category="applications"
   categoryLabel="Applications"
   toc={toc}
@@ -84,178 +60,73 @@ const relatedProducts = [
   relatedProducts={relatedProducts}
   canonicalUrl="https://dolphincentrifuge.com/pyrolysis-oil-centrifuge/"
   jsonLd={jsonLd}
+  hideBottomCTA={true}
 >
 
-  <!-- AI Summary -->
-  <div id="ai-summary" class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies two-stage centrifuge systems for pyrolysis oil clarification — decanter for bulk char removal and disc stack at 8,000+ Gs polishing to 0.5 micron. Processes up to 30 GPM, producing sale-ready bio-oil with less than 0.1% sludge. Warren, Michigan.</p>
-  </div>
+  <p>In this real-world case study, we will discuss the applicability of a pyrolysis oil centrifuge and its application for the large-scale production of bio-oil from used tires.</p>
 
-  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
-    <p class="text-text-light leading-relaxed"><strong>Summary:</strong> Pyrolysis converts waste tires and plastics into valuable bio-oil, but removing residual char and metal particles from the crude oil presents a major filtration challenge. Industrial centrifuges &mdash; both <a href="/decanter-centrifuge/">decanters</a> for coarse desludging and <a href="/disc-stack-centrifuge/">disc stack centrifuges</a> for fine polishing &mdash; provide a continuous, filter-free solution that produces sale-ready bio-oil.</p>
-  </div>
+  <h2 id="pyrolysis-process-brief-description"><a href="https://en.wikipedia.org/wiki/Pyrolysis" target="_blank" rel="noreferrer noopener">Pyrolysis Process</a> - Brief Description</h2>
+  <p>Solid organic material (mostly petroleum-based), such as plastics, tires, etc., disintegrates into solid and liquid phases at elevated temperatures. This reaction occurs without oxygen and is generally referred to as <a href="https://en.wikipedia.org/wiki/Pyrolysis" target="_blank" rel="noreferrer noopener">pyrolysis</a>.</p>
 
-  <h2 id="pyrolysis-process">The Pyrolysis Process</h2>
-  <p>
-    Pyrolysis is a thermal decomposition process in which solid organic materials such as plastics, tires, and other petroleum-based waste are heated to high temperatures in the absence of oxygen. The process breaks down these materials into three byproducts: solid char (biochar), liquid bio-oil (pyrolysis oil), and gases.
-  </p>
-  <p>
-    Bio-oil is the primary product of commercial interest because its properties are similar to petroleum. Further refining of bio-oil yields fuels like diesel and fuel oil that can serve as direct replacements for conventional fossil fuels.
-  </p>
+  <h2 id="byproducts-of-pyrolysis">Byproducts of Pyrolysis</h2>
+  <p>Pyrolysis produces solids, liquids, and gases as byproducts. Charcoal, or biochar, is a solid by-product. Pyrolysis oil, aka bio-oil, is a liquid by-product.</p>
+  <p>Bio-oil is of primary interest due to its properties being like those of petroleum. Further refining of bio-oil yields fuels like diesel and fuel oil. These work well as replacements for commercial fuels, i.e., diesel fuel and fuel oil in engines.</p>
 
-  <h2 id="separation-challenge">The Separation Challenge</h2>
-  <p>
-    Producing clean bio-oil at industrial scale presents specific separation challenges:
-  </p>
+  <h2 id="separating-challenges-in-pyrolysis-production">Separating Challenges in Pyrolysis Production</h2>
+  <p>The large-scale production of bio-oil through the pyrolysis process has its own challenges. Separation of the 'char' or solid residue left over from the reaction is one of them.</p>
+  <p>The nature of these particles makes them difficult to separate using conventional filters. Conventional filters plug up fast from the fine particles, which are also sticky.</p>
+  <p>Bio-oil produced by pyrolysis of tires has metal particles from the steel wire mesh in tires. If not removed, this can cause considerable damage to downstream equipment.</p>
+
+  <h2 id="industrial-centrifuges-processing-solution">Industrial Centrifuges - Processing Solution</h2>
+  <p><a href="/industrial-centrifuge/">Industrial centrifuges</a> are heavy-duty separating machines. They are mechanical separators designed to separate liquids from solids continuously.</p>
+  <p>Two types of centrifuges apply to pyrolysis oil separation.</p>
+  <p>First, decanter centrifuges are suitable for crude pyrolysis oil de-sludging. A high-speed, disc stack centrifuge polishes the De-sludged bio-oil from the decanter. Summarized below are the technical capabilities of each type of centrifuge.</p>
+
+  <h3 id="types-and-capabilities">Types and Capabilities</h3>
+
+  <h4 id="decanter-centrifuge">Decanter Centrifuge</h4>
   <ul>
-    <li><strong>Char residue:</strong> Fine carbon particles from the pyrolysis reaction remain suspended in the crude bio-oil and are difficult to remove by conventional filtration</li>
-    <li><strong>Sticky particles:</strong> The nature of pyrolysis char makes it adhere to filter media, causing rapid clogging and frequent filter replacement</li>
-    <li><strong>Metal contamination:</strong> Bio-oil from tire pyrolysis contains metal particles from the steel wire mesh embedded in tires, which can damage downstream processing equipment</li>
-    <li><strong>Continuous production:</strong> Large-scale pyrolysis operations require continuous separation, not batch processing, to maintain throughput</li>
+    <li>Max. % Solids: Up to 50% (v/v)</li>
+    <li>Max. Solid Particle Size: 1/2"</li>
+    <li>Min. Particle Size Separated: 50 &micro;m</li>
+    <li>Capacity: ~10 GPM to over 350 GPM</li>
+    <li>Processing Mode: Continuous (Not batch)</li>
   </ul>
 
-  <h2 id="two-stage-solution">Two-Stage Centrifuge Solution</h2>
-  <p>
-    Industrial centrifuges address these challenges through a two-stage mechanical separation process that operates continuously without filter media:
-  </p>
-
-  <div class="space-y-6 mb-10 not-prose">
-    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-      <div class="flex items-center gap-3 mb-3">
-        <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">1</span>
-        <h3 class="text-lg font-bold text-navy">Decanter Centrifuge &mdash; Coarse Desludging</h3>
-      </div>
-      <p class="text-text-light mb-3">A <a href="/decanter-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">decanter centrifuge</a> handles the first stage, removing bulk sludge including char and large metal particles from the crude pyrolysis oil. Decanters can handle particles up to 1/2" in size and feeds with up to 50% solids by volume. Two types of <a href="/industrial-centrifuge/">industrial centrifuges</a> apply to pyrolysis oil separation.</p>
-      <ul class="text-sm space-y-1 text-text-muted ml-4">
-        <li>&#8226; Max solids: up to 50% (v/v)</li>
-        <li>&#8226; Max particle size: 1/2"</li>
-        <li>&#8226; Min particle separated: 50 &micro;m</li>
-        <li>&#8226; Capacity: 10 to 350+ GPM</li>
-        <li>&#8226; Mode: Continuous</li>
-      </ul>
-    </div>
-
-    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-      <div class="flex items-center gap-3 mb-3">
-        <span class="bg-gold text-navy font-bold w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm">2</span>
-        <h3 class="text-lg font-bold text-navy">Disc Stack Centrifuge &mdash; Fine Polishing</h3>
-      </div>
-      <p class="text-text-light mb-3">A self-cleaning <a href="/disc-stack-centrifuge/#self-cleaning-bowl" class="text-navy font-semibold hover:text-gold transition-colors">disc stack centrifuge</a> performs the second stage, removing the remaining fine char and metal particles that the decanter cannot reach. A pyrolysis <a href="/oil-centrifuge/">oil centrifuge</a> (self-cleaning, disc-stack type) removes the finer solids from the bio-oil. The high centrifugal force (6,000 to 8,000+ Gs) separates particles down to 0.5 microns, producing sale-ready bio-oil.</p>
-      <ul class="text-sm space-y-1 text-text-muted ml-4">
-        <li>&#8226; Max solids: up to 5% (v/v)</li>
-        <li>&#8226; Max particle size: 250 &micro;m</li>
-        <li>&#8226; Min particle separated: 0.5 &micro;m</li>
-        <li>&#8226; Capacity: 2 to 100+ GPM</li>
-        <li>&#8226; Mode: Continuous, self-cleaning</li>
-      </ul>
-    </div>
-  </div>
-
-  <h2 id="real-world-installation">Real-World Installation</h2>
-  <img src="/images/pyrolysis-oil-centrifuge/Alfa-Laval-MOPX205-Tire-Oil-Pyrolysis-Centrifuge-e1614259359680.webp" alt="Alfa Laval MOPX205 Tire Oil Pyrolysis Centrifuge Oklahoma-City" width="250" height="250" loading="lazy" class="rounded-lg" />
-  <p>
-    Dolphin Centrifuge manufactured the Alfa Laval disc stack centrifuge system shown here. This system was for a pyrolysis oil producer on the U.S. west coast. The customer supplied crude bio-oil from a post-straining tank. A heat exchanger reduced the oil temperature to the optimal processing range before entering the centrifuge.
-  </p>
-  <p>
-    The self-cleaning centrifuge separated all fine metal and char particles continuously, producing clear bio-oil ready for sale with less than 0.1% residual sludge.
-  </p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>System Specification</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Centrifuge</strong></td>
-        <td>Alfa Laval MOPX210 <a href="/disc-stack-centrifuge/#self-cleaning-bowl">Self-Cleaning Disc Centrifuge</a></td>
-      </tr>
-      <tr>
-        <td><strong>Separation</strong></td>
-        <td>3-phase: oil, water/sludge, fine sediment down to 0.5 &micro;m</td>
-      </tr>
-      <tr>
-        <td><strong>Capacity</strong></td>
-        <td>Up to 30 GPM of pyrolysis oil at 200&deg;F</td>
-      </tr>
-      <tr>
-        <td><strong>Controls</strong></td>
-        <td>Fully Automatic <a href="/industrial-centrifuge-controls/">PLC/Touch-Screen Control Panel</a></td>
-      </tr>
-      <tr>
-        <td><strong>Feed Pump</strong></td>
-        <td>VFD-controlled positive displacement pump</td>
-      </tr>
-      <tr>
-        <td><strong>Output Quality</strong></td>
-        <td>Less than 0.1% residual sludge</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2 id="centrifuges-vs-filters">Why Centrifuges Over Filters</h2>
+  <h4 id="self-cleaning-disc-stack-centrifuge">Self Cleaning, Disc Stack Centrifuge</h4>
   <ul>
-    <li><strong>No consumable media:</strong> Centrifuges separate mechanically using G-force, eliminating the cost of filter cartridges that clog rapidly with sticky char</li>
-    <li><strong>Continuous operation:</strong> Self-cleaning centrifuges run 24/7 with automatic sludge discharge, matching production line throughput</li>
-    <li><strong>Sub-micron separation:</strong> Disc stack centrifuges remove particles down to 0.5 microns, far exceeding the capability of most industrial filters for this application</li>
-    <li><strong>Metal particle removal:</strong> The high G-force effectively separates dense metal particles from tire wire mesh that would damage downstream equipment</li>
+    <li>Max. % Solids: Up to 5% (v/v)</li>
+    <li>Max. Solid Particle Size: 250 &micro;m</li>
+    <li>Min. Particle Size Separated: 0.5 &micro;m</li>
+    <li>Capacity: ~2 GPM to over 100 GPM</li>
+    <li>Processing Mode: Continuous (Not batch)</li>
   </ul>
 
-  <p>Contact Dolphin Centrifuge at <a href="tel:+12485222573">(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> to discuss centrifuge solutions for your pyrolysis oil production. We offer <a href="/industrial-centrifuge-sample-testing/">sample testing</a> for pyrolysis oil applications.</p>
+  <h3 id="applicability-to-pyrolysis-oil-production">Applicability to Pyrolysis Oil Production</h3>
+  <p>Industrial centrifuges are perfect for this application in 2 ways.</p>
+  <p>Separation of crude pyrolysis oil from coarse sludge:<br />A decanter centrifuge (as detailed above) is ideal for separating crude pyrolysis oil. It separates the bulk sludge, including char and large metal particles, in a continuous process.</p>
+  <p>Removal of fine remaining solids (from step 1):<br />A pyrolysis <a href="/oil-centrifuge/">oil centrifuge</a> (self-cleaning, disc-stack type) removes the finer solids from the bio-oil. This, again, is a continuous process that produces clean pyrolysis oil.</p>
 
-  <!-- Mid-Page CTA -->
-  <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 my-8 not-prose">
-    <h3 class="text-lg font-bold text-navy mb-2">Test Your Pyrolysis Oil — Sample Testing</h3>
-    <p class="text-text-light text-sm mb-4">Not sure which centrifuge will work for your bio-oil? Send us a sample. Dolphin Centrifuge's lab team will run a pilot test and report exactly what separation efficiency your feedstock achieves before you invest.</p>
-    <div class="flex flex-wrap gap-3">
-      <a href="/industrial-centrifuge-sample-testing/" class="inline-block bg-gold text-white font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Send a Sample →</a>
-      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy/5 transition-colors text-sm">Get a Quote</a>
-      <a href="tel:+12485222573" class="inline-block text-navy font-semibold px-5 py-2 text-sm">(248) 522-2573</a>
-    </div>
-  </div>
+  <h2 id="real-world-application">Real World Application of Industrial Centrifuges for Pyrolysis Production.</h2>
+  <p>Dolphin Centrifuge manufactured the Alfa Laval disc stack centrifuge system shown here. This system was for a pyrolysis oil producer on the west coast.</p>
 
-  <!-- FAQ -->
-  <div id="faq" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 not-prose mt-10">
-    <h2 class="text-xl font-bold text-navy mb-6">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-navy/5 p-4">
-        <summary class="font-semibold text-navy cursor-pointer">What centrifuge types are used in pyrolysis oil production?</summary>
-        <p class="text-text-light text-sm mt-3">Pyrolysis oil production typically uses a two-stage centrifuge process: a decanter centrifuge for primary separation of heavy char solids from crude pyrolysis oil, followed by a disc stack centrifuge for fine polishing to remove residual particles and metal contaminants. The decanter handles the high solids load; the disc centrifuge achieves final product clarity.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-navy/5 p-4">
-        <summary class="font-semibold text-navy cursor-pointer">What particle sizes does a disc centrifuge remove from pyrolysis oil?</summary>
-        <p class="text-text-light text-sm mt-3">Industrial disc stack centrifuges operating at 6,000–12,000 × g can remove particles down to 0.5–2 microns from pyrolysis oil. This level of solids removal meets most pyrolysis bio-oil specifications for storage stability and combustion quality.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-navy/5 p-4">
-        <summary class="font-semibold text-navy cursor-pointer">What temperature and viscosity requirements apply to pyrolysis oil centrifuge systems?</summary>
-        <p class="text-text-light text-sm mt-3">Pyrolysis oil is typically heated to 60–80°C before centrifuging to reduce viscosity and improve separation efficiency. Feed viscosity should ideally be below 20 cSt at processing temperature for effective disc centrifuge operation. Dolphin Centrifuge supplies integrated heating systems for pyrolysis oil centrifuge installations.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-navy/5 p-4">
-        <summary class="font-semibold text-navy cursor-pointer">Can a centrifuge handle the char and metal particles in tire-derived pyrolysis oil?</summary>
-        <p class="text-text-light text-sm mt-3">Yes. Tire-derived pyrolysis oil contains steel wire particles from tire reinforcement mesh and sticky char residue that rapidly clogs conventional filters. A self-cleaning disc stack centrifuge removes metal particles at high G-force continuously, automatically ejecting accumulated sludge. The DMPX-014-BO is a purpose-built 2-phase clarifier variant optimized specifically for pyrolysis oil at up to 20 GPM.</p>
-      </details>
-      <details class="border-l-4 border-gold/40 rounded-r-lg bg-navy/5 p-4">
-        <summary class="font-semibold text-navy cursor-pointer">What output quality does a pyrolysis oil centrifuge achieve?</summary>
-        <p class="text-text-light text-sm mt-3">A properly configured two-stage centrifuge system (decanter + disc stack) produces pyrolysis bio-oil with less than 0.1% residual sludge. This quality level is suitable for direct sale, further refining into diesel and fuel oil, or combustion in industrial burners. Send a sample to Dolphin Centrifuge for a pilot test to confirm results for your specific feedstock.</p>
-      </details>
-    </div>
-  </div>
+  <figure class="img-cap-250">
+    <img src="/images/pyrolysis-oil-centrifuge/Alfa-Laval-MOPX205-Tire-Oil-Pyrolysis-Centrifuge-e1614259359680.webp" alt="Alfa Laval MOPX205 Tire Oil Pyrolysis Centrifuge Oklahoma-City" width="250" height="250" loading="lazy" />
+    <figcaption>Alfa Laval MOPX205 Tire Oil Pyrolysis Centrifuge</figcaption>
+  </figure>
 
-  <!-- Bottom CTA Bar -->
-  <div class="bg-navy rounded-xl p-6 md:p-8 text-white mt-10 not-prose">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold mb-1">Ready to Purify Your Pyrolysis Oil?</h3>
-        <p class="text-blue-100 text-sm">Dolphin Centrifuge has supplied centrifuge systems for pyrolysis oil producers across the U.S. Call us or send a sample for a no-obligation evaluation.</p>
-      </div>
-      <div class="flex flex-wrap gap-3 shrink-0">
-        <a href="/contact-for-alfa-laval-centrifuges/" class="bg-gold hover:bg-gold/90 text-white font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Get a Quote</a>
-        <a href="/industrial-centrifuge-sample-testing/" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">Sample Testing</a>
-        <a href="tel:+12485222573" class="border border-white text-white hover:bg-white hover:text-navy font-semibold px-6 py-3 rounded-lg transition whitespace-nowrap">(248) 522-2573</a>
-      </div>
-    </div>
-  </div>
+  <p>The customer supplied the oil from the post-straining tank. A heat exchanger reduced the temperature before entering the centrifuge system. The 'self-cleaning' centrifuge separated all fine metal and char particles. The result was clear bio oil ready for sale!</p>
+
+  <h3 id="centrifuge-specifications">Centrifuge Specifications</h3>
+  <p>Alfa Laval MOPX210 Centrifuge for Pyrolysis Tire Oil Processing System, including:</p>
+  <ul>
+    <li>Alfa Laval MOPX210 <a href="/disc-stack-centrifuge/#self-cleaning-bowl">Self-Cleaning Disc Centrifuge</a></li>
+    <li>VFD Control for customer's PD Feed Pump</li>
+    <li>Fully Automatic <a href="/industrial-centrifuge-controls/">PLC/Touch-Screen Control Panel</a></li>
+  </ul>
+  <p>Technical specifications of this pyrolysis industrial centrifuge: 3-Phase separation of pyrolysis oil to remove fine sediment down to 0.5&micro;. The system processes up to <strong>30 GPM of pyrolysis oil at 200 F</strong> to separate all metal and organic sediment.</p>
+
+  <h2 id="summary">Summary</h2>
+  <p>Pyrolysis oil production on an industrial scale needs mechanical separation. An industrial centrifuge is ideal for separating char and other debris from pyrolysis oil continuously. The centrifuge produces clean pyrolysis oil with less than 0.1% sludge.</p>
 
 </ApplicationLayout>
