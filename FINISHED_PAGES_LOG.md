@@ -31,7 +31,7 @@ Only pages listed here with a "âœ… DONE" status are considered finished to t
 | `smallest-industrial-centrifuges` | 2026-04-26 | `9f602a4` | ApplicationLayout | âœ… DONE |
 | `alfa-laval-mab-104-centrifuge` | 2026-04-30 | `5baee0e` | ApplicationLayout | âœ… DONE |
 | `disc-stack-centrifuge-installation` | 2026-05-03 | `5364a22` | ApplicationLayout | âœ… DONE |
-| `hydraulic-oil-centrifuge` | 2026-05-04 | `e9558ff` | ApplicationLayout | âœ… DONE |
+| `hydraulic-oil-centrifuge` | 2026-05-07 | `2e29f77` | ApplicationLayout | âœ… DONE |
 | `alfa-laval-industrial-centrifuges` | 2026-05-04 | `c0a96fb` | ApplicationLayout | ? DONE |
 | `disc-stack-centrifuge-capacity` | 2026-05-04 | `ea46c54` | ApplicationLayout | ? DONE |
 | `cutting-oil-centrifuge` | 2026-05-05 | `fc17ff9` | ApplicationLayout | ? DONE |
