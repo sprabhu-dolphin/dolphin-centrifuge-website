@@ -4,9 +4,45 @@ import FAQ from '../components/FAQ.astro';
 import DolphinChart from '../components/DolphinChart.astro';
 import ProductCard from '../components/ProductCard.astro';
 
-// FAQ items - TO BE POPULATED with real content from RankMath recovery data
-// This is a legitimate FAQ page (one of 9). Do NOT use AI-generated questions.
-const faqItems: { question: string; answer: string }[] = [];
+// FAQ items — restored verbatim from legacy RankMath FAQPage schema (LW.xml line 88827)
+const faqItems = [
+  {
+    question: "Can a disc centrifuge separate emulsified waste oil?",
+    answer: "A disc centrifuge can break some types of emulsified waste oils especially simple physical emulsion of waste oil can be split at a high temperature (200 F). A longer residence time i.e. low flow rate is helpful in breaking emulsions."
+  },
+  {
+    question: "Can a waste oil centrifuge remove fine metal contaminants from the oil?",
+    answer: "A disc stack centrifuge exerts over 7,000 Gs of centrifugal force which is adequate to pull metal particles down to 0.5 micron level. Our field testing has shown remarkable reduction but not the total elimination of metal particles from waste oil. So, yes, a disc stack centrifuge can remove fine metal particles from waste oil to a certain degree."
+  },
+  {
+    question: "Can your waste oil centrifuge separate antifreeze or glycol from the oil?",
+    answer: "Yes, our waste oil centrifuges are 3-phase; high G-force separators that simultaneously separate sludge and water/antifreeze from the oil."
+  },
+  {
+    question: "What happens to the separated sludge in a waste oil centrifuge?",
+    answer: "Our self-cleaning disc centrifuge automatically eject out the separated sludge periodically during the process. The centrifuge does not need to stop for the sludge ejection cycle."
+  },
+  {
+    question: "Can we use a waste oil centrifuge for other applications such as diesel purification?",
+    answer: "Yes, a waste oil centrifuge is multi functional and can be used for other applications such as diesel/water/sludge separation, lube oil conditioning, industrial oil recovery, etc. The centrifuge needs a small internal adjustment to adapt to a different separation application."
+  },
+  {
+    question: "How does a disc stack centrifuge differ from other open bowl waste oil centrifuges?",
+    answer: "A disc stack centrifuge is an industrial centrifuge that exerts an extremely high centrifugal force compared to open bowl centrifuges. Also open bowl centrifuges only separates some of the sludge from waste oil whereas a disc stack centrifuge removes all the sludge AND water from waste oil."
+  },
+  {
+    question: "Is a waste oil centrifuge a flow-through type separator?",
+    answer: "A waste oil centrifuge is a flow-through or continuous separator. The contaminated waste oil enters the centrifuge, and clean oil, water, and sludge are discharged from the centrifuge. This is a concurrent process that does not need the centrifuge stoppage for cleaning."
+  },
+  {
+    question: "What is the smallest capacity Alfa Laval waste oil centrifuge?",
+    answer: "The smallest capacity waste oil centrifuge from Alfa Laval process up to 5 GPM or 300 Gallons per Hour."
+  },
+  {
+    question: "Can a waste oil centrifuge remove the black color from waste oil?",
+    answer: "Though a disc stack type centrifuge removes most of the metal particles and some ash from waste oil, it does not remove sub-micron carbon particles that make the waste oil appear black. Therefore, a waste oil centrifuge cannot change the color of the oil."
+  },
+];
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -26,8 +62,19 @@ const productJsonLd = {
   },
 };
 
-// FAQPage schema - will be re-added when real FAQ content is populated
-// const faqJsonLd = {};
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "Waste Oil Centrifuge FAQ",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -51,7 +98,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'operation', label: 'Operation' },
@@ -68,6 +115,7 @@ const toc = [
   { id: 'filter-vs-centrifuge', label: 'Filter vs Centrifuge' },
   { id: 'process-flow', label: 'Process Flow Diagram' },
   { id: 'models', label: 'Centrifuges for Sale' },
+  { id: 'faq', label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -87,12 +135,14 @@ const relatedProducts = [
 <ApplicationLayout
   title="Waste Oil Centrifuge | Large Scale | Operation, Benefits & Specs"
   pageTitle="Waste Oil Centrifuge | Large Scale | Operation, Benefits & Specs"
-  description="Recover and purify waste oil with an industrial waste oil centrifuge. Separates water and sediment using 10,000 Gs. High capacity, self-cleaning units."
+  disableTitleSuffix={true}
+  description="A waste oil centrifuge works by exerting gravitational forces up to 12,000 Gs to separate particles down to 1-micron and water from waste oil."
   heroImage="/images/waste-oil-centrifuge/waste-oil-centrifuge-hero-nb.webp"
   heroImageAlt="Waste oil centrifuge system in industrial waste oil processing facility — Dolphin Centrifuge"
   category="applications"
   categoryLabel="Oil & Fuel"
   overlay="frost"
+  hideBottomCTA={true}
   toc={toc}
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
@@ -387,8 +437,10 @@ const relatedProducts = [
     </div>
   </div>
 
-  <!-- ═══ FAQ ═══ Legitimate FAQ page - content pending from RankMath recovery -->
-  {faqItems.length > 0 && <FAQ items={faqItems} heading="Waste Oil Centrifuge FAQ" />}
+  <!-- ═══ FAQ ═══ Restored from legacy RankMath FAQPage schema -->
+  <div id="faq">
+    <FAQ items={faqItems} heading="Waste Oil Centrifuge FAQ" />
+  </div>
 
   <!-- Mid-page CTA -->
   <div class="bg-navy rounded-xl p-6 md:p-8 text-white text-center my-8">
