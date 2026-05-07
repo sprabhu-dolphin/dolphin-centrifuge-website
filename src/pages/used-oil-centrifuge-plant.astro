@@ -1,385 +1,749 @@
 ---
-import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
-import type { TOCItem } from '../components/TableOfContents.astro';
+import ApplicationLayout from "../layouts/ApplicationLayout.astro";
 
-const faqItems = [
+const jsonLd = [
   {
-    question: "Can a used oil centrifuge separate glycol from engine oil?",
-    answer: "An Alfa Laval used oil centrifuge can continuously separate glycol from used engine oil. The glycol will discharge through the centrifuge's heavy phase or water outlet."
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline:
+      "Used Oil Centrifuge Plant with 6 MGY Capacity - Layout, Benefits, and Equipment Specifications",
+    description:
+      "This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable.",
+    author: {
+      "@type": "Person",
+      name: "Sanjay Prabhu MSME",
+      jobTitle: "Centrifuge Applications Engineer",
+      worksFor: {
+        "@type": "Organization",
+        name: "Dolphin Centrifuge",
+        url: "https://dolphincentrifuge.com",
+      },
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Dolphin Centrifuge",
+      url: "https://dolphincentrifuge.com",
+    },
+    datePublished: "2021-12-26T17:49:47+00:00",
+    dateModified: "2023-02-05T18:20:47+00:00",
+    url: "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
+    mainEntityOfPage:
+      "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
   },
-  {
-    question: "Is there a difference between a used oil centrifuge and WVO centrifuge?",
-    answer: "A used oil centrifuge is designed to separate used oil from water and sludge. The same centrifuge may separate WVO from water and solids with some minor modifications. If the WVO application also involves biodiesel, the elastomers also need to be upgraded."
-  },
-  {
-    question: "How does acid-treated used oil affect the used oil centrifuge?",
-    answer: "Acid-treated used oil has a low pH and is therefore not directly suitable for generic disc-stack centrifuges that may have material that is not compatible with low pH fluids. Specially manufactured acid-resistant components need to be retrofitted for such applications."
-  },
-  {
-    question: "What is the dryness of the separated sludge discharge of the decanter centrifuge?",
-    answer: "The separated sludge discharge from a decanter centrifuge is typically about 50% dry. It commonly has a consistency of fudge or toothpaste. It is drip-free from well-adjusted decanters."
-  },
-  {
-    question: "Why can't we process used oil at ambient temperature?",
-    answer: "Used oil at ambient temperature is quite viscous and resistant to separation in the centrifuge. Higher temperatures lower the viscosity of used oil, increasing the centrifuge efficiency by multitudes."
-  }
 ];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
-  }))
-};
-
-const blogJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Used Oil Centrifuge Plant with 6 MGY Capacity - Layout, Benefits, and Equipment Specifications",
-  "description": "This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable.",
-  "author": {
-    "@type": "Person",
-    "name": "sanjay",
-    "url": "https://dolphincentrifuge.com/author/sanjay/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Dolphin Centrifuge",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://dolphincentrifuge.com/wp-content/uploads/2019/12/Dolphin-Centrifuge-Logo.png"
-    }
-  },
-  "datePublished": "2021-12-26T17:49:47+00:00",
-  "dateModified": "2023-02-05T18:20:47+00:00"
-};
-
-const jsonLd = [blogJsonLd, faqJsonLd];
-
-const toc: TOCItem[] = [
+const toc = [
   {
-    title: "Plant Layout",
     id: "plant-layout",
+    label: "Plant Layout",
     subItems: [
       {
-        title: "Considerations for Used Oil Plant Layout",
-        id: "considerations-for-used-oil-plant-layout"
+        id: "considerations",
+        label: "Considerations for Used Oil Plant Layout",
       },
-      {
-        title: "Typical Used Oil Plant Layout",
-        id: "typical-used-oil-plant-layout"
-      }
-    ]
+    ],
   },
   {
-    title: "Benefits of Centrifugation versus Heating & Settling",
-    id: "benefits-of-centrifugation",
+    id: "typical-layout",
+    label: "Typical Used Oil Plant Layout",
     subItems: [
-      { title: "Small Footprint", id: "small-footprint" },
-      { title: "Fewer Tanks Needed", id: "fewer-tanks-needed" },
-      { title: "Fast Processing", id: "fast-processing" },
-      { title: "Cleaner Products", id: "cleaner-products" },
-      { title: "Emulsion Recovery", id: "emulsion-recovery" },
-      { title: "Energy Efficiency", id: "energy-efficiency" },
-      { title: "Labor Cost", id: "labor-cost" }
-    ]
+      { id: "pre-straining", label: "Pre-Straining or Pre-Processing" },
+      { id: "desludging", label: "Desludging" },
+      { id: "polishing", label: "Polishing and Water Separation" },
+    ],
   },
   {
-    title: "Specifications",
+    id: "benefits",
+    label: "Benefits of Centrifugation versus Heating & Settling",
+    subItems: [
+      { id: "small-footprint", label: "Small Footprint" },
+      { id: "fewer-tanks", label: "Fewer Tanks Needed" },
+      { id: "fast-processing", label: "Fast Processing" },
+      { id: "cleaner-products", label: "Cleaner Products" },
+      { id: "emulsion-recovery", label: "Emulsion Recovery" },
+      { id: "energy-efficiency", label: "Energy Efficiency" },
+      { id: "labor-cost", label: "Labor Cost" },
+    ],
+  },
+  {
     id: "specifications",
+    label: "Specifications",
     subItems: [
-      { title: "Centrifuge Equipment Specifications", id: "centrifuge-equipment-specifications" },
-      { title: "Plant Specifications", id: "plant-specifications" }
-    ]
+      {
+        id: "centrifuge-equipment-specs",
+        label: "Centrifuge Equipment Specifications",
+      },
+      { id: "plant-specifications", label: "Plant Specifications" },
+    ],
+  },
+];
+
+const relatedApplications = [
+  {
+    label: "Waste Oil Centrifuge",
+    href: "/waste-oil-centrifuge/",
+    description:
+      "Industrial centrifuge systems for waste oil processing and recovery.",
   },
   {
-    title: "FAQ",
-    id: "faq"
-  }
+    label: "Waste Oil Emulsion Breaking",
+    href: "/waste-oil-emulsion-centrifuge/",
+    description: "Using disc centrifuges to break emulsified oil streams.",
+  },
+  {
+    label: "Disc Stack Centrifuge",
+    href: "/disc-stack-centrifuge/",
+    description: "High-speed three-phase disc stack separators.",
+  },
+  {
+    label: "Decanter Centrifuge",
+    href: "/decanter-centrifuge/",
+    description: "Horizontal bowl decanters for solid-liquid separation.",
+  },
+];
+
+const relatedProducts = [
+  {
+    label: "DMSC-042 Disc Stack Centrifuge",
+    href: "/disc-stack-centrifuge/",
+    description: "25 GPM capacity, 6,500 G-force, used oil polishing.",
+  },
+  {
+    label: "Alfa Laval NX-314 Decanter",
+    href: "/alfa-laval-nx-314-decanter-centrifuge/",
+    description: "40 GPM max, 3,150 Gs, primary desludging.",
+  },
+  {
+    label: "Alfa Laval Industrial Centrifuges",
+    href: "/alfa-laval-industrial-centrifuges/",
+    description: "Full range of Alfa Laval disc stack separators.",
+  },
 ];
 ---
 
 <ApplicationLayout
-  pageTitle="6MGY Used Oil Centrifuge Plant | Layout, Benefits, Equip Specs"
-  metaDescription="This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable."
-  disableTitleSuffix={true}
+  title="6MGY Used Oil Centrifuge Plant | Layout, Benefits, Equip Specs"
+  description="This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable."
   heroImage="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Plant-Layout.webp"
-  heroImageAlt="Used oil centrifuge plant layout - piping and flow diagram showing 6MGY processing plant with decanter and disc stack centrifuge stages"
-  schema={jsonLd}
+  heroImageAlt="Used Oil Centrifuge Plant Layout"
+  category="applications"
+  categoryLabel="Applications"
+  canonicalUrl="https://dolphincentrifuge.com/used-oil-centrifuge-plant/"
+  disableTitleSuffix={true}
+  hideBottomCTA={true}
   toc={toc}
-  breadcrumbItems={[
-    { label: "Home", href: "/" },
-    { label: "Used Oil Centrifuge", href: "/used-oil-centrifuge/" },
-    { label: "Used Oil Centrifuge Plant Layout", href: "/used-oil-centrifuge-plant/" }
-  ]}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  jsonLd={jsonLd}
 >
-  <div class="prose-dolphin">
-    <h1 class="text-4xl font-bold text-navy mb-8">Used Oil Centrifuge Plant with 6 MGY Capacity - Layout, Benefits, and Equipment Specifications</h1>
+  <p>
+    For commercial or large-scale processing of <a
+      href="https://dnr.mo.gov/document-search/used-oil-contaminated-waste-pub0153/pub0153"
+      >used oil</a
+    >, centrifuges play a vital role in the separation process of water and
+    sludge. This article discusses the typical layout of a used oil plant
+    using industrial centrifuges, highlighting the benefits of centrifuges
+    over conventional heating and settling methods.
+  </p>
 
-    <p>For commercial or large-scale processing of <a href="https://dnr.mo.gov/document-search/used-oil-contaminated-waste-pub0153/pub0153" target="_blank" rel="noopener noreferrer">used oil</a>, centrifuges play a vital role in the separation process of water and sludge. This article discusses the typical layout of a used oil plant using industrial centrifuges, highlighting the benefits of centrifuges over conventional heating and settling methods.</p>
+  <h2 id="plant-layout">Plant Layout</h2>
 
-    <h2 id="plant-layout">Plant Layout</h2>
-    <p>A used oil centrifuge plant layout has specific considerations that need to be addressed before the plant layout is designed and finalized.</p>
+  <p>
+    A used oil centrifuge plant layout has specific considerations that need
+    to be addressed before the plant layout is designed and finalized.
+  </p>
 
-    <h3 id="considerations-for-used-oil-plant-layout">Considerations for Used Oil Plant Layout</h3>
-    <p>Several considerations influence the configuration of a commercial-scale used oil processing facility. Some of the critical considerations are discussed below.</p>
+  <h3 id="considerations">Considerations for Used Oil Plant Layout</h3>
 
-    <h4 id="raw-product-sources">Raw Product Source(s)</h4>
-    <p>Used oil processors collecting oil from automotive garages and other similar locations typically don't carry too much sludge in the oil. On the other hand, used oil from industrial facilities mixed in with engine oil carries a higher percentage of solids that require a different separation approach.</p>
+  <p>
+    Several considerations influence the configuration of a commercial-scale
+    used oil processing facility. Some of the critical considerations are
+    discussed below.
+  </p>
 
-    <h4 id="constituents">Constituents</h4>
-    <p>Straight-used oil from engines has water, glycol, and engine-wear particles as contaminants. This oil is easy to clean with a centrifugal separator. Used oil sometimes carries detergents from washing activities that can cause the oil to form an emulsion with water.</p>
-    <p>Such emulsified oils are trickier to process and need chemical demulsifiers to break the emulsion.</p>
+  <h4>Raw Product Source(s)</h4>
 
-    <h4 id="existing-plantequipment">Existing Plant/Equipment</h4>
-    <p>Used oil processors that currently use heating and settling methods have settling tanks that the operator can adapt to a centrifuge-based used oil recovery process. Other equipment, such as pumps, pre-strainers, etc., that are available at the existing location can be repurposed for a used oil centrifuge plant.</p>
+  <p>
+    Used oil processors collecting oil from automotive garages and other
+    similar locations typically don't carry too much sludge in the oil. On
+    the other hand, used oil from industrial facilities mixed in with
+    engine oil carries a higher percentage of solids that require a
+    different separation approach.
+  </p>
 
-    <h4 id="heating-resources">Heating Resources</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Heater-Pump-Filter-Skid.webp" alt="Heater Pump Filter Skid for Crude Oil" class="img-cap-600" />
-      <figcaption><strong>Heater Pump Filter Skid</strong></figcaption>
-    </figure>
-    <p>One of the critical resources for processing used oil through centrifuges is heat. Increasing the temperature of used oil reduces the oil's viscosity, increasing centrifuge separation efficiency.</p>
-    <p>Therefore, tanks with heating coils or heat exchangers currently used to heat the incoming used oil are handy for a centrifuge-based used oil processing plant.</p>
+  <h4>Constituents</h4>
 
-    <h4 id="preprocessing">Pre-Processing</h4>
-    <p>Often, used oil from tank bottoms or other industrial sources can carry large solids and debris like rags, wood, etc. A primary separation mechanism such as an auto-strainer or vibrating screen is necessary before the centrifuge-based process begins.</p>
+  <p>
+    Straight-used oil from engines has water, glycol, and engine-wear
+    particles as contaminants. This oil is easy to clean with a
+    centrifugal separator. Used oil sometimes carries detergents from
+    washing activities that can cause the oil to form an emulsion with
+    water.
+  </p>
 
-    <h3 id="typical-used-oil-plant-layout">Typical Used Oil Plant Layout</h3>
-    <p>A typical used oil centrifuge plant layout incorporates the equipment discussed above into a unified system that is continuously operated and monitored. The following schematic diagram of a used oil centrifuge plant outlines the process flow through the different equipment described above.</p>
+  <p>
+    Such emulsified oils are trickier to process and need chemical
+    demulsifiers to break the emulsion.
+  </p>
 
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Plant-Layout.webp" alt="Used Oil Centrifuge Plant Layout" class="img-cap-800" />
-      <figcaption><strong>6 MGY Used Oil Centrifuge Plant Layout</strong></figcaption>
-    </figure>
+  <h4>Existing Plant/Equipment</h4>
 
-    <h3 id="plant-equipment-function">Plant Equipment &amp; Function</h3>
-    <p>In this section, we elaborate on the equipment shown in the process block diagram above and the purpose it serves.</p>
+  <p>
+    Used oil processors that currently use heating and settling methods
+    have settling tanks that the operator can adapt to a centrifuge-based
+    used oil recovery process. Other equipment, such as pumps,
+    pre-strainers, etc., that are available at the existing location can
+    be repurposed for a used oil centrifuge plant.
+  </p>
 
-    <h4 id="prestraining-or-preprocessing">Pre-Straining or Pre-Processing</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/product_prestainerskid.webp" alt="Pre-Strainers for Used Oil Centrifuge" class="img-cap-600" />
-      <figcaption><strong>Duplex Pre-Strainer for Centrifuges</strong></figcaption>
-    </figure>
-    <p>Incoming used oil needs to pass through a pre-strainer or similar mechanical filter device to keep the large solids and debris out of the centrifuges. Also known as scalping, this step is essential to protect the equipment from physical damage. A duplex basket-type strainer is widely used for this purpose.</p>
+  <h4>Heating Resources</h4>
 
-    <h4 id="desludging">Desludging</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Alfa-Laval-NX-314-Decanter-Centrifuge-for-Waste-Oil-600.webp" alt="Alfa Laval NX-314 Decanter Centrifuge" class="img-cap-500" />
-      <figcaption><strong>Alfa Laval NX-314 Decanter Centrifuge</strong></figcaption>
-    </figure>
-    <p>As mentioned earlier, some used oil carries a substantial amount of sludge and sediment. This sludge could overwhelm a disc-stack centrifuge causing it to clog up and cease operation. A <a href="/decanter-centrifuge/">decanter centrifuge</a> is a large solids separator.</p>
-    <p>Therefore, a decanter centrifuge is ideally suited to separate large amounts of sludge continuously. The decanter is the first centrifuge in a used oil recovery plant to continuously pull out the bulk solids (sediment) from the heated used oil.</p>
-    <p>The decanter centrifuge also separates out the free water and therefore reduces the burden on the downstream disc centrifuge.</p>
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Heater-Pump-Filter-Skid.webp"
+      alt="Heater Pump Filter Skid for Crude Oil"
+      width="600"
+      height="600"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption><strong>Heater Pump Filter Skid</strong></figcaption>
+  </figure>
 
-    <h4 id="polishing-and-water-separation">Polishing and Water Separation</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Alfa-Laval-WHPX-410-Waste-Oil-Centrifuge-600.webp" alt="Alfa Laval WHPX 410 Waste Oil Centrifuge" class="img-cap-500" />
-      <figcaption><strong>Alfa Laval WHPX 410 Waste Oil Centrifuge</strong></figcaption>
-    </figure>
-    <p>The desc-sludged used oil coming out of the decanter centrifuge still carries small amounts of free water and fine sediment. A <a href="/industrial-centrifuge/disc-stack-centrifuge/">disc-stack centrifuge</a> handles the final polishing to separate these fine contaminants.</p>
-    <p>This centrifuge incorporates a three-phase design that can separate the water and sediment from the oil simultaneously. These disc-stack centrifuges' inherent high centrifugal force allows them to separate small particles down to 0.5 microns and all free water.</p>
-    <p>If the used oil contains emulsions, the disc-stack centrifuge can break some of the emulsified phases by pulling out the microparticles acting as the nucleus of the emulsion.</p>
-    <p>Our article titled <a href="/breaking-emulsions-with-centrifuge/">using a disc centrifuge to break oil emulsion</a> delves into more details on this topic.</p>
-    <p>Our field experience makes <strong>it possible to produce 99.9% clean used oil</strong> from the disc-stack centrifuge. The separate water phase does carry some oil in the 100 to 5000 ppm range.</p>
+  <p>
+    One of the critical resources for processing used oil through
+    centrifuges is heat. Increasing the temperature of used oil reduces
+    the oil's viscosity, increasing centrifuge separation efficiency.
+  </p>
 
-    <h2 id="benefits-of-centrifugation">Benefits of Centrifugation versus Heating &amp; Settling</h2>
-    <p>The multitude of benefits of centrifuges over conventional heating and settling methods is due to the centrifuges' centrifugal force, which is several thousand times that of gravity.</p>
-    <p>In other words, heating and settling use the force of gravity (1G) to separate the oil from the water and solids. Industrial centrifuges (decanter and disc-stack) exert between 3,000 and 8,000 times the force of gravity, affecting instant separation.</p>
-    <p>The following is a list of some of the main benefits.</p>
+  <p>
+    Therefore, tanks with heating coils or heat exchangers currently used
+    to heat the incoming used oil are handy for a centrifuge-based used
+    oil processing plant.
+  </p>
 
-    <h3 id="small-footprint">Small Footprint</h3>
-    <p>The conventional methods (heating, filtering, and settling) rely on tanks for storage and settling. The space and footprint of such plants increase in proportion to the plant capacity.</p>
-    <p>On the other hand, Centrifuges are flow-through devices that separate quickly and efficiently using high centrifugal forces.</p>
-    <p>Therefore, used oil centrifuge systems use a fraction of the footprint of settling tanks and filter housing banks.</p>
+  <h4>Pre-Processing</h4>
 
-    <h3 id="fewer-tanks-needed">Fewer Tanks Needed</h3>
-    <p>Following the above point, since centrifuges do not require settling, the tanks are no longer required except for storing clean used oil. This benefit of centrifuges saves considerable expenditure related to settling tanks.</p>
+  <p>
+    Pre-processing from a centrifuge perspective means pre-straining the
+    raw used oil to separate large debris from the oil that can cause
+    operational issues for the downstream equipment, including
+    centrifuges, pumps, heat exchangers, etc.
+  </p>
 
-    <h3 id="fast-processing">Fast Processing</h3>
-    <p>As mentioned above, centrifuges affect instant separation, allowing the used oil centrifuges to process large volumes of used oil in a short time. As in any business, time is money and the time saving attributable to centrifuges directly benefits the operator in terms of higher volumes leading to more profits.</p>
+  <p>
+    Often, the pre-processing stage includes pre-heating and straining the
+    used oil to allow the downstream centrifuge to operate at maximum
+    efficiency.
+  </p>
 
-    <h3 id="cleaner-products">Cleaner Products</h3>
-    <p>Industrial centrifuges can produce 100% clean oil from water and solids. Heating and settling typically leave behind small, suspended solids in the oil that require filtration to produce sale oil.</p>
-    <p>The cleaner-used oil from centrifuges brings a higher value and more revenue for the same volume processed.</p>
+  <h2 id="typical-layout">Typical Used Oil Plant Layout</h2>
 
-    <h3 id="emulsion-recovery">Emulsion Recovery</h3>
-    <p><a href="/alfa-laval-industrial-centrifuges/">Alfa Laval disc-stack centrifuges</a> exert a high centrifugal force that can extract the microparticles that act as the nucleus of emulsion molecules within emulsified used oil. Removing these particles leads to a breakdown of the emulsion molecule leading to higher oil recovery and emulsion breaking.</p>
-    <p>Chemically bonded emulsions are trickier and often need a chemical neutralizing agent such as an acid or demulsifier to break the emulsion and recover the trapped oil.</p>
+  <p>
+    A 6MGY used oil plant using an industrial centrifuge for de-sludging and a
+    disc-stack centrifuge for polishing the used oil has a multi-step process
+    using a decanter and disc-stack centrifuge. The configuration is shown
+    below through a piping and flow diagram.
+  </p>
 
-    <h3 id="energy-efficiency">Energy Efficiency</h3>
-    <p>The largest cost factor in the heating and settling methodology is the cost of heating the large volumes of used oil and water to around 180 F to affect settling. Higher temperatures are required if the operator desires faster settling, leading to even more energy costs.</p>
-    <p>It is also worth noting that large amounts of heat from the heated tanks are lost to the environment, which is not environmentally friendly and is a direct loss to the operating revenue.</p>
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Plant-Layout.webp"
+      alt="Used Oil Centrifuge Plant Layout"
+      width="900"
+      height="600"
+      loading="lazy"
+      class="img-cap-800"
+    />
+    <figcaption><strong>Used Oil Centrifuge Plant Layout</strong></figcaption>
+  </figure>
 
-    <h3 id="labor-cost">Labor Cost</h3>
-    <p>Used oil centrifuges feature fully automatic operation and therefore require minimal manual labor. The traditional heating and settling operations require manual labor to decant the separate water and sludge. Labor is also essential to clean out the settled sludge from settling tanks.</p>
-    <p>Based on the above, the expenses related to labor costs add up quickly and make centrifuges attractive from this cost savings perspective.</p>
+  <p>
+    Six million gallons per year (6MGY) equals 25 GPM centrifuge capacity
+    assuming 5 Days/week; 20 Hrs/Day processing. Therefore, the plant layout
+    shows centrifuges capable of processing 25 GPM of used oil at efficient
+    operating temperatures of around 180 F.
+  </p>
 
-    <h2 id="specifications">Specifications</h2>
-    <p>The overall specifications for this layout can be categorized into centrifuge equipment specifications and plant specifications.</p>
+  <h3>Plant Equipment &amp; Function</h3>
 
-    <h3 id="centrifuge-equipment-specifications">Centrifuge Equipment Specifications</h3>
-    <p>While considering the centrifuge specifications, the rated flow capacities of centrifuges are based on light viscosity oils with water and solids. However, the actual throughput is dependent on the specific process fluid properties.</p>
-    <p>Thicker, viscous fluids tend to flow slower, causing the centrifuges' capacity to deteriorate. For example, the DMSC-042 centrifuge specified below can process 40+ GPM of #2 diesel fuel but is derated down to about 25 GPM of used oil.</p>
+  <p>The plant can be divided into three stations or steps: as follows.</p>
 
-    <h4 id="decanter-centrifuge">Decanter Centrifuge</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp" alt="Alfa Laval NX-314 Decanter Centrifuge Module" class="img-cap-600" />
-      <figcaption><strong>Alfa Laval NX-314 Decanter Centrifuge Module</strong></figcaption>
-    </figure>
-    <p>The <a href="/alfa-laval-nx-314-decanter-centrifuge/">Alfa Laval NX-314 decanter</a> is a medium-capacity centrifuge that can process up to 40 GPM of light viscosity oils to separate sludge. You can read more about this model decanter by clicking on the link above.</p>
-    <p>The following table lists the technical specifications of this used oil decanter centrifuge.</p>
+  <h4 id="pre-straining">Pre-Straining or Pre-Processing</h4>
 
-    <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl my-8">
-      <table class="w-full text-left border-collapse">
-        <tbody>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200 font-bold w-1/2">Decanter Model</td>
-            <td class="p-4 font-bold w-1/2">Alfa Laval NX-314 B 31</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Bowl Speed</td>
-            <td class="p-4">4,000 RPM</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Centrifugal Force</td>
-            <td class="p-4">3,150 Gs</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Main Motor Power</td>
-            <td class="p-4">15 HP</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Max. Capacity</td>
-            <td class="p-4">60 GPM</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Used Oil Desludging Capacity @ 150 F</td>
-            <td class="p-4">25 GPM</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Weight</td>
-            <td class="p-4">2,500 Lbs</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Dimensions (Footprint)</td>
-            <td class="p-4">9' x 3' x 5' (H)</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Operating Voltage</td>
-            <td class="p-4">460 VAC - 3 Phase</td>
-          </tr>
-          <tr>
-            <td class="p-4 border-r border-gray-200">Power</td>
-            <td class="p-4">50 Amp Circuit</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <p>
+    Pre-straining is separating large solids from the used oil to prevent
+    these solids from damaging downstream pumps and centrifuges. Used oil
+    often contains rocks, twigs, rags, etc., potentially damaging
+    equipment designed for smaller particles.
+  </p>
 
-    <h4 id="discstack-centrifuge">Disc-Stack Centrifuge</h4>
-    <figure>
-      <img src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Alfa-Laval-MAPX204-4.webp" alt="Used-Oil-Centrifuge-Alfa-Laval-MAPX204" class="img-cap-450" />
-      <figcaption><strong>DMSC-042 Disc Stack Centrifuge</strong></figcaption>
-    </figure>
-    <p>The DMSC-042 is originally an Alfa Laval 'Self-Cleaning' disc-stack centrifuge that has been modified specifically for used oil purification. The centrifuge is also augmented with special elastomers to handle acid-treated used oil.</p>
-    <p>The following table lists the technical specifications of the DMSC-042 Disc Stack centrifuge.</p>
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/product_prestainerskid.webp"
+      alt="Automatic Pre-Strainer Skid"
+      width="600"
+      height="600"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>
+      <strong>Dolphin Centrifuge's Pre-Strainer System with Heater</strong>
+    </figcaption>
+  </figure>
 
-    <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl my-8">
-      <table class="w-full text-left border-collapse">
-        <tbody>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200 font-bold w-1/2">Centrifuge Model</td>
-            <td class="p-4 font-bold w-1/2">DMSC-042 Disc Stack Centrifuge (Modified Alfa Laval Separator)</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Bowl Speed</td>
-            <td class="p-4">~5,000 RPM</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">G-Force</td>
-            <td class="p-4">~6,500 Gs</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Main Motor Power</td>
-            <td class="p-4">15 HP</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Max. Capacity</td>
-            <td class="p-4">62 GPM</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Used Oil Capacity @ 180F</td>
-            <td class="p-4">25 GPM</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Weight</td>
-            <td class="p-4">3,500 Lbs</td>
-          </tr>
-          <tr class="border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Dimensions (Footprint)</td>
-            <td class="p-4">5' x 4' x 5' (H)</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="p-4 border-r border-gray-200">Operating Voltage</td>
-            <td class="p-4">460 VAC - 3 Phase</td>
-          </tr>
-          <tr>
-            <td class="p-4 border-r border-gray-200">Power</td>
-            <td class="p-4">40 Amp Circuit</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <p>
+    This step primarily consists of large mesh filter housings with 1/4"
+    or 3/8" steel mesh containers that catch these large particles.
+    Ideally, set up as duplex canisters, the operator can switch on the
+    fly while processing.
+  </p>
 
-    <h3 id="plant-specifications">Plant Specifications</h3>
-    <p>The plant specifications refer to the specifications of facilities and equipment other than the centrifuges that apply specifically to used oil centrifuge plants.</p>
+  <p>
+    The other aspect of pre-processing is pre-heating. Used oil
+    centrifuges work well on oil that is heated. Pre-heating with steam or
+    thermic fluid coils in the tank helps the oil flow through the
+    pre-strainers and reduces the heat load on downstream heaters.
+  </p>
 
-    <h4 id="facility-size">Facility Size</h4>
-    <p>For a <strong>6MGY used oil plant based on centrifuges</strong>, the facility can be a fraction of the size of a similar capacity heating and settling type of setup. In this case, the entire processing plant can be accommodated within a <strong>4,000 sqft facility</strong>, not including the incoming oil storage tanks.</p>
-    <p>We recommend that such a facility be climate controlled and the equipment protected from the elements (rain/snow/wind, etc.)</p>
+  <p>
+    Filter housings with 1-1/2" ports and 36" steel mesh baskets suit the
+    flow mentioned above.
+  </p>
 
-    <h4 id="auxiliary-equipment">Auxiliary Equipment</h4>
-    <p>In addition to the centrifuges, some auxiliary equipment is essential to the efficient and reliable operation of the used oil processing plant. The equipment list below is in order of importance from a centrifuge perspective.</p>
+  <h4 id="desludging">Desludging</h4>
 
-    <h5 id="used-oil-heating-tank-heating">Used Oil Heating / Tank Heating</h5>
-    <p>The higher the temperature of the used oil, the higher the efficiency of the centrifuges. In other words, the used oil processing temperature is the critical factor determining the system's efficiency.</p>
-    <p>Therefore, the availability of heating in the storage tanks and in-process used oil significantly impacts the overall system performance.</p>
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Alfa-Laval-NX-314-Decanter-Centrifuge-for-Waste-Oil-600.webp"
+      alt="Alfa Laval NX-314 Decanter Centrifuge for Waste Oil"
+      width="600"
+      height="427"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>
+      <strong>Alfa Laval NX-314 Decanter Centrifuge for Waste Oil</strong>
+    </figcaption>
+  </figure>
 
-    <h5 id="prestrainers-or-filters">Pre-Strainers or Filters</h5>
-    <p>As described above, the pre-strainers primarily protect the downstream equipment, especially the centrifuges, from large debris that can cause blockage and damage. Transfer pumps are also susceptible to damage from large solids.</p>
+  <p>
+    The desludging step is where a decanter centrifuge (horizontal bowl
+    centrifuge) separates the bulk of sludge from the used oil. The
+    decanter centrifuge is capable of handling particles up to 1/4".
+  </p>
 
-    <h5 id="transfer-pumps">Transfer Pumps</h5>
-    <p>The transfer pumps are an integral part of the used oil processing system, and their reliability is crucial for plant operation. Heavy-duty, positive displacement pumps are reliable and promote long service life for used oil centrifuges.</p>
+  <p>
+    For optimum separation, the used oil should be at 130 F for the
+    decanter to produce oil with less than 2% sludge. The actual
+    separation efficiency of the decanter depends on the type of solids
+    (organic matter or metal particles) and the particle size
+    distribution.
+  </p>
 
-    <h5 id="sludge-receptacles">Sludge Receptacles</h5>
-    <p>The separated solids and sludge from used oil centrifuges are in a semi-dry state and discharge continuously from the centrifuges. Sludge receptacles are required at each centrifuge station and are often designed into the centrifuge system itself.</p>
-    <p>Sludge containers for industrial centrifuges feature specific design features that allow them to be integrated into the centrifuge modules.</p>
+  <p>
+    The Alfa Laval NX-314 decanter is a heavy-duty decanter that can
+    process up to 40 GPM of light viscosity oils. Though the actual
+    throughput depends on the used oil composition and contamination level,
+    a flow rate of around 25 to 30 GPM is achievable for standard used oil.
+  </p>
 
-    <h4 id="utilities">Utilities</h4>
-    <p>All used oil recovery facilities using centrifuges require electricity (460 V), water, and compressed air. The availability of steam as a heating medium is often helpful to pre-heat the used oil in storage tanks.</p>
+  <p>
+    The desludging step is critical for industrial used oil with high
+    solid sludge content. This sludge removal is essential due to the
+    solids handling limitation of the downstream disc-stack centrifuge.
+  </p>
 
-    <h4 id="waste-disposal">Waste Disposal</h4>
-    <p>The other waste stream a used oil facility generates is separated water that carries trace amounts of oil. Used oil processors collect this water in a settling tank to let the oil float to the top and decant the water through the tank bottom. The floating oil layer is sent back to the centrifuge for oil recovery.</p>
-    <p>Also, if the used oil contains emulsions, the emulsified phase comes out of the centrifuges as a separate stream that requires disposal.</p>
+  <h4 id="polishing">Polishing and Water Separation</h4>
 
-    <div class="mt-12 bg-gray-50 rounded-xl p-8 border border-gray-200">
-      <div class="flex items-center gap-4 mb-4">
-        <img src="/images/used-oil-centrifuge-plant/Dolphin-Centrifuge.webp" alt="Sanjay Prabhu, Centrifuge Applications Engineer, Dolphin Centrifuge" class="w-16 h-16 rounded-full object-contain" />
-        <div>
-          <h3 class="text-xl font-bold text-navy !m-0">Sanjay Prabhu</h3>
-          <p class="text-gray-600 !m-0">Centrifuge Applications Engineer</p>
-        </div>
-      </div>
-      <p class="text-gray-700 italic">With over 35 years of experience in industrial centrifuges, Sanjay is a leading expert in the application, design, and troubleshooting of separation systems for the used oil, wastewater, and biofuel industries.</p>
-    </div>
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Alfa-Laval-WHPX-410-Waste-Oil-Centrifuge-600.webp"
+      alt="Alfa Laval WHPX 410 Waste Oil Centrifuge"
+      width="600"
+      height="450"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>
+      <strong>Alfa Laval WHPX 410 Waste Oil Centrifuge</strong>
+    </figcaption>
+  </figure>
 
-    <h2 id="faq">FAQ</h2>
-    <FAQ items={faqItems} />
+  <p>
+    The decanter centrifuge de-sludges the used oil but does not separate
+    the water from the used oil. In this step, an Alfa Laval high-speed
+    disc-stack centrifuge separates the water and remaining small
+    particles from the used oil.
+  </p>
 
+  <p>
+    This centrifuge incorporates a three-phase design that can separate
+    the water and sediment from the oil simultaneously. These disc-stack
+    centrifuges' inherent high centrifugal force allows them to separate
+    small particles down to 0.5 microns and all free water.
+  </p>
+
+  <p>
+    If the used oil contains emulsions, the disc-stack centrifuge can
+    break some of the emulsified phases by pulling out the microparticles
+    acting as the nucleus of the emulsion.
+  </p>
+
+  <p>
+    Our article titled <a href="/waste-oil-emulsion-centrifuge/"
+      >using a disc centrifuge to break oil emulsion</a
+    > delves into more details on this topic.
+  </p>
+
+  <p>
+    Our field experience makes <strong
+      >it possible to produce 99.9% clean used oil</strong
+    > from the disc-stack centrifuge. The separate water phase does carry some
+    oil in the 100 to 5000 ppm range.
+  </p>
+
+  <h2 id="benefits">
+    Benefits of Centrifugation versus Heating &amp; Settling
+  </h2>
+
+  <p>
+    The multitude of benefits of centrifuges over conventional heating and
+    settling methods is due to the centrifuges' centrifugal force, which is
+    several thousand times that of gravity.
+  </p>
+
+  <p>
+    In other words, heating and settling use the force of gravity (1G) to
+    separate the oil from the water and solids. Industrial centrifuges
+    (decanter and disc-stack) exert between 3,000 and 8,000 times the force of
+    gravity, affecting instant separation.
+  </p>
+
+  <p>The following is a list of some of the main benefits.</p>
+
+  <h3 id="small-footprint">Small Footprint</h3>
+
+  <p>
+    The conventional methods (heating, filtering, and settling) rely on
+    tanks for storage and settling. The space and footprint of such plants
+    increase in proportion to the plant capacity.
+  </p>
+
+  <p>
+    On the other hand, Centrifuges are flow-through devices that separate
+    quickly and efficiently using high centrifugal forces.
+  </p>
+
+  <p>
+    Therefore, used oil centrifuge systems use a fraction of the footprint
+    of settling tanks and filter housing banks.
+  </p>
+
+  <h3 id="fewer-tanks">Fewer Tanks Needed</h3>
+
+  <p>
+    Following the above point, since centrifuges do not require settling,
+    the tanks are no longer required except for storing clean used oil.
+    This benefit of centrifuges saves considerable expenditure related to
+    settling tanks.
+  </p>
+
+  <h3 id="fast-processing">Fast Processing</h3>
+
+  <p>
+    As mentioned above, centrifuges affect instant separation, allowing
+    the used oil centrifuges to process large volumes of used oil in a
+    short time. As in any business, time is money and the time saving
+    attributable to centrifuges directly benefits the operator in terms of
+    higher volumes leading to more profits.
+  </p>
+
+  <h3 id="cleaner-products">Cleaner Products</h3>
+
+  <p>
+    Industrial centrifuges can produce 100% clean oil from water and
+    solids. Heating and settling typically leave behind small, suspended
+    solids in the oil that require filtration to produce sale oil.
+  </p>
+
+  <p>
+    The cleaner-used oil from centrifuges brings a higher value and more
+    revenue for the same volume processed.
+  </p>
+
+  <h3 id="emulsion-recovery">Emulsion Recovery</h3>
+
+  <p>
+    <a href="/alfa-laval-industrial-centrifuges/"
+      >Alfa Laval disc-stack centrifuges</a
+    > exert a high centrifugal force that can extract the microparticles that
+    act as the nucleus of emulsion molecules within emulsified used oil.
+    Removing these particles leads to a breakdown of the emulsion molecule
+    leading to higher oil recovery and emulsion breaking.
+  </p>
+
+  <p>
+    Chemically bonded emulsions are trickier and often need a chemical
+    neutralizing agent such as an acid or demulsifier to break the
+    emulsion and recover the trapped oil.
+  </p>
+
+  <h3 id="energy-efficiency">Energy Efficiency</h3>
+
+  <p>
+    The largest cost factor in the heating and settling methodology is the
+    cost of heating the large volumes of used oil and water to around 180
+    F to affect settling. Higher temperatures are required if the operator
+    desires faster settling, leading to even more energy costs.
+  </p>
+
+  <p>
+    It is also worth noting that large amounts of heat from the heated
+    tanks are lost to the environment, which is not environmentally
+    friendly and is a direct loss to the operating revenue.
+  </p>
+
+  <h3 id="labor-cost">Labor Cost</h3>
+
+  <p>
+    Used oil centrifuges feature fully automatic operation and therefore
+    require minimal manual labor. The traditional heating and settling
+    operations require manual labor to decant the separate water and
+    sludge. Labor is also essential to clean out the settled sludge from
+    settling tanks.
+  </p>
+
+  <p>
+    Based on the above, the expenses related to labor costs add up quickly
+    and make centrifuges attractive from this cost savings perspective.
+  </p>
+
+  <h2 id="specifications">Specifications</h2>
+
+  <p>
+    The overall specifications for this layout can be categorized into
+    centrifuge equipment specifications and plant specifications.
+  </p>
+
+  <h3 id="centrifuge-equipment-specs">Centrifuge Equipment Specifications</h3>
+
+  <p>
+    While considering the centrifuge specifications, the rated flow capacities
+    of centrifuges are based on light viscosity oils with water and solids.
+    However, the actual throughput is dependent on the specific process fluid
+    properties.
+  </p>
+
+  <p>
+    Thicker, viscous fluids tend to flow slower, causing the centrifuges'
+    capacity to deteriorate. For example, the DMSC-042 centrifuge specified
+    below can process 40+ GPM of #2 diesel fuel but is derated down to about
+    25 GPM of used oil.
+  </p>
+
+  <h4>Decanter Centrifuge</h4>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Alfa-Laval-NX-314-Decanter-Centrifuge-Module-600.webp"
+      alt="Alfa Laval NX-314 Decanter Centrifuge Module"
+      width="600"
+      height="510"
+      loading="lazy"
+      class="img-cap-600"
+    />
+    <figcaption>
+      <strong>Alfa Laval NX-314 Decanter Centrifuge Module</strong>
+    </figcaption>
+  </figure>
+
+  <p>
+    The <a href="/alfa-laval-nx-314-decanter-centrifuge/"
+      >Alfa Laval NX-314 Decanter</a
+    > centrifuge is a medium-capacity centrifuge that can process up to 40 GPM of
+    light viscosity oils to separate sludge. You can read more about this model
+    decanter by clicking on the link above.
+  </p>
+
+  <p>
+    The following table lists the technical specifications of this used oil
+    decanter centrifuge.
+  </p>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <thead>
+        <tr>
+          <th>Specification</th>
+          <th>Alfa Laval NX-314 B 31</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Decanter Model</strong></td><td><strong>Alfa Laval NX-314 B 31</strong></td></tr>
+        <tr><td>Bowl Speed</td><td>4,000 RPM</td></tr>
+        <tr><td>Centrifugal Force</td><td>3,150 Gs</td></tr>
+        <tr><td>Main Motor Power</td><td>15 HP</td></tr>
+        <tr><td>Max. Capacity</td><td>60 GPM</td></tr>
+        <tr><td>Used Oil Desludging Capacity @ 150 F</td><td>25 GPM</td></tr>
+        <tr><td>Weight</td><td>2,500 Lbs</td></tr>
+        <tr><td>Dimensions (Footprint)</td><td>9' x 3' x 5' (H)</td></tr>
+        <tr><td>Operating Voltage</td><td>460 VAC - 3 Phase</td></tr>
+        <tr><td>Power</td><td>50 Amp Circuit</td></tr>
+      </tbody>
+    </table>
   </div>
+
+  <h4>Disc-Stack Centrifuge</h4>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Alfa-Laval-MAPX204-4.webp"
+      alt="Used-Oil-Centrifuge-Alfa-Laval-MAPX204"
+      width="450"
+      height="450"
+      loading="lazy"
+      class="img-cap-400"
+    />
+    <figcaption>
+      <strong>Used Oil Centrifuge - Alfa Laval MAPX 204</strong>
+    </figcaption>
+  </figure>
+
+  <p>
+    The DMSC-042 is originally an Alfa Laval 'Self-Cleaning' disc-stack
+    centrifuge that has been modified specifically for used oil purification.
+    The centrifuge is also augmented with special elastomers to handle
+    acid-treated used oil.
+  </p>
+
+  <p>
+    The following table lists the technical specifications of the DMSC-042
+    Disc Stack centrifuge.
+  </p>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
+    <table>
+      <thead>
+        <tr>
+          <th>Specification</th>
+          <th>DMSC-042 Disc Stack Centrifuge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Centrifuge Model</strong></td><td><strong>DMSC-042 Disc Stack Centrifuge (Modified Alfa Laval Separator)</strong></td></tr>
+        <tr><td>Bowl Speed</td><td>~5,000 RPM</td></tr>
+        <tr><td>G-Force</td><td>~6,500 Gs</td></tr>
+        <tr><td>Main Motor Power</td><td>15 HP</td></tr>
+        <tr><td>Max. Capacity</td><td>62 GPM</td></tr>
+        <tr><td>Used Oil Capacity @ 180F</td><td>25 GPM</td></tr>
+        <tr><td>Weight</td><td>3,500 Lbs</td></tr>
+        <tr><td>Dimensions (Footprint)</td><td>5' x 6' x 8' (H)</td></tr>
+        <tr><td>Operating Voltage</td><td>460 VAC - 3 Phase</td></tr>
+        <tr><td>Power Required</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="plant-specifications">Plant Specifications</h3>
+
+  <p>
+    The plant specifications refer to the specifications of facilities and
+    equipment other than the centrifuges that apply specifically to used oil
+    centrifuge plants.
+  </p>
+
+  <h4>Facility Size</h4>
+
+  <p>
+    For a <strong>6MGY used oil plant based on centrifuges</strong>, the
+    facility can be a fraction of the size of a similar capacity heating
+    and settling type of setup. In this case, the entire processing plant
+    can be accommodated within a <strong>4,000 sqft facility</strong>, not
+    including the incoming oil storage tanks.
+  </p>
+
+  <p>
+    We recommend that such a facility be climate controlled and the
+    equipment protected from the elements (rain/snow/wind, etc.)
+  </p>
+
+  <h4>Auxiliary Equipment</h4>
+
+  <p>
+    In addition to the centrifuges, some auxiliary equipment is essential
+    to the efficient and reliable operation of the used oil processing
+    plant. The equipment list below is in order of importance from a
+    centrifuge perspective.
+  </p>
+
+  <h5>Used Oil Heating / Tank Heating</h5>
+
+  <p>
+    The higher the temperature of the used oil, the higher the efficiency
+    of the centrifuges. In other words, the used oil processing
+    temperature is the critical factor determining the system's efficiency.
+  </p>
+
+  <p>
+    Therefore, the availability of heating in the storage tanks and
+    in-process used oil significantly impacts the overall system
+    performance.
+  </p>
+
+  <h5>Pre-Strainers or Filters</h5>
+
+  <p>
+    As described above, the pre-strainers primarily protect the downstream
+    equipment, especially the centrifuges, from large debris that can
+    cause blockage and damage. Transfer pumps are also susceptible to
+    damage from large solids.
+  </p>
+
+  <h5>Transfer Pumps</h5>
+
+  <p>
+    The transfer pumps are an integral part of the used oil processing
+    system, and their reliability is crucial for plant operation.
+    Heavy-duty, positive displacement pumps are reliable and promote long
+    service life for used oil centrifuges.
+  </p>
+
+  <h5>Sludge Receptacles</h5>
+
+  <p>
+    The separated solids and sludge from used oil centrifuges are in a
+    semi-dry state and discharge continuously from the centrifuges. Sludge
+    receptacles are required at each centrifuge station and are often
+    designed into the centrifuge system itself.
+  </p>
+
+  <p>
+    Sludge containers for industrial centrifuges feature specific design
+    features that allow them to be integrated into the centrifuge modules.
+  </p>
+
+  <h4>Utilities</h4>
+
+  <p>
+    All used oil recovery facilities using centrifuges require electricity
+    (460 V), water, and compressed air. The availability of steam as a
+    heating medium is often helpful to pre-heat the used oil in storage
+    tanks.
+  </p>
+
+  <h4>Waste Disposal</h4>
+
+  <p>
+    The other waste stream a used oil facility generates is separated
+    water that carries trace amounts of oil. Used oil processors collect
+    this water in a settling tank to let the oil float to the top and
+    decant the water through the tank bottom. The floating oil layer is
+    sent back to the centrifuge for oil recovery.
+  </p>
+
+  <p>
+    Also, if the used oil contains emulsions, the emulsified phase comes
+    out of the centrifuges as a separate stream that requires disposal.
+  </p>
 </ApplicationLayout>
