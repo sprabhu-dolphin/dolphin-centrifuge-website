@@ -1,5 +1,51 @@
 ---
 import ApplicationLayout from "../layouts/ApplicationLayout.astro";
+import FAQ from "../components/FAQ.astro";
+
+const faqItems = [
+  {
+    question: "Can a used oil centrifuge separate glycol from engine oil?",
+    answer:
+      "An Alfa Laval used oil centrifuge can continuously separate glycol from used engine oil. The glycol will discharge through the centrifuge's heavy phase or water outlet.",
+  },
+  {
+    question:
+      "Is there a difference between a used oil centrifuge and WVO centrifuge?",
+    answer:
+      "A used oil centrifuge is designed to separate used oil from water and sludge. The same centrifuge may separate WVO from water and solids with some minor modifications. If the WVO application also involves biodiesel, the elastomers also need to be upgraded.",
+  },
+  {
+    question:
+      "How does acid-treated used oil affect the used oil centrifuge?",
+    answer:
+      "Acid-treated used oil has a low pH and is therefore not directly suitable for generic disc-stack centrifuges that may have material that is not compatible with low pH fluids. Specially manufactured acid-resistant components need to be retrofitted for such applications.",
+  },
+  {
+    question:
+      "What is the dryness of the separated sludge discharge of the decanter centrifuge?",
+    answer:
+      "The separated sludge discharge from a decanter centrifuge is typically about 50% dry. It commonly has a consistency of fudge or toothpaste. It is drip-free from well-adjusted decanters.",
+  },
+  {
+    question:
+      "Why can't we process used oil at ambient temperature?",
+    answer:
+      "Used oil at ambient temperature is quite viscous and resistant to separation in the centrifuge. Higher temperatures lower the viscosity of used oil, increasing the centrifuge efficiency by multitudes.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
 
 const jsonLd = [
   {
@@ -30,6 +76,7 @@ const jsonLd = [
     mainEntityOfPage:
       "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
   },
+  faqJsonLd,
 ];
 
 const toc = [
@@ -106,6 +153,7 @@ const toc = [
       },
     ],
   },
+  { id: "faq", label: "FAQ" },
 ];
 
 const relatedApplications = [
@@ -152,7 +200,8 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="6MGY Used Oil Centrifuge Plant | Layout, Benefits, Equip Specs"
+  title="Used Oil Centrifuge Plant with 6 MGY Capacity - Layout, Benefits, and Equipment Specifications"
+  pageTitle="6MGY Used Oil Centrifuge Plant | Layout, Benefits, Equip Specs"
   description="This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable."
   heroImage="/images/used-oil-centrifuge-plant/Used_Oil_Centrifuge_Plant_Hero.webp"
   heroImageAlt="Used Oil Centrifuge Plant Layout"
@@ -776,4 +825,5 @@ const relatedProducts = [
     Also, if the used oil contains emulsions, the emulsified phase comes
     out of the centrifuges as a separate stream that requires disposal.
   </p>
+  <FAQ items={faqItems} heading="FAQ" />
 </ApplicationLayout>
