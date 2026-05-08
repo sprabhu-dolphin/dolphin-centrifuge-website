@@ -22,9 +22,9 @@ Only pages listed here with a "âœ… DONE" status are considered finished to t
 | `diesel-centrifuge` | 2026-04-19 | `3d25d79` | ApplicationLayout | âœ… DONE |
 | `centrifugal-filter` | 2026-04-20 | `5a32649` | ApplicationLayout | âœ… DONE |
 | `disc-centrifuge-purifier-clarifier-difference` | 2026-04-20 | `5201128` | ApplicationLayout | âœ… DONE |
-| `oil-centrifuge` | 2026-04-20 | `71dcae2` | ApplicationLayout | âœ… DONE |
+| `oil-centrifuge` | 2026-05-08 | `b213eeb` | ApplicationLayout | ✅ DONE |
 | `disc-stack-centrifuge-options` | 2026-04-26 | `235b63b` | ApplicationLayout | âœ… DONE |
-| `decanter-centrifuge-optimization` | 2026-04-20 | `683ed68` | ApplicationLayout | âœ… DONE |
+| `decanter-centrifuge-optimization` | 2026-05-08 | `d3729e7` | ApplicationLayout | ✅ DONE |
 | `crude-oil-centrifuge` | 2026-04-20 | `e0557d3` | ApplicationLayout | âœ… DONE |
 | `disc-centrifuge-troubleshoot-bowl` | 2026-04-21 | `e26128f` | ApplicationLayout | âœ… DONE |
 | `difference-between-decanter-centrifuge-disc-centrifuge` | 2026-04-21 | `2c9c99d` | ApplicationLayout | âœ… DONE |
@@ -42,4 +42,5 @@ Only pages listed here with a "âœ… DONE" status are considered finished to t
 | `used-oil-centrifuge-plant` | 2026-05-07 | `a6c4325` | ApplicationLayout | ✅ DONE |
 | `disc-stack-centrifuge-performance` | 2026-05-07 | `22d99e8` | ApplicationLayout | ✅ DONE |
 | `pyrolysis-oil-centrifuge` | 2026-05-07 | `108263c` | ApplicationLayout | ✅ DONE |
+| `lube-oil-centrifuge` | 2026-05-08 | `33ee32b` | ApplicationLayout | ✅ DONE |
 
