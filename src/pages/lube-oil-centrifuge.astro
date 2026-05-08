@@ -1,5 +1,42 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqItems = [
+  {
+    question: "Can a disc stack centrifuge separate lube oil emulsion?",
+    answer: "A lube oil centrifuge can separate lube oil emulsion as long as the lube oil is not chemically boned to the water. High temperatures and high residence time (low flow rate) enable emulsion separation."
+  },
+  {
+    question: "Can a lube oil centrifuge be operated on 110 Volts power?",
+    answer: "Small lube oil centrifuges can operate on 110 Volts AC power. The centrifuge needs to be modified with a special motor to be suitable for this voltage."
+  },
+  {
+    question: "How low is the moisture content in the centrifuged lube oil?",
+    answer: "The moisture content in the lube oil from the disc stack centrifuge ranges from 500 ppm level to 1500 ppm or higher. Lower flow rates at higher temperatures produce dryer lube oil."
+  },
+  {
+    question: "Do you have mobile lube oil centrifuge carts?",
+    answer: "We have small lube oil centrifuges on mobile carts to move between turbine lube oil sumps in power plants."
+  },
+  {
+    question: "What is the ideal processing temperature for lube oil centrifuge?",
+    answer: "Steam turbine lube oil separates best at around 150 F for maximum dryness."
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -40,7 +77,7 @@ const articleJsonLd = {
   }
 };
 
-const jsonLd = [productJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'overview', label: 'What is a Lube Oil Centrifuge?' },
@@ -50,6 +87,7 @@ const toc = [
   { id: 'specifications', label: 'Specifications' },
   { id: 'system-setup', label: 'Lubricating Oil Centrifuge System Setup' },
   { id: 'legacy-models', label: 'Lube Oil Centrifuge Modules from Dolphin' },
+  { id: 'faq', label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -68,7 +106,8 @@ const relatedProducts = [
 ---
 
 <ApplicationLayout
-  title="Lube Oil Centrifuge | Continuous Water & Solids Separation"
+  title="Lube Oil Centrifuge | Benefits, Specs, and Operation"
+  pageTitle="Lube Oil Centrifuge | Continuous Water & Solids Separation"
   description="Lube oil centrifuge systems separate fine sediment and free water from lubricating oil. Call Dolphin for portable Alfa Laval lube oil centrifuge systems."
   heroImage="/images/lube-oil-centrifuge/lube-oil-centrifuge-hero-2000.webp"
   heroImageAlt="Industrial lube oil centrifuge system for continuous water and solids separation from lubricating oil"
@@ -80,6 +119,7 @@ const relatedProducts = [
   relatedApplications={relatedApplications}
   relatedProducts={relatedProducts}
   hideBottomCTA={true}
+  disableTitleSuffix={true}
 >
 
   <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
@@ -306,4 +346,5 @@ const relatedProducts = [
     Dolphin Centrifuge has over 40 years of industrial centrifuge experience. Read more <a href="/about-dolphin-centrifuge/">about us</a> and our background. <a href="/contact-for-alfa-laval-centrifuges/">Contact us</a> for more information or a formal proposal.
   </p>
 
+  <FAQ items={faqItems} heading="FAQ" />
 </ApplicationLayout>
