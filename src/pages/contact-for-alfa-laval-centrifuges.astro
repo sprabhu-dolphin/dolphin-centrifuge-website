@@ -126,7 +126,7 @@ const faqJsonLd = {
   ]}
 >
 
-  <!-- H1 first â€” SEO requires H1 before any H2 -->
+  <!-- H1 first — SEO requires H1 before any H2 -->
   <h1 class="text-3xl font-bold text-navy font-heading mb-2">Contact Dolphin Centrifuge - Industrial Centrifuge Quote</h1>
 
   <!-- Find Us in Warren, MI -->
@@ -316,11 +316,11 @@ const faqJsonLd = {
                   </div>
                 </div>
 
-                <!-- Other country â€” shown only when 'Other' is selected -->
+                <!-- Other country — shown only when 'Other' is selected -->
                 <div id="country-other-wrap" style="display:none;">
                   <label for="country_other" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Please specify your country <span class="text-red-500">*</span></label>
                   <input type="text" id="country_other" name="country_other"
-                    placeholder="e.g. Germany, Brazil, Indiaâ€¦"
+                    placeholder="e.g. Germany, Brazil, India…"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
                 </div>
 
@@ -359,7 +359,7 @@ const faqJsonLd = {
                   <input type="text" id="solids_percentage" name="solids_percentage" autocomplete="off"
                     placeholder="e.g. 2%, or unknown"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
-                  <p class="text-xs text-gray-400 mt-1">Estimate if known â€” not required.</p>
+                  <p class="text-xs text-gray-400 mt-1">Estimate if known — not required.</p>
                 </div>
 
                 <!-- New vs Reman -->
@@ -480,7 +480,7 @@ const faqJsonLd = {
 
       if (!form) return;
 
-      // â”€â”€ Country â†’ show/hide 'Other' field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      // ── Country → show/hide 'Other' field ────────────────────────────
       const countrySelect = document.getElementById('country');
       const countryOtherWrap = document.getElementById('country-other-wrap');
       const countryOtherInput = document.getElementById('country_other');
@@ -552,7 +552,7 @@ const faqJsonLd = {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // â”€â”€ Client-side required field check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Client-side required field check ────────────────
         const { anyEmpty, firstInvalid } = validateRequired();
         if (anyEmpty) {
           errorText.textContent = 'Please fill in all required fields.';
@@ -562,7 +562,7 @@ const faqJsonLd = {
           return;
         }
 
-        // â”€â”€ Email match check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Email match check ────────────────────────────────
         const email        = form.querySelector('[name="email"]').value;
         const emailConfirm = form.querySelector('[name="email_confirm"]').value;
         if (email !== emailConfirm) {
@@ -611,7 +611,7 @@ const faqJsonLd = {
       });
     })();
 
-    // â”€â”€ Fluid-type â†’ redirect map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Fluid-type → redirect map ───────────────────────────
     function getFluidRedirect(fluidType) {
       if (!fluidType) return null;
       const f = fluidType.toLowerCase();
@@ -621,7 +621,7 @@ const faqJsonLd = {
         { url: '/used-oil-centrifuge/',                        k: ['used oil','used motor','motor oil','engine oil','used lube'] },
         { url: '/waste-oil-centrifuge/',                       k: ['waste oil','waste lubric','waste lube'] },
         { url: '/hydraulic-oil-centrifuge/',                   k: ['hydraulic'] },
-        { url: '/fuel-oil-centrifuge/',                        k: ['fuel oil','heavy fuel','bunker','hfo','mgo','marine fuel','fo ','ifÐ¾'] },
+        { url: '/fuel-oil-centrifuge/',                        k: ['fuel oil','heavy fuel','bunker','hfo','mgo','marine fuel','fo ','ifо'] },
         { url: '/crude-oil-centrifuge/',                       k: ['crude oil','crude','petroleum'] },
         { url: '/quench-oil-centrifuge/',                      k: ['quench'] },
         { url: '/pyrolysis-oil-centrifuge/',                   k: ['pyrolysis','waste plastic','tire oil','tyre oil'] },
@@ -645,7 +645,7 @@ const faqJsonLd = {
       return '/picking-the-right-industrial-centrifuge/';
     }
 
-    // â”€â”€ Green toast logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Green toast logic ────────────────────────────────────
     (function() {
       window.showSuccessToast = function(redirectUrl) {
         const DISMISS_MS = redirectUrl ? 3000 : 6000;
@@ -657,7 +657,7 @@ const faqJsonLd = {
 
         // Show redirect hint if applicable
         if (redirectUrl && rdMsg) {
-          rdMsg.textContent = `â†’ Taking you to your relevant page in 3 secondsâ€¦`;
+          rdMsg.textContent = `→ Taking you to your relevant page in 3 seconds…`;
           rdMsg.style.display = 'block';
         } else if (rdMsg) {
           rdMsg.style.display = 'none';
