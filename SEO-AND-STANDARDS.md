@@ -282,6 +282,9 @@ Every page should link to:
 - Do not ship both the `ApplicationLayout` bottom CTA and the `Footer.astro` CTA on the same page unless Sanjay explicitly approves that page-specific exception.
 - On `ApplicationLayout` pages, the default fix is page-local: pass `hideBottomCTA={true}` to `ApplicationLayout` so the global footer CTA remains and the extra layout bottom CTA is removed.
 - A page-local CTA near the end of the content also counts as a duplicate if either shared bottom CTA remains.
+- A navy bottom CTA bar inside the page body with quote / sample-testing buttons counts as a bottom CTA even if it lives inside the article content instead of the layout.
+- `hideBottomCTA={true}` by itself is **not** a full pass if the page still keeps its own bottom CTA bar and the shared footer CTA remains.
+- Default rule for `ApplicationLayout` pages: keep **one** bottom CTA system only. In most cases that means keep the shared footer CTA and remove the page-local bottom CTA bar near the end of the content.
 - Passing audit requires checking for duplicate bottom CTAs across `src/pages/<slug>.astro`, `src/layouts/ApplicationLayout.astro`, `src/layouts/BaseLayout.astro`, and `src/components/Footer.astro`.
 
 ---
@@ -341,6 +344,8 @@ For the remaining migration batches after the Top 100:
 - Return PASS on major blockers or NEEDS FIXES per slug.
 - Group findings into repeatable defect buckets.
 - After discovery, run one grouped fix pass per defect family only.
+- The already-closed Top 100 slugs are locked during this phase unless Sanjay explicitly reopens one or includes it in the current named batch.
+- For a named late-phase batch, the agent may edit only the slugs in that batch plus any explicitly approved shared file. Do not touch earlier closed pages "while you are there."
 
 Repeat checklist for the remaining pages:
 - exact SEO title

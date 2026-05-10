@@ -42,6 +42,8 @@ When deciding a page issue:
 - Default mode for normal migration work: one slug and one `src/pages/<slug>.astro` page at a time.
 - Final-phase grouped-triage exception: when Sanjay explicitly puts the project into grouped triage or batch discovery mode, agents may audit multiple pages together in short discovery batches and then fix one defect family at a time across multiple slugs.
 - In grouped triage, do not restart slow page-order deep audits unless Sanjay explicitly asks.
+- In final-phase grouped triage, the already-closed Top 100 slugs are locked unless Sanjay explicitly reopens one or includes it in the current named batch.
+- In a named late-phase batch, edit only the listed batch slugs. Do not touch earlier closed pages, shared layouts, docs, spreadsheets, tracking code, or unrelated files unless Sanjay explicitly approves that exact extra scope.
 - Do not spawn parallel agents unless Sanjay explicitly asks.
 - Do not use any existing page as a universal template. Use `ApplicationLayout` patterns plus the current page's legacy content.
 - Do not open a browser or localhost preview. Use file-based verification. If a visual check is needed, ask Sanjay to preview.
@@ -108,6 +110,9 @@ Do not assume SEO title, visible H1, and meta description are the same. If the l
 - Before handoff, count CTAs from the full shared layout chain, not only CTA markup in the page file.
 - Do not ship both the `ApplicationLayout` bottom CTA and the `Footer.astro` CTA unless Sanjay explicitly approves that page-specific exception.
 - Default page-local fix: add `hideBottomCTA={true}` to the `ApplicationLayout` props so the page keeps the global footer CTA and avoids a second bottom CTA.
+- If the page also contains its own bottom CTA bar near the end of the content, that page-local bar still counts as a duplicate when the footer CTA remains.
+- `hideBottomCTA={true}` alone is not enough if a page-local bottom CTA bar is still present.
+- Default pass condition on `ApplicationLayout` pages: one bottom CTA system only, usually the shared footer CTA.
 
 ## TOC
 
@@ -147,6 +152,7 @@ For final-phase grouped triage on the remaining pages:
 - group failures into repeatable defect buckets
 - run one fix pass per defect family only
 - do not mix FAQ, TOC, CTA, schema, links, metadata, alt text, and image-sizing cleanup in one correction pass unless Sanjay explicitly asks
+- keep the current batch fenced: do not edit earlier closed Top 100 pages or any non-batch page unless Sanjay explicitly reopens that slug
 
 ## Text Style
 
