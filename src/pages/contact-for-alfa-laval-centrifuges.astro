@@ -587,7 +587,22 @@ const faqJsonLd = {
           if (result.success) {
             // Capture fluid type BEFORE reset
             const fluidType = (form.querySelector('[name="fluid_type"]')?.value || '').trim();
+            const contactMethod = (form.querySelector('[name="contact_method"]:checked')?.value || '').trim();
+            const country = (form.querySelector('[name="country"]')?.value || '').trim();
             const redirectUrl = getFluidRedirect(fluidType);
+            const leadDetail = {
+              lead_form: 'centrifuge_contact_form',
+              lead_type: 'quote_request',
+              fluid_type: fluidType || undefined,
+              contact_method: contactMethod || undefined,
+              country: country || undefined,
+              redirect_target: redirectUrl || undefined,
+            };
+            if (typeof window.dispatchEvent === 'function') {
+              window.dispatchEvent(new CustomEvent('dolphin:generate-lead', { detail: leadDetail }));
+            } else if (typeof window.dolphinTrackLead === 'function') {
+              window.dolphinTrackLead(leadDetail);
+            }
             // Reset form
             form.reset();
             REQUIRED_IDS.forEach(id => {
@@ -751,4 +766,3 @@ const faqJsonLd = {
   </div>
 
 </ApplicationLayout>
-

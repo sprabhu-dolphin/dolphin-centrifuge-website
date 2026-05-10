@@ -1,3 +1,16 @@
+## Rule 0 — Encoding Guard (MANDATORY)
+
+**Do NOT use a bulk PowerShell read/write script on `.astro` files unless it explicitly reads and writes UTF-8.**
+
+- **Preferred:** Use patch-only edits (tool-based `replace_file_content` / `multi_replace_file_content`).
+- **If scripting:** Use `[System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)` to read and `New-Object System.Text.UTF8Encoding($false)` + `[System.IO.File]::WriteAllText(...)` to write.
+- **Never** use `Get-Content -Raw` + `WriteAllText()` without specifying encoding.
+- **Pre-commit:** Scan all changed `.astro` files for mojibake markers: `â€™`, `â€œ`, `â€`, `Âµ`, `â€"`, `â€¦`, `â†'`, `Ð`, `Ï`. If any appear, fix before reporting ready.
+
+> Origin: commit `ff9445c` corrupted 21 files. Fixed in `757889f`.
+
+---
+
 # Astro Migration Essentials
 
 This file is intentionally short. It is the quick operating checklist for one-page Astro migration work. Put detailed rules in the reference files below, not here.
@@ -26,15 +39,20 @@ When deciding a page issue:
 
 ## Work Scope
 
-- Work on one slug and one `src/pages/<slug>.astro` page at a time.
-- Do not process multiple pages together.
+- Default mode for normal migration work: one slug and one `src/pages/<slug>.astro` page at a time.
+- Final-phase grouped-triage exception: when Sanjay explicitly puts the project into grouped triage or batch discovery mode, agents may audit multiple pages together in short discovery batches and then fix one defect family at a time across multiple slugs.
+- In grouped triage, do not restart slow page-order deep audits unless Sanjay explicitly asks.
 - Do not spawn parallel agents unless Sanjay explicitly asks.
 - Do not use any existing page as a universal template. Use `ApplicationLayout` patterns plus the current page's legacy content.
 - Do not open a browser or localhost preview. Use file-based verification. If a visual check is needed, ask Sanjay to preview.
 
 ## Image Handoff (First Step)
 
-Before editing the page, set up all 4 image handoff folders at the repo root. This is mandatory for every page.
+Use the image handoff folders only when the task actually includes image generation, image repair, image replacement, hero swaps, or body-image asset work.
+
+For non-image passes such as SEO, FAQ, TOC, CTA, links, schema, alt text, caption markup, or grouped triage discovery, do not force the image handoff workflow first.
+
+When image work is in scope, set up all 4 image handoff folders at the repo root before editing the page.
 
 **Copy old images into these folders:**
 1. **Old hero image:** Copy the hero JPG from `public/images/<slug>/` to `_Old_Hero_Image/<slug>/`
@@ -84,6 +102,13 @@ Do not assume SEO title, visible H1, and meta description are the same. If the l
 - If the Astro page has an AI-added FAQ with no legacy or Sanjay approval, remove the FAQ section and `FAQPage` schema.
 - Do not restore RankMath-only FAQ schema as visible body text unless legacy also had visible Q/A content.
 
+## CTA Duplication
+
+- `ApplicationLayout` already renders hero, sidebar, and bottom CTAs. `BaseLayout` also renders `Footer.astro`, which contains its own CTA banner.
+- Before handoff, count CTAs from the full shared layout chain, not only CTA markup in the page file.
+- Do not ship both the `ApplicationLayout` bottom CTA and the `Footer.astro` CTA unless Sanjay explicitly approves that page-specific exception.
+- Default page-local fix: add `hideBottomCTA={true}` to the `ApplicationLayout` props so the page keeps the global footer CTA and avoids a second bottom CTA.
+
 ## TOC
 
 - Use the standard `ApplicationLayout` TOC pattern.
@@ -112,9 +137,16 @@ Before handing off, check:
 - galleries use approved equal-height patterns
 - dark backgrounds have readable text and links
 - pale tinted blocks keep dark readable text
-- no duplicate bottom CTA when `ApplicationLayout` already renders the standard CTA
+- no duplicate bottom CTA from the final rendered layout chain, including `ApplicationLayout` plus `Footer.astro`
 - no duplicate FAQ section or duplicate schema
 - no page-local component duplicates layout features already supplied by `ApplicationLayout`
+
+For final-phase grouped triage on the remaining pages:
+- use short 10-page discovery batches when Sanjay asks for batch work
+- return PASS or NEEDS FIXES per slug
+- group failures into repeatable defect buckets
+- run one fix pass per defect family only
+- do not mix FAQ, TOC, CTA, schema, links, metadata, alt text, and image-sizing cleanup in one correction pass unless Sanjay explicitly asks
 
 ## Text Style
 

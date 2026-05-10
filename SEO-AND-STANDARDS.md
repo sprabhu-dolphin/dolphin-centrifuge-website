@@ -37,7 +37,7 @@ For any page migrated from the legacy WordPress site, the following fields are *
 | `<h1>` heading | Copy verbatim — do not reword |
 | `<meta name="description">` | Copy verbatim |
 | Image file names | Copy verbatim — do not rename |
-| Image `alt` text | Copy verbatim |
+| Image `alt` text | Copy legacy alt text when the current approved image is still the same. If Sanjay replaced or approved a different current image, the alt text must fit the actual current image and page context. |
 | **Image captions** | Copy verbatim — do not add em-dashes, "Click to Enlarge", or any text not in legacy |
 | Body copy / headings | Copy verbatim — do not rewrite |
 | **Table cell text** | Copy verbatim — every cell, including blanks, punctuation, spacing, and symbols |
@@ -81,6 +81,26 @@ Before touching a single line of code, the agent MUST:
 1. Open the .astro file and read its current state (grep for title, h1, meta description, image srcs and alts)
 2. Open or fetch the legacy page source and read the same fields
 3. Generate the Report Table below and **show it to Sanjay before proceeding**
+
+### Final-phase grouped-triage exception
+
+For the late-phase grouped triage batches on remaining pages, agents may do **batch discovery first** without stopping for a full per-page report table before every small grouped fix.
+
+Allowed grouped-triage workflow:
+- scan 10 pages at a time
+- report exact failing fields per page
+- group failures into repeatable defect buckets
+- then run one fix pass per defect bucket
+
+Not allowed:
+- skipping the actual field checks
+- hiding which page failed which field
+- mixing many defect families into one correction pass
+
+Use the full report table when:
+- Sanjay asks for a one-page deep audit
+- a page needs close commit-pinned review
+- the page has unusually messy title/H1/meta/image-field drift
 
 ### Report Table Format
 
@@ -138,6 +158,10 @@ Before touching a single line of code, the agent MUST:
 - For brand-new images with no legacy counterpart: write descriptive alt text including product context.
   - BAD: `alt="centrifuge"`
   - GOOD: `alt="Dolphin Centrifuge DMPX-042 three-phase disc stack centrifuge module for crude oil tank bottom recovery"`
+- **Current approved image override:** if Sanjay replaced or approved a different current image, the alt text must fit the actual current image and page context. Do not force stale legacy alt text onto a different approved image.
+- If the current approved image is still the original legacy image, keep the legacy alt text verbatim.
+- If the legacy image had no alt text and the current approved image is still that legacy image, flag it as missing in legacy unless a standing exception already exists.
+- Filename-style alt text can be acceptable when it still cleanly matches the actual approved image and page context, but raw noisy filename stems should be cleaned into human-readable part or product descriptions when practical.
 
 ### Canonical URL
 - Must match the legacy slug exactly.
@@ -171,9 +195,10 @@ Only applies when a page has NO WordPress predecessor.
 ## 5. FAQ SECTIONS
 
 - **Do NOT invent FAQ questions.**
-- Add a FAQ section **only** if one existed on the legacy page.
+- Add a FAQ section **only** if one existed on the legacy page as visible FAQ content.
 - If the legacy page has a RankMath error about a missing FAQ schema, note it in the Report Table as ⚠️ and inform Sanjay. Do not fabricate questions to fix the schema error.
 - If the FAQ content appears to be missing from the legacy page but should exist, ask Sanjay to recover it from backup.
+- A RankMath marker, shortcode, schema hint, or `## FAQ` heading alone is not enough to justify a visible FAQ or `FAQPage`.
 
 ---
 
@@ -249,11 +274,35 @@ Every page should link to:
 - Secondary: "Testing Service" → `/industrial-centrifuge-sample-testing/`
 - Tertiary: Phone `(248) 522-2573` / Email `sales@dolphincentrifuge.com`
 
+### Bottom CTA Duplication Rule
+
+- Audit the final shared layout chain, not only the page file.
+- `ApplicationLayout` renders a bottom CTA by default.
+- `BaseLayout` renders `Footer.astro`, and `Footer.astro` contains its own CTA banner.
+- Do not ship both the `ApplicationLayout` bottom CTA and the `Footer.astro` CTA on the same page unless Sanjay explicitly approves that page-specific exception.
+- On `ApplicationLayout` pages, the default fix is page-local: pass `hideBottomCTA={true}` to `ApplicationLayout` so the global footer CTA remains and the extra layout bottom CTA is removed.
+- A page-local CTA near the end of the content also counts as a duplicate if either shared bottom CTA remains.
+- Passing audit requires checking for duplicate bottom CTAs across `src/pages/<slug>.astro`, `src/layouts/ApplicationLayout.astro`, `src/layouts/BaseLayout.astro`, and `src/components/Footer.astro`.
+
 ---
 
 ## 8A. LOCAL-FIRST CSS / FONT / INVISIBLE-TEXT SAFETY RULE (critical)
 
 If a page has invisible text, disappearing links, wrong text color, contrast failure, odd underline-only links, or a reported "font issue", the default fix must be LOCAL to that page unless Sanjay explicitly approves a shared fix.
+
+Dark-block contrast audit rule:
+- During audit, explicitly check any dark background section, card, callout, CTA band, sidebar box, table wrapper, or highlighted content block for dark-on-dark text.
+- Common failure pattern: a block uses a dark background class, but nested headings, paragraphs, list items, or links inherit near-black text such as `text-gray-800`, `text-slate-800`, `text-gray-900`, or default prose text.
+- Treat black or near-black text on a dark navy, charcoal, black, or similarly dark background as a blocking readability failure even if the markup is otherwise correct.
+- File-based check means reviewing the block wrapper plus nested text classes. Do not assume the parent text color propagates safely to all child elements.
+- Check especially: `h2`, `h3`, `p`, `li`, `strong`, `a`, `blockquote`, CTA text, and any custom card or feature-list content inside the dark block.
+
+Default fix pattern:
+- Keep the fix page-local unless Sanjay explicitly approves a shared/global solution.
+- Add explicit readable text-color classes to the affected block or its nested elements on that page.
+- If links are the issue, give them an explicit high-contrast local class on that page instead of changing shared link styling.
+- Do not "fix" the problem by changing the dark background to a light background unless Sanjay explicitly wants that visual change.
+- Passing audit means the text remains readable against the actual dark background across the whole block, not just in one heading or one paragraph.
 
 Local-first means:
 - change the current page's classes
@@ -282,6 +331,42 @@ Mandatory handoff line:
 - `Local change only - file-based verification only for this page.`
 or
 - `Global/shared change - file-based verification only; ask Sanjay to visually preview representative completed pages before closing if needed.`
+
+## 8B. FINAL-PHASE GROUPED TRIAGE WORKFLOW
+
+For the remaining migration batches after the Top 100:
+
+- Default to **10-page discovery batches**.
+- Keep discovery short and operational.
+- Return PASS on major blockers or NEEDS FIXES per slug.
+- Group findings into repeatable defect buckets.
+- After discovery, run one grouped fix pass per defect family only.
+
+Repeat checklist for the remaining pages:
+- exact SEO title
+- exact visible H1
+- meta description
+- canonical
+- schema authenticity
+- FAQ authenticity and no fake `FAQPage`
+- one visible TOC only
+- no duplicate bottom CTA
+- breadcrumb/category correctness
+- broken internal links
+- dark-block contrast and invisible-text failures
+- alt attribute presence and fit
+- truthful image `width` and `height` where relevant
+- body-image markup and sizing behavior from `PAGE_APPEARANCE_LOOK.md`
+
+Grouped-fix discipline:
+- do not mix FAQ, TOC, CTA, schema, links, alt text, image sizing, captions, and metadata cleanup in the same pass unless Sanjay explicitly asks
+- preserve approved page-specific image and layout exceptions
+- do not restart old page-order deep audits by default once grouped triage is active
+
+Shared-layout truth for grouped triage:
+- duplicate bottom CTA must be checked through the page file plus `ApplicationLayout`, `BaseLayout`, and `Footer`
+- breadcrumb and `BreadcrumbList` behavior may come from shared layout wiring
+- TOC behavior may come from the shared Astro TOC pattern, not just page body markup
 
 ## 9. MANDATORY AGENT VERIFICATION PROTOCOL
 

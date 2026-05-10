@@ -37,6 +37,49 @@ const fullTitle = title === 'Home'
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID;
+const googleTagAllowedHosts = (import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
+  .split(',')
+  .map((host) => host.trim())
+  .filter(Boolean);
+const googleTagBootstrap = googleTagId
+  ? `(function() {
+var allowedHosts = ${JSON.stringify(googleTagAllowedHosts)};
+var hostname = window.location.hostname;
+if (!allowedHosts.includes(hostname)) return;
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = window.gtag || gtag;
+var script = document.createElement('script');
+script.async = true;
+script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleTagId}';
+document.head.appendChild(script);
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(googleTagId)});
+})();`
+  : null;
+const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrackEvent || function(eventName, params) {
+  if (typeof window.gtag !== 'function') return false;
+  const cleanParams = {};
+  if (params && typeof params === 'object') {
+    Object.entries(params).forEach(function(entry) {
+      const key = entry[0];
+      const value = entry[1];
+      if (value !== undefined && value !== null && value !== '') {
+        cleanParams[key] = value;
+      }
+    });
+  }
+  window.gtag('event', eventName, cleanParams);
+  return true;
+};
+window.dolphinTrackLead = window.dolphinTrackLead || function(params) {
+  return window.dolphinTrackEvent('generate_lead', params || {});
+};
+window.addEventListener('dolphin:generate-lead', function(event) {
+  const detail = event && event.detail && typeof event.detail === 'object' ? event.detail : {};
+  window.dolphinTrackLead(detail);
+});`;
 
 // Build BreadcrumbList JSON-LD from breadcrumbs prop
 const breadcrumbJsonLd = breadcrumbs.length > 0 ? {
@@ -105,6 +148,9 @@ if (jsonLd) {
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    {googleTagBootstrap && <script is:inline set:html={googleTagBootstrap} />}
+    <script is:inline set:html={dolphinTrackingBootstrap} />
 
     <!-- JSON-LD Structured Data -->
     {allSchemas.map((schema) => (

@@ -31,57 +31,78 @@ All verification described in this file is file-based verification only. Agents 
 ## Step 2: The Orientation Logic Gate
 
 ### 1. STACK (Row Layout) IF:
-- **Wide Images (Aspect Ratio > 16:9):** System skids, modules, plant drawings.
-- **Short Adjacent Text:** Less than 5 lines. (Prevents massive white voids).
-- **RESOURCE CONFLICT:** You have a **Tall Image** AND a **Data-Heavy Table**. Grids will cramp both. **STACK** to give the table full width and the image full height.
+- **Wide Images:** System skids, modules, plant drawings, process diagrams, panoramas.
+- **Short Adjacent Text:** Less than 5 lines. This prevents large empty side columns.
+- **Tall Image + Data-Heavy Table:** Do not cram both into a grid. Stack them so each gets the width it needs.
+- **Balance Override:** If the technically "correct" grid would leave awkward dead space or make the page feel thin, STACK instead.
 
 ### 2. GRID (Column Layout) IF:
-- **Tall/Vertical Images:** Centrifuge tubes, tall components. (Vertical orientation fits column shapes).
-- **Square Product Photos:** Motors, valves, detail shots.
-- **AND** there is substantial text (5+ lines) to wrap with.
+- **Tall/Vertical Images:** Tubes, spindles, narrow components, portrait-oriented detail shots.
+- **Square Product Photos:** Parts, valves, bowls, motors, detail assemblies.
+- **AND** there is enough text to visually pair with the image.
+- **Important:** A tall image is not permission to let it dominate the page. If it would look huge or create long empty vertical gaps, keep it smaller or pair it with text.
 
 ### 3. MULTI-IMAGE GALLERY ROW IF:
-- A section has **2+ images** with shared context.
-- Place images **side-by-side** in a `md:grid-cols-2` row with `items-stretch` (equal height boxes).
-- Text goes **full-width below** the image row.
-- **NEVER** stack multiple images vertically in a single narrow column - it wastes space and looks unbalanced.
+- A section has **2+ related images** with shared context.
+- Prefer balanced side-by-side rows such as `md:grid-cols-2` with `items-stretch`.
+- Text usually goes full-width below the image row unless the page clearly benefits from a different balanced layout.
+- **NEVER** stack multiple related images vertically in a narrow column when a row would look fuller and more professional.
+
+### 4. PAGE-BALANCE OVERRIDE (highest practical rule)
+- The page should feel **full, balanced, and professional**, not mechanically rule-correct but ugly.
+- Do **not** let one portrait image stretch down the page for several screen blocks while the opposite side sits half-empty.
+- Do **not** blow a body image up just because the source file is large.
+- If an image feels awkward at text-column width, either:
+  - cap it smaller, or
+  - pair it with text in a 2-column layout, or
+  - move to a fuller stacked layout that uses the page better.
+- Approved page-specific visual exceptions remain approved until Sanjay explicitly reopens them.
 
 ---
 
 ## Step 3: The "Fit" Matrix (Grid Ratios)
 
-| Image Type | Grid Ratio | Tailwind Classes |
-|---|---|---|
-| **Vertical/Tall Image** | **40% Image : 60% Text** | `grid-cols-1 md:grid-cols-5` (Img: 2, Text: 3) |
-| **Standard Product Photo** | **33% Image : 66% Text** | `grid-cols-1 md:grid-cols-3` (Img: 1, Text: 2) |
-| **Complex Diagrams** | **50% Image : 50% Text** | `grid-cols-1 md:grid-cols-2` |
+| Image Type | Preferred Ratio | Tailwind Classes | Notes |
+|---|---|---|---|
+| **Vertical/Tall Image** | **40% Image : 60% Text** | `grid-cols-1 md:grid-cols-5` (Img: 2, Text: 3) | Keep the image visually contained. Do not let it create dead vertical space. |
+| **Standard Product Photo** | **33% Image : 66% Text** | `grid-cols-1 md:grid-cols-3` (Img: 1, Text: 2) | Good default for parts, modules, and square photos. |
+| **Complex Diagram / Dense Chart** | **50% Image : 50% Text** or stack | `grid-cols-1 md:grid-cols-2` | If text is short, stacking may look better than a forced split. |
+| **Wide Module / Process Skid** | Stack first | N/A | Wide images usually read better full-width with text above or below. |
 
 ### Text Silos (Long Text + Single Image)
-- When text is **long** (8+ paragraphs with sub-headings), use this layout:
-  - **Row 1:** Image centered, capped at native width (obey NO UPSCALING RULE in Step 4)
+- When text is **long** (8+ paragraphs with sub-headings), use this layout when it improves page balance:
+  - **Row 1:** Image centered and display-capped appropriately
   - **Row 2:** Text in **2-column silos** (`md:grid-cols-2 gap-x-8`)
-  - Place the section **heading + intro paragraph** in the **LEFT silo**, not spanning full width above
-- This prevents a tiny image floating next to a wall of text
+  - Place the section **heading + intro paragraph** in the **LEFT silo** when that produces a fuller page
+- Use this to avoid a tiny image floating next to a long wall of text.
 
 ---
 
 ## Step 4: Component Consistency
 
-- **Images:** 
+- **Images:**
     - `w-full h-auto object-contain rounded-xl shadow-sm border border-gray-100`
     - **USER-MANAGED IMAGE REPLACEMENT RULE:** Sanjay often replaces bad legacy images manually during migration. Do not restore, revert, or swap current images back to legacy filenames unless Sanjay explicitly asks for that exact replacement. Appearance review should check file existence, factual `width` and `height`, approved `img-cap-*` sizing, layout fit, real captions, and alt text for the actual current image.
+    - **APPROVED EXCEPTION RULE:** If Sanjay has already approved a page-specific crop, hero, body image treatment, or special display pattern, preserve it until he explicitly reopens it.
+    - **DISPLAY WIDTH VS LIGHTBOX RULE:** On-page body-image display width and lightbox/native resolution are separate concerns. `img-cap-*` controls the on-page display cap only. It must not be treated as a signal to replace, shrink, or downgrade the underlying committed image file.
     - **MANDATORY GRAY CAPTION BAR:** Every body/content image, excluding only hero images, logos, icons, and purely decorative UI assets, MUST be wrapped in `<figure>` with a real `<figcaption>` so the shared gray caption bar appears under the image. Missing `figcaption` is a blocking appearance failure unless Sanjay explicitly approves a no-caption exception for that exact image.
     - Caption text rule: use legacy caption text when present. For Sanjay-replaced images or legacy images with no caption, use Sanjay-approved or clear filename/page-context caption text that describes the actual current image. Do not use image `alt` text as the lightbox caption source.
-    - **CENTERING RULE:** images inside `.prose-dolphin` are centered automatically by the global rule. Just add the `img-cap-N` class. Do not add `mx-auto block`, do not add `rounded-xl`, do not add `shadow-sm` — all are inherited.
+    - **CENTERING RULE:** images inside `.prose-dolphin` are centered automatically by the global rule. Just add the `img-cap-N` class. Do not add `mx-auto block`, do not add `rounded-xl`, do not add `shadow-sm` - all are inherited.
     - **NEVER** use `max-h` on vertical (tall) images. It shortens them and ruins the professional look.
-    - **NO UPSCALING RULE (simplified 2026-04-20):** body images on `ApplicationLayout` pages MUST use an `img-cap-N` utility class on the `<img>` tag. Available sizes: `img-cap-300`, `img-cap-400`, `img-cap-450`, `img-cap-500`, `img-cap-600`, `img-cap-700`, `img-cap-800`. Pick the class whose number is the closest cap at or above the image native pixel width. Never use `style="max-width:..."`, never use Tailwind `max-w-[Npx]`, never wrap in `<figure style="max-width:...">`. The `img-cap` classes use `!important` and are the single source of truth for body-image sizing.
-    - âš ï¸ **NO ANCHOR WRAPPING:** NEVER wrap `<img>` in an `<a href="image.webp">` tag. The global `Lightbox.astro` component auto-attaches click-to-zoom on ALL content images. An `<a>` wrapper intercepts the click and opens the image in a new browser tab instead of the lightbox.
-    - **UNIVERSAL BODY-IMAGE CAPTION BAR (GLOBAL):** Body images that use `<figure>` plus `<figcaption>` should render as one unified framed image block. The `<figcaption>` must appear as an attached bottom bar under the image with a light gray background, top border, centered small readable text, modest vertical padding, and no disconnected gap from the image. This is a shared/global body-content style, not a page-local custom class. Do not invent captions; only style existing legacy or Sanjay-approved `<figcaption>` text. Do not apply this rule to hero images. Do not change `img-cap-*` sizing rules.
+    - **BODY-IMAGE DISPLAY CAP RULE:** body images on `ApplicationLayout` pages MUST use an `img-cap-N` utility class on the `<img>` tag when the page uses the shared image-sizing system. Available sizes: `img-cap-300`, `img-cap-400`, `img-cap-450`, `img-cap-500`, `img-cap-600`, `img-cap-700`, `img-cap-800`.
+    - The goal is **balanced display width**, not blindly matching the source image's native pixel width.
+    - Default preference for many standard body images is around **300 to 400 display width** unless the section clearly benefits from a larger presentation.
+    - Wider diagrams, process drawings, or system photos may go larger when the page still looks balanced and full.
+    - Do **not** choose a large display cap just because the file itself is large.
+    - Portrait or tall images should often stay smaller or sit beside text so they do not dominate the page vertically.
+    - Never use `style="max-width:..."`, never use Tailwind `max-w-[Npx]`, and never place the `img-cap-*` class on `<figure>` when the shared `img-cap-*` system is the intended sizing control.
+    - **NO ANCHOR WRAPPING:** NEVER wrap `<img>` in an `<a href="image.webp">` tag. The global `Lightbox.astro` component auto-attaches click-to-zoom on ALL content images. An `<a>` wrapper intercepts the click and opens the image in a new browser tab instead of the lightbox.
+    - **UNIVERSAL BODY-IMAGE CAPTION BAR (GLOBAL):** Body images that use `<figure>` plus `<figcaption>` should render as one unified framed image block. The `<figcaption>` must appear as an attached bottom bar under the image with a light gray background, top border, centered small readable text, modest vertical padding, and no disconnected gap from the image. This is a shared/global body-content style, not a page-local custom class. Do not invent captions; only style existing legacy or Sanjay-approved `<figcaption>` text. Do not apply this rule to hero images. Do not change approved `img-cap-*` sizing decisions unless the page balance improves.
     - **LIGHTBOX CAPTION RULE (GLOBAL):** Lightbox popup captions must never be generated from image `alt` text. Alt text is for accessibility and SEO, and often needs to be longer than a visible caption. The lightbox must use `data-lightbox-caption` when explicitly present, otherwise the nearest parent `<figure><figcaption>` text, otherwise show no popup caption. Audit this from files by checking `src/components/Lightbox.astro` for `caption.textContent = alt` or equivalent behavior; that pattern is forbidden.
 - **Boxes in the Same Row:**
-    - MUST be **equal height**. Use `items-stretch` on the grid + `flex flex-col` on each box + `flex-1` on the image wrapper.
+    - MUST be **equal height** when the row is intended as a balanced gallery or comparison row. Use `items-stretch` on the grid + `flex flex-col` on each box + `flex-1` on the image wrapper.
     - Shorter images center vertically inside the equal-height box via `flex items-center justify-center`.
-- **Tables:** 
+- **Tables:**
     - Wrap in `not-prose overflow-x-auto border border-gray-100 rounded-xl`.
     - Priority: Data readability. If the table looks cramped, change the Grid Ratio or **Stack**.
 

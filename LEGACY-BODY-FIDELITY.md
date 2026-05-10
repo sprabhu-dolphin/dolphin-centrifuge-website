@@ -25,7 +25,7 @@ This file does NOT govern:
 - `<title>` tag - verbatim, see SEO-AND-STANDARDS.md
 - `<h1>` heading - verbatim, see SEO-AND-STANDARDS.md
 - `<meta name="description">` - verbatim, see SEO-AND-STANDARDS.md
-- Image filenames and alt text - verbatim, see SEO-AND-STANDARDS.md
+- Image filenames and alt text - see SEO-AND-STANDARDS.md for the current-image rule
 - Canonical URL and slug - verbatim, see SEO-AND-STANDARDS.md
 - Image captions - verbatim, see SEO-AND-STANDARDS.md
 
@@ -167,12 +167,27 @@ The previous migration agent fabricated FAQ sections for pages that had none in 
 
 **New rule, zero exceptions:**
 
-- FAQ section exists on astro **if and only if** the legacy page has a `<div class="faq">` / `<section>` / "Frequently Asked Questions" heading AND at least one Q/A pair in `LW.xml`.
+- FAQ section exists on astro **if and only if** the legacy page has visible FAQ content: a real FAQ heading or section plus at least one visible Q/A pair in `LW.xml` or another verified legacy source used for that page.
 - If legacy has no FAQ: astro has no FAQ section, no `FAQPage` schema, no hidden `itemprop="mainEntity"` blocks.
 - If legacy has an FAQ: every Q and every A must appear on astro (coverage rule). Paraphrase is OK; invention is not.
 - If the `<rankmath>` field in `LW.xml` shows an error about a missing FAQ schema: that is NOT a permission to fabricate one. Flag to Sanjay.
+- A RankMath marker, shortcode, schema hint, or legacy `## FAQ` heading by itself is **not** enough. The FAQ must still have real visible legacy Q/A content.
 
 **Auditor behavior:** If the auditor finds an FAQ section on astro but finds no matching content in `LW.xml`, the report will include the entire FAQ as a P0 DELETE block.
+
+---
+
+## Final-phase grouped triage workflow
+
+For the late-phase migration batches beyond the original Top 100 run:
+
+- Use **10-page fast discovery batches** first.
+- The goal of discovery is to find **repeatable defect buckets**, not to restart long deep-audit writeups for every single page.
+- After discovery, fix by **grouped defect bucket**, not by scattered slug order.
+- One grouped fix pass must stay **one defect family only**. Do not mix FAQ, TOC, CTA, schema, links, image sizing, or alt text cleanup into the same fix pass unless Sanjay explicitly asks for a combined pass.
+- A page can still be escalated into a deep audit if Sanjay explicitly asks for one page only, but that is the exception, not the default.
+
+This file's body-content rules still apply in grouped mode. The workflow changes, but the fidelity standards do not.
 
 ---
 
