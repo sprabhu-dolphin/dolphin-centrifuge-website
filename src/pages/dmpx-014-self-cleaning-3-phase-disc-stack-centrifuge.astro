@@ -1,29 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import FAQ from '../components/FAQ.astro';
 
-const faqItems = [
-  {
-    question: "What is the throughput of the DMPX-014 centrifuge?",
-    answer: "The Dolphin DMPX-014 self-cleaning disc stack centrifuge is rated at approximately 13 GPM on diesel fuel and light petroleum products at 60°C. Flow rate varies with fluid viscosity and solids loading. Higher viscosity fluids and feeds with significant solids content will reduce effective throughput. Contact Dolphin Centrifuge for application-specific sizing."
-  },
-  {
-    question: "How often does the DMPX-014 need to be cleaned?",
-    answer: "The DMPX-014 is a self-cleaning (automatic discharge) centrifuge — accumulated sludge is ejected automatically every 10–60 minutes depending on the sludge discharge timer setting and the solids loading of the feed. There is no need to stop the machine to clean the bowl. Manual bowl disassembly is only required for annual or bi-annual deep cleaning and inspection."
-  },
-  {
-    question: "What applications is the DMPX-014 best suited for?",
-    answer: "The DMPX-014 is well suited for waste oil processing, biodiesel purification, diesel fuel polishing, industrial wastewater clarification, food-grade oil clarification, and metalworking coolant recovery applications requiring 10–15 GPM throughput. Its three-phase (liquid-liquid-solid) separation capability makes it versatile across oil, water, and solids applications."
-  },
-  {
-    question: "What is the bowl sludge capacity of the DMPX-014?",
-    answer: "The DMPX-014 bowl has a sludge holding capacity of 0.32–0.34 gallons. This relatively small sludge space is automatically emptied by the hydraulic self-cleaning mechanism at programmed intervals, allowing the centrifuge to run continuously even with feeds containing significant solids. Applications with heavy solids loading typically require discharge intervals of 15–60 minutes."
-  },
-  {
-    question: "Is a skid-mounted system available for the DMPX-014?",
-    answer: "Yes. Dolphin Centrifuge supplies the DMPX-014 as a complete tested skid system including the centrifuge, feed pump, heat exchanger, PLC control panel, piping, and structural frame. Explosion-proof configurations for Class I Division 1 and Division 2 hazardous locations are available. Typical commissioning time is less than one day from site delivery."
-  }
-];
+
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -42,18 +20,7 @@ const productJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-};
+
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -71,7 +38,7 @@ const articleJsonLd = {
   "datePublished": "2021-04-01",
 };
 
-const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
+const jsonLd = [productJsonLd, articleJsonLd];
 
 const toc = [
   { id: 'overview', label: 'DMPX-014 Overview' },
@@ -81,7 +48,6 @@ const toc = [
   { id: 'self-cleaning', label: 'Self-Cleaning Solids Ejection' },
   { id: 'skid', label: 'Skid-Mounted System' },
   { id: 'why-popular', label: 'Why Most Popular Mid-Range' },
-  { id: 'faq', label: 'FAQ' },
 ];
 
 const relatedApplications = [
@@ -324,7 +290,7 @@ const relatedProducts = [
 
 
 
-  <FAQ items={faqItems} />
+
 
   <!-- Related Links -->
   <div class="not-prose grid sm:grid-cols-2 gap-2 text-sm my-6">
