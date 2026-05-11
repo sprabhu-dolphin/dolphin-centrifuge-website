@@ -38,37 +38,52 @@ const jsonLd = {
 };
 
 const toc = [
-  { id: "case-studies", label: "Case Studies" },
-  { id: "faq-resources", label: "FAQ Resources" },
+  { id: "case-studies", label: "Case Studies", subItems: [
+    { id: "tile-sample-testing-cases", label: "Sample Testing Case Studies" },
+    { id: "tile-waste-oil-recovery", label: "Marine & Industrial Waste Oil Recovery" },
+    { id: "tile-used-oil-plant", label: "6 MGY Used Oil Processing Plant" },
+    { id: "tile-silicon-wafer", label: "Silicon Wafer Wastewater" },
+    { id: "tile-pyrolysis-oil", label: "Pyrolysis Oil from Tire Recycling" },
+  ]},
+  { id: "faq-resources", label: "FAQ Resources", subItems: [
+    { id: "tile-decanter-applications", label: "Decanter Centrifuge Applications A-Z" },
+    { id: "tile-disc-stack-faq", label: "Disc Stack Centrifuge FAQ" },
+    { id: "tile-industrial-faq", label: "Industrial Centrifuge FAQ" },
+  ]},
   { id: "explore-knowledge", label: "Explore Other Knowledge Categories" },
 ];
 
 const caseStudies = [
   {
+    id: "tile-sample-testing-cases",
     title: "Industrial Centrifuge Sample Testing Case Studies",
     href: "/sample-testing-case-studies/",
     description: "Anonymized results from real pilot-scale sample tests: chemical slurry, hydraulic oil, coolant, wastewater, glycol, and tramp oil separation. Shows what testing reveals before equipment selection.",
     tag: "Case Study",
   },
   {
+    id: "tile-waste-oil-recovery",
     title: "Marine & Industrial Waste Oil Recovery — Case Study",
     href: "/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/",
     description: "Real-world case study of a waste oil recovery operation processing marine and industrial waste oil with disc stack centrifuges — throughput, oil quality results, and ROI data.",
     tag: "Case Study",
   },
   {
+    id: "tile-used-oil-plant",
     title: "6 MGY Used Oil Processing Plant",
     href: "/used-oil-centrifuge-plant/",
     description: "Detailed look at a 6 million gallon per year used oil processing facility using disc stack centrifuges — plant layout, processing stages, and output quality specifications.",
     tag: "Case Study",
   },
   {
+    id: "tile-silicon-wafer",
     title: "Silicon Wafer Wastewater Treatment",
     href: "/industrial-wastewater-centrifuge-silicon-wafer-facility/",
     description: "How a silicon wafer manufacturing facility uses centrifuge systems to treat process wastewater — removing silicon fines and recovering clean water for reuse.",
     tag: "Case Study",
   },
   {
+    id: "tile-pyrolysis-oil",
     title: "Pyrolysis Oil from Tire Recycling",
     href: "/pyrolysis-oil-centrifuge/",
     description: "Processing pyrolysis oil from waste tire recycling with disc stack centrifuges — removing carbon black, metals, and water to produce sale-ready fuel oil.",
@@ -78,17 +93,20 @@ const caseStudies = [
 
 const faqArticles = [
   {
+    id: "tile-decanter-applications",
     title: "Decanter Centrifuge Applications A-Z",
     href: "/decanter-centrifuge-applications/",
     description: "Comprehensive alphabetical listing of decanter centrifuge applications across industries — from animal rendering to wastewater sludge dewatering.",
   },
   {
+    id: "tile-disc-stack-faq",
     title: "Disc Stack Centrifuge FAQ",
     href: "/disc-stack-centrifuge-faq/",
     description: "Answers to the most frequently asked questions about disc stack centrifuges — how they work, maintenance requirements, costs, and application suitability.",
     tag: "FAQ",
   },
   {
+    id: "tile-industrial-faq",
     title: "Industrial Centrifuge FAQ",
     href: "/industrial-centrifuges-faq/",
     description: "General FAQ covering all types of industrial centrifuges — selection criteria, operating principles, maintenance schedules, and cost considerations.",
@@ -127,7 +145,7 @@ const faqArticles = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 not-prose my-6">
       {caseStudies.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-purple-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-purple-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-purple-500/10 to-purple-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-purple-400/30 group-hover:text-purple-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -153,7 +171,7 @@ const faqArticles = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose my-6">
       {faqArticles.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-purple-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-purple-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-purple-500/10 to-purple-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-purple-400/30 group-hover:text-purple-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />

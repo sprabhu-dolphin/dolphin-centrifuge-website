@@ -38,85 +38,118 @@ const jsonLd = {
 };
 
 const toc = [
-  { id: "setup-operation-optimization", label: "Setup, Operation & Optimization Guides" },
-  { id: "disc-stack-guides", label: "Disc Stack Centrifuge Guides" },
-  { id: "decanter-guides", label: "Decanter Centrifuge Guides" },
+  { id: "setup-operation-optimization", label: "Setup, Operation & Optimization Guides", subItems: [
+    { id: "tile-picking-centrifuge", label: "9 Steps to Picking the Right Centrifuge" },
+    { id: "tile-selection-guide", label: "Centrifuge Selection Guide" },
+    { id: "tile-containerized", label: "Containerized Industrial Centrifuge" },
+  ]},
+  { id: "disc-stack-guides", label: "Disc Stack Centrifuge Guides", subItems: [
+    { id: "tile-parts-glossary", label: "Disc Centrifuge Parts Glossary" },
+    { id: "tile-installation", label: "Installation Guide" },
+    { id: "tile-lubrication", label: "Lubrication Guide" },
+    { id: "tile-operating-water", label: "Operating Water — 7 Key Factors" },
+    { id: "tile-sludge-ejection", label: "Sludge Ejection Cycle Timing" },
+    { id: "tile-efficiency", label: "Increase Centrifuge Efficiency" },
+    { id: "tile-performance", label: "Performance Factors" },
+    { id: "tile-capacity", label: "Rated vs Actual Capacity" },
+    { id: "tile-options", label: "Options & Alternatives" },
+  ]},
+  { id: "decanter-guides", label: "Decanter Centrifuge Guides", subItems: [
+    { id: "tile-decanter-optimization", label: "Decanter Centrifuge Optimization" },
+    { id: "tile-differential-speed", label: "Differential Speed" },
+    { id: "tile-pond-depth", label: "Pond Depth Effects" },
+  ]},
   { id: "explore-other-categories", label: "Explore Other Knowledge Categories" },
 ];
 
 const articles = [
   {
+    id: "tile-picking-centrifuge",
     title: "9 Steps to Picking the Right Centrifuge",
     href: "/picking-the-right-industrial-centrifuge/",
     description: "A systematic guide to selecting the right industrial centrifuge for your application — covering fluid properties, throughput, separation goals, and budget.",
     tag: "Start Here",
   },
   {
+    id: "tile-selection-guide",
     title: "Centrifuge Selection Guide",
     href: "/alfa-laval-centrifuge-selection-guide/",
     description: "Comprehensive guide to choosing between disc stack and decanter centrifuges based on your specific process requirements and fluid characteristics.",
   },
   {
+    id: "tile-parts-glossary",
     title: "Disc Centrifuge Parts Glossary (Illustrated)",
     href: "/disc-centrifuge-parts-glossary/",
     description: "Visual reference guide to every major component in a disc stack centrifuge — bowl, disc stack, paring disc, gravity disc, spindle, and more.",
   },
   {
+    id: "tile-installation",
     title: "Installation Guide",
     href: "/disc-stack-centrifuge-installation/",
     description: "Best practices for installing a disc stack centrifuge system — foundation requirements, piping connections, electrical hookup, and commissioning.",
   },
   {
+    id: "tile-lubrication",
     title: "Lubrication Guide",
     href: "/disc-stack-centrifuge-lubrication/",
     description: "Proper lubrication practices for disc stack centrifuges — oil types, change intervals, bearing greasing, and common lubrication mistakes to avoid.",
   },
   {
+    id: "tile-operating-water",
     title: "Operating Water — 7 Key Factors",
     href: "/disc-stack-centrifuge-operating-water/",
     description: "Everything you need to know about operating water for self-cleaning disc stack centrifuges — pressure, flow, quality, and timing requirements.",
   },
   {
+    id: "tile-sludge-ejection",
     title: "Sludge Ejection Cycle Timing",
     href: "/disc-stack-centrifuge-sludge-ejection-cycle-time/",
     description: "How to optimize sludge discharge timing for maximum separation efficiency and minimum product loss during bowl ejections.",
   },
   {
+    id: "tile-decanter-optimization",
     title: "Decanter Centrifuge Optimization",
     href: "/decanter-centrifuge-optimization/",
     description: "Advanced techniques for optimizing decanter centrifuge performance — differential speed, pond depth, feed rate, and polymer dosing adjustments.",
   },
   {
+    id: "tile-efficiency",
     title: "Increase Centrifuge Efficiency",
     href: "/disc-stack-centrifuge-efficiency/",
     description: "Practical strategies to improve disc stack centrifuge separation efficiency — temperature control, flow optimization, and maintenance best practices.",
   },
   {
+    id: "tile-performance",
     title: "Performance Factors",
     href: "/disc-stack-centrifuge-performance/",
     description: "The key variables that affect disc stack centrifuge performance — feed rate, temperature, viscosity, solids loading, and gravity disc selection.",
   },
   {
+    id: "tile-capacity",
     title: "Rated vs Actual Capacity",
     href: "/disc-stack-centrifuge-capacity/",
     description: "Understanding the difference between rated and actual centrifuge throughput capacity — and the factors that determine real-world performance.",
   },
   {
+    id: "tile-differential-speed",
     title: "Differential Speed (Decanter)",
     href: "/decanter-centrifuge-differential-speed/",
     description: "How differential speed between the bowl and scroll affects decanter centrifuge separation, cake dryness, and clarification performance.",
   },
   {
+    id: "tile-pond-depth",
     title: "Pond Depth Effects (Decanter)",
     href: "/decanter-centrifuge-pond-depth/",
     description: "How pond depth settings affect decanter centrifuge performance — balancing clarification quality against cake dryness and throughput.",
   },
   {
+    id: "tile-options",
     title: "Options & Alternatives",
     href: "/disc-stack-centrifuge-options/",
     description: "Overview of disc stack centrifuge configuration options — hermetic vs semi-open, solids-ejecting vs nozzle, and specialized bowl designs.",
   },
   {
+    id: "tile-containerized",
     title: "Containerized Industrial Centrifuge",
     href: "/containerized-industrial-centrifuge/",
     description: "Complete guide to containerized centrifuge systems — advantages, applications, configuration options, and deployment considerations.",
@@ -162,7 +195,7 @@ const generalArticles = articles.filter(a =>
 
     <div class="not-prose grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
       {generalArticles.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-blue-400/30 group-hover:text-blue-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -188,7 +221,7 @@ const generalArticles = articles.filter(a =>
 
     <div class="not-prose grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
       {discStackArticles.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-blue-400/30 group-hover:text-blue-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -211,7 +244,7 @@ const generalArticles = articles.filter(a =>
 
     <div class="not-prose grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
       {decanterArticles.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-blue-500/10 to-blue-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-blue-400/30 group-hover:text-blue-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />

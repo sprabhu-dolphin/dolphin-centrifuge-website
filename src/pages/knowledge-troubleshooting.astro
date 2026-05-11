@@ -40,7 +40,22 @@ const jsonLd = {
 };
 
 const toc = [
-  { id: "troubleshooting-guides", label: "Troubleshooting Guides" },
+  { id: "troubleshooting-guides", label: "Troubleshooting Guides", subItems: [
+    { id: "tile-top10-mechanical", label: "Top 10 Mechanical Issues & Fixes" },
+    { id: "tile-operating-speed", label: "Cannot Reach Operating Speed" },
+    { id: "tile-bowl-leaking", label: "Troubleshooting Bowl Leaking" },
+    { id: "tile-bad-separation", label: "Bad Separation — 6 Common Causes" },
+    { id: "tile-disc-vibration", label: "Disc Stack Centrifuge Vibration" },
+    { id: "tile-decanter-vibration", label: "Decanter Centrifuge Vibration" },
+    { id: "tile-clogged-bowl", label: "Clogged Bowl & Discs" },
+    { id: "tile-liquid-seal", label: "Liquid Seal Break" },
+    { id: "tile-paring-disc", label: "Paring Disc Block" },
+    { id: "tile-backpressure", label: "Backpressure Guide" },
+    { id: "tile-friction-clutch", label: "Friction Clutch Problems" },
+    { id: "tile-product-loss", label: "Product Loss During Discharge" },
+    { id: "tile-bowl-issues", label: "Troubleshoot Bowl Issues" },
+    { id: "tile-disadvantages", label: "Disadvantages of Disc Stack" },
+  ]},
   { id: "explore-other-categories", label: "Explore Other Knowledge Categories" },
 ];
 
@@ -56,72 +71,86 @@ const relatedProducts = [
 
 const articles = [
   {
+    id: "tile-top10-mechanical",
     title: "Top 10 Mechanical Issues & Fixes",
     href: "/disc-stack-centrifuge-mechanical-issues-fixes/",
     description: "The most common mechanical problems found in disc stack centrifuges and their proven solutions — from bearing failures to seal leaks.",
     tag: "Most Popular",
   },
   {
+    id: "tile-operating-speed",
     title: "Cannot Reach Operating Speed",
     href: "/disc-centrifuge-cannot-reach-operating-speed/",
     description: "Diagnose why your disc centrifuge won't reach full RPM. Covers motor issues, clutch slip, bowl imbalance, and drive system faults.",
   },
   {
+    id: "tile-bowl-leaking",
     title: "Troubleshooting Bowl Leaking",
     href: "/disc-stack-centrifuge-troubleshooting-bowl-leaking/",
     description: "Step-by-step guide to diagnosing and fixing bowl leaks — from worn O-rings and gaskets to hood/bottom cracks and spindle issues.",
   },
   {
+    id: "tile-bad-separation",
     title: "Bad Separation — 6 Common Causes",
     href: "/disc-stack-centrifuge-bad-separation/",
     description: "Why your centrifuge isn't separating properly. Six root causes including wrong gravity disc, temperature issues, and throughput problems.",
   },
   {
+    id: "tile-disc-vibration",
     title: "Disc Stack Centrifuge Vibration",
     href: "/disc-stack-centrifuge-vibration/",
     description: "Causes and solutions for excessive vibration in disc stack centrifuges — bowl imbalance, bearing wear, foundation problems, and more.",
   },
   {
+    id: "tile-decanter-vibration",
     title: "Decanter Centrifuge Vibration",
     href: "/decanter-centrifuge-vibration/",
     description: "Troubleshoot vibration issues specific to decanter centrifuges — scroll wear, differential speed problems, and feed inconsistencies.",
   },
   {
+    id: "tile-clogged-bowl",
     title: "Clogged Bowl & Discs",
     href: "/centrifuge-clogged-bowl-discs/",
     description: "How to prevent and fix clogged bowls and disc stacks. Covers sludge buildup, improper discharge timing, and cleaning procedures.",
   },
   {
+    id: "tile-liquid-seal",
     title: "Liquid Seal Break",
     href: "/disc-stack-centrifuge-liquid-seal-break/",
     description: "Understanding and preventing liquid seal breaks — causes include wrong gravity disc size, air ingestion, and operating water failure.",
   },
   {
+    id: "tile-paring-disc",
     title: "Paring Disc Block",
     href: "/disc-centrifuge-troubleshooting-paring-disc-block/",
     description: "Diagnose paring disc blockages that cause high backpressure, reduced throughput, and poor discharge quality.",
   },
   {
+    id: "tile-backpressure",
     title: "Backpressure Guide",
     href: "/disc-centrifuge-backpressure/",
     description: "Understanding centrifuge backpressure — how it affects separation, proper measurement, and adjustment techniques.",
   },
   {
+    id: "tile-friction-clutch",
     title: "Friction Clutch Problems",
     href: "/disc-centrifuge-friction-clutch/",
     description: "Diagnose friction clutch issues including slipping, overheating, and premature wear. Covers adjustment and replacement procedures.",
   },
   {
+    id: "tile-product-loss",
     title: "Product Loss During Discharge",
     href: "/centrifuge-product-loss-during-discharge/",
     description: "Why valuable product is lost during bowl discharge and how to minimize it through timing, water settings, and operating adjustments.",
   },
   {
+    id: "tile-bowl-issues",
     title: "Troubleshoot Bowl Issues",
     href: "/disc-centrifuge-troubleshoot-bowl/",
     description: "Comprehensive guide to diagnosing disc centrifuge bowl problems — from assembly errors to worn components and cracked parts.",
   },
   {
+    id: "tile-disadvantages",
     title: "Disadvantages of Disc Stack Centrifuges",
     href: "/disadvantages-disc-stack-centrifuge/",
     description: "An honest look at the limitations and drawbacks of disc stack centrifuges — when other separation technologies may be a better fit.",
@@ -153,7 +182,7 @@ const articles = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mt-6 mb-10">
       {articles.map((article) => (
-        <a href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300/40 transition-all duration-300 overflow-hidden flex flex-col">
+        <a id={article.id} href={article.href} class="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-red-300/40 transition-all duration-300 overflow-hidden flex flex-col scroll-mt-24">
           <div class="relative h-32 bg-gradient-to-br from-red-500/10 to-red-600/5 flex items-center justify-center">
             <svg class="w-12 h-12 text-red-400/30 group-hover:text-red-400/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
