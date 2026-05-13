@@ -1,15 +1,52 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = {
+const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Difference Between Decanter and Disc Centrifuge | Technical Comparison",
   "description": "Detailed technical comparison between a decanter and disc centrifuge. Physical, separation efficiency, operational, and maintenance compared.",
-  "author": { "@type": "Person", "name": "Sanjay Prabhu MSME", "jobTitle": "Centrifuge Applications Engineer", "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" } },
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "description": "40+ years of specialized experience in industrial centrifuge systems",
+    "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Arkansas",
+      "location": "Fayetteville, AR, US"
+    },
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Master's degree",
+      "name": "Master of Science in Mechanical Engineering",
+      "recognizedBy": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Arkansas",
+        "location": "Fayetteville, AR, US"
+      },
+      "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990"
+    }
+  },
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com", "logo": { "@type": "ImageObject", "url": "https://dolphincentrifuge.com/images/dolphin-centrifuge-logo.png" } },
   "datePublished": "2021-01-01",
-  "url": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/"
+  "dateModified": "2026-05-13",
+  "url": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/",
+  "mainEntityOfPage": { "@id": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/#webpage" }
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/#webpage",
+  "url": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/",
+  "name": "Difference Between Decanter and Disc Centrifuge | Technical Comparison",
+  "description": "Detailed technical comparison between a decanter and disc centrifuge. Physical, separation efficiency, operational, and maintenance compared.",
+  "isPartOf": { "@type": "WebSite", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "about": { "@type": "Thing", "name": "Decanter vs Disc Stack Centrifuge Comparison" },
+  "dateModified": "2026-05-13"
 };
 ---
 
@@ -18,12 +55,13 @@ const jsonLd = {
   title="Difference Between Decanter and Disc Centrifuge | Technical Comparison"
   description="Detailed technical comparison between a decanter and disc centrifuge. Physical, separation efficiency, operational, and maintenance compared."
   heroImage="/images/difference-between-decanter-centrifuge-disc-centrifuge/disc-centrifuge-alfa-laval-whpx-510-300.webp"
-  heroImageAlt="Disc centrifuge system Alfa Laval WHPX 510"
+  heroImageAlt="Disc centrifuge system Alfa Laval WHPX-510"
   category="knowledge"
   categoryLabel="Technical Comparison"
+  categoryHref="/knowledge-center/"
   canonicalUrl="https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/"
   toc={[
-    { id: "takeaway", label: "30-Second Take-Away" },
+    { id: "summary-takeaway", label: "30 Second Summary Takeaway" },
     { id: "overview", label: "Overview of Decanter and Disc Centrifuge Operation" },
     { id: "physical", label: "Physical Characteristics (Orientation, Dimensions, Power, MOC)" },
     { id: "separation", label: "Separation Features and Capabilities" },
@@ -39,24 +77,15 @@ const jsonLd = {
   ]}
   relatedProducts={[
     { label: "Decanter Centrifuge (NX-314 / NX-418)", href: "/decanter-centrifuge/", description: "Up to 4,000 Gs - high-solids sludge dewatering" },
-    { label: "Disc Stack Centrifuges (DMPX Series)", href: "/disc-stack-centrifuge/", description: "7,000-10,000 Gs - fine particle & liquid-liquid separation" },
+    { label: "Disc Stack Centrifuges (WHPX Series)", href: "/disc-stack-centrifuge/", description: "7,000-10,000 Gs - fine particle & liquid-liquid separation" },
   ]}
-  jsonLd={[jsonLd]}
+  jsonLd={[articleSchema, webPageSchema]}
 >
 
-  <!-- 30-Second Take-Away -->
-  <h2 id="takeaway">30-Second Take-Away</h2>
+  <!-- 30 Second Summary Takeaway -->
+  <h2 id="summary-takeaway">30 Second Summary Takeaway</h2>
 
-  <p>The main differences between a decanter and disc-stack centrifuge are:</p>
-
-  <ul>
-    <li>A decanter centrifuge's axis of rotation is horizontal, whereas a disc-stack centrifuge bowl rotates around a vertical axis.</li>
-    <li>Decanter centrifuges typically exert around <strong>3,000 Gs</strong> compared to <strong>8,000+ Gs</strong> generated by a disc-stack centrifuge.</li>
-    <li>Sludge handling capacity is much higher for a decanter centrifuge compared to a disc-stack centrifuge. A decanter centrifuge can handle up to <strong>50% sludge</strong>, while a disc-stack centrifuge is limited to <strong>8% sludge</strong> by volume.</li>
-    <li>With a higher G-force, a disc-stack centrifuge can separate particles down to a <strong>0.5-micron level</strong>. A decanter centrifuge typically separates particles, which are <strong>100 microns or larger</strong>.</li>
-  </ul>
-
-  <p>This article compares the different technical aspects of decanter centrifuges and disc centrifuges. We will compare all the factors important to the end-user. These will include physical, operational, performance, and maintenance factors between these centrifuge types.</p>
+  <p>Decanter centrifuges and disc stack centrifuges differ mainly in orientation, g-force, sludge-handling capacity, particle separation, and operating style. A decanter centrifuge has a horizontal bowl, typically produces about 3,000 Gs, handles high-solids streams up to about 50% sludge by volume, and is best for bulk solids and dewatering. A disc stack centrifuge has a vertical bowl, generates 8,000+ Gs, is usually limited to about 8% sludge by volume, and is best for fine-particle removal and liquid-liquid separation down to about 0.5 micron.</p>
 
 
   <!-- Overview Section -->
@@ -187,7 +216,7 @@ const jsonLd = {
 
   <h4>Centrifuge Dimensions and Weights</h4>
 
-  <p>It is important to note that the sizes and weights mentioned below are rough estimates and could vary considerably based on the manufacture, vintage, and accessories (if any) attached to the centrifuge.</p>
+  <p>It is important to note that the sizes and weights mentioned below are rough estimates and could vary considerably based on the manufacturer, vintage, and accessories (if any) attached to the centrifuge.</p>
 
   <h5>Decanter Centrifuges - Dimensions &amp; Weights</h5>
 
@@ -266,8 +295,8 @@ const jsonLd = {
         </tr>
         <tr class="hover:bg-gray-50">
           <td class="p-3 font-semibold text-navy">Foot-print (Size)</td>
-          <td class="p-3 text-text">4â€² Ã— 2â€² Ã— 4â€² (H) (Small 5 GPM Unit) to 20â€² Ã— 5â€² Ã— 15â€² (H) (1000 GPM Municipal Wastewater Model)</td>
-          <td class="p-3 text-text">2â€² Ã— 2â€² Ã— 2â€² (Small Diesel Unit) to 40â€² Shipping Containers (with multi-unit skids)</td>
+          <td class="p-3 text-text">4' x 2' x 4' (H) (Small 5 GPM Unit) to 20' x 5' x 15' (H) (1000 GPM Municipal Wastewater Model)</td>
+          <td class="p-3 text-text">2' x 2' x 2' (Small Diesel Unit) to 40' Shipping Containers (with multi-unit skids)</td>
         </tr>
         <tr class="hover:bg-gray-50">
           <td class="p-3 font-semibold text-navy">Drive Power</td>
@@ -310,7 +339,7 @@ const jsonLd = {
 
   <p>Particle separation efficiency for a decanter centrifuge is in the range of 50 microns and above. This particle size is an approximate range suggested by the OEM. However, based on our field experience, the actual particle size separated by decanters seems to be in the 100+ micron range.</p>
 
-  <p>The largest particle size separated by the decanter is defined by the size of the internal fluid pathways and sludge ejection ports. The maximum particle size for the decanters is approximately 12 mm (Â½").</p>
+  <p>The largest particle size separated by the decanter is defined by the size of the internal fluid pathways and sludge ejection ports. The maximum particle size for the decanters is approximately 12 mm (1/2").</p>
 
   <h4>Disc Centrifuge - Particle Separation Efficiency</h4>
 
@@ -402,8 +431,8 @@ const jsonLd = {
       <tbody class="divide-y divide-gray-100">
         <tr class="hover:bg-gray-50">
           <td class="p-3 font-semibold text-navy">Particle Separation Efficiency</td>
-          <td class="p-3 text-text">From 50 Âµ to 10+ mm</td>
-          <td class="p-3 text-text">From &lt;0.5 Âµ to 1 mm</td>
+          <td class="p-3 text-text">From 50 microns to 10+ mm</td>
+          <td class="p-3 text-text">From &lt;0.5 microns to 1 mm</td>
         </tr>
         <tr class="hover:bg-gray-50">
           <td class="p-3 font-semibold text-navy">Feed Solids Concentration</td>
@@ -477,7 +506,7 @@ const jsonLd = {
 
   <h4>Decanter Centrifuge Control System</h4>
 
-  <p>Basic controls for decanter centrifuges involve motor control and monitoring of field sensors. These are relatively simple controls without the need for a logic controller (PLCs). The essential operation of the decanter centrifuge is s simple sequence of motors.</p>
+  <p>Basic controls for decanter centrifuges involve motor control and monitoring of field sensors. These are relatively simple controls without the need for a logic controller (PLCs). The essential operation of the decanter centrifuge is a simple sequence of motors.</p>
 
   <p>Some additional control logic may be added based on instrument and sensor feedback to prevent malfunction or system overload.</p>
 
@@ -535,7 +564,7 @@ const jsonLd = {
           <td class="p-3 text-text">PLC Based Control System with Operating Sequence Logic.</td>
         </tr>
         <tr class="hover:bg-gray-50">
-          <td class="p-3 font-semibold text-navy">Auxillary Systems Required</td>
+          <td class="p-3 font-semibold text-navy">Auxiliary Systems Required</td>
           <td class="p-3 text-text">Lubrication Pack and Hydraulic Unit for Backdrive Control (large units)</td>
           <td class="p-3 text-text">Operating Water System (Self-Cleaning type)</td>
         </tr>
@@ -602,7 +631,7 @@ const jsonLd = {
 
   <p>Changing the oil frequently ensures the longevity of the bearings. The recommended oil change frequency for many disc centrifuges is 1000 operating hours after the first oil change.</p>
 
-  <p>It worth noting that it is easy to replace the oil than to change bearings more frequently than necessary.</p>
+  <p>It is worth noting that it is easy to replace the oil than to change bearings more frequently than necessary.</p>
 
   <p>For disc centrifuges, it is recommended to perform a bowl service (replace all seals) on a set schedule, depending on the type of centrifuge and the service application. This period could be as frequent as every other week for abrasive fluids once every few months for benign applications.</p>
 
