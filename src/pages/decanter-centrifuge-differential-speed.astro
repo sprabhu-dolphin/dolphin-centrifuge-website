@@ -1,23 +1,55 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Decanter Centrifuge Differential Speed Calculator",
-    "description": "Decanter centrifuge differential speed: formula, calculation examples, and how varying speed affects solids output, cake dryness, and scroll torque protection.",
-    "author": {
-      "@type": "Person",
-      "name": "Sanjay Prabhu MSME",
-      "jobTitle": "Centrifuge Applications Engineer",
-      "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Decanter Centrifuge Differential Speed Calculator | Dolphin Centrifuge",
+  "description": "Decanter centrifuge differential speed: formula, calculation examples, and how varying speed affects solids output, cake dryness, and scroll torque protection.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu MSME",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "description": "40+ years of specialized experience in industrial centrifuge systems",
+    "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Arkansas",
+      "location": "Fayetteville, AR, US"
     },
-    "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
-    "datePublished": "2020-09-01",
-    "url": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Master's degree",
+      "name": "Master of Science in Mechanical Engineering",
+      "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990",
+      "recognizedBy": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Arkansas",
+        "location": "Fayetteville, AR, US"
+      }
+    }
   },
-];
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "datePublished": "2020-09-01",
+  "dateModified": "2026-05-13",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/",
+  "url": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/",
+};
+
+const webPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/#webpage",
+  "url": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/",
+  "name": "Decanter Centrifuge Differential Speed Calculator | Dolphin Centrifuge",
+  "description": "Decanter centrifuge differential speed: formula, calculation examples, and how varying speed affects solids output, cake dryness, and scroll torque protection.",
+  "isPartOf": { "@type": "WebSite", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "about": "Decanter centrifuge differential speed calculation and effects",
+  "dateModified": "2026-05-13"
+};
+
+const jsonLd = [articleJsonLd, webPageJsonLd];
 
 const toc = [
   { id: "summary", label: "30-Second Summary Takeaway" },
@@ -51,6 +83,7 @@ const relatedProducts = [
   heroImage="/images/decanter-centrifuge-differential-speed/decanter-bowl-scroll-rotation-1600.webp"
   heroImageAlt="Decanter Bowl Auger Differential Speed"
   category="knowledge"
+  categoryHref="/knowledge-center/"
   categoryLabel="Knowledge Base"
   toc={toc}
   relatedApplications={relatedApplications}
@@ -58,6 +91,8 @@ const relatedProducts = [
   jsonLd={jsonLd}
   hideBottomCTA={true}
 >
+
+  <p class="text-lg leading-relaxed text-text-light">Decanter centrifuge differential speed is the RPM difference between the rotating bowl and the scroll conveyor inside a decanter centrifuge. It controls how long separated solids stay in the bowl, which affects cake dryness, solids discharge rate, torque load, and protection against scroll plugging. Differential speed is calculated from bowl speed, sun-wheel shaft speed, and gearbox ratio.</p>
 
   <!-- 30-Second Summary -->
   <h2 id="summary">30-Second Summary Takeaway</h2>
@@ -110,7 +145,7 @@ const relatedProducts = [
   <p><strong>Differential Speed = (Bowl Speed - Sun Wheel Shaft Speed) / Gear-Box Ratio.</strong></p>
   <p>An example of a decanter speed difference calculation is as follows.</p>
   <p>Bowl Speed: 3,500 RPM</p>
-  <p>Gear-Box Ration: 200 : 1</p>
+  <p>Gear-Box Ratio: 200 : 1</p>
   <p>Sun-Wheel Shaft Speed: 1,500</p>
   <p>Using the above formula, the differential speed of the decanter is (3,500-1,500)/200 = <strong>10 RPM</strong></p>
 
@@ -208,8 +243,8 @@ const relatedProducts = [
       document.getElementById('calc-display-ratio').textContent = ratio.toLocaleString();
 
       if (isNaN(diff) || ratio === 0) {
-        document.getElementById('calc-result-diff').textContent = '—';
-        document.getElementById('calc-result-scroll').textContent = '—';
+        document.getElementById('calc-result-diff').textContent = '-';
+        document.getElementById('calc-result-scroll').textContent = '-';
         return;
       }
 
@@ -328,7 +363,7 @@ const relatedProducts = [
   <!-- Summary -->
   <h2 id="conclusion">Summary</h2>
   <p>The differential speed between the decanter bowl and scroll is the key to the function of a decanter centrifuge. The differential speed has important functional benefits to the equipment user. In advance decanter control, the differential speed is key to fine-tuning the decanter operation and safety features.</p>
-  <p class="text-sm italic">by Sanjay Prabhu MSME<br/>Engineering Manager, Dolphin Centrifuge</p>
+
 
   <!-- CTA -->
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8 mb-4">
