@@ -24,6 +24,8 @@ Before editing a page, read:
 3. `PAGE_APPEARANCE_LOOK.md`
 4. `AUDIT_HANDOFF_PROTOCOL.md`
 
+For AEO/GEO, AI search, answer-engine, or traffic-priority optimization work, also read `.agents/rules/aeo_geo_pathway.md` before editing.
+
 Use `LW.xml` and the matching legacy page content as the source of truth.
 
 ## Rule Cascade
@@ -40,11 +42,9 @@ When deciding a page issue:
 ## Work Scope
 
 - Default mode for normal migration work: one slug and one `src/pages/<slug>.astro` page at a time.
-- Final-phase grouped-triage exception: when Sanjay explicitly puts the project into grouped triage or batch discovery mode, agents may audit multiple pages together in short discovery batches and then fix one defect family at a time across multiple slugs.
-- In grouped triage, do not restart slow page-order deep audits unless Sanjay explicitly asks.
-- In final-phase grouped triage, the already-closed Top 100 slugs are locked unless Sanjay explicitly reopens one or includes it in the current named batch.
-- In a named late-phase batch, edit only the listed batch slugs. Do not touch earlier closed pages, shared layouts, docs, spreadsheets, tracking code, or unrelated files unless Sanjay explicitly approves that exact extra scope.
-- Do not spawn parallel agents unless Sanjay explicitly asks.
+- For AEO/GEO work: one assigned page only, selected by Codex from the traffic queue. Do not self-assign the next page.
+- Do not spawn parallel agents or use multi-agent mode.
+- Do not touch shared layouts, shared components, shared CSS, docs, spreadsheets, tracking code, or unrelated files unless Sanjay explicitly approves that exact extra scope.
 - Do not use any existing page as a universal template. Use `ApplicationLayout` patterns plus the current page's legacy content.
 - Do not open a browser or localhost preview. Use file-based verification. If a visual check is needed, ask Sanjay to preview.
 
@@ -52,7 +52,7 @@ When deciding a page issue:
 
 Use the image handoff folders only when the task actually includes image generation, image repair, image replacement, hero swaps, or body-image asset work.
 
-For non-image passes such as SEO, FAQ, TOC, CTA, links, schema, alt text, caption markup, or grouped triage discovery, do not force the image handoff workflow first.
+For non-image passes such as SEO, FAQ, TOC, CTA, links, schema, alt text, or caption markup, do not force the image handoff workflow first.
 
 When image work is in scope, set up all 4 image handoff folders at the repo root before editing the page.
 
@@ -88,7 +88,19 @@ Check these as separate fields:
 - Visible H1 / hero title: use the legacy visible page title or H1.
 - Meta description: use legacy `rank_math_description` when present.
 
+For AEO/GEO work, follow the exact Codex pass-on instruction when it deliberately assigns updated metadata or schema text for the selected page. Do not invent new metadata.
+
 Do not assume SEO title, visible H1, and meta description are the same. If the layout would append a title suffix that breaks legacy title fidelity, use the existing layout option to disable that suffix.
+
+## AEO/GEO Quick Link Check
+
+All future AEO/GEO Astro instructions must include a page-local quick link check:
+- Check internal `href` links in the selected page file only.
+- Verify each internal target exists as a source page route or in `public/_redirects`.
+- Verify same-page `#anchor` links match real element IDs in the selected page.
+- Fix obvious broken or label/href-mismatched page-local links found in that file.
+- Do not run a full-site crawl.
+- Do not validate every external URL unless it is visibly malformed.
 
 ## Schema
 
@@ -97,6 +109,8 @@ Do not assume SEO title, visible H1, and meta description are the same. If the l
 - Do not add unsupported Product, Article, brand, manufacturer, capacity, price, performance, or authorization claims.
 - If an FAQ is rendered and approved, `FAQPage` schema must match it exactly.
 - If no rendered FAQ exists, do not include `FAQPage` schema.
+- For AEO/GEO schema, add schema-only author enrichment for Sanjay Prabhu MSME when truthful. Use `Article.author` when Article schema exists. If there is no Article schema, use `WebPage.author`; do not create Article schema only to carry author data. Current hidden-only credential: Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990. Do not add visible author, degree, school, class year, or reviewed-by text unless Sanjay explicitly asks for visible author treatment.
+- If Codex assigns a supplemental author-credential pass for a page that already passed, keep it hidden-schema-only and do not reopen content, images, layout, captions, CTAs, links, or visible text unless Codex explicitly assigns that separate issue.
 
 ## FAQ
 
@@ -146,14 +160,6 @@ Before handing off, check:
 - no duplicate FAQ section or duplicate schema
 - no page-local component duplicates layout features already supplied by `ApplicationLayout`
 
-For final-phase grouped triage on the remaining pages:
-- use short 10-page discovery batches when Sanjay asks for batch work
-- return PASS or NEEDS FIXES per slug
-- group failures into repeatable defect buckets
-- run one fix pass per defect family only
-- do not mix FAQ, TOC, CTA, schema, links, metadata, alt text, and image-sizing cleanup in one correction pass unless Sanjay explicitly asks
-- keep the current batch fenced: do not edit earlier closed Top 100 pages or any non-batch page unless Sanjay explicitly reopens that slug
-
 ## Text Style
 
 - No em-dashes in new AI-authored text.
@@ -163,6 +169,6 @@ For final-phase grouped triage on the remaining pages:
 ## Completion
 
 - Never truncate an `.astro` file or leave placeholders like `// ... rest of code ...`.
-- Commit the completed fix batch before telling Sanjay it is ready for audit.
+- Commit the completed assigned page or approved fix before telling Sanjay it is ready for audit.
 - Report the commit SHA.
 - Do not mark a page finished until Sanjay reports auditor PASS for that exact slug and commit.
