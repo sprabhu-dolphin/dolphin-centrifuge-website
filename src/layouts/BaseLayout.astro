@@ -38,13 +38,13 @@ const fullTitle = title === 'Home'
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID;
-const googleTagAllowedHosts = (import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
+const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
   .map((host) => host.trim())
   .filter(Boolean);
 const googleTagBootstrap = googleTagId
   ? `(function() {
-var allowedHosts = ${JSON.stringify(googleTagAllowedHosts)};
+var allowedHosts = ${JSON.stringify(trackingAllowedHosts)};
 var hostname = window.location.hostname;
 if (!allowedHosts.includes(hostname)) return;
 window.dataLayer = window.dataLayer || [];
@@ -56,6 +56,22 @@ script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleTagId}';
 document.head.appendChild(script);
 gtag('js', new Date());
 gtag('config', ${JSON.stringify(googleTagId)});
+})();`
+  : null;
+const statCounterProjectId = import.meta.env.PUBLIC_STATCOUNTER_PROJECT_ID || '9162316';
+const statCounterSecurity = import.meta.env.PUBLIC_STATCOUNTER_SECURITY || 'aef6b239';
+const statCounterBootstrap = statCounterProjectId && statCounterSecurity
+  ? `(function() {
+var allowedHosts = ${JSON.stringify(trackingAllowedHosts)};
+var hostname = window.location.hostname;
+if (!allowedHosts.includes(hostname)) return;
+window.sc_project = ${JSON.stringify(statCounterProjectId)};
+window.sc_security = ${JSON.stringify(statCounterSecurity)};
+window.sc_invisible = 1;
+var script = document.createElement('script');
+script.async = true;
+script.src = 'https://www.statcounter.com/counter/counter.js';
+document.body.appendChild(script);
 })();`
   : null;
 const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrackEvent || function(eventName, params) {
@@ -194,5 +210,6 @@ if (jsonLd) {
     <Footer />
     <StickyMobileCTA />
     <Lightbox />
+    {statCounterBootstrap && <script is:inline set:html={statCounterBootstrap} />}
   </body>
 </html>
