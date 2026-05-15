@@ -73,17 +73,17 @@ const heightClass = compact
           alt={initialImage.alt}
           class="w-full h-full object-cover"
           loading="eager"
+          fetchpriority="high"
           decoding="async"
         />
       </div>
-      {/* Slide B — starts off-screen right, used for incoming image */}
-      <div class="hero-slide hero-slide--next absolute inset-0" data-slide="B">
+      {/* Slide B — starts empty, loaded by JS after page settles */}
+      <div class="hero-slide hero-slide--next absolute inset-0" data-slide="B" aria-hidden="true">
         <img
-          src={sliderImages[0].src}
-          alt={sliderImages[0].alt}
           class="w-full h-full object-cover"
-          loading="eager"
+          loading="lazy"
           decoding="async"
+          data-slider-img
         />
       </div>
     </div>
@@ -258,17 +258,21 @@ const heightClass = compact
 </style>
 
 <script>
-  // Hero background image slider
-  // Shows initial image once, then rotates through slider images right-to-left
+  // Hero background image slider — LCP-optimised
+  // Waits for page load + idle time before starting rotation.
+  // Respects prefers-reduced-motion.
   (function heroSlider() {
     const section = document.querySelector('[data-hero-slider]');
     if (!section) return;
+
+    // Respect user motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const dataEl = document.getElementById('hero-slider-data');
     if (!dataEl) return;
 
     const images: Array<{ src: string; alt: string }> = JSON.parse(dataEl.textContent || '[]');
-    if (images.length === 0) return;
+    if (!images.length) return;
 
     const slideA = section.querySelector('[data-slide="A"]') as HTMLElement;
     const slideB = section.querySelector('[data-slide="B"]') as HTMLElement;
@@ -276,61 +280,79 @@ const heightClass = compact
 
     let currentSlide = slideA;
     let nextSlide = slideB;
-    let imageIndex = 0; // next image to show is images[0], already preloaded in slide B
+    let imageIndex = 0;
+    let intervalId = 0;
 
-    // Preload all rotating images
-    images.forEach(img => {
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.as = 'image';
-      link.href = img.src;
-      document.head.appendChild(link);
-    });
+    function setSlideImage(slide: HTMLElement, image: { src: string; alt: string }): Promise<void> {
+      const img = slide.querySelector('img') as HTMLImageElement;
+      if (!img || img.dataset.loadedSrc === image.src) return Promise.resolve();
 
-    function doTransition() {
-      // Current slide exits left
+      img.alt = image.alt;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.setAttribute('fetchpriority', 'low');
+      img.src = image.src;
+      img.dataset.loadedSrc = image.src;
+
+      if (img.decode) {
+        return img.decode().catch(() => {});
+      }
+
+      return Promise.resolve();
+    }
+
+    async function doTransition() {
+      await setSlideImage(nextSlide, images[imageIndex]);
+
       currentSlide.classList.remove('hero-slide--active');
       currentSlide.classList.add('hero-slide--exit');
+      currentSlide.setAttribute('aria-hidden', 'true');
 
-      // Next slide enters from right
       nextSlide.classList.remove('hero-slide--next');
       nextSlide.classList.add('hero-slide--active');
+      nextSlide.removeAttribute('aria-hidden');
 
-      // After transition completes, recycle the exited slide
-      setTimeout(() => {
-        // Move exited slide to "next" position (off-screen right, no transition)
+      window.setTimeout(() => {
         currentSlide.style.transition = 'none';
         currentSlide.classList.remove('hero-slide--exit');
         currentSlide.classList.add('hero-slide--next');
 
         // Force reflow to apply instant repositioning
         currentSlide.offsetHeight;
-
-        // Re-enable transitions
         currentSlide.style.transition = '';
 
-        // Advance index (loop through all rotating images)
         imageIndex = (imageIndex + 1) % images.length;
+        setSlideImage(currentSlide, images[imageIndex]);
 
-        // Preload the next image into the recycled slide
-        const img = currentSlide.querySelector('img') as HTMLImageElement;
-        if (img) {
-          img.src = images[imageIndex].src;
-          img.alt = images[imageIndex].alt;
-        }
-
-        // Swap references
-        const temp = currentSlide;
+        const oldCurrent = currentSlide;
         currentSlide = nextSlide;
-        nextSlide = temp;
-      }, 1050); // slightly longer than the 1s CSS transition
+        nextSlide = oldCurrent;
+      }, 1050);
     }
 
-    // First transition after 4 seconds (exit branding image)
-    setTimeout(() => {
-      doTransition();
-      // Then rotate every 5.5 seconds
-      setInterval(doTransition, 5500);
-    }, 4000);
+    function startSliderAfterPageSettles() {
+      // Pre-load the first carousel image into Slide B
+      setSlideImage(nextSlide, images[imageIndex]);
+
+      // First rotation ~5 s after page settles, then every 5 s
+      window.setTimeout(() => {
+        doTransition();
+        intervalId = window.setInterval(doTransition, 5000);
+      }, 5000);
+    }
+
+    // Wait for full page load, then idle, before starting carousel
+    window.addEventListener('load', () => {
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(startSliderAfterPageSettles, { timeout: 3000 });
+      } else {
+        window.setTimeout(startSliderAfterPageSettles, 1500);
+      }
+    }, { once: true });
+
+    // Clean up on navigation
+    window.addEventListener('pagehide', () => {
+      if (intervalId) window.clearInterval(intervalId);
+    });
   })();
 </script>
