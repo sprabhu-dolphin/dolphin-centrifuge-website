@@ -45,26 +45,6 @@
 # WordPress legacy URL patterns (added in launch prep)
 # ============================================================
 
-# WordPress upload directory - images served from new /images/* tree
-# Anything external linking to old /wp-content/uploads/* will 410
-# (we cannot map by filename reliably; new images live under /images/<slug>/)
-/wp-content/uploads/*                 /                             410
-/wp-content/*                         /                             410
-
-# WordPress system endpoints - bots/scanners hit these, send them away
-/wp-login.php                         /                             410
-/wp-admin                             /                             410
-/wp-admin/*                           /                             410
-/xmlrpc.php                           /                             410
-/wp-json                              /                             410
-/wp-json/*                            /                             410
-/wp-includes/*                        /                             410
-
-# WordPress feeds (RSS/Atom) - no Astro equivalent
-/feed                                 /                             410
-/feed/                                /                             410
-/comments/feed                        /                             410
-/comments/feed/                       /                             410
 /*/feed                               /:splat/                      301
 /*/feed/                              /:splat/                      301
 
