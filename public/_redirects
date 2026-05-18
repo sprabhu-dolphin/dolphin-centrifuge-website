@@ -40,3 +40,61 @@
 
 # Legacy diesel purifier case study URL
 /diesel-fuel-purifier/                /alfa-laval-diesel-centrifuge/ 301
+
+# ============================================================
+# WordPress legacy URL patterns (added in launch prep)
+# ============================================================
+
+# WordPress upload directory - images served from new /images/* tree
+# Anything external linking to old /wp-content/uploads/* will 410
+# (we cannot map by filename reliably; new images live under /images/<slug>/)
+/wp-content/uploads/*                 /                             410
+/wp-content/*                         /                             410
+
+# WordPress system endpoints - bots/scanners hit these, send them away
+/wp-login.php                         /                             410
+/wp-admin                             /                             410
+/wp-admin/*                           /                             410
+/xmlrpc.php                           /                             410
+/wp-json                              /                             410
+/wp-json/*                            /                             410
+/wp-includes/*                        /                             410
+
+# WordPress feeds (RSS/Atom) - no Astro equivalent
+/feed                                 /                             410
+/feed/                                /                             410
+/comments/feed                        /                             410
+/comments/feed/                       /                             410
+/*/feed                               /:splat/                      301
+/*/feed/                              /:splat/                      301
+
+# WordPress category archives - send to Knowledge Center
+/category                             /knowledge-center/            301
+/category/                            /knowledge-center/            301
+/category/*                           /knowledge-center/            301
+
+# WordPress tag archives - send to Knowledge Center
+/tag                                  /knowledge-center/            301
+/tag/                                 /knowledge-center/            301
+/tag/*                                /knowledge-center/            301
+
+# WordPress author archives - only Sanjay - send to About page
+/author                               /about-dolphin-centrifuge/    301
+/author/                              /about-dolphin-centrifuge/    301
+/author/*                             /about-dolphin-centrifuge/    301
+
+# WordPress search results - send to Knowledge Center
+/search                               /knowledge-center/            301
+/search/                              /knowledge-center/            301
+/?s=*                                 /knowledge-center/            301
+
+# WordPress trackback/pingback URLs (legacy comment system)
+/*/trackback                          /:splat/                      301
+/*/trackback/                         /:splat/                      301
+
+# WordPress sitemap variants (rank_math, yoast, default) - send to canonical
+/sitemap.xml                          /sitemap-index.xml            301
+/sitemap_index.xml                    /sitemap-index.xml            301
+/wp-sitemap.xml                       /sitemap-index.xml            301
+/sitemap-misc.xml                     /sitemap-index.xml            301
+
