@@ -90,6 +90,7 @@ const toc = [
   { id: 'gea-mitsubishi',     label: 'GEA Westfalia and Mitsubishi Separator Parts' },
   { id: 'custom-parts',       label: 'Custom-made industrial centrifuge parts' },
   { id: 'disc-stack-parts',   label: 'Disc-Stack Centrifuges Parts for Sale' },
+  { id: 'parts-quote-request', label: 'Request Parts Quote' },
 ];
 
 const relatedApplications = [
@@ -612,5 +613,194 @@ const relatedProducts = [
       </tbody>
     </table>
   </div>
+
+  <!-- ============================================== -->
+  <!-- Parts Quote Request Form                       -->
+  <!-- ============================================== -->
+  <section id="parts-quote-request" class="not-prose my-12 bg-light-bg rounded-xl border border-gray-200 p-6 md:p-8">
+    <h2 class="text-2xl md:text-3xl font-bold text-navy mb-2 font-heading">Request Parts Quote</h2>
+    <p class="text-gray-700 mb-6">Send us your list of Alfa Laval centrifuge parts. We respond within one business day with availability and pricing.</p>
+
+    <form id="parts-request-form" novalidate>
+      <!-- Honeypot -->
+      <div class="absolute left-[-9999px] w-px h-px overflow-hidden" aria-hidden="true">
+        <label>Leave blank: <input type="text" name="bot-field" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <!-- Customer info -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label for="parts-name" class="block text-sm font-semibold text-navy mb-1">Your Name <span class="text-red-600">*</span></label>
+          <input type="text" id="parts-name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold">
+        </div>
+        <div>
+          <label for="parts-company" class="block text-sm font-semibold text-navy mb-1">Company <span class="text-red-600">*</span></label>
+          <input type="text" id="parts-company" name="company" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold">
+        </div>
+        <div>
+          <label for="parts-email" class="block text-sm font-semibold text-navy mb-1">Email <span class="text-red-600">*</span></label>
+          <input type="email" id="parts-email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold">
+        </div>
+        <div>
+          <label for="parts-phone" class="block text-sm font-semibold text-navy mb-1">Phone <span class="text-red-600">*</span></label>
+          <input type="tel" id="parts-phone" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold">
+        </div>
+      </div>
+
+      <!-- Parts list -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-navy mb-3">Parts List</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="bg-navy text-white text-left">
+                <th class="px-3 py-2 font-semibold">Part Number <span class="text-gold">*</span></th>
+                <th class="px-3 py-2 font-semibold">Description <span class="text-gold">*</span></th>
+                <th class="px-3 py-2 font-semibold w-28">Quantity <span class="text-gold">*</span></th>
+                <th class="px-3 py-2 w-12"></th>
+              </tr>
+            </thead>
+            <tbody id="parts-rows"></tbody>
+          </table>
+        </div>
+        <button type="button" id="add-row-btn" class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-navy text-navy font-semibold rounded hover:bg-navy hover:text-white transition">
+          <span class="text-xl leading-none">+</span> Add Part
+        </button>
+      </div>
+
+      <!-- Submit -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <button type="submit" id="parts-submit-btn" class="px-6 py-3 bg-gold text-navy font-bold rounded-lg hover:bg-gold-light transition disabled:opacity-50 disabled:cursor-not-allowed">
+          Submit Parts Request
+        </button>
+        <div id="parts-form-message" class="hidden text-sm font-semibold"></div>
+      </div>
+    </form>
+  </section>
+
+  <script is:inline>
+    (function() {
+      const WORKER_URL = 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev/parts';
+      const tbody = document.getElementById('parts-rows');
+      const addBtn = document.getElementById('add-row-btn');
+      const form = document.getElementById('parts-request-form');
+      const submitBtn = document.getElementById('parts-submit-btn');
+      const msg = document.getElementById('parts-form-message');
+      if (!tbody || !addBtn || !form) return;
+
+      function makeRow() {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-200';
+        tr.innerHTML = ''
+          + '<td class="px-2 py-2"><input type="text" name="part_number" class="w-full px-2 py-1.5 border border-gray-300 rounded focus:outline-none focus:border-gold font-mono text-sm" autocomplete="off"></td>'
+          + '<td class="px-2 py-2"><input type="text" name="description" class="w-full px-2 py-1.5 border border-gray-300 rounded focus:outline-none focus:border-gold" autocomplete="off"></td>'
+          + '<td class="px-2 py-2"><input type="number" name="quantity" min="1" step="1" class="w-full px-2 py-1.5 border border-gray-300 rounded focus:outline-none focus:border-gold" autocomplete="off"></td>'
+          + '<td class="px-2 py-2 text-center"><button type="button" class="remove-row-btn text-red-600 hover:text-red-800 font-bold text-2xl leading-none w-8 h-8" aria-label="Remove or clear row" title="Remove or clear row">&minus;</button></td>';
+        return tr;
+      }
+
+      function appendRow(focusFirst) {
+        const row = makeRow();
+        tbody.appendChild(row);
+        if (focusFirst) {
+          const firstInput = row.querySelector('input');
+          if (firstInput) firstInput.focus();
+        }
+      }
+
+      function setMessage(text, isError) {
+        msg.textContent = text;
+        msg.className = 'text-sm font-semibold ' + (isError ? 'text-red-700' : 'text-green-700');
+        msg.classList.remove('hidden');
+      }
+
+      tbody.addEventListener('click', function(e) {
+        const btn = e.target.closest('.remove-row-btn');
+        if (!btn) return;
+        if (tbody.children.length <= 1) {
+          btn.closest('tr').querySelectorAll('input').forEach(function(i) { i.value = ''; });
+          return;
+        }
+        btn.closest('tr').remove();
+      });
+
+      addBtn.addEventListener('click', function() { appendRow(true); });
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        msg.classList.add('hidden');
+
+        const customer = {
+          name: form.querySelector('#parts-name').value.trim(),
+          company: form.querySelector('#parts-company').value.trim(),
+          email: form.querySelector('#parts-email').value.trim(),
+          phone: form.querySelector('#parts-phone').value.trim(),
+        };
+        if (!customer.name || !customer.company || !customer.email || !customer.phone) {
+          setMessage('Please fill in your name, company, email, and phone.', true);
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+          setMessage('Please enter a valid email address.', true);
+          return;
+        }
+
+        const parts = [];
+        tbody.querySelectorAll('tr').forEach(function(tr) {
+          const pn = tr.querySelector('input[name="part_number"]').value.trim();
+          const desc = tr.querySelector('input[name="description"]').value.trim();
+          const qty = tr.querySelector('input[name="quantity"]').value.trim();
+          if (!pn && !desc && !qty) return;
+          parts.push({ part_number: pn, description: desc, quantity: qty });
+        });
+        if (parts.length === 0) {
+          setMessage('Please add at least one part (Part Number, Description, Quantity).', true);
+          return;
+        }
+        for (var i = 0; i < parts.length; i++) {
+          var p = parts[i];
+          if (!p.part_number || !p.description || !p.quantity || parseInt(p.quantity, 10) < 1) {
+            setMessage('Each part row needs Part Number, Description, and a positive Quantity.', true);
+            return;
+          }
+        }
+
+        submitBtn.disabled = true;
+        const originalLabel = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+
+        const payload = {
+          'bot-field': form.querySelector('input[name="bot-field"]').value,
+          customer: customer,
+          parts: parts,
+        };
+
+        try {
+          const response = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          var data = {};
+          try { data = await response.json(); } catch (e) {}
+          if (response.ok && data.success) {
+            setMessage('Thanks! Your parts request has been sent. We will respond within one business day.', false);
+            form.reset();
+            tbody.innerHTML = '';
+            appendRow(false);
+          } else {
+            setMessage(data.error || 'Submission failed. Please call (248) 522-2573.', true);
+          }
+        } catch (err) {
+          setMessage('Network error. Please call (248) 522-2573 or email sales@dolphincentrifuge.com.', true);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      });
+
+      appendRow(false);
+    })();
+  </script>
 
 </ApplicationLayout>
