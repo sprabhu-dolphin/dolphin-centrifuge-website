@@ -38,6 +38,9 @@ export default {
 
     // ── Route: POST / (form submission) ─────────────────────
     if (request.method === 'POST') {
+      if (path === '/parts') {
+        return handlePartsSubmit(request, env);
+      }
       return handleFormSubmit(request, env);
     }
 
@@ -107,6 +110,154 @@ function isAdminAuthorized(request, env) {
   const authHeader = request.headers.get('Authorization') || '';
   const token = authHeader.replace('Bearer ', '').trim();
   return token && env.ADMIN_PASSWORD && token === env.ADMIN_PASSWORD;
+}
+
+// ── PARTS REQUEST: Handle a parts-list submission ───────────
+async function handlePartsSubmit(request, env) {
+  try {
+    let body = {};
+    try {
+      body = await request.json();
+    } catch (e) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid JSON body' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    // Honeypot spam check
+    if (body['bot-field']) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Bot detected' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    // Optional Turnstile verification (mirrors handleFormSubmit pattern)
+    const turnstileToken = body['cf-turnstile-response'];
+    if (turnstileToken && env.TURNSTILE_SECRET_KEY) {
+      const verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
+      if (!verified) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
+          { status: 400, headers: CORS_HEADERS }
+        );
+      }
+    }
+
+    // Customer info
+    const customer = body.customer || {};
+    const name = (customer.name || '').trim();
+    const company = (customer.company || '').trim();
+    const email = (customer.email || '').trim();
+    const phone = (customer.phone || '').trim();
+
+    if (!name || !company || !email || !phone) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Name, company, email, and phone are all required' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid email address' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    // Parts list
+    const rawParts = Array.isArray(body.parts) ? body.parts : [];
+    const cleanParts = [];
+    for (const p of rawParts) {
+      const partNumber = (p.part_number || '').trim();
+      const description = (p.description || '').trim();
+      const qtyRaw = p.quantity;
+      const quantity = parseInt(qtyRaw, 10);
+      if (!partNumber && !description && (!qtyRaw || isNaN(quantity))) continue; // skip fully-empty rows
+      if (!partNumber || !description || isNaN(quantity) || quantity < 1) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Each part row needs a Part Number, Description, and positive Quantity' }),
+          { status: 400, headers: CORS_HEADERS }
+        );
+      }
+      cleanParts.push({ partNumber, description, quantity });
+    }
+    if (cleanParts.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Add at least one part row' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+
+    // Build email
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+    const subject = `Parts Request from ${company} - ${cleanParts.length} part${cleanParts.length === 1 ? '' : 's'}`;
+    const rowsHtml = cleanParts.map((p) => `
+      <tr>
+        <td style="padding:8px;border:1px solid #ddd;font-family:monospace;">${esc(p.partNumber)}</td>
+        <td style="padding:8px;border:1px solid #ddd;">${esc(p.description)}</td>
+        <td style="padding:8px;border:1px solid #ddd;text-align:center;">${p.quantity}</td>
+      </tr>
+    `).join('');
+    const html = `
+      <div style="font-family:Arial,sans-serif;max-width:640px;color:#1f2937;">
+        <h2 style="color:#0a2540;border-bottom:2px solid #c9a45c;padding-bottom:6px;">Parts Request</h2>
+        <p><strong>From:</strong> ${esc(name)}</p>
+        <p><strong>Company:</strong> ${esc(company)}</p>
+        <p><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
+        <p><strong>Phone:</strong> ${esc(phone)}</p>
+        <h3 style="margin-top:24px;">Requested Parts (${cleanParts.length})</h3>
+        <table style="border-collapse:collapse;width:100%;font-size:14px;">
+          <thead>
+            <tr style="background:#0a2540;color:#fff;">
+              <th style="padding:8px;border:1px solid #ddd;text-align:left;">Part Number</th>
+              <th style="padding:8px;border:1px solid #ddd;text-align:left;">Description</th>
+              <th style="padding:8px;border:1px solid #ddd;text-align:center;">Qty</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        <p style="margin-top:24px;font-size:12px;color:#6b7280;">Submitted via dolphincentrifuge.com /alfa-laval-centrifuge-parts/</p>
+      </div>
+    `;
+
+    const resendResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Dolphin Centrifuge <noreply@notifications.dolphincentrifuge.com>',
+        to: ['sales@dolphincentrifuge.com'],
+        reply_to: email,
+        subject: subject,
+        html: html,
+      }),
+    });
+
+    if (!resendResponse.ok) {
+      const errorBody = await resendResponse.text();
+      console.error('Resend API error (parts):', errorBody);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
+        { status: 500, headers: CORS_HEADERS }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ success: true }),
+      { status: 200, headers: CORS_HEADERS }
+    );
+  } catch (err) {
+    console.error('Parts submit error:', err && err.message);
+    return new Response(
+      JSON.stringify({ success: false, error: 'Server error - please call (248) 522-2573' }),
+      { status: 500, headers: CORS_HEADERS }
+    );
+  }
 }
 
 // ── FORM: Handle a contact form submission ───────────────────
