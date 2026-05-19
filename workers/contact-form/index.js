@@ -230,7 +230,7 @@ async function handlePartsSubmit(request, env) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Dolphin Centrifuge <noreply@notifications.dolphincentrifuge.com>',
+        from: 'Dolphin Centrifuge <noreply@dolphincentrifuge.com>',
         to: ['sales@dolphincentrifuge.com'],
         reply_to: email,
         subject: subject,
