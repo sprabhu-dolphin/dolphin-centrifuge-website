@@ -7,7 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://dolphincentrifuge.com',
-  integrations: [react(), sitemap()],
+  integrations: [react(), sitemap({
+    filter: (page) =>
+      !page.includes('/admin/') &&
+      !page.includes('/applications/'),
+  })],
   vite: {
     plugins: [tailwindcss()],
   },
