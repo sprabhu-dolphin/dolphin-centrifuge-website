@@ -31,11 +31,37 @@ const articleJsonLd = {
   "description": "Contact Dolphin Centrifuge in Warren, Michigan for industrial centrifuge quotes, parts, repair, and sample testing. 200+ units in stock. Engineers respond within a few business days.",
   "author": {
     "@type": "Person",
-    "name": "Sanjay Prabhu MSME",
+    "name": "Sanjay Prabhu",
+    "honorificSuffix": "M.S.M.E.",
+    "description": "40+ years of specialized experience in industrial centrifuge systems",
+    "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
     "jobTitle": "Centrifuge Applications Engineer",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Dolphin Centrifuge"
+    "knowsAbout": [
+      "Industrial centrifuges",
+      "Disc stack centrifuges",
+      "Decanter centrifuges",
+      "Alfa Laval centrifuge systems",
+      "Centrifuge repair and remanufacturing",
+      "Waste oil separation",
+      "Coolant recycling",
+      "Industrial fluid separation"
+    ],
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Arkansas",
+      "location": "Fayetteville, AR, US"
+    },
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Master of Science in Mechanical Engineering",
+      "credentialCategory": "Master's degree",
+      "recognizedBy": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Arkansas",
+        "location": "Fayetteville, AR, US"
+      },
+      "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990"
     }
   },
   "publisher": {
@@ -126,7 +152,7 @@ const faqJsonLd = {
   ]}
 >
 
-  <!-- H1 first — SEO requires H1 before any H2 -->
+  <!-- H1 first - SEO requires H1 before any H2 -->
   <h1 class="text-3xl font-bold text-navy font-heading mb-2">Contact Dolphin Centrifuge - Industrial Centrifuge Quote</h1>
 
   <!-- Find Us in Warren, MI -->
@@ -316,11 +342,11 @@ const faqJsonLd = {
                   </div>
                 </div>
 
-                <!-- Other country — shown only when 'Other' is selected -->
+                <!-- Other country - shown only when 'Other' is selected -->
                 <div id="country-other-wrap" style="display:none;">
                   <label for="country_other" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Please specify your country <span class="text-red-500">*</span></label>
                   <input type="text" id="country_other" name="country_other"
-                    placeholder="e.g. Germany, Brazil, India…"
+                    placeholder="e.g. Germany, Brazil, India..."
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
                 </div>
 
@@ -359,7 +385,7 @@ const faqJsonLd = {
                   <input type="text" id="solids_percentage" name="solids_percentage" autocomplete="off"
                     placeholder="e.g. 2%, or unknown"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
-                  <p class="text-xs text-gray-400 mt-1">Estimate if known — not required.</p>
+                  <p class="text-xs text-gray-400 mt-1">Estimate if known - not required.</p>
                 </div>
 
                 <!-- New vs Reman -->
@@ -480,7 +506,7 @@ const faqJsonLd = {
 
       if (!form) return;
 
-      // ── Country → show/hide 'Other' field ────────────────────────────
+      // -- Country - show/hide 'Other' field --
       const countrySelect = document.getElementById('country');
       const countryOtherWrap = document.getElementById('country-other-wrap');
       const countryOtherInput = document.getElementById('country_other');
@@ -552,7 +578,7 @@ const faqJsonLd = {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // ── Client-side required field check ────────────────
+        // -- Client-side required field check --
         const { anyEmpty, firstInvalid } = validateRequired();
         if (anyEmpty) {
           errorText.textContent = 'Please fill in all required fields.';
@@ -562,7 +588,7 @@ const faqJsonLd = {
           return;
         }
 
-        // ── Email match check ────────────────────────────────
+        // -- Email match check --
         const email        = form.querySelector('[name="email"]').value;
         const emailConfirm = form.querySelector('[name="email_confirm"]').value;
         if (email !== emailConfirm) {
@@ -626,7 +652,7 @@ const faqJsonLd = {
       });
     })();
 
-    // ── Fluid-type → redirect map ───────────────────────────
+    // -- Fluid-type redirect map --
     function getFluidRedirect(fluidType) {
       if (!fluidType) return null;
       const f = fluidType.toLowerCase();
@@ -636,7 +662,7 @@ const faqJsonLd = {
         { url: '/used-oil-centrifuge/',                        k: ['used oil','used motor','motor oil','engine oil','used lube'] },
         { url: '/waste-oil-centrifuge/',                       k: ['waste oil','waste lubric','waste lube'] },
         { url: '/hydraulic-oil-centrifuge/',                   k: ['hydraulic'] },
-        { url: '/fuel-oil-centrifuge/',                        k: ['fuel oil','heavy fuel','bunker','hfo','mgo','marine fuel','fo ','ifо'] },
+        { url: '/fuel-oil-centrifuge/',                        k: ['fuel oil','heavy fuel','bunker','hfo','mgo','marine fuel','fo ','ifo'] },
         { url: '/crude-oil-centrifuge/',                       k: ['crude oil','crude','petroleum'] },
         { url: '/quench-oil-centrifuge/',                      k: ['quench'] },
         { url: '/pyrolysis-oil-centrifuge/',                   k: ['pyrolysis','waste plastic','tire oil','tyre oil'] },
@@ -660,7 +686,7 @@ const faqJsonLd = {
       return '/picking-the-right-industrial-centrifuge/';
     }
 
-    // ── Green toast logic ────────────────────────────────────
+    // -- Green toast logic --
     (function() {
       window.showSuccessToast = function(redirectUrl) {
         const DISMISS_MS = redirectUrl ? 3000 : 6000;
@@ -672,7 +698,7 @@ const faqJsonLd = {
 
         // Show redirect hint if applicable
         if (redirectUrl && rdMsg) {
-          rdMsg.textContent = `→ Taking you to your relevant page in 3 seconds…`;
+          rdMsg.textContent = `Taking you to your relevant page in 3 seconds...`;
           rdMsg.style.display = 'block';
         } else if (rdMsg) {
           rdMsg.style.display = 'none';
