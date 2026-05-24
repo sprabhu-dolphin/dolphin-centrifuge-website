@@ -1,0 +1,499 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "EPC Industrial Centrifuge Systems",
+  "description": "Engineered centrifuge packages for EPC contractors. Skid-mounted systems with GA drawings, P&IDs, SDRL/VDRL submittals, ITP, FAT, hazardous-area packages, and global delivery.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com",
+    "telephone": "+1-248-522-2573",
+    "address": { "@type": "PostalAddress", "streetAddress": "24248 Gibson Dr.", "addressLocality": "Warren", "addressRegion": "MI", "postalCode": "48089", "addressCountry": "US" },
+  },
+  "areaServed": "Worldwide",
+  "serviceType": "EPC Centrifuge Package Engineering and Supply",
+  "url": "https://dolphincentrifuge.com/epc-industrial-centrifuge-systems/",
+};
+
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Industrial Centrifuge Systems for EPC Contractors",
+  "description": "Dolphin Centrifuge designs and builds centrifuge packages for EPC contractors with GA drawings, P&IDs, SDRL/VDRL support, ITP, FAT, hazardous-area compliance, and global project delivery.",
+  "author": {
+    "@type": "Person",
+    "name": "Sanjay Prabhu",
+    "honorificSuffix": "M.S.M.E.",
+    "jobTitle": "Centrifuge Applications Engineer",
+    "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" },
+    "knowsAbout": [
+      "Industrial centrifuges",
+      "Disc stack centrifuges",
+      "Decanter centrifuges",
+      "Alfa Laval centrifuge systems",
+      "Centrifuge repair and remanufacturing",
+      "Waste oil separation",
+      "Coolant recycling",
+      "Industrial fluid separation"
+    ],
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Master of Science in Mechanical Engineering",
+      "credentialCategory": "Master's degree",
+      "recognizedBy": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Arkansas",
+        "location": "Fayetteville, AR, US"
+      },
+      "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990"
+    }
+  },
+  "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
+  "url": "https://dolphincentrifuge.com/epc-industrial-centrifuge-systems/",
+  "mainEntityOfPage": "https://dolphincentrifuge.com/epc-industrial-centrifuge-systems/"
+};
+
+
+const faqItems = [
+  {
+    question: "Can Dolphin support SDRL and VDRL submittals?",
+    answer: "Yes. Dolphin can support formal SDRL or VDRL workflows when required by the EPC package, tracking each document from initial submittal through review, comment incorporation, and final IFC approval."
+  },
+  {
+    question: "Can Dolphin provide GA drawings and P&amp;IDs for EPC review?",
+    answer: "Yes. Dolphin can provide project GA drawings and P&amp;IDs in AutoCAD (DWG) and PDF format. Drawings are typically submitted per the SDRL schedule and revised through the EPC approval cycle."
+  },
+  {
+    question: "Can Dolphin build packages for Class I Div 1/2, ATEX, or IECEx projects?",
+    answer: "Yes. Dolphin designs centrifuge packages to meet the specified hazardous area classification. The design basis, whether NEC Class I Division, ATEX Zone, or IECEx, is confirmed from the project datasheet, area classification drawing, and specification."
+  },
+  {
+    question: "Is FAT available at Dolphin's Warren, Michigan facility?",
+    answer: "Yes. Factory Acceptance Tests are conducted at Dolphin's Warren, Michigan facility and can be witnessed by the EPC inspector or client representative when specified. Test results and sign-off documents are included in the shipment package."
+  },
+  {
+    question: "Can Dolphin support offshore and overseas centrifuge packages?",
+    answer: "Yes. Dolphin has delivered centrifuge systems for offshore platforms, overseas military installations, and international industrial projects. Packages are built to the specified shipping, coating, and preservation requirements."
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question.replace(/&amp;/g, '&'),
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.replace(/&amp;/g, '&')
+    }
+  }))
+};
+
+const jsonLd = [serviceJsonLd, articleJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'epc-scope', label: 'EPC Scope' },
+  { id: 'engineering-drawings', label: 'Engineering Drawings' },
+  { id: 'sdrl-vdrl', label: 'SDRL and VDRL' },
+  { id: 'itp-fat-sat', label: 'ITP, FAT and SAT' },
+  { id: 'controls-hazardous', label: 'Controls and Hazardous Areas' },
+  { id: 'global-experience', label: 'Global Project Experience' },
+  { id: 'epc-rfq', label: 'EPC RFQ' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Industrial Centrifuge Design', href: '/industrial-centrifuge-design/' },
+  { label: 'Industrial Centrifuge Controls', href: '/industrial-centrifuge-controls/' },
+  { label: 'Containerized Industrial Centrifuge', href: '/containerized-industrial-centrifuge/' },
+  { label: 'Explosion Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'Disc Stack Centrifuge', href: '/disc-stack-centrifuge/' },
+  { label: 'Decanter Centrifuge', href: '/decanter-centrifuge/' },
+  { label: 'DMPX 042', href: '/centrifuges/dmpx-042/' },
+];
+---
+
+
+<ApplicationLayout
+  title="Industrial Centrifuge Systems for EPC Contractors"
+  pageTitle="EPC Industrial Centrifuge Systems | Dolphin Centrifuge"
+  description="Dolphin Centrifuge designs and builds centrifuge packages for EPC contractors with GA drawings, P&IDs, SDRL/VDRL submittals, ITP, FAT, hazardous-area packages, and global delivery from Warren, Michigan."
+  category="services"
+  categoryLabel="Services"
+  heroImage="/images/epc-industrial-centrifuge-systems/epc-industrial-centrifuge-systems-hero.webp"
+  heroImageAlt="Dolphin Centrifuge skid-mounted disc stack centrifuge package with process piping, valves, motor, and instrumentation on a steel baseframe"
+  ogImage="/images/epc-industrial-centrifuge-systems/epc-industrial-centrifuge-systems-hero.webp"
+  canonicalUrl="https://dolphincentrifuge.com/epc-industrial-centrifuge-systems/"
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  hideBottomCTA={true}
+>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose">
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supports EPC contractors with engineered skid-mounted centrifuge packages, GA drawings, P&IDs, SDRL and VDRL submittals, ITPs, FAT documentation, hazardous-area packages, and global delivery from Warren, Michigan.</p>
+  </div>
+
+
+  <!-- Section 1: EPC Scope -->
+  <h2 id="epc-scope">Built for EPC Scope, Not Just Equipment Supply</h2>
+
+  <p>
+    An EPC centrifuge package is not only a separator. It must fit the plot plan, match the hazardous-area basis, satisfy document control, pass inspection hold points, ship correctly, and arrive with the records needed for commissioning.
+  </p>
+  <p>
+    Dolphin Centrifuge designs and builds complete industrial centrifuge packages around real project requirements. A typical package may include a reconditioned disc stack or decanter centrifuge, feed pump, heating system, local control panel, instrumentation, valves, interconnecting piping, structural skid, manuals, inspection records, and final documentation.
+  </p>
+  <p>
+    For EPC contractors, the practical value is simple: one centrifuge supplier that understands drawings, submittals, battery limits, factory testing, controls, procurement timing, and the detail language used inside bid packages.
+  </p>
+
+  <figure class="not-prose mb-6" style="max-width:400px">
+    <a href="/images/epc-industrial-centrifuge-systems/epc-atex-zone2-centrifuge-module.webp" target="_blank">
+      <img
+        src="/images/epc-industrial-centrifuge-systems/epc-atex-zone2-centrifuge-module.webp"
+        alt="ATEX Zone 2 disc stack centrifuge skid module for refinery slop oil separation"
+        loading="lazy"
+        class="rounded-lg shadow-md img-cap-400"
+      />
+    </a>
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">ATEX Zone 2 rated disc stack centrifuge module built for light crude slop oil service, with process piping, heater, and steel baseframe.</figcaption>
+  </figure>
+
+  <h3>Typical EPC centrifuge packages cover</h3>
+  <ul>
+    <li>Lube oil conditioning and reclamation systems</li>
+    <li>Fuel oil purification modules</li>
+    <li>Process oil and distillate separation systems</li>
+    <li>Offshore and marine centrifuge installations</li>
+    <li>Skid-mounted centrifuge systems for modular plant construction</li>
+  </ul>
+  <p>
+    Every package is built against the project datasheet, specification, and area classification so it can drop into the EPC scope without rework.
+  </p>
+
+
+  <!-- Section 2: Engineering Drawings -->
+  <h2 id="engineering-drawings">Engineering Drawings EPC Teams Can Review</h2>
+
+  <p>
+    Bid-stage drawing packages usually begin with enough detail for EPC layout, tie-in, access, lifting, weight, utilities, and interface review. After award, the drawing set can move through approval, IFC, and as-built stages as the project scope is finalized.
+  </p>
+
+  <h3>General Arrangement Drawings</h3>
+  <p>
+    Dolphin can provide project General Arrangement (GA) drawings for centrifuge packages. Each GA typically shows the plan view, side elevation, and end elevation with all critical dimensions, nozzle locations, service connections, weight, and center-of-gravity data.
+  </p>
+  <p>
+    GA drawings are prepared in AutoCAD and issued as native DWG and PDF. They include overall envelope dimensions, nozzle sizes, flange ratings, bolt patterns, anchor bolt layouts, and load data needed for civil and structural engineering.
+  </p>
+  <p>
+    GA drawings help the EPC team confirm skid footprint, nozzle or tie-point orientation, maintenance clearances, lifting considerations, access points, and approximate weights. They also give project engineers a fast way to see what belongs inside Dolphin's skid limits and what remains by others.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-ga-nx314-autocad-detail.webp"
+      alt="GA drawing detail for skid-mounted decanter centrifuge package"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-600"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">GA drawing detail: skid views, tie points, dimensions, access envelope, and connection schedule.</figcaption>
+  </figure>
+
+  <h3>P&amp;ID Drawings</h3>
+  <p>
+    Dolphin can provide Process and Instrumentation Diagrams (P&amp;IDs) for the centrifuge package scope. Each P&amp;ID typically shows process lines, instrument locations, control valves, relief devices, and tie-in points at the package battery limit.
+  </p>
+  <p>
+    P&amp;IDs follow ISA symbology and are drawn in AutoCAD format. They are issued for EPC review, marked up during detail engineering, and reissued at IFC and as-built stages.
+  </p>
+  <p>
+    For a two-stage package, the P&amp;ID can show the decanter stage, disc stack polishing stage, sludge handling, oil discharge, and off-skid tie points.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-pid-autocad-detail.webp"
+      alt="P&ID drawing detail for two-stage centrifuge purification package"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-600"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">P&amp;ID detail: process flow, instruments, controls, tie points, and package battery limits.</figcaption>
+  </figure>
+
+
+  <!-- Section 3: SDRL and VDRL -->
+  <h2 id="sdrl-vdrl">Document Control: SDRL and VDRL Support</h2>
+
+  <p>
+    Depending on scope, Dolphin can respond to Supplier Document Requirements Lists (SDRL) and Vendor Document Requirements Lists (VDRL) with the deliverables expected for a centrifuge system package.
+  </p>
+  <p>
+    Typical SDRL deliverables include GA drawings, P&amp;IDs, datasheets, electrical schematics, instrument lists, control narratives, bill of materials, material certificates, test reports, and operating manuals.
+  </p>
+
+  <h3>SDRL Management</h3>
+  <p>
+    Dolphin can support formal SDRL workflows when required by the EPC package. The SDRL typically lists every deliverable document, the required approval code, the submission milestone, and the return cycle.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-sdrl-document-register.webp"
+      alt="SDRL deliverables package showing GA drawing, P&ID, datasheet, ITP/QAP, FAT procedure, O&M manual, certificates, and MRB"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-600"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">SDRL deliverables package: GA drawing, P&amp;ID, datasheet, ITP/QAP, FAT procedure, O&amp;M manual, certificates, and MRB.</figcaption>
+  </figure>
+
+  <h3>VDRL Tracking</h3>
+  <p>
+    Some EPC contractors issue the document register as a Vendor Document Requirements List instead of an SDRL. Dolphin is familiar with both formats and can work with the contractor's standard template.
+  </p>
+  <p>
+    The VDRL is tracked through every revision, returned comment, and final approval step. Dolphin responds to review comments within the agreed turnaround period and re-issues updated documents until final IFC approval.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-vdrl-submittal-register.webp"
+      alt="Vendor submittal workflow through RFQ review, document planning, approval set, review cycle, and final records"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-600"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">Vendor submittal workflow: RFQ review, document planning, approval set, review cycle, and final records.</figcaption>
+  </figure>
+
+  <h3>EPC Document Lifecycle</h3>
+  <ul>
+    <li><strong>Bid-stage package:</strong> Preliminary GA, P&amp;ID, datasheets, scope notes, clarification register, and major equipment list.</li>
+    <li><strong>Post-award submittals:</strong> Approval drawings, updated datasheets, controls documents, ITP, FAT procedure, and vendor data updates.</li>
+    <li><strong>Turnover records:</strong> FAT report, inspection records, certificates, O&amp;M manual, spare parts list, and final manufacturer record book (MRB).</li>
+  </ul>
+
+
+  <!-- Section 4: ITP, FAT and SAT -->
+  <h2 id="itp-fat-sat">Inspection Plans, FAT, and Project Closeout</h2>
+
+  <h3>ITP and QAP Alignment</h3>
+  <p>
+    EPC centrifuge packages typically include an Inspection and Test Plan (ITP). The ITP lists each manufacturing and testing step, the acceptance criteria, and the inspection level: review point, witness point, or hold point.
+  </p>
+  <p>
+    The ITP is submitted with the Quality Assurance Plan (QAP) and covers incoming material verification, dimensional inspection, welding inspection, hydrostatic testing, electrical testing, and the Factory Acceptance Test.
+  </p>
+  <p>
+    For projects that require formal inspection control, Dolphin can support a project-specific QAP aligned to the centrifuge package scope. The goal is to make inspection expectations clear before fabrication and testing begin.
+  </p>
+
+  <h3>Factory Acceptance Test (FAT)</h3>
+  <p>
+    Dolphin conducts Factory Acceptance Tests at its Warren, Michigan facility. The FAT is performed against the approved test procedure and can be witnessed by the EPC inspector or client representative when specified.
+  </p>
+  <p>
+    A typical FAT includes visual and dimensional inspection, electrical and I/O verification, vibration check, PLC/HMI functional test, and wet run where specified. All test results, punch lists, and sign-off sheets are documented and submitted with the shipment.
+  </p>
+
+  <h3>Site Acceptance Test (SAT)</h3>
+  <p>
+    Site Acceptance Testing can include a repeat of FAT checks, field I/O verification, and performance testing under process conditions. Dolphin provides commissioning support and field supervision as required.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-itp-fat-workflow.webp"
+      alt="ITP and FAT workflow example for EPC centrifuge package"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-700"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">ITP and FAT workflow: document review, fabrication monitoring, witness inspection, hold points, FAT, and final data book.</figcaption>
+  </figure>
+
+
+  <!-- Section 5: Controls and Hazardous Areas -->
+  <h2 id="controls-hazardous">Controls, Interfaces, and Hazardous-Area Requirements</h2>
+
+  <h3>PLC and HMI Controls</h3>
+  <p>
+    Centrifuge packages typically include a PLC-based control panel with HMI for local operation and monitoring. The control system can handle start/stop sequencing, speed control, temperature and vibration monitoring, interlock logic, and alarm management.
+  </p>
+  <p>
+    Dolphin provides the control narrative, I/O list, cause-and-effect matrix, and network architecture drawing for EPC review. Communication protocols such as Modbus TCP, Profinet, EtherNet/IP, or hardwired signals are configured to match the plant DCS or SCADA interface.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-controls-interface.webp"
+      alt="Electrical and controls interface diagram for skid-mounted centrifuge package"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-500"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">Controls interface: local control panel, PLC/HMI, field devices, alarms, and plant DCS or SCADA interface.</figcaption>
+  </figure>
+
+  <h3>Hazardous-Area Classification</h3>
+  <p>
+    US projects may specify UL/NRTL-listed equipment with a Class I Division 1 or Class I Division 2 design basis. Europe and many international projects may specify ATEX Zone 1 or Zone 2 equipment. Worldwide EPC packages may specify IECEx or IEC 60079 series as the design basis.
+  </p>
+  <p>
+    The design basis includes the gas group, temperature class, Ex protection method, and IS instrument barriers where specified by the project.
+  </p>
+  <p>
+    Final electrical classification is confirmed from the EPC RFQ, area classification drawing, datasheet, and project specification.
+  </p>
+
+
+  <!-- Section 6: Global Project Experience -->
+  <h2 id="global-experience">Representative Global Project Experience</h2>
+
+  <p>
+    Dolphin has delivered centrifuge systems for EPC projects across the oil and gas, petrochemical, defense, industrial, and marine sectors. The following cards represent the range of project geography and application scope.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-project-execution-timeline.webp"
+      alt="Typical EPC package execution timeline for centrifuge project"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-700"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">Typical execution timeline: RFQ review, bid package, approval documents, procurement, fabrication, FAT, and shipment.</figcaption>
+  </figure>
+
+  <div class="grid md:grid-cols-2 gap-5 not-prose mb-8 items-stretch">
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Offshore Gas Platform, Qatar</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">IECEx / IEC 60079 | Zone 1 or Zone 2 basis</span>
+      <p class="text-sm text-text-light leading-relaxed">Disc stack centrifuge package for offshore fuel, lube oil, or condensate service with compact skid layout, marine environment considerations, and Ex-rated electrical components.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">U.S. Military Installations, Afghanistan and Iraq</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">Class I Div 1 / Div 2 or IEC zone basis by specification</span>
+      <p class="text-sm text-text-light leading-relaxed">Fuel and oil purification support for remote installations with rugged packaging, simple operation, documentation, spares, and serviceability.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Compressor Oil, Fertilizer Plant, Egypt</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">ATEX / IECEx | Zone 2 typical, confirm gas group</span>
+      <p class="text-sm text-text-light leading-relaxed">Compressor lube oil centrifuge duty for process plant reliability with attention to oil cleanliness, water removal, solids removal, and hazardous-area component selection.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Compressor Oil, Southern United States Chemical Plant</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">UL / NRTL | Class I Div 1 or Div 2</span>
+      <p class="text-sm text-text-light leading-relaxed">Compressor oil purification in a chemical plant environment where US electrical classification, control-panel design, alarms, and plant interface signals drive the package basis.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Offshore Gas Platform, Azerbaijan</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">IECEx / ATEX | Zone 1 or Zone 2 offshore basis</span>
+      <p class="text-sm text-text-light leading-relaxed">Offshore centrifuge package for fuel, lube oil, or condensate service with corrosion exposure, footprint, lifting, access, and EPC documentation considerations.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Pyrolysis Oil Plant, Europe</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">ATEX | Zone 2 typical, Zone 1 if specified</span>
+      <p class="text-sm text-text-light leading-relaxed">Two-stage oil purification using decanter separation followed by disc stack polishing for solids, water, and fine contaminant removal in a process-oil plant environment.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Refinery Slop Oil, Australia</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">IECEx / IEC 60079 | Zone 1 or Zone 2 basis</span>
+      <p class="text-sm text-text-light leading-relaxed">Refinery slop oil and tank-bottom separation where the centrifuge package requires refinery documentation, hazardous-area awareness, and rugged oil-handling auxiliaries.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Offshore Condensate and Distillate Plant</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">IECEx / ATEX | gas group and T-class per datasheet</span>
+      <p class="text-sm text-text-light leading-relaxed">Condensate or distillate centrifuge package scope where process tie-ins, drains, vents, instruments, and Ex component choices align with the EPC design basis.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Bay of Thailand Offshore Project</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">IECEx / IEC 60079 | Zone 2 or Zone 1 by platform area</span>
+      <p class="text-sm text-text-light leading-relaxed">Offshore oil and gas experience where compact package size, offshore maintainability, marine environment, and local electrical classification rules factor into engineering.</p>
+    </div>
+
+    <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 shadow-sm ring-1 ring-gray-100 flex flex-col">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gold/70"></div>
+      <p class="font-heading text-base font-bold text-navy mb-2 pt-2">Fisheries Pilot Hatchery, Thailand</p>
+      <span class="inline-flex w-fit rounded-full bg-gold/10 px-3 py-1 text-xs font-bold text-navy ring-1 ring-gold/25 mb-3">Non-hazardous or washdown industrial basis</span>
+      <p class="text-sm text-text-light leading-relaxed">Pilot-scale separation for fisheries or hatchery applications where material compatibility, sanitary handling, sample testing, and operator-friendly controls matter more than Ex classification.</p>
+    </div>
+
+  </div>
+
+
+  <!-- Section 7: EPC RFQ -->
+  <h2 id="epc-rfq">Send Us Your EPC Bid Package</h2>
+
+  <p>
+    Dolphin accepts RFQs for centrifuge packages from EPC contractors, engineering firms, procurement agents, and plant owners. Share the RFQ, datasheet, process requirements, hazardous-area basis, or SDRL/VDRL, and Dolphin will respond with a centrifuge package scope that EPC teams can review.
+  </p>
+
+  <h3>To request a quotation, provide the following where available</h3>
+  <ul>
+    <li>Equipment datasheet or process specification</li>
+    <li>P&amp;ID or process flow diagram (PFD)</li>
+    <li>Area classification drawing or hazardous-area specification</li>
+    <li>SDRL or VDRL template</li>
+    <li>Delivery schedule and shipping destination</li>
+    <li>Any client-specific inspection or testing requirements</li>
+  </ul>
+  <p>
+    Dolphin will review the inquiry, clarify technical and commercial points, and return a formal quotation with scope, schedule, and pricing.
+  </p>
+
+  <figure class="not-prose mb-6">
+    <img
+      src="/images/epc-industrial-centrifuge-systems/epc-equipment-datasheet.webp"
+      alt="Typical datasheet snapshot showing process inputs and package outputs used for EPC quotation review"
+      loading="lazy"
+      class="rounded-lg shadow-md img-cap-500"
+    />
+    <figcaption class="text-sm text-gray-600 mt-2 text-center">Typical datasheet snapshot: process inputs and package outputs used for EPC quotation review.</figcaption>
+  </figure>
+
+  <div class="bg-navy/10 rounded-xl p-6 my-8 not-prose border border-navy/20">
+    <p class="text-lg font-semibold text-navy mb-2">Ready to Start?</p>
+    <p class="text-text-light mb-4">Contact Dolphin Centrifuge with your EPC bid package, datasheet, or project requirements.</p>
+    <div class="flex flex-wrap gap-4">
+      <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-navy text-white px-6 py-2 rounded-lg font-semibold hover:bg-navy/90 transition-colors" style="color: white">Contact Dolphin</a>
+      <a href="tel:+12485222573" class="inline-block border-2 border-navy text-navy px-6 py-2 rounded-lg font-semibold hover:bg-navy/5 transition-colors">(248) 522-2573</a>
+    </div>
+  </div>
+
+
+  <!-- Section 8: FAQ -->
+  <FAQ items={faqItems} heading="Frequently Asked Questions" />
+
+  <p>
+    Please <a href="/contact-for-alfa-laval-centrifuges/">contact Dolphin Centrifuge</a> or call us at <a href="tel:+12485222573">(248) 522-2573</a> to discuss your EPC centrifuge package requirements with our engineers.
+  </p>
+
+
+</ApplicationLayout>
