@@ -305,7 +305,7 @@ async function handleFormSubmit(request, env) {
     const country           = (fields['country'] || '').trim();
     const usState           = (fields['us_state'] || '').trim();
     const fluidType         = (fields['fluid_type'] || '').trim();
-    const capacity          = (fields['capacity'] || '').trim();
+    const capacity          = (fields['required_flow_rate'] || fields['capacity'] || '').trim();
     const solidsPercentage  = (fields['solids_percentage'] || '').trim();
     const centrifugeCondition = (fields['centrifuge_condition'] || '').trim();
     const additionalDetails = (fields['additional_details'] || '').trim();
@@ -401,7 +401,7 @@ async function handleFormSubmit(request, env) {
     ${row('US State', usState || '—', false)}
     ${sectionHeader('Application Details')}
     ${row('Type of Fluid', fluidType, false)}
-    ${row('Capacity Required', capacity, true)}
+    ${row('Required Flow Rate', capacity, true)}
     ${row('Percentage of Solids by Volume', solidsPercentage || '—', false)}
     ${row('Do you require a New Centrifuge or is a Remanufactured centrifuge acceptable?', conditionLabel, true)}
     ${row('Additional Details', additionalDetails ? additionalDetails.replace(/\n/g, '<br>') : '—', false)}
