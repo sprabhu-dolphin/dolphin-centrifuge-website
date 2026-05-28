@@ -373,6 +373,16 @@ async function handleFormSubmit(request, env) {
     };
     const conditionLabel = conditionMap[centrifugeCondition] || centrifugeCondition;
 
+    // ── Format U.S. phone for email display only ─────────────
+    const formatUsPhone = (raw, ctry) => {
+      if (ctry !== 'US') return raw;
+      const digits = raw.replace(/\D/g, '');
+      if (digits.length === 10) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+      if (digits.length === 11 && digits[0] === '1') return `(${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+      return raw;
+    };
+    const phoneDisplay = formatUsPhone(phone, country);
+
     // ── Build standard inquiry email HTML ────────────────────
     const row = (label, value, shade) => `
       <tr style="background-color:${shade ? '#f0f0f0' : '#ffffff'}">
@@ -395,7 +405,7 @@ async function handleFormSubmit(request, env) {
     ${row('Name', `${firstName} ${lastName}`, false)}
     ${row('Company Name', company, true)}
     ${row('Email', `<a href="mailto:${email}" style="color:#1155CC;">${email}</a>`, false)}
-    ${row('Phone', phone, true)}
+    ${row('Phone', phoneDisplay, true)}
     ${row('Preferred method of contact:', contactMethodLabel, false)}
     ${row('Country', countryDisplay, true)}
     ${row('US State', usState || '—', false)}
