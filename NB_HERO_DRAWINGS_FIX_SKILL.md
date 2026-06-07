@@ -49,7 +49,7 @@ Before generating any hero, show Sanjay the source image you plan to use and ask
   - LEFT (frosted tile area): `#EEF2F7` → `#24507A`
   - RIGHT (machine area): `#1B3A5C` → `#122840`
 - Prompt: "Smooth gradient background, #EEF2F7 left fading to #122840 right. [Machine] placed in right third, fully visible, no clipping. Left area completely open. No floor, no environment, no text."
-- Source images: `C:\Users\sprab\Documents\Projects\DolphinWeb\NB-Cleaned-Images\`
+- Source images: `C:\Users\Sanjay Prabhu\Documents\Projects\DolphinWeb\NB-Cleaned-Images\`
 
 **TYPE C — Drawing / diagram full-bleed (Engineering / Troubleshooting pages)**
 - Sharpen the source drawing with NB first (see PART 2 below)
@@ -67,7 +67,7 @@ python3 -c "
 from PIL import Image
 import os
 src = r'<NB output .jpg path>'
-out = r'C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\<slug>\<slug>_hero.webp'
+out = r'C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\<slug>\<slug>_hero.webp'
 os.makedirs(os.path.dirname(out), exist_ok=True)
 img = Image.open(src)
 scale = 1440 / img.width
@@ -103,7 +103,7 @@ Claude Code scans `_Image_Repair\{subfolder}\` and processes **every file** foun
 python3 -c "
 from PIL import Image
 import os
-folder = r'C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\{subfolder}'
+folder = r'C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\{subfolder}'
 for f in os.listdir(folder):
     img = Image.open(os.path.join(folder, f))
     print(f'{f}: {img.size}')
@@ -174,7 +174,7 @@ print(f'Saved: {new_name}  {tw}x{th}px  {os.path.getsize(dst):,} bytes')
 
 | Asset | Path |
 |---|---|
-| Cleaned product images (hero source) | `C:\Users\sprab\Documents\Projects\DolphinWeb\NB-Cleaned-Images\` |
+| Cleaned product images (hero source) | `C:\Users\Sanjay Prabhu\Documents\Projects\DolphinWeb\NB-Cleaned-Images\` |
 | Hero final output | `_New_Hero_Image\{slug}\hero.webp` |
 | Blurry diagrams (input) | `_Image_Repair\{subfolder}\{name-400}.webp` |
 | Sharpened diagrams (output) | `_Image_NB_Fixed\{subfolder}\{name-600}.webp` |

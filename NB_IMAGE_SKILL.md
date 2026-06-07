@@ -53,12 +53,13 @@ i.e. `%APPDATA%\Claude\claude_desktop_config.json`
       "command": "npx",
       "args": ["-y", "@ycse/nanobanana-mcp"],
       "env": {
-        "GOOGLE_AI_API_KEY": "AIzaSyCTw2pAbIlfSeeWG5bUlcjwBtn_bnO0Rzg"
+        "GOOGLE_AI_API_KEY": "<paste-your-Gemini-key-here-locally-never-commit-real-keys>"
       }
     }
   }
 }
 ```
+Do not paste real API keys into this repository. Keep the real value only in the local MCP config or user environment.
 Restart Claude Desktop after any config change.
 
 ---
@@ -238,7 +239,7 @@ Config in `%APPDATA%\Claude\claude_desktop_config.json`:
       "command": "npx",
       "args": ["-y", "@ycse/nanobanana-mcp"],
       "env": {
-        "GOOGLE_AI_API_KEY": "AIzaSyCTw2pAbIlfSeeWG5bUlcjwBtn_bnO0Rzg"
+        "GOOGLE_AI_API_KEY": "<paste-your-Gemini-key-here-locally-never-commit-real-keys>"
       }
     }
   }
@@ -263,7 +264,7 @@ gemini_generate_image(
     reference_images=["C:\\path\\to\\base-centrifuge-photo.webp"],
     aspect_ratio="16:9",
     conversation_id="dolphin-{slug}",
-    output_path="C:\\Users\\sprab\\Documents\\Projects\\DolphinWeb\\NB Images\\hero-{slug}-v{N}.jpg"  # intermediate raw
+    output_path="C:\\Users\\Sanjay Prabhu\\Documents\\Projects\\DolphinWeb\\NB Images\\hero-{slug}-v{N}.jpg"  # intermediate raw
 )
 ```
 
@@ -333,9 +334,9 @@ If the hero has a predominantly white/bright background, flag to Sanjay that her
 ## File Paths
 
 - **Working dir**: `D:\Dolphin Marine Services\Business Docs\AI\Claude\Dolphin_Website_Redo\site\`
-- **Source cleaned images**: `C:\Users\sprab\Documents\Projects\DolphinWeb\NB-Cleaned-Images\`
-- **NB raw output (intermediate)**: `C:\Users\sprab\Documents\Projects\DolphinWeb\NB Images\hero-{slug}-v{N}.jpg`
-- **Final hero (1440×500 WebP)**: `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\{slug}\hero.webp`
-- **Old hero (archived by builder)**: `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\{slug}\hero.webp`
+- **Source cleaned images**: `C:\Users\Sanjay Prabhu\Documents\Projects\DolphinWeb\NB-Cleaned-Images\`
+- **NB raw output (intermediate)**: `C:\Users\Sanjay Prabhu\Documents\Projects\DolphinWeb\NB Images\hero-{slug}-v{N}.jpg`
+- **Final hero (1440×500 WebP)**: `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\{slug}\hero.webp`
+- **Old hero (archived by builder)**: `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\{slug}\hero.webp`
 - File inside slug folder is always `hero.webp` — slug folder IS the page identifier
 - **CENTRIFUGE_BRAIN**: `D:\Dolphin Marine Services\Business Docs\AI\Claude\_Centrifuge-Knowledge-Base\CENTRIFUGE_BRAIN_v4_0.md`

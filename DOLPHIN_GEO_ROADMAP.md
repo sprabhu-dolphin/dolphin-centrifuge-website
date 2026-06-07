@@ -1063,7 +1063,7 @@ The component library enforces consistency at the template level:
 
 1. **Do not merge or redirect any of the 133 legacy URLs** without explicit written approval. URL preservation is non-negotiable.
 2. **Do not edit legacy body text** that has been marked sacred — append new content, don't replace.
-3. **Do not use Netlify MCP or wrangler** for deployments. Use the established GitHub → Netlify pipeline.
+3. **Current deployment path:** use the GitHub to Cloudflare Pages pipeline for the Astro site. Use Wrangler only for approved Cloudflare Worker and D1 tasks, such as the contact-form Worker. Cloudflare dashboard actions remain manual unless Sanjay explicitly approves a specific dashboard action.
 4. **Do not introduce `localStorage` / `sessionStorage`** in any component.
 5. **Always preserve image alt text and figcaptions** — these are already optimized.
 6. **Use `<time datetime="ISO">`** for all dates, never raw text.

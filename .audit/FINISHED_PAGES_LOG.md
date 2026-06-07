@@ -1,4 +1,6 @@
-# Finished Pages Log
+# Archived Finished Pages Log
+
+This `.audit` copy is legacy audit history and is not the active source of truth for current migration status. For current work, use the root `FINISHED_PAGES_LOG.md`, `CODE_AEO_GEO_LOG.md`, git status, and the live source files. Do not use corrupted placeholder rows in this archived file to decide whether a page is complete.
 
 All pages below have passed the v2.2 refactor audit.
 

@@ -31,7 +31,7 @@ It is not a general SEO rewrite skill. It is a controlled workflow for making ex
 Before planning or auditing AEO/GEO work, Codex should use memory when available.
 
 Quick memory pass:
-1. Search `C:\Users\sprab\.codex\memories\MEMORY.md` for:
+1. Search `%USERPROFILE%\.codex\memories\MEMORY.md` for:
    - `Dolphin Astro`
    - `grouped triage`
    - `single-agent`

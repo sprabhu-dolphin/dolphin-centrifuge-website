@@ -18,10 +18,10 @@ Sanjay-approved image work and deliver finished files to the handoff folders.
 You do not edit Astro files, commit, deploy, or audit pages.
 
 The repo-root staging folders are:
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
-- `C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
+- `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Old_Hero_Image\`
+- `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_New_Hero_Image\`
+- `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\`
+- `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Image_NB_Fixed\`
 
 Every page uses slug-named subfolders inside those folders.
 The Astro agent is responsible for creating/populating the input slug folders by COPYING files, never moving them.
@@ -58,7 +58,7 @@ The likely input folder is `_Image_Repair\{slug}\`.
 ```python
 python3 -c "
 import os
-folder = r'C:\Users\sprab\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\{slug}'
+folder = r'C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website\_Image_Repair\{slug}'
 for f in os.listdir(folder):
     print(f)
 "

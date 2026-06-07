@@ -1,5 +1,7 @@
 # Finished Pages Log â€” Dolphin Centrifuge Refactor (v2.2)
 
+Scope note: this file tracks the older v2.2 page-refactor completion record. For AEO/GEO top-30 status, use `CODE_AEO_GEO_LOG.md`. For current reality, verify git status, commit history, and the live source file before claiming a page is finished.
+
 âš“ **THE SOURCE OF TRUTH FOR COMPLETION**
 
 Only pages listed here with a "âœ… DONE" status are considered finished to the v2.2 "Rugged Industrial" standard (CSS Grid, aspect-ratio object-contain, prose-dolphin style).

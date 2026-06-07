@@ -32,13 +32,13 @@ This file tracks all technical issues, missing assets, or fidelity gaps that wer
 
 ---
 
-## 🔁 REVISIT ITEMS — Decisions Required Before Launch
+## REVISIT ITEMS - Verify Before Launch
 
-These items cannot be resolved without a strategic decision from Sanjay. They are **not blockers for page refactoring** but **must be resolved before go-live.**
+These items are **not blockers for page refactoring** but **must be verified or resolved before go-live.**
 
-| Item | Affects | Decision Needed | Notes |
+| Item | Affects | Needed Before Launch | Notes |
 | :--- | :--- | :--- | :--- |
-| **Sitewide Contact / RFQ Form** | `alfa-laval-centrifuge-parts`, `contact-for-alfa-laval-centrifuges`, and all other pages with inline forms | Choose a form hosting solution to replace WordPress Gravity Forms | Legacy used **Gravity Forms** (WordPress plugin - not available in Astro). Options: **A)** Netlify Forms (free tier, then paid), **B)** Formspree (free tier, then paid ~$10/mo), **C)** Google Forms embed (free, less branded), **D)** Custom backend. Once decided, build a reusable `<ContactForm />` Astro component and drop into all relevant pages. |
+| **Sitewide Contact / RFQ Form** | `alfa-laval-centrifuge-parts`, `contact-for-alfa-laval-centrifuges`, admin dashboard, and Worker backend | Custom backend exists. Verify deployment and field behavior before go-live. | The old decision between Netlify Forms, Formspree, Google Forms, or custom backend is resolved. Current source uses Cloudflare Worker `dolphin-contact-form`, D1 database `dolphin-submissions`, `/admin/submissions/`, the main contact form, and the parts RFQ form endpoint `/parts`. Remaining launch work is verification, not vendor selection. |
 
 ---
 
