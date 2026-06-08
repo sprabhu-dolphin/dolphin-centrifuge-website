@@ -67,25 +67,11 @@ const statCounterHostGuard = statCounterEnabled
   ? `(function() {
 var allowedHosts = ${JSON.stringify(trackingAllowedHosts)};
 var hostname = window.location.hostname;
-var isProductionHost = allowedHosts.includes(hostname);
-var isPagesHost = hostname.endsWith('.pages.dev');
-var testId = new URLSearchParams(window.location.search).get('sc_test');
-var isValidTestId = /^[A-Za-z0-9_-]{4,30}$/.test(testId || '');
-var isStatCounterTest = isPagesHost && isValidTestId;
-if (isProductionHost) {
+if (allowedHosts.includes(hostname)) {
   window.__dolphinStatCounterLaunch = {
     platform: 'astro',
     migration: 'wp_to_astro',
     planned_switch_date: '2026_06_07'
-  };
-  return;
-}
-if (isStatCounterTest) {
-  window.__dolphinStatCounterLaunch = {
-    platform: 'astro',
-    migration: 'wp_to_astro',
-    planned_switch_date: '2026_06_07',
-    sc_test: testId
   };
   return;
 }
