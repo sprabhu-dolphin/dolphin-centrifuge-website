@@ -47,6 +47,9 @@ const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'GT-KF6GZKG';
 // GTM noscript <iframe> is intentionally omitted: in a static Cloudflare Pages build it
 // cannot be host-guarded and would fire on *.pages.dev staging, violating suppression.
 const gtmId = import.meta.env.PUBLIC_GTM_ID || null;
+// GA4 measurement ID – used for explicit send_to routing on custom/lead events.
+// Fallback is the WP GA4 property. Set PUBLIC_GA4_MEASUREMENT_ID in Cloudflare if needed.
+const ga4MeasurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-948LWDT074';
 const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
   .map((host) => host.trim())
@@ -81,8 +84,11 @@ if (!isProduction && !isStagingTest) {
   return;
 }
 var siteMode = isProduction ? 'production' : 'staging_test';
+// GA4 measurement ID – registered on window for send_to routing in custom/lead events
+var ga4Id = ${JSON.stringify(ga4MeasurementId)};
+window.__dolphinGA4MeasurementId = ga4Id;
 // Runtime launch marker
-var launchMarker = { platform: 'astro', migration: 'wp_to_astro', tracker: 'google', site_mode: siteMode };
+var launchMarker = { platform: 'astro', migration: 'wp_to_astro', tracker: 'google', site_mode: siteMode, ga4_measurement_id: ga4Id };
 if (gaTestParam) launchMarker.test_id = gaTestParam;
 window.__dolphinGoogleTrackingLaunch = launchMarker;
 // Bootstrap Google tag
@@ -96,11 +102,15 @@ s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gTagId;
 document.head.appendChild(s);
 gtag('js', new Date());
 gtag('config', gTagId, { site_version: 'dolphin_astro_2026' });
+// Register GA4 property explicitly for send_to routing.
+// send_page_view: false avoids a duplicate pageview hit (GTM handles the primary pageview).
+gtag('config', ga4Id, { send_page_view: false });
 // GTM (injected only when PUBLIC_GTM_ID env var is set)
 ${_gtmSnippet}
 // Staging test verification event – fires only in ga_test mode
 if (siteMode === 'staging_test' && gaTestParam) {
   gtag('event', 'dolphin_astro_ga4_staging_test', {
+    send_to: ga4Id,
     test_id: gaTestParam,
     site_mode: 'staging_test',
     platform: 'astro',
@@ -144,6 +154,10 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
         cleanParams[key] = value;
       }
     });
+  }
+  // Route event explicitly to GA4 when available and caller has not already set send_to
+  if (!cleanParams.send_to && window.__dolphinGA4MeasurementId) {
+    cleanParams.send_to = window.__dolphinGA4MeasurementId;
   }
   window.gtag('event', eventName, cleanParams);
   return true;
