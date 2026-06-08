@@ -317,10 +317,24 @@ const relatedProducts = [
           var data = {};
           try { data = await response.json(); } catch (e) {}
           if (response.ok && data.success) {
+            var submittedPartsCount = parts.length; // capture before reset
             setMessage('Thanks! Your parts request has been sent. We will respond within one business day.', false);
             form.reset();
             tbody.innerHTML = '';
             appendRow(false);
+            // GA4 lead tracking – mirrors contact form pattern in BaseLayout.astro
+            try {
+              var partsLeadDetail = {
+                lead_form: 'parts_request_form',
+                lead_type: 'parts_quote_request',
+                parts_count: submittedPartsCount
+              };
+              if (typeof window.dispatchEvent === 'function') {
+                window.dispatchEvent(new CustomEvent('dolphin:generate-lead', { detail: partsLeadDetail }));
+              } else if (typeof window.dolphinTrackLead === 'function') {
+                window.dolphinTrackLead(partsLeadDetail);
+              }
+            } catch(e) {}
           } else {
             setMessage(data.error || 'Submission failed. Please call (248) 522-2573.', true);
           }

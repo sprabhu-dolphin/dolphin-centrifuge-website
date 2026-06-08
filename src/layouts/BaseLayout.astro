@@ -38,27 +38,74 @@ const fullTitle = title === 'Home'
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
-const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID;
+// Google tag: prefer env var; fallback to WP Google tag for continuity pre-go-live.
+// IMPORTANT: Cloudflare env must be changed from G-9DCDDZTT9N to GT-KF6GZKG before DNS go-live.
+// While PUBLIC_GOOGLE_TAG_ID=G-9DCDDZTT9N is set in Cloudflare, the fallback below will NOT be used.
+const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'GT-KF6GZKG';
+// GTM: optional – set PUBLIC_GTM_ID=GTM-5DNCX9 in Cloudflare env to enable
+const gtmId = import.meta.env.PUBLIC_GTM_ID || null;
 const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
   .map((host) => host.trim())
   .filter(Boolean);
-const googleTagBootstrap = googleTagId
-  ? `(function() {
-var allowedHosts = ${JSON.stringify(trackingAllowedHosts)};
+// Pre-build GTM loader snippet (avoids nested template literals)
+const _gtmSnippet = gtmId
+  ? `var _gtmId=${JSON.stringify(gtmId)};(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',_gtmId);`
+  : '';
+const googleTagBootstrap = `(function() {
 var hostname = window.location.hostname;
-if (!allowedHosts.includes(hostname)) return;
+var search = window.location.search;
+// Production host guard
+var productionHosts = ${JSON.stringify(trackingAllowedHosts)};
+var isProduction = productionHosts.indexOf(hostname) !== -1;
+// Staging test: *.pages.dev only with valid ?ga_test= marker
+var isStagingTest = false;
+var gaTestParam = null;
+if (!isProduction && hostname.endsWith('.pages.dev')) {
+  try {
+    var params = new URLSearchParams(search);
+    var raw = params.get('ga_test') || '';
+    // Strict: letters, numbers, underscore, hyphen only; 4-40 chars
+    if (/^[a-zA-Z0-9_-]{4,40}$/.test(raw)) {
+      gaTestParam = raw;
+      isStagingTest = true;
+    }
+  } catch(e) {}
+}
+// Suppress all Google tracking on normal staging (no valid ga_test)
+if (!isProduction && !isStagingTest) {
+  window.__dolphinGoogleTrackingSuppressed = true;
+  return;
+}
+var siteMode = isProduction ? 'production' : 'staging_test';
+// Runtime launch marker
+var launchMarker = { platform: 'astro', migration: 'wp_to_astro', tracker: 'google', site_mode: siteMode };
+if (gaTestParam) launchMarker.test_id = gaTestParam;
+window.__dolphinGoogleTrackingLaunch = launchMarker;
+// Bootstrap Google tag
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 window.gtag = window.gtag || gtag;
-var script = document.createElement('script');
-script.async = true;
-script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleTagId}';
-document.head.appendChild(script);
+var gTagId = ${JSON.stringify(googleTagId)};
+var s = document.createElement('script');
+s.async = true;
+s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gTagId;
+document.head.appendChild(s);
 gtag('js', new Date());
-gtag('config', ${JSON.stringify(googleTagId)}, { site_version: 'dolphin_astro_2026' });
-})();`
-  : null;
+gtag('config', gTagId, { site_version: 'dolphin_astro_2026' });
+// GTM (injected only when PUBLIC_GTM_ID env var is set)
+${_gtmSnippet}
+// Staging test verification event – fires only in ga_test mode
+if (siteMode === 'staging_test' && gaTestParam) {
+  gtag('event', 'dolphin_astro_ga4_staging_test', {
+    test_id: gaTestParam,
+    site_mode: 'staging_test',
+    platform: 'astro',
+    migration: 'wp_to_astro',
+    debug_mode: true
+  });
+}
+})();`;
 const statCounterProjectId = import.meta.env.PUBLIC_STATCOUNTER_PROJECT_ID || '9162316';
 const statCounterSecurity = import.meta.env.PUBLIC_STATCOUNTER_SECURITY || 'aef6b239';
 const statCounterProjectNumber = Number.parseInt(String(statCounterProjectId), 10);
@@ -185,6 +232,10 @@ if (jsonLd) {
     <title>{fullTitle}</title>
   </head>
   <body class="min-h-screen flex flex-col bg-warm-white text-text">
+    {/* GTM noscript – only rendered when PUBLIC_GTM_ID env var is set; fires only when JS is disabled */}
+    {gtmId && (
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    )}
     <Header />
 
     {/* Breadcrumbs */}
