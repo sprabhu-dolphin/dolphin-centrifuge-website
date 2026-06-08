@@ -38,18 +38,15 @@ const fullTitle = title === 'Home'
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
-// Google tag: prefer env var; fallback to WP Google tag for continuity pre-go-live.
-// IMPORTANT: Cloudflare env must be changed from G-9DCDDZTT9N to GT-KF6GZKG before DNS go-live.
-// While PUBLIC_GOOGLE_TAG_ID=G-9DCDDZTT9N is set in Cloudflare, the fallback below will NOT be used.
-const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'GT-KF6GZKG';
-// GTM: optional – set PUBLIC_GTM_ID=GTM-5DNCX9 in Cloudflare env to enable.
+// Google tag: prefer env var; fallback to the clean Astro GA4 web stream.
+const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'G-9DCDDZTT9N';
+// GTM: optional. Set PUBLIC_GTM_ID in Cloudflare env to enable.
 // JS loader is injected inside the production/ga_test guard (host-guardable at runtime).
 // GTM noscript <iframe> is intentionally omitted: in a static Cloudflare Pages build it
 // cannot be host-guarded and would fire on *.pages.dev staging, violating suppression.
 const gtmId = import.meta.env.PUBLIC_GTM_ID || null;
-// GA4 measurement ID – used for explicit send_to routing on custom/lead events.
-// Fallback is the WP GA4 property. Set PUBLIC_GA4_MEASUREMENT_ID in Cloudflare if needed.
-const ga4MeasurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-948LWDT074';
+// GA4 measurement ID - explicit destination for custom/lead events.
+const ga4MeasurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-9DCDDZTT9N';
 const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
   .map((host) => host.trim())
@@ -84,7 +81,7 @@ if (!isProduction && !isStagingTest) {
   return;
 }
 var siteMode = isProduction ? 'production' : 'staging_test';
-// GA4 measurement ID – registered on window for send_to routing in custom/lead events
+// GA4 measurement ID - registered on window for direct custom/lead event routing
 var ga4Id = ${JSON.stringify(ga4MeasurementId)};
 window.__dolphinGA4MeasurementId = ga4Id;
 // Runtime launch marker
@@ -113,7 +110,8 @@ if (siteMode === 'staging_test' && gaTestParam) {
     site_mode: 'staging_test',
     platform: 'astro',
     migration: 'wp_to_astro',
-    debug_mode: true
+    debug_mode: true,
+    send_to: ga4Id
   };
   window.dataLayer.push(stagingTestPayload);
   gtag('event', 'dolphin_astro_ga4_staging_test', {
@@ -161,7 +159,9 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
       }
     });
   }
-  // Dual signal: dataLayer.push for GTM pickup + gtag for direct transport
+  // Dual signal: dataLayer.push for GTM pickup + direct GA4 event transport
+  const ga4Id = window.__dolphinGA4MeasurementId;
+  if (ga4Id && !cleanParams.send_to) cleanParams.send_to = ga4Id;
   if (window.dataLayer) { window.dataLayer.push(Object.assign({ event: eventName }, cleanParams)); }
   window.gtag('event', eventName, cleanParams);
   return true;

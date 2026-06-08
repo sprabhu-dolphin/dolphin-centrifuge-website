@@ -848,10 +848,23 @@ const jsonLd = [
           var data = {};
           try { data = await response.json(); } catch (ex) {}
           if (response.ok && data.success) {
+            var submittedPartsCount = parts.length;
             setMessage('Thanks! Your parts request has been sent. We will respond within one business day.', false);
             form.reset();
             tbody.innerHTML = '';
             appendRow(false);
+            try {
+              var partsLeadDetail = {
+                lead_form: 'disc_parts_glossary_form',
+                lead_type: 'parts_quote_request',
+                parts_count: submittedPartsCount
+              };
+              if (typeof window.dispatchEvent === 'function') {
+                window.dispatchEvent(new CustomEvent('dolphin:generate-lead', { detail: partsLeadDetail }));
+              } else if (typeof window.dolphinTrackLead === 'function') {
+                window.dolphinTrackLead(partsLeadDetail);
+              }
+            } catch(e) {}
           } else {
             setMessage(data.error || 'Submission failed. Please call (248) 522-2573.', true);
           }
