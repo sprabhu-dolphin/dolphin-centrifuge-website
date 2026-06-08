@@ -42,7 +42,10 @@ const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 // IMPORTANT: Cloudflare env must be changed from G-9DCDDZTT9N to GT-KF6GZKG before DNS go-live.
 // While PUBLIC_GOOGLE_TAG_ID=G-9DCDDZTT9N is set in Cloudflare, the fallback below will NOT be used.
 const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'GT-KF6GZKG';
-// GTM: optional – set PUBLIC_GTM_ID=GTM-5DNCX9 in Cloudflare env to enable
+// GTM: optional – set PUBLIC_GTM_ID=GTM-5DNCX9 in Cloudflare env to enable.
+// JS loader is injected inside the production/ga_test guard (host-guardable at runtime).
+// GTM noscript <iframe> is intentionally omitted: in a static Cloudflare Pages build it
+// cannot be host-guarded and would fire on *.pages.dev staging, violating suppression.
 const gtmId = import.meta.env.PUBLIC_GTM_ID || null;
 const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
@@ -232,10 +235,6 @@ if (jsonLd) {
     <title>{fullTitle}</title>
   </head>
   <body class="min-h-screen flex flex-col bg-warm-white text-text">
-    {/* GTM noscript – only rendered when PUBLIC_GTM_ID env var is set; fires only when JS is disabled */}
-    {gtmId && (
-      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    )}
     <Header />
 
     {/* Breadcrumbs */}
