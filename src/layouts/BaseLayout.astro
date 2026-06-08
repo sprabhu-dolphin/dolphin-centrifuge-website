@@ -102,15 +102,21 @@ s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gTagId;
 document.head.appendChild(s);
 gtag('js', new Date());
 gtag('config', gTagId, { site_version: 'dolphin_astro_2026' });
-// Register GA4 property explicitly for send_to routing.
-// send_page_view: false avoids a duplicate pageview hit (GTM handles the primary pageview).
-gtag('config', ga4Id, { send_page_view: false });
 // GTM (injected only when PUBLIC_GTM_ID env var is set)
 ${_gtmSnippet}
 // Staging test verification event – fires only in ga_test mode
+// Dual signal: dataLayer.push for GTM pickup + gtag for direct GA4 transport
 if (siteMode === 'staging_test' && gaTestParam) {
+  var stagingTestPayload = {
+    event: 'dolphin_astro_ga4_staging_test',
+    test_id: gaTestParam,
+    site_mode: 'staging_test',
+    platform: 'astro',
+    migration: 'wp_to_astro',
+    debug_mode: true
+  };
+  window.dataLayer.push(stagingTestPayload);
   gtag('event', 'dolphin_astro_ga4_staging_test', {
-    send_to: ga4Id,
     test_id: gaTestParam,
     site_mode: 'staging_test',
     platform: 'astro',
@@ -155,10 +161,8 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
       }
     });
   }
-  // Route event explicitly to GA4 when available and caller has not already set send_to
-  if (!cleanParams.send_to && window.__dolphinGA4MeasurementId) {
-    cleanParams.send_to = window.__dolphinGA4MeasurementId;
-  }
+  // Dual signal: dataLayer.push for GTM pickup + gtag for direct transport
+  if (window.dataLayer) { window.dataLayer.push(Object.assign({ event: eventName }, cleanParams)); }
   window.gtag('event', eventName, cleanParams);
   return true;
 };
