@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<style type="text/css" title="Default">
+			body, div, h1, h2, h3, span, p {
+				font-family: Verdana,Arial,Helvetica,sans-serif;
+			}
+			/* fullscreen */
+			html {
+				height:100%;
+			}
+			body {
+				height:100%;
+				margin: 0px;
+				overflow:hidden; /* disable scrollbars */
+				font-size: 10pt;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* remove highlight on tab for iOS/Android */
+			}
+			/* fix for scroll bars on webkit & >=Mac OS X Lion */ 
+			::-webkit-scrollbar {
+				background-color: rgba(0,0,0,0.5);
+				width: 0.75em;
+			}
+			::-webkit-scrollbar-thumb {
+    			background-color:  rgba(255,255,255,0.5);
+			}
+		</style>	
+	</head>
+	<body>
+<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - -->
+		<script type="text/javascript" src="pano2vr_player.js">
+		</script>
+		<script type="text/javascript" src="skin.js">
+		</script>
+		<div id="container" style="width:100%;height:100%;overflow:hidden;">
+		<br>Loading...<br><br>
+		</div>
+		<script type="text/javascript">
+	
+			// create the panorama player with the container
+			pano=new pano2vrPlayer("container");
+			// add the skin object
+			skin=new pano2vrSkin(pano);
+			// load the configuration
+			panorama='<?xml version="1.0" encoding="UTF-8"?>';
+			panorama+='<tour apprev="17253" appversion="6.0.2" start="node1">';
+			panorama+='  <panorama hideabout="1" id="node1">';
+			panorama+='    <input height="3250" width="3250" levelbias="0.400" leveltileurl="tiles/node1/cf_%c/l_%l/c_%x/tile_%y.jpg" levelingpitch="-0.232107" overlap="1" levelbiashidpi="1.000" leveltilesize="510" levelingroll="0.0792064">';
+			panorama+='      <level height="3250" width="3250" predecode="0" preload="0"/>';
+			panorama+='      <level height="1625" width="1625" predecode="0" preload="0"/>';
+			panorama+='      <level height="812" width="812" predecode="0" preload="0"/>';
+			panorama+='      <level height="406" width="406" predecode="1" preload="1"/>';
+			panorama+='      <preview color="0x808080" strip="1"/>';
+			panorama+='    </input>';
+			panorama+='    <view fovmode="0" pannorth="0">';
+			panorama+='      <start pan="27.7" projection="4" fov="77.29" tilt="-0.15"/>';
+			panorama+='      <flyin pan="0" projection="9" fov="170" tilt="-90"/>';
+			panorama+='      <min pan="0" tilt="-90" fovpixel="2"/>';
+			panorama+='      <max fovstereographic="270" fovfisheye="360" pan="360" scaletofit="1" fov="120" tilt="90"/>';
+			panorama+='    </view>';
+			panorama+='    <userdata source="info" description="info" info="info" latitude="" author="info" comment="info" longitude="" customnodeid="" copyright="info" tags="pano-tour" title="11" datetime="info"/>';
+			panorama+='    <hotspots height="20" width="180" wordwrap="1">';
+			panorama+='      <label height="20" bordercolor="0x000000" width="180" borderradius="1" border="1" backgroundalpha="1" borderalpha="1" textalpha="1" textcolor="0x000000" enabled="1" backgroundcolor="0xffffff" background="1" wordwrap="1"/>';
+			panorama+='      <polystyle bordercolor="0x0000ff" mode="0" backgroundalpha="0.2509803921568627" borderalpha="1" handcursor="1" backgroundcolor="0x0000ff"/>';
+			panorama+='      <polyhotspot description="" target="-2.6/0.8/58.3" id="Poly01" url="{node2}" title="">';
+			panorama+='        <polystring>-353.53/-6.25|-5.16/-3.03|-16.12/-5.88|-20.16/-13.86|-19.9/-23.94|-4.1/-28.52|-349.88/-23.02|-349.07/-14.12</polystring>';
+			panorama+='      </polyhotspot>';
+			panorama+='    </hotspots>';
+			panorama+='    <media>';
+			panorama+='      <image height="1535" clickmode="0" width="1350" pan="-4.890" stretch="1.000" rotx="-105.000" rotz="0.000" roty="0.000" fov="17.400" tilt="-16.610" handcursor="0" id="Element01">';
+			panorama+='        <source url="media/rt.gif"/>';
+			panorama+='      </image>';
+			panorama+='    </media>';
+			panorama+='    <transition type="crossdissolve" softedge="0" zoomin="0" blendtime="1" zoomfov="20" blendcolor="0x000000" zoomspeed="2" enabled="1" zoomout="0" zoomoutpause="1"/>';
+			panorama+='    <autorotate speed="0.020" noderandom="1" startloaded="0" enabled="1" useanimation="0" delay="5.00" nodedelay="0.00" returntohorizon="0.000"/>';
+			panorama+='    <animation animsequence="Animation01" useinautorotation="0" syncanimationwithvideo="0"/>';
+			panorama+='    <control hideabout="1" simulatemass="1" rubberband="0" lockedkeyboardzoom="0" dblclickfullscreen="0" invertcontrol="1" lockedmouse="0" contextprojections="0" lockedkeyboard="0" speedwheel="1" contextfullscreen="1" lockedwheel="0" invertwheel="0" sensitivity="8">';
+			panorama+='      <menulink text="crudeoilcentrifuges" url="https://crudeoilcentrifuges.com"/>';
+			panorama+='    </control>';
+			panorama+='  </panorama>';
+			panorama+='  <panorama hideabout="1" id="node2">';
+			panorama+='    <input height="3250" width="3250" levelbias="0.400" leveltileurl="tiles/node2/cf_%c/l_%l/c_%x/tile_%y.jpg" levelingpitch="-0.0171522" overlap="1" levelbiashidpi="1.000" leveltilesize="510" levelingroll="0.700554">';
+			panorama+='      <level height="3250" width="3250" predecode="0" preload="0"/>';
+			panorama+='      <level height="1625" width="1625" predecode="0" preload="0"/>';
+			panorama+='      <level height="812" width="812" predecode="0" preload="0"/>';
+			panorama+='      <level height="406" width="406" predecode="1" preload="1"/>';
+			panorama+='      <preview color="0x808080" strip="1"/>';
+			panorama+='    </input>';
+			panorama+='    <view fovmode="0" pannorth="0">';
+			panorama+='      <start pan="-12.98" projection="4" fov="77.29" tilt="0.14"/>';
+			panorama+='      <flyin pan="0" projection="9" fov="170" tilt="-90"/>';
+			panorama+='      <min pan="0" tilt="-90" fovpixel="2"/>';
+			panorama+='      <max fovstereographic="270" fovfisheye="360" pan="360" scaletofit="1" fov="120" tilt="90"/>';
+			panorama+='    </view>';
+			panorama+='    <userdata source="info" description="info" info="info" latitude="" author="info" comment="info" longitude="" customnodeid="" copyright="info" tags="pano-tour" title="12" datetime="info"/>';
+			panorama+='    <hotspots height="20" width="180" wordwrap="1">';
+			panorama+='      <label height="20" bordercolor="0x000000" width="180" borderradius="1" border="1" backgroundalpha="1" borderalpha="1" textalpha="1" textcolor="0x000000" enabled="1" backgroundcolor="0xffffff" background="1" wordwrap="1"/>';
+			panorama+='      <polystyle bordercolor="0x0000ff" mode="0" backgroundalpha="0.2509803921568627" borderalpha="1" handcursor="1" backgroundcolor="0x0000ff"/>';
+			panorama+='      <polyhotspot description="" target="169.8/1.8/70.0" id="Poly01" url="{node1}" title="">';
+			panorama+='        <polystring>-189.96/-11.45|-217.6/-11.08|-218.86/-27.56|-186.42/-27.34</polystring>';
+			panorama+='      </polyhotspot>';
+			panorama+='    </hotspots>';
+			panorama+='    <media>';
+			panorama+='      <image height="1535" clickmode="0" width="1350" pan="-201.560" stretch="1.000" rotx="-107.000" rotz="0.000" roty="0.000" fov="21.000" tilt="-21.230" handcursor="0" id="Element01">';
+			panorama+='        <source url="media/rt.gif"/>';
+			panorama+='      </image>';
+			panorama+='    </media>';
+			panorama+='    <transition type="crossdissolve" softedge="0" zoomin="0" blendtime="1" zoomfov="20" blendcolor="0x000000" zoomspeed="2" enabled="1" zoomout="0" zoomoutpause="1"/>';
+			panorama+='    <autorotate speed="0.020" noderandom="1" startloaded="0" enabled="1" useanimation="0" delay="5.00" nodedelay="0.00" returntohorizon="0.000"/>';
+			panorama+='    <animation animsequence="Animation01" useinautorotation="0" syncanimationwithvideo="0"/>';
+			panorama+='    <control hideabout="1" simulatemass="1" rubberband="0" lockedkeyboardzoom="0" dblclickfullscreen="0" invertcontrol="1" lockedmouse="0" contextprojections="0" lockedkeyboard="0" speedwheel="1" contextfullscreen="1" lockedwheel="0" invertwheel="0" sensitivity="8">';
+			panorama+='      <menulink text="crudeoilcentrifuges" url="https://crudeoilcentrifuges.com"/>';
+			panorama+='    </control>';
+			panorama+='  </panorama>';
+			panorama+='  <masternode>';
+			panorama+='    <userdata source="" description="" info="" latitude="" author="" comment="" longitude="" customnodeid="" copyright="" tags="" title="" datetime=""/>';
+			panorama+='  </masternode>';
+			panorama+='</tour>';
+			panorama+='';
+			pano.readConfigString(panorama);
+		</script>
+		<noscript>
+			<p><b>Please enable Javascript!</b></p>
+		</noscript>
+<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - --> 
+		<!-- Hack needed to hide the url bar on iOS 9, iPhone 5s --> 
+		<div style="width:1px;height:1px;"></div>
+	</body>
+</html>
