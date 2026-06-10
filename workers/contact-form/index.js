@@ -113,6 +113,312 @@ function isAdminAuthorized(request, env) {
 }
 
 // ── PARTS REQUEST: Handle a parts-list submission ───────────
+function cleanText(value, max = 500) {
+  if (value === undefined || value === null) return '';
+  return String(value).trim().slice(0, max);
+}
+
+function safeJson(value, max = 20000) {
+  try {
+    return JSON.stringify(value || null).slice(0, max);
+  } catch (e) {
+    return '';
+  }
+}
+
+function parseMaybeJson(value) {
+  if (!value) return null;
+  if (typeof value === 'object') return value;
+  try {
+    return JSON.parse(String(value));
+  } catch (e) {
+    return null;
+  }
+}
+
+function normalizePages(pages) {
+  if (!Array.isArray(pages)) return [];
+  return pages.slice(-20).map((page) => ({
+    at: cleanText(page && page.at, 40),
+    path: cleanText(page && page.path, 700),
+    title: cleanText(page && page.title, 200),
+    referrer: cleanText(page && page.referrer, 700),
+  })).filter((page) => page.path || page.title);
+}
+
+function normalizeAttribution(raw, defaultFormName = 'unknown_form') {
+  const data = parseMaybeJson(raw) || {};
+  const pages = normalizePages(data.pages);
+  const attribution = {
+    formName: cleanText(data.form_name || defaultFormName, 100),
+    sessionId: cleanText(data.session_id, 120),
+    firstTouchId: cleanText(data.first_touch_id, 120),
+    landingPage: cleanText(data.landing_page, 700),
+    currentPage: cleanText(data.current_page, 700),
+    referrer: cleanText(data.referrer, 700),
+    source: cleanText(data.source, 120),
+    medium: cleanText(data.medium, 120),
+    campaign: cleanText(data.campaign, 160),
+    term: cleanText(data.term, 180),
+    content: cleanText(data.content, 180),
+    gclid: cleanText(data.gclid, 250),
+    gbraid: cleanText(data.gbraid, 250),
+    wbraid: cleanText(data.wbraid, 250),
+    msclkid: cleanText(data.msclkid, 250),
+    gaClientId: cleanText(data.ga_client_id, 120),
+    gaSessionId: cleanText(data.ga_session_id, 120),
+    statcounterVisitorId: cleanText(data.statcounter_visitor_id, 120),
+    firstSeenAt: cleanText(data.first_seen_at, 40),
+    formStartedAt: cleanText(data.form_started_at, 40),
+    formSubmittedAt: cleanText(data.form_submitted_at, 40),
+    pageCount: Number.isFinite(Number(data.page_count)) ? Number(data.page_count) : pages.length,
+    pages,
+    rawJson: safeJson(data, 20000),
+  };
+
+  if (!attribution.source && attribution.gclid) {
+    attribution.source = 'google';
+    attribution.medium = 'cpc';
+  }
+  if (!attribution.source) attribution.source = 'unknown';
+  if (!attribution.medium) attribution.medium = 'unknown';
+  if (attribution.pageCount < pages.length) attribution.pageCount = pages.length;
+
+  return attribution;
+}
+
+function firstHeaderValue(value) {
+  return cleanText(String(value || '').split(',')[0], 120);
+}
+
+function normalizeVisitorContext(raw) {
+  const data = raw || {};
+  return {
+    ip: cleanText(data.ip, 80),
+    userAgent: cleanText(data.userAgent, 1000),
+    acceptLanguage: cleanText(data.acceptLanguage, 300),
+    country: cleanText(data.country, 80),
+    region: cleanText(data.region, 120),
+    city: cleanText(data.city, 120),
+    timezone: cleanText(data.timezone, 80),
+    asn: cleanText(data.asn, 40),
+    asOrganization: cleanText(data.asOrganization, 200),
+    cfRay: cleanText(data.cfRay, 120),
+  };
+}
+
+function getVisitorContext(request) {
+  const cf = request.cf || {};
+  return normalizeVisitorContext({
+    ip: request.headers.get('CF-Connecting-IP')
+      || firstHeaderValue(request.headers.get('X-Forwarded-For'))
+      || '',
+    userAgent: request.headers.get('User-Agent') || '',
+    acceptLanguage: request.headers.get('Accept-Language') || '',
+    country: cf.country || request.headers.get('CF-IPCountry') || '',
+    region: cf.region || cf.regionCode || '',
+    city: cf.city || '',
+    timezone: cf.timezone || '',
+    asn: cf.asn || '',
+    asOrganization: cf.asOrganization || '',
+    cfRay: request.headers.get('CF-Ray') || '',
+  });
+}
+
+function isMissingColumnError(err) {
+  const message = err && err.message ? String(err.message).toLowerCase() : '';
+  return message.includes('no such column') || message.includes('has no column named');
+}
+
+function splitName(fullName) {
+  const parts = cleanText(fullName, 200).split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return { firstName: '', lastName: '' };
+  if (parts.length === 1) return { firstName: parts[0], lastName: '' };
+  return { firstName: parts.slice(0, -1).join(' '), lastName: parts[parts.length - 1] };
+}
+
+async function insertSubmission(env, row) {
+  const attribution = row.attribution || normalizeAttribution(null, row.formType || 'contact');
+  const visitor = normalizeVisitorContext(row.visitorContext);
+  const createdAt = row.createdAt || new Date().toISOString();
+  const baseValues = [
+    createdAt,
+    cleanText(row.firstName, 120),
+    cleanText(row.lastName, 120),
+    cleanText(row.company, 180),
+    cleanText(row.email, 180),
+    cleanText(row.phone, 80),
+    cleanText(row.contactMethod, 80),
+    cleanText(row.country, 120),
+    cleanText(row.usState, 120),
+    cleanText(row.fluidType, 180),
+    cleanText(row.capacity, 180),
+    cleanText(row.solidsPercentage, 120),
+    cleanText(row.centrifugeCondition, 120),
+    cleanText(row.additionalDetails, 5000),
+    row.isReconnect ? 1 : 0,
+    row.reconnectMatchId || null,
+  ];
+
+  try {
+    return await env.DB.prepare(`
+      INSERT INTO submissions (
+        created_at, first_name, last_name, company, email, phone,
+        contact_method, country, us_state,
+        fluid_type, capacity, solids_percentage,
+        centrifuge_condition, additional_details,
+        is_reconnect, reconnect_match_id,
+        form_type,
+        attribution_session_id, attribution_first_touch_id,
+        attribution_landing_page, attribution_current_page, attribution_referrer,
+        attribution_source, attribution_medium, attribution_campaign, attribution_term, attribution_content,
+        attribution_gclid, attribution_gbraid, attribution_wbraid, attribution_msclkid,
+        attribution_ga_client_id, attribution_ga_session_id, attribution_statcounter_visitor_id,
+        attribution_first_seen_at, attribution_form_started_at, attribution_form_submitted_at,
+        attribution_page_count, attribution_pages_json, attribution_raw_json,
+        parts_json, parts_count,
+        visitor_ip, visitor_user_agent, visitor_accept_language,
+        visitor_country, visitor_region, visitor_city, visitor_timezone,
+        visitor_asn, visitor_as_organization, visitor_cf_ray
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?,
+        ?, ?,
+        ?,
+        ?, ?,
+        ?, ?, ?,
+        ?, ?, ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?,
+        ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?, ?
+      )
+    `).bind(
+      ...baseValues,
+      cleanText(row.formType || attribution.formName || 'contact', 100),
+      attribution.sessionId,
+      attribution.firstTouchId,
+      attribution.landingPage,
+      attribution.currentPage,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      attribution.content,
+      attribution.gclid,
+      attribution.gbraid,
+      attribution.wbraid,
+      attribution.msclkid,
+      attribution.gaClientId,
+      attribution.gaSessionId,
+      attribution.statcounterVisitorId,
+      attribution.firstSeenAt,
+      attribution.formStartedAt,
+      attribution.formSubmittedAt,
+      attribution.pageCount,
+      safeJson(attribution.pages, 12000),
+      attribution.rawJson,
+      cleanText(row.partsJson, 10000),
+      Number.isFinite(Number(row.partsCount)) ? Number(row.partsCount) : 0,
+      visitor.ip,
+      visitor.userAgent,
+      visitor.acceptLanguage,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      visitor.timezone,
+      visitor.asn,
+      visitor.asOrganization,
+      visitor.cfRay
+    ).run();
+  } catch (err) {
+    if (!isMissingColumnError(err)) throw err;
+
+    try {
+      return await env.DB.prepare(`
+        INSERT INTO submissions (
+          created_at, first_name, last_name, company, email, phone,
+          contact_method, country, us_state,
+          fluid_type, capacity, solids_percentage,
+          centrifuge_condition, additional_details,
+          is_reconnect, reconnect_match_id,
+          form_type,
+          attribution_session_id, attribution_first_touch_id,
+          attribution_landing_page, attribution_current_page, attribution_referrer,
+          attribution_source, attribution_medium, attribution_campaign, attribution_term, attribution_content,
+          attribution_gclid, attribution_gbraid, attribution_wbraid, attribution_msclkid,
+          attribution_ga_client_id, attribution_ga_session_id, attribution_statcounter_visitor_id,
+          attribution_first_seen_at, attribution_form_started_at, attribution_form_submitted_at,
+          attribution_page_count, attribution_pages_json, attribution_raw_json,
+          parts_json, parts_count
+        ) VALUES (
+          ?, ?, ?, ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?,
+          ?, ?,
+          ?,
+          ?, ?,
+          ?, ?, ?,
+          ?, ?, ?, ?, ?,
+          ?, ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?
+        )
+      `).bind(
+        ...baseValues,
+        cleanText(row.formType || attribution.formName || 'contact', 100),
+        attribution.sessionId,
+        attribution.firstTouchId,
+        attribution.landingPage,
+        attribution.currentPage,
+        attribution.referrer,
+        attribution.source,
+        attribution.medium,
+        attribution.campaign,
+        attribution.term,
+        attribution.content,
+        attribution.gclid,
+        attribution.gbraid,
+        attribution.wbraid,
+        attribution.msclkid,
+        attribution.gaClientId,
+        attribution.gaSessionId,
+        attribution.statcounterVisitorId,
+        attribution.firstSeenAt,
+        attribution.formStartedAt,
+        attribution.formSubmittedAt,
+        attribution.pageCount,
+        safeJson(attribution.pages, 12000),
+        attribution.rawJson,
+        cleanText(row.partsJson, 10000),
+        Number.isFinite(Number(row.partsCount)) ? Number(row.partsCount) : 0
+      ).run();
+    } catch (fallbackErr) {
+      if (!isMissingColumnError(fallbackErr)) throw fallbackErr;
+    }
+
+    return env.DB.prepare(`
+      INSERT INTO submissions (
+        created_at, first_name, last_name, company, email, phone,
+        contact_method, country, us_state,
+        fluid_type, capacity, solids_percentage,
+        centrifuge_condition, additional_details,
+        is_reconnect, reconnect_match_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(...baseValues).run();
+  }
+}
+
 async function handlePartsSubmit(request, env) {
   try {
     let body = {};
@@ -189,6 +495,9 @@ async function handlePartsSubmit(request, env) {
       );
     }
 
+    const attribution = normalizeAttribution(body.attribution || body.dolphin_attribution, 'parts_request_form');
+    const visitorContext = getVisitorContext(request);
+
     // Build email
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
       { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -245,6 +554,40 @@ async function handlePartsSubmit(request, env) {
         JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
         { status: 500, headers: CORS_HEADERS }
       );
+    }
+
+    if (env.DB) {
+      try {
+        const nameParts = splitName(name);
+        const partsSummary = cleanParts.map((part) => (
+          `${part.quantity} x ${part.partNumber} - ${part.description}`
+        )).join('\n');
+
+        await insertSubmission(env, {
+          firstName: nameParts.firstName,
+          lastName: nameParts.lastName,
+          company,
+          email,
+          phone,
+          contactMethod: '',
+          country: '',
+          usState: '',
+          fluidType: 'Parts Request',
+          capacity: `${cleanParts.length} part${cleanParts.length === 1 ? '' : 's'}`,
+          solidsPercentage: '',
+          centrifugeCondition: '',
+          additionalDetails: partsSummary,
+          isReconnect: 0,
+          reconnectMatchId: null,
+          formType: attribution.formName || 'parts_request_form',
+          attribution,
+          visitorContext,
+          partsJson: safeJson(cleanParts, 10000),
+          partsCount: cleanParts.length,
+        });
+      } catch (dbErr) {
+        console.error('D1 insert error (parts):', dbErr.message);
+      }
     }
 
     return new Response(
@@ -310,6 +653,8 @@ async function handleFormSubmit(request, env) {
     const centrifugeCondition = (fields['centrifuge_condition'] || '').trim();
     const additionalDetails = (fields['additional_details'] || '').trim();
     const countryOther      = (fields['country_other'] || '').trim();
+    const attribution       = normalizeAttribution(fields['dolphin_attribution'] || fields.attribution, 'centrifuge_contact_form');
+    const visitorContext    = getVisitorContext(request);
     const countryDisplay    = country === 'Other' && countryOther ? `Other — ${countryOther}` : country;
 
     // Basic validation
@@ -505,22 +850,28 @@ async function handleFormSubmit(request, env) {
     // ── Save to D1 ───────────────────────────────────────────
     if (env.DB) {
       try {
-        const createdAt = new Date().toISOString();
-        await env.DB.prepare(`
-          INSERT INTO submissions (
-            created_at, first_name, last_name, company, email, phone,
-            contact_method, country, us_state,
-            fluid_type, capacity, solids_percentage,
-            centrifuge_condition, additional_details,
-            is_reconnect, reconnect_match_id
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).bind(
-          createdAt, firstName, lastName, company, email, phone,
-          contactMethod, country, usState,
-          fluidType, capacity, solidsPercentage,
-          centrifugeCondition, additionalDetails,
-          isReconnect, reconnectMatchId
-        ).run();
+        await insertSubmission(env, {
+          firstName,
+          lastName,
+          company,
+          email,
+          phone,
+          contactMethod,
+          country,
+          usState,
+          fluidType,
+          capacity,
+          solidsPercentage,
+          centrifugeCondition,
+          additionalDetails,
+          isReconnect,
+          reconnectMatchId,
+          formType: 'contact',
+          attribution,
+          visitorContext,
+          partsJson: '',
+          partsCount: 0,
+        });
       } catch (dbErr) {
         // Log but don't fail — email already sent successfully
         console.error('D1 insert error:', dbErr.message);

@@ -1,6 +1,12 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
+const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
+  import.meta.env.DEV
+    ? 'http://127.0.0.1:8787'
+    : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
+)).replace(/\/$/, '');
+
 const faqItems = [
   {
     question: "How quickly will Dolphin Centrifuge respond to my inquiry?",
@@ -230,7 +236,7 @@ const faqJsonLd = {
             <p class="text-red-700 text-sm font-semibold" id="form-error-text">An error occurred. Please try again or call (248) 522-2573.</p>
           </div>
 
-          <form id="centrifuge-contact-form" class="space-y-8" novalidate>
+          <form id="centrifuge-contact-form" data-dolphin-attribution-name="centrifuge_contact_form" class="space-y-8" novalidate>
 
             <!-- Honeypot trap -->
             <div style="display:none" aria-hidden="true">
@@ -493,9 +499,9 @@ const faqJsonLd = {
   </section>
 
   <!-- Form Submission Script -->
-  <script>
+  <script define:vars={{ contactWorkerBaseUrl }}>
     (function() {
-      const WORKER_URL = 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev';
+      const WORKER_URL = contactWorkerBaseUrl;
 
       const form         = document.getElementById('centrifuge-contact-form');
       const errorMsg     = document.getElementById('form-error');
@@ -606,7 +612,13 @@ const faqJsonLd = {
         errorMsg.classList.add('hidden');
 
         try {
+          if (window.dolphinAttribution && typeof window.dolphinAttribution.markFormSubmit === 'function') {
+            window.dolphinAttribution.markFormSubmit('centrifuge_contact_form');
+          }
           const formData = new FormData(form);
+          if (typeof window.dolphinGetAttributionForForm === 'function') {
+            formData.append('dolphin_attribution', window.dolphinGetAttributionForForm('centrifuge_contact_form'));
+          }
           const response = await fetch(WORKER_URL, { method: 'POST', body: formData });
           const result   = await response.json();
 

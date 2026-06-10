@@ -16,6 +16,8 @@ interface RelatedLink {
 
 interface Props {
   title: string;
+  /* Short on-screen hero headline. Falls back to `title` (the full SEO title) when omitted. */
+  heroTitle?: string;
   pageTitle?: string;
   description?: string;
   heroImage?: string;
@@ -35,6 +37,7 @@ interface Props {
 
 const {
   title,
+  heroTitle,
   pageTitle,
   description,
   heroImage,
@@ -77,7 +80,7 @@ const breadcrumbs = [
 >
   {/* ── Application Hero — Frosted Glass Backdrop ── */}
   <Hero
-    title={title}
+    title={heroTitle || title}
     categoryLabel={categoryLabel}
     description={description}
     imageSrc={heroImage}

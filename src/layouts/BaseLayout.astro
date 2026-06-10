@@ -147,6 +147,358 @@ if (!window._statcounter) {
 }
 })();`
   : null;
+const dolphinAttributionBootstrap = `(function() {
+  var SESSION_KEY = 'dolphin_attribution_v1';
+  var FIRST_TOUCH_KEY = 'dolphin_first_touch_v1';
+  var MAX_PAGES = 20;
+  var MAX_AGE_DAYS = 90;
+
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function safeRandomId(prefix) {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return prefix + '_' + window.crypto.randomUUID();
+      }
+    } catch (e) {}
+    return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function trimText(value, max) {
+    if (value === undefined || value === null) return '';
+    return String(value).trim().slice(0, max || 500);
+  }
+
+  function readJson(storage, key) {
+    try {
+      var raw = storage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeJson(storage, key, value) {
+    try {
+      storage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getParams() {
+    try {
+      return new URLSearchParams(window.location.search || '');
+    } catch (e) {
+      return new URLSearchParams('');
+    }
+  }
+
+  function getCookie(name) {
+    try {
+      var parts = document.cookie ? document.cookie.split(';') : [];
+      for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].trim();
+        if (pair.indexOf(name + '=') === 0) return decodeURIComponent(pair.slice(name.length + 1));
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function getGaClientId() {
+    var value = getCookie('_ga');
+    var parts = value ? value.split('.') : [];
+    if (parts.length >= 4) return parts.slice(-2).join('.');
+    return '';
+  }
+
+  function getGaSessionId() {
+    try {
+      var cookies = document.cookie ? document.cookie.split(';') : [];
+      for (var i = 0; i < cookies.length; i++) {
+        var pair = cookies[i].trim();
+        if (pair.indexOf('_ga_') !== 0) continue;
+        var value = decodeURIComponent(pair.split('=').slice(1).join('='));
+        var match = value.match(/(?:^|\\.)s(\\d+)/);
+        if (match) return match[1];
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function getStatCounterVisitorId() {
+    try {
+      if (window._statcounter && typeof window._statcounter.get_visitor_id === 'function') {
+        return trimText(window._statcounter.get_visitor_id(), 120);
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function cleanPageUrl() {
+    return trimText(window.location.pathname + window.location.search, 700);
+  }
+
+  function referrerInfo() {
+    var ref = trimText(document.referrer || '', 700);
+    if (!ref) return { referrer: '', referrer_host: '' };
+    try {
+      var refUrl = new URL(ref);
+      if (refUrl.hostname === window.location.hostname) {
+        return { referrer: '', referrer_host: '' };
+      }
+      return { referrer: ref, referrer_host: refUrl.hostname.replace(/^www\\./, '') };
+    } catch (e) {
+      return { referrer: ref, referrer_host: '' };
+    }
+  }
+
+  function classifySource(params, refHost) {
+    var utmSource = trimText(params.get('utm_source'), 120);
+    var utmMedium = trimText(params.get('utm_medium'), 120);
+    var hasGoogleClick = params.get('gclid') || params.get('gbraid') || params.get('wbraid');
+    if (utmSource || utmMedium) {
+      return { source: utmSource || 'unknown', medium: utmMedium || 'unknown' };
+    }
+    if (hasGoogleClick) return { source: 'google', medium: 'cpc' };
+    if (params.get('msclkid')) return { source: 'bing', medium: 'cpc' };
+    if (!refHost) return { source: 'direct', medium: 'none' };
+    if (/google\\./.test(refHost)) return { source: 'google', medium: 'organic' };
+    if (/bing\\.|yahoo\\.|duckduckgo\\.|baidu\\.|yandex\\./.test(refHost)) return { source: refHost, medium: 'organic' };
+    if (/chatgpt|openai|perplexity|claude|gemini|copilot|you\\.com/.test(refHost)) return { source: refHost, medium: 'ai_referral' };
+    return { source: refHost, medium: 'referral' };
+  }
+
+  function buildTouch() {
+    var params = getParams();
+    var ref = referrerInfo();
+    var source = classifySource(params, ref.referrer_host);
+    return {
+      captured_at: nowIso(),
+      landing_page: cleanPageUrl(),
+      landing_title: trimText(document.title, 200),
+      referrer: ref.referrer,
+      referrer_host: ref.referrer_host,
+      source: source.source,
+      medium: source.medium,
+      campaign: trimText(params.get('utm_campaign'), 160),
+      term: trimText(params.get('utm_term') || params.get('vt_keyword'), 180),
+      content: trimText(params.get('utm_content'), 180),
+      gclid: trimText(params.get('gclid'), 250),
+      gbraid: trimText(params.get('gbraid'), 250),
+      wbraid: trimText(params.get('wbraid'), 250),
+      msclkid: trimText(params.get('msclkid'), 250)
+    };
+  }
+
+  function getFirstTouch(currentTouch) {
+    var existing = null;
+    try {
+      existing = readJson(window.localStorage, FIRST_TOUCH_KEY);
+      if (existing && existing.expires_at && new Date(existing.expires_at).getTime() < Date.now()) {
+        existing = null;
+      }
+    } catch (e) {
+      existing = null;
+    }
+    if (existing) return existing;
+
+    var first = Object.assign({}, currentTouch, {
+      first_touch_id: safeRandomId('dft'),
+      expires_at: new Date(Date.now() + MAX_AGE_DAYS * 86400000).toISOString()
+    });
+    try { writeJson(window.localStorage, FIRST_TOUCH_KEY, first); } catch (e) {}
+    return first;
+  }
+
+  function getSession() {
+    var currentTouch = buildTouch();
+    var firstTouch = getFirstTouch(currentTouch);
+    var session = null;
+    try { session = readJson(window.sessionStorage, SESSION_KEY); } catch (e) {}
+    if (!session || !session.session_id) {
+      session = {
+        version: 1,
+        session_id: safeRandomId('das'),
+        started_at: nowIso(),
+        first_touch: firstTouch,
+        landing_page: currentTouch.landing_page,
+        landing_title: currentTouch.landing_title,
+        referrer: currentTouch.referrer,
+        referrer_host: currentTouch.referrer_host,
+        source: currentTouch.source,
+        medium: currentTouch.medium,
+        campaign: currentTouch.campaign,
+        term: currentTouch.term,
+        content: currentTouch.content,
+        gclid: currentTouch.gclid,
+        gbraid: currentTouch.gbraid,
+        wbraid: currentTouch.wbraid,
+        msclkid: currentTouch.msclkid,
+        pages: [],
+        forms: {}
+      };
+    }
+    return session;
+  }
+
+  function saveSession(session) {
+    try { writeJson(window.sessionStorage, SESSION_KEY, session); } catch (e) {}
+  }
+
+  function recordPageView() {
+    var session = getSession();
+    var page = {
+      at: nowIso(),
+      path: cleanPageUrl(),
+      title: trimText(document.title, 200),
+      referrer: trimText(document.referrer || '', 700)
+    };
+    var last = session.pages && session.pages.length ? session.pages[session.pages.length - 1] : null;
+    if (!last || last.path !== page.path) {
+      session.pages = session.pages || [];
+      session.pages.push(page);
+      if (session.pages.length > MAX_PAGES) session.pages = session.pages.slice(session.pages.length - MAX_PAGES);
+    }
+    session.updated_at = nowIso();
+    saveSession(session);
+  }
+
+  function markFormStart(formName) {
+    var session = getSession();
+    var key = trimText(formName || 'unknown_form', 100);
+    session.forms = session.forms || {};
+    session.forms[key] = session.forms[key] || {};
+    if (!session.forms[key].started_at) session.forms[key].started_at = nowIso();
+    session.forms[key].last_page = cleanPageUrl();
+    saveSession(session);
+    syncAttributionInputs();
+  }
+
+  function markFormSubmit(formName) {
+    markFormStart(formName);
+    var session = getSession();
+    var key = trimText(formName || 'unknown_form', 100);
+    session.forms = session.forms || {};
+    session.forms[key] = session.forms[key] || {};
+    session.forms[key].submitted_at = nowIso();
+    session.forms[key].submit_page = cleanPageUrl();
+    saveSession(session);
+    syncAttributionInputs();
+  }
+
+  function getPayload(formName) {
+    var key = trimText(formName || 'unknown_form', 100);
+    var session = getSession();
+    var formMeta = session.forms && session.forms[key] ? session.forms[key] : {};
+    return {
+      version: 1,
+      form_name: key,
+      session_id: session.session_id,
+      first_touch_id: session.first_touch && session.first_touch.first_touch_id || '',
+      session_started_at: session.started_at,
+      first_seen_at: session.first_touch && session.first_touch.captured_at || session.started_at,
+      landing_page: session.landing_page,
+      landing_title: session.landing_title,
+      current_page: cleanPageUrl(),
+      current_title: trimText(document.title, 200),
+      referrer: session.referrer,
+      referrer_host: session.referrer_host,
+      source: session.source,
+      medium: session.medium,
+      campaign: session.campaign,
+      term: session.term,
+      content: session.content,
+      gclid: session.gclid,
+      gbraid: session.gbraid,
+      wbraid: session.wbraid,
+      msclkid: session.msclkid,
+      ga_client_id: getGaClientId(),
+      ga_session_id: getGaSessionId(),
+      statcounter_visitor_id: getStatCounterVisitorId(),
+      page_count: session.pages ? session.pages.length : 0,
+      pages: session.pages || [],
+      form_started_at: formMeta.started_at || '',
+      form_submitted_at: formMeta.submitted_at || ''
+    };
+  }
+
+  function getFormName(form, fallback) {
+    if (!form || !form.getAttribute) return trimText(fallback || 'unknown_form', 100);
+    return trimText(
+      form.getAttribute('data-dolphin-attribution-name') ||
+      form.getAttribute('id') ||
+      form.getAttribute('name') ||
+      fallback ||
+      'unknown_form',
+      100
+    );
+  }
+
+  function syncAttributionInputs(targetForm) {
+    var forms = [];
+    if (targetForm && targetForm.querySelector) {
+      forms = [targetForm];
+    } else {
+      try {
+        forms = Array.prototype.slice.call(document.querySelectorAll('form'));
+      } catch (e) {
+        forms = [];
+      }
+    }
+    for (var i = 0; i < forms.length; i++) {
+      var form = forms[i];
+      if (!form || !form.querySelector || !form.appendChild) continue;
+      var key = getFormName(form);
+      var field = form.querySelector('input[name="dolphin_attribution"]');
+      if (!field) {
+        field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = 'dolphin_attribution';
+        form.appendChild(field);
+      }
+      try {
+        field.value = JSON.stringify(getPayload(key));
+      } catch (e) {}
+    }
+  }
+
+  window.dolphinAttribution = window.dolphinAttribution || {
+    markFormStart: markFormStart,
+    markFormSubmit: markFormSubmit,
+    getPayload: getPayload,
+    syncAttributionInputs: syncAttributionInputs
+  };
+  window.dolphinGetAttributionForForm = window.dolphinGetAttributionForForm || function(formName) {
+    return JSON.stringify(getPayload(formName));
+  };
+
+  window.addEventListener('focusin', function(event) {
+    var target = event.target;
+    if (!target || !target.closest) return;
+    var form = target.closest('form');
+    if (!form) return;
+    markFormStart(getFormName(form));
+    syncAttributionInputs(form);
+  }, true);
+
+  window.addEventListener('submit', function(event) {
+    var form = event.target;
+    if (!form || !form.getAttribute) return;
+    markFormSubmit(getFormName(form));
+    syncAttributionInputs(form);
+  }, true);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    syncAttributionInputs();
+    document.documentElement.setAttribute('data-dolphin-attribution-ready', 'true');
+  });
+  document.addEventListener('astro:page-load', recordPageView);
+  recordPageView();
+})();`;
 const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrackEvent || function(eventName, params) {
   if (typeof window.gtag !== 'function') return false;
   const cleanParams = {};
@@ -242,6 +594,7 @@ if (jsonLd) {
       rel="stylesheet"
     />
 
+    <script is:inline set:html={dolphinAttributionBootstrap} />
     {googleTagBootstrap && <script is:inline set:html={googleTagBootstrap} />}
     <script is:inline set:html={dolphinTrackingBootstrap} />
 
