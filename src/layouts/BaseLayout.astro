@@ -20,7 +20,7 @@ interface Props {
 const {
   title,
   description = 'Dolphin Centrifuge specializes in Alfa Laval industrial centrifuge systems with 40+ years of expertise. Turnkey systems for oil, fuel, wastewater, food, and more.',
-  ogImage = '/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg',
+  ogImage: ogImageProp,
   canonicalUrl,
   breadcrumbs = [],
   jsonLd,
@@ -38,6 +38,9 @@ const fullTitle = title === 'Home'
 
 const siteUrl = 'https://dolphincentrifuge.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const defaultOgImage = '/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg';
+const ogImage = ogImageProp || defaultOgImage;
+const schemaFallbackImage = ogImageProp ? new URL(ogImageProp, siteUrl).href : undefined;
 // Google tag: prefer env var; fallback to the clean Astro GA4 web stream.
 const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'G-9DCDDZTT9N';
 // GTM: optional. Set PUBLIC_GTM_ID in Cloudflare env to enable.
@@ -51,6 +54,11 @@ const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || i
   .split(',')
   .map((host) => host.trim())
   .filter(Boolean);
+const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
+  import.meta.env.DEV
+    ? 'http://127.0.0.1:8787'
+    : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
+)).replace(/\/$/, '');
 // Pre-build GTM loader snippet (avoids nested template literals)
 const _gtmSnippet = gtmId
   ? `var _gtmId=${JSON.stringify(gtmId)};(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',_gtmId);`
@@ -147,6 +155,428 @@ if (!window._statcounter) {
 }
 })();`
   : null;
+const dolphinAttributionBootstrap = `(function() {
+  var SESSION_KEY = 'dolphin_attribution_v1';
+  var FIRST_TOUCH_KEY = 'dolphin_first_touch_v1';
+  var VISITOR_KEY = 'dolphin_visitor_v1';
+  var VISITOR_COOKIE = 'dc_vid';
+  var TRACKER_URL = ${JSON.stringify(contactWorkerBaseUrl)};
+  var MAX_PAGES = 20;
+  var MAX_AGE_DAYS = 90;
+  var VISITOR_MAX_AGE_DAYS = 400;
+
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function safeRandomId(prefix) {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return prefix + '_' + window.crypto.randomUUID();
+      }
+    } catch (e) {}
+    return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function trimText(value, max) {
+    if (value === undefined || value === null) return '';
+    return String(value).trim().slice(0, max || 500);
+  }
+
+  function readJson(storage, key) {
+    try {
+      var raw = storage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeJson(storage, key, value) {
+    try {
+      storage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function getParams() {
+    try {
+      return new URLSearchParams(window.location.search || '');
+    } catch (e) {
+      return new URLSearchParams('');
+    }
+  }
+
+  function getCookie(name) {
+    try {
+      var parts = document.cookie ? document.cookie.split(';') : [];
+      for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].trim();
+        if (pair.indexOf(name + '=') === 0) return decodeURIComponent(pair.slice(name.length + 1));
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function setCookie(name, value, maxAgeDays) {
+    try {
+      var cookie = name + '=' + encodeURIComponent(value)
+        + '; Max-Age=' + String(Math.max(1, maxAgeDays || VISITOR_MAX_AGE_DAYS) * 86400)
+        + '; Path=/; SameSite=Lax';
+      if (window.location.protocol === 'https:') cookie += '; Secure';
+      document.cookie = cookie;
+    } catch (e) {}
+  }
+
+  function getGaClientId() {
+    var value = getCookie('_ga');
+    var parts = value ? value.split('.') : [];
+    if (parts.length >= 4) return parts.slice(-2).join('.');
+    return '';
+  }
+
+  function getGaSessionId() {
+    try {
+      var cookies = document.cookie ? document.cookie.split(';') : [];
+      for (var i = 0; i < cookies.length; i++) {
+        var pair = cookies[i].trim();
+        if (pair.indexOf('_ga_') !== 0) continue;
+        var value = decodeURIComponent(pair.split('=').slice(1).join('='));
+        var match = value.match(/(?:^|\\.)s(\\d+)/);
+        if (match) return match[1];
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function getStatCounterVisitorId() {
+    try {
+      if (window._statcounter && typeof window._statcounter.get_visitor_id === 'function') {
+        return trimText(window._statcounter.get_visitor_id(), 120);
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  function cleanPageUrl() {
+    return trimText(window.location.pathname + window.location.search, 700);
+  }
+
+  function referrerInfo() {
+    var ref = trimText(document.referrer || '', 700);
+    if (!ref) return { referrer: '', referrer_host: '' };
+    try {
+      var refUrl = new URL(ref);
+      if (refUrl.hostname === window.location.hostname) {
+        return { referrer: '', referrer_host: '' };
+      }
+      return { referrer: ref, referrer_host: refUrl.hostname.replace(/^www\\./, '') };
+    } catch (e) {
+      return { referrer: ref, referrer_host: '' };
+    }
+  }
+
+  function classifySource(params, refHost) {
+    var utmSource = trimText(params.get('utm_source'), 120);
+    var utmMedium = trimText(params.get('utm_medium'), 120);
+    var hasGoogleClick = params.get('gclid') || params.get('gbraid') || params.get('wbraid');
+    if (utmSource || utmMedium) {
+      return { source: utmSource || 'unknown', medium: utmMedium || 'unknown' };
+    }
+    if (hasGoogleClick) return { source: 'google', medium: 'cpc' };
+    if (params.get('msclkid')) return { source: 'bing', medium: 'cpc' };
+    if (!refHost) return { source: 'direct', medium: 'none' };
+    if (/google\\./.test(refHost)) return { source: 'google', medium: 'organic' };
+    if (/bing\\.|yahoo\\.|duckduckgo\\.|baidu\\.|yandex\\./.test(refHost)) return { source: refHost, medium: 'organic' };
+    if (/chatgpt|openai|perplexity|claude|gemini|copilot|you\\.com/.test(refHost)) return { source: refHost, medium: 'ai_referral' };
+    return { source: refHost, medium: 'referral' };
+  }
+
+  function buildTouch() {
+    var params = getParams();
+    var ref = referrerInfo();
+    var source = classifySource(params, ref.referrer_host);
+    return {
+      captured_at: nowIso(),
+      landing_page: cleanPageUrl(),
+      landing_title: trimText(document.title, 200),
+      referrer: ref.referrer,
+      referrer_host: ref.referrer_host,
+      source: source.source,
+      medium: source.medium,
+      campaign: trimText(params.get('utm_campaign'), 160),
+      term: trimText(params.get('utm_term') || params.get('vt_keyword'), 180),
+      content: trimText(params.get('utm_content'), 180),
+      gclid: trimText(params.get('gclid'), 250),
+      gbraid: trimText(params.get('gbraid'), 250),
+      wbraid: trimText(params.get('wbraid'), 250),
+      msclkid: trimText(params.get('msclkid'), 250)
+    };
+  }
+
+  function getFirstTouch(currentTouch) {
+    var existing = null;
+    try {
+      existing = readJson(window.localStorage, FIRST_TOUCH_KEY);
+      if (existing && existing.expires_at && new Date(existing.expires_at).getTime() < Date.now()) {
+        existing = null;
+      }
+    } catch (e) {
+      existing = null;
+    }
+    if (existing) return existing;
+
+    var first = Object.assign({}, currentTouch, {
+      first_touch_id: safeRandomId('dft'),
+      expires_at: new Date(Date.now() + MAX_AGE_DAYS * 86400000).toISOString()
+    });
+    try { writeJson(window.localStorage, FIRST_TOUCH_KEY, first); } catch (e) {}
+    return first;
+  }
+
+  function getSession() {
+    var currentTouch = buildTouch();
+    var firstTouch = getFirstTouch(currentTouch);
+    var session = null;
+    try { session = readJson(window.sessionStorage, SESSION_KEY); } catch (e) {}
+    if (!session || !session.session_id) {
+      session = {
+        version: 1,
+        session_id: safeRandomId('das'),
+        started_at: nowIso(),
+        first_touch: firstTouch,
+        landing_page: currentTouch.landing_page,
+        landing_title: currentTouch.landing_title,
+        referrer: currentTouch.referrer,
+        referrer_host: currentTouch.referrer_host,
+        source: currentTouch.source,
+        medium: currentTouch.medium,
+        campaign: currentTouch.campaign,
+        term: currentTouch.term,
+        content: currentTouch.content,
+        gclid: currentTouch.gclid,
+        gbraid: currentTouch.gbraid,
+        wbraid: currentTouch.wbraid,
+        msclkid: currentTouch.msclkid,
+        pages: [],
+        forms: {}
+      };
+    }
+    return session;
+  }
+
+  function getVisitorProfile(sessionId) {
+    var profile = null;
+    try { profile = readJson(window.localStorage, VISITOR_KEY); } catch (e) {}
+    var cookieId = getCookie(VISITOR_COOKIE);
+    if (!profile || !profile.visitor_id) {
+      profile = {
+        version: 1,
+        visitor_id: cookieId || safeRandomId('dvr'),
+        first_seen_at: nowIso(),
+        last_seen_at: '',
+        visit_count: 0,
+        last_session_id: ''
+      };
+    }
+    if (cookieId && cookieId !== profile.visitor_id) profile.visitor_id = cookieId;
+    if (!cookieId) setCookie(VISITOR_COOKIE, profile.visitor_id, VISITOR_MAX_AGE_DAYS);
+    if (sessionId && profile.last_session_id !== sessionId) {
+      profile.visit_count = Math.max(0, Number(profile.visit_count) || 0) + 1;
+      profile.last_session_id = sessionId;
+    }
+    profile.last_seen_at = nowIso();
+    profile.is_returning = (Number(profile.visit_count) || 0) > 1;
+    try { writeJson(window.localStorage, VISITOR_KEY, profile); } catch (e) {}
+    setCookie(VISITOR_COOKIE, profile.visitor_id, VISITOR_MAX_AGE_DAYS);
+    return profile;
+  }
+
+  function saveSession(session) {
+    try { writeJson(window.sessionStorage, SESSION_KEY, session); } catch (e) {}
+  }
+
+  function sendPageViewBeacon(session, page, payload) {
+    if (!TRACKER_URL) return;
+    try {
+      var body = JSON.stringify({
+        event_type: 'pageview',
+        page: page,
+        attribution: payload
+      });
+      var url = TRACKER_URL + '/track/pageview';
+      if (navigator.sendBeacon) {
+        var blob = new Blob([body], { type: 'text/plain' });
+        if (navigator.sendBeacon(url, blob)) return;
+      }
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: body,
+        keepalive: true
+      }).catch(function() {});
+    } catch (e) {}
+  }
+
+  function recordPageView() {
+    var session = getSession();
+    var page = {
+      at: nowIso(),
+      path: cleanPageUrl(),
+      title: trimText(document.title, 200),
+      referrer: trimText(document.referrer || '', 700)
+    };
+    var last = session.pages && session.pages.length ? session.pages[session.pages.length - 1] : null;
+    if (!last || last.path !== page.path) {
+      session.pages = session.pages || [];
+      session.pages.push(page);
+      if (session.pages.length > MAX_PAGES) session.pages = session.pages.slice(session.pages.length - MAX_PAGES);
+    }
+    session.updated_at = nowIso();
+    saveSession(session);
+    sendPageViewBeacon(session, page, getPayload('pageview'));
+  }
+
+  function markFormStart(formName) {
+    var session = getSession();
+    var key = trimText(formName || 'unknown_form', 100);
+    session.forms = session.forms || {};
+    session.forms[key] = session.forms[key] || {};
+    if (!session.forms[key].started_at) session.forms[key].started_at = nowIso();
+    session.forms[key].last_page = cleanPageUrl();
+    saveSession(session);
+    syncAttributionInputs();
+  }
+
+  function markFormSubmit(formName) {
+    markFormStart(formName);
+    var session = getSession();
+    var key = trimText(formName || 'unknown_form', 100);
+    session.forms = session.forms || {};
+    session.forms[key] = session.forms[key] || {};
+    session.forms[key].submitted_at = nowIso();
+    session.forms[key].submit_page = cleanPageUrl();
+    saveSession(session);
+    syncAttributionInputs();
+  }
+
+  function getPayload(formName) {
+    var key = trimText(formName || 'unknown_form', 100);
+    var session = getSession();
+    var visitor = getVisitorProfile(session.session_id);
+    var formMeta = session.forms && session.forms[key] ? session.forms[key] : {};
+    return {
+      version: 1,
+      form_name: key,
+      visitor_id: visitor.visitor_id,
+      visitor_first_seen_at: visitor.first_seen_at,
+      visitor_last_seen_at: visitor.last_seen_at,
+      visitor_visit_count: Number(visitor.visit_count) || 0,
+      visitor_is_returning: visitor.is_returning ? 1 : 0,
+      session_id: session.session_id,
+      first_touch_id: session.first_touch && session.first_touch.first_touch_id || '',
+      session_started_at: session.started_at,
+      first_seen_at: session.first_touch && session.first_touch.captured_at || session.started_at,
+      landing_page: session.landing_page,
+      landing_title: session.landing_title,
+      current_page: cleanPageUrl(),
+      current_title: trimText(document.title, 200),
+      referrer: session.referrer,
+      referrer_host: session.referrer_host,
+      source: session.source,
+      medium: session.medium,
+      campaign: session.campaign,
+      term: session.term,
+      content: session.content,
+      gclid: session.gclid,
+      gbraid: session.gbraid,
+      wbraid: session.wbraid,
+      msclkid: session.msclkid,
+      ga_client_id: getGaClientId(),
+      ga_session_id: getGaSessionId(),
+      statcounter_visitor_id: getStatCounterVisitorId(),
+      page_count: session.pages ? session.pages.length : 0,
+      pages: session.pages || [],
+      form_started_at: formMeta.started_at || '',
+      form_submitted_at: formMeta.submitted_at || ''
+    };
+  }
+
+  function getFormName(form, fallback) {
+    if (!form || !form.getAttribute) return trimText(fallback || 'unknown_form', 100);
+    return trimText(
+      form.getAttribute('data-dolphin-attribution-name') ||
+      form.getAttribute('id') ||
+      form.getAttribute('name') ||
+      fallback ||
+      'unknown_form',
+      100
+    );
+  }
+
+  function syncAttributionInputs(targetForm) {
+    var forms = [];
+    if (targetForm && targetForm.querySelector) {
+      forms = [targetForm];
+    } else {
+      try {
+        forms = Array.prototype.slice.call(document.querySelectorAll('form'));
+      } catch (e) {
+        forms = [];
+      }
+    }
+    for (var i = 0; i < forms.length; i++) {
+      var form = forms[i];
+      if (!form || !form.querySelector || !form.appendChild) continue;
+      var key = getFormName(form);
+      var field = form.querySelector('input[name="dolphin_attribution"]');
+      if (!field) {
+        field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = 'dolphin_attribution';
+        form.appendChild(field);
+      }
+      try {
+        field.value = JSON.stringify(getPayload(key));
+      } catch (e) {}
+    }
+  }
+
+  window.dolphinAttribution = window.dolphinAttribution || {
+    markFormStart: markFormStart,
+    markFormSubmit: markFormSubmit,
+    getPayload: getPayload,
+    syncAttributionInputs: syncAttributionInputs
+  };
+  window.dolphinGetAttributionForForm = window.dolphinGetAttributionForForm || function(formName) {
+    return JSON.stringify(getPayload(formName));
+  };
+
+  window.addEventListener('focusin', function(event) {
+    var target = event.target;
+    if (!target || !target.closest) return;
+    var form = target.closest('form');
+    if (!form) return;
+    markFormStart(getFormName(form));
+    syncAttributionInputs(form);
+  }, true);
+
+  window.addEventListener('submit', function(event) {
+    var form = event.target;
+    if (!form || !form.getAttribute) return;
+    markFormSubmit(getFormName(form));
+    syncAttributionInputs(form);
+  }, true);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    syncAttributionInputs();
+    document.documentElement.setAttribute('data-dolphin-attribution-ready', 'true');
+  });
+  document.addEventListener('astro:page-load', recordPageView);
+  recordPageView();
+})();`;
 const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrackEvent || function(eventName, params) {
   if (typeof window.gtag !== 'function') return false;
   const cleanParams = {};
@@ -174,6 +604,147 @@ window.addEventListener('dolphin:generate-lead', function(event) {
   window.dolphinTrackLead(detail);
 });`;
 
+const toAbsoluteUrl = (href?: string | null) => {
+  if (!href) return undefined;
+  try {
+    return new URL(href, siteUrl).href;
+  } catch {
+    return undefined;
+  }
+};
+
+const breadcrumbHubHrefs: Record<string, string> = {
+  Applications: '/disc-stack-centrifuge-applications/',
+  Products: '/alfa-laval-centrifuges/',
+  Services: '/industrial-centrifuge-design/',
+  Knowledge: '/knowledge-center/',
+  'Knowledge Center': '/knowledge-center/',
+  About: '/about-dolphin-centrifuge/',
+  'About Us': '/about-dolphin-centrifuge/',
+};
+
+const getBreadcrumbItemUrl = (
+  crumb: { label: string; href?: string },
+  index: number,
+  total: number,
+) => {
+  const explicitUrl = toAbsoluteUrl(crumb.href);
+  if (explicitUrl) return explicitUrl;
+  const hubUrl = breadcrumbHubHrefs[crumb.label];
+  if (hubUrl) return toAbsoluteUrl(hubUrl);
+  return index === total - 1 ? canonical : undefined;
+};
+
+const schemaTypes = (schema: Record<string, any>) => {
+  const type = schema?.['@type'];
+  return (Array.isArray(type) ? type : [type]).filter(Boolean).map(String);
+};
+
+const hasSchemaValue = (value: any): boolean => {
+  if (value === undefined || value === null) return false;
+  if (typeof value === 'string') return value.trim().length > 0;
+  if (Array.isArray(value)) return value.some(hasSchemaValue);
+  return true;
+};
+
+const normalizeSchemaImage = (image: any): any => {
+  if (!hasSchemaValue(image)) return undefined;
+  if (typeof image === 'string') return toAbsoluteUrl(image) || image;
+  if (Array.isArray(image)) {
+    const normalizedImages = image
+      .map((item) => normalizeSchemaImage(item))
+      .filter(hasSchemaValue);
+    return normalizedImages.length > 0 ? normalizedImages : undefined;
+  }
+  if (image && typeof image === 'object') {
+    const normalized = { ...image };
+    if (typeof normalized.url === 'string') {
+      normalized.url = toAbsoluteUrl(normalized.url) || normalized.url;
+    }
+    return normalized;
+  }
+  return image;
+};
+
+const hasOfferPrice = (offer: any): boolean => {
+  if (!offer || typeof offer !== 'object') return false;
+  const offerTypes = schemaTypes(offer);
+  if (offerTypes.includes('AggregateOffer')) {
+    return hasSchemaValue(offer.lowPrice) && hasSchemaValue(offer.priceCurrency);
+  }
+  if (hasSchemaValue(offer.price)) return true;
+  const priceSpecification = offer.priceSpecification;
+  const priceSpecs = Array.isArray(priceSpecification) ? priceSpecification : [priceSpecification];
+  return priceSpecs.some((spec) => spec && typeof spec === 'object' && hasSchemaValue(spec.price));
+};
+
+const normalizeProductSchema = (schema: Record<string, any>) => {
+  const normalized = JSON.parse(JSON.stringify(schema));
+  const offers = normalized.offers;
+  if (offers) {
+    const offerList = Array.isArray(offers) ? offers : [offers];
+    const validOffers = offerList.filter(hasOfferPrice);
+    if (validOffers.length > 0) {
+      normalized.offers = Array.isArray(offers) ? validOffers : validOffers[0];
+    } else {
+      delete normalized.offers;
+    }
+  }
+
+  const hasRichResultBasis = hasSchemaValue(normalized.offers)
+    || hasSchemaValue(normalized.review)
+    || hasSchemaValue(normalized.aggregateRating);
+  if (!hasRichResultBasis) return null;
+
+  normalized.image = normalizeSchemaImage(normalized.image) || schemaFallbackImage;
+  if (!hasSchemaValue(normalized.image)) return null;
+
+  return normalized;
+};
+
+const normalizeBreadcrumbSchema = (schema: Record<string, any>) => {
+  const normalized = JSON.parse(JSON.stringify(schema));
+  const items = Array.isArray(normalized.itemListElement)
+    ? normalized.itemListElement
+    : [];
+  normalized.itemListElement = items
+    .map((item: any, index: number) => {
+      if (!item || typeof item !== 'object') return item;
+      const crumb = {
+        label: String(item.name || ''),
+        href: item.item || item['@id'],
+      };
+      return {
+        ...item,
+        item: item.item || getBreadcrumbItemUrl(crumb, index, items.length) || canonical,
+      };
+    })
+    .filter(Boolean);
+  return normalized;
+};
+
+const normalizeSearchSchema = (schema: Record<string, any> | Record<string, any>[] | null): any => {
+  if (!schema) return null;
+  if (Array.isArray(schema)) {
+    return schema
+      .map((entry) => normalizeSearchSchema(entry))
+      .filter(Boolean);
+  }
+  if (typeof schema !== 'object') return schema;
+
+  const types = schemaTypes(schema);
+  if (types.includes('Product')) return normalizeProductSchema(schema);
+  if (types.includes('BreadcrumbList')) return normalizeBreadcrumbSchema(schema);
+
+  if (schema['@graph']) {
+    const graph = normalizeSearchSchema(schema['@graph']);
+    if (!graph || (Array.isArray(graph) && graph.length === 0)) return null;
+    return { ...schema, '@graph': graph };
+  }
+
+  return schema;
+};
+
 // Build BreadcrumbList JSON-LD from breadcrumbs prop
 const breadcrumbJsonLd = breadcrumbs.length > 0 ? {
   "@context": "https://schema.org",
@@ -189,7 +760,7 @@ const breadcrumbJsonLd = breadcrumbs.length > 0 ? {
       "@type": "ListItem",
       "position": i + 2,
       "name": crumb.label,
-      ...(crumb.href ? { "item": `${siteUrl}${crumb.href}` } : {}),
+      "item": getBreadcrumbItemUrl(crumb, i, breadcrumbs.length) || canonical,
     })),
   ],
 } : null;
@@ -204,6 +775,7 @@ if (jsonLd) {
     allSchemas.push(jsonLd);
   }
 }
+const normalizedSchemas = normalizeSearchSchema(allSchemas) || [];
 ---
 
 <!doctype html>
@@ -242,11 +814,12 @@ if (jsonLd) {
       rel="stylesheet"
     />
 
+    <script is:inline set:html={dolphinAttributionBootstrap} />
     {googleTagBootstrap && <script is:inline set:html={googleTagBootstrap} />}
     <script is:inline set:html={dolphinTrackingBootstrap} />
 
     <!-- JSON-LD Structured Data -->
-    {allSchemas.map((schema) => (
+    {normalizedSchemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
