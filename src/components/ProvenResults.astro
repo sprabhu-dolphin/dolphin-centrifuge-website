@@ -1,0 +1,62 @@
+---
+// ProvenResults — 3-card grid of real Dolphin install results
+const results = [
+  {
+    title: 'U.S. Navy Marine Facility - Guam',
+    desc: 'Used-oil recovery system (DMPX-028)',
+    metric: '~$380K/yr lower operating cost',
+    href: '/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/',
+  },
+  {
+    title: 'Midwest UCO Collector',
+    desc: 'Yellow grease purification (decanter + disc stack)',
+    metric: 'Payback in under 6 months',
+    href: '/yellow-grease-purification-centrifuge/',
+  },
+  {
+    title: 'Railcar-Wash Diesel Recovery',
+    desc: 'Diesel fuel recovery (WHPX-510)',
+    metric: '$2M+ saved per year',
+    href: '/alfa-laval-diesel-centrifuge/',
+  },
+];
+---
+
+<section class="py-16 md:py-20 bg-warm-white">
+  <div class="container-dolphin">
+    <div class="text-center mb-10 md:mb-14">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-gold mb-3">Customer Results</p>
+      <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-navy">Proven Results</h2>
+      <p class="mt-3 text-text-muted max-w-xl mx-auto">Real Dolphin installations.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-6 lg:gap-8">
+      {results.map((result) => (
+        <a
+          href={result.href}
+          class="group block bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
+        >
+          <div class="p-6">
+            {/* Gold accent top bar */}
+            <div class="w-10 h-1 rounded bg-gold mb-5"></div>
+            <h3 class="font-heading text-base font-bold text-navy leading-snug mb-2 group-hover:text-gold-dark transition-colors">
+              {result.title}
+            </h3>
+            <p class="text-text-muted text-sm mb-4 leading-relaxed">
+              {result.desc}
+            </p>
+            <p class="font-heading text-xl font-extrabold text-navy mb-5">
+              {result.metric}
+            </p>
+            <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-dark group-hover:text-gold transition-colors">
+              See the case study
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
