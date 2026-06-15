@@ -22,8 +22,8 @@ const testimonials = [
   {
     id: 1,
     quote: "You've been there, you get it …I pass this along because it is precisely the type of customer service we appreciate and respect. Many don't understand the importance of getting us back on line quickly and we need to have an equipment vendor who understands the equipment they sell. You do understand how important it is to have us up and running… and you clearly understand your equipment. We all thank you for your professionalism. Finally, from your email back to David, it is also abundantly clear that you realize we are not Exxon Mobil or Chevron. We are a start-up in every sense of the word and at this point need an equipment supplier who realizes our concern over every dollar. You've been there, you get it, and for that, too, I thank you! When the time comes, I look forward to talking with you about another Dolphin purchase.",
-    company: "N.E. Biofuel Co.",
-    contact: "T. G.",
+    descriptor: "Northeast biodiesel start-up",
+    contact: "T.G.",
     title: "President & CEO",
     highlight: "You've been there, you get it",
     industry: "Biodiesel / Biofuel"
@@ -31,8 +31,8 @@ const testimonials = [
   {
     id: 2,
     quote: "For the ongoing reservoir side centrifuge filtration you are looking for I would suggest you contact Sanjay at Dolphin Centrifuge. I have been dealing with Sanjay for over 15 years now and he is by far the best at what he does. Aside from the fact he can provide a custom solution for you at the best price, his service is excellent. He has even answered my call in the middle of the night before when he was in Japan on a startup.",
-    company: "D.O.C.",
-    contact: "J. E.",
+    descriptor: "industrial reservoir-oil operator (15+ year customer)",
+    contact: "J.E.",
     title: "Manager",
     highlight: "over 15 years",
     industry: "Industrial / Reservoir"
@@ -40,8 +40,8 @@ const testimonials = [
   {
     id: 3,
     quote: "Thank you! for your continued support. Both machines are ripping through the stream – good separation. We'll be calling you shortly for 2 more.. stay tuned.",
-    company: "J.H Prod. / Gulf Oilfield Products",
-    contact: "Gulf Oilfield Products",
+    descriptor: "Gulf Coast oilfield operator",
+    contact: null,
     title: null,
     highlight: "good separation",
     industry: "Oilfield"
@@ -49,8 +49,8 @@ const testimonials = [
   {
     id: 4,
     quote: "By the way Jim (Kraft) is very good. He really knows his centrifuges and the process. I am so glad that we brought him in.",
-    company: "NJ BioDiesel Co.",
-    contact: "M. Z.",
+    descriptor: "New Jersey biodiesel producer",
+    contact: "M.Z.",
     title: "President / COO",
     highlight: "knows his centrifuges",
     industry: "Biodiesel"
@@ -58,8 +58,8 @@ const testimonials = [
   {
     id: 5,
     quote: "Dolphin Centrifuge did an excellent job of building our MOPX207 separator skid to build it as a compact setup with an easy plug and play operation. Everything that went into the unit as far as the automation from controls for the computer system is very user-friendly. It was very noticeable how far they go to make sure their Centrifuge builds are user-friendly through the computer system, giving the operator the ability only to type in few parameter settings such as % solids and GPM. Hands down, you could tell these guys were very experienced at running these units and processing through these units. They had excellent communication, and if we hit a hiccup along the way, they could clearly explain what was happening and how to correct it.",
-    company: "Alaskan Oil Processor",
-    contact: "C. F.",
+    descriptor: "Alaska oil processor",
+    contact: "C.F.",
     title: "Facility Supervisor",
     highlight: "these guys were very experienced at running these units",
     industry: "Oil Processing / Alaska"
@@ -80,7 +80,7 @@ const jsonLd = {
       "reviewBody": t.quote,
       "author": {
         "@type": "Person",
-        "name": t.contact,
+        "name": t.contact || t.descriptor,
         "jobTitle": t.title || undefined
       },
       "itemReviewed": {
@@ -98,7 +98,7 @@ const jsonLd = {
       },
       "publisher": {
         "@type": "Organization",
-        "name": t.company
+        "name": t.descriptor
       }
     }
   }))
@@ -173,11 +173,12 @@ const jsonLd = {
         <!-- Attribution -->
         <div class="mt-5 flex items-start gap-4">
           <div class="flex-shrink-0 w-10 h-10 rounded-full bg-navy flex items-center justify-center text-white font-bold text-sm">
-            {t.contact.charAt(0)}
+            {(t.contact || t.descriptor).charAt(0)}
           </div>
           <div>
-            <div class="font-semibold text-navy">{t.contact}{t.title ? `, ${t.title}` : ''}</div>
-            <div class="text-sm text-gray-600">{t.company}</div>
+            <div class="font-semibold text-navy">
+              {t.contact ? `${t.contact}${t.title ? `, ${t.title}` : ''}, ${t.descriptor}` : t.descriptor}
+            </div>
             <div class="text-xs text-gray-400 mt-0.5">{t.industry}</div>
           </div>
         </div>
