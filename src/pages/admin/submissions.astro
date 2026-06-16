@@ -497,6 +497,37 @@ const isDevDashboard = import.meta.env.DEV;
       color: #999;
       font-size: 0.95rem;
     }
+
+    /* ── Visitor activity log (StatCounter-style) ── */
+    .section-heading { margin: 24px 0 10px; color: #1a2a4a; }
+    .va-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin: 4px 0 10px; }
+    .va-count { font-size: 0.8rem; font-weight: 600; color: #64748b; }
+    .va-legend { font-size: 0.72rem; color: #94a3b8; margin-left: auto; }
+    .va-dot-id { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: #eef4fc; border: 1px solid #cbd8ea; vertical-align: -1px; }
+    .va-log { display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; background: #fff; }
+    .va-row { border-top: 1px solid #eef2f7; }
+    .va-row:first-child { border-top: 0; }
+    .va-row.identified { background: #eef4fc; }
+    .va-row[open] { background: #f7faff; }
+    .va-summary { display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; cursor: pointer; list-style: none; }
+    .va-summary::-webkit-details-marker { display: none; }
+    .va-avatar { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #1a2a4a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
+    .va-avatar.anon { background: #eef2f7; }
+    .va-anon-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; display: block; }
+    .va-main { flex: 1; min-width: 0; }
+    .va-title { font-size: 0.92rem; font-weight: 700; color: #1a2a4a; }
+    .va-id { font-family: Consolas, monospace; font-size: 0.74rem; font-weight: 400; color: #94a3b8; }
+    .va-check { color: #1d9e75; }
+    .va-meta { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+    .va-meta b { color: #24344d; font-weight: 600; }
+    .va-pills { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .va-pill { display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
+    .va-pill-ads { background: #eaf1fb; border: 1px solid #cbd8ea; color: #185fa5; }
+    .va-pill-neu { background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b; }
+    .va-pill-ret { background: #fdf2c9; border: 1px solid #e8c204; color: #7a5b00; }
+    .va-badge-filled { margin-left: 8px; font-size: 0.66rem; font-weight: 700; background: #eaf6ee; border: 1px solid #b7dfc2; color: #0f6e56; padding: 2px 7px; border-radius: 5px; vertical-align: 1px; }
+    .va-when { flex: none; font-size: 0.76rem; color: #64748b; white-space: nowrap; text-align: right; }
+    .va-detail { padding: 4px 14px 14px 60px; display: grid; gap: 6px; }
   </style>
 </head>
 <body>
@@ -528,8 +559,9 @@ const isDevDashboard = import.meta.env.DEV;
       <button id="logout-btn">Log Out</button>
     </div>
 
-    <div id="visitor-directory" class="visitor-directory loading">Loading known visitors...</div>
+    <div id="visitor-directory" class="visitor-directory loading">Loading visitor activity…</div>
 
+    <h2 class="section-heading">Form submissions (leads)</h2>
     <div class="table-wrap">
       <div id="table-container" class="loading">Loading submissions…</div>
     </div>
@@ -745,36 +777,107 @@ const isDevDashboard = import.meta.env.DEV;
       return `${visitor.visitor_id || ''} ${visitor.label || ''} ${visitor.contact_name || ''} ${visitor.contact_company || ''} ${visitor.contact_email || ''} ${visitor.contact_phone || ''} ${visitor.identity_source || ''} ${visitor.identity_confidence || ''} ${visitor.notes || ''} ${visitor.visitor_ip || ''} ${visitor.visitor_user_agent || ''} ${visitor.visitor_country || ''} ${visitor.visitor_region || ''} ${visitor.visitor_city || ''} ${visitor.visitor_as_organization || ''} ${visitor.source || ''} ${visitor.medium || ''} ${visitor.campaign || ''} ${visitor.term || ''} ${visitor.first_landing_page || ''} ${visitor.last_page || ''}`;
     }
 
+    function visitorDisplayName(visitor) {
+      return visitor.label || visitor.contact_name || visitor.contact_company || visitor.contact_email || '';
+    }
+
+    function visitorInitials(name) {
+      const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+      if (!parts.length) return '';
+      return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+    }
+
+    function formatWhen(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return esc(String(iso));
+      return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    function submittedVisitorIdSet() {
+      const set = new Set();
+      for (const r of allData) {
+        if (r.attribution_visitor_id) set.add(r.attribution_visitor_id);
+      }
+      return set;
+    }
+
+    function visitorSourcePill(visitor) {
+      const src = String(visitor.source || '').toLowerCase();
+      const med = String(visitor.medium || '').toLowerCase();
+      const term = visitor.term ? ' · "' + esc(visitor.term) + '"' : '';
+      if (visitor.gclid || med === 'cpc' || med === 'ppc') {
+        return `<span class="va-pill va-pill-ads">Google Ads${term}</span>`;
+      }
+      if (med === 'organic' || src.includes('google') || src.includes('bing') || src.includes('duckduckgo')) {
+        return `<span class="va-pill va-pill-neu">Organic${term}</span>`;
+      }
+      if (!src || src === 'direct' || src === '(direct)' || src === 'none') {
+        return `<span class="va-pill va-pill-neu">Direct</span>`;
+      }
+      const label = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+      return `<span class="va-pill va-pill-neu">${esc(label || 'Other')}</span>`;
+    }
+
     function renderVisitorDirectory(visitors) {
-      const shown = visitors.slice(0, 12);
-      const heading = `<h2>Known Visitors (${visitors.length}${visitors.length > shown.length ? ', showing first 12' : ''})</h2>`;
+      const submitted = submittedVisitorIdSet();
+      const shown = visitors.slice(0, 100);
+      const total = visitors.length;
+      const identifiedCount = visitors.filter(v =>
+        submitted.has(v.visitor_id) || v.contact_name || v.contact_email || v.label
+      ).length;
+      const heading = `
+        <div class="va-head">
+          <h2 style="margin:0;">Visitor activity</h2>
+          <span class="va-count">${total} visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''} · ${identifiedCount} identified</span>
+          <span class="va-legend"><span class="va-dot-id"></span> identified / filled form · ⚡ returning · newest first</span>
+        </div>`;
+
       if (shown.length === 0) {
-        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted">No matching visitor profiles yet.</div>`;
+        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted" style="padding:14px;">No visitors match this filter yet. Tracking went live recently — new visitors appear here as they browse the site.</div>`;
         return;
       }
 
-      visitorDirectory.innerHTML = `${heading}<div class="visitor-directory-grid">${shown.map(visitor => {
+      visitorDirectory.innerHTML = `${heading}<div class="va-log">${shown.map(visitor => {
         const visitorId = visitor.visitor_id || '';
-        const title = visitor.label || visitor.contact_name || visitor.contact_company || visitor.contact_email || visitorId || 'Unnamed visitor';
+        const isFiller = submitted.has(visitorId);
+        const name = visitorDisplayName(visitor);
+        const isIdentified = Boolean(isFiller || name);
+        const initials = visitorInitials(name);
+        const title = name
+          ? esc(name)
+          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
+        const company = (name && visitor.contact_company && visitor.contact_company !== name)
+          ? ` · ${esc(visitor.contact_company)}` : '';
         const location = [visitor.visitor_city || '', visitor.visitor_region || '', visitor.visitor_country || ''].filter(Boolean).join(', ');
-        const source = [visitor.source || '', visitor.medium || ''].filter(Boolean).join(' / ');
+        const visits = Number(visitor.visit_count || 0);
+        const pageviews = Number(visitor.pageview_count || 0);
+        const isReturning = visits > 1;
+        const lastPage = displayUrl(visitor.last_page || visitor.first_landing_page || '');
+        const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+        const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
+
         return `
-          <div class="visitor-directory-item">
-            <div class="visitor-directory-title">${esc(title)}</div>
-            <div class="attrib-panel">
+          <details class="va-row ${isIdentified ? 'identified' : ''}">
+            <summary class="va-summary">
+              <div class="va-avatar ${isIdentified ? '' : 'anon'}">${isIdentified ? (esc(initials) || '•') : '<span class="va-anon-dot"></span>'}</div>
+              <div class="va-main">
+                <div class="va-title">${isIdentified ? '<span class="va-check">✔</span> ' : ''}${title}${company}${isFiller ? '<span class="va-badge-filled">filled form</span>' : ''}</div>
+                <div class="va-meta">${visitor.visitor_ip ? 'IP <b>' + esc(visitor.visitor_ip) + '</b> · ' : ''}${location ? esc(location) + ' · ' : ''}${pageviews} pageview${pageviews !== 1 ? 's' : ''}${lastPage ? ' · ' + esc(lastPage) : ''}</div>
+                <div class="va-pills">${visitorSourcePill(visitor)}${isReturning ? '<span class="va-pill va-pill-ret">⚡ returning ×' + visits + '</span>' : ''}</div>
+              </div>
+              <div class="va-when">${formatWhen(visitor.last_seen_at)}</div>
+            </summary>
+            <div class="va-detail">
               ${attribLine('Visitor ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
-              ${attribLine('Last seen', visitor.last_seen_at ? esc(visitor.last_seen_at) : '')}
-              ${attribLine('Visits', visitor.visit_count ? esc(String(visitor.visit_count)) : '')}
-              ${attribLine('Pageviews', visitor.pageview_count ? esc(String(visitor.pageview_count)) : '')}
-              ${attribLine('Location', location ? esc(location) : '')}
-              ${attribLine('Network', visitor.visitor_as_organization ? esc(visitor.visitor_as_organization) : '')}
-              ${attribLine('Source', source ? esc(source) : '')}
+              ${attribLine('Network', network ? esc(network) : '')}
+              ${attribLine('Source', sourceText ? esc(sourceText) : '')}
               ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
+              ${attribLine('First seen', visitor.first_seen_at ? formatWhen(visitor.first_seen_at) : '')}
               ${attribLine('Last page', visitor.last_page ? esc(visitor.last_page) : '', 'attrib-path')}
               ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
             </div>
-          </div>
-        `;
+          </details>`;
       }).join('')}</div>`;
     }
 
