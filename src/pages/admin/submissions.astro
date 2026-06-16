@@ -23,7 +23,7 @@ const isDevDashboard = import.meta.env.DEV;
 
     body {
       font-family: 'Inter', Arial, sans-serif;
-      background: #f0f4f8;
+      background: #eef3f8;
       color: #1a2a4a;
       min-height: 100vh;
     }
@@ -86,61 +86,183 @@ const isDevDashboard = import.meta.env.DEV;
       min-height: 20px;
     }
 
-    /* ── Dashboard ──────────────────────────────────────────── */
+    /* ── Dashboard (StatCounter-style shell) ─────────────────── */
     #dashboard { display: none; }
+    #dashboard.is-active { display: flex; min-height: 100vh; }
 
-    header {
-      background: #1a2a4a;
+    /* Sidebar */
+    .sc-sidebar {
+      flex: none;
+      width: 212px;
+      background: #16335c;
+      color: #aebfd6;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+    }
+    .sc-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sc-brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #4a90d9;
       color: #fff;
-      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      flex: none;
+    }
+    .sc-brand-name {
+      color: #f2f6fc;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .sc-nav {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 0;
+      flex: 1;
+    }
+    .sc-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #aebfd6;
+      background: transparent;
+      border: 0;
+      border-left: 3px solid transparent;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      width: 100%;
+      font-family: inherit;
+    }
+    .sc-nav-item .sc-nav-ico {
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+    }
+    .sc-nav-item:hover { background: #1f4575; color: #fff; }
+    .sc-nav-item.active {
+      background: #1f4575;
+      color: #fff;
+      border-left-color: #4a90d9;
+    }
+    .sc-nav-item.active .sc-nav-ico { opacity: 1; }
+    .sc-sidebar-foot {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px;
+    }
+    .sc-logout-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 0;
+      color: #aebfd6;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+    }
+    .sc-logout-link:hover { color: #fff; }
+
+    /* Content area */
+    .sc-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .sc-topbar {
+      height: 56px;
+      background: #fff;
+      border-bottom: 1px solid #dde6f0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      flex-wrap: wrap;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
-    header h1 { font-size: 1.1rem; font-weight: 700; }
-    header span { font-size: 0.8rem; color: #ccc; }
-
-    .toolbar {
-      padding: 20px 32px 10px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .toolbar input {
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
-      outline: none;
-      width: 280px;
-      transition: border-color 0.2s;
-    }
-    .toolbar input:focus { border-color: #1a2a4a; }
-    #count-badge {
-      font-size: 0.82rem;
-      color: #555;
-    }
+    .sc-topbar-title { color: #16335c; font-size: 18px; font-weight: 700; }
+    .sc-topbar-right { display: flex; align-items: center; gap: 14px; }
+    .sc-topbar-right .sc-admin-tag { font-size: 0.82rem; color: #6a7a8c; }
     #logout-btn {
-      margin-left: auto;
       background: transparent;
-      border: 2px solid #1a2a4a;
-      color: #1a2a4a;
-      border-radius: 8px;
-      padding: 7px 18px;
+      border: 1px solid #c7d4e2;
+      color: #2f6db5;
+      border-radius: 6px;
+      padding: 6px 16px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
-    #logout-btn:hover { background: #1a2a4a; color: #fff; }
+    #logout-btn:hover { background: #2f6db5; color: #fff; border-color: #2f6db5; }
+
+    .sc-body { padding: 20px 24px 40px; }
+
+    .sc-section-title {
+      color: #2f6db5;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 4px 0 14px;
+    }
+    .sc-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .sc-toolbar input[type="search"] {
+      border: 1px solid #c7d4e2;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      width: 320px;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .sc-toolbar input[type="search"]:focus { border-color: #2f6db5; }
+    #count-badge { font-size: 0.82rem; color: #6a7a8c; }
+
+    /* Section panels (one visible at a time) */
+    .sc-panel { display: none; }
+    .sc-panel.active { display: block; }
 
     /* ── Table ──────────────────────────────────────────────── */
     .table-wrap {
-      margin: 0 32px 40px;
-      max-height: calc(100vh - 148px);
+      margin: 0 0 40px;
+      max-height: calc(100vh - 200px);
       overflow: auto;
       background: #fff;
       border: 1px solid #cfd8e3;
@@ -148,12 +270,8 @@ const isDevDashboard = import.meta.env.DEV;
       box-shadow: 0 8px 24px rgba(26,42,74,0.08);
     }
     .visitor-directory {
-      margin: 0 32px 16px;
-      background: #fff;
-      border: 1px solid #cfd8e3;
-      border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(26,42,74,0.06);
-      padding: 14px 16px;
+      margin: 0 0 16px;
+      background: transparent;
     }
     .visitor-directory h2 {
       color: #1a2a4a;
@@ -498,36 +616,117 @@ const isDevDashboard = import.meta.env.DEV;
       font-size: 0.95rem;
     }
 
-    /* ── Visitor activity log (StatCounter-style) ── */
-    .section-heading { margin: 24px 0 10px; color: #1a2a4a; }
-    .va-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin: 4px 0 10px; }
-    .va-count { font-size: 0.8rem; font-weight: 600; color: #64748b; }
+    /* ── Visitor activity log (StatCounter per-visit rows) ───── */
+    .va-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin: 0 0 10px; }
+    .va-count { font-size: 0.8rem; font-weight: 600; color: #6a7a8c; }
     .va-legend { font-size: 0.72rem; color: #94a3b8; margin-left: auto; }
     .va-dot-id { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: #eef4fc; border: 1px solid #cbd8ea; vertical-align: -1px; }
-    .va-log { display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; background: #fff; }
-    .va-row { border-top: 1px solid #eef2f7; }
+
+    .va-log {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e3e9f0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .va-row { border-top: 1px solid #e3e9f0; }
     .va-row:first-child { border-top: 0; }
     .va-row.identified { background: #eef4fc; }
-    .va-row[open] { background: #f7faff; }
-    .va-summary { display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; cursor: pointer; list-style: none; }
+
+    .va-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 13px 16px;
+      cursor: pointer;
+      list-style: none;
+    }
     .va-summary::-webkit-details-marker { display: none; }
-    .va-avatar { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #1a2a4a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
-    .va-avatar.anon { background: #eef2f7; }
-    .va-anon-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; display: block; }
+
+    /* Blue circular expand button with a white triangle */
+    .va-expand {
+      flex: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #2e6fbf;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      line-height: 1;
+      margin-top: 2px;
+      transition: transform 0.15s;
+    }
+    .va-expand::before { content: '▶'; transform: translateX(1px); }
+    .va-row[open] .va-expand { transform: rotate(90deg); }
+
     .va-main { flex: 1; min-width: 0; }
-    .va-title { font-size: 0.92rem; font-weight: 700; color: #1a2a4a; }
-    .va-id { font-family: Consolas, monospace; font-size: 0.74rem; font-weight: 400; color: #94a3b8; }
-    .va-check { color: #1d9e75; }
-    .va-meta { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
-    .va-meta b { color: #24344d; font-weight: 600; }
-    .va-pills { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .va-pill { display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
-    .va-pill-ads { background: #eaf1fb; border: 1px solid #cbd8ea; color: #185fa5; }
-    .va-pill-neu { background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b; }
-    .va-pill-ret { background: #fdf2c9; border: 1px solid #e8c204; color: #7a5b00; }
-    .va-badge-filled { margin-left: 8px; font-size: 0.66rem; font-weight: 700; background: #eaf6ee; border: 1px solid #b7dfc2; color: #0f6e56; padding: 2px 7px; border-radius: 5px; vertical-align: 1px; }
-    .va-when { flex: none; font-size: 0.76rem; color: #64748b; white-space: nowrap; text-align: right; }
-    .va-detail { padding: 4px 14px 14px 60px; display: grid; gap: 6px; }
+
+    /* Identity header line at the top of a row */
+    .va-ident { margin-bottom: 6px; }
+    .va-name { font-size: 0.95rem; font-weight: 700; color: #16335c; }
+    .va-name .va-id { font-family: Consolas, monospace; font-size: 0.74rem; font-weight: 400; color: #94a3b8; }
+    .va-company { color: #6a7a8c; font-weight: 600; font-size: 0.84rem; }
+    .va-badge-filled {
+      margin-left: 8px;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: #eaf6ee;
+      border: 1px solid #b7dfc2;
+      color: #0f6e56;
+      padding: 2px 7px;
+      border-radius: 5px;
+      vertical-align: 1px;
+    }
+    .va-badge-ret {
+      margin-left: 6px;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: #fdf2c9;
+      border: 1px solid #e8c204;
+      color: #7a5b00;
+      padding: 2px 7px;
+      border-radius: 5px;
+      vertical-align: 1px;
+    }
+
+    /* Two-column label:value grid (StatCounter look) */
+    .va-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4px 28px;
+    }
+    .va-pair {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 8px;
+      align-items: baseline;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+    .va-pair .va-lbl { color: #6a7a8c; }
+    .va-pair .va-val { color: #24344d; overflow-wrap: anywhere; }
+    .va-val a { text-decoration: none; }
+    .va-val .va-isp { color: #c0392b; }
+    .va-val .va-link { color: #2e6fbf; }
+    .va-val .va-link:hover { text-decoration: underline; }
+
+    .va-when { flex: none; font-size: 0.75rem; color: #6a7a8c; white-space: nowrap; text-align: right; }
+
+    .va-detail {
+      padding: 10px 16px 16px 58px;
+      display: grid;
+      gap: 6px;
+      border-top: 1px dashed #e3e9f0;
+      background: #fafcff;
+    }
   </style>
 </head>
 <body>
@@ -546,24 +745,61 @@ const isDevDashboard = import.meta.env.DEV;
 
   <!-- ── Dashboard ────────────────────────────────────────── -->
   <div id="dashboard">
-    <header>
-      <div>
-        <h1>📋 Form Submissions — Dolphin Centrifuge</h1>
-        <span>Stored in Cloudflare D1 · No-index · Private</span>
+
+    <!-- Navy left sidebar -->
+    <aside class="sc-sidebar">
+      <div class="sc-brand">
+        <span class="sc-brand-mark">D</span>
+        <span class="sc-brand-name">Dolphin</span>
       </div>
-    </header>
+      <nav class="sc-nav">
+        <button type="button" class="sc-nav-item active" data-view="activity">
+          <span class="sc-nav-ico">&#128202;</span>Visitor Activity
+        </button>
+        <button type="button" class="sc-nav-item" data-view="submissions">
+          <span class="sc-nav-ico">&#128203;</span>Form Submissions
+        </button>
+        <button type="button" class="sc-nav-item" data-view="known">
+          <span class="sc-nav-ico">&#9733;</span>Known Visitors
+        </button>
+      </nav>
+      <div class="sc-sidebar-foot">
+        <button type="button" class="sc-logout-link" id="sidebar-logout">
+          <span class="sc-nav-ico">&#9099;</span>Log out
+        </button>
+      </div>
+    </aside>
 
-    <div class="toolbar">
-      <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
-      <span id="count-badge">Loading…</span>
-      <button id="logout-btn">Log Out</button>
-    </div>
+    <!-- Content area -->
+    <div class="sc-content">
+      <div class="sc-topbar">
+        <div class="sc-topbar-title">Dolphincentrifuge.com</div>
+        <div class="sc-topbar-right">
+          <span class="sc-admin-tag">Admin</span>
+          <button id="logout-btn">Log Out</button>
+        </div>
+      </div>
 
-    <div id="visitor-directory" class="visitor-directory loading">Loading visitor activity…</div>
+      <div class="sc-body">
+        <div class="sc-toolbar">
+          <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
+          <span id="count-badge">Loading…</span>
+        </div>
 
-    <h2 class="section-heading">Form submissions (leads)</h2>
-    <div class="table-wrap">
-      <div id="table-container" class="loading">Loading submissions…</div>
+        <!-- Visitor activity / Known visitors share this panel -->
+        <section class="sc-panel active" id="panel-activity">
+          <h1 class="sc-section-title" id="activity-title">Visitor activity</h1>
+          <div id="visitor-directory" class="visitor-directory loading">Loading visitor activity…</div>
+        </section>
+
+        <!-- Form submissions table -->
+        <section class="sc-panel" id="panel-submissions">
+          <h1 class="sc-section-title">Form submissions</h1>
+          <div class="table-wrap">
+            <div id="table-container" class="loading">Loading submissions…</div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 
@@ -819,22 +1055,43 @@ const isDevDashboard = import.meta.env.DEV;
       return `<span class="va-pill va-pill-neu">${esc(label || 'Other')}</span>`;
     }
 
+    function isIdentifiedVisitor(visitor, submitted) {
+      return Boolean(
+        submitted.has(visitor.visitor_id)
+        || visitor.contact_name
+        || visitor.contact_email
+        || visitor.label
+      );
+    }
+
+    // Build one StatCounter-style "label: value" pair.
+    function vaPair(label, valueHtml) {
+      if (!valueHtml) return '';
+      return `<div class="va-pair"><span class="va-lbl">${esc(label)}</span><span class="va-val">${valueHtml}</span></div>`;
+    }
+
     function renderVisitorDirectory(visitors) {
       const submitted = submittedVisitorIdSet();
-      const shown = visitors.slice(0, 100);
-      const total = visitors.length;
-      const identifiedCount = visitors.filter(v =>
-        submitted.has(v.visitor_id) || v.contact_name || v.contact_email || v.label
-      ).length;
+      const filteredByView = knownOnly
+        ? visitors.filter(v => isIdentifiedVisitor(v, submitted))
+        : visitors;
+      const shown = filteredByView.slice(0, 100);
+      const total = filteredByView.length;
+      const identifiedCount = visitors.filter(v => isIdentifiedVisitor(v, submitted)).length;
+      const countLabel = knownOnly
+        ? `${total} known visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''}`
+        : `${total} visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''} · ${identifiedCount} identified`;
       const heading = `
         <div class="va-head">
-          <h2 style="margin:0;">Visitor activity</h2>
-          <span class="va-count">${total} visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''} · ${identifiedCount} identified</span>
-          <span class="va-legend"><span class="va-dot-id"></span> identified / filled form · ⚡ returning · newest first</span>
+          <span class="va-count">${countLabel}</span>
+          <span class="va-legend"><span class="va-dot-id"></span> identified / filled form · newest first</span>
         </div>`;
 
       if (shown.length === 0) {
-        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted" style="padding:14px;">No visitors match this filter yet. Tracking went live recently — new visitors appear here as they browse the site.</div>`;
+        const emptyMsg = knownOnly
+          ? 'No identified visitors yet. Visitors who fill a form — or that you name/label — appear here.'
+          : 'No visitors match this filter yet. Tracking went live recently — new visitors appear here as they browse the site.';
+        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted" style="padding:14px;">${emptyMsg}</div>`;
         return;
       }
 
@@ -842,38 +1099,63 @@ const isDevDashboard = import.meta.env.DEV;
         const visitorId = visitor.visitor_id || '';
         const isFiller = submitted.has(visitorId);
         const name = visitorDisplayName(visitor);
-        const isIdentified = Boolean(isFiller || name);
-        const initials = visitorInitials(name);
-        const title = name
-          ? esc(name)
-          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
-        const company = (name && visitor.contact_company && visitor.contact_company !== name)
-          ? ` · ${esc(visitor.contact_company)}` : '';
-        const location = [visitor.visitor_city || '', visitor.visitor_region || '', visitor.visitor_country || ''].filter(Boolean).join(', ');
+        const isIdentified = isIdentifiedVisitor(visitor, submitted);
         const visits = Number(visitor.visit_count || 0);
         const pageviews = Number(visitor.pageview_count || 0);
         const isReturning = visits > 1;
-        const lastPage = displayUrl(visitor.last_page || visitor.first_landing_page || '');
-        const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+
+        // Identity header line
+        const nameHtml = name
+          ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
+          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
+        const filledBadge = isFiller ? '<span class="va-badge-filled">Filled Form</span>' : '';
+        const retBadge = isReturning ? `<span class="va-badge-ret">Returning ×${visits}</span>` : '';
+
+        // Column A
+        const system = browserSummary(visitor.visitor_user_agent || '');
+        // Column B
+        const flag = countryFlag(visitor.visitor_country);
+        const location = [visitor.visitor_city || '', visitor.visitor_region || '', visitor.visitor_country || ''].filter(Boolean).join(', ');
+        const locationHtml = (flag ? flag + ' ' : '') + (location ? esc(location) : '');
+        const ispParts = [];
+        if (visitor.visitor_as_organization) ispParts.push(`<span class="va-isp">${esc(visitor.visitor_as_organization)}</span>`);
+        if (visitor.visitor_ip) ispParts.push(`(${esc(visitor.visitor_ip)})`);
+        const ispHtml = ispParts.join(' ');
+        const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ') || (visitor.referrer ? displayUrl(visitor.referrer) : '');
+        const lastPageRaw = visitor.last_page || visitor.first_landing_page || '';
+        const lastPageHtml = lastPageRaw
+          ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener">${esc(displayUrl(lastPageRaw))} ↗</a>`
+          : '';
+
+        // Detail panel (attrib lines + identity controls)
         const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
 
         return `
           <details class="va-row ${isIdentified ? 'identified' : ''}">
             <summary class="va-summary">
-              <div class="va-avatar ${isIdentified ? '' : 'anon'}">${isIdentified ? (esc(initials) || '•') : '<span class="va-anon-dot"></span>'}</div>
+              <span class="va-expand" aria-hidden="true"></span>
               <div class="va-main">
-                <div class="va-title">${isIdentified ? '<span class="va-check">✔</span> ' : ''}${title}${company}${isFiller ? '<span class="va-badge-filled">filled form</span>' : ''}</div>
-                <div class="va-meta">${visitor.visitor_ip ? 'IP <b>' + esc(visitor.visitor_ip) + '</b> · ' : ''}${location ? esc(location) + ' · ' : ''}${pageviews} pageview${pageviews !== 1 ? 's' : ''}${lastPage ? ' · ' + esc(lastPage) : ''}</div>
-                <div class="va-pills">${visitorSourcePill(visitor)}${isReturning ? '<span class="va-pill va-pill-ret">⚡ returning ×' + visits + '</span>' : ''}</div>
+                <div class="va-ident">
+                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}
+                </div>
+                <div class="va-cols">
+                  ${vaPair('Page Views:', String(pageviews))}
+                  ${vaPair('Location:', locationHtml)}
+                  ${vaPair('Last seen:', visitor.last_seen_at ? esc(formatWhen(visitor.last_seen_at)) : '')}
+                  ${vaPair('ISP / IP:', ispHtml)}
+                  ${vaPair('Visits:', String(visits))}
+                  ${vaPair('Source:', sourceText ? esc(sourceText) : '')}
+                  ${vaPair('System:', system ? esc(system) : '')}
+                  ${vaPair('Visit Page:', lastPageHtml)}
+                </div>
               </div>
               <div class="va-when">${formatWhen(visitor.last_seen_at)}</div>
             </summary>
             <div class="va-detail">
               ${attribLine('Visitor ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
               ${attribLine('Network', network ? esc(network) : '')}
-              ${attribLine('Source', sourceText ? esc(sourceText) : '')}
-              ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
               ${attribLine('First seen', visitor.first_seen_at ? formatWhen(visitor.first_seen_at) : '')}
+              ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
               ${attribLine('Last page', visitor.last_page ? esc(visitor.last_page) : '', 'attrib-path')}
               ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
             </div>
@@ -1059,17 +1341,46 @@ const isDevDashboard = import.meta.env.DEV;
 
     function showDashboard() {
       loginScreen.style.display = 'none';
-      dashboard.style.display = 'block';
+      dashboard.style.display = 'flex';
+      dashboard.classList.add('is-active');
     }
 
     function logout() {
       sessionStorage.removeItem(SESSION_KEY);
+      dashboard.classList.remove('is-active');
       loginScreen.style.display = 'flex';
       dashboard.style.display = 'none';
       passwordInput.value = '';
     }
 
     logoutBtn.addEventListener('click', logout);
+    const sidebarLogout = document.getElementById('sidebar-logout');
+    if (sidebarLogout) sidebarLogout.addEventListener('click', logout);
+
+    // ── Sidebar navigation (StatCounter-style view switching) ──
+    // "Known Visitors" reuses the activity panel but pre-filters to
+    // identified visitors (form-fillers or named/labeled profiles).
+    let knownOnly = false;
+    const navItems = Array.from(document.querySelectorAll('.sc-nav-item'));
+    const panelActivity = document.getElementById('panel-activity');
+    const panelSubmissions = document.getElementById('panel-submissions');
+    const activityTitle = document.getElementById('activity-title');
+
+    function setView(view) {
+      navItems.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+      const showActivity = (view === 'activity' || view === 'known');
+      panelActivity.classList.toggle('active', showActivity);
+      panelSubmissions.classList.toggle('active', view === 'submissions');
+      knownOnly = (view === 'known');
+      if (activityTitle) {
+        activityTitle.textContent = knownOnly ? 'Known visitors' : 'Visitor activity';
+      }
+      if (showActivity) applySearch();
+    }
+
+    navItems.forEach(btn => {
+      btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
 
     function formTypeLabel(value) {
       const type = String(value || 'contact');
@@ -1143,6 +1454,18 @@ const isDevDashboard = import.meta.env.DEV;
     function cssEscape(value) {
       if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(String(value));
       return String(value).replace(/["\\]/g, '\\$&');
+    }
+
+    // Convert a 2-letter ISO country code to its regional-indicator emoji.
+    // Returns '' if the code is missing or not exactly two A-Z letters.
+    function countryFlag(cc) {
+      const code = String(cc || '').trim().toUpperCase();
+      if (!/^[A-Z]{2}$/.test(code)) return '';
+      const base = 0x1F1E6; // regional indicator 'A'
+      return String.fromCodePoint(
+        base + (code.charCodeAt(0) - 65),
+        base + (code.charCodeAt(1) - 65),
+      );
     }
 
     function browserSummary(userAgent) {
