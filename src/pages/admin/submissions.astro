@@ -2,6 +2,12 @@
 // Admin Dashboard — Dolphin Centrifuge Submissions
 // NO-INDEX: This page is hidden from search engines
 // Password protected via sessionStorage + Worker Bearer token
+const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
+  import.meta.env.DEV
+    ? 'http://127.0.0.1:8787'
+    : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
+)).replace(/\/$/, '');
+const isDevDashboard = import.meta.env.DEV;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +18,7 @@
   <title>Submissions Dashboard — Dolphin Centrifuge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
+  <style is:global>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -133,39 +139,189 @@
 
     /* ── Table ──────────────────────────────────────────────── */
     .table-wrap {
-      padding: 0 32px 40px;
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+      margin: 0 32px 40px;
+      max-height: calc(100vh - 148px);
+      overflow: auto;
       background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      border: 1px solid #cfd8e3;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(26,42,74,0.08);
+    }
+    .visitor-directory {
+      margin: 0 32px 16px;
+      background: #fff;
+      border: 1px solid #cfd8e3;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(26,42,74,0.06);
+      padding: 14px 16px;
+    }
+    .visitor-directory h2 {
+      color: #1a2a4a;
+      font-size: 0.9rem;
+      margin: 0 0 10px;
+    }
+    .visitor-directory-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .visitor-directory-item {
+      border: 1px solid #dce3ec;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .visitor-directory-title {
+      color: #1a2a4a;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .submissions-table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
       font-size: 0.84rem;
     }
-    thead {
+    .submissions-table thead {
       background: #1a2a4a;
       color: #fff;
       text-align: left;
     }
-    thead th {
-      padding: 12px 14px;
-      font-weight: 600;
+    .submissions-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding: 10px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      background: #1a2a4a;
+      border-right: 1px solid rgba(255,255,255,0.18);
+      border-bottom: 1px solid #0f1b31;
+    }
+    .submissions-table thead th:last-child { border-right: 0; }
+    .submissions-table thead th:nth-child(1),
+    .submissions-table thead th:nth-child(2),
+    .submissions-table thead th:nth-child(3),
+    .submissions-table tbody td:nth-child(1),
+    .submissions-table tbody td:nth-child(2),
+    .submissions-table tbody td:nth-child(3) {
+      position: sticky;
+      z-index: 3;
+    }
+    .submissions-table thead th:nth-child(1),
+    .submissions-table tbody td:nth-child(1) {
+      left: 0;
+      text-align: center;
+    }
+    .submissions-table thead th:nth-child(2),
+    .submissions-table tbody td:nth-child(2) {
+      left: 54px;
       white-space: nowrap;
     }
-    tbody tr {
-      border-bottom: 1px solid #eee;
+    .submissions-table thead th:nth-child(3),
+    .submissions-table tbody td:nth-child(3) {
+      left: 162px;
+      white-space: nowrap;
+    }
+    .submissions-table thead th:nth-child(1),
+    .submissions-table thead th:nth-child(2),
+    .submissions-table thead th:nth-child(3) {
+      z-index: 5;
+      background: #1a2a4a;
+    }
+    .submissions-table tbody tr {
       transition: background 0.15s;
     }
-    tbody tr:hover { background: #f7f9fc; }
-    tbody tr.reconnect-row { background: #fff8e1; }
-    tbody tr.reconnect-row:hover { background: #fff3bb; }
-    td {
-      padding: 10px 14px;
+    .submissions-table tbody tr:nth-child(even) { background: #f8fafc; }
+    .submissions-table tbody tr:hover { background: #eef4fb; }
+    .submissions-table tbody tr.reconnect-row { background: #fff8e1; }
+    .submissions-table tbody tr.reconnect-row:hover { background: #fff3bb; }
+    .submissions-table td {
+      padding: 10px 12px;
       vertical-align: top;
       color: #333;
+      background-clip: padding-box;
+      border-right: 1px solid #dce3ec;
+      border-bottom: 1px solid #dce3ec;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .submissions-table td:last-child { border-right: 0; }
+    .submissions-table tbody td:nth-child(1),
+    .submissions-table tbody td:nth-child(2),
+    .submissions-table tbody td:nth-child(3) {
+      background: #fff;
+    }
+    .submissions-table tbody tr:nth-child(even) td:nth-child(1),
+    .submissions-table tbody tr:nth-child(even) td:nth-child(2),
+    .submissions-table tbody tr:nth-child(even) td:nth-child(3) {
+      background: #f8fafc;
+    }
+    .submissions-table tbody tr:hover td:nth-child(1),
+    .submissions-table tbody tr:hover td:nth-child(2),
+    .submissions-table tbody tr:hover td:nth-child(3) {
+      background: #eef4fb;
+    }
+    .submissions-table tbody tr.reconnect-row td:nth-child(1),
+    .submissions-table tbody tr.reconnect-row td:nth-child(2),
+    .submissions-table tbody tr.reconnect-row td:nth-child(3) {
+      background: #fff8e1;
+    }
+    .submissions-table tbody tr.reconnect-row:hover td:nth-child(1),
+    .submissions-table tbody tr.reconnect-row:hover td:nth-child(2),
+    .submissions-table tbody tr.reconnect-row:hover td:nth-child(3) {
+      background: #fff3bb;
+    }
+    .submissions-table tbody td:nth-child(1) {
+      color: #687386;
+      font-weight: 700;
+    }
+    .submissions-table tbody td:nth-child(2) {
+      color: #475569;
+      font-size: 0.78rem;
+    }
+    .cell-num,
+    .cell-date,
+    .cell-phone,
+    .cell-capacity,
+    .cell-solids,
+    .cell-action,
+    .cell-status {
+      white-space: nowrap;
+    }
+    .cell-num {
+      color: #687386;
+      font-weight: 700;
+      text-align: center;
+    }
+    .cell-date {
+      color: #475569;
+      font-size: 0.78rem;
+    }
+    .cell-primary {
+      color: #1a2a4a;
+      font-weight: 700;
+    }
+    .cell-secondary {
+      color: #64748b;
+      font-size: 0.74rem;
+      margin-top: 2px;
+    }
+    .cell-email a {
+      color: #1a2a4a;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .cell-email a:hover { text-decoration: underline; }
+    .empty-cell {
+      color: #94a3b8;
+      font-style: italic;
     }
     .badge-reconnect {
       display: inline-block;
@@ -176,6 +332,145 @@
       padding: 2px 8px;
       border-radius: 20px;
       white-space: nowrap;
+    }
+    .type-badge {
+      display: inline-block;
+      background: #e8eef8;
+      border: 1px solid #cbd8ea;
+      color: #1a2a4a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .attrib-cell {
+      min-width: 380px;
+      font-size: 0.76rem;
+    }
+    .visitor-cell {
+      min-width: 340px;
+      font-size: 0.76rem;
+    }
+    .attrib-panel {
+      display: grid;
+      gap: 6px;
+    }
+    .attrib-source {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      background: #eaf6ee;
+      border: 1px solid #b7dfc2;
+      border-radius: 6px;
+      color: #1a2a4a;
+      font-weight: 700;
+      padding: 4px 8px;
+    }
+    .attrib-muted {
+      color: #687386;
+    }
+    .attrib-line {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+    .attrib-label {
+      color: #687386;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .attrib-value {
+      color: #24344d;
+      min-width: 0;
+    }
+    .attrib-path {
+      color: #333;
+      font-family: Consolas, 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      word-break: break-word;
+    }
+    .attrib-details {
+      border-top: 1px solid #dce3ec;
+      margin-top: 2px;
+      padding-top: 6px;
+    }
+    .attrib-details summary {
+      cursor: pointer;
+      color: #1a2a4a;
+      font-weight: 700;
+    }
+    .attrib-details ol {
+      margin: 6px 0 0 18px;
+    }
+    .attrib-details li {
+      margin-bottom: 5px;
+    }
+    .context-ua-text {
+      color: #24344d;
+      font-family: Consolas, 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      line-height: 1.35;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
+    }
+    .visitor-label-box {
+      border-top: 1px solid #dce3ec;
+      display: grid;
+      gap: 6px;
+      margin-top: 2px;
+      padding-top: 6px;
+    }
+    .visitor-label-box input[type="text"],
+    .visitor-label-box input[type="email"],
+    .visitor-label-box input[type="tel"],
+    .visitor-label-box textarea {
+      border: 1px solid #cfd8e3;
+      border-radius: 6px;
+      color: #24344d;
+      font: inherit;
+      padding: 5px 7px;
+      width: 100%;
+    }
+    .visitor-label-box textarea {
+      min-height: 54px;
+      resize: vertical;
+    }
+    .visitor-identity-grid {
+      display: grid;
+      gap: 5px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .visitor-identity-grid input {
+      min-width: 0;
+    }
+    .visitor-alert-row {
+      align-items: center;
+      color: #475569;
+      display: flex;
+      gap: 6px;
+    }
+    .visitor-save-btn {
+      background: #1a2a4a;
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 6px 9px;
+      width: fit-content;
+    }
+    .visitor-save-btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+    }
+    .visitor-save-status {
+      color: #64748b;
+      font-size: 0.7rem;
     }
     .delete-btn {
       background: transparent;
@@ -232,14 +527,16 @@
       <button id="logout-btn">Log Out</button>
     </div>
 
+    <div id="visitor-directory" class="visitor-directory loading">Loading known visitors...</div>
+
     <div class="table-wrap">
       <div id="table-container" class="loading">Loading submissions…</div>
     </div>
   </div>
 
-  <script>
+  <script define:vars={{ contactWorkerBaseUrl, isDevDashboard }}>
     // ── Config ────────────────────────────────────────────────
-    const WORKER_URL = 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev';
+    const WORKER_URL = contactWorkerBaseUrl;
     const SESSION_KEY = 'dc_admin_token';
 
     // ── Elements ──────────────────────────────────────────────
@@ -251,12 +548,23 @@
     const searchInput    = document.getElementById('search-input');
     const countBadge     = document.getElementById('count-badge');
     const tableContainer = document.getElementById('table-container');
+    const visitorDirectory = document.getElementById('visitor-directory');
     const logoutBtn      = document.getElementById('logout-btn');
 
     let allData = [];
+    let allVisitors = [];
+    const initialSearch = new URLSearchParams(window.location.search).get('q') || '';
 
     // ── Auto-login if session exists ──────────────────────────
-    const savedToken = sessionStorage.getItem(SESSION_KEY);
+    // Local dev only: lets us verify localhost without a real admin secret.
+    const localDemoToken = (
+      isDevDashboard
+      && ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)
+      && new URLSearchParams(window.location.search).get('localDemo') === '1'
+    ) ? 'local-demo-token' : '';
+    if (localDemoToken) sessionStorage.setItem(SESSION_KEY, localDemoToken);
+
+    const savedToken = localDemoToken || sessionStorage.getItem(SESSION_KEY);
     if (savedToken) {
       showDashboard();
       loadSubmissions(savedToken);
@@ -286,7 +594,9 @@
           const json = await resp.json();
           allData = json.data || [];
           showDashboard();
-          renderTable(allData);
+          applyInitialSearch();
+          applySearch();
+          loadVisitors(token);
         } else {
           loginError.textContent = 'Server error. Please try again.';
         }
@@ -307,27 +617,74 @@
         if (resp.status === 401) { logout(); return; }
         const json = await resp.json();
         allData = json.data || [];
-        renderTable(allData);
+        applyInitialSearch();
+        applySearch();
+        loadVisitors(token);
       } catch (err) {
         tableContainer.innerHTML = '<div class="empty">Failed to load data. Check your connection.</div>';
       }
     }
 
+    async function loadVisitors(token) {
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) throw new Error('Visitor load failed');
+        const json = await resp.json();
+        allVisitors = json.data || [];
+        applySearch();
+      } catch (err) {
+        visitorDirectory.innerHTML = '<h2>Known Visitors</h2><div class="attrib-muted">Visitor profiles are not available yet.</div>';
+      }
+    }
+
     // ── Render table ───────────────────────────────────────────
+    function isReturningRecord(record) {
+      return Boolean(
+        record.is_reconnect
+        || Number(record.attribution_is_returning || 0)
+        || Number(record.visitor_profile_visit_count || record.attribution_visit_count || 0) > 1
+      );
+    }
+
     function renderTable(data) {
-      const reconnectCount = data.filter(r => r.is_reconnect).length;
-      countBadge.textContent = `${data.length} entries · ${reconnectCount} returning customer${reconnectCount !== 1 ? 's' : ''}`;
+      const reconnectCount = data.filter(isReturningRecord).length;
+      countBadge.textContent = `${data.length} entries · ${reconnectCount} returning visitor${reconnectCount !== 1 ? 's' : ''}`;
 
       if (data.length === 0) {
         tableContainer.innerHTML = '<div class="empty">No submissions yet.</div>';
         return;
       }
 
+      const colgroup = `
+        <colgroup>
+          <col style="width:54px">
+          <col style="width:108px">
+          <col style="width:116px">
+          <col style="width:170px">
+          <col style="width:210px">
+          <col style="width:230px">
+          <col style="width:128px">
+          <col style="width:138px">
+          <col style="width:150px">
+          <col style="width:110px">
+          <col style="width:92px">
+          <col style="width:155px">
+          <col style="width:130px">
+          <col style="width:250px">
+          <col style="width:430px">
+          <col style="width:360px">
+          <col style="width:132px">
+          <col style="width:96px">
+        </colgroup>`;
+
       const thead = `
         <thead>
           <tr>
             <th>#</th>
             <th>Date</th>
+            <th>Type</th>
             <th>Name</th>
             <th>Company</th>
             <th>Email</th>
@@ -339,6 +696,8 @@
             <th>Condition</th>
             <th>Contact Pref.</th>
             <th>Details</th>
+            <th>Google Attribution</th>
+            <th>Visitor Context</th>
             <th>Status</th>
             <th>Delete</th>
           </tr>
@@ -346,18 +705,19 @@
 
       const tbody = data.map(r => {
         const date = r.created_at ? r.created_at.substring(0, 10) : '—';
-        const reconnectBadge = r.is_reconnect
+        const reconnectBadge = isReturningRecord(r)
           ? `<span class="badge-reconnect">⚡ RETURNING</span>`
           : '';
         const details = r.additional_details
           ? r.additional_details.substring(0, 80) + (r.additional_details.length > 80 ? '…' : '')
           : '—';
-        const rowClass = r.is_reconnect ? 'reconnect-row' : '';
+        const rowClass = isReturningRecord(r) ? 'reconnect-row' : '';
 
         return `
           <tr class="${rowClass}" data-id="${r.id}">
             <td>${r.id}</td>
             <td style="white-space:nowrap">${date}</td>
+            <td><span class="type-badge">${esc(formTypeLabel(r.form_type))}</span></td>
             <td style="white-space:nowrap">${esc(r.first_name)} ${esc(r.last_name)}</td>
             <td>${esc(r.company)}</td>
             <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
@@ -369,38 +729,186 @@
             <td style="white-space:nowrap">${esc(r.centrifuge_condition)}</td>
             <td style="white-space:nowrap">${esc(r.contact_method)}</td>
             <td title="${esc(r.additional_details)}">${esc(details)}</td>
+            <td class="attrib-cell">${renderAttribution(r)}</td>
+            <td class="visitor-cell">${renderVisitorContext(r)}</td>
             <td>${reconnectBadge}</td>
             <td><button class="delete-btn" data-delete-id="${r.id}">Delete</button></td>
           </tr>`;
       }).join('');
 
-      tableContainer.innerHTML = `<table>${thead}<tbody>${tbody}</tbody></table>`;
+      tableContainer.innerHTML = `<table class="submissions-table">${colgroup}${thead}<tbody>${tbody}</tbody></table>`;
     }
 
     // ── Search filter ──────────────────────────────────────────
-    searchInput.addEventListener('input', () => {
+    function visitorProfileSearchText(visitor) {
+      return `${visitor.visitor_id || ''} ${visitor.label || ''} ${visitor.contact_name || ''} ${visitor.contact_company || ''} ${visitor.contact_email || ''} ${visitor.contact_phone || ''} ${visitor.identity_source || ''} ${visitor.identity_confidence || ''} ${visitor.notes || ''} ${visitor.visitor_ip || ''} ${visitor.visitor_user_agent || ''} ${visitor.visitor_country || ''} ${visitor.visitor_region || ''} ${visitor.visitor_city || ''} ${visitor.visitor_as_organization || ''} ${visitor.source || ''} ${visitor.medium || ''} ${visitor.campaign || ''} ${visitor.term || ''} ${visitor.first_landing_page || ''} ${visitor.last_page || ''}`;
+    }
+
+    function renderVisitorDirectory(visitors) {
+      const shown = visitors.slice(0, 12);
+      const heading = `<h2>Known Visitors (${visitors.length}${visitors.length > shown.length ? ', showing first 12' : ''})</h2>`;
+      if (shown.length === 0) {
+        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted">No matching visitor profiles yet.</div>`;
+        return;
+      }
+
+      visitorDirectory.innerHTML = `${heading}<div class="visitor-directory-grid">${shown.map(visitor => {
+        const visitorId = visitor.visitor_id || '';
+        const title = visitor.label || visitor.contact_name || visitor.contact_company || visitor.contact_email || visitorId || 'Unnamed visitor';
+        const location = [visitor.visitor_city || '', visitor.visitor_region || '', visitor.visitor_country || ''].filter(Boolean).join(', ');
+        const source = [visitor.source || '', visitor.medium || ''].filter(Boolean).join(' / ');
+        return `
+          <div class="visitor-directory-item">
+            <div class="visitor-directory-title">${esc(title)}</div>
+            <div class="attrib-panel">
+              ${attribLine('Visitor ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
+              ${attribLine('Last seen', visitor.last_seen_at ? esc(visitor.last_seen_at) : '')}
+              ${attribLine('Visits', visitor.visit_count ? esc(String(visitor.visit_count)) : '')}
+              ${attribLine('Pageviews', visitor.pageview_count ? esc(String(visitor.pageview_count)) : '')}
+              ${attribLine('Location', location ? esc(location) : '')}
+              ${attribLine('Network', visitor.visitor_as_organization ? esc(visitor.visitor_as_organization) : '')}
+              ${attribLine('Source', source ? esc(source) : '')}
+              ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
+              ${attribLine('Last page', visitor.last_page ? esc(visitor.last_page) : '', 'attrib-path')}
+              ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
+            </div>
+          </div>
+        `;
+      }).join('')}</div>`;
+    }
+
+    function applyInitialSearch() {
+      if (initialSearch && !searchInput.value) searchInput.value = initialSearch;
+    }
+
+    function applySearch() {
       const q = searchInput.value.toLowerCase();
       const filtered = allData.filter(r =>
-        `${r.first_name} ${r.last_name} ${r.company} ${r.email} ${r.phone} ${r.fluid_type} ${r.country} ${r.additional_details}`
+        `${r.first_name} ${r.last_name} ${r.company} ${r.email} ${r.phone} ${r.fluid_type} ${r.country} ${r.additional_details} ${r.form_type} ${googleAttributionSearchText(r)} ${visitorContextSearchText(r)}`
           .toLowerCase().includes(q)
       );
       renderTable(filtered);
-    });
+      renderVisitorDirectory(allVisitors.filter(visitor =>
+        visitorProfileSearchText(visitor).toLowerCase().includes(q)
+      ));
+    }
+
+    searchInput.addEventListener('input', applySearch);
 
     // ── Delete: event delegation on table container ─────────
     let pendingDeleteId = null;
-    const deleteModal   = document.getElementById('delete-modal');
-    const modalConfirm  = document.getElementById('modal-confirm');
-    const modalCancel   = document.getElementById('modal-cancel');
+
+    function getDeleteModalEls() {
+      return {
+        deleteModal: document.getElementById('delete-modal'),
+        modalConfirm: document.getElementById('modal-confirm'),
+        modalCancel: document.getElementById('modal-cancel'),
+      };
+    }
 
     tableContainer.addEventListener('click', function(e) {
+      const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
+      if (saveVisitorBtn) {
+        saveVisitorSettings(saveVisitorBtn);
+        return;
+      }
+
       const btn = e.target.closest('[data-delete-id]');
       if (!btn) return;
       pendingDeleteId = Number(btn.dataset.deleteId);
-      deleteModal.style.display = 'flex';
+      const { deleteModal } = getDeleteModalEls();
+      if (deleteModal) deleteModal.style.display = 'flex';
     });
 
-    modalCancel.addEventListener('click', function() {
+    visitorDirectory.addEventListener('click', function(e) {
+      const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
+      if (saveVisitorBtn) saveVisitorSettings(saveVisitorBtn);
+    });
+
+    async function saveVisitorSettings(button) {
+      const visitorId = button.dataset.saveVisitorId;
+      if (!visitorId) return;
+      const token = sessionStorage.getItem(SESSION_KEY);
+      const labelInput = dashboard.querySelector(`[data-visitor-label="${cssEscape(visitorId)}"]`);
+      const contactNameInput = dashboard.querySelector(`[data-visitor-contact-name="${cssEscape(visitorId)}"]`);
+      const contactCompanyInput = dashboard.querySelector(`[data-visitor-contact-company="${cssEscape(visitorId)}"]`);
+      const contactEmailInput = dashboard.querySelector(`[data-visitor-contact-email="${cssEscape(visitorId)}"]`);
+      const contactPhoneInput = dashboard.querySelector(`[data-visitor-contact-phone="${cssEscape(visitorId)}"]`);
+      const notesInput = dashboard.querySelector(`[data-visitor-notes="${cssEscape(visitorId)}"]`);
+      const alertInput = dashboard.querySelector(`[data-visitor-alert="${cssEscape(visitorId)}"]`);
+      const emailInput = dashboard.querySelector(`[data-visitor-email="${cssEscape(visitorId)}"]`);
+      const statusEl = dashboard.querySelector(`[data-visitor-status="${cssEscape(visitorId)}"]`);
+      const payload = {
+        label: labelInput ? labelInput.value.trim() : '',
+        contact_name: contactNameInput ? contactNameInput.value.trim() : '',
+        contact_company: contactCompanyInput ? contactCompanyInput.value.trim() : '',
+        contact_email: contactEmailInput ? contactEmailInput.value.trim() : '',
+        contact_phone: contactPhoneInput ? contactPhoneInput.value.trim() : '',
+        identity_source: 'manual',
+        identity_confidence: 'manual-confirmed',
+        notes: notesInput ? notesInput.value.trim() : '',
+        alert_enabled: alertInput ? alertInput.checked : false,
+        alert_email: emailInput ? emailInput.value.trim() : 'sales@dolphincentrifuge.com',
+      };
+
+      button.disabled = true;
+      if (statusEl) statusEl.textContent = 'Saving...';
+
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors/${encodeURIComponent(visitorId)}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        if (!resp.ok) throw new Error('Save failed');
+
+        allData = allData.map(row => {
+          if (row.attribution_visitor_id !== visitorId) return row;
+          return {
+            ...row,
+            visitor_label: payload.label,
+            visitor_contact_name: payload.contact_name,
+            visitor_contact_company: payload.contact_company,
+            visitor_contact_email: payload.contact_email,
+            visitor_contact_phone: payload.contact_phone,
+            visitor_identity_source: payload.identity_source,
+            visitor_identity_confidence: payload.identity_confidence,
+            visitor_notes: payload.notes,
+            visitor_alert_enabled: payload.alert_enabled ? 1 : 0,
+            visitor_alert_email: payload.alert_email,
+          };
+        });
+        allVisitors = allVisitors.map(visitor => {
+          if (visitor.visitor_id !== visitorId) return visitor;
+          return {
+            ...visitor,
+            label: payload.label,
+            contact_name: payload.contact_name,
+            contact_company: payload.contact_company,
+            contact_email: payload.contact_email,
+            contact_phone: payload.contact_phone,
+            identity_source: payload.identity_source,
+            identity_confidence: payload.identity_confidence,
+            notes: payload.notes,
+            alert_enabled: payload.alert_enabled ? 1 : 0,
+            alert_email: payload.alert_email,
+          };
+        });
+        applySearch();
+      } catch (err) {
+        if (statusEl) statusEl.textContent = 'Save failed';
+        button.disabled = false;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const { deleteModal, modalConfirm, modalCancel } = getDeleteModalEls();
+      if (!deleteModal || !modalConfirm || !modalCancel) return;
+
+      modalCancel.addEventListener('click', function() {
       deleteModal.style.display = 'none';
       pendingDeleteId = null;
     });
@@ -443,6 +951,8 @@
     });
 
     // ── Helpers ────────────────────────────────────────────────
+    });
+
     function showDashboard() {
       loginScreen.style.display = 'none';
       dashboard.style.display = 'block';
@@ -456,6 +966,273 @@
     }
 
     logoutBtn.addEventListener('click', logout);
+
+    function formTypeLabel(value) {
+      const type = String(value || 'contact');
+      if (type === 'parts_request_form') return 'Parts RFQ';
+      if (type === 'disc_parts_glossary_form') return 'Parts RFQ';
+      if (type === 'centrifuge_contact_form') return 'Contact';
+      if (type === 'contact') return 'Contact';
+      return type.replace(/_/g, ' ');
+    }
+
+    function shortPath(value) {
+      if (!value) return '';
+      try {
+        const url = new URL(String(value), window.location.origin);
+        return `${url.pathname}${url.search}`;
+      } catch (e) {
+        return String(value);
+      }
+    }
+
+    function displayUrl(value) {
+      if (!value) return '';
+      try {
+        const url = new URL(String(value), window.location.origin);
+        if (url.origin === window.location.origin) return `${url.pathname}${url.search}`;
+        return `${url.hostname}${url.pathname}${url.search}`;
+      } catch (e) {
+        return String(value);
+      }
+    }
+
+    function parsePages(record) {
+      const raw = record && record.attribution_pages_json;
+      if (!raw) return [];
+      try {
+        const pages = JSON.parse(raw);
+        if (!Array.isArray(pages)) return [];
+        return pages.filter(page => page && (page.path || page.title)).slice(-8);
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function isGoogleAttribution(record) {
+      const source = String(record.attribution_source || '').toLowerCase();
+      return source === 'google'
+        || source.includes('google.')
+        || Boolean(record.attribution_gclid || record.attribution_gbraid || record.attribution_wbraid);
+    }
+
+    function googleAttributionSearchText(record) {
+      if (!isGoogleAttribution(record)) return '';
+      return `${record.attribution_source} ${record.attribution_medium} ${record.attribution_campaign} ${record.attribution_term} ${record.attribution_landing_page} ${record.attribution_current_page} ${record.attribution_gclid} ${record.attribution_gbraid} ${record.attribution_wbraid} ${record.attribution_ga_client_id} ${record.attribution_statcounter_visitor_id}`;
+    }
+
+    function visitorContextSearchText(record) {
+      const pages = parsePages(record).map(page => `${page.path || ''} ${page.title || ''} ${page.referrer || ''}`).join(' ');
+      return `${record.attribution_visitor_id || ''} ${record.visitor_label || ''} ${record.visitor_contact_name || ''} ${record.visitor_contact_company || ''} ${record.visitor_contact_email || ''} ${record.visitor_contact_phone || ''} ${record.visitor_identity_source || ''} ${record.visitor_identity_confidence || ''} ${record.visitor_notes || ''} ${record.visitor_ip || ''} ${record.visitor_user_agent || ''} ${record.visitor_accept_language || ''} ${record.visitor_country || ''} ${record.visitor_region || ''} ${record.visitor_city || ''} ${record.visitor_timezone || ''} ${record.visitor_asn || ''} ${record.visitor_as_organization || ''} ${record.visitor_cf_ray || ''} ${record.attribution_referrer || ''} ${record.attribution_landing_page || ''} ${record.attribution_current_page || ''} ${pages}`;
+    }
+
+    function attribLine(label, value, className) {
+      if (!value) return '';
+      const valueClass = className ? `attrib-value ${className}` : 'attrib-value';
+      return `
+        <div class="attrib-line">
+          <span class="attrib-label">${esc(label)}</span>
+          <span class="${valueClass}">${value}</span>
+        </div>`;
+    }
+
+    function cssEscape(value) {
+      if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(String(value));
+      return String(value).replace(/["\\]/g, '\\$&');
+    }
+
+    function browserSummary(userAgent) {
+      const ua = String(userAgent || '');
+      let browser = 'Browser details';
+      if (ua.includes('Edg/')) browser = 'Edge';
+      else if (ua.includes('Chrome/')) browser = 'Chrome';
+      else if (ua.includes('Firefox/')) browser = 'Firefox';
+      else if (ua.includes('Safari/') && !ua.includes('Chrome/')) browser = 'Safari';
+
+      let device = '';
+      if (ua.includes('Windows')) device = 'Windows';
+      else if (ua.includes('Macintosh')) device = 'macOS';
+      else if (ua.includes('iPhone')) device = 'iPhone';
+      else if (ua.includes('iPad')) device = 'iPad';
+      else if (ua.includes('Android')) device = 'Android';
+      else if (ua.includes('Linux')) device = 'Linux';
+
+      return device ? `${browser} on ${device}` : browser;
+    }
+
+    function renderVisitorIdentityControls(record, visitorId) {
+      const labelValue = record.visitor_label || record.label || '';
+      const contactNameValue = record.visitor_contact_name || record.contact_name || '';
+      const contactCompanyValue = record.visitor_contact_company || record.contact_company || '';
+      const contactEmailValue = record.visitor_contact_email || record.contact_email || '';
+      const contactPhoneValue = record.visitor_contact_phone || record.contact_phone || '';
+      const notesValue = record.visitor_notes || record.notes || '';
+      const alertEnabled = Number(record.visitor_alert_enabled || record.alert_enabled || 0);
+      const alertEmail = record.visitor_alert_email || record.alert_email || 'sales@dolphincentrifuge.com';
+
+      return `
+        <div class="visitor-label-box" data-visitor-box="${esc(visitorId)}">
+          ${attribLine('Label', labelValue ? esc(labelValue) : '<span class="attrib-muted">Unlabeled</span>')}
+          <input type="text" data-visitor-label="${esc(visitorId)}" value="${esc(labelValue)}" placeholder="Name this visitor" />
+          <div class="visitor-identity-grid">
+            <input type="text" data-visitor-contact-name="${esc(visitorId)}" value="${esc(contactNameValue)}" placeholder="Contact name" />
+            <input type="text" data-visitor-contact-company="${esc(visitorId)}" value="${esc(contactCompanyValue)}" placeholder="Company" />
+            <input type="email" data-visitor-contact-email="${esc(visitorId)}" value="${esc(contactEmailValue)}" placeholder="Email" />
+            <input type="tel" data-visitor-contact-phone="${esc(visitorId)}" value="${esc(contactPhoneValue)}" placeholder="Phone or caller ID" />
+          </div>
+          <textarea data-visitor-notes="${esc(visitorId)}" placeholder="Notes, e.g. John called at 2:10 PM from Massachusetts">${esc(notesValue)}</textarea>
+          <label class="visitor-alert-row">
+            <input type="checkbox" data-visitor-alert="${esc(visitorId)}" ${alertEnabled ? 'checked' : ''} />
+            <span>Email me when this visitor returns</span>
+          </label>
+          <input type="email" data-visitor-email="${esc(visitorId)}" value="${esc(alertEmail)}" placeholder="sales@dolphincentrifuge.com" />
+          <button class="visitor-save-btn" data-save-visitor-id="${esc(visitorId)}">Save Visitor</button>
+          <span class="visitor-save-status" data-visitor-status="${esc(visitorId)}"></span>
+        </div>
+      `;
+    }
+
+    function renderVisitorContext(record) {
+      const location = [
+        record.visitor_city || '',
+        record.visitor_region || '',
+        record.visitor_country || '',
+      ].filter(Boolean).join(', ');
+      const network = [
+        record.visitor_asn ? `AS${record.visitor_asn}` : '',
+        record.visitor_as_organization || '',
+      ].filter(Boolean).join(' ');
+      const pages = parsePages(record);
+      const pageCount = Number(record.attribution_page_count || pages.length || 0);
+      const referrer = displayUrl(record.attribution_referrer || '');
+      const landing = displayUrl(record.attribution_landing_page || '');
+      const userAgent = record.visitor_user_agent || '';
+      const cookieVisitorId = record.attribution_visitor_id || '';
+      const visitCount = Number(record.visitor_profile_visit_count || record.attribution_visit_count || 0);
+      const isReturning = Number(record.attribution_is_returning || 0) || visitCount > 1;
+      const lastSeen = record.visitor_profile_last_seen_at || record.attribution_visitor_last_seen_at || '';
+      const labelValue = record.visitor_label || '';
+      const contactNameValue = record.visitor_contact_name || '';
+      const contactCompanyValue = record.visitor_contact_company || '';
+      const contactEmailValue = record.visitor_contact_email || '';
+      const contactPhoneValue = record.visitor_contact_phone || '';
+      const identitySourceValue = record.visitor_identity_source || '';
+      const identityConfidenceValue = record.visitor_identity_confidence || '';
+      const notesValue = record.visitor_notes || '';
+      const alertEnabled = Number(record.visitor_alert_enabled || 0);
+      const alertEmail = record.visitor_alert_email || 'sales@dolphincentrifuge.com';
+      const hasContext = record.visitor_ip
+        || userAgent
+        || location
+        || network
+        || cookieVisitorId
+        || contactNameValue
+        || contactCompanyValue
+        || contactEmailValue
+        || contactPhoneValue
+        || notesValue
+        || record.visitor_accept_language
+        || record.visitor_cf_ray
+        || referrer
+        || landing
+        || pages.length;
+
+      if (!hasContext) {
+        return '<span class="attrib-muted">Not captured yet</span>';
+      }
+
+      const browserDetails = userAgent
+        ? `<details class="attrib-details"><summary>${esc(browserSummary(userAgent))}</summary><div class="context-ua-text">${esc(userAgent)}</div></details>`
+        : '';
+      const trailLabel = pageCount > pages.length
+        ? `${pages.length} shown of ${pageCount} pages`
+        : `${pages.length} page${pages.length === 1 ? '' : 's'}`;
+      const trail = pages.length
+        ? `<details class="attrib-details"><summary>Visit trail: ${esc(trailLabel)}</summary><ol>${pages.map(page => `<li><span class="attrib-path">${esc(displayUrl(page.path || ''))}</span>${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
+        : '';
+      const labelControls = cookieVisitorId ? renderVisitorIdentityControls(record, cookieVisitorId) : '';
+
+      return `
+        <div class="attrib-panel">
+          <div class="attrib-source">Visitor context</div>
+          ${attribLine('Cookie ID', cookieVisitorId ? esc(cookieVisitorId) : '', 'attrib-path')}
+          ${attribLine('Contact', contactNameValue ? esc(contactNameValue) : '')}
+          ${attribLine('Company', contactCompanyValue ? esc(contactCompanyValue) : '')}
+          ${attribLine('Phone', contactPhoneValue ? esc(contactPhoneValue) : '')}
+          ${attribLine('Email', contactEmailValue ? esc(contactEmailValue) : '')}
+          ${attribLine('Identity', identitySourceValue || identityConfidenceValue ? esc([identitySourceValue, identityConfidenceValue].filter(Boolean).join(' / ')) : '')}
+          ${attribLine('Notes', notesValue ? esc(notesValue) : '')}
+          ${attribLine('Visit #', visitCount ? esc(String(visitCount)) : '')}
+          ${attribLine('Last seen', lastSeen ? esc(lastSeen) : '')}
+          ${attribLine('Returning', isReturning ? 'Yes' : '')}
+          ${attribLine('IP', record.visitor_ip ? esc(record.visitor_ip) : '')}
+          ${attribLine('Location', location ? esc(location) : '')}
+          ${attribLine('Referrer', referrer ? esc(referrer) : '', 'attrib-path')}
+          ${attribLine('Landing', landing ? esc(landing) : '', 'attrib-path')}
+          ${attribLine('Language', record.visitor_accept_language ? esc(record.visitor_accept_language) : '')}
+          ${attribLine('Network', network ? esc(network) : '')}
+          ${attribLine('CF-Ray', record.visitor_cf_ray ? esc(record.visitor_cf_ray) : '')}
+          ${browserDetails}
+          ${trail}
+          ${labelControls}
+        </div>
+      `;
+    }
+
+    function renderAttribution(record) {
+      const source = record.attribution_source || '';
+      const medium = record.attribution_medium || '';
+      const isGoogle = isGoogleAttribution(record);
+      const landing = shortPath(record.attribution_landing_page || '');
+      const current = shortPath(record.attribution_current_page || '');
+      const campaign = record.attribution_campaign || '';
+      const term = record.attribution_term || '';
+      const pages = parsePages(record);
+      const pageCount = Number(record.attribution_page_count || pages.length || 0);
+      const clickIds = [
+        record.attribution_gclid ? 'gclid' : '',
+        record.attribution_gbraid ? 'gbraid' : '',
+        record.attribution_wbraid ? 'wbraid' : '',
+      ].filter(Boolean);
+
+      if (!source && !landing && !current && pages.length === 0) {
+        return '<span class="attrib-muted">Not captured yet</span>';
+      }
+
+      if (!isGoogle) {
+        return `
+          <div class="attrib-panel">
+            <div class="attrib-source">Non-Google traffic</div>
+            <div class="attrib-line">
+              <span class="attrib-label">Report</span>
+              <span class="attrib-value attrib-muted">Not included in Google report</span>
+            </div>
+          </div>
+        `;
+      }
+
+      const sourceLabel = `Google${medium ? ' / ' + medium : ''}`;
+      const trailLabel = pageCount > pages.length
+        ? `${pages.length} shown of ${pageCount} pages`
+        : `${pages.length} page${pages.length === 1 ? '' : 's'}`;
+      const trail = pages.length
+        ? `<details class="attrib-details"><summary>${esc(trailLabel)}</summary><ol>${pages.map(page => `<li><span class="attrib-path">${esc(shortPath(page.path || ''))}</span>${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
+        : '';
+
+      return `
+        <div class="attrib-panel">
+          <div class="attrib-source">${esc(sourceLabel)}</div>
+          ${attribLine('Campaign', campaign ? esc(campaign) : '')}
+          ${attribLine('Keyword', term ? esc(term) : '')}
+          ${attribLine('Landing', landing ? esc(landing) : '', 'attrib-path')}
+          ${attribLine('Form page', current ? esc(current) : '', 'attrib-path')}
+          ${attribLine('Ad IDs', clickIds.length ? esc(clickIds.join(', ')) : '')}
+          ${attribLine('GA client', record.attribution_ga_client_id ? esc(record.attribution_ga_client_id) : '')}
+          ${attribLine('StatCounter', record.attribution_statcounter_visitor_id ? esc(record.attribution_statcounter_visitor_id) : '')}
+          ${trail}
+        </div>
+      `;
+    }
 
     function esc(str) {
       if (!str) return '';

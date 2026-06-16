@@ -30,6 +30,15 @@ export default {
       return handleAdminGet(request, env);
     }
 
+    if (request.method === 'GET' && path === '/admin/visitors') {
+      return handleAdminVisitorsGet(request, env);
+    }
+
+    if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
+      const visitorId = decodeURIComponent(path.split('/').pop() || '');
+      return handleAdminVisitorUpdate(request, env, visitorId);
+    }
+
     // ── Route: DELETE /admin/submissions/:id ─────────────────
     if (request.method === 'DELETE' && path.startsWith('/admin/submissions/')) {
       const id = path.split('/').pop();
@@ -38,6 +47,9 @@ export default {
 
     // ── Route: POST / (form submission) ─────────────────────
     if (request.method === 'POST') {
+      if (path === '/track/pageview') {
+        return handlePageview(request, env, ctx);
+      }
       if (path === '/parts') {
         return handlePartsSubmit(request, env);
       }
@@ -60,9 +72,39 @@ async function handleAdminGet(request, env) {
   }
 
   try {
-    const { results } = await env.DB.prepare(
-      `SELECT * FROM submissions WHERE deleted = 0 ORDER BY created_at DESC`
-    ).all();
+    let results;
+    try {
+      const response = await env.DB.prepare(`
+        SELECT
+          s.*,
+          vp.label AS visitor_label,
+          vp.contact_name AS visitor_contact_name,
+          vp.contact_company AS visitor_contact_company,
+          vp.contact_email AS visitor_contact_email,
+          vp.contact_phone AS visitor_contact_phone,
+          vp.identity_source AS visitor_identity_source,
+          vp.identity_confidence AS visitor_identity_confidence,
+          vp.identity_updated_at AS visitor_identity_updated_at,
+          vp.alert_enabled AS visitor_alert_enabled,
+          vp.alert_email AS visitor_alert_email,
+          vp.notes AS visitor_notes,
+          vp.visit_count AS visitor_profile_visit_count,
+          vp.pageview_count AS visitor_profile_pageview_count,
+          vp.last_seen_at AS visitor_profile_last_seen_at
+        FROM submissions s
+        LEFT JOIN visitor_profiles vp
+          ON s.attribution_visitor_id = vp.visitor_id
+        WHERE s.deleted = 0
+        ORDER BY s.created_at DESC
+      `).all();
+      results = response.results;
+    } catch (joinErr) {
+      if (!isMissingColumnError(joinErr)) throw joinErr;
+      const response = await env.DB.prepare(
+        `SELECT * FROM submissions WHERE deleted = 0 ORDER BY created_at DESC`
+      ).all();
+      results = response.results;
+    }
 
     return new Response(JSON.stringify({ success: true, data: results }), {
       status: 200, headers: CORS_HEADERS,
@@ -106,6 +148,120 @@ async function handleAdminDelete(request, env, id) {
 }
 
 // ── Check admin Authorization header ────────────────────────
+async function handleAdminVisitorsGet(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  try {
+    const { results } = await env.DB.prepare(`
+      SELECT *
+      FROM visitor_profiles
+      ORDER BY last_seen_at DESC
+      LIMIT 500
+    `).all();
+
+    return new Response(JSON.stringify({ success: true, data: results }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    if (isMissingColumnError(err)) {
+      return new Response(JSON.stringify({ success: true, data: [] }), {
+        status: 200, headers: CORS_HEADERS,
+      });
+    }
+    console.error('Admin visitors GET error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminVisitorUpdate(request, env, visitorId) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  const cleanVisitorId = cleanText(visitorId, 140);
+  if (!cleanVisitorId) {
+    return new Response(JSON.stringify({ error: 'Missing visitor id' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  let body = {};
+  try {
+    body = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const label = cleanText(body.label, 160);
+  const contactName = cleanText(body.contact_name, 200);
+  const contactCompany = cleanText(body.contact_company, 200);
+  const contactEmail = cleanText(body.contact_email, 200).toLowerCase();
+  const contactPhone = cleanText(body.contact_phone, 80);
+  const identitySource = cleanText(body.identity_source || 'manual', 80);
+  const identityConfidence = cleanText(body.identity_confidence || 'manual-confirmed', 80);
+  const alertEnabled = body.alert_enabled ? 1 : 0;
+  const alertEmail = cleanText(body.alert_email || 'sales@dolphincentrifuge.com', 180);
+  const notes = cleanText(body.notes, 1000);
+  const now = new Date().toISOString();
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO visitor_profiles (
+        visitor_id, first_seen_at, last_seen_at,
+        label, contact_name, contact_company, contact_email, contact_phone,
+        identity_source, identity_confidence, identity_updated_at,
+        alert_enabled, alert_email, notes
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(visitor_id) DO UPDATE SET
+        label = excluded.label,
+        contact_name = excluded.contact_name,
+        contact_company = excluded.contact_company,
+        contact_email = excluded.contact_email,
+        contact_phone = excluded.contact_phone,
+        identity_source = excluded.identity_source,
+        identity_confidence = excluded.identity_confidence,
+        identity_updated_at = excluded.identity_updated_at,
+        alert_enabled = excluded.alert_enabled,
+        alert_email = excluded.alert_email,
+        notes = excluded.notes
+    `).bind(
+      cleanVisitorId,
+      now,
+      now,
+      label,
+      contactName,
+      contactCompany,
+      contactEmail,
+      contactPhone,
+      identitySource,
+      identityConfidence,
+      now,
+      alertEnabled,
+      alertEmail,
+      notes
+    ).run();
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    console.error('Admin visitor update error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
 function isAdminAuthorized(request, env) {
   const authHeader = request.headers.get('Authorization') || '';
   const token = authHeader.replace('Bearer ', '').trim();
@@ -113,6 +269,806 @@ function isAdminAuthorized(request, env) {
 }
 
 // ── PARTS REQUEST: Handle a parts-list submission ───────────
+function cleanText(value, max = 500) {
+  if (value === undefined || value === null) return '';
+  return String(value).trim().slice(0, max);
+}
+
+function esc(value) {
+  return String(value || '').replace(/[&<>"']/g, (char) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]
+  ));
+}
+
+function safeJson(value, max = 20000) {
+  try {
+    return JSON.stringify(value || null).slice(0, max);
+  } catch (e) {
+    return '';
+  }
+}
+
+function parseMaybeJson(value) {
+  if (!value) return null;
+  if (typeof value === 'object') return value;
+  try {
+    return JSON.parse(String(value));
+  } catch (e) {
+    return null;
+  }
+}
+
+async function readJsonRequest(request) {
+  const text = await request.text();
+  if (!text) return {};
+  return JSON.parse(text);
+}
+
+function normalizePages(pages) {
+  if (!Array.isArray(pages)) return [];
+  return pages.slice(-20).map((page) => ({
+    at: cleanText(page && page.at, 40),
+    path: cleanText(page && page.path, 700),
+    title: cleanText(page && page.title, 200),
+    referrer: cleanText(page && page.referrer, 700),
+  })).filter((page) => page.path || page.title);
+}
+
+function normalizeAttribution(raw, defaultFormName = 'unknown_form') {
+  const data = parseMaybeJson(raw) || {};
+  const pages = normalizePages(data.pages);
+  const attribution = {
+    formName: cleanText(data.form_name || defaultFormName, 100),
+    visitorId: cleanText(data.visitor_id, 140),
+    visitorFirstSeenAt: cleanText(data.visitor_first_seen_at, 40),
+    visitorLastSeenAt: cleanText(data.visitor_last_seen_at, 40),
+    visitorVisitCount: Number.isFinite(Number(data.visitor_visit_count)) ? Number(data.visitor_visit_count) : 0,
+    visitorIsReturning: Number(data.visitor_is_returning) ? 1 : 0,
+    sessionId: cleanText(data.session_id, 120),
+    firstTouchId: cleanText(data.first_touch_id, 120),
+    landingPage: cleanText(data.landing_page, 700),
+    currentPage: cleanText(data.current_page, 700),
+    referrer: cleanText(data.referrer, 700),
+    source: cleanText(data.source, 120),
+    medium: cleanText(data.medium, 120),
+    campaign: cleanText(data.campaign, 160),
+    term: cleanText(data.term, 180),
+    content: cleanText(data.content, 180),
+    gclid: cleanText(data.gclid, 250),
+    gbraid: cleanText(data.gbraid, 250),
+    wbraid: cleanText(data.wbraid, 250),
+    msclkid: cleanText(data.msclkid, 250),
+    gaClientId: cleanText(data.ga_client_id, 120),
+    gaSessionId: cleanText(data.ga_session_id, 120),
+    statcounterVisitorId: cleanText(data.statcounter_visitor_id, 120),
+    firstSeenAt: cleanText(data.first_seen_at, 40),
+    formStartedAt: cleanText(data.form_started_at, 40),
+    formSubmittedAt: cleanText(data.form_submitted_at, 40),
+    pageCount: Number.isFinite(Number(data.page_count)) ? Number(data.page_count) : pages.length,
+    pages,
+    rawJson: safeJson(data, 20000),
+  };
+
+  if (!attribution.source && attribution.gclid) {
+    attribution.source = 'google';
+    attribution.medium = 'cpc';
+  }
+  if (!attribution.source) attribution.source = 'unknown';
+  if (!attribution.medium) attribution.medium = 'unknown';
+  if (attribution.pageCount < pages.length) attribution.pageCount = pages.length;
+
+  return attribution;
+}
+
+function firstHeaderValue(value) {
+  return cleanText(String(value || '').split(',')[0], 120);
+}
+
+function normalizeVisitorContext(raw) {
+  const data = raw || {};
+  return {
+    ip: cleanText(data.ip, 80),
+    userAgent: cleanText(data.userAgent, 1000),
+    acceptLanguage: cleanText(data.acceptLanguage, 300),
+    country: cleanText(data.country, 80),
+    region: cleanText(data.region, 120),
+    city: cleanText(data.city, 120),
+    timezone: cleanText(data.timezone, 80),
+    asn: cleanText(data.asn, 40),
+    asOrganization: cleanText(data.asOrganization, 200),
+    cfRay: cleanText(data.cfRay, 120),
+  };
+}
+
+function getVisitorContext(request) {
+  const cf = request.cf || {};
+  return normalizeVisitorContext({
+    ip: request.headers.get('CF-Connecting-IP')
+      || firstHeaderValue(request.headers.get('X-Forwarded-For'))
+      || '',
+    userAgent: request.headers.get('User-Agent') || '',
+    acceptLanguage: request.headers.get('Accept-Language') || '',
+    country: cf.country || request.headers.get('CF-IPCountry') || '',
+    region: cf.region || cf.regionCode || '',
+    city: cf.city || '',
+    timezone: cf.timezone || '',
+    asn: cf.asn || '',
+    asOrganization: cf.asOrganization || '',
+    cfRay: request.headers.get('CF-Ray') || '',
+  });
+}
+
+async function handlePageview(request, env, ctx) {
+  let body = {};
+  try {
+    body = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ success: false, error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const attribution = normalizeAttribution(body.attribution || body, 'pageview');
+  const page = body.page && typeof body.page === 'object' ? body.page : {};
+  const visitorContext = getVisitorContext(request);
+
+  if (ctx && typeof ctx.waitUntil === 'function') {
+    ctx.waitUntil(recordVisitorPageview(env, attribution, visitorContext, page));
+  } else {
+    await recordVisitorPageview(env, attribution, visitorContext, page);
+  }
+
+  return new Response(JSON.stringify({ success: true }), {
+    status: 200, headers: CORS_HEADERS,
+  });
+}
+
+async function recordVisitorPageview(env, attribution, visitor, page) {
+  if (!env.DB || !attribution.visitorId) return;
+
+  const now = new Date().toISOString();
+  const pagePath = cleanText((page && page.path) || attribution.currentPage || attribution.landingPage, 700);
+  const pageTitle = cleanText((page && page.title) || '', 200);
+  const existing = await getVisitorProfile(env, attribution.visitorId);
+  const previousSessionId = existing && existing.last_session_id ? existing.last_session_id : '';
+  const isNewSession = Boolean(previousSessionId && previousSessionId !== attribution.sessionId);
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO visitor_events (
+        created_at, visitor_id, session_id, event_type,
+        page_path, page_title, referrer,
+        source, medium, campaign, term,
+        visitor_ip, visitor_country, visitor_region, visitor_city,
+        attribution_json, visitor_context_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      now,
+      attribution.visitorId,
+      attribution.sessionId,
+      'pageview',
+      pagePath,
+      pageTitle,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      visitor.ip,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      safeJson(attribution, 12000),
+      safeJson(visitor, 4000)
+    ).run();
+
+    await env.DB.prepare(`
+      INSERT INTO visitor_profiles (
+        visitor_id, first_seen_at, last_seen_at, last_session_id,
+        first_landing_page, last_page, last_title, referrer,
+        source, medium, campaign, term,
+        gclid, gbraid, wbraid, ga_client_id, statcounter_visitor_id,
+        visitor_ip, visitor_user_agent, visitor_country, visitor_region, visitor_city,
+        visitor_timezone, visitor_asn, visitor_as_organization,
+        visit_count, pageview_count
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(visitor_id) DO UPDATE SET
+        last_seen_at = excluded.last_seen_at,
+        last_session_id = excluded.last_session_id,
+        last_page = excluded.last_page,
+        last_title = excluded.last_title,
+        referrer = excluded.referrer,
+        source = excluded.source,
+        medium = excluded.medium,
+        campaign = excluded.campaign,
+        term = excluded.term,
+        gclid = CASE WHEN excluded.gclid != '' THEN excluded.gclid ELSE visitor_profiles.gclid END,
+        gbraid = CASE WHEN excluded.gbraid != '' THEN excluded.gbraid ELSE visitor_profiles.gbraid END,
+        wbraid = CASE WHEN excluded.wbraid != '' THEN excluded.wbraid ELSE visitor_profiles.wbraid END,
+        ga_client_id = CASE WHEN excluded.ga_client_id != '' THEN excluded.ga_client_id ELSE visitor_profiles.ga_client_id END,
+        statcounter_visitor_id = CASE WHEN excluded.statcounter_visitor_id != '' THEN excluded.statcounter_visitor_id ELSE visitor_profiles.statcounter_visitor_id END,
+        visitor_ip = excluded.visitor_ip,
+        visitor_user_agent = excluded.visitor_user_agent,
+        visitor_country = excluded.visitor_country,
+        visitor_region = excluded.visitor_region,
+        visitor_city = excluded.visitor_city,
+        visitor_timezone = excluded.visitor_timezone,
+        visitor_asn = excluded.visitor_asn,
+        visitor_as_organization = excluded.visitor_as_organization,
+        visit_count = CASE WHEN excluded.visit_count > visitor_profiles.visit_count THEN excluded.visit_count ELSE visitor_profiles.visit_count END,
+        pageview_count = visitor_profiles.pageview_count + 1
+    `).bind(
+      attribution.visitorId,
+      attribution.visitorFirstSeenAt || now,
+      now,
+      attribution.sessionId,
+      attribution.landingPage,
+      pagePath,
+      pageTitle,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      attribution.gclid,
+      attribution.gbraid,
+      attribution.wbraid,
+      attribution.gaClientId,
+      attribution.statcounterVisitorId,
+      visitor.ip,
+      visitor.userAgent,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      visitor.timezone,
+      visitor.asn,
+      visitor.asOrganization,
+      attribution.visitorVisitCount,
+      1
+    ).run();
+
+    if (existing && Number(existing.alert_enabled) && isNewSession && existing.last_alerted_session_id !== attribution.sessionId) {
+      await sendVisitorReturnAlert(env, existing, attribution, visitor, pagePath, pageTitle);
+      await env.DB.prepare(`
+        UPDATE visitor_profiles
+        SET last_alerted_session_id = ?
+        WHERE visitor_id = ?
+      `).bind(attribution.sessionId, attribution.visitorId).run();
+    }
+  } catch (err) {
+    if (!isMissingColumnError(err)) {
+      console.error('Visitor pageview error:', err.message);
+    }
+  }
+}
+
+async function getVisitorProfile(env, visitorId) {
+  try {
+    return await env.DB.prepare(`
+      SELECT *
+      FROM visitor_profiles
+      WHERE visitor_id = ?
+    `).bind(visitorId).first();
+  } catch (err) {
+    if (!isMissingColumnError(err)) throw err;
+    return null;
+  }
+}
+
+async function sendVisitorReturnAlert(env, profile, attribution, visitor, pagePath, pageTitle) {
+  if (!env.RESEND_API_KEY) return;
+  const label = profile.label || 'Labeled visitor';
+  const to = profile.alert_email || 'sales@dolphincentrifuge.com';
+  const currentPageUrl = absoluteSiteUrl(pagePath);
+  const currentPageLabel = pageTitle ? `${pagePath} (${pageTitle})` : pagePath;
+  const dashboardUrl = adminDashboardUrl(env, attribution.visitorId);
+  const sessionTrail = buildAttributionPageTrail(attribution, pagePath, pageTitle);
+  const recentEvents = await getRecentVisitorEvents(env, attribution.visitorId);
+  const recentKnownTrail = recentEvents.map((event) => ({
+    at: event.created_at || '',
+    path: event.page_path || '',
+    title: event.page_title || '',
+  })).filter((event) => event.path || event.title);
+  const location = [visitor.city, visitor.region, visitor.country].filter(Boolean).join(', ');
+  const network = [visitor.asn ? `AS${visitor.asn}` : '', visitor.asOrganization].filter(Boolean).join(' ');
+  const sourceMedium = [attribution.source, attribution.medium].filter(Boolean).join(' / ');
+  const firstSeen = profile.first_seen_at || attribution.visitorFirstSeenAt || attribution.firstSeenAt || '';
+  const previousSeen = profile.last_seen_at || attribution.visitorLastSeenAt || '';
+  const visitCount = attribution.visitorVisitCount || profile.visit_count || '';
+  const pageviewCount = profile.pageview_count ? Number(profile.pageview_count) + 1 : '';
+  const googleClickId = attribution.gclid ? 'Present' : '';
+  const subjectPage = pageTitle || pagePath || 'site';
+  const subject = `Dolphin alert: ${label} returned`;
+  const summaryRows = [
+    ['Visitor label', label],
+    ['Visitor ID', attribution.visitorId],
+    ['Visit count', visitCount],
+    ['Known pageviews', pageviewCount],
+    ['First seen', formatAlertTime(firstSeen)],
+    ['Previous seen', formatAlertTime(previousSeen)],
+    ['Current session', attribution.sessionId],
+  ];
+  const attributionRows = [
+    ['Source / medium', sourceMedium],
+    ['Campaign', attribution.campaign],
+    ['Keyword', attribution.term],
+    ['Google Ads click ID', googleClickId],
+    ['GA client ID', attribution.gaClientId],
+    ['StatCounter visitor ID', attribution.statcounterVisitorId],
+    ['Landing page', attribution.landingPage],
+    ['Referrer', attribution.referrer],
+  ];
+  const visitorRows = [
+    ['IP address', visitor.ip],
+    ['Location', location],
+    ['Network', network],
+    ['Language', visitor.acceptLanguage],
+    ['Browser', summarizeUserAgent(visitor.userAgent)],
+    ['CF-Ray', visitor.cfRay],
+  ];
+  const text = [
+    `Dolphin visitor returned: ${label}`,
+    '',
+    `Just visited: ${subjectPage}`,
+    currentPageUrl ? `URL: ${currentPageUrl}` : '',
+    '',
+    'Visitor:',
+    ...summaryRows.filter((row) => row[1]).map((row) => `${row[0]}: ${row[1]}`),
+    '',
+    'Attribution:',
+    ...attributionRows.filter((row) => row[1]).map((row) => `${row[0]}: ${row[1]}`),
+    '',
+    'Visitor context:',
+    ...visitorRows.filter((row) => row[1]).map((row) => `${row[0]}: ${row[1]}`),
+    '',
+    'This visit so far:',
+    ...formatTextTrail(sessionTrail),
+    '',
+    'Recent known pages:',
+    ...formatTextTrail(recentKnownTrail),
+    '',
+    `Dashboard: ${dashboardUrl}`,
+  ].filter((line) => line !== '').join('\n');
+  const html = `
+    <div style="font-family:Arial,sans-serif;color:#1f2937;max-width:760px;line-height:1.45;">
+      <div style="border-bottom:4px solid #c9a45c;padding-bottom:12px;margin-bottom:18px;">
+        <p style="margin:0 0 4px;color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:.04em;">Dolphin first-party visitor alert</p>
+        <h2 style="color:#0a2540;margin:0;font-size:24px;">${esc(label)} returned</h2>
+      </div>
+
+      <div style="background:#f8fafc;border:1px solid #d9e2ec;border-radius:8px;padding:14px 16px;margin-bottom:18px;">
+        <p style="margin:0 0 6px;font-size:13px;color:#64748b;">Just visited</p>
+        <p style="margin:0;font-size:18px;font-weight:bold;color:#0a2540;">${esc(pageTitle || pagePath || 'Unknown page')}</p>
+        ${currentPageUrl ? `<p style="margin:6px 0 0;"><a href="${esc(currentPageUrl)}" style="color:#145c9e;">${esc(currentPageLabel)}</a></p>` : ''}
+      </div>
+
+      ${renderAlertTable('Visitor', summaryRows)}
+      ${renderTrailSection('This visit so far', sessionTrail)}
+      ${renderTrailSection('Recent known pages', recentKnownTrail)}
+      ${renderAlertTable('Google and attribution', attributionRows)}
+      ${renderAlertTable('Visitor context', visitorRows)}
+
+      <p style="margin:24px 0 8px;">
+        <a href="${esc(dashboardUrl)}" style="display:inline-block;background:#0a2540;color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:bold;">Open dashboard filtered to this visitor</a>
+      </p>
+      <p style="font-size:12px;color:#64748b;margin-top:18px;">This alert came from Dolphin first-party visitor tracking. StatCounter sends a link; this email includes the useful context directly.</p>
+    </div>
+  `;
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Dolphin Visitor Alerts <noreply@dolphincentrifuge.com>',
+      to: [to],
+      subject,
+      text,
+      html,
+    }),
+  });
+  if (!response.ok) {
+    console.error('Visitor alert email error:', await response.text());
+  }
+}
+
+async function getRecentVisitorEvents(env, visitorId) {
+  if (!env.DB || !visitorId) return [];
+  try {
+    const { results } = await env.DB.prepare(`
+      SELECT created_at, page_path, page_title
+      FROM visitor_events
+      WHERE visitor_id = ?
+      ORDER BY created_at DESC
+      LIMIT 10
+    `).bind(visitorId).all();
+    return results || [];
+  } catch (err) {
+    if (!isMissingColumnError(err)) {
+      console.error('Visitor event trail error:', err.message);
+    }
+    return [];
+  }
+}
+
+function adminDashboardUrl(env, visitorId) {
+  const fallback = 'https://dolphincentrifuge.com/admin/submissions/';
+  const rawBase = cleanText(env.ADMIN_DASHBOARD_URL || env.DASHBOARD_URL || fallback, 700);
+  try {
+    const url = new URL(rawBase || fallback);
+    if (visitorId) url.searchParams.set('q', visitorId);
+    return url.href;
+  } catch (e) {
+    return `${fallback}?q=${encodeURIComponent(visitorId || '')}`;
+  }
+}
+
+function absoluteSiteUrl(pathOrUrl) {
+  const value = cleanText(pathOrUrl, 700);
+  if (!value) return '';
+  try {
+    return new URL(value, 'https://dolphincentrifuge.com').href;
+  } catch (e) {
+    return '';
+  }
+}
+
+function formatAlertTime(value) {
+  const clean = cleanText(value, 80);
+  if (!clean) return '';
+  const date = new Date(clean);
+  if (Number.isNaN(date.getTime())) return clean;
+  return date.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+}
+
+function summarizeUserAgent(userAgent) {
+  const ua = cleanText(userAgent, 300);
+  if (!ua) return '';
+  const browser = ua.includes('Edg/') ? 'Edge'
+    : ua.includes('Chrome/') ? 'Chrome'
+      : ua.includes('Firefox/') ? 'Firefox'
+        : ua.includes('Safari/') ? 'Safari'
+          : 'Browser';
+  const os = ua.includes('Windows') ? 'Windows'
+    : ua.includes('Mac OS X') ? 'macOS'
+      : ua.includes('Android') ? 'Android'
+        : ua.includes('iPhone') || ua.includes('iPad') ? 'iOS'
+          : '';
+  return [browser, os].filter(Boolean).join(' on ') || ua.slice(0, 120);
+}
+
+function buildAttributionPageTrail(attribution, pagePath, pageTitle) {
+  const pages = Array.isArray(attribution.pages) ? attribution.pages.slice(-8) : [];
+  const current = {
+    at: new Date().toISOString(),
+    path: pagePath || attribution.currentPage || '',
+    title: pageTitle || '',
+  };
+  const trail = pages.concat(current).filter((page) => page.path || page.title);
+  const deduped = [];
+  for (const page of trail) {
+    const previous = deduped[deduped.length - 1];
+    if (previous && previous.path === page.path && previous.title === page.title) continue;
+    deduped.push(page);
+  }
+  return deduped.slice(-8);
+}
+
+function renderAlertTable(title, rows) {
+  const visibleRows = rows.filter((row) => row[1] !== undefined && row[1] !== null && String(row[1]).trim() !== '');
+  if (!visibleRows.length) return '';
+  const body = visibleRows.map((row) => `
+    <tr>
+      <th style="text-align:left;vertical-align:top;width:170px;padding:7px 9px;border:1px solid #d9e2ec;background:#f8fafc;color:#475569;font-weight:600;">${esc(row[0])}</th>
+      <td style="padding:7px 9px;border:1px solid #d9e2ec;color:#1f2937;">${esc(row[1])}</td>
+    </tr>
+  `).join('');
+  return `
+    <h3 style="margin:20px 0 8px;color:#0a2540;font-size:16px;">${esc(title)}</h3>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;">${body}</table>
+  `;
+}
+
+function renderTrailSection(title, pages) {
+  const visiblePages = (Array.isArray(pages) ? pages : []).filter((page) => page.path || page.title).slice(0, 10);
+  if (!visiblePages.length) return '';
+  const items = visiblePages.map((page) => {
+    const url = absoluteSiteUrl(page.path);
+    const label = page.title ? `${page.path || ''} (${page.title})` : page.path;
+    const when = formatAlertTime(page.at || page.created_at || '');
+    return `
+      <li style="margin:0 0 8px;">
+        ${url ? `<a href="${esc(url)}" style="color:#145c9e;">${esc(label || url)}</a>` : esc(label)}
+        ${when ? `<div style="font-size:12px;color:#64748b;">${esc(when)}</div>` : ''}
+      </li>
+    `;
+  }).join('');
+  return `
+    <h3 style="margin:20px 0 8px;color:#0a2540;font-size:16px;">${esc(title)}</h3>
+    <ol style="margin:0 0 0 22px;padding:0;font-size:14px;">${items}</ol>
+  `;
+}
+
+function formatTextTrail(pages) {
+  const visiblePages = (Array.isArray(pages) ? pages : []).filter((page) => page.path || page.title).slice(0, 10);
+  if (!visiblePages.length) return ['No page trail available yet.'];
+  return visiblePages.map((page, index) => {
+    const label = page.title ? `${page.path || ''} (${page.title})` : page.path;
+    const when = formatAlertTime(page.at || page.created_at || '');
+    return `${index + 1}. ${label}${when ? ` at ${when}` : ''}`;
+  });
+}
+
+function isMissingColumnError(err) {
+  const message = err && err.message ? String(err.message).toLowerCase() : '';
+  return message.includes('no such column') || message.includes('has no column named');
+}
+
+function splitName(fullName) {
+  const parts = cleanText(fullName, 200).split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return { firstName: '', lastName: '' };
+  if (parts.length === 1) return { firstName: parts[0], lastName: '' };
+  return { firstName: parts.slice(0, -1).join(' '), lastName: parts[parts.length - 1] };
+}
+
+function contactLabelFromRow(row) {
+  const name = [cleanText(row.firstName, 120), cleanText(row.lastName, 120)].filter(Boolean).join(' ');
+  const company = cleanText(row.company, 180);
+  const email = cleanText(row.email, 180);
+  const phone = cleanText(row.phone, 80);
+  if (name && company) return `${name} - ${company}`.slice(0, 160);
+  return (name || company || email || phone || '').slice(0, 160);
+}
+
+async function updateVisitorIdentityFromSubmission(env, row, attribution, createdAt) {
+  if (!attribution || !attribution.visitorId) return;
+
+  const contactName = [cleanText(row.firstName, 120), cleanText(row.lastName, 120)].filter(Boolean).join(' ');
+  const contactCompany = cleanText(row.company, 180);
+  const contactEmail = cleanText(row.email, 180).toLowerCase();
+  const contactPhone = cleanText(row.phone, 80);
+  const label = contactLabelFromRow(row);
+
+  if (!contactName && !contactCompany && !contactEmail && !contactPhone && !label) return;
+
+  const now = createdAt || new Date().toISOString();
+  const source = cleanText(`form:${row.formType || attribution.formName || 'contact'}`, 80);
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO visitor_profiles (
+        visitor_id, first_seen_at, last_seen_at,
+        label, contact_name, contact_company, contact_email, contact_phone,
+        identity_source, identity_confidence, identity_updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(visitor_id) DO UPDATE SET
+        label = CASE WHEN visitor_profiles.label = '' THEN excluded.label ELSE visitor_profiles.label END,
+        contact_name = CASE WHEN excluded.contact_name != '' THEN excluded.contact_name ELSE visitor_profiles.contact_name END,
+        contact_company = CASE WHEN excluded.contact_company != '' THEN excluded.contact_company ELSE visitor_profiles.contact_company END,
+        contact_email = CASE WHEN excluded.contact_email != '' THEN excluded.contact_email ELSE visitor_profiles.contact_email END,
+        contact_phone = CASE WHEN excluded.contact_phone != '' THEN excluded.contact_phone ELSE visitor_profiles.contact_phone END,
+        identity_source = CASE
+          WHEN visitor_profiles.identity_source = 'manual' THEN visitor_profiles.identity_source
+          ELSE excluded.identity_source
+        END,
+        identity_confidence = CASE
+          WHEN visitor_profiles.identity_confidence = 'manual-confirmed' THEN visitor_profiles.identity_confidence
+          ELSE excluded.identity_confidence
+        END,
+        identity_updated_at = excluded.identity_updated_at
+    `).bind(
+      attribution.visitorId,
+      attribution.visitorFirstSeenAt || now,
+      now,
+      label,
+      contactName,
+      contactCompany,
+      contactEmail,
+      contactPhone,
+      source,
+      'form-confirmed',
+      now
+    ).run();
+  } catch (err) {
+    console.error('Visitor identity update skipped:', err.message);
+  }
+}
+
+async function insertSubmission(env, row) {
+  const attribution = row.attribution || normalizeAttribution(null, row.formType || 'contact');
+  const visitor = normalizeVisitorContext(row.visitorContext);
+  const createdAt = row.createdAt || new Date().toISOString();
+  const baseValues = [
+    createdAt,
+    cleanText(row.firstName, 120),
+    cleanText(row.lastName, 120),
+    cleanText(row.company, 180),
+    cleanText(row.email, 180),
+    cleanText(row.phone, 80),
+    cleanText(row.contactMethod, 80),
+    cleanText(row.country, 120),
+    cleanText(row.usState, 120),
+    cleanText(row.fluidType, 180),
+    cleanText(row.capacity, 180),
+    cleanText(row.solidsPercentage, 120),
+    cleanText(row.centrifugeCondition, 120),
+    cleanText(row.additionalDetails, 5000),
+    row.isReconnect ? 1 : 0,
+    row.reconnectMatchId || null,
+  ];
+
+  try {
+    const result = await env.DB.prepare(`
+      INSERT INTO submissions (
+        created_at, first_name, last_name, company, email, phone,
+        contact_method, country, us_state,
+        fluid_type, capacity, solids_percentage,
+        centrifuge_condition, additional_details,
+        is_reconnect, reconnect_match_id,
+        form_type,
+        attribution_session_id, attribution_first_touch_id,
+        attribution_visitor_id, attribution_visitor_first_seen_at, attribution_visitor_last_seen_at,
+        attribution_visit_count, attribution_is_returning,
+        attribution_landing_page, attribution_current_page, attribution_referrer,
+        attribution_source, attribution_medium, attribution_campaign, attribution_term, attribution_content,
+        attribution_gclid, attribution_gbraid, attribution_wbraid, attribution_msclkid,
+        attribution_ga_client_id, attribution_ga_session_id, attribution_statcounter_visitor_id,
+        attribution_first_seen_at, attribution_form_started_at, attribution_form_submitted_at,
+        attribution_page_count, attribution_pages_json, attribution_raw_json,
+        parts_json, parts_count,
+        visitor_ip, visitor_user_agent, visitor_accept_language,
+        visitor_country, visitor_region, visitor_city, visitor_timezone,
+        visitor_asn, visitor_as_organization, visitor_cf_ray
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?,
+        ?, ?,
+        ?,
+        ?, ?,
+        ?, ?, ?,
+        ?, ?,
+        ?, ?, ?,
+        ?, ?, ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?, ?,
+        ?, ?,
+        ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?, ?
+      )
+    `).bind(
+      ...baseValues,
+      cleanText(row.formType || attribution.formName || 'contact', 100),
+      attribution.sessionId,
+      attribution.firstTouchId,
+      attribution.visitorId,
+      attribution.visitorFirstSeenAt,
+      attribution.visitorLastSeenAt,
+      attribution.visitorVisitCount,
+      attribution.visitorIsReturning,
+      attribution.landingPage,
+      attribution.currentPage,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      attribution.content,
+      attribution.gclid,
+      attribution.gbraid,
+      attribution.wbraid,
+      attribution.msclkid,
+      attribution.gaClientId,
+      attribution.gaSessionId,
+      attribution.statcounterVisitorId,
+      attribution.firstSeenAt,
+      attribution.formStartedAt,
+      attribution.formSubmittedAt,
+      attribution.pageCount,
+      safeJson(attribution.pages, 12000),
+      attribution.rawJson,
+      cleanText(row.partsJson, 10000),
+      Number.isFinite(Number(row.partsCount)) ? Number(row.partsCount) : 0,
+      visitor.ip,
+      visitor.userAgent,
+      visitor.acceptLanguage,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      visitor.timezone,
+      visitor.asn,
+      visitor.asOrganization,
+      visitor.cfRay
+    ).run();
+    await updateVisitorIdentityFromSubmission(env, row, attribution, createdAt);
+    return result;
+  } catch (err) {
+    if (!isMissingColumnError(err)) throw err;
+
+    try {
+      return await env.DB.prepare(`
+        INSERT INTO submissions (
+          created_at, first_name, last_name, company, email, phone,
+          contact_method, country, us_state,
+          fluid_type, capacity, solids_percentage,
+          centrifuge_condition, additional_details,
+          is_reconnect, reconnect_match_id,
+          form_type,
+          attribution_session_id, attribution_first_touch_id,
+          attribution_landing_page, attribution_current_page, attribution_referrer,
+          attribution_source, attribution_medium, attribution_campaign, attribution_term, attribution_content,
+          attribution_gclid, attribution_gbraid, attribution_wbraid, attribution_msclkid,
+          attribution_ga_client_id, attribution_ga_session_id, attribution_statcounter_visitor_id,
+          attribution_first_seen_at, attribution_form_started_at, attribution_form_submitted_at,
+          attribution_page_count, attribution_pages_json, attribution_raw_json,
+          parts_json, parts_count
+        ) VALUES (
+          ?, ?, ?, ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?,
+          ?, ?,
+          ?,
+          ?, ?,
+          ?, ?, ?,
+          ?, ?, ?, ?, ?,
+          ?, ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?, ?,
+          ?, ?
+        )
+      `).bind(
+        ...baseValues,
+        cleanText(row.formType || attribution.formName || 'contact', 100),
+        attribution.sessionId,
+        attribution.firstTouchId,
+        attribution.landingPage,
+        attribution.currentPage,
+        attribution.referrer,
+        attribution.source,
+        attribution.medium,
+        attribution.campaign,
+        attribution.term,
+        attribution.content,
+        attribution.gclid,
+        attribution.gbraid,
+        attribution.wbraid,
+        attribution.msclkid,
+        attribution.gaClientId,
+        attribution.gaSessionId,
+        attribution.statcounterVisitorId,
+        attribution.firstSeenAt,
+        attribution.formStartedAt,
+        attribution.formSubmittedAt,
+        attribution.pageCount,
+        safeJson(attribution.pages, 12000),
+        attribution.rawJson,
+        cleanText(row.partsJson, 10000),
+        Number.isFinite(Number(row.partsCount)) ? Number(row.partsCount) : 0
+      ).run();
+    } catch (fallbackErr) {
+      if (!isMissingColumnError(fallbackErr)) throw fallbackErr;
+    }
+
+    return env.DB.prepare(`
+      INSERT INTO submissions (
+        created_at, first_name, last_name, company, email, phone,
+        contact_method, country, us_state,
+        fluid_type, capacity, solids_percentage,
+        centrifuge_condition, additional_details,
+        is_reconnect, reconnect_match_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(...baseValues).run();
+  }
+}
+
 async function handlePartsSubmit(request, env) {
   try {
     let body = {};
@@ -189,6 +1145,9 @@ async function handlePartsSubmit(request, env) {
       );
     }
 
+    const attribution = normalizeAttribution(body.attribution || body.dolphin_attribution, 'parts_request_form');
+    const visitorContext = getVisitorContext(request);
+
     // Build email
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
       { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -245,6 +1204,40 @@ async function handlePartsSubmit(request, env) {
         JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
         { status: 500, headers: CORS_HEADERS }
       );
+    }
+
+    if (env.DB) {
+      try {
+        const nameParts = splitName(name);
+        const partsSummary = cleanParts.map((part) => (
+          `${part.quantity} x ${part.partNumber} - ${part.description}`
+        )).join('\n');
+
+        await insertSubmission(env, {
+          firstName: nameParts.firstName,
+          lastName: nameParts.lastName,
+          company,
+          email,
+          phone,
+          contactMethod: '',
+          country: '',
+          usState: '',
+          fluidType: 'Parts Request',
+          capacity: `${cleanParts.length} part${cleanParts.length === 1 ? '' : 's'}`,
+          solidsPercentage: '',
+          centrifugeCondition: '',
+          additionalDetails: partsSummary,
+          isReconnect: 0,
+          reconnectMatchId: null,
+          formType: attribution.formName || 'parts_request_form',
+          attribution,
+          visitorContext,
+          partsJson: safeJson(cleanParts, 10000),
+          partsCount: cleanParts.length,
+        });
+      } catch (dbErr) {
+        console.error('D1 insert error (parts):', dbErr.message);
+      }
     }
 
     return new Response(
@@ -310,6 +1303,8 @@ async function handleFormSubmit(request, env) {
     const centrifugeCondition = (fields['centrifuge_condition'] || '').trim();
     const additionalDetails = (fields['additional_details'] || '').trim();
     const countryOther      = (fields['country_other'] || '').trim();
+    const attribution       = normalizeAttribution(fields['dolphin_attribution'] || fields.attribution, 'centrifuge_contact_form');
+    const visitorContext    = getVisitorContext(request);
     const countryDisplay    = country === 'Other' && countryOther ? `Other — ${countryOther}` : country;
 
     // Basic validation
@@ -505,22 +1500,28 @@ async function handleFormSubmit(request, env) {
     // ── Save to D1 ───────────────────────────────────────────
     if (env.DB) {
       try {
-        const createdAt = new Date().toISOString();
-        await env.DB.prepare(`
-          INSERT INTO submissions (
-            created_at, first_name, last_name, company, email, phone,
-            contact_method, country, us_state,
-            fluid_type, capacity, solids_percentage,
-            centrifuge_condition, additional_details,
-            is_reconnect, reconnect_match_id
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).bind(
-          createdAt, firstName, lastName, company, email, phone,
-          contactMethod, country, usState,
-          fluidType, capacity, solidsPercentage,
-          centrifugeCondition, additionalDetails,
-          isReconnect, reconnectMatchId
-        ).run();
+        await insertSubmission(env, {
+          firstName,
+          lastName,
+          company,
+          email,
+          phone,
+          contactMethod,
+          country,
+          usState,
+          fluidType,
+          capacity,
+          solidsPercentage,
+          centrifugeCondition,
+          additionalDetails,
+          isReconnect,
+          reconnectMatchId,
+          formType: 'contact',
+          attribution,
+          visitorContext,
+          partsJson: '',
+          partsCount: 0,
+        });
       } catch (dbErr) {
         // Log but don't fail — email already sent successfully
         console.error('D1 insert error:', dbErr.message);
