@@ -1057,15 +1057,33 @@ async function insertSubmission(env, row) {
       if (!isMissingColumnError(fallbackErr)) throw fallbackErr;
     }
 
-    return env.DB.prepare(`
-      INSERT INTO submissions (
-        created_at, first_name, last_name, company, email, phone,
-        contact_method, country, us_state,
-        fluid_type, capacity, solids_percentage,
-        centrifuge_condition, additional_details,
-        is_reconnect, reconnect_match_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(...baseValues).run();
+    try {
+      return await env.DB.prepare(`
+        INSERT INTO submissions (
+          created_at, first_name, last_name, company, email, phone,
+          contact_method, country, us_state,
+          fluid_type, capacity, solids_percentage,
+          centrifuge_condition, additional_details,
+          is_reconnect, reconnect_match_id,
+          form_type
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        ...baseValues,
+        cleanText(row.formType || attribution.formName || 'contact', 100)
+      ).run();
+    } catch (formTypeErr) {
+      if (!isMissingColumnError(formTypeErr)) throw formTypeErr;
+      // Absolute last resort: original base columns only (form_type column truly absent).
+      return env.DB.prepare(`
+        INSERT INTO submissions (
+          created_at, first_name, last_name, company, email, phone,
+          contact_method, country, us_state,
+          fluid_type, capacity, solids_percentage,
+          centrifuge_condition, additional_details,
+          is_reconnect, reconnect_match_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(...baseValues).run();
+    }
   }
 }
 
@@ -1092,7 +1110,12 @@ async function handlePartsSubmit(request, env) {
     // Optional Turnstile verification (mirrors handleFormSubmit pattern)
     const turnstileToken = body['cf-turnstile-response'];
     if (turnstileToken && env.TURNSTILE_SECRET_KEY) {
-      const verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
+      let verified = true;
+      try {
+        verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
+      } catch (turnstileErr) {
+        console.error('Turnstile verification infrastructure error (parts):', turnstileErr && turnstileErr.message);
+      }
       if (!verified) {
         return new Response(
           JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
@@ -1182,30 +1205,7 @@ async function handlePartsSubmit(request, env) {
       </div>
     `;
 
-    const resendResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Dolphin Centrifuge <noreply@dolphincentrifuge.com>',
-        to: ['sales@dolphincentrifuge.com'],
-        reply_to: email,
-        subject: subject,
-        html: html,
-      }),
-    });
-
-    if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error('Resend API error (parts):', errorBody);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
-        { status: 500, headers: CORS_HEADERS }
-      );
-    }
-
+    // Save to D1 before email so an email outage cannot lose the lead.
     if (env.DB) {
       try {
         const nameParts = splitName(name);
@@ -1236,8 +1236,35 @@ async function handlePartsSubmit(request, env) {
           partsCount: cleanParts.length,
         });
       } catch (dbErr) {
+        console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
+          form: 'parts', name, company, email, phone, parts: cleanParts,
+        }));
         console.error('D1 insert error (parts):', dbErr.message);
       }
+    }
+
+    const resendResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Dolphin Centrifuge <noreply@dolphincentrifuge.com>',
+        to: ['sales@dolphincentrifuge.com'],
+        reply_to: email,
+        subject: subject,
+        html: html,
+      }),
+    });
+
+    if (!resendResponse.ok) {
+      const errorBody = await resendResponse.text();
+      console.error('Resend API error (parts):', errorBody);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
+        { status: 500, headers: CORS_HEADERS }
+      );
     }
 
     return new Response(
@@ -1259,13 +1286,20 @@ async function handleFormSubmit(request, env) {
     // Parse form data
     const contentType = request.headers.get('Content-Type') || '';
     let fields = {};
-    if (contentType.includes('application/json')) {
-      fields = await request.json();
-    } else {
-      const formData = await request.formData();
-      for (const [key, value] of formData.entries()) {
-        fields[key] = value;
+    try {
+      if (contentType.includes('application/json')) {
+        fields = await request.json();
+      } else {
+        const formData = await request.formData();
+        for (const [key, value] of formData.entries()) {
+          fields[key] = value;
+        }
       }
+    } catch (e) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid body' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
     }
 
     // Honeypot spam check
@@ -1279,7 +1313,12 @@ async function handleFormSubmit(request, env) {
     // Turnstile verification (if keys present)
     const turnstileToken = fields['cf-turnstile-response'];
     if (turnstileToken && env.TURNSTILE_SECRET_KEY) {
-      const verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
+      let verified = true;
+      try {
+        verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
+      } catch (turnstileErr) {
+        console.error('Turnstile verification infrastructure error:', turnstileErr && turnstileErr.message);
+      }
       if (!verified) {
         return new Response(
           JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
@@ -1361,6 +1400,9 @@ async function handleFormSubmit(request, env) {
       'email':               'Email',
     };
     const contactMethodLabel = contactMethodMap[contactMethod] || contactMethod;
+    // Highlight the contact-method row when the customer asked Dolphin to call THEM
+    // (an action item for us) so it stands out in the emailed form.
+    const callFromDolphin = contactMethod === 'phone_dolphin_calls';
 
     const conditionMap = {
       'new_required':      'New centrifuge required',
@@ -1379,8 +1421,8 @@ async function handleFormSubmit(request, env) {
     const phoneDisplay = formatUsPhone(phone, country);
 
     // ── Build standard inquiry email HTML ────────────────────
-    const row = (label, value, shade) => `
-      <tr style="background-color:${shade ? '#f0f0f0' : '#ffffff'}">
+    const row = (label, value, shade, highlight) => `
+      <tr style="background-color:${highlight || (shade ? '#f0f0f0' : '#ffffff')}">
         <td style="padding:8px 12px; font-family:Arial,sans-serif; font-size:13px; font-weight:bold; color:#333; border:1px solid #ddd; width:42%; vertical-align:top;">${label}</td>
         <td style="padding:8px 12px; font-family:Arial,sans-serif; font-size:13px; color:#333; border:1px solid #ddd;">${value}</td>
       </tr>`;
@@ -1401,7 +1443,7 @@ async function handleFormSubmit(request, env) {
     ${row('Company Name', company, true)}
     ${row('Email', `<a href="mailto:${email}" style="color:#1155CC;">${email}</a>`, false)}
     ${row('Phone', phoneDisplay, true)}
-    ${row('Preferred method of contact:', contactMethodLabel, false)}
+    ${row('Preferred method of contact:', callFromDolphin ? `<strong>${contactMethodLabel}</strong>` : contactMethodLabel, false, callFromDolphin ? '#FFE0B2' : null)}
     ${row('Country', countryDisplay, true)}
     ${row('US State', usState || '—', false)}
     ${sectionHeader('Application Details')}
@@ -1413,6 +1455,39 @@ async function handleFormSubmit(request, env) {
   </table>
 </body>
 </html>`;
+
+    // Save to D1 before email so an email outage cannot lose the lead.
+    if (env.DB) {
+      try {
+        await insertSubmission(env, {
+          firstName,
+          lastName,
+          company,
+          email,
+          phone,
+          contactMethod,
+          country,
+          usState,
+          fluidType,
+          capacity,
+          solidsPercentage,
+          centrifugeCondition,
+          additionalDetails,
+          isReconnect,
+          reconnectMatchId,
+          formType: 'contact',
+          attribution,
+          visitorContext,
+          partsJson: '',
+          partsCount: 0,
+        });
+      } catch (dbErr) {
+        console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
+          form: 'contact', firstName, lastName, company, email, phone,
+        }));
+        console.error('D1 insert error:', dbErr.message);
+      }
+    }
 
     // ── Send standard inquiry email ──────────────────────────
     const resendResponse = await fetch('https://api.resend.com/emails', {
@@ -1495,37 +1570,6 @@ async function handleFormSubmit(request, env) {
           html:    reconnectHtml,
         }),
       }).catch(err => console.error('Reconnect email error:', err.message));
-    }
-
-    // ── Save to D1 ───────────────────────────────────────────
-    if (env.DB) {
-      try {
-        await insertSubmission(env, {
-          firstName,
-          lastName,
-          company,
-          email,
-          phone,
-          contactMethod,
-          country,
-          usState,
-          fluidType,
-          capacity,
-          solidsPercentage,
-          centrifugeCondition,
-          additionalDetails,
-          isReconnect,
-          reconnectMatchId,
-          formType: 'contact',
-          attribution,
-          visitorContext,
-          partsJson: '',
-          partsCount: 0,
-        });
-      } catch (dbErr) {
-        // Log but don't fail — email already sent successfully
-        console.error('D1 insert error:', dbErr.message);
-      }
     }
 
     // ── Success ──────────────────────────────────────────────
