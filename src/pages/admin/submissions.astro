@@ -633,6 +633,21 @@ const isDevDashboard = import.meta.env.DEV;
     .va-row { border-top: 1px solid #e3e9f0; }
     .va-row:first-child { border-top: 0; }
     .va-row.identified { background: #eef4fc; }
+    /* "Connected dots" — visitors where multiple signals fuse stand out in gold */
+    .va-row.va-connected { background: #fff7e6; box-shadow: inset 4px 0 0 #e0a93a; }
+    .va-row.va-fullcircle { background: #fff2cc; box-shadow: inset 4px 0 0 #c9920a; }
+    .va-badge-connected, .va-badge-circle {
+      display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 10px;
+      font-size: 0.68rem; font-weight: 700; vertical-align: 1px; white-space: nowrap;
+    }
+    .va-badge-connected { background: #fde8c0; color: #8a5a00; }
+    .va-badge-circle { background: #f6cf6b; color: #5c4302; }
+    .va-quicktag {
+      margin-left: 8px; padding: 1px 8px; border: 1px solid #cbd8ea; border-radius: 10px;
+      background: #f4f8fd; color: #16335c; font-size: 0.7rem; font-weight: 600;
+      cursor: pointer; vertical-align: 1px; white-space: nowrap;
+    }
+    .va-quicktag:hover { background: #e3eefb; border-color: #9db8dd; }
 
     .va-summary {
       display: flex;
@@ -981,6 +996,10 @@ const isDevDashboard = import.meta.env.DEV;
           ? r.additional_details.substring(0, 80) + (r.additional_details.length > 80 ? '…' : '')
           : '—';
         const rowClass = isReturningRecord(r) ? 'reconnect-row' : '';
+        // Country flag + foreigner cue: form country is a 2-letter ISO code.
+        const cc = String(r.country || '').trim().toUpperCase();
+        const ccFlag = countryFlag(cc);
+        const isForeign = /^[A-Z]{2}$/.test(cc) && cc !== 'US';
 
         return `
           <tr class="${rowClass}" data-id="${r.id}">
@@ -991,7 +1010,7 @@ const isDevDashboard = import.meta.env.DEV;
             <td>${esc(r.company)}</td>
             <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
             <td style="white-space:nowrap">${esc(r.phone)}</td>
-            <td>${esc(r.country)}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
+            <td style="white-space:nowrap;${isForeign ? 'background:#FFE0B2;font-weight:600;' : ''}">${ccFlag ? ccFlag + ' ' : ''}${esc(r.country)}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
             <td>${esc(r.fluid_type)}</td>
             <td>${esc(r.capacity)}</td>
             <td>${esc(r.solids_percentage)}</td>
@@ -1104,6 +1123,22 @@ const isDevDashboard = import.meta.env.DEV;
         const pageviews = Number(visitor.pageview_count || 0);
         const isReturning = visits > 1;
 
+        // "Connected dots" — count how many distinct signal types fuse on this profile.
+        const srcL = String(visitor.source || '').toLowerCase();
+        const hasIdentity = Boolean(visitor.contact_name || visitor.contact_email || visitor.contact_phone || visitor.label);
+        const hasConversion = isFiller;
+        const hasPaid = Boolean(visitor.gclid);
+        const hasSource = Boolean(visitor.term) || (srcL && srcL !== 'direct' && srcL !== '(direct)' && srcL !== 'none');
+        const dots = [hasIdentity, hasConversion, hasPaid, isReturning, hasSource].filter(Boolean).length;
+        const fullCircle = hasIdentity && hasConversion && (hasPaid || hasSource);
+        const connectClass = fullCircle ? 'va-fullcircle' : (dots >= 3 ? 'va-connected' : (isIdentified ? 'identified' : ''));
+        const connectBadge = fullCircle
+          ? '<span class="va-badge-circle" title="Full circle: identity + conversion + traffic source all linked">🎯 Full circle</span>'
+          : (dots >= 3 ? `<span class="va-badge-connected" title="${dots} signals linked on this visitor">🔗 ${dots} dots</span>` : '');
+        const quickTagBtn = visitorId
+          ? `<button type="button" class="va-quicktag" data-quick-tag-id="${esc(visitorId)}" title="Quick name / tag this visitor">🏷 ${name ? 'Re-tag' : 'Name'}</button>`
+          : '';
+
         // Identity header line
         const nameHtml = name
           ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
@@ -1131,12 +1166,12 @@ const isDevDashboard = import.meta.env.DEV;
         const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
 
         return `
-          <details class="va-row ${isIdentified ? 'identified' : ''}">
+          <details class="va-row ${connectClass}">
             <summary class="va-summary">
               <span class="va-expand" aria-hidden="true"></span>
               <div class="va-main">
                 <div class="va-ident">
-                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}
+                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}${connectBadge}${quickTagBtn}
                 </div>
                 <div class="va-cols">
                   ${vaPair('Page Views:', String(pageviews))}
@@ -1207,6 +1242,13 @@ const isDevDashboard = import.meta.env.DEV;
     });
 
     visitorDirectory.addEventListener('click', function(e) {
+      const quickTagBtn = e.target.closest('[data-quick-tag-id]');
+      if (quickTagBtn) {
+        e.preventDefault();   // don't toggle the <details> row
+        e.stopPropagation();
+        quickTagVisitor(quickTagBtn.dataset.quickTagId);
+        return;
+      }
       const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
       if (saveVisitorBtn) saveVisitorSettings(saveVisitorBtn);
     });
@@ -1287,6 +1329,46 @@ const isDevDashboard = import.meta.env.DEV;
       } catch (err) {
         if (statusEl) statusEl.textContent = 'Save failed';
         button.disabled = false;
+      }
+    }
+
+    // Quick name/tag straight from a visitor row (StatCounter-style), reusing the
+    // same /admin/visitors save endpoint. Merges with existing fields so a fast
+    // tag never wipes previously-saved contact details.
+    async function quickTagVisitor(visitorId) {
+      if (!visitorId) return;
+      const existing = allVisitors.find(v => v.visitor_id === visitorId) || {};
+      const current = existing.label || existing.contact_name || '';
+      const entered = window.prompt('Quick name / tag for this visitor (phone match, form, your read, IP — your call):', current);
+      if (entered === null) return; // cancelled
+      const tag = entered.trim();
+      const token = sessionStorage.getItem(SESSION_KEY);
+      const payload = {
+        label: tag,
+        contact_name: existing.contact_name || '',
+        contact_company: existing.contact_company || '',
+        contact_email: existing.contact_email || '',
+        contact_phone: existing.contact_phone || '',
+        identity_source: 'manual',
+        identity_confidence: 'manual-quick',
+        notes: existing.notes || '',
+        alert_enabled: existing.alert_enabled ? true : false,
+        alert_email: existing.alert_email || 'sales@dolphincentrifuge.com',
+      };
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors/${encodeURIComponent(visitorId)}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!resp.ok) throw new Error('Save failed');
+        allVisitors = allVisitors.map(v => v.visitor_id === visitorId
+          ? { ...v, label: tag, identity_source: 'manual', identity_confidence: 'manual-quick' } : v);
+        allData = allData.map(row => row.attribution_visitor_id === visitorId
+          ? { ...row, visitor_label: tag, visitor_identity_source: 'manual' } : row);
+        applySearch();
+      } catch (err) {
+        alert('Could not save the tag. Please try again.');
       }
     }
 
