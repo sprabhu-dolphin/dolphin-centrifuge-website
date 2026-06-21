@@ -287,6 +287,22 @@ const isDevDashboard = import.meta.env.DEV;
     .sc-tile-lbl { font-size: 0.72rem; font-weight: 600; color: #6a7a8c; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 4px; }
     .sc-tile-sub { font-size: 0.72rem; color: #93a2b4; margin-top: 2px; }
     .sc-tile.accent .sc-tile-val { color: #1f7a3d; }
+    /* Pages report (Top / Entry / Exit) */
+    .sc-pages-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .sc-pages-tab {
+      border: 1px solid #c7d4e2; background: #fff; color: #16335c; border-radius: 6px;
+      padding: 6px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .sc-pages-tab:hover { background: #eef4fc; }
+    .sc-pages-tab.active { background: #1f4575; color: #fff; border-color: #1f4575; }
+    .sc-pages-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .sc-pages-table th, .sc-pages-table td {
+      text-align: left; padding: 8px 12px; border-bottom: 1px solid #e3e9f0; color: #2a3a4c;
+    }
+    .sc-pages-table th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: #6a7a8c; }
+    .sc-pages-table td.num, .sc-pages-table th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .sc-pages-table tr:hover td { background: #f7fafd; }
+    .sc-pages-table .pg-path { color: #16335c; word-break: break-all; }
 
     /* Section panels (one visible at a time) */
     .sc-panel { display: none; }
@@ -804,6 +820,9 @@ const isDevDashboard = import.meta.env.DEV;
         <button type="button" class="sc-nav-item active" data-view="activity">
           <span class="sc-nav-ico">&#128202;</span>Visitor Activity
         </button>
+        <button type="button" class="sc-nav-item" data-view="pages">
+          <span class="sc-nav-ico">&#128196;</span>Pages
+        </button>
         <button type="button" class="sc-nav-item" data-view="submissions">
           <span class="sc-nav-ico">&#128203;</span>Form Submissions
         </button>
@@ -832,7 +851,7 @@ const isDevDashboard = import.meta.env.DEV;
         <div id="summary-tiles" class="sc-tiles"></div>
         <div class="sc-toolbar">
           <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
-          <select id="date-preset" class="sc-select" title="Date range">
+          <select id="date-preset" class="sc-select" title="Date range (UTC day boundaries)">
             <option value="all">All time</option>
             <option value="today">Today</option>
             <option value="7d">Last 7 days</option>
@@ -856,6 +875,19 @@ const isDevDashboard = import.meta.env.DEV;
           <h1 class="sc-section-title" id="activity-title">Visitor activity</h1>
           <div id="visitor-directory" class="visitor-directory loading">Loading visitor activity…</div>
           <div id="visitor-pager" class="sc-pager"></div>
+        </section>
+
+        <!-- Pages report (Top / Entry / Exit) -->
+        <section class="sc-panel" id="panel-pages">
+          <h1 class="sc-section-title">Pages</h1>
+          <div class="sc-pages-tabs">
+            <button type="button" class="sc-pages-tab active" data-ptab="top">Top pages</button>
+            <button type="button" class="sc-pages-tab" data-ptab="entry">Entry pages</button>
+            <button type="button" class="sc-pages-tab" data-ptab="exit">Exit pages</button>
+          </div>
+          <div class="table-wrap">
+            <div id="pages-container" class="loading">Loading pages…</div>
+          </div>
         </section>
 
         <!-- Form submissions table -->
@@ -893,6 +925,7 @@ const isDevDashboard = import.meta.env.DEV;
     const leadsPager     = document.getElementById('leads-pager');
     const visitorPager   = document.getElementById('visitor-pager');
     const summaryTiles   = document.getElementById('summary-tiles');
+    const pagesContainer = document.getElementById('pages-container');
 
     let allData = [];
     let allVisitors = [];
@@ -1003,6 +1036,7 @@ const isDevDashboard = import.meta.env.DEV;
           applySearch();
           loadVisitors(token);
           loadSummary(token);
+          loadPages(token);
         } else {
           loginError.textContent = 'Server error. Please try again.';
         }
@@ -1028,8 +1062,10 @@ const isDevDashboard = import.meta.env.DEV;
         applySearch();
         loadVisitors(token);
         loadSummary(token);
+        loadPages(token);
       } catch (err) {
         tableContainer.innerHTML = '<div class="empty">Failed to load data. Check your connection.</div>';
+        countBadge.textContent = 'Failed to load';
       }
     }
 
@@ -1078,9 +1114,57 @@ const isDevDashboard = import.meta.env.DEV;
         });
         if (!resp.ok) { if (summaryTiles) summaryTiles.innerHTML = ''; return; }
         const json = await resp.json();
+        if (!json || json.success !== true) { if (summaryTiles) summaryTiles.innerHTML = ''; return; }
         renderSummary(json);
       } catch (err) {
         if (summaryTiles) summaryTiles.innerHTML = '';
+      }
+    }
+
+    // ── Pages report (Top / Entry / Exit) ──────────────────────
+    let pagesData = { top: [], entry: [], exit: [] };
+    let pagesTab = 'top';
+
+    function renderPages() {
+      if (!pagesContainer) return;
+      const rows = (pagesData && pagesData[pagesTab]) || [];
+      if (!rows.length) {
+        pagesContainer.innerHTML = '<div class="empty">No page activity in this range.</div>';
+        return;
+      }
+      let head, body;
+      if (pagesTab === 'top') {
+        head = '<th>Page</th><th class="num">Sessions</th><th class="num">Pageviews</th>';
+        body = rows.map(r => `<tr><td class="pg-path">${esc(r.page)}</td><td class="num">${fmtNum(r.sessions)}</td><td class="num">${fmtNum(r.pageviews)}</td></tr>`).join('');
+      } else if (pagesTab === 'entry') {
+        head = '<th>Entry page</th><th class="num">Sessions</th><th class="num">Bounce %</th>';
+        body = rows.map(r => {
+          const sessions = Number(r.sessions || 0);
+          const bounced = Number(r.bounced || 0);
+          const pct = sessions > 0 ? Math.round((bounced / sessions) * 100) : 0;
+          return `<tr><td class="pg-path">${esc(r.page)}</td><td class="num">${fmtNum(sessions)}</td><td class="num">${pct}%</td></tr>`;
+        }).join('');
+      } else { // exit
+        head = '<th>Exit page</th><th class="num">Sessions</th>';
+        body = rows.map(r => `<tr><td class="pg-path">${esc(r.page)}</td><td class="num">${fmtNum(r.sessions)}</td></tr>`).join('');
+      }
+      const cap = rows.length >= 50 ? '<div class="attrib-muted" style="padding:8px 2px;font-size:0.75rem;">Showing top 50 pages by sessions.</div>' : '';
+      pagesContainer.innerHTML = `<table class="sc-pages-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>${cap}`;
+    }
+
+    async function loadPages(token) {
+      if (!token) return;
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/pages${rangeQuery()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) { pagesData = { top: [], entry: [], exit: [] }; renderPages(); return; }
+        const json = await resp.json();
+        pagesData = { top: json.top || [], entry: json.entry || [], exit: json.exit || [] };
+        renderPages();
+      } catch (err) {
+        pagesData = { top: [], entry: [], exit: [] };
+        renderPages();
       }
     }
 
@@ -1090,6 +1174,10 @@ const isDevDashboard = import.meta.env.DEV;
       if (!token) return;
       leadsPage = 1;
       visitorsPage = 1;
+      // Clear stale data so the directory/pages never render the OLD range's
+      // data against the NEW range's leads while the fetches are in flight.
+      allVisitors = [];
+      pagesData = { top: [], entry: [], exit: [] };
       loadSubmissions(token);
     }
 
@@ -1265,7 +1353,7 @@ const isDevDashboard = import.meta.env.DEV;
       visitorsPage = clampPage(visitorsPage, total);
       const shown = pageSlice(filteredByView, visitorsPage);
       const identifiedCount = visitors.filter(v => isIdentifiedVisitor(v, submitted)).length;
-      const cap = visitorsTruncated ? ' · range capped at 10k' : '';
+      const cap = visitorsTruncated ? ' · showing newest 10k' : '';
       const countLabel = knownOnly
         ? `${total} known visitor${total !== 1 ? 's' : ''}${cap}`
         : `${total} visitor${total !== 1 ? 's' : ''} · ${identifiedCount} identified${cap}`;
@@ -1385,7 +1473,7 @@ const isDevDashboard = import.meta.env.DEV;
       renderPager(leadsPager, leadsFiltered.length, leadsPage, 'leads');
       const returning = leadsFiltered.filter(isReturningRecord).length;
       countBadge.textContent =
-        `${leadsFiltered.length} ${leadsFiltered.length === 1 ? 'entry' : 'entries'} · ${returning} returning${dataTruncated ? ' · range capped at 10k' : ''}`;
+        `${leadsFiltered.length} ${leadsFiltered.length === 1 ? 'entry' : 'entries'} · ${returning} returning${dataTruncated ? ' · showing newest 10k' : ''}`;
 
       // Visitors — renderVisitorDirectory applies the known-only view + pagination.
       const visitorsFiltered = allVisitors.filter(visitor =>
@@ -1403,12 +1491,15 @@ const isDevDashboard = import.meta.env.DEV;
       dateEnd.style.display = isCustom ? '' : 'none';
     }
     datePreset.addEventListener('change', () => {
-      syncCustomDateInputs();
       if (datePreset.value === 'custom') {
-        // wait for the user to pick dates; apply once both are set
-        if (dateStart.value && dateEnd.value) applyCustomDates();
+        // Entering custom: start fresh (don't silently reuse stale dates);
+        // the range applies once the user picks the dates (applyCustomDates).
+        dateStart.value = '';
+        dateEnd.value = '';
+        syncCustomDateInputs();
         return;
       }
+      syncCustomDateInputs();
       const r = computeRange(datePreset.value);
       curStart = r.start; curEnd = r.end;
       reloadForRange();
@@ -1672,6 +1763,7 @@ const isDevDashboard = import.meta.env.DEV;
     const navItems = Array.from(document.querySelectorAll('.sc-nav-item'));
     const panelActivity = document.getElementById('panel-activity');
     const panelSubmissions = document.getElementById('panel-submissions');
+    const panelPages = document.getElementById('panel-pages');
     const activityTitle = document.getElementById('activity-title');
 
     function setView(view) {
@@ -1679,6 +1771,7 @@ const isDevDashboard = import.meta.env.DEV;
       const showActivity = (view === 'activity' || view === 'known');
       panelActivity.classList.toggle('active', showActivity);
       panelSubmissions.classList.toggle('active', view === 'submissions');
+      if (panelPages) panelPages.classList.toggle('active', view === 'pages');
       knownOnly = (view === 'known');
       if (activityTitle) {
         activityTitle.textContent = knownOnly ? 'Known visitors' : 'Visitor activity';
@@ -1689,6 +1782,15 @@ const isDevDashboard = import.meta.env.DEV;
 
     navItems.forEach(btn => {
       btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+
+    // Pages report tab switching (Top / Entry / Exit) — re-renders from cached data.
+    document.querySelectorAll('.sc-pages-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        pagesTab = btn.dataset.ptab;
+        document.querySelectorAll('.sc-pages-tab').forEach(b => b.classList.toggle('active', b === btn));
+        renderPages();
+      });
     });
 
     function formTypeLabel(value) {

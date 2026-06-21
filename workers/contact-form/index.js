@@ -38,6 +38,10 @@ export default {
       return handleAdminSummary(request, env);
     }
 
+    if (request.method === 'GET' && path === '/admin/pages') {
+      return handleAdminPages(request, env);
+    }
+
     if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
       const visitorId = decodeURIComponent(path.split('/').pop() || '');
       return handleAdminVisitorUpdate(request, env, visitorId);
@@ -257,6 +261,70 @@ async function handleAdminSummary(request, env) {
     });
   } catch (err) {
     console.error('Admin summary error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+// ── ADMIN: Top / Entry / Exit pages over a date range ───────
+async function handleAdminPages(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+  const out = { success: true, top: [], entry: [], exit: [] };
+  try {
+    const f = buildDateFilter(request, 'created_at');
+    const where = `event_type = 'pageview'${f.clause}`;
+    const tolerate = (e) => { if (!isMissingColumnError(e) && !isMissingTableError(e)) throw e; };
+
+    // Top pages — by sessions touching the page.
+    try {
+      const r = await env.DB.prepare(
+        `SELECT page_path AS page, COUNT(*) AS pageviews, COUNT(DISTINCT session_id) AS sessions
+         FROM visitor_events WHERE ${where}
+         GROUP BY page_path ORDER BY sessions DESC, pageviews DESC LIMIT 50`
+      ).bind(...f.binds).all();
+      out.top = r.results || [];
+    } catch (e) { tolerate(e); }
+
+    // Entry pages (first pageview per session) + bounce (single-pageview sessions).
+    try {
+      const r = await env.DB.prepare(
+        `WITH ranked AS (
+           SELECT session_id, page_path,
+             COUNT(*) OVER (PARTITION BY session_id) AS pv_count,
+             ROW_NUMBER() OVER (PARTITION BY session_id ORDER BY created_at ASC, id ASC) AS rn
+           FROM visitor_events WHERE ${where}
+         )
+         SELECT page_path AS page, COUNT(*) AS sessions,
+                SUM(CASE WHEN pv_count = 1 THEN 1 ELSE 0 END) AS bounced
+         FROM ranked WHERE rn = 1
+         GROUP BY page_path ORDER BY sessions DESC LIMIT 50`
+      ).bind(...f.binds).all();
+      out.entry = r.results || [];
+    } catch (e) { tolerate(e); }
+
+    // Exit pages (last pageview per session).
+    try {
+      const r = await env.DB.prepare(
+        `WITH ranked AS (
+           SELECT session_id, page_path,
+             ROW_NUMBER() OVER (PARTITION BY session_id ORDER BY created_at DESC, id DESC) AS rn
+           FROM visitor_events WHERE ${where}
+         )
+         SELECT page_path AS page, COUNT(*) AS sessions
+         FROM ranked WHERE rn = 1
+         GROUP BY page_path ORDER BY sessions DESC LIMIT 50`
+      ).bind(...f.binds).all();
+      out.exit = r.results || [];
+    } catch (e) { tolerate(e); }
+
+    return new Response(JSON.stringify(out), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('Admin pages error:', err.message);
     return new Response(JSON.stringify({ error: 'Database error' }), {
       status: 500, headers: CORS_HEADERS,
     });
