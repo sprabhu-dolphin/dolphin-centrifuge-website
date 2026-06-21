@@ -254,6 +254,25 @@ const isDevDashboard = import.meta.env.DEV;
     }
     .sc-toolbar input[type="search"]:focus { border-color: #2f6db5; }
     #count-badge { font-size: 0.82rem; color: #6a7a8c; }
+    .sc-select, .sc-date {
+      border: 1px solid #c7d4e2; border-radius: 6px; padding: 7px 10px;
+      font-size: 0.85rem; font-family: inherit; color: #16335c; background: #fff; outline: none;
+    }
+    .sc-select:focus, .sc-date:focus { border-color: #2f6db5; }
+    /* Pagination footer (StatCounter-style) */
+    .sc-pager {
+      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+      flex-wrap: wrap; margin: 12px 2px 4px; font-size: 0.82rem; color: #6a7a8c;
+    }
+    .sc-pager:empty { display: none; }
+    .sc-pager .sc-pg-info { margin-right: auto; }
+    .sc-pager button {
+      border: 1px solid #c7d4e2; border-radius: 6px; background: #fff; color: #16335c;
+      padding: 5px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .sc-pager button:hover:not(:disabled) { background: #eef4fc; border-color: #9db8dd; }
+    .sc-pager button:disabled { opacity: 0.45; cursor: default; }
+    .sc-pager .sc-pg-pages { color: #16335c; font-weight: 600; }
 
     /* Section panels (one visible at a time) */
     .sc-panel { display: none; }
@@ -798,6 +817,22 @@ const isDevDashboard = import.meta.env.DEV;
       <div class="sc-body">
         <div class="sc-toolbar">
           <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
+          <select id="date-preset" class="sc-select" title="Date range">
+            <option value="all">All time</option>
+            <option value="today">Today</option>
+            <option value="7d">Last 7 days</option>
+            <option value="30d" selected>Last 30 days</option>
+            <option value="month">This month</option>
+            <option value="custom">Custom…</option>
+          </select>
+          <input type="date" id="date-start" class="sc-date" style="display:none" title="Start date" />
+          <input type="date" id="date-end" class="sc-date" style="display:none" title="End date" />
+          <select id="rows-per-page" class="sc-select" title="Rows per page">
+            <option value="25">25 / page</option>
+            <option value="50" selected>50 / page</option>
+            <option value="100">100 / page</option>
+            <option value="200">200 / page</option>
+          </select>
           <span id="count-badge">Loading…</span>
         </div>
 
@@ -805,6 +840,7 @@ const isDevDashboard = import.meta.env.DEV;
         <section class="sc-panel active" id="panel-activity">
           <h1 class="sc-section-title" id="activity-title">Visitor activity</h1>
           <div id="visitor-directory" class="visitor-directory loading">Loading visitor activity…</div>
+          <div id="visitor-pager" class="sc-pager"></div>
         </section>
 
         <!-- Form submissions table -->
@@ -813,6 +849,7 @@ const isDevDashboard = import.meta.env.DEV;
           <div class="table-wrap">
             <div id="table-container" class="loading">Loading submissions…</div>
           </div>
+          <div id="leads-pager" class="sc-pager"></div>
         </section>
       </div>
     </div>
@@ -834,10 +871,68 @@ const isDevDashboard = import.meta.env.DEV;
     const tableContainer = document.getElementById('table-container');
     const visitorDirectory = document.getElementById('visitor-directory');
     const logoutBtn      = document.getElementById('logout-btn');
+    const datePreset     = document.getElementById('date-preset');
+    const dateStart      = document.getElementById('date-start');
+    const dateEnd        = document.getElementById('date-end');
+    const rowsPerPageSel = document.getElementById('rows-per-page');
+    const leadsPager     = document.getElementById('leads-pager');
+    const visitorPager   = document.getElementById('visitor-pager');
 
     let allData = [];
     let allVisitors = [];
     const initialSearch = new URLSearchParams(window.location.search).get('q') || '';
+
+    // ── Date-range + pagination state ─────────────────────────
+    let rowsPerPage = 50;
+    let leadsPage = 1;
+    let visitorsPage = 1;
+    let curStart = null;   // YYYY-MM-DD inclusive, or null = no lower bound
+    let curEnd = null;     // YYYY-MM-DD inclusive, or null = no upper bound
+    let dataTruncated = false;
+    let visitorsTruncated = false;
+
+    function currentToken() { return sessionStorage.getItem(SESSION_KEY); }
+    function isoDay(d) { return d.toISOString().slice(0, 10); }
+
+    // Compute {start,end} (UTC, inclusive) for a preset. null = unbounded.
+    function computeRange(preset) {
+      const now = new Date();
+      const end = isoDay(now);
+      if (preset === 'all') return { start: null, end: null };
+      if (preset === 'today') return { start: end, end };
+      if (preset === '7d') { const s = new Date(now); s.setUTCDate(s.getUTCDate() - 6); return { start: isoDay(s), end }; }
+      if (preset === '30d') { const s = new Date(now); s.setUTCDate(s.getUTCDate() - 29); return { start: isoDay(s), end }; }
+      if (preset === 'month') { const s = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)); return { start: isoDay(s), end }; }
+      return { start: null, end: null };
+    }
+
+    function rangeQuery() {
+      const p = new URLSearchParams();
+      if (curStart) p.set('start', curStart);
+      if (curEnd) p.set('end', curEnd);
+      const qs = p.toString();
+      return qs ? ('?' + qs) : '';
+    }
+
+    function clampPage(page, total) {
+      const pages = Math.max(1, Math.ceil(total / rowsPerPage));
+      return Math.min(Math.max(1, page), pages);
+    }
+    function pageSlice(arr, page) {
+      const p = clampPage(page, arr.length);
+      return arr.slice((p - 1) * rowsPerPage, p * rowsPerPage);
+    }
+    function renderPager(el, total, page, kind) {
+      if (total <= rowsPerPage) { el.innerHTML = ''; return; }
+      const pages = Math.max(1, Math.ceil(total / rowsPerPage));
+      const from = total === 0 ? 0 : (page - 1) * rowsPerPage + 1;
+      const to = Math.min(total, page * rowsPerPage);
+      el.innerHTML =
+        `<span class="sc-pg-info">Showing ${from}–${to} of ${total}</span>` +
+        `<button type="button" data-pg-kind="${kind}" data-pg-dir="prev" ${page <= 1 ? 'disabled' : ''}>← Prev</button>` +
+        `<span class="sc-pg-pages">Page ${page} of ${pages}</span>` +
+        `<button type="button" data-pg-kind="${kind}" data-pg-dir="next" ${page >= pages ? 'disabled' : ''}>Next →</button>`;
+    }
 
     // ── Auto-login if session exists ──────────────────────────
     // Local dev only: lets us verify localhost without a real admin secret.
@@ -847,6 +942,15 @@ const isDevDashboard = import.meta.env.DEV;
       && new URLSearchParams(window.location.search).get('localDemo') === '1'
     ) ? 'local-demo-token' : '';
     if (localDemoToken) sessionStorage.setItem(SESSION_KEY, localDemoToken);
+
+    // Initialize the default date range (Last 30 days) BEFORE any first load,
+    // so the initial fetch is already bounded. (computeRange/syncCustomDateInputs
+    // are hoisted function declarations, safe to call here.)
+    (function initRange() {
+      const r = computeRange(datePreset.value || '30d');
+      curStart = r.start; curEnd = r.end;
+      syncCustomDateInputs();
+    })();
 
     const savedToken = localDemoToken || sessionStorage.getItem(SESSION_KEY);
     if (savedToken) {
@@ -867,7 +971,7 @@ const isDevDashboard = import.meta.env.DEV;
       loginError.textContent = '';
 
       try {
-        const resp = await fetch(`${WORKER_URL}/admin/submissions`, {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions${rangeQuery()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -877,6 +981,7 @@ const isDevDashboard = import.meta.env.DEV;
           sessionStorage.setItem(SESSION_KEY, token);
           const json = await resp.json();
           allData = json.data || [];
+          dataTruncated = !!json.truncated;
           showDashboard();
           applyInitialSearch();
           applySearch();
@@ -895,12 +1000,13 @@ const isDevDashboard = import.meta.env.DEV;
     // ── Load submissions ───────────────────────────────────────
     async function loadSubmissions(token) {
       try {
-        const resp = await fetch(`${WORKER_URL}/admin/submissions`, {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions${rangeQuery()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (resp.status === 401) { logout(); return; }
         const json = await resp.json();
         allData = json.data || [];
+        dataTruncated = !!json.truncated;
         applyInitialSearch();
         applySearch();
         loadVisitors(token);
@@ -911,16 +1017,26 @@ const isDevDashboard = import.meta.env.DEV;
 
     async function loadVisitors(token) {
       try {
-        const resp = await fetch(`${WORKER_URL}/admin/visitors`, {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors${rangeQuery()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!resp.ok) throw new Error('Visitor load failed');
         const json = await resp.json();
         allVisitors = json.data || [];
+        visitorsTruncated = !!json.truncated;
         applySearch();
       } catch (err) {
         visitorDirectory.innerHTML = '<h2>Known Visitors</h2><div class="attrib-muted">Visitor profiles are not available yet.</div>';
       }
+    }
+
+    // Re-fetch both lists for the current date range (used when the range changes).
+    function reloadForRange() {
+      const token = currentToken();
+      if (!token) return;
+      leadsPage = 1;
+      visitorsPage = 1;
+      loadSubmissions(token);
     }
 
     // ── Render table ───────────────────────────────────────────
@@ -933,11 +1049,8 @@ const isDevDashboard = import.meta.env.DEV;
     }
 
     function renderTable(data) {
-      const reconnectCount = data.filter(isReturningRecord).length;
-      countBadge.textContent = `${data.length} entries · ${reconnectCount} returning visitor${reconnectCount !== 1 ? 's' : ''}`;
-
       if (data.length === 0) {
-        tableContainer.innerHTML = '<div class="empty">No submissions yet.</div>';
+        tableContainer.innerHTML = '<div class="empty">No submissions in this range.</div>';
         return;
       }
 
@@ -1094,12 +1207,14 @@ const isDevDashboard = import.meta.env.DEV;
       const filteredByView = knownOnly
         ? visitors.filter(v => isIdentifiedVisitor(v, submitted))
         : visitors;
-      const shown = filteredByView.slice(0, 100);
       const total = filteredByView.length;
+      visitorsPage = clampPage(visitorsPage, total);
+      const shown = pageSlice(filteredByView, visitorsPage);
       const identifiedCount = visitors.filter(v => isIdentifiedVisitor(v, submitted)).length;
+      const cap = visitorsTruncated ? ' · range capped at 10k' : '';
       const countLabel = knownOnly
-        ? `${total} known visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''}`
-        : `${total} visitor${total !== 1 ? 's' : ''}${total > shown.length ? ' · showing 100' : ''} · ${identifiedCount} identified`;
+        ? `${total} known visitor${total !== 1 ? 's' : ''}${cap}`
+        : `${total} visitor${total !== 1 ? 's' : ''} · ${identifiedCount} identified${cap}`;
       const heading = `
         <div class="va-head">
           <span class="va-count">${countLabel}</span>
@@ -1111,6 +1226,7 @@ const isDevDashboard = import.meta.env.DEV;
           ? 'No identified visitors yet. Visitors who fill a form — or that you name/label — appear here.'
           : 'No visitors match this filter yet. Tracking went live recently — new visitors appear here as they browse the site.';
         visitorDirectory.innerHTML = `${heading}<div class="attrib-muted" style="padding:14px;">${emptyMsg}</div>`;
+        renderPager(visitorPager, total, visitorsPage, 'visitors');
         return;
       }
 
@@ -1196,6 +1312,7 @@ const isDevDashboard = import.meta.env.DEV;
             </div>
           </details>`;
       }).join('')}</div>`;
+      renderPager(visitorPager, total, visitorsPage, 'visitors');
     }
 
     function applyInitialSearch() {
@@ -1204,17 +1321,72 @@ const isDevDashboard = import.meta.env.DEV;
 
     function applySearch() {
       const q = searchInput.value.toLowerCase();
-      const filtered = allData.filter(r =>
+      // Leads — date range is already applied server-side; this is the in-range text filter.
+      const leadsFiltered = allData.filter(r =>
         `${r.first_name} ${r.last_name} ${r.company} ${r.email} ${r.phone} ${r.fluid_type} ${r.country} ${r.additional_details} ${r.form_type} ${googleAttributionSearchText(r)} ${visitorContextSearchText(r)}`
           .toLowerCase().includes(q)
       );
-      renderTable(filtered);
-      renderVisitorDirectory(allVisitors.filter(visitor =>
+      leadsPage = clampPage(leadsPage, leadsFiltered.length);
+      renderTable(pageSlice(leadsFiltered, leadsPage));
+      renderPager(leadsPager, leadsFiltered.length, leadsPage, 'leads');
+      const returning = leadsFiltered.filter(isReturningRecord).length;
+      countBadge.textContent =
+        `${leadsFiltered.length} ${leadsFiltered.length === 1 ? 'entry' : 'entries'} · ${returning} returning${dataTruncated ? ' · range capped at 10k' : ''}`;
+
+      // Visitors — renderVisitorDirectory applies the known-only view + pagination.
+      const visitorsFiltered = allVisitors.filter(visitor =>
         visitorProfileSearchText(visitor).toLowerCase().includes(q)
-      ));
+      );
+      renderVisitorDirectory(visitorsFiltered);
     }
 
-    searchInput.addEventListener('input', applySearch);
+    searchInput.addEventListener('input', () => { leadsPage = 1; visitorsPage = 1; applySearch(); });
+
+    // ── Date range + rows-per-page + pagination wiring ────────
+    function syncCustomDateInputs() {
+      const isCustom = datePreset.value === 'custom';
+      dateStart.style.display = isCustom ? '' : 'none';
+      dateEnd.style.display = isCustom ? '' : 'none';
+    }
+    datePreset.addEventListener('change', () => {
+      syncCustomDateInputs();
+      if (datePreset.value === 'custom') {
+        // wait for the user to pick dates; apply once both are set
+        if (dateStart.value && dateEnd.value) applyCustomDates();
+        return;
+      }
+      const r = computeRange(datePreset.value);
+      curStart = r.start; curEnd = r.end;
+      reloadForRange();
+    });
+    function applyCustomDates() {
+      if (datePreset.value !== 'custom') return;
+      let s = dateStart.value || null;
+      let e = dateEnd.value || null;
+      // Guard an inverted range — swap so start <= end instead of silently returning nothing.
+      if (s && e && s > e) { const t = s; s = e; e = t; dateStart.value = s; dateEnd.value = e; }
+      curStart = s;
+      curEnd = e;
+      reloadForRange();
+    }
+    dateStart.addEventListener('change', applyCustomDates);
+    dateEnd.addEventListener('change', applyCustomDates);
+
+    rowsPerPageSel.addEventListener('change', () => {
+      rowsPerPage = Number(rowsPerPageSel.value) || 50;
+      leadsPage = 1; visitorsPage = 1;
+      applySearch();
+    });
+
+    function onPagerClick(e) {
+      const btn = e.target.closest('button[data-pg-dir]');
+      if (!btn) return;
+      const dir = btn.dataset.pgDir === 'next' ? 1 : -1;
+      if (btn.dataset.pgKind === 'leads') leadsPage += dir; else visitorsPage += dir;
+      applySearch();
+    }
+    leadsPager.addEventListener('click', onPagerClick);
+    visitorPager.addEventListener('click', onPagerClick);
 
     // ── Delete: event delegation on table container ─────────
     let pendingDeleteId = null;
@@ -1398,7 +1570,7 @@ const isDevDashboard = import.meta.env.DEV;
         });
         if (resp.ok) {
           allData = allData.filter(r => r.id !== id);
-          renderTable(allData);
+          applySearch();   // re-filter + re-paginate + refresh badge/pager
         } else {
           alert('Delete failed — server returned an error.');
         }
@@ -1457,6 +1629,7 @@ const isDevDashboard = import.meta.env.DEV;
       if (activityTitle) {
         activityTitle.textContent = knownOnly ? 'Known visitors' : 'Visitor activity';
       }
+      visitorsPage = 1;
       if (showActivity) applySearch();
     }
 

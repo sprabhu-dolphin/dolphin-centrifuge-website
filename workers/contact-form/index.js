@@ -64,6 +64,34 @@ export default {
 };
 
 // ── ADMIN: Get all submissions ───────────────────────────────
+// Admin list cap — a safety ceiling per request. The dashboard bounds the real
+// dataset with a date range; this just prevents an unbounded fetch. `truncated`
+// in the response tells the client to narrow the range (or move to server paging).
+const ADMIN_LIST_LIMIT = 10000;
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function endExclusiveDate(end) {
+  // `end` is an inclusive YYYY-MM-DD; return the next UTC day for a `< ?` compare.
+  const d = new Date(`${end}T00:00:00.000Z`);
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+// Build an optional date-range WHERE fragment for `column` from ?start=&end=.
+// Only well-formed YYYY-MM-DD values are honored; values bind as parameters
+// (the column name is caller-controlled, never user input).
+function buildDateFilter(request, column) {
+  const url = new URL(request.url);
+  const start = url.searchParams.get('start');
+  const end = url.searchParams.get('end');
+  let clause = '';
+  const binds = [];
+  if (start && ISO_DATE_RE.test(start)) { clause += ` AND ${column} >= ?`; binds.push(start); }
+  if (end && ISO_DATE_RE.test(end)) { clause += ` AND ${column} < ?`; binds.push(endExclusiveDate(end)); }
+  return { clause, binds };
+}
+
 async function handleAdminGet(request, env) {
   if (!isAdminAuthorized(request, env)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -74,6 +102,7 @@ async function handleAdminGet(request, env) {
   try {
     let results;
     try {
+      const f = buildDateFilter(request, 's.created_at');
       const response = await env.DB.prepare(`
         SELECT
           s.*,
@@ -94,19 +123,21 @@ async function handleAdminGet(request, env) {
         FROM submissions s
         LEFT JOIN visitor_profiles vp
           ON s.attribution_visitor_id = vp.visitor_id
-        WHERE s.deleted = 0
+        WHERE s.deleted = 0${f.clause}
         ORDER BY s.created_at DESC
-      `).all();
+        LIMIT ${ADMIN_LIST_LIMIT}
+      `).bind(...f.binds).all();
       results = response.results;
     } catch (joinErr) {
       if (!isMissingColumnError(joinErr)) throw joinErr;
+      const f = buildDateFilter(request, 'created_at');
       const response = await env.DB.prepare(
-        `SELECT * FROM submissions WHERE deleted = 0 ORDER BY created_at DESC`
-      ).all();
+        `SELECT * FROM submissions WHERE deleted = 0${f.clause} ORDER BY created_at DESC LIMIT ${ADMIN_LIST_LIMIT}`
+      ).bind(...f.binds).all();
       results = response.results;
     }
 
-    return new Response(JSON.stringify({ success: true, data: results }), {
+    return new Response(JSON.stringify({ success: true, data: results, truncated: results.length >= ADMIN_LIST_LIMIT }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
@@ -156,14 +187,16 @@ async function handleAdminVisitorsGet(request, env) {
   }
 
   try {
+    const f = buildDateFilter(request, 'last_seen_at');
     const { results } = await env.DB.prepare(`
       SELECT *
       FROM visitor_profiles
+      WHERE 1=1${f.clause}
       ORDER BY last_seen_at DESC
-      LIMIT 500
-    `).all();
+      LIMIT ${ADMIN_LIST_LIMIT}
+    `).bind(...f.binds).all();
 
-    return new Response(JSON.stringify({ success: true, data: results }), {
+    return new Response(JSON.stringify({ success: true, data: results, truncated: results.length >= ADMIN_LIST_LIMIT }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
