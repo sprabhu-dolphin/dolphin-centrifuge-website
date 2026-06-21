@@ -34,6 +34,10 @@ export default {
       return handleAdminVisitorsGet(request, env);
     }
 
+    if (request.method === 'GET' && path === '/admin/summary') {
+      return handleAdminSummary(request, env);
+    }
+
     if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
       const visitorId = decodeURIComponent(path.split('/').pop() || '');
       return handleAdminVisitorUpdate(request, env, visitorId);
@@ -206,6 +210,53 @@ async function handleAdminVisitorsGet(request, env) {
       });
     }
     console.error('Admin visitors GET error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+// ── ADMIN: summary KPI tiles over a date range ──────────────
+async function handleAdminSummary(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+  try {
+    // Pageviews / unique visitors / sessions from the event log (pageview events only,
+    // so download/exit-link events added later don't inflate the pageview count).
+    let pageviews = 0, visitors = 0, sessions = 0;
+    try {
+      const ev = buildDateFilter(request, 'created_at');
+      const r = await env.DB.prepare(
+        `SELECT COUNT(*) AS pv, COUNT(DISTINCT visitor_id) AS v, COUNT(DISTINCT session_id) AS s
+         FROM visitor_events WHERE event_type = 'pageview'${ev.clause}`
+      ).bind(...ev.binds).first();
+      pageviews = Number(r?.pv || 0);
+      visitors = Number(r?.v || 0);
+      sessions = Number(r?.s || 0);
+    } catch (evErr) {
+      if (!isMissingColumnError(evErr) && !isMissingTableError(evErr)) throw evErr; // missing table/column -> leave at 0
+    }
+
+    // Form leads from submissions over the same range.
+    let leads = 0;
+    try {
+      const sf = buildDateFilter(request, 'created_at');
+      const r = await env.DB.prepare(
+        `SELECT COUNT(*) AS n FROM submissions WHERE deleted = 0${sf.clause}`
+      ).bind(...sf.binds).first();
+      leads = Number(r?.n || 0);
+    } catch (subErr) {
+      if (!isMissingColumnError(subErr) && !isMissingTableError(subErr)) throw subErr;
+    }
+
+    return new Response(JSON.stringify({ success: true, pageviews, visitors, sessions, leads }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    console.error('Admin summary error:', err.message);
     return new Response(JSON.stringify({ error: 'Database error' }), {
       status: 500, headers: CORS_HEADERS,
     });
@@ -837,6 +888,13 @@ function formatTextTrail(pages) {
 function isMissingColumnError(err) {
   const message = err && err.message ? String(err.message).toLowerCase() : '';
   return message.includes('no such column') || message.includes('has no column named');
+}
+
+// A whole table (not just a column) being absent — used by best-effort read paths
+// (e.g. the summary KPIs) that should degrade to 0 rather than 500 on a fresh DB.
+function isMissingTableError(err) {
+  const message = err && err.message ? String(err.message).toLowerCase() : '';
+  return message.includes('no such table');
 }
 
 function splitName(fullName) {

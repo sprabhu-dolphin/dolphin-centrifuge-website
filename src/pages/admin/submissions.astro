@@ -273,6 +273,20 @@ const isDevDashboard = import.meta.env.DEV;
     .sc-pager button:hover:not(:disabled) { background: #eef4fc; border-color: #9db8dd; }
     .sc-pager button:disabled { opacity: 0.45; cursor: default; }
     .sc-pager .sc-pg-pages { color: #16335c; font-weight: 600; }
+    /* Summary KPI tiles */
+    .sc-tiles {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin-bottom: 16px;
+    }
+    .sc-tiles:empty { display: none; }
+    .sc-tile {
+      background: #fff; border: 1px solid #e3e9f0; border-radius: 10px;
+      padding: 14px 16px; box-shadow: 0 1px 2px rgba(16,51,92,0.04);
+    }
+    .sc-tile-val { font-size: 1.6rem; font-weight: 800; color: #16335c; line-height: 1.1; }
+    .sc-tile-lbl { font-size: 0.72rem; font-weight: 600; color: #6a7a8c; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 4px; }
+    .sc-tile-sub { font-size: 0.72rem; color: #93a2b4; margin-top: 2px; }
+    .sc-tile.accent .sc-tile-val { color: #1f7a3d; }
 
     /* Section panels (one visible at a time) */
     .sc-panel { display: none; }
@@ -815,6 +829,7 @@ const isDevDashboard = import.meta.env.DEV;
       </div>
 
       <div class="sc-body">
+        <div id="summary-tiles" class="sc-tiles"></div>
         <div class="sc-toolbar">
           <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
           <select id="date-preset" class="sc-select" title="Date range">
@@ -877,6 +892,7 @@ const isDevDashboard = import.meta.env.DEV;
     const rowsPerPageSel = document.getElementById('rows-per-page');
     const leadsPager     = document.getElementById('leads-pager');
     const visitorPager   = document.getElementById('visitor-pager');
+    const summaryTiles   = document.getElementById('summary-tiles');
 
     let allData = [];
     let allVisitors = [];
@@ -986,6 +1002,7 @@ const isDevDashboard = import.meta.env.DEV;
           applyInitialSearch();
           applySearch();
           loadVisitors(token);
+          loadSummary(token);
         } else {
           loginError.textContent = 'Server error. Please try again.';
         }
@@ -1010,6 +1027,7 @@ const isDevDashboard = import.meta.env.DEV;
         applyInitialSearch();
         applySearch();
         loadVisitors(token);
+        loadSummary(token);
       } catch (err) {
         tableContainer.innerHTML = '<div class="empty">Failed to load data. Check your connection.</div>';
       }
@@ -1027,6 +1045,42 @@ const isDevDashboard = import.meta.env.DEV;
         applySearch();
       } catch (err) {
         visitorDirectory.innerHTML = '<h2>Known Visitors</h2><div class="attrib-muted">Visitor profiles are not available yet.</div>';
+      }
+    }
+
+    // ── Summary KPI tiles (server-aggregated over the date range) ──
+    function tile(val, label, sub, accent) {
+      return `<div class="sc-tile${accent ? ' accent' : ''}">` +
+        `<div class="sc-tile-val">${esc(val)}</div>` +
+        `<div class="sc-tile-lbl">${esc(label)}</div>` +
+        (sub ? `<div class="sc-tile-sub">${esc(sub)}</div>` : '') +
+        `</div>`;
+    }
+    function fmtNum(n) { return Number(n || 0).toLocaleString('en-US'); }
+    function renderSummary(s) {
+      if (!summaryTiles) return;
+      const visitors = Number(s.visitors || 0);
+      const leads = Number(s.leads || 0);
+      const conv = visitors > 0 ? ((leads / visitors) * 100) : 0;
+      const convStr = visitors > 0 ? `${conv.toFixed(conv < 10 ? 1 : 0)}%` : '—';
+      summaryTiles.innerHTML =
+        tile(fmtNum(s.pageviews), 'Pageviews') +
+        tile(fmtNum(visitors), 'Visitors') +
+        tile(fmtNum(s.sessions), 'Sessions') +
+        tile(fmtNum(leads), 'Form leads', '', true) +
+        tile(convStr, 'Lead rate', 'leads ÷ visitors');
+    }
+    async function loadSummary(token) {
+      if (!token) return;
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/summary${rangeQuery()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) { if (summaryTiles) summaryTiles.innerHTML = ''; return; }
+        const json = await resp.json();
+        renderSummary(json);
+      } catch (err) {
+        if (summaryTiles) summaryTiles.innerHTML = '';
       }
     }
 
