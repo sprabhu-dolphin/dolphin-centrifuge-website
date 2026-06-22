@@ -697,6 +697,14 @@ const isDevDashboard = import.meta.env.DEV;
       cursor: pointer; vertical-align: 1px; white-space: nowrap;
     }
     .va-quicktag:hover { background: #e3eefb; border-color: #9db8dd; }
+    .va-pill {
+      display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 10px;
+      font-size: 0.68rem; font-weight: 700; vertical-align: 1px; white-space: nowrap;
+    }
+    .va-pill-ads { background: #fde8c0; color: #8a5a00; }
+    .va-pill-neu { background: #eef2f7; color: #506179; }
+    .va-pill-org-g { background: #e3f4e8; color: #1f7a3d; }
+    .va-pill-org-b { background: #e2eef7; color: #1d5d86; }
 
     .va-summary {
       display: flex;
@@ -1315,18 +1323,49 @@ const isDevDashboard = import.meta.env.DEV;
     function visitorSourcePill(visitor) {
       const src = String(visitor.source || '').toLowerCase();
       const med = String(visitor.medium || '').toLowerCase();
-      const term = visitor.term ? ' · "' + esc(visitor.term) + '"' : '';
-      if (visitor.gclid || med === 'cpc' || med === 'ppc') {
-        return `<span class="va-pill va-pill-ads">Google Ads${term}</span>`;
+      const urls = [visitor.first_landing_page, visitor.last_page, visitor.referrer].filter(Boolean).join(' ').toLowerCase();
+      const hasPaid = Boolean(visitor.gclid || visitor.gbraid || visitor.wbraid)
+        || ['cpc', 'ppc', 'paid'].includes(med)
+        || src.includes('googleads')
+        || src.includes('gclid')
+        || urls.includes('googleads')
+        || urls.includes('gclid');
+
+      if (hasPaid) {
+        return '<span class="va-pill va-pill-ads">Paid &middot; Google</span>';
       }
-      if (med === 'organic' || src.includes('google') || src.includes('bing') || src.includes('duckduckgo')) {
-        return `<span class="va-pill va-pill-neu">Organic${term}</span>`;
+      if (med === 'organic' && src.includes('google')) {
+        return '<span class="va-pill va-pill-org-g">Organic &middot; Google</span>';
+      }
+      if (src.includes('bing') || src.includes('msn') || src.includes('yahoo')) {
+        return '<span class="va-pill va-pill-org-b">Organic &middot; Bing</span>';
       }
       if (!src || src === 'direct' || src === '(direct)' || src === 'none') {
-        return `<span class="va-pill va-pill-neu">Direct</span>`;
+        return '<span class="va-pill va-pill-neu">Direct</span>';
       }
-      const label = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
-      return `<span class="va-pill va-pill-neu">${esc(label || 'Other')}</span>`;
+      const detail = [visitor.source, visitor.medium].filter(Boolean).join('/');
+      return `<span class="va-pill va-pill-neu">Other${detail ? ' &middot; ' + esc(detail) : ''}</span>`;
+    }
+
+    function qparam(url, names) {
+      try {
+        const u = new URL(url, 'https://x');
+        for (const n of names) {
+          const v = u.searchParams.get(n);
+          if (v) return decodeURIComponent(v.replace(/\+/g, ' ')).trim();
+        }
+      } catch (e) {}
+      return '';
+    }
+
+    function decipherKeyword(visitor) {
+      if (visitor.term && visitor.term !== '(not provided)') return visitor.term;
+      const urls = [visitor.last_page, visitor.first_landing_page, visitor.referrer].filter(Boolean);
+      for (const u of urls) {
+        const k = qparam(u, ['vt_keyword', 'utm_term', 'keyword', 'q', 'p']);
+        if (k) return k;
+      }
+      return '';
     }
 
     function isIdentifiedVisitor(visitor, submitted) {
@@ -1396,13 +1435,21 @@ const isDevDashboard = import.meta.env.DEV;
         const quickTagBtn = visitorId
           ? `<button type="button" class="va-quicktag" data-quick-tag-id="${esc(visitorId)}" title="Quick name / tag this visitor">🏷 ${name ? 'Re-tag' : 'Name'}</button>`
           : '';
+        const sourcePill = visitorSourcePill(visitor);
 
         // Identity header line
+        const anonFlag = countryFlag(visitor.visitor_country);
+        const anonLoc = [visitor.visitor_city, visitor.visitor_region, visitor.visitor_country].filter(Boolean).join(', ');
+        const anonIsp = visitor.visitor_as_organization || '';
+        const anonymousNameHtml = (anonLoc || anonIsp)
+          ? `${anonFlag ? anonFlag + ' ' : ''}${esc(anonLoc)}${anonIsp ? ' <span class="va-company">&middot; ' + esc(anonIsp) + '</span>' : ''}`
+          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
         const nameHtml = name
           ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
-          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
+          : anonymousNameHtml;
         const filledBadge = isFiller ? '<span class="va-badge-filled">Filled Form</span>' : '';
         const retBadge = isReturning ? `<span class="va-badge-ret">Returning ×${visits}</span>` : '';
+        const keyword = decipherKeyword(visitor);
 
         // Column A
         const system = browserSummary(visitor.visitor_user_agent || '');
@@ -1416,8 +1463,16 @@ const isDevDashboard = import.meta.env.DEV;
         const ispHtml = ispParts.join(' ');
         const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ') || (visitor.referrer ? displayUrl(visitor.referrer) : '');
         const lastPageRaw = visitor.last_page || visitor.first_landing_page || '';
+        let lastPageLabel = '';
+        if (lastPageRaw) {
+          try {
+            lastPageLabel = new URL(lastPageRaw, 'https://x').pathname || displayUrl(lastPageRaw);
+          } catch (e) {
+            lastPageLabel = displayUrl(lastPageRaw);
+          }
+        }
         const lastPageHtml = lastPageRaw
-          ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener">${esc(displayUrl(lastPageRaw))} ↗</a>`
+          ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener" title="${esc(lastPageRaw)}">${esc(lastPageLabel)} &#8599;</a>`
           : '';
 
         // Detail panel (attrib lines + identity controls)
@@ -1429,7 +1484,7 @@ const isDevDashboard = import.meta.env.DEV;
               <span class="va-expand" aria-hidden="true"></span>
               <div class="va-main">
                 <div class="va-ident">
-                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}${connectBadge}${quickTagBtn}
+                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}${sourcePill}${connectBadge}${quickTagBtn}
                 </div>
                 <div class="va-cols">
                   ${vaPair('Page Views:', String(pageviews))}
@@ -1438,6 +1493,7 @@ const isDevDashboard = import.meta.env.DEV;
                   ${vaPair('ISP / IP:', ispHtml)}
                   ${vaPair('Visits:', String(visits))}
                   ${vaPair('Source:', sourceText ? esc(sourceText) : '')}
+                  ${vaPair('Searched:', keyword ? esc(keyword) : '')}
                   ${vaPair('System:', system ? esc(system) : '')}
                   ${vaPair('Visit Page:', lastPageHtml)}
                 </div>
