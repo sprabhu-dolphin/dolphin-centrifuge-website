@@ -1443,7 +1443,7 @@ const isDevDashboard = import.meta.env.DEV;
         const anonIsp = visitor.visitor_as_organization || '';
         const anonymousNameHtml = (anonLoc || anonIsp)
           ? `${anonFlag ? anonFlag + ' ' : ''}${esc(anonLoc)}${anonIsp ? ' <span class="va-company">&middot; ' + esc(anonIsp) + '</span>' : ''}`
-          : `Anonymous <span class="va-id">#${esc(visitorId.slice(0, 12))}</span>`;
+          : `Anonymous <span class="va-id">#${esc(String(visitor.visitor_id || '').slice(0, 12))}</span>`;
         const nameHtml = name
           ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
           : anonymousNameHtml;
@@ -1464,15 +1464,24 @@ const isDevDashboard = import.meta.env.DEV;
         const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ') || (visitor.referrer ? displayUrl(visitor.referrer) : '');
         const lastPageRaw = visitor.last_page || visitor.first_landing_page || '';
         let lastPageLabel = '';
+        // Scheme-guard: last_page / first_landing_page come from the public, unauthenticated
+        // /track/pageview beacon (Worker cleanText only trims+truncates — no scheme validation),
+        // so a javascript:/data: URL could be stored. Only link it when it parses to http(s);
+        // otherwise render the label as plain text so the admin origin can't be a click-XSS sink.
+        let lastPageSafe = false;
         if (lastPageRaw) {
           try {
-            lastPageLabel = new URL(lastPageRaw, 'https://x').pathname || displayUrl(lastPageRaw);
+            const u = new URL(lastPageRaw, 'https://x');
+            lastPageSafe = u.protocol === 'http:' || u.protocol === 'https:';
+            lastPageLabel = u.pathname || displayUrl(lastPageRaw);
           } catch (e) {
             lastPageLabel = displayUrl(lastPageRaw);
           }
         }
         const lastPageHtml = lastPageRaw
-          ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener" title="${esc(lastPageRaw)}">${esc(lastPageLabel)} &#8599;</a>`
+          ? (lastPageSafe
+              ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener" title="${esc(lastPageRaw)}">${esc(lastPageLabel)} &#8599;</a>`
+              : `<span class="va-link-plain" title="${esc(lastPageRaw)}">${esc(lastPageLabel)}</span>`)
           : '';
 
         // Detail panel (attrib lines + identity controls)
