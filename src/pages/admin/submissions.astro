@@ -1407,7 +1407,13 @@ const isDevDashboard = import.meta.env.DEV;
       return `<div class="va-pair"><span class="va-lbl">${esc(label)}</span><span class="va-val">${valueHtml}</span></div>`;
     }
 
+    // Body-level dots popup state. renderVisitorDirectory closes it before
+    // replacing row markup so a popup cannot outlive its source badge.
+    let dotsPopupEl = null;
+    let dotsPopupAnchor = null;
+
     function renderVisitorDirectory(visitors) {
+      closeDotsPopup();
       const submitted = submittedVisitorIdSet();
       const filteredByView = knownOnly
         ? visitors.filter(v => isIdentifiedVisitor(v, submitted))
@@ -1687,8 +1693,6 @@ const isDevDashboard = import.meta.env.DEV;
 
     // "Connected dots" popup — a single body-level node (so .va-log's overflow
     // can't clip it), positioned under the badge and closed on any outside click.
-    let dotsPopupEl = null;
-    let dotsPopupAnchor = null;
     function closeDotsPopup() {
       if (dotsPopupEl) { dotsPopupEl.remove(); dotsPopupEl = null; }
       dotsPopupAnchor = null;
