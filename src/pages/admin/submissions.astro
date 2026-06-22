@@ -384,7 +384,7 @@ const isDevDashboard = import.meta.env.DEV;
     .submissions-table thead th:nth-child(1),
     .submissions-table tbody td:nth-child(1) {
       left: 0;
-      text-align: center;
+      text-align: left;
     }
     .submissions-table thead th:nth-child(2),
     .submissions-table tbody td:nth-child(2) {
@@ -465,7 +465,7 @@ const isDevDashboard = import.meta.env.DEV;
     .cell-num {
       color: #687386;
       font-weight: 700;
-      text-align: center;
+      text-align: left;
     }
     .cell-date {
       color: #475569;
@@ -688,9 +688,11 @@ const isDevDashboard = import.meta.env.DEV;
     .va-badge-connected, .va-badge-circle {
       display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 10px;
       font-size: 0.68rem; font-weight: 700; vertical-align: 1px; white-space: nowrap;
+      border: 0; font-family: inherit; cursor: pointer;
     }
     .va-badge-connected { background: #fde8c0; color: #8a5a00; }
     .va-badge-circle { background: #f6cf6b; color: #5c4302; }
+    .va-badge-connected:hover, .va-badge-circle:hover { filter: brightness(0.96); }
     .va-quicktag {
       margin-left: 8px; padding: 1px 8px; border: 1px solid #cbd8ea; border-radius: 10px;
       background: #f4f8fd; color: #16335c; font-size: 0.7rem; font-weight: 600;
@@ -705,6 +707,28 @@ const isDevDashboard = import.meta.env.DEV;
     .va-pill-neu { background: #eef2f7; color: #506179; }
     .va-pill-org-g { background: #e3f4e8; color: #1f7a3d; }
     .va-pill-org-b { background: #e2eef7; color: #1d5d86; }
+
+    /* Country flag (StatCounter look) + raw-code fallback when the flag can't render */
+    .va-flag { font-style: normal; }
+    .va-cc { color: #6a7a8c; }
+    /* "Connected dots" click-popup — appended to <body> so it isn't clipped by .va-log overflow */
+    .va-dots-wrap { position: relative; display: inline-block; }
+    .va-dots-wrap > .va-dots-pop { display: none; }
+    .va-dots-pop {
+      position: fixed; z-index: 60;
+      min-width: 230px; max-width: 320px; padding: 10px 12px;
+      background: #fff; border: 1px solid #e0c489; border-radius: 10px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.2); text-align: left;
+      font-weight: 400; white-space: normal;
+    }
+    .va-pop-head { font-size: 0.72rem; font-weight: 700; color: #8a5a00; margin-bottom: 6px; }
+    .va-pop-row { display: flex; align-items: baseline; gap: 7px; font-size: 0.74rem; padding: 2px 0; }
+    .va-pop-row.off { color: #9aa7b6; }
+    .va-pop-row.on { color: #24344d; }
+    .va-pop-mark { width: 12px; flex: none; text-align: center; font-weight: 700; }
+    .va-pop-row.on .va-pop-mark { color: #1f7a3d; }
+    .va-pop-lbl { font-weight: 600; flex: none; }
+    .va-pop-det { color: #6a7a8c; overflow-wrap: anywhere; }
 
     .va-summary {
       display: flex;
@@ -1273,7 +1297,7 @@ const isDevDashboard = import.meta.env.DEV;
             <td>${esc(r.company)}</td>
             <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
             <td style="white-space:nowrap">${esc(r.phone)}</td>
-            <td style="white-space:nowrap;${isForeign ? 'background:#FFE0B2;font-weight:600;' : ''}">${ccFlag ? ccFlag + ' ' : ''}${esc(r.country)}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
+            <td style="white-space:nowrap;${isForeign ? 'background:#FFE0B2;font-weight:600;' : ''}">${ccFlag ? `<span class="va-flag" title="${esc(cc)}">${ccFlag}</span>` : esc(r.country || '')}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
             <td>${esc(r.fluid_type)}</td>
             <td>${esc(r.capacity)}</td>
             <td>${esc(r.solids_percentage)}</td>
@@ -1429,20 +1453,38 @@ const isDevDashboard = import.meta.env.DEV;
         const dots = [hasIdentity, hasConversion, hasPaid, isReturning, hasSource].filter(Boolean).length;
         const fullCircle = hasIdentity && hasConversion && (hasPaid || hasSource);
         const connectClass = fullCircle ? 'va-fullcircle' : (dots >= 3 ? 'va-connected' : (isIdentified ? 'identified' : ''));
-        const connectBadge = fullCircle
-          ? '<span class="va-badge-circle" title="Full circle: identity + conversion + traffic source all linked">🎯 Full circle</span>'
-          : (dots >= 3 ? `<span class="va-badge-connected" title="${dots} signals linked on this visitor">🔗 ${dots} dots</span>` : '');
+        // Per-signal breakdown for the click-popup (which dots are linked + why).
+        const sourceDetail = visitor.term
+          ? esc(visitor.term)
+          : esc([visitor.source, visitor.medium].filter(Boolean).join(' / '));
+        const signalRows = [
+          { on: hasIdentity, label: 'Identity', detail: esc(visitor.contact_name || visitor.contact_email || visitor.contact_phone || visitor.label || '') },
+          { on: hasConversion, label: 'Filled a form', detail: 'Submitted a lead form' },
+          { on: hasPaid, label: 'Paid click', detail: 'Google Ads click (gclid)' },
+          { on: isReturning, label: 'Returning', detail: '&times;' + visits + ' visits' },
+          { on: hasSource, label: 'Traffic source', detail: sourceDetail },
+        ];
+        const signalsHtml =
+          `<div class="va-pop-head">${dots} of 5 signals linked${fullCircle ? ' &middot; 🎯 full circle' : ''}</div>`
+          + signalRows.map(s =>
+              `<div class="va-pop-row ${s.on ? 'on' : 'off'}"><span class="va-pop-mark">${s.on ? '✓' : '·'}</span><span class="va-pop-lbl">${s.label}</span>${s.on && s.detail ? `<span class="va-pop-det">${s.detail}</span>` : ''}</div>`
+            ).join('');
+        const connectBadge = (fullCircle || dots >= 3)
+          ? `<span class="va-dots-wrap">`
+            + `<button type="button" class="${fullCircle ? 'va-badge-circle' : 'va-badge-connected'}" data-dots-toggle title="Click for signal details">${fullCircle ? '🎯 Full circle' : '🔗 ' + dots + ' dots'}</button>`
+            + `<span class="va-dots-pop" hidden>${signalsHtml}</span>`
+            + `</span>`
+          : '';
         const quickTagBtn = visitorId
           ? `<button type="button" class="va-quicktag" data-quick-tag-id="${esc(visitorId)}" title="Quick name / tag this visitor">🏷 ${name ? 'Re-tag' : 'Name'}</button>`
           : '';
         const sourcePill = visitorSourcePill(visitor);
 
-        // Identity header line
-        const anonFlag = countryFlag(visitor.visitor_country);
-        const anonLoc = [visitor.visitor_city, visitor.visitor_region, visitor.visitor_country].filter(Boolean).join(', ');
+        // Identity header line — compact geo (flag + deduped "City, Region", no country text)
+        const geo = locationDisplay(visitor);
         const anonIsp = visitor.visitor_as_organization || '';
-        const anonymousNameHtml = (anonLoc || anonIsp)
-          ? `${anonFlag ? anonFlag + ' ' : ''}${esc(anonLoc)}${anonIsp ? ' <span class="va-company">&middot; ' + esc(anonIsp) + '</span>' : ''}`
+        const anonymousNameHtml = (geo.has || anonIsp)
+          ? `${geo.flagHtml ? geo.flagHtml + ' ' : ''}${esc(geo.loc)}${anonIsp ? ' <span class="va-company">&middot; ' + esc(anonIsp) + '</span>' : ''}`
           : `Anonymous <span class="va-id">#${esc(String(visitor.visitor_id || '').slice(0, 12))}</span>`;
         const nameHtml = name
           ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
@@ -1453,10 +1495,8 @@ const isDevDashboard = import.meta.env.DEV;
 
         // Column A
         const system = browserSummary(visitor.visitor_user_agent || '');
-        // Column B
-        const flag = countryFlag(visitor.visitor_country);
-        const location = [visitor.visitor_city || '', visitor.visitor_region || '', visitor.visitor_country || ''].filter(Boolean).join(', ');
-        const locationHtml = (flag ? flag + ' ' : '') + (location ? esc(location) : '');
+        // Column B — reuse the compact geo computed for the header line
+        const locationHtml = (geo.flagHtml ? geo.flagHtml + ' ' : '') + (geo.loc ? esc(geo.loc) : '');
         const ispParts = [];
         if (visitor.visitor_as_organization) ispParts.push(`<span class="va-isp">${esc(visitor.visitor_as_organization)}</span>`);
         if (visitor.visitor_ip) ispParts.push(`(${esc(visitor.visitor_ip)})`);
@@ -1631,9 +1671,46 @@ const isDevDashboard = import.meta.env.DEV;
         quickTagVisitor(quickTagBtn.dataset.quickTagId);
         return;
       }
+      const dotsToggle = e.target.closest('[data-dots-toggle]');
+      if (dotsToggle) {
+        e.preventDefault();   // don't toggle the <details> row
+        e.stopPropagation();
+        const src = dotsToggle.parentElement.querySelector('.va-dots-pop');
+        const reopen = dotsPopupAnchor === dotsToggle;
+        closeDotsPopup();
+        if (!reopen) openDotsPopup(dotsToggle, src ? src.innerHTML : '');
+        return;
+      }
       const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
       if (saveVisitorBtn) saveVisitorSettings(saveVisitorBtn);
     });
+
+    // "Connected dots" popup — a single body-level node (so .va-log's overflow
+    // can't clip it), positioned under the badge and closed on any outside click.
+    let dotsPopupEl = null;
+    let dotsPopupAnchor = null;
+    function closeDotsPopup() {
+      if (dotsPopupEl) { dotsPopupEl.remove(); dotsPopupEl = null; }
+      dotsPopupAnchor = null;
+    }
+    function openDotsPopup(anchor, html) {
+      const el = document.createElement('div');
+      el.className = 'va-dots-pop';
+      el.innerHTML = html;
+      document.body.appendChild(el);
+      const r = anchor.getBoundingClientRect();
+      const maxLeft = window.innerWidth - el.offsetWidth - 10;
+      el.style.top = (r.bottom + 6) + 'px';
+      el.style.left = Math.max(10, Math.min(r.left, maxLeft)) + 'px';
+      dotsPopupEl = el;
+      dotsPopupAnchor = anchor;
+    }
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('[data-dots-toggle]') || e.target.closest('.va-dots-pop')) return;
+      closeDotsPopup();
+    });
+    window.addEventListener('scroll', closeDotsPopup, true);
+    window.addEventListener('resize', closeDotsPopup);
 
     async function saveVisitorSettings(button) {
       const visitorId = button.dataset.saveVisitorId;
@@ -1944,6 +2021,25 @@ const isDevDashboard = import.meta.env.DEV;
       );
     }
 
+    // Compact location for the visitor log: dedupes a repeated city/region
+    // (e.g. "Ho Chi Minh City, Ho Chi Minh City"), drops the country text (the
+    // flag conveys it), and exposes the flag with the ISO code as a tooltip.
+    // Returns { flagHtml, loc, has } — loc is "City, Region" with no country.
+    function locationDisplay(visitor) {
+      const code = String(visitor.visitor_country || '').trim().toUpperCase();
+      const flag = countryFlag(code);
+      const city = String(visitor.visitor_city || '').trim();
+      const region = String(visitor.visitor_region || '').trim();
+      const parts = [];
+      if (city) parts.push(city);
+      if (region && region.toLowerCase() !== city.toLowerCase()) parts.push(region);
+      const flagHtml = flag
+        ? `<span class="va-flag" title="${esc(code)}">${flag}</span>`
+        : (code ? `<span class="va-cc">${esc(code)}</span>` : '');
+      const loc = parts.join(', ');
+      return { flagHtml, loc, has: Boolean(loc || flagHtml) };
+    }
+
     function browserSummary(userAgent) {
       const ua = String(userAgent || '');
       let browser = 'Browser details';
@@ -1996,10 +2092,14 @@ const isDevDashboard = import.meta.env.DEV;
     }
 
     function renderVisitorContext(record) {
+      // Dedupe a repeated city/region (e.g. "Ho Chi Minh City, Ho Chi Minh City");
+      // keep the country here since this plain-text drill-down has no flag.
+      const locCity = String(record.visitor_city || '').trim();
+      const locRegion = String(record.visitor_region || '').trim();
       const location = [
-        record.visitor_city || '',
-        record.visitor_region || '',
-        record.visitor_country || '',
+        locCity,
+        (locRegion && locRegion.toLowerCase() !== locCity.toLowerCase()) ? locRegion : '',
+        String(record.visitor_country || '').trim(),
       ].filter(Boolean).join(', ');
       const network = [
         record.visitor_asn ? `AS${record.visitor_asn}` : '',
