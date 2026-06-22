@@ -708,8 +708,8 @@ const isDevDashboard = import.meta.env.DEV;
     .va-pill-org-g { background: #e3f4e8; color: #1f7a3d; }
     .va-pill-org-b { background: #e2eef7; color: #1d5d86; }
 
-    /* Country flag (StatCounter look) + raw-code fallback when the flag can't render */
-    .va-flag { font-style: normal; }
+    /* Country flag image (StatCounter look) + raw-code fallback when the flag can't render */
+    .va-flag { display: inline-block; width: 20px; height: 15px; vertical-align: -2px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.10); }
     .va-cc { color: #6a7a8c; }
     /* "Connected dots" click-popup — appended to <body> so it isn't clipped by .va-log overflow */
     .va-dots-wrap { position: relative; display: inline-block; }
@@ -1285,7 +1285,7 @@ const isDevDashboard = import.meta.env.DEV;
         const rowClass = isReturningRecord(r) ? 'reconnect-row' : '';
         // Country flag + foreigner cue: form country is a 2-letter ISO code.
         const cc = String(r.country || '').trim().toUpperCase();
-        const ccFlag = countryFlag(cc);
+        const ccFlagImg = flagImg(cc);
         const isForeign = /^[A-Z]{2}$/.test(cc) && cc !== 'US';
 
         return `
@@ -1297,7 +1297,7 @@ const isDevDashboard = import.meta.env.DEV;
             <td>${esc(r.company)}</td>
             <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
             <td style="white-space:nowrap">${esc(r.phone)}</td>
-            <td style="white-space:nowrap;${isForeign ? 'background:#FFE0B2;font-weight:600;' : ''}">${ccFlag ? `<span class="va-flag" title="${esc(cc)}">${ccFlag}</span>` : esc(r.country || '')}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
+            <td style="white-space:nowrap;${isForeign ? 'background:#FFE0B2;font-weight:600;' : ''}">${ccFlagImg || esc(r.country || '')}${r.us_state ? ' / ' + esc(r.us_state) : ''}</td>
             <td>${esc(r.fluid_type)}</td>
             <td>${esc(r.capacity)}</td>
             <td>${esc(r.solids_percentage)}</td>
@@ -2013,16 +2013,13 @@ const isDevDashboard = import.meta.env.DEV;
       return String(value).replace(/["\\]/g, '\\$&');
     }
 
-    // Convert a 2-letter ISO country code to its regional-indicator emoji.
-    // Returns '' if the code is missing or not exactly two A-Z letters.
-    function countryFlag(cc) {
-      const code = String(cc || '').trim().toUpperCase();
-      if (!/^[A-Z]{2}$/.test(code)) return '';
-      const base = 0x1F1E6; // regional indicator 'A'
-      return String.fromCodePoint(
-        base + (code.charCodeAt(0) - 65),
-        base + (code.charCodeAt(1) - 65),
-      );
+    // Real flag image. Windows can't render flag emoji, so use flagcdn.com
+    // PNGs by ISO-3166-1 alpha-2 code. Returns '' on a bad code.
+    function flagImg(cc) {
+      const code = String(cc || '').trim().toLowerCase();
+      if (!/^[a-z]{2}$/.test(code)) return '';
+      const u = code.toUpperCase();
+      return `<img class="va-flag" src="https://flagcdn.com/20x15/${code}.png" srcset="https://flagcdn.com/40x30/${code}.png 2x" width="20" height="15" loading="lazy" alt="${esc(u)}" title="${esc(u)}">`;
     }
 
     // Compact location for the visitor log: dedupes a repeated city/region
@@ -2031,15 +2028,13 @@ const isDevDashboard = import.meta.env.DEV;
     // Returns { flagHtml, loc, has } — loc is "City, Region" with no country.
     function locationDisplay(visitor) {
       const code = String(visitor.visitor_country || '').trim().toUpperCase();
-      const flag = countryFlag(code);
       const city = String(visitor.visitor_city || '').trim();
       const region = String(visitor.visitor_region || '').trim();
       const parts = [];
       if (city) parts.push(city);
       if (region && region.toLowerCase() !== city.toLowerCase()) parts.push(region);
-      const flagHtml = flag
-        ? `<span class="va-flag" title="${esc(code)}">${flag}</span>`
-        : (code ? `<span class="va-cc">${esc(code)}</span>` : '');
+      const img = flagImg(code);
+      const flagHtml = img || (code ? `<span class="va-cc">${esc(code)}</span>` : '');
       const loc = parts.join(', ');
       return { flagHtml, loc, has: Boolean(loc || flagHtml) };
     }
