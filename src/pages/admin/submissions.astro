@@ -1516,6 +1516,21 @@ const isDevDashboard = import.meta.env.DEV;
       return Number.isFinite(time) ? time : 0;
     }
 
+    function eventTypeRank(event) {
+      const type = String(event.event_type || 'pageview');
+      if (type === 'pageview') return 0;
+      if (type === 'phone_click') return 1;
+      if (type === 'email_click') return 2;
+      if (type === 'form_submit') return 3;
+      return 4;
+    }
+
+    function compareTimelineEvents(a, b) {
+      const timeDiff = eventSortValue(a) - eventSortValue(b);
+      if (timeDiff) return timeDiff;
+      return eventTypeRank(a) - eventTypeRank(b);
+    }
+
     function renderTimelineEvent(event) {
       const type = String(event.event_type || 'pageview');
       const meta = parseEventMeta(event.attribution_json);
@@ -1550,10 +1565,12 @@ const isDevDashboard = import.meta.env.DEV;
     }
 
     function renderVisitorTimeline(visitorId, events, visitor) {
-      const merged = (Array.isArray(events) ? events : [])
-        .concat(submissionEventsForVisitor(visitorId))
+      const workerEvents = Array.isArray(events) ? events : [];
+      const hasWorkerFormSubmit = workerEvents.some(event => event && event.event_type === 'form_submit');
+      const merged = workerEvents
+        .concat(hasWorkerFormSubmit ? [] : submissionEventsForVisitor(visitorId))
         .filter(event => event && event.created_at)
-        .sort((a, b) => eventSortValue(a) - eventSortValue(b));
+        .sort(compareTimelineEvents);
       const body = merged.length
         ? `<div class="va-event-list">${merged.map(renderTimelineEvent).join('')}</div>`
         : '<div class="va-timeline-empty">No page, call, email, or form events found for this visitor yet.</div>';

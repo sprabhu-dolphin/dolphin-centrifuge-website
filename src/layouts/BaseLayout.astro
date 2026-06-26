@@ -169,9 +169,18 @@ const dolphinAttributionBootstrap = `(function() {
   var VISITOR_KEY = 'dolphin_visitor_v1';
   var VISITOR_COOKIE = 'dc_vid';
   var TRACKER_URL = ${JSON.stringify(contactWorkerBaseUrl)};
+  var FIRST_PARTY_ALLOWED_HOSTS = ${JSON.stringify(trackingAllowedHosts)};
   var MAX_PAGES = 20;
   var MAX_AGE_DAYS = 90;
   var VISITOR_MAX_AGE_DAYS = 400;
+  var firstPartyTrackingAllowed = false;
+
+  try {
+    firstPartyTrackingAllowed = FIRST_PARTY_ALLOWED_HOSTS.indexOf(window.location.hostname) !== -1;
+  } catch (e) {
+    firstPartyTrackingAllowed = false;
+  }
+  if (!firstPartyTrackingAllowed) window.__dolphinFirstPartyTrackingSuppressed = true;
 
   function nowIso() {
     return new Date().toISOString();
@@ -407,7 +416,7 @@ const dolphinAttributionBootstrap = `(function() {
   }
 
   function sendPageViewBeacon(session, page, payload) {
-    if (!TRACKER_URL) return;
+    if (!TRACKER_URL || !firstPartyTrackingAllowed) return;
     try {
       var body = JSON.stringify({
         event_type: 'pageview',
@@ -429,7 +438,7 @@ const dolphinAttributionBootstrap = `(function() {
   }
 
   function sendFirstPartyEventBeacon(eventType, target, linkText) {
-    if (!TRACKER_URL) return false;
+    if (!TRACKER_URL || !firstPartyTrackingAllowed) return false;
     if (eventType !== 'phone_click' && eventType !== 'email_click') return false;
     try {
       var attribution = getPayload(eventType);
@@ -447,12 +456,12 @@ const dolphinAttributionBootstrap = `(function() {
       });
       var url = TRACKER_URL + '/track/event';
       if (navigator.sendBeacon) {
-        var blob = new Blob([body], { type: 'application/json' });
+        var blob = new Blob([body], { type: 'text/plain' });
         if (navigator.sendBeacon(url, blob)) return true;
       }
       fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: body,
         keepalive: true
       }).catch(function() {});
@@ -673,10 +682,16 @@ window.addEventListener('dolphin:generate-lead', function(event) {
     if (!href) return;
     window.location.href = href;
   }
+  function closestLinkWithScheme(event, scheme) {
+    const target = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+    if (!target) return null;
+    const href = target.getAttribute('href') || '';
+    return href.toLowerCase().startsWith(scheme + ':') ? target : null;
+  }
   document.addEventListener('click', function(event) {
     if (event.defaultPrevented) return;
     if (event.button !== undefined && event.button !== 0) return;
-    const target = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
+    const target = closestLinkWithScheme(event, 'tel');
     if (!target) return;
     const href = target.getAttribute('href') || '';
     const phoneNumber = cleanPhone(href);
@@ -709,7 +724,7 @@ window.addEventListener('dolphin:generate-lead', function(event) {
   document.addEventListener('click', function(event) {
     if (event.defaultPrevented) return;
     if (event.button !== undefined && event.button !== 0) return;
-    const target = event.target && event.target.closest ? event.target.closest('a[href^="mailto:"]') : null;
+    const target = closestLinkWithScheme(event, 'mailto');
     if (!target) return;
     const href = target.getAttribute('href') || '';
     const email = cleanEmail(href);

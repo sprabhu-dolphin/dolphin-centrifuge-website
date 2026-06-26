@@ -35,7 +35,7 @@ export default {
     }
 
     if (request.method === 'GET' && path.startsWith('/admin/visitors/') && path.endsWith('/events')) {
-      const visitorId = decodeURIComponent(path.slice('/admin/visitors/'.length).replace(/\/events$/, ''));
+      const visitorId = safeDecodeURIComponent(path.slice('/admin/visitors/'.length).replace(/\/events$/, ''));
       return handleAdminVisitorEventsGet(request, env, visitorId);
     }
 
@@ -229,6 +229,30 @@ async function handleAdminVisitorsGet(request, env) {
 }
 
 // ── ADMIN: summary KPI tiles over a date range ──────────────
+function formTimelineTarget(row) {
+  const formType = cleanText(row.form_type || 'contact', 80);
+  if (formType === 'parts') return 'Parts request';
+  if (formType === 'contact') return 'Contact form';
+  return formType || 'Form';
+}
+
+function formTimelineContact(row) {
+  return [row.first_name, row.last_name, row.company]
+    .map((value) => cleanText(value, 120))
+    .filter(Boolean)
+    .join(' ');
+}
+
+function compareTimelineRows(a, b) {
+  const aTime = String(a.created_at || '');
+  const bTime = String(b.created_at || '');
+  if (aTime !== bTime) return aTime < bTime ? -1 : 1;
+  const aOrder = Number(a._sort_id || 0);
+  const bOrder = Number(b._sort_id || 0);
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  return String(a.event_type || '').localeCompare(String(b.event_type || ''));
+}
+
 async function handleAdminVisitorEventsGet(request, env, visitorId) {
   if (!isAdminAuthorized(request, env)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -244,13 +268,60 @@ async function handleAdminVisitorEventsGet(request, env, visitorId) {
   }
 
   try {
-    const { results } = await env.DB.prepare(`
-      SELECT created_at, event_type, page_path, page_title, attribution_json
-      FROM visitor_events
-      WHERE visitor_id = ?
-      ORDER BY created_at ASC
-      LIMIT 500
-    `).bind(cleanVisitorId).all();
+    let events = [];
+    let submissions = [];
+
+    try {
+      const response = await env.DB.prepare(`
+        SELECT id, created_at, event_type, page_path, page_title, attribution_json
+        FROM visitor_events
+        WHERE visitor_id = ?
+        ORDER BY created_at ASC, id ASC
+        LIMIT 500
+      `).bind(cleanVisitorId).all();
+      events = (response.results || []).map((row) => ({
+        created_at: row.created_at,
+        event_type: row.event_type,
+        page_path: row.page_path,
+        page_title: row.page_title,
+        attribution_json: row.attribution_json,
+        _sort_id: Number(row.id || 0),
+      }));
+    } catch (eventErr) {
+      if (!isMissingColumnError(eventErr) && !isMissingTableError(eventErr)) throw eventErr;
+    }
+
+    try {
+      const response = await env.DB.prepare(`
+        SELECT id, created_at, first_name, last_name, company, form_type, attribution_current_page
+        FROM submissions
+        WHERE deleted = 0 AND attribution_visitor_id = ?
+        ORDER BY created_at ASC, id ASC
+        LIMIT 500
+      `).bind(cleanVisitorId).all();
+      submissions = (response.results || []).map((row) => {
+        const target = formTimelineTarget(row);
+        return {
+          created_at: row.created_at,
+          event_type: 'form_submit',
+          page_path: cleanText(row.attribution_current_page, 700),
+          page_title: target,
+          attribution_json: safeJson({
+            target,
+            link_text: formTimelineContact(row),
+          }, 2000),
+          _sort_id: Number(row.id || 0) + 1000000000,
+        };
+      });
+    } catch (submissionErr) {
+      if (!isMissingColumnError(submissionErr) && !isMissingTableError(submissionErr)) throw submissionErr;
+    }
+
+    const results = events
+      .concat(submissions)
+      .sort(compareTimelineRows)
+      .slice(0, 500)
+      .map(({ _sort_id, ...row }) => row);
 
     return new Response(JSON.stringify({ success: true, data: results || [] }), {
       status: 200, headers: CORS_HEADERS,
@@ -497,6 +568,14 @@ function parseMaybeJson(value) {
   }
 }
 
+function safeDecodeURIComponent(value) {
+  try {
+    return decodeURIComponent(String(value || ''));
+  } catch (e) {
+    return '';
+  }
+}
+
 async function readJsonRequest(request) {
   const text = await request.text();
   if (!text) return {};
@@ -645,7 +724,7 @@ async function handleVisitorEvent(request, env, ctx) {
   const linkText = cleanText(body.link_text, 220);
   const visitorContext = getVisitorContext(request);
 
-  if (!attribution.visitorId) {
+  if (!attribution.visitorId || !attribution.sessionId) {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
 
