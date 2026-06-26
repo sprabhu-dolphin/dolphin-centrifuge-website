@@ -823,6 +823,71 @@ const isDevDashboard = import.meta.env.DEV;
       border-top: 1px dashed #e3e9f0;
       background: #fafcff;
     }
+    .va-origin {
+      border: 1px solid #d9e2ec;
+      border-radius: 7px;
+      background: #fff;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      color: #24344d;
+    }
+    .va-origin strong { color: #16335c; }
+    .va-origin-code {
+      font-family: Consolas, monospace;
+      font-size: 0.72rem;
+      color: #6a7a8c;
+      overflow-wrap: anywhere;
+    }
+    .va-timeline {
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .va-timeline-head {
+      padding: 9px 11px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #16335c;
+      background: #f4f8fd;
+      border-bottom: 1px solid #d9e2ec;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .va-event-list { display: grid; gap: 0; }
+    .va-event {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: 10px;
+      padding: 9px 11px;
+      border-top: 1px solid #eef2f7;
+      font-size: 0.78rem;
+    }
+    .va-event:first-child { border-top: 0; }
+    .va-event-time { color: #6a7a8c; white-space: nowrap; }
+    .va-event-main { min-width: 0; }
+    .va-event-label { color: #24344d; font-weight: 600; overflow-wrap: anywhere; }
+    .va-event-meta { color: #6a7a8c; margin-top: 2px; overflow-wrap: anywhere; }
+    .va-event-type {
+      display: inline-block;
+      margin-right: 6px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background: #eef2f7;
+      color: #506179;
+    }
+    .va-event-type-phone_click { background: #fde8c0; color: #8a5a00; }
+    .va-event-type-email_click { background: #e2eef7; color: #1d5d86; }
+    .va-event-type-form_submit { background: #eaf6ee; color: #0f6e56; }
+    .va-timeline-empty {
+      padding: 10px 11px;
+      color: #6a7a8c;
+      font-size: 0.78rem;
+    }
   </style>
 </head>
 <body>
@@ -961,6 +1026,8 @@ const isDevDashboard = import.meta.env.DEV;
 
     let allData = [];
     let allVisitors = [];
+    const visitorEventsCache = new Map();
+    const visitorEventsLoading = new Set();
     const initialSearch = new URLSearchParams(window.location.search).get('q') || '';
 
     // ── Date-range + pagination state ─────────────────────────
@@ -1407,6 +1474,158 @@ const isDevDashboard = import.meta.env.DEV;
       return `<div class="va-pair"><span class="va-lbl">${esc(label)}</span><span class="va-val">${valueHtml}</span></div>`;
     }
 
+    function parseEventMeta(raw) {
+      if (!raw) return {};
+      try {
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function visitorOriginHtml(visitor) {
+      const source = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+      const clickId = visitor.gclid || visitor.gbraid || visitor.wbraid || '';
+      const clickLabel = visitor.gclid ? 'gclid' : (visitor.gbraid ? 'gbraid' : (visitor.wbraid ? 'wbraid' : ''));
+      if (clickId) {
+        return `<div class="va-origin"><strong>Origin:</strong> Google Ads <span class="va-origin-code">(${esc(clickLabel)} ${esc(clickId)})</span></div>`;
+      }
+      if (source) return `<div class="va-origin"><strong>Origin:</strong> ${esc(source)}</div>`;
+      return '<div class="va-origin"><strong>Origin:</strong> Direct or unknown</div>';
+    }
+
+    function submissionEventsForVisitor(visitorId) {
+      if (!visitorId) return [];
+      return allData
+        .filter(row => row.attribution_visitor_id === visitorId && row.created_at)
+        .map(row => ({
+          created_at: row.created_at,
+          event_type: 'form_submit',
+          page_path: row.attribution_current_page || '',
+          page_title: formTypeLabel(row.form_type || row.attribution_form_name || 'contact'),
+          attribution_json: JSON.stringify({
+            target: formTypeLabel(row.form_type || row.attribution_form_name || 'contact'),
+            link_text: [row.first_name, row.last_name, row.company].filter(Boolean).join(' ')
+          })
+        }));
+    }
+
+    function eventSortValue(event) {
+      const time = new Date(event.created_at || '').getTime();
+      return Number.isFinite(time) ? time : 0;
+    }
+
+    function renderTimelineEvent(event) {
+      const type = String(event.event_type || 'pageview');
+      const meta = parseEventMeta(event.attribution_json);
+      const safeType = type.replace(/[^a-z0-9_-]/gi, '');
+      const when = event.created_at ? formatWhen(event.created_at) : '';
+      const path = shortPath(event.page_path || '');
+      const title = event.page_title || '';
+      const target = meta.target || '';
+      let label = '';
+      let detail = '';
+      if (type === 'phone_click') {
+        label = `Clicked to call ${target || 'phone number'}`;
+        detail = [meta.link_text, path].filter(Boolean).join(' / ');
+      } else if (type === 'email_click') {
+        label = `Clicked email ${target || 'email address'}`;
+        detail = [meta.link_text, path].filter(Boolean).join(' / ');
+      } else if (type === 'form_submit') {
+        label = `Submitted ${target || title || 'form'}`;
+        detail = [meta.link_text, path].filter(Boolean).join(' / ');
+      } else {
+        label = `Viewed ${path || title || 'page'}`;
+        detail = title && title !== path ? title : '';
+      }
+      return `
+        <div class="va-event">
+          <div class="va-event-time">${esc(when)}</div>
+          <div class="va-event-main">
+            <div class="va-event-label"><span class="va-event-type va-event-type-${esc(safeType)}">${esc(type.replace(/_/g, ' '))}</span>${esc(label)}</div>
+            ${detail ? `<div class="va-event-meta">${esc(detail)}</div>` : ''}
+          </div>
+        </div>`;
+    }
+
+    function renderVisitorTimeline(visitorId, events, visitor) {
+      const merged = (Array.isArray(events) ? events : [])
+        .concat(submissionEventsForVisitor(visitorId))
+        .filter(event => event && event.created_at)
+        .sort((a, b) => eventSortValue(a) - eventSortValue(b));
+      const body = merged.length
+        ? `<div class="va-event-list">${merged.map(renderTimelineEvent).join('')}</div>`
+        : '<div class="va-timeline-empty">No page, call, email, or form events found for this visitor yet.</div>';
+      return `
+        ${visitorOriginHtml(visitor || {})}
+        <div class="va-timeline">
+          <div class="va-timeline-head">Visitor event timeline</div>
+          ${body}
+        </div>`;
+    }
+
+    function renderVisitorTimelineShell(visitor) {
+      const visitorId = visitor && visitor.visitor_id ? String(visitor.visitor_id) : '';
+      if (!visitorId) return '';
+      if (visitorEventsCache.has(visitorId)) {
+        return `<div data-visitor-timeline="${esc(visitorId)}">${renderVisitorTimeline(visitorId, visitorEventsCache.get(visitorId), visitor)}</div>`;
+      }
+      return `
+        <div data-visitor-timeline="${esc(visitorId)}">
+          ${visitorOriginHtml(visitor)}
+          <div class="va-timeline">
+            <div class="va-timeline-head">Visitor event timeline</div>
+            <div class="va-timeline-empty">Open row to load activity...</div>
+          </div>
+        </div>`;
+    }
+
+    async function loadVisitorTimeline(visitorId) {
+      if (!visitorId) return;
+      const containers = visitorDirectory.querySelectorAll(`[data-visitor-timeline="${cssEscape(visitorId)}"]`);
+      if (!containers.length) return;
+      const visitor = allVisitors.find(v => v.visitor_id === visitorId) || {};
+      if (visitorEventsCache.has(visitorId)) {
+        containers.forEach(el => { el.innerHTML = renderVisitorTimeline(visitorId, visitorEventsCache.get(visitorId), visitor); });
+        return;
+      }
+      if (visitorEventsLoading.has(visitorId)) return;
+      const token = currentToken();
+      if (!token) return;
+      visitorEventsLoading.add(visitorId);
+      containers.forEach(el => {
+        el.innerHTML = `
+          ${visitorOriginHtml(visitor)}
+          <div class="va-timeline">
+            <div class="va-timeline-head">Visitor event timeline</div>
+            <div class="va-timeline-empty">Loading activity...</div>
+          </div>`;
+      });
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors/${encodeURIComponent(visitorId)}/events`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (resp.status === 401) { logout(); return; }
+        if (!resp.ok) throw new Error('Visitor event load failed');
+        const json = await resp.json();
+        const events = json && json.success === true ? (json.data || []) : [];
+        visitorEventsCache.set(visitorId, events);
+        containers.forEach(el => { el.innerHTML = renderVisitorTimeline(visitorId, events, visitor); });
+      } catch (err) {
+        containers.forEach(el => {
+          el.innerHTML = `
+            ${visitorOriginHtml(visitor)}
+            <div class="va-timeline">
+              <div class="va-timeline-head">Visitor event timeline</div>
+              <div class="va-timeline-empty">Failed to load activity for this visitor.</div>
+            </div>`;
+        });
+      } finally {
+        visitorEventsLoading.delete(visitorId);
+      }
+    }
+
     // Body-level dots popup state. renderVisitorDirectory closes it before
     // replacing row markup so a popup cannot outlive its source badge.
     let dotsPopupEl = null;
@@ -1534,7 +1753,7 @@ const isDevDashboard = import.meta.env.DEV;
         const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
 
         return `
-          <details class="va-row ${connectClass}">
+          <details class="va-row ${connectClass}" data-visitor-id="${esc(visitorId)}">
             <summary class="va-summary">
               <span class="va-expand" aria-hidden="true"></span>
               <div class="va-main">
@@ -1561,6 +1780,7 @@ const isDevDashboard = import.meta.env.DEV;
               ${attribLine('First seen', visitor.first_seen_at ? formatWhen(visitor.first_seen_at) : '')}
               ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
               ${attribLine('Last page', visitor.last_page ? esc(visitor.last_page) : '', 'attrib-path')}
+              ${visitorId ? renderVisitorTimelineShell(visitor) : ''}
               ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
             </div>
           </details>`;
@@ -1693,6 +1913,22 @@ const isDevDashboard = import.meta.env.DEV;
 
     // "Connected dots" popup — a single body-level node (so .va-log's overflow
     // can't clip it), positioned under the badge and closed on any outside click.
+    visitorDirectory.addEventListener('toggle', function(e) {
+      const row = e.target && e.target.closest ? e.target.closest('details[data-visitor-id]') : null;
+      if (!row || !row.open) return;
+      loadVisitorTimeline(row.dataset.visitorId);
+    }, true);
+
+    visitorDirectory.addEventListener('click', function(e) {
+      const summary = e.target.closest('summary');
+      if (!summary) return;
+      const row = summary.closest('details[data-visitor-id]');
+      if (!row) return;
+      window.setTimeout(() => {
+        if (row.open) loadVisitorTimeline(row.dataset.visitorId);
+      }, 0);
+    });
+
     function closeDotsPopup() {
       if (dotsPopupEl) { dotsPopupEl.remove(); dotsPopupEl = null; }
       dotsPopupAnchor = null;

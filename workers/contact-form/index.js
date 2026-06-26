@@ -34,6 +34,11 @@ export default {
       return handleAdminVisitorsGet(request, env);
     }
 
+    if (request.method === 'GET' && path.startsWith('/admin/visitors/') && path.endsWith('/events')) {
+      const visitorId = decodeURIComponent(path.slice('/admin/visitors/'.length).replace(/\/events$/, ''));
+      return handleAdminVisitorEventsGet(request, env, visitorId);
+    }
+
     if (request.method === 'GET' && path === '/admin/summary') {
       return handleAdminSummary(request, env);
     }
@@ -55,6 +60,9 @@ export default {
 
     // ── Route: POST / (form submission) ─────────────────────
     if (request.method === 'POST') {
+      if (path === '/track/event') {
+        return handleVisitorEvent(request, env, ctx);
+      }
       if (path === '/track/pageview') {
         return handlePageview(request, env, ctx);
       }
@@ -221,6 +229,45 @@ async function handleAdminVisitorsGet(request, env) {
 }
 
 // ── ADMIN: summary KPI tiles over a date range ──────────────
+async function handleAdminVisitorEventsGet(request, env, visitorId) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  const cleanVisitorId = cleanText(visitorId, 140);
+  if (!cleanVisitorId) {
+    return new Response(JSON.stringify({ error: 'Missing visitor id' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  try {
+    const { results } = await env.DB.prepare(`
+      SELECT created_at, event_type, page_path, page_title, attribution_json
+      FROM visitor_events
+      WHERE visitor_id = ?
+      ORDER BY created_at ASC
+      LIMIT 500
+    `).bind(cleanVisitorId).all();
+
+    return new Response(JSON.stringify({ success: true, data: results || [] }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    if (isMissingColumnError(err) || isMissingTableError(err)) {
+      return new Response(JSON.stringify({ success: true, data: [] }), {
+        status: 200, headers: CORS_HEADERS,
+      });
+    }
+    console.error('Admin visitor events GET error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
 async function handleAdminSummary(request, env) {
   if (!isAdminAuthorized(request, env)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
@@ -573,6 +620,148 @@ async function handlePageview(request, env, ctx) {
   return new Response(JSON.stringify({ success: true }), {
     status: 200, headers: CORS_HEADERS,
   });
+}
+
+async function handleVisitorEvent(request, env, ctx) {
+  let body = {};
+  try {
+    body = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ success: false, error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const eventType = cleanText(body.event_type, 40);
+  if (eventType !== 'phone_click' && eventType !== 'email_click') {
+    return new Response(JSON.stringify({ success: false, error: 'Unsupported event_type' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const attribution = normalizeAttribution(body.attribution || {}, eventType);
+  const page = body.page && typeof body.page === 'object' ? body.page : {};
+  const target = cleanText(body.target, 220);
+  const linkText = cleanText(body.link_text, 220);
+  const visitorContext = getVisitorContext(request);
+
+  if (!attribution.visitorId) {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
+  if (ctx && typeof ctx.waitUntil === 'function') {
+    ctx.waitUntil(recordVisitorIntentEvent(env, eventType, target, linkText, attribution, visitorContext, page));
+  } else {
+    await recordVisitorIntentEvent(env, eventType, target, linkText, attribution, visitorContext, page);
+  }
+
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
+async function recordVisitorIntentEvent(env, eventType, target, linkText, attribution, visitor, page) {
+  if (!env.DB || !attribution.visitorId) return;
+
+  const now = new Date().toISOString();
+  const pagePath = cleanText((page && page.path) || attribution.currentPage || attribution.landingPage, 700);
+  const pageTitle = cleanText((page && page.title) || '', 200);
+  const attributionJson = safeJson({ target, link_text: linkText }, 2000);
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO visitor_events (
+        created_at, visitor_id, session_id, event_type,
+        page_path, page_title, referrer,
+        source, medium, campaign, term,
+        visitor_ip, visitor_country, visitor_region, visitor_city,
+        attribution_json, visitor_context_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      now,
+      attribution.visitorId,
+      attribution.sessionId,
+      eventType,
+      pagePath,
+      pageTitle,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      visitor.ip,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      attributionJson,
+      safeJson(visitor, 4000)
+    ).run();
+
+    await env.DB.prepare(`
+      INSERT INTO visitor_profiles (
+        visitor_id, first_seen_at, last_seen_at, last_session_id,
+        first_landing_page, last_page, last_title, referrer,
+        source, medium, campaign, term,
+        gclid, gbraid, wbraid, ga_client_id, statcounter_visitor_id,
+        visitor_ip, visitor_user_agent, visitor_country, visitor_region, visitor_city,
+        visitor_timezone, visitor_asn, visitor_as_organization,
+        visit_count, pageview_count
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(visitor_id) DO UPDATE SET
+        last_seen_at = excluded.last_seen_at,
+        last_session_id = CASE WHEN excluded.last_session_id != '' THEN excluded.last_session_id ELSE visitor_profiles.last_session_id END,
+        last_page = CASE WHEN excluded.last_page != '' THEN excluded.last_page ELSE visitor_profiles.last_page END,
+        last_title = CASE WHEN excluded.last_title != '' THEN excluded.last_title ELSE visitor_profiles.last_title END,
+        source = CASE WHEN visitor_profiles.source = '' THEN excluded.source ELSE visitor_profiles.source END,
+        medium = CASE WHEN visitor_profiles.medium = '' THEN excluded.medium ELSE visitor_profiles.medium END,
+        campaign = CASE WHEN visitor_profiles.campaign = '' THEN excluded.campaign ELSE visitor_profiles.campaign END,
+        term = CASE WHEN visitor_profiles.term = '' THEN excluded.term ELSE visitor_profiles.term END,
+        gclid = CASE WHEN excluded.gclid != '' THEN excluded.gclid ELSE visitor_profiles.gclid END,
+        gbraid = CASE WHEN excluded.gbraid != '' THEN excluded.gbraid ELSE visitor_profiles.gbraid END,
+        wbraid = CASE WHEN excluded.wbraid != '' THEN excluded.wbraid ELSE visitor_profiles.wbraid END,
+        ga_client_id = CASE WHEN excluded.ga_client_id != '' THEN excluded.ga_client_id ELSE visitor_profiles.ga_client_id END,
+        statcounter_visitor_id = CASE WHEN excluded.statcounter_visitor_id != '' THEN excluded.statcounter_visitor_id ELSE visitor_profiles.statcounter_visitor_id END,
+        visitor_ip = CASE WHEN excluded.visitor_ip != '' THEN excluded.visitor_ip ELSE visitor_profiles.visitor_ip END,
+        visitor_user_agent = CASE WHEN excluded.visitor_user_agent != '' THEN excluded.visitor_user_agent ELSE visitor_profiles.visitor_user_agent END,
+        visitor_country = CASE WHEN excluded.visitor_country != '' THEN excluded.visitor_country ELSE visitor_profiles.visitor_country END,
+        visitor_region = CASE WHEN excluded.visitor_region != '' THEN excluded.visitor_region ELSE visitor_profiles.visitor_region END,
+        visitor_city = CASE WHEN excluded.visitor_city != '' THEN excluded.visitor_city ELSE visitor_profiles.visitor_city END,
+        visitor_timezone = CASE WHEN excluded.visitor_timezone != '' THEN excluded.visitor_timezone ELSE visitor_profiles.visitor_timezone END,
+        visitor_asn = CASE WHEN excluded.visitor_asn != '' THEN excluded.visitor_asn ELSE visitor_profiles.visitor_asn END,
+        visitor_as_organization = CASE WHEN excluded.visitor_as_organization != '' THEN excluded.visitor_as_organization ELSE visitor_profiles.visitor_as_organization END,
+        visit_count = CASE WHEN excluded.visit_count > visitor_profiles.visit_count THEN excluded.visit_count ELSE visitor_profiles.visit_count END
+    `).bind(
+      attribution.visitorId,
+      attribution.visitorFirstSeenAt || now,
+      now,
+      attribution.sessionId,
+      attribution.landingPage,
+      pagePath,
+      pageTitle,
+      attribution.referrer,
+      attribution.source,
+      attribution.medium,
+      attribution.campaign,
+      attribution.term,
+      attribution.gclid,
+      attribution.gbraid,
+      attribution.wbraid,
+      attribution.gaClientId,
+      attribution.statcounterVisitorId,
+      visitor.ip,
+      visitor.userAgent,
+      visitor.country,
+      visitor.region,
+      visitor.city,
+      visitor.timezone,
+      visitor.asn,
+      visitor.asOrganization,
+      attribution.visitorVisitCount,
+      0
+    ).run();
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) {
+      console.error('Visitor intent event error:', err.message);
+    }
+  }
 }
 
 async function recordVisitorPageview(env, attribution, visitor, page) {

@@ -428,6 +428,40 @@ const dolphinAttributionBootstrap = `(function() {
     } catch (e) {}
   }
 
+  function sendFirstPartyEventBeacon(eventType, target, linkText) {
+    if (!TRACKER_URL) return false;
+    if (eventType !== 'phone_click' && eventType !== 'email_click') return false;
+    try {
+      var attribution = getPayload(eventType);
+      if (!attribution.visitor_id || !attribution.session_id) return false;
+      var body = JSON.stringify({
+        event_type: eventType,
+        target: trimText(target, 220),
+        link_text: trimText(linkText, 220),
+        page: {
+          at: nowIso(),
+          path: cleanPageUrl(),
+          title: trimText(document.title, 200)
+        },
+        attribution: attribution
+      });
+      var url = TRACKER_URL + '/track/event';
+      if (navigator.sendBeacon) {
+        var blob = new Blob([body], { type: 'application/json' });
+        if (navigator.sendBeacon(url, blob)) return true;
+      }
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        keepalive: true
+      }).catch(function() {});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function recordPageView() {
     var session = getSession();
     var page = {
@@ -556,8 +590,10 @@ const dolphinAttributionBootstrap = `(function() {
     markFormStart: markFormStart,
     markFormSubmit: markFormSubmit,
     getPayload: getPayload,
-    syncAttributionInputs: syncAttributionInputs
+    syncAttributionInputs: syncAttributionInputs,
+    trackEvent: sendFirstPartyEventBeacon
   };
+  window.dolphinTrackFirstPartyEvent = window.dolphinTrackFirstPartyEvent || sendFirstPartyEventBeacon;
   window.dolphinGetAttributionForForm = window.dolphinGetAttributionForForm || function(formName) {
     return JSON.stringify(getPayload(formName));
   };
@@ -622,6 +658,14 @@ window.addEventListener('dolphin:generate-lead', function(event) {
   function cleanPhone(value) {
     return String(value || '').replace(/^tel:/i, '').replace(/[^+\\d]/g, '').slice(0, 40);
   }
+  function cleanEmail(value) {
+    const raw = String(value || '').replace(/^mailto:/i, '').split('?')[0].trim();
+    try {
+      return decodeURIComponent(raw).slice(0, 220);
+    } catch (e) {
+      return raw.slice(0, 220);
+    }
+  }
   function currentPath() {
     return String(window.location.pathname || '') + String(window.location.search || '');
   }
@@ -635,8 +679,12 @@ window.addEventListener('dolphin:generate-lead', function(event) {
     const target = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
     if (!target) return;
     const href = target.getAttribute('href') || '';
+    const phoneNumber = cleanPhone(href);
+    if (typeof window.dolphinTrackFirstPartyEvent === 'function') {
+      window.dolphinTrackFirstPartyEvent('phone_click', phoneNumber, cleanText(target.textContent, 120));
+    }
     const payload = {
-      phone_number: cleanPhone(href),
+      phone_number: phoneNumber,
       link_text: cleanText(target.textContent, 120),
       link_url: href,
       page_path: currentPath(),
@@ -657,6 +705,25 @@ window.addEventListener('dolphin:generate-lead', function(event) {
       event_timeout: 1000
     });
     window.setTimeout(proceed, 900);
+  }, true);
+  document.addEventListener('click', function(event) {
+    if (event.defaultPrevented) return;
+    if (event.button !== undefined && event.button !== 0) return;
+    const target = event.target && event.target.closest ? event.target.closest('a[href^="mailto:"]') : null;
+    if (!target) return;
+    const href = target.getAttribute('href') || '';
+    const email = cleanEmail(href);
+    const linkText = cleanText(target.textContent, 120);
+    if (typeof window.dolphinTrackFirstPartyEvent === 'function') {
+      window.dolphinTrackFirstPartyEvent('email_click', email, linkText);
+    }
+    window.dolphinTrackEvent('email_click', {
+      email: email,
+      link_text: linkText,
+      link_url: href,
+      page_path: currentPath(),
+      send_to: window.__dolphinGA4MeasurementId
+    });
   }, true);
 });`;
 
