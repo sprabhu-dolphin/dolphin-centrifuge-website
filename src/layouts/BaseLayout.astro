@@ -50,6 +50,9 @@ const googleTagId = import.meta.env.PUBLIC_GOOGLE_TAG_ID || 'G-9DCDDZTT9N';
 const gtmId = import.meta.env.PUBLIC_GTM_ID || null;
 // GA4 measurement ID - explicit destination for custom/lead events.
 const ga4MeasurementId = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-9DCDDZTT9N';
+// Google Ads direct conversion destination for website phone-number clicks.
+const googleAdsConversionId = import.meta.env.PUBLIC_GOOGLE_ADS_CONVERSION_ID || 'AW-1018317879';
+const googleAdsPhoneClickSendTo = import.meta.env.PUBLIC_GOOGLE_ADS_PHONE_CLICK_SEND_TO || 'AW-1018317879/rg8WCJWi9sUcELeYyeUD';
 const trackingAllowedHosts = (import.meta.env.PUBLIC_TRACKING_ALLOWED_HOSTS || import.meta.env.PUBLIC_GOOGLE_TAG_ALLOWED_HOSTS || 'dolphincentrifuge.com,www.dolphincentrifuge.com')
   .split(',')
   .map((host) => host.trim())
@@ -91,9 +94,11 @@ if (!isProduction && !isStagingTest) {
 var siteMode = isProduction ? 'production' : 'staging_test';
 // GA4 measurement ID - registered on window for direct custom/lead event routing
 var ga4Id = ${JSON.stringify(ga4MeasurementId)};
+var adsConversionId = ${JSON.stringify(googleAdsConversionId)};
 window.__dolphinGA4MeasurementId = ga4Id;
+window.__dolphinGoogleAdsConversionId = adsConversionId;
 // Runtime launch marker
-var launchMarker = { platform: 'astro', migration: 'wp_to_astro', tracker: 'google', site_mode: siteMode, ga4_measurement_id: ga4Id };
+var launchMarker = { platform: 'astro', migration: 'wp_to_astro', tracker: 'google', site_mode: siteMode, ga4_measurement_id: ga4Id, google_ads_conversion_id: adsConversionId };
 if (gaTestParam) launchMarker.test_id = gaTestParam;
 window.__dolphinGoogleTrackingLaunch = launchMarker;
 // Bootstrap Google tag
@@ -107,6 +112,9 @@ s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gTagId;
 document.head.appendChild(s);
 gtag('js', new Date());
 gtag('config', gTagId, { site_version: 'dolphin_astro_2026' });
+if (adsConversionId) {
+  gtag('config', adsConversionId, { site_version: 'dolphin_astro_2026' });
+}
 // GTM (injected only when PUBLIC_GTM_ID env var is set)
 ${_gtmSnippet}
 // Staging test verification event – fires only in ga_test mode
@@ -599,9 +607,57 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
 window.dolphinTrackLead = window.dolphinTrackLead || function(params) {
   return window.dolphinTrackEvent('generate_lead', params || {});
 };
+window.dolphinTrackPhoneClick = window.dolphinTrackPhoneClick || function(params) {
+  return window.dolphinTrackEvent('phone_call_click', params || {});
+};
 window.addEventListener('dolphin:generate-lead', function(event) {
   const detail = event && event.detail && typeof event.detail === 'object' ? event.detail : {};
   window.dolphinTrackLead(detail);
+});
+(function() {
+  const googleAdsPhoneClickSendTo = ${JSON.stringify(googleAdsPhoneClickSendTo)};
+  function cleanText(value, max) {
+    return String(value || '').replace(/\\s+/g, ' ').trim().slice(0, max || 120);
+  }
+  function cleanPhone(value) {
+    return String(value || '').replace(/^tel:/i, '').replace(/[^+\\d]/g, '').slice(0, 40);
+  }
+  function currentPath() {
+    return String(window.location.pathname || '') + String(window.location.search || '');
+  }
+  function openTelLink(href) {
+    if (!href) return;
+    window.location.href = href;
+  }
+  document.addEventListener('click', function(event) {
+    if (event.defaultPrevented) return;
+    if (event.button !== undefined && event.button !== 0) return;
+    const target = event.target && event.target.closest ? event.target.closest('a[href^="tel:"]') : null;
+    if (!target) return;
+    const href = target.getAttribute('href') || '';
+    const payload = {
+      phone_number: cleanPhone(href),
+      link_text: cleanText(target.textContent, 120),
+      link_url: href,
+      page_path: currentPath(),
+      send_to: window.__dolphinGA4MeasurementId
+    };
+    window.dolphinTrackPhoneClick(payload);
+    if (!googleAdsPhoneClickSendTo || typeof window.gtag !== 'function') return;
+    let opened = false;
+    const proceed = function() {
+      if (opened) return;
+      opened = true;
+      openTelLink(href);
+    };
+    event.preventDefault();
+    window.gtag('event', 'conversion', {
+      send_to: googleAdsPhoneClickSendTo,
+      event_callback: proceed,
+      event_timeout: 1000
+    });
+    window.setTimeout(proceed, 900);
+  }, true);
 });`;
 
 const toAbsoluteUrl = (href?: string | null) => {

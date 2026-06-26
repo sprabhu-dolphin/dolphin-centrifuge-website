@@ -126,6 +126,7 @@ async function convCreate(args) {
     primaryForGoal: args.primary === undefined ? true : String(args.primary) === 'true',
     valueSettings: { defaultValue: Number(args.value || 0), alwaysUseDefaultValue: true },
   };
+  if (args.include !== undefined) create.includeInConversionsMetric = String(args.include) === 'true';
   if (args['call-duration']) create.phoneCallDurationSeconds = String(args['call-duration']);
   if (args.counting) create.countingType = String(args.counting).toUpperCase();
   const payload = { operations: [{ create }], validateOnly: !apply, responseContentType: 'MUTABLE_RESOURCE' };
@@ -151,8 +152,112 @@ async function convCreate(args) {
     process.exitCode = 1;
     return;
   }
-  console.log(`[${mode}] OK created ${create.type} "${create.name}" (category=${create.category}, primary=${create.primaryForGoal}, dur=${create.phoneCallDurationSeconds || 'n/a'}s)`);
+  console.log(`[${mode}] OK created ${create.type} "${create.name}" (category=${create.category}, primary=${create.primaryForGoal}, include=${create.includeInConversionsMetric ?? 'default'}, dur=${create.phoneCallDurationSeconds || 'n/a'}s)`);
   if (json.results) console.log(JSON.stringify(json.results, null, 2).slice(0, 800));
+}
+
+async function googleAdsMutate(args, customerId, servicePath, operations, apply) {
+  const cfg = await readConfig();
+  const loginCustomerId = norm(args['login-customer-id'] || cfg.login_customer_id);
+  const at = await accessToken();
+  const url = `https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/${servicePath}:mutate`;
+  const payload = {
+    operations,
+    validateOnly: !apply,
+    responseContentType: 'MUTABLE_RESOURCE',
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${at}`,
+      'developer-token': cfg.developer_token,
+      'login-customer-id': loginCustomerId,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  const text = await res.text();
+  let json; try { json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
+  if (!res.ok) {
+    const requestId = res.headers.get('request-id') || res.headers.get('google-ads-request-id') || '';
+    throw new Error(`Google Ads API ${res.status}${requestId ? ` request-id ${requestId}` : ''}: ${JSON.stringify(json, null, 2).slice(0, 2200)}`);
+  }
+  return json;
+}
+
+async function googleAdsMutateCustomer(args, customerId, operation, apply) {
+  const cfg = await readConfig();
+  const loginCustomerId = norm(args['login-customer-id'] || cfg.login_customer_id);
+  const at = await accessToken();
+  const url = `https://googleads.googleapis.com/${apiVersion}/customers/${customerId}:mutate`;
+  const payload = {
+    operation,
+    validateOnly: !apply,
+    responseContentType: 'MUTABLE_RESOURCE',
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${at}`,
+      'developer-token': cfg.developer_token,
+      'login-customer-id': loginCustomerId,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  const text = await res.text();
+  let json; try { json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
+  if (!res.ok) {
+    const requestId = res.headers.get('request-id') || res.headers.get('google-ads-request-id') || '';
+    throw new Error(`Google Ads API ${res.status}${requestId ? ` request-id ${requestId}` : ''}: ${JSON.stringify(json, null, 2).slice(0, 2200)}`);
+  }
+  return json;
+}
+
+async function fixCallReporting(args) {
+  const cfg = await readConfig();
+  const customerId = norm(args['customer-id'] || cfg.customer_id);
+  const conversionAction = args['conversion-action'];
+  const asset = args.asset;
+  const apply = Boolean(args.apply);
+  if (!customerId) throw new Error('Missing --customer-id');
+  if (!conversionAction?.match(/^customers\/\d+\/conversionActions\/\d+$/)) {
+    throw new Error('Missing or bad --conversion-action customers/<cid>/conversionActions/<id>');
+  }
+  if (!asset?.match(/^customers\/\d+\/assets\/\d+$/)) {
+    throw new Error('Missing or bad --asset customers/<cid>/assets/<id>');
+  }
+
+  const mode = apply ? 'APPLIED' : 'VALIDATE-ONLY';
+  const customerUpdate = {
+    resourceName: `customers/${customerId}`,
+    callReportingSetting: {
+      callReportingEnabled: true,
+      callConversionReportingEnabled: true,
+      callConversionAction: conversionAction,
+    },
+  };
+  const assetUpdate = {
+    resourceName: asset,
+    callAsset: {
+      callConversionReportingState: 'USE_RESOURCE_LEVEL_CALL_CONVERSION_ACTION',
+      callConversionAction: conversionAction,
+    },
+  };
+
+  const customerResult = await googleAdsMutateCustomer(args, customerId, {
+    updateMask: 'call_reporting_setting.call_reporting_enabled,call_reporting_setting.call_conversion_reporting_enabled,call_reporting_setting.call_conversion_action',
+    update: customerUpdate,
+  }, apply);
+  const assetResult = await googleAdsMutate(args, customerId, 'assets', [{
+    updateMask: 'call_asset.call_conversion_reporting_state,call_asset.call_conversion_action',
+    update: assetUpdate,
+  }], apply);
+
+  console.log(`[${mode}] customer call reporting -> ${conversionAction}`);
+  console.log(JSON.stringify(customerResult.results || [], null, 2).slice(0, 1000));
+  console.log(`[${mode}] call asset ${asset} -> ${conversionAction}`);
+  console.log(JSON.stringify(assetResult.results || [], null, 2).slice(0, 1000));
 }
 
 async function main() {
@@ -161,12 +266,14 @@ async function main() {
   if (args.help || cmd === 'help') {
     console.log(`Gated Ads write helper (conversion_action only).
   node google-ads-write.mjs conv --resource <res> --status ENABLED|REMOVED [--primary true|false] [--apply]
-  node google-ads-write.mjs create --name "..." --type AD_CALL --category PHONE_CALL_LEAD [--call-duration 60] [--counting ONE_PER_CLICK] [--primary true] [--apply]
+  node google-ads-write.mjs create --name "..." --type AD_CALL --category PHONE_CALL_LEAD [--call-duration 60] [--counting ONE_PER_CLICK] [--primary true] [--include true|false] [--apply]
+  node google-ads-write.mjs fix-call --asset customers/<cid>/assets/<id> --conversion-action customers/<cid>/conversionActions/<id> [--apply]
   Default = VALIDATE-ONLY. Add --apply to actually change it.`);
     return;
   }
   if (cmd === 'conv') return convMutate(args);
   if (cmd === 'create') return convCreate(args);
+  if (cmd === 'fix-call') return fixCallReporting(args);
   throw new Error(`Unknown command: ${cmd}`);
 }
 
