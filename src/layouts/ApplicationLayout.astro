@@ -21,6 +21,7 @@ interface Props {
   title: string;
   /* Short on-screen hero headline. Falls back to `title` (the full SEO title) when omitted. */
   heroTitle?: string;
+  heroDescription?: string;
   pageTitle?: string;
   description?: string;
   heroImage?: string;
@@ -36,11 +37,24 @@ interface Props {
   jsonLd?: Record<string, any> | Record<string, any>[];
   disableTitleSuffix?: boolean;
   hideBottomCTA?: boolean;
+  /* Hero overrides - default to the standard "Get a Quote -> contact page" behavior.
+     The contact page overrides these so its hero CTA scrolls to the on-page form
+     instead of linking back to itself. */
+  heroCompact?: boolean;
+  heroCtaLabel?: string;
+  heroCtaHref?: string;
+  heroSecondaryCtaLabel?: string;
+  heroSecondaryCtaHref?: string;
+  contentCompact?: boolean;
+  hideTopTrustStrips?: boolean;
+  /* Suppresses the sidebar "Request a Quote" button (redundant on the contact page). */
+  hideSidebarQuoteCta?: boolean;
 }
 
 const {
   title,
   heroTitle,
+  heroDescription,
   pageTitle,
   description,
   heroImage,
@@ -56,6 +70,14 @@ const {
   jsonLd,
   disableTitleSuffix = false,
   hideBottomCTA = false,
+  heroCompact = false,
+  heroCtaLabel = 'Get a Quote',
+  heroCtaHref = '/contact-for-alfa-laval-centrifuges/',
+  heroSecondaryCtaLabel = '(248) 522-2573',
+  heroSecondaryCtaHref = 'tel:+12485222573',
+  contentCompact = false,
+  hideTopTrustStrips = false,
+  hideSidebarQuoteCta = false,
 } = Astro.props;
 
 const defaultCategoryHrefs: Record<string, string> = {
@@ -89,22 +111,27 @@ const breadcrumbs = [
   <Hero
     title={heroTitle || title}
     categoryLabel={categoryLabel}
-    description={description}
+    description={heroDescription === undefined ? description : heroDescription}
     imageSrc={heroImage}
     imageAlt={heroImageAlt}
     overlay="frost"
-    ctaLabel="Get a Quote"
-    ctaHref="/contact-for-alfa-laval-centrifuges/"
-    secondaryCtaLabel="(248) 522-2573"
-    secondaryCtaHref="tel:+12485222573"
+    compact={heroCompact}
+    ctaLabel={heroCtaLabel}
+    ctaHref={heroCtaHref}
+    secondaryCtaLabel={heroSecondaryCtaLabel}
+    secondaryCtaHref={heroSecondaryCtaHref}
   />
 
-  <TrustStrip />
-  <TrustPillarsStrip />
+  {!hideTopTrustStrips && (
+    <>
+      <TrustStrip />
+      <TrustPillarsStrip />
+    </>
+  )}
 
   {/* ── Main Content Area ── */}
   <section class="bg-warm-white">
-    <div class="container-dolphin py-10 md:py-14">
+    <div class={`container-dolphin ${contentCompact ? 'py-7 md:py-10' : 'py-10 md:py-14'}`}>
       <div class="flex flex-col lg:flex-row gap-10 lg:gap-14">
 
         {/* Main Content Column */}
@@ -191,12 +218,14 @@ const breadcrumbs = [
                 </svg>
                 sales@dolphincentrifuge.com
               </a>
-              <a
-                href="/contact-for-alfa-laval-centrifuges/"
-                class="block text-center bg-gold text-navy font-bold text-sm py-2 rounded-lg mt-3 hover:bg-gold-light transition-colors"
-              >
-                Request a Quote
-              </a>
+              {!hideSidebarQuoteCta && (
+                <a
+                  href="/contact-for-alfa-laval-centrifuges/"
+                  class="block text-center bg-gold text-navy font-bold text-sm py-2 rounded-lg mt-3 hover:bg-gold-light transition-colors"
+                >
+                  Request a Quote
+                </a>
+              )}
             </div>
 
             {/* Recommended Centrifuges */}
