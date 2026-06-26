@@ -7,6 +7,18 @@
 // Secrets: RESEND_API_KEY, ADMIN_PASSWORD, TURNSTILE_SECRET_KEY (optional)
 // =============================================================
 
+import {
+  DEFAULT_ADS_CUSTOMER_ID,
+  DEFAULT_ADS_LOGIN_CUSTOMER_ID,
+  DEFAULT_GA4_PROPERTY_ID,
+  D1_TEST_EXCLUSION_SQL,
+  buildLeadMonitorWindow,
+  formatLeadReconciliationText,
+  leadReconciliationVerdict,
+  normalizeAdsCustomerId,
+  reconcileLeadSources,
+} from '../../lead-reconciliation-core.mjs';
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, GET, DELETE, OPTIONS',
@@ -43,6 +55,10 @@ export default {
       return handleAdminSummary(request, env);
     }
 
+    if (request.method === 'GET' && path === '/admin/lead-monitor') {
+      return handleAdminLeadMonitor(request, env);
+    }
+
     if (request.method === 'GET' && path === '/admin/pages') {
       return handleAdminPages(request, env);
     }
@@ -76,6 +92,10 @@ export default {
       JSON.stringify({ success: false, error: 'Method not allowed' }),
       { status: 405, headers: CORS_HEADERS }
     );
+  },
+
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(handleScheduledLeadMonitor(controller, env));
   },
 };
 
@@ -386,6 +406,355 @@ async function handleAdminSummary(request, env) {
 }
 
 // ── ADMIN: Top / Entry / Exit pages over a date range ───────
+async function handleAdminLeadMonitor(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  const url = new URL(request.url);
+  try {
+    const result = await runLeadMonitor(env, {
+      start: url.searchParams.get('start') || undefined,
+      end: url.searchParams.get('end') || undefined,
+      days: url.searchParams.get('days') || undefined,
+      endOffsetDays: url.searchParams.get('end_offset_days') || url.searchParams.get('endOffsetDays') || undefined,
+      undercountTolerance: url.searchParams.get('undercount_tolerance') || url.searchParams.get('undercountTolerance') || undefined,
+      minAbs: url.searchParams.get('min_abs') || url.searchParams.get('minAbs') || undefined,
+      sendAlert: truthyParam(url.searchParams.get('send')),
+      forceAlert: truthyParam(url.searchParams.get('force')),
+      source: 'manual',
+    });
+    return new Response(JSON.stringify(result), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('Lead monitor manual run error:', err.message);
+    return new Response(JSON.stringify({ success: false, error: err.message }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleScheduledLeadMonitor(controller, env) {
+  const scheduledTime = controller?.scheduledTime ? new Date(controller.scheduledTime) : new Date();
+  try {
+    const result = await runLeadMonitor(env, {
+      now: scheduledTime,
+      sendAlert: true,
+      source: 'scheduled',
+    });
+    if (result.skipped) {
+      console.warn(`Lead monitor skipped: ${result.reason || 'not configured'}`);
+    } else {
+      const verdict = leadReconciliationVerdict(result.report);
+      console.log(`Lead monitor ${verdict.status}: ${verdict.critical} critical, ${verdict.warn} warn`);
+    }
+  } catch (err) {
+    console.error('Lead monitor scheduled run error:', err.message);
+    await sendLeadMonitorFailureAlert(env, err, scheduledTime);
+  }
+}
+
+async function runLeadMonitor(env, opts = {}) {
+  const sendAlert = Boolean(opts.sendAlert);
+  const missing = missingLeadMonitorConfig(env, { sendAlert });
+  if (missing.length) {
+    return {
+      success: false,
+      skipped: true,
+      reason: 'missing required Worker secrets or bindings',
+      missing,
+      readOnly: true,
+      alertSent: false,
+    };
+  }
+
+  const window = buildLeadMonitorWindow({
+    days: opts.days || env.LEAD_MONITOR_DAYS || 14,
+    start: opts.start,
+    end: opts.end,
+    endOffsetDays: opts.endOffsetDays ?? env.LEAD_MONITOR_END_OFFSET_DAYS ?? 1,
+    now: opts.now || new Date(),
+  });
+
+  const [d1, ga4, ads] = await Promise.all([
+    pullLeadMonitorD1(env, window.start, window.endExclusive),
+    pullLeadMonitorGA4(env, window.start, window.end),
+    pullLeadMonitorAds(env, window.start, window.end),
+  ]);
+
+  const report = reconcileLeadSources(d1, ga4, ads, {
+    undercountTolerance: opts.undercountTolerance ?? env.LEAD_MONITOR_UNDERCOUNT_TOLERANCE,
+    minAbs: opts.minAbs ?? env.LEAD_MONITOR_MIN_ABS,
+  });
+  const verdict = leadReconciliationVerdict(report);
+  const ctx = { window: { start: window.start, end: window.end }, d1, ga4, ads };
+
+  let alertSent = false;
+  if (sendAlert && (report.alerts.length || opts.forceAlert)) {
+    await sendLeadMonitorAlert(env, report, ctx, {
+      source: opts.source || 'scheduled',
+      forced: Boolean(opts.forceAlert),
+    });
+    alertSent = true;
+  }
+
+  return {
+    success: true,
+    skipped: false,
+    readOnly: true,
+    alertSent,
+    source: opts.source || 'manual',
+    window: ctx.window,
+    verdict,
+    sources: { d1, ga4, ads },
+    report,
+  };
+}
+
+async function pullLeadMonitorD1(env, startDate, endExclusive) {
+  const response = await env.DB.prepare(`
+    SELECT form_type, COUNT(*) AS n
+    FROM submissions
+    WHERE deleted = 0
+      AND created_at >= ?
+      AND created_at < ?
+      AND ${D1_TEST_EXCLUSION_SQL}
+    GROUP BY form_type
+  `).bind(startDate, endExclusive).all();
+
+  const byType = {};
+  for (const row of response.results || []) {
+    byType[row.form_type || '(none)'] = Number(row.n || 0);
+  }
+  return byType;
+}
+
+async function pullLeadMonitorGA4(env, startDate, endDate) {
+  const oauth = googleOAuthConfig(env, 'GA4');
+  const accessToken = await refreshGoogleAccessToken({
+    ...oauth,
+    refreshToken: env.GA4_REFRESH_TOKEN,
+    label: 'GA4',
+  });
+  const property = cleanText(env.GA4_PROPERTY_ID || DEFAULT_GA4_PROPERTY_ID, 80);
+  const payload = {
+    dateRanges: [{ startDate, endDate }],
+    dimensions: [{ name: 'customEvent:lead_form' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: {
+      filter: {
+        fieldName: 'eventName',
+        stringFilter: { matchType: 'EXACT', value: 'generate_lead', caseSensitive: false },
+      },
+    },
+    limit: 100,
+  };
+  const body = await googleJsonFetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    label: 'GA4 runReport',
+  });
+
+  const dimHeaders = (body.dimensionHeaders || []).map((h) => h.name);
+  const metHeaders = (body.metricHeaders || []).map((h) => h.name);
+  const byForm = {};
+  for (const row of body.rows || []) {
+    const out = {};
+    (row.dimensionValues || []).forEach((v, i) => { out[dimHeaders[i]] = v.value; });
+    (row.metricValues || []).forEach((v, i) => { out[metHeaders[i]] = v.value; });
+    byForm[out['customEvent:lead_form'] || '(not set)'] = Number(out.eventCount || 0);
+  }
+  return byForm;
+}
+
+async function pullLeadMonitorAds(env, startDate, endDate) {
+  const oauth = googleOAuthConfig(env, 'GOOGLE_ADS');
+  const accessToken = await refreshGoogleAccessToken({
+    ...oauth,
+    refreshToken: env.GOOGLE_ADS_REFRESH_TOKEN,
+    label: 'Google Ads',
+  });
+  const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
+  const customerId = normalizeAdsCustomerId(env.GOOGLE_ADS_CUSTOMER_ID || DEFAULT_ADS_CUSTOMER_ID);
+  const loginCustomerId = normalizeAdsCustomerId(env.GOOGLE_ADS_LOGIN_CUSTOMER_ID || DEFAULT_ADS_LOGIN_CUSTOMER_ID);
+  const sql = `
+    SELECT segments.conversion_action_name, metrics.conversions, metrics.all_conversions
+    FROM campaign
+    WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'
+      AND metrics.all_conversions > 0
+  `;
+  const body = await googleJsonFetch(`https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/googleAds:searchStream`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'developer-token': env.GOOGLE_ADS_DEVELOPER_TOKEN,
+      'login-customer-id': loginCustomerId,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: sql }),
+    label: 'Google Ads searchStream',
+  });
+
+  const rows = Array.isArray(body) ? body.flatMap((chunk) => chunk.results || []) : [];
+  const byAction = {};
+  for (const row of rows) {
+    const name = row.segments?.conversionActionName || '(unknown)';
+    byAction[name] = (byAction[name] || 0) + Number(row.metrics?.conversions || 0);
+  }
+  return byAction;
+}
+
+async function refreshGoogleAccessToken({ clientId, clientSecret, refreshToken, tokenUri, label }) {
+  const body = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token',
+  });
+  const parsed = await googleJsonFetch(tokenUri || 'https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+    label: `${label || 'Google'} token refresh`,
+  });
+  if (!parsed.access_token) throw new Error(`${label || 'Google'} token refresh returned no access_token`);
+  return parsed.access_token;
+}
+
+async function googleJsonFetch(url, options) {
+  const label = options.label || 'Google API';
+  const { label: _label, ...fetchOptions } = options;
+  const response = await fetch(url, fetchOptions);
+  const text = await response.text();
+  let parsed;
+  try {
+    parsed = text ? JSON.parse(text) : {};
+  } catch (err) {
+    parsed = { raw: text };
+  }
+  if (!response.ok) {
+    const requestId = response.headers.get('request-id') || response.headers.get('google-ads-request-id') || '';
+    throw new Error(`${label} ${response.status}${requestId ? ` request-id ${requestId}` : ''}: ${JSON.stringify(parsed).slice(0, 1200)}`);
+  }
+  return parsed;
+}
+
+function googleOAuthConfig(env, prefix) {
+  return {
+    clientId: env[`${prefix}_CLIENT_ID`] || env.GOOGLE_OAUTH_CLIENT_ID,
+    clientSecret: env[`${prefix}_CLIENT_SECRET`] || env.GOOGLE_OAUTH_CLIENT_SECRET,
+    tokenUri: env[`${prefix}_TOKEN_URI`] || env.GOOGLE_OAUTH_TOKEN_URI || 'https://oauth2.googleapis.com/token',
+  };
+}
+
+function missingLeadMonitorConfig(env, opts = {}) {
+  const missing = [];
+  if (!env.DB) missing.push('DB');
+  const ga4 = googleOAuthConfig(env, 'GA4');
+  const ads = googleOAuthConfig(env, 'GOOGLE_ADS');
+  if (!ga4.clientId) missing.push('GA4_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
+  if (!ga4.clientSecret) missing.push('GA4_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
+  if (!env.GA4_REFRESH_TOKEN) missing.push('GA4_REFRESH_TOKEN');
+  if (!ads.clientId) missing.push('GOOGLE_ADS_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
+  if (!ads.clientSecret) missing.push('GOOGLE_ADS_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
+  if (!env.GOOGLE_ADS_REFRESH_TOKEN) missing.push('GOOGLE_ADS_REFRESH_TOKEN');
+  if (!env.GOOGLE_ADS_DEVELOPER_TOKEN) missing.push('GOOGLE_ADS_DEVELOPER_TOKEN');
+  if (opts.sendAlert && !env.RESEND_API_KEY) missing.push('RESEND_API_KEY');
+  return missing;
+}
+
+async function sendLeadMonitorAlert(env, report, ctx, meta = {}) {
+  const verdict = leadReconciliationVerdict(report);
+  const title = verdict.status === 'CRITICAL'
+    ? 'Dolphin CRITICAL: lead tracking drift'
+    : verdict.status === 'WARN'
+      ? 'Dolphin warning: lead tracking drift'
+      : 'Dolphin lead monitor check';
+  const dashboardUrl = adminDashboardUrl(env);
+  const reconciliationText = formatLeadReconciliationText(report, ctx);
+  const text = [
+    title,
+    '',
+    `Source: ${meta.source || 'scheduled'}${meta.forced ? ' (forced send)' : ''}`,
+    'Read-only check: no D1, GA4, Google Ads, Cloudflare, or site settings were changed.',
+    '',
+    reconciliationText,
+    '',
+    `Dashboard: ${dashboardUrl}`,
+  ].join('\n');
+  const html = `
+    <div style="font-family:Arial,sans-serif;color:#1f2937;max-width:780px;line-height:1.45;">
+      <div style="border-bottom:4px solid #c9a45c;padding-bottom:12px;margin-bottom:18px;">
+        <p style="margin:0 0 4px;color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:.04em;">Dolphin lead monitor</p>
+        <h2 style="color:#0a2540;margin:0;font-size:24px;">${esc(title)}</h2>
+      </div>
+      <p style="margin:0 0 14px;color:#475569;">Read-only check. No D1, GA4, Google Ads, Cloudflare, or site settings were changed.</p>
+      <pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #d9e2ec;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.45;">${esc(reconciliationText)}</pre>
+      <p style="margin:24px 0 8px;">
+        <a href="${esc(dashboardUrl)}" style="display:inline-block;background:#0a2540;color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:bold;">Open Dolphin dashboard</a>
+      </p>
+    </div>
+  `;
+  await sendLeadMonitorEmail(env, title, text, html);
+}
+
+async function sendLeadMonitorFailureAlert(env, error, scheduledTime) {
+  if (!env.RESEND_API_KEY) return;
+  const title = 'Dolphin lead monitor failed';
+  const when = scheduledTime ? scheduledTime.toISOString() : new Date().toISOString();
+  const text = [
+    title,
+    '',
+    `When: ${when}`,
+    'The scheduled read-only lead monitor could not complete, so D1, GA4, and Google Ads were not reconciled.',
+    '',
+    `Error: ${error.message}`,
+    '',
+    `Dashboard: ${adminDashboardUrl(env)}`,
+  ].join('\n');
+  const html = `
+    <div style="font-family:Arial,sans-serif;color:#1f2937;max-width:760px;line-height:1.45;">
+      <h2 style="color:#9f1239;margin:0 0 12px;">${esc(title)}</h2>
+      <p>The scheduled read-only lead monitor could not complete, so D1, GA4, and Google Ads were not reconciled.</p>
+      <pre style="white-space:pre-wrap;background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:14px 16px;">${esc(error.message)}</pre>
+      <p><a href="${esc(adminDashboardUrl(env))}" style="color:#145c9e;">Open Dolphin dashboard</a></p>
+    </div>
+  `;
+  await sendLeadMonitorEmail(env, title, text, html);
+}
+
+async function sendLeadMonitorEmail(env, subject, text, html) {
+  if (!env.RESEND_API_KEY) return;
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Dolphin Lead Monitor <noreply@dolphincentrifuge.com>',
+      to: leadMonitorRecipients(env),
+      subject,
+      text,
+      html,
+    }),
+  });
+  if (!response.ok) {
+    console.error('Lead monitor alert email error:', await response.text());
+  }
+}
+
+function leadMonitorRecipients(env) {
+  const raw = cleanText(env.LEAD_MONITOR_ALERT_TO || 'sales@dolphincentrifuge.com', 1000);
+  return raw.split(/[;,]/).map((item) => item.trim()).filter(Boolean);
+}
+
+function truthyParam(value) {
+  return /^(1|true|yes|send)$/i.test(String(value || '').trim());
+}
+
 async function handleAdminPages(request, env) {
   if (!isAdminAuthorized(request, env)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {

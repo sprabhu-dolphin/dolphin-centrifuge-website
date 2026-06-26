@@ -16,6 +16,19 @@ tracking reconciles across all systems, and that the 2026-06-18/19 fixes are liv
 | **StatCounter** | paid-traffic corroboration | browser, logged in, project `9162316` |
 | **Phone** | calls | Ads AD_CALL action + (future) Talkroute API |
 
+## Always-on cloud monitor
+
+`reconcile-leads.mjs` is now the local wrapper for the same rules used by the Cloudflare Worker
+daily monitor. The shared rules live in `lead-reconciliation-core.mjs`.
+
+- Cloud schedule: `workers/contact-form/wrangler.toml` cron `30 14 * * *` UTC.
+- Manual admin check: `GET /admin/lead-monitor` with the normal dashboard bearer token.
+- Manual dry run is default. Add `?send=1` to send an alert only if WARN/CRITICAL rows exist.
+- The monitor is read-only against D1, GA4, and Google Ads. Its only write path is a Resend
+  alert email when drift or a monitor failure is detected.
+- Required Worker secrets: `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`,
+  `GA4_REFRESH_TOKEN`, `GOOGLE_ADS_REFRESH_TOKEN`, and `GOOGLE_ADS_DEVELOPER_TOKEN`.
+
 ---
 
 ## Check 1 — Ads conversion actions are configured correctly (the fixes)

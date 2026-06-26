@@ -4,6 +4,21 @@ account_id = "b421c569a13f32171251c80aa3c491a0"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
+[triggers]
+# Cloudflare cron uses UTC. This runs daily after the prior day's GA4/Ads data has had time to settle.
+crons = ["30 14 * * *"]
+
+[vars]
+GA4_PROPERTY_ID = "536974508"
+GOOGLE_ADS_CUSTOMER_ID = "3917484159"
+GOOGLE_ADS_LOGIN_CUSTOMER_ID = "6124315358"
+GOOGLE_ADS_API_VERSION = "v24"
+LEAD_MONITOR_DAYS = "14"
+LEAD_MONITOR_END_OFFSET_DAYS = "1"
+LEAD_MONITOR_UNDERCOUNT_TOLERANCE = "0.30"
+LEAD_MONITOR_MIN_ABS = "2"
+LEAD_MONITOR_ALERT_TO = "sales@dolphincentrifuge.com"
+
 # ── D1 Database Binding ──────────────────────────────────────────────────────
 # After running: wrangler d1 create dolphin-submissions
 # Replace DATABASE_ID_HERE with the id printed by that command.
@@ -32,3 +47,8 @@ database_id  = "a5396fba-3578-4d7b-a802-8bcce711b77b"
 # RESEND_API_KEY    — from resend.com dashboard
 # TURNSTILE_SECRET_KEY — from Cloudflare Turnstile dashboard (optional)
 # ADMIN_PASSWORD    — your chosen password for the /admin/submissions dashboard
+# GOOGLE_OAUTH_CLIENT_ID      - shared Google OAuth client id for GA4 and Ads reads
+# GOOGLE_OAUTH_CLIENT_SECRET  - shared Google OAuth client secret for GA4 and Ads reads
+# GA4_REFRESH_TOKEN           - GA4 analytics.readonly refresh token
+# GOOGLE_ADS_REFRESH_TOKEN    - Google Ads API refresh token
+# GOOGLE_ADS_DEVELOPER_TOKEN  - Google Ads developer token
