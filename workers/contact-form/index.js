@@ -51,6 +51,10 @@ export default {
       return handleAdminVisitorEventsGet(request, env, visitorId);
     }
 
+    if (request.method === 'GET' && path === '/admin/calls') {
+      return handleAdminCallsGet(request, env);
+    }
+
     if (request.method === 'GET' && path === '/admin/summary') {
       return handleAdminSummary(request, env);
     }
@@ -66,6 +70,10 @@ export default {
     if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
       const visitorId = decodeURIComponent(path.split('/').pop() || '');
       return handleAdminVisitorUpdate(request, env, visitorId);
+    }
+
+    if (request.method === 'POST' && path === '/admin/calls/ingest') {
+      return handleAdminCallIngest(request, env);
     }
 
     // ── Route: DELETE /admin/submissions/:id ─────────────────
@@ -290,6 +298,7 @@ async function handleAdminVisitorEventsGet(request, env, visitorId) {
   try {
     let events = [];
     let submissions = [];
+    let calls = [];
 
     try {
       const response = await env.DB.prepare(`
@@ -337,8 +346,39 @@ async function handleAdminVisitorEventsGet(request, env, visitorId) {
       if (!isMissingColumnError(submissionErr) && !isMissingTableError(submissionErr)) throw submissionErr;
     }
 
+    try {
+      const response = await env.DB.prepare(`
+        SELECT
+          id, created_at, caller_raw, caller_phone_e164, mailbox, duration_seconds,
+          transcript_snippet, transcript_available, source_display_url, matched_submission_id
+        FROM calls
+        WHERE deleted = 0 AND matched_visitor_id = ?
+        ORDER BY created_at ASC, id ASC
+        LIMIT 500
+      `).bind(cleanVisitorId).all();
+      calls = (response.results || []).map((row) => ({
+        created_at: row.created_at,
+        event_type: 'phone_voicemail',
+        page_path: '',
+        page_title: cleanText(row.mailbox || 'Talkroute voicemail', 200),
+        attribution_json: safeJson({
+          target: row.caller_raw || row.caller_phone_e164,
+          link_text: row.transcript_available ? row.transcript_snippet : '',
+          mailbox: row.mailbox,
+          duration_seconds: row.duration_seconds,
+          source: 'Talkroute voicemail',
+          source_display_url: row.source_display_url,
+          matched_submission_id: row.matched_submission_id,
+        }, 9000),
+        _sort_id: Number(row.id || 0) + 2000000000,
+      }));
+    } catch (callErr) {
+      if (!isMissingColumnError(callErr) && !isMissingTableError(callErr)) throw callErr;
+    }
+
     const results = events
       .concat(submissions)
+      .concat(calls)
       .sort(compareTimelineRows)
       .slice(0, 500)
       .map(({ _sort_id, ...row }) => row);
@@ -353,6 +393,141 @@ async function handleAdminVisitorEventsGet(request, env, visitorId) {
       });
     }
     console.error('Admin visitor events GET error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminCallsGet(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  try {
+    const f = buildDateFilter(request, 'c.created_at');
+    const response = await env.DB.prepare(`
+      SELECT
+        c.*,
+        vp.label AS visitor_label,
+        vp.contact_name AS visitor_contact_name,
+        vp.contact_company AS visitor_contact_company,
+        vp.contact_email AS visitor_contact_email,
+        vp.contact_phone AS visitor_contact_phone,
+        vp.identity_source AS visitor_identity_source,
+        vp.identity_confidence AS visitor_identity_confidence,
+        s.first_name AS submission_first_name,
+        s.last_name AS submission_last_name,
+        s.company AS submission_company,
+        s.email AS submission_email,
+        s.phone AS submission_phone,
+        s.form_type AS submission_form_type
+      FROM calls c
+      LEFT JOIN visitor_profiles vp
+        ON c.matched_visitor_id = vp.visitor_id
+      LEFT JOIN submissions s
+        ON c.matched_submission_id = s.id
+      WHERE c.deleted = 0${f.clause}
+      ORDER BY c.created_at DESC
+      LIMIT ${ADMIN_LIST_LIMIT}
+    `).bind(...f.binds).all();
+
+    const results = response.results || [];
+    return new Response(JSON.stringify({ success: true, data: results, truncated: results.length >= ADMIN_LIST_LIMIT }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    if (isMissingColumnError(err) || isMissingTableError(err)) {
+      return new Response(JSON.stringify({ success: true, data: [], truncated: false }), {
+        status: 200, headers: CORS_HEADERS,
+      });
+    }
+    console.error('Admin calls GET error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminCallIngest(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  let body = {};
+  try {
+    body = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const records = Array.isArray(body)
+    ? body
+    : (Array.isArray(body.calls) ? body.calls : (Array.isArray(body.messages) ? body.messages : [body]));
+  const cleanRecords = records.filter((record) => record && typeof record === 'object');
+
+  if (!cleanRecords.length) {
+    return new Response(JSON.stringify({ error: 'No call records provided' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const results = [];
+  let inserted = 0;
+  let updated = 0;
+  let matched = 0;
+
+  try {
+    for (const raw of cleanRecords) {
+      const call = normalizeCallRecord(raw);
+      if (!call.sourceMessageId) {
+        results.push({ success: false, error: 'Missing Gmail message id', subject: call.emailSubject });
+        continue;
+      }
+
+      const match = await findCallPhoneMatch(env, call.callerPhoneDigits);
+      call.matchedSubmissionId = match.submissionId;
+      call.matchedVisitorId = match.visitorId;
+      call.matchStatus = match.status;
+      call.matchConfidence = match.confidence;
+      call.matchedAt = match.visitorId ? new Date().toISOString() : '';
+
+      const upsert = await upsertCallRecord(env, call, raw);
+      if (upsert.existed) updated += 1; else inserted += 1;
+      if (call.matchedVisitorId) matched += 1;
+
+      if (match.submission) {
+        await updateVisitorIdentityFromCallMatch(env, match.submission, call);
+      }
+
+      results.push({
+        success: true,
+        id: upsert.id,
+        source_message_id: call.sourceMessageId,
+        caller_phone: call.callerRaw || call.callerPhoneE164,
+        mailbox: call.mailbox,
+        match_status: call.matchStatus,
+        matched_submission_id: call.matchedSubmissionId,
+        matched_visitor_id: call.matchedVisitorId,
+      });
+    }
+
+    return new Response(JSON.stringify({ success: true, inserted, updated, matched, data: results }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    if (isMissingColumnError(err) || isMissingTableError(err)) {
+      return new Response(JSON.stringify({ error: 'Calls table is not installed yet' }), {
+        status: 500, headers: CORS_HEADERS,
+      });
+    }
+    console.error('Admin call ingest error:', err.message);
     return new Response(JSON.stringify({ error: 'Database error' }), {
       status: 500, headers: CORS_HEADERS,
     });
@@ -394,7 +569,18 @@ async function handleAdminSummary(request, env) {
       if (!isMissingColumnError(subErr) && !isMissingTableError(subErr)) throw subErr;
     }
 
-    return new Response(JSON.stringify({ success: true, pageviews, visitors, sessions, leads }), {
+    let calls = 0;
+    try {
+      const cf = buildDateFilter(request, 'created_at');
+      const r = await env.DB.prepare(
+        `SELECT COUNT(*) AS n FROM calls WHERE deleted = 0${cf.clause}`
+      ).bind(...cf.binds).first();
+      calls = Number(r?.n || 0);
+    } catch (callErr) {
+      if (!isMissingColumnError(callErr) && !isMissingTableError(callErr)) throw callErr;
+    }
+
+    return new Response(JSON.stringify({ success: true, pageviews, visitors, sessions, leads, calls }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
@@ -949,6 +1135,347 @@ async function readJsonRequest(request) {
   const text = await request.text();
   if (!text) return {};
   return JSON.parse(text);
+}
+
+function firstString(...values) {
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      const joined = value.map((item) => cleanText(item, 300)).filter(Boolean).join(', ');
+      if (joined) return joined;
+      continue;
+    }
+    const text = cleanText(value, 5000);
+    if (text) return text;
+  }
+  return '';
+}
+
+function normalizePhoneDigits(value) {
+  let digits = String(value || '').replace(/\D+/g, '');
+  if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
+  return digits;
+}
+
+function normalizePhoneE164(value) {
+  const originalDigits = String(value || '').replace(/\D+/g, '');
+  const key = normalizePhoneDigits(value);
+  if (key.length === 10) return `+1${key}`;
+  if (originalDigits.length >= 8 && originalDigits.length <= 15) return `+${originalDigits}`;
+  return '';
+}
+
+function normalizeIsoTimestamp(value, fallback) {
+  if (value === undefined || value === null || value === '') return fallback || new Date().toISOString();
+  if (typeof value === 'number' || /^\d{12,}$/.test(String(value))) {
+    const d = new Date(Number(value));
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+  const text = cleanText(value, 80);
+  const d = new Date(text);
+  if (!isNaN(d.getTime())) return d.toISOString();
+  return fallback || new Date().toISOString();
+}
+
+function parseDurationSeconds(value) {
+  if (Number.isFinite(Number(value))) return Math.max(0, Math.round(Number(value)));
+  const text = String(value || '').toLowerCase();
+  let total = 0;
+  const hour = text.match(/(\d+(?:\.\d+)?)\s*h(?:ou)?rs?/);
+  const minute = text.match(/(\d+(?:\.\d+)?)\s*m(?:in(?:ute)?s?)?/);
+  const second = text.match(/(\d+(?:\.\d+)?)\s*s(?:ec(?:ond)?s?)?/);
+  if (hour) total += Number(hour[1]) * 3600;
+  if (minute) total += Number(minute[1]) * 60;
+  if (second) total += Number(second[1]);
+  return Math.max(0, Math.round(total || 0));
+}
+
+function firstAudioAttachment(raw) {
+  const attachments = Array.isArray(raw.attachments) ? raw.attachments : [];
+  return attachments.find((attachment) => {
+    const filename = String(attachment && attachment.filename || '').toLowerCase();
+    const mime = String(attachment && attachment.mime_type || attachment && attachment.mimeType || '').toLowerCase();
+    return filename.endsWith('.m4a') || filename.endsWith('.mp3') || mime.startsWith('audio/');
+  }) || {};
+}
+
+function normalizeCallRecord(raw) {
+  const now = new Date().toISOString();
+  const callerRaw = firstString(
+    raw.caller_raw,
+    raw.caller,
+    raw.caller_number,
+    raw.callerNumber,
+    raw.from_number,
+    raw.fromNumber,
+    raw.voice_message_from
+  );
+  const audio = raw.audio && typeof raw.audio === 'object' ? raw.audio : firstAudioAttachment(raw);
+  const transcriptRaw = firstString(
+    raw.transcript_snippet,
+    raw.transcriptSnippet,
+    raw.transcript,
+    raw.message,
+    raw.transcription,
+    raw.body_transcript
+  );
+  const noTranscript = /^\[?no transcription is available\.?\]?$/i.test(transcriptRaw);
+  const createdAt = normalizeIsoTimestamp(
+    raw.created_at || raw.email_ts || raw.source_email_ts || raw.date || raw.internal_date,
+    now
+  );
+
+  return {
+    createdAt,
+    ingestedAt: now,
+    updatedAt: now,
+    source: cleanText(raw.source || 'talkroute_gmail', 80),
+    sourceMessageId: firstString(raw.source_message_id, raw.gmail_message_id, raw.message_id, raw.id),
+    sourceThreadId: firstString(raw.source_thread_id, raw.gmail_thread_id, raw.thread_id),
+    sourceEmailTs: normalizeIsoTimestamp(raw.source_email_ts || raw.email_ts || raw.date || raw.internal_date, createdAt),
+    sourceDisplayUrl: cleanText(raw.source_display_url || raw.gmail_display_url || raw.display_url, 700),
+    emailSubject: cleanText(raw.email_subject || raw.subject, 300),
+    emailFrom: cleanText(raw.email_from || raw.from_ || raw.from, 300),
+    emailTo: firstString(raw.email_to, raw.to),
+    callerRaw,
+    callerPhoneE164: normalizePhoneE164(callerRaw),
+    callerPhoneDigits: normalizePhoneDigits(callerRaw),
+    mailbox: cleanText(raw.mailbox, 120),
+    durationSeconds: parseDurationSeconds(raw.duration_seconds || raw.message_length || raw.duration),
+    transcriptSnippet: noTranscript ? '' : makeTranscriptSnippet(transcriptRaw),
+    transcriptAvailable: noTranscript || !transcriptRaw ? 0 : 1,
+    audioFilename: cleanText(audio.filename || raw.audio_filename, 240),
+    audioMimeType: cleanText(audio.mime_type || audio.mimeType || raw.audio_mime_type, 120),
+    audioSizeBytes: Math.max(0, Math.round(Number(audio.size_bytes || audio.size || raw.audio_size_bytes || 0) || 0)),
+    matchedSubmissionId: null,
+    matchedVisitorId: '',
+    matchStatus: 'unmatched',
+    matchConfidence: '',
+    matchedAt: '',
+  };
+}
+
+async function findCallPhoneMatch(env, callerDigits) {
+  if (!env.DB || !callerDigits) {
+    return { status: 'unmatched', confidence: '', submissionId: null, visitorId: '', submission: null };
+  }
+  if (callerDigits.length < 10) {
+    return { status: 'unmatched', confidence: '', submissionId: null, visitorId: '', submission: null };
+  }
+
+  try {
+    const response = await env.DB.prepare(`
+      SELECT
+        id, created_at, first_name, last_name, company, email, phone, form_type,
+        attribution_visitor_id, attribution_visitor_first_seen_at
+      FROM submissions
+      WHERE deleted = 0 AND COALESCE(phone, '') != ''
+      ORDER BY created_at DESC
+      LIMIT 1000
+    `).all();
+    const rows = response.results || [];
+    for (const row of rows) {
+      if (normalizePhoneDigits(row.phone) === callerDigits) {
+        return {
+          status: row.attribution_visitor_id ? 'matched_submission_phone' : 'matched_submission_phone_no_visitor',
+          confidence: 'exact-phone',
+          submissionId: Number(row.id || 0) || null,
+          visitorId: cleanText(row.attribution_visitor_id, 140),
+          submission: row,
+        };
+      }
+    }
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) throw err;
+  }
+
+  try {
+    const response = await env.DB.prepare(`
+      SELECT visitor_id, contact_phone
+      FROM visitor_profiles
+      WHERE COALESCE(contact_phone, '') != ''
+      ORDER BY last_seen_at DESC
+      LIMIT 1000
+    `).all();
+    const rows = response.results || [];
+    for (const row of rows) {
+      if (normalizePhoneDigits(row.contact_phone) === callerDigits) {
+        return {
+          status: 'matched_visitor_phone',
+          confidence: 'exact-phone',
+          submissionId: null,
+          visitorId: cleanText(row.visitor_id, 140),
+          submission: null,
+        };
+      }
+    }
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) throw err;
+  }
+
+  return { status: 'unmatched', confidence: '', submissionId: null, visitorId: '', submission: null };
+}
+
+async function updateVisitorIdentityFromCallMatch(env, submission, call) {
+  const visitorId = cleanText(submission.attribution_visitor_id, 140);
+  if (!visitorId) return;
+
+  const contactName = [cleanText(submission.first_name, 120), cleanText(submission.last_name, 120)].filter(Boolean).join(' ');
+  const contactCompany = cleanText(submission.company, 180);
+  const contactEmail = cleanText(submission.email, 180).toLowerCase();
+  const contactPhone = cleanText(submission.phone || call.callerRaw || call.callerPhoneE164, 80);
+  const label = contactLabelFromRow({
+    firstName: submission.first_name,
+    lastName: submission.last_name,
+    company: submission.company,
+    email: submission.email,
+    phone: contactPhone,
+  });
+  const now = call.matchedAt || new Date().toISOString();
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO visitor_profiles (
+        visitor_id, first_seen_at, last_seen_at,
+        label, contact_name, contact_company, contact_email, contact_phone,
+        identity_source, identity_confidence, identity_updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(visitor_id) DO UPDATE SET
+        first_seen_at = CASE WHEN visitor_profiles.first_seen_at = '' THEN excluded.first_seen_at ELSE visitor_profiles.first_seen_at END,
+        last_seen_at = CASE WHEN visitor_profiles.last_seen_at = '' THEN excluded.last_seen_at ELSE visitor_profiles.last_seen_at END,
+        label = CASE WHEN visitor_profiles.label = '' THEN excluded.label ELSE visitor_profiles.label END,
+        contact_name = CASE WHEN excluded.contact_name != '' THEN excluded.contact_name ELSE visitor_profiles.contact_name END,
+        contact_company = CASE WHEN excluded.contact_company != '' THEN excluded.contact_company ELSE visitor_profiles.contact_company END,
+        contact_email = CASE WHEN excluded.contact_email != '' THEN excluded.contact_email ELSE visitor_profiles.contact_email END,
+        contact_phone = CASE WHEN excluded.contact_phone != '' THEN excluded.contact_phone ELSE visitor_profiles.contact_phone END,
+        identity_source = CASE
+          WHEN visitor_profiles.identity_source = 'manual' THEN visitor_profiles.identity_source
+          ELSE excluded.identity_source
+        END,
+        identity_confidence = CASE
+          WHEN visitor_profiles.identity_confidence LIKE 'manual%' THEN visitor_profiles.identity_confidence
+          ELSE excluded.identity_confidence
+        END,
+        identity_updated_at = excluded.identity_updated_at
+    `).bind(
+      visitorId,
+      cleanText(submission.attribution_visitor_first_seen_at || submission.created_at || call.createdAt, 40),
+      cleanText(submission.created_at || call.createdAt, 40),
+      label,
+      contactName,
+      contactCompany,
+      contactEmail,
+      contactPhone,
+      'phone+form match',
+      'exact-phone-confirmed',
+      now
+    ).run();
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) {
+      console.error('Visitor phone identity update skipped:', err.message);
+    }
+  }
+}
+
+async function upsertCallRecord(env, call, raw) {
+  const existing = await env.DB.prepare(
+    `SELECT id FROM calls WHERE source = ? AND source_message_id = ?`
+  ).bind(call.source, call.sourceMessageId).first();
+
+  await env.DB.prepare(`
+    INSERT INTO calls (
+      created_at, ingested_at, updated_at,
+      source, source_message_id, source_thread_id, source_email_ts, source_display_url,
+      email_subject, email_from, email_to,
+      caller_raw, caller_phone_e164, caller_phone_digits,
+      mailbox, duration_seconds, transcript_snippet, transcript_available,
+      audio_filename, audio_mime_type, audio_size_bytes,
+      matched_submission_id, matched_visitor_id, match_status, match_confidence, matched_at,
+      raw_json, deleted
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+    ON CONFLICT(source, source_message_id) DO UPDATE SET
+      created_at = excluded.created_at,
+      ingested_at = CASE WHEN calls.ingested_at != '' THEN calls.ingested_at ELSE excluded.ingested_at END,
+      updated_at = excluded.updated_at,
+      source_thread_id = excluded.source_thread_id,
+      source_email_ts = excluded.source_email_ts,
+      source_display_url = excluded.source_display_url,
+      email_subject = excluded.email_subject,
+      email_from = excluded.email_from,
+      email_to = excluded.email_to,
+      caller_raw = excluded.caller_raw,
+      caller_phone_e164 = excluded.caller_phone_e164,
+      caller_phone_digits = excluded.caller_phone_digits,
+      mailbox = excluded.mailbox,
+      duration_seconds = excluded.duration_seconds,
+      transcript_snippet = excluded.transcript_snippet,
+      transcript_available = excluded.transcript_available,
+      audio_filename = excluded.audio_filename,
+      audio_mime_type = excluded.audio_mime_type,
+      audio_size_bytes = excluded.audio_size_bytes,
+      matched_submission_id = excluded.matched_submission_id,
+      matched_visitor_id = excluded.matched_visitor_id,
+      match_status = excluded.match_status,
+      match_confidence = excluded.match_confidence,
+      matched_at = excluded.matched_at,
+      raw_json = excluded.raw_json,
+      deleted = 0
+  `).bind(
+    call.createdAt,
+    call.ingestedAt,
+    call.updatedAt,
+    call.source,
+    call.sourceMessageId,
+    call.sourceThreadId,
+    call.sourceEmailTs,
+    call.sourceDisplayUrl,
+    call.emailSubject,
+    call.emailFrom,
+    call.emailTo,
+    call.callerRaw,
+    call.callerPhoneE164,
+    call.callerPhoneDigits,
+    call.mailbox,
+    call.durationSeconds,
+    call.transcriptSnippet,
+    call.transcriptAvailable,
+    call.audioFilename,
+    call.audioMimeType,
+    call.audioSizeBytes,
+    call.matchedSubmissionId,
+    call.matchedVisitorId,
+    call.matchStatus,
+    call.matchConfidence,
+    call.matchedAt,
+    safeJson(callRawMetadata(raw, call), 3000)
+  ).run();
+
+  const row = await env.DB.prepare(
+    `SELECT id FROM calls WHERE source = ? AND source_message_id = ?`
+  ).bind(call.source, call.sourceMessageId).first();
+  return { existed: Boolean(existing), id: row?.id || existing?.id || null };
+}
+
+function makeTranscriptSnippet(value) {
+  const text = cleanText(value, 1000);
+  if (!text) return '';
+  return text.length > 200 ? `${text.slice(0, 197).trim()}...` : text;
+}
+
+function callRawMetadata(raw, call) {
+  return {
+    source: call.source,
+    message_id: call.sourceMessageId,
+    thread_id: call.sourceThreadId,
+    from: call.emailFrom,
+    subject: call.emailSubject,
+    message_length: call.durationSeconds,
+    mailbox: call.mailbox,
+    source_email_ts: call.sourceEmailTs,
+    created_at: call.createdAt,
+    ingested_at: call.ingestedAt,
+    updated_at: call.updatedAt,
+    raw_message_size: Math.max(0, Math.round(Number(raw.raw_message_size || raw.sizeEstimate || raw.size_estimate || 0) || 0)),
+  };
 }
 
 function normalizePages(pages) {

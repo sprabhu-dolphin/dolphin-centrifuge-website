@@ -881,12 +881,53 @@ const isDevDashboard = import.meta.env.DEV;
       color: #506179;
     }
     .va-event-type-phone_click { background: #fde8c0; color: #8a5a00; }
+    .va-event-type-phone_voicemail { background: #ffe3cd; color: #8d3d0c; }
     .va-event-type-email_click { background: #e2eef7; color: #1d5d86; }
     .va-event-type-form_submit { background: #eaf6ee; color: #0f6e56; }
     .va-timeline-empty {
       padding: 10px 11px;
       color: #6a7a8c;
       font-size: 0.78rem;
+    }
+    .calls-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: #fff;
+      font-size: 0.8rem;
+    }
+    .calls-table th,
+    .calls-table td {
+      border-bottom: 1px solid #e5edf5;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+    .calls-table th {
+      background: #f4f8fd;
+      color: #16335c;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .call-match {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      background: #eef2f7;
+      color: #506179;
+    }
+    .call-match.matched { background: #eaf6ee; color: #0f6e56; }
+    .call-match.unmatched { background: #fff5d6; color: #8a5a00; }
+    .call-transcript {
+      color: #334155;
+      line-height: 1.45;
+      max-width: 520px;
     }
   </style>
 </head>
@@ -919,6 +960,9 @@ const isDevDashboard = import.meta.env.DEV;
         </button>
         <button type="button" class="sc-nav-item" data-view="pages">
           <span class="sc-nav-ico">&#128196;</span>Pages
+        </button>
+        <button type="button" class="sc-nav-item" data-view="calls">
+          <span class="sc-nav-ico">&#9742;</span>Phone Leads
         </button>
         <button type="button" class="sc-nav-item" data-view="submissions">
           <span class="sc-nav-ico">&#128203;</span>Form Submissions
@@ -987,6 +1031,14 @@ const isDevDashboard = import.meta.env.DEV;
           </div>
         </section>
 
+        <!-- Phone leads from Talkroute voicemail emails -->
+        <section class="sc-panel" id="panel-calls">
+          <h1 class="sc-section-title">Phone leads</h1>
+          <div class="table-wrap">
+            <div id="calls-container" class="loading">Loading phone leads...</div>
+          </div>
+        </section>
+
         <!-- Form submissions table -->
         <section class="sc-panel" id="panel-submissions">
           <h1 class="sc-section-title">Form submissions</h1>
@@ -1023,9 +1075,11 @@ const isDevDashboard = import.meta.env.DEV;
     const visitorPager   = document.getElementById('visitor-pager');
     const summaryTiles   = document.getElementById('summary-tiles');
     const pagesContainer = document.getElementById('pages-container');
+    const callsContainer = document.getElementById('calls-container');
 
     let allData = [];
     let allVisitors = [];
+    let allCalls = [];
     const visitorEventsCache = new Map();
     const visitorEventsLoading = new Set();
     const initialSearch = new URLSearchParams(window.location.search).get('q') || '';
@@ -1034,10 +1088,12 @@ const isDevDashboard = import.meta.env.DEV;
     let rowsPerPage = 50;
     let leadsPage = 1;
     let visitorsPage = 1;
+    let activeView = 'activity';
     let curStart = null;   // YYYY-MM-DD inclusive, or null = no lower bound
     let curEnd = null;     // YYYY-MM-DD inclusive, or null = no upper bound
     let dataTruncated = false;
     let visitorsTruncated = false;
+    let callsTruncated = false;
 
     function currentToken() { return sessionStorage.getItem(SESSION_KEY); }
     function isoDay(d) { return d.toISOString().slice(0, 10); }
@@ -1136,6 +1192,7 @@ const isDevDashboard = import.meta.env.DEV;
           loadVisitors(token);
           loadSummary(token);
           loadPages(token);
+          loadCalls(token);
         } else {
           loginError.textContent = 'Server error. Please try again.';
         }
@@ -1162,6 +1219,7 @@ const isDevDashboard = import.meta.env.DEV;
         loadVisitors(token);
         loadSummary(token);
         loadPages(token);
+        loadCalls(token);
       } catch (err) {
         tableContainer.innerHTML = '<div class="empty">Failed to load data. Check your connection.</div>';
         countBadge.textContent = 'Failed to load';
@@ -1180,6 +1238,23 @@ const isDevDashboard = import.meta.env.DEV;
         applySearch();
       } catch (err) {
         visitorDirectory.innerHTML = '<h2>Known Visitors</h2><div class="attrib-muted">Visitor profiles are not available yet.</div>';
+      }
+    }
+
+    async function loadCalls(token) {
+      if (!callsContainer) return;
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/calls${rangeQuery()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) throw new Error('Calls load failed');
+        const json = await resp.json();
+        allCalls = json.data || [];
+        callsTruncated = !!json.truncated;
+        applySearch();
+      } catch (err) {
+        allCalls = [];
+        callsContainer.innerHTML = '<div class="empty">Phone leads are not available yet.</div>';
       }
     }
 
@@ -1203,6 +1278,7 @@ const isDevDashboard = import.meta.env.DEV;
         tile(fmtNum(visitors), 'Visitors') +
         tile(fmtNum(s.sessions), 'Sessions') +
         tile(fmtNum(leads), 'Form leads', '', true) +
+        tile(fmtNum(s.calls), 'Phone leads') +
         tile(convStr, 'Lead rate', 'leads ÷ visitors');
     }
     async function loadSummary(token) {
@@ -1276,6 +1352,7 @@ const isDevDashboard = import.meta.env.DEV;
       // Clear stale data so the directory/pages never render the OLD range's
       // data against the NEW range's leads while the fetches are in flight.
       allVisitors = [];
+      allCalls = [];
       pagesData = { top: [], entry: [], exit: [] };
       loadSubmissions(token);
     }
@@ -1379,6 +1456,98 @@ const isDevDashboard = import.meta.env.DEV;
       }).join('');
 
       tableContainer.innerHTML = `<table class="submissions-table">${colgroup}${thead}<tbody>${tbody}</tbody></table>`;
+    }
+
+    function safeHttpUrl(value) {
+      if (!value) return '';
+      try {
+        const url = new URL(String(value), window.location.origin);
+        return (url.protocol === 'http:' || url.protocol === 'https:') ? String(value) : '';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function formatDuration(seconds) {
+      const n = Math.max(0, Math.round(Number(seconds || 0)));
+      if (!n) return '';
+      const m = Math.floor(n / 60);
+      const s = n % 60;
+      if (!m) return `${s}s`;
+      return `${m}m ${String(s).padStart(2, '0')}s`;
+    }
+
+    function callMatchName(call) {
+      return call.visitor_label
+        || call.visitor_contact_name
+        || call.visitor_contact_company
+        || [call.submission_first_name, call.submission_last_name].filter(Boolean).join(' ')
+        || call.submission_company
+        || call.visitor_contact_email
+        || call.submission_email
+        || '';
+    }
+
+    function callSearchText(call) {
+      return `${call.caller_raw || ''} ${call.caller_phone_e164 || ''} ${call.caller_phone_digits || ''} ${call.mailbox || ''} ${call.transcript_snippet || ''} ${call.email_subject || ''} ${call.match_status || ''} ${call.match_confidence || ''} ${call.matched_visitor_id || ''} ${call.submission_first_name || ''} ${call.submission_last_name || ''} ${call.submission_company || ''} ${call.submission_email || ''} ${call.submission_phone || ''} ${call.visitor_label || ''} ${call.visitor_contact_name || ''} ${call.visitor_contact_company || ''} ${call.visitor_contact_email || ''} ${call.visitor_contact_phone || ''}`;
+    }
+
+    function renderCalls(calls) {
+      if (!callsContainer) return;
+      if (!calls.length) {
+        callsContainer.innerHTML = '<div class="empty">No phone leads in this range.</div>';
+        return;
+      }
+
+      const body = calls.map(call => {
+        const caller = call.caller_raw || call.caller_phone_e164 || 'Unknown caller';
+        const rawTranscript = String(call.transcript_snippet || '');
+        const transcript = Number(call.transcript_available || 0)
+          ? rawTranscript.slice(0, 260)
+          : 'No transcript available';
+        const transcriptText = transcript + (rawTranscript.length > 260 ? '...' : '');
+        const matched = Boolean(call.matched_visitor_id || call.matched_submission_id);
+        const matchName = callMatchName(call);
+        const matchText = matched
+          ? (matchName ? `Matched: ${matchName}` : 'Matched by phone')
+          : 'Unmatched';
+        const gmailUrl = safeHttpUrl(call.source_display_url || '');
+        return `
+          <tr>
+            <td>${esc(call.created_at ? formatWhen(call.created_at) : '')}</td>
+            <td><strong>${esc(caller)}</strong><br><span class="attrib-muted">${esc(call.caller_phone_e164 || '')}</span></td>
+            <td>${esc(call.mailbox || '')}</td>
+            <td>${esc(formatDuration(call.duration_seconds))}</td>
+            <td><div class="call-transcript">${esc(transcriptText)}</div></td>
+            <td><span class="call-match ${matched ? 'matched' : 'unmatched'}">${esc(matchText)}</span>${call.matched_visitor_id ? `<br><span class="attrib-muted">${esc(String(call.matched_visitor_id).slice(0, 12))}</span>` : ''}</td>
+            <td>${gmailUrl ? `<a class="va-link" href="${esc(gmailUrl)}" target="_blank" rel="noopener">Gmail &#8599;</a>` : '<span class="attrib-muted">Gmail</span>'}</td>
+          </tr>`;
+      }).join('');
+
+      callsContainer.innerHTML = `
+        <table class="calls-table">
+          <colgroup>
+            <col style="width:130px">
+            <col style="width:190px">
+            <col style="width:110px">
+            <col style="width:80px">
+            <col style="width:420px">
+            <col style="width:220px">
+            <col style="width:90px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Caller</th>
+              <th>Mailbox</th>
+              <th>Length</th>
+              <th>Transcript</th>
+              <th>Match</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>${body}</tbody>
+        </table>`;
     }
 
     // ── Search filter ──────────────────────────────────────────
@@ -1533,6 +1702,7 @@ const isDevDashboard = import.meta.env.DEV;
       const type = String(event.event_type || 'pageview');
       if (type === 'pageview') return 0;
       if (type === 'phone_click') return 1;
+      if (type === 'phone_voicemail') return 2;
       if (type === 'email_click') return 2;
       if (type === 'form_submit') return 3;
       return 4;
@@ -1557,6 +1727,12 @@ const isDevDashboard = import.meta.env.DEV;
       if (type === 'phone_click') {
         label = `Clicked to call ${target || 'phone number'}`;
         detail = [meta.link_text, path].filter(Boolean).join(' / ');
+      } else if (type === 'phone_voicemail') {
+        label = `Left voicemail ${target || 'phone lead'}`;
+        const duration = formatDuration(meta.duration_seconds);
+        const mailbox = meta.mailbox ? `Mailbox: ${meta.mailbox}` : '';
+        const transcript = meta.link_text ? String(meta.link_text).slice(0, 180) : 'No transcript available';
+        detail = [mailbox, duration, transcript].filter(Boolean).join(' / ');
       } else if (type === 'email_click') {
         label = `Clicked email ${target || 'email address'}`;
         detail = [meta.link_text, path].filter(Boolean).join(' / ');
@@ -1833,14 +2009,32 @@ const isDevDashboard = import.meta.env.DEV;
       renderTable(pageSlice(leadsFiltered, leadsPage));
       renderPager(leadsPager, leadsFiltered.length, leadsPage, 'leads');
       const returning = leadsFiltered.filter(isReturningRecord).length;
-      countBadge.textContent =
-        `${leadsFiltered.length} ${leadsFiltered.length === 1 ? 'entry' : 'entries'} · ${returning} returning${dataTruncated ? ' · showing newest 10k' : ''}`;
 
       // Visitors — renderVisitorDirectory applies the known-only view + pagination.
       const visitorsFiltered = allVisitors.filter(visitor =>
         visitorProfileSearchText(visitor).toLowerCase().includes(q)
       );
       renderVisitorDirectory(visitorsFiltered);
+
+      const callsFiltered = allCalls.filter(call =>
+        callSearchText(call).toLowerCase().includes(q)
+      );
+      renderCalls(callsFiltered);
+
+      if (activeView === 'calls') {
+        countBadge.textContent =
+          `${callsFiltered.length} phone lead${callsFiltered.length === 1 ? '' : 's'}${callsTruncated ? ' · showing newest 10k' : ''}`;
+      } else if (activeView === 'activity' || activeView === 'known') {
+        const submitted = submittedVisitorIdSet();
+        const visitorTotal = knownOnly
+          ? visitorsFiltered.filter(v => isIdentifiedVisitor(v, submitted)).length
+          : visitorsFiltered.length;
+        countBadge.textContent =
+          `${visitorTotal} visitor${visitorTotal === 1 ? '' : 's'}${visitorsTruncated ? ' · showing newest 10k' : ''}`;
+      } else {
+        countBadge.textContent =
+          `${leadsFiltered.length} ${leadsFiltered.length === 1 ? 'entry' : 'entries'} · ${returning} returning${dataTruncated ? ' · showing newest 10k' : ''}`;
+      }
     }
 
     searchInput.addEventListener('input', () => { leadsPage = 1; visitorsPage = 1; applySearch(); });
@@ -2176,20 +2370,23 @@ const isDevDashboard = import.meta.env.DEV;
     const panelActivity = document.getElementById('panel-activity');
     const panelSubmissions = document.getElementById('panel-submissions');
     const panelPages = document.getElementById('panel-pages');
+    const panelCalls = document.getElementById('panel-calls');
     const activityTitle = document.getElementById('activity-title');
 
     function setView(view) {
+      activeView = view;
       navItems.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
       const showActivity = (view === 'activity' || view === 'known');
       panelActivity.classList.toggle('active', showActivity);
       panelSubmissions.classList.toggle('active', view === 'submissions');
       if (panelPages) panelPages.classList.toggle('active', view === 'pages');
+      if (panelCalls) panelCalls.classList.toggle('active', view === 'calls');
       knownOnly = (view === 'known');
       if (activityTitle) {
         activityTitle.textContent = knownOnly ? 'Known visitors' : 'Visitor activity';
       }
       visitorsPage = 1;
-      if (showActivity) applySearch();
+      applySearch();
     }
 
     navItems.forEach(btn => {
