@@ -2024,6 +2024,11 @@ const isDevDashboard = import.meta.env.DEV;
       if (activeView === 'calls') {
         countBadge.textContent =
           `${callsFiltered.length} phone lead${callsFiltered.length === 1 ? '' : 's'}${callsTruncated ? ' · showing newest 10k' : ''}`;
+      } else if (activeView === 'pages') {
+        const pageRows = (pagesData && pagesData[pagesTab]) || [];
+        const pageLabel = pagesTab === 'top' ? 'page' : `${pagesTab} page`;
+        countBadge.textContent =
+          `${pageRows.length} ${pageLabel}${pageRows.length === 1 ? '' : 's'}`;
       } else if (activeView === 'activity' || activeView === 'known') {
         const submitted = submittedVisitorIdSet();
         const visitorTotal = knownOnly

@@ -22,11 +22,11 @@ It is designed to warn early if:
 - Google Ads form conversions exceed GA4 form leads, suggesting Ads conversion drift or page-view junk counting again.
 - A new D1 `form_type` or GA4 `lead_form` appears without being mapped.
 
-The work is implemented locally and bundles successfully, but it is not live yet.
+The work shipped live in the coordinated 2026-06-26 release with phone-lead ingestion.
 
 ## Current Activation State
 
-Implemented locally:
+Activated live:
 
 - Shared monitor rules: `lead-reconciliation-core.mjs`
 - Local diagnostic wrapper: `reconcile-leads.mjs`
@@ -35,19 +35,10 @@ Implemented locally:
 - Test file: `lead-reconciliation-core.test.mjs`
 - npm shortcuts: `package.json`
 - Runbook update: `CONVERSION_TRACKING_VERIFICATION.md`
-
-Not activated live:
-
-- The Worker currently has only these secrets:
-  - `ADMIN_PASSWORD`
-  - `RESEND_API_KEY`
-- The Worker still needs Google read-only secrets before the cloud monitor can run:
-  - `GOOGLE_OAUTH_CLIENT_ID`
-  - `GOOGLE_OAUTH_CLIENT_SECRET`
-  - `GA4_REFRESH_TOKEN`
-  - `GOOGLE_ADS_REFRESH_TOKEN`
-  - `GOOGLE_ADS_DEVELOPER_TOKEN`
-- The repo worktree also contains unrelated active dashboard and phone-lead ingestion edits. Do not deploy the Worker blindly from the dirty working tree unless those changes are intentionally included.
+- Cloudflare Worker version: `0cb57652-dbee-4dd5-9768-4d3a840dac52`
+- Worker URL: `https://dolphin-contact-form.dolphin-centrifuge.workers.dev`
+- Cron: `30 14 * * *`
+- Google read-only Worker secrets were set non-interactively from existing local credentials under `%APPDATA%\gcloud`; no owner copy-paste was used and no secret values were stored in the repo, Obsidian, GitHub, chat, or markdown.
 
 ## Files Changed Or Added For This Monitor
 
@@ -384,28 +375,17 @@ Reasons:
    - schema additions for calls
 4. Deploying the Worker from the dirty tree would ship more than the drift monitor.
 
-Recommended activation path:
+Activation path completed:
 
-1. Merge or isolate the broader dashboard, phone-lead, and monitoring changes intentionally.
-2. Set the required Google read-only Worker secrets.
-3. Run Worker dry-run again.
-4. Run the local reconciliation wrapper again.
-5. Deploy the Worker only from an intentionally scoped tree.
-6. Run `GET /admin/lead-monitor` manually.
-7. Run `GET /admin/lead-monitor?send=1&force=1` once to verify the email channel.
-8. Let the cron run daily after that.
+1. Drift-monitor and phone-lead changes were split into clean commits and deployed from a clean release worktree.
+2. Google read-only Worker secrets were set through a temporary local script that read the existing credential files under `%APPDATA%\gcloud` and piped values to `wrangler secret put`.
+3. Worker dry-run, syntax checks, unit tests, local reconciliation, D1 migration, Worker deploy, and Pages deploy passed.
+4. Unauthenticated `/admin/lead-monitor` and `/admin/calls` live checks returned 401 as expected.
+5. Authenticated `/admin/lead-monitor`, forced email smoke, and Gmail voicemail ingest were not run because this Codex shell did not have the dashboard admin token or Gmail readonly token available. Claude or the next authenticated auditor should run those with the secure token already available, not by pasting secrets into chat.
 
 ## Required Worker Secrets
 
-Set these with `wrangler secret put` from `workers/contact-form`.
-
-```bash
-npx wrangler secret put GOOGLE_OAUTH_CLIENT_ID
-npx wrangler secret put GOOGLE_OAUTH_CLIENT_SECRET
-npx wrangler secret put GA4_REFRESH_TOKEN
-npx wrangler secret put GOOGLE_ADS_REFRESH_TOKEN
-npx wrangler secret put GOOGLE_ADS_DEVELOPER_TOKEN
-```
+For this release, these were set by an automated local script using existing credential files under `%APPDATA%\gcloud`, then piping each value to `wrangler secret put` without printing values. Future rotations should use that same no-copy-paste pattern.
 
 Do not store secret values in:
 
@@ -579,12 +559,10 @@ Dirty worktree:
 2. Review the Worker route and scheduled handler in `workers/contact-form/index.js`.
 3. Decide whether the monitor should remain inside the contact-form Worker or move into a separate monitoring Worker later.
 4. Coordinate with phone-lead ingestion before deploying the Worker, because those edits are currently in the same Worker file.
-5. Set Google read-only Worker secrets.
-6. Run manual `/admin/lead-monitor` and confirm JSON output.
-7. Send one forced test email with `?send=1&force=1`.
-8. Deploy the Worker only after the full dashboard and phone-lead changes are intentionally scoped.
-9. Add a "Lead Tracking Health" section to the main dashboard using the same labels and source roles above.
-10. Keep the local `reconcile-leads.mjs` wrapper as a fast diagnostic tool for audits and future debugging.
+5. With a secure admin token available, run manual `/admin/lead-monitor` and confirm JSON output.
+6. Send one forced test email with `?send=1&force=1`.
+7. Add a "Lead Tracking Health" section to the main dashboard using the same labels and source roles above.
+8. Keep the local `reconcile-leads.mjs` wrapper as a fast diagnostic tool for audits and future debugging.
 
 ## Short Copy-Paste Handoff
 
