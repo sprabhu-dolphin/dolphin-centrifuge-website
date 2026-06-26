@@ -1411,16 +1411,29 @@ const isDevDashboard = import.meta.env.DEV;
       return set;
     }
 
-    function visitorSourcePill(visitor) {
+    function visitorHasPaidOrigin(visitor) {
       const src = String(visitor.source || '').toLowerCase();
       const med = String(visitor.medium || '').toLowerCase();
       const urls = [visitor.first_landing_page, visitor.last_page, visitor.referrer].filter(Boolean).join(' ').toLowerCase();
-      const hasPaid = Boolean(visitor.gclid || visitor.gbraid || visitor.wbraid)
+      return Boolean(visitor.gclid || visitor.gbraid || visitor.wbraid)
         || ['cpc', 'ppc', 'paid'].includes(med)
         || src.includes('googleads')
         || src.includes('gclid')
         || urls.includes('googleads')
         || urls.includes('gclid');
+    }
+
+    function visitorPaidDetail(visitor) {
+      if (visitor.gclid) return 'Google Ads click (gclid)';
+      if (visitor.gbraid) return 'Google Ads click (gbraid)';
+      if (visitor.wbraid) return 'Google Ads click (wbraid)';
+      return 'Paid traffic signal';
+    }
+
+    function visitorSourcePill(visitor) {
+      const src = String(visitor.source || '').toLowerCase();
+      const med = String(visitor.medium || '').toLowerCase();
+      const hasPaid = visitorHasPaidOrigin(visitor);
 
       if (hasPaid) {
         return '<span class="va-pill va-pill-ads">Paid &middot; Google</span>';
@@ -1690,7 +1703,7 @@ const isDevDashboard = import.meta.env.DEV;
         const srcL = String(visitor.source || '').toLowerCase();
         const hasIdentity = Boolean(visitor.contact_name || visitor.contact_email || visitor.contact_phone || visitor.label);
         const hasConversion = isFiller;
-        const hasPaid = Boolean(visitor.gclid);
+        const hasPaid = visitorHasPaidOrigin(visitor);
         const hasSource = Boolean(visitor.term) || (srcL && srcL !== 'direct' && srcL !== '(direct)' && srcL !== 'none');
         const dots = [hasIdentity, hasConversion, hasPaid, isReturning, hasSource].filter(Boolean).length;
         const fullCircle = hasIdentity && hasConversion && (hasPaid || hasSource);
@@ -1702,7 +1715,7 @@ const isDevDashboard = import.meta.env.DEV;
         const signalRows = [
           { on: hasIdentity, label: 'Identity', detail: esc(visitor.contact_name || visitor.contact_email || visitor.contact_phone || visitor.label || '') },
           { on: hasConversion, label: 'Filled a form', detail: 'Submitted a lead form' },
-          { on: hasPaid, label: 'Paid click', detail: 'Google Ads click (gclid)' },
+          { on: hasPaid, label: 'Paid click', detail: visitorPaidDetail(visitor) },
           { on: isReturning, label: 'Returning', detail: '&times;' + visits + ' visits' },
           { on: hasSource, label: 'Traffic source', detail: sourceDetail },
         ];
