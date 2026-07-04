@@ -34,7 +34,10 @@ const configPath = path.join(gcloudDir, 'dolphin-google-ads-config.json');
 const customerId = '3917484159';
 const loginCustomerId = '6124315358';
 
-const monitorDir = path.join('D:', 'Business Docs', 'GoogleAds_Audit_Monitoring');
+// D: is a removable drive on this machine; fall back to a local path when it's not mounted.
+const monitorDir = existsSync('D:\\Business Docs')
+  ? 'D:\\Business Docs\\GoogleAds_Audit_Monitoring'
+  : path.join(os.homedir(), 'Documents', 'GoogleAds_Audit_local', 'Monitoring');
 const statePath = path.join(monitorDir, 'bleed-scan-state.json');
 const rollingLog = path.join(monitorDir, 'bleed-scan-log.csv');
 

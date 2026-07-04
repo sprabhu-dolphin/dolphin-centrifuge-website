@@ -134,7 +134,10 @@ async function searchStream(args, customerId, query) {
 }
 
 function workdir(args) {
-  return args.workdir || path.join('D:', 'Business Docs', `GoogleAds_Audit_${today()}`);
+  if (args.workdir) return args.workdir;
+  // D: is a removable drive on this machine; fall back to a local path when it's not mounted.
+  const base = existsSync('D:\\Business Docs') ? 'D:\\Business Docs' : path.join(os.homedir(), 'Documents', 'GoogleAds_Audit_local');
+  return path.join(base, `GoogleAds_Audit_${today()}`);
 }
 async function snapshot(args, name, data) {
   const p = path.join(workdir(args), 'snapshots', `${name}_${stamp()}.json`);
@@ -280,6 +283,63 @@ async function addNegatives(args) {
   console.log(`LIVE: added ${toAdd.length} negative keywords.`);
 }
 
+/* ---- convert-to-exact ---- */
+// TIER: RED per CLAUDE.md Growth Ops rules - never run without explicit per-run approval
+async function convertToExact(args) {
+  const customerId = normalizeId(args['customer-id'] || defaultCustomerId);
+
+  const phrase = await searchStream(args, customerId, `
+    SELECT ad_group.id, ad_group.name, ad_group_criterion.resource_name, ad_group_criterion.keyword.text
+    FROM keyword_view
+    WHERE campaign.status='ENABLED' AND ad_group.status='ENABLED' AND ad_group_criterion.status='ENABLED'
+      AND ad_group_criterion.negative=FALSE AND ad_group_criterion.keyword.match_type='PHRASE'
+    ORDER BY ad_group.id`);
+  if (!phrase.length) { console.log('No active phrase keywords found. Nothing to convert.'); return; }
+
+  // Dedup against exact keywords that already exist (any non-removed status) in the same ad group.
+  const existingExact = await searchStream(args, customerId, `
+    SELECT ad_group.id, ad_group_criterion.keyword.text
+    FROM keyword_view
+    WHERE ad_group_criterion.negative=FALSE AND ad_group_criterion.keyword.match_type='EXACT'
+      AND ad_group_criterion.status!='REMOVED'`);
+  const exactSet = new Set(existingExact.map((r) => `${r.adGroup.id}|${(r.adGroupCriterion.keyword.text || '').toLowerCase()}`));
+
+  const creates = [];
+  const pauses = [];
+  const plan = [];
+  for (const r of phrase) {
+    const agId = r.adGroup.id;
+    const text = r.adGroupCriterion.keyword.text;
+    const rn = r.adGroupCriterion.resourceName;
+    const dupe = exactSet.has(`${agId}|${text.toLowerCase()}`);
+    if (!dupe) creates.push({ create: { adGroup: `customers/${customerId}/adGroups/${agId}`, status: 'ENABLED', keyword: { text, matchType: 'EXACT' } } });
+    pauses.push({ update: { resourceName: rn, status: 'PAUSED' }, updateMask: 'status' });
+    plan.push({ adGroup: r.adGroup.name, text, createExact: !dupe });
+  }
+
+  await snapshot(args, 'phrase_keywords_before', phrase.map((r) => ({ adGroup: r.adGroup.name, adGroupId: r.adGroup.id, text: r.adGroupCriterion.keyword.text, resourceName: r.adGroupCriterion.resourceName })));
+  const operations = [...creates, ...pauses];
+  await proposed(args, 'convert_to_exact', { operations });
+
+  console.log('DRY-RUN: convert-to-exact');
+  console.log(`  Active phrase keywords: ${phrase.length} | EXACT twins to create: ${creates.length} | phrase to pause: ${pauses.length} | already-exact (skip create): ${phrase.length - creates.length}`);
+  for (const p of plan) console.log(`  [${p.adGroup}] "${p.text}" -> ${p.createExact ? 'create EXACT + ' : '(exact exists) '}pause PHRASE`);
+  if (!args.confirm) { console.log('  No live change. Re-run with --confirm to execute.'); return; }
+
+  // Mixed create+update in chunks; partial failure off so a bad op surfaces loudly rather than silently skipping.
+  const chunk = 100;
+  const results = [];
+  for (let i = 0; i < operations.length; i += chunk) {
+    const batch = operations.slice(i, i + chunk);
+    const res = await adsFetch(args, `https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/adGroupCriteria:mutate`, {
+      method: 'POST', body: JSON.stringify({ operations: batch })
+    });
+    results.push(res);
+  }
+  await changeLog(args, 'convert_to_exact', { action: 'convert-to-exact', created: creates.length, paused: pauses.length, plan, results });
+  console.log(`LIVE: created ${creates.length} exact keywords, paused ${pauses.length} phrase keywords.`);
+}
+
 function usage() {
   console.log(`Google Ads LOCKDOWN helper (gated writes). Dry-run unless --confirm.
 
@@ -298,6 +358,7 @@ async function main() {
   if (command === 'set-budget') return setBudget(args);
   if (command === 'dismiss-recs') return dismissRecs(args);
   if (command === 'add-negatives') return addNegatives(args);
+  if (command === 'convert-to-exact') return convertToExact(args);
   throw new Error(`Unknown command: ${command}`);
 }
 
