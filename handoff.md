@@ -2,6 +2,15 @@
 
 Use this file to restart the AEO/GEO optimization exercise in a fresh chat.
 
+LEAD-VALUE PRIORITY (post-launch): PAGE_QUEUE.md in the dolphin-growth-ops
+repo (github.com/sprabhu-dolphin/dolphin-growth-ops) ranks pages by GSC trend
+x D1 lead attribution. When choosing the next page for post-launch AEO/GEO
+work, prefer the highest-ranked open PAGE_QUEUE entry. A PAGE_QUEUE entry may
+name a page already marked PASS - that is a re-audit request driven by
+performance data, scoped by Sanjay per page, and it does not reopen the page's
+PASS status by itself. This repo's own log remains authoritative for
+sequencing conflicts. Only Codex marks PASS. Codex never edits PAGE_QUEUE.md.
+
 ## Current Mission
 
 Improve the Dolphin Centrifuge Astro site for AEO/GEO and AI answer-engine visibility without delaying launch beyond the agreed gate.
