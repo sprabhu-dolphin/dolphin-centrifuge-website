@@ -1,5 +1,10 @@
 # Codex Gmail Connector Diagnostics
 
+> **2026-07-04 update - permanent fix shipped.** Gmail automation no longer depends on
+> this connector at all: use `gmail-helper.mjs` (direct Gmail API, local tokens under
+> `%APPDATA%\gcloud`). See `GMAIL_HELPER_HANDOFF_CODEX.md` and the Gmail Rule in
+> `AGENTS.md`. This note remains as the connector failure-classification reference.
+
 This note captures what we currently know about the intermittent Gmail connector failures in Codex Desktop.
 
 ## Current conclusion
