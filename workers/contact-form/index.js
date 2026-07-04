@@ -1138,6 +1138,10 @@ async function handleAdminWeeklyReport(request, env) {
 
   const url = new URL(request.url);
   const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') || 14)));
+  // Private fields (e.g. email) are opt-in only: ?include=email keeps them out of the default report.
+  const includeFields = String(url.searchParams.get('include') || '')
+    .split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+  const includeEmail = includeFields.includes('email');
   const since = new Date(Date.now() - days * 86400000).toISOString();
   const generatedAt = new Date().toISOString();
 
@@ -1240,17 +1244,19 @@ async function handleAdminWeeklyReport(request, env) {
       success: true,
       generated_at: generatedAt,
       window_days: days,
-      leads: leads.map(r => ({
-        date: String(r.created_at || '').slice(0, 10),
-        name: [r.contact_name || r.first_name, r.last_name].filter(Boolean).join(' ').trim() || '',
-        company: r.contact_company || r.company || '',
-        grade: r.grade || null,
-        source: [r.attribution_source, r.attribution_medium].filter(Boolean).join('/') || 'direct',
-        paid: Boolean(r.attribution_gclid),
-        landing_page: r.attribution_landing_page || '',
-        form_type: r.form_type || 'contact',
-        email: r.email || '',
-      })),
+      leads: leads.map(r => {
+        const lead = {
+          date: String(r.created_at || '').slice(0, 10),
+          name: [r.contact_name || r.first_name, r.last_name].filter(Boolean).join(' ').trim() || '',
+          company: r.contact_company || r.company || '',
+          grade: r.grade || null,
+          source: [r.attribution_source, r.attribution_medium].filter(Boolean).join('/') || 'direct',
+          landing_page: r.attribution_landing_page || '',
+        };
+        // email is private and leaves the auth boundary once saved — opt-in only via ?include=email.
+        if (includeEmail) lead.email = r.email || '';
+        return lead;
+      }),
       counts: {
         pageviews,
         sessions,
