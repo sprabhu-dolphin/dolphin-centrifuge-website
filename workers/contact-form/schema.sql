@@ -131,7 +131,8 @@ CREATE TABLE IF NOT EXISTS visitor_profiles (
   alert_enabled           INTEGER NOT NULL DEFAULT 0,
   alert_email             TEXT NOT NULL DEFAULT '',
   last_alerted_session_id TEXT NOT NULL DEFAULT '',
-  notes                   TEXT NOT NULL DEFAULT ''
+  notes                   TEXT NOT NULL DEFAULT '',
+  grade                   TEXT DEFAULT NULL   -- lead grade: 'A' | 'B' | 'C' | NULL (ungraded); see schema-grade-v3.sql
 );
 
 CREATE TABLE IF NOT EXISTS visitor_events (
@@ -189,6 +190,7 @@ CREATE TABLE IF NOT EXISTS calls (
 
 CREATE INDEX IF NOT EXISTS idx_visitor_profiles_last_seen ON visitor_profiles(last_seen_at);
 CREATE INDEX IF NOT EXISTS idx_visitor_profiles_alert ON visitor_profiles(alert_enabled);
+CREATE INDEX IF NOT EXISTS idx_visitor_profiles_grade ON visitor_profiles(grade);
 CREATE INDEX IF NOT EXISTS idx_visitor_profiles_contact_email ON visitor_profiles(contact_email);
 CREATE INDEX IF NOT EXISTS idx_visitor_profiles_contact_phone ON visitor_profiles(contact_phone);
 CREATE INDEX IF NOT EXISTS idx_visitor_events_visitor_id ON visitor_events(visitor_id);

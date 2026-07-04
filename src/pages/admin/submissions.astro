@@ -708,6 +708,139 @@ const isDevDashboard = import.meta.env.DEV;
     .va-pill-org-g { background: #e3f4e8; color: #1f7a3d; }
     .va-pill-org-b { background: #e2eef7; color: #1d5d86; }
 
+    /* ── AI-referral GEO chip ────────────────────────────────── */
+    .va-pill-ai { background: #f3e8ff; color: #6b21a8; }
+
+    /* ── StatCounter compact row anatomy (2-line, fixed-height) ─ */
+    .va-log-sc {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e3e9f0;
+      border-radius: 8px;
+      overflow: visible;
+      background: #fff;
+    }
+    .va-row-sc {
+      border-top: 1px solid #eef2f7;
+      padding: 7px 10px 7px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      transition: background 0.1s;
+      position: relative;
+    }
+    .va-row-sc:first-child { border-top: 0; }
+    .va-row-sc:hover { background: #f7fafd; }
+    .va-row-sc.identified { background: #eef4fc; }
+    .va-row-sc.identified:hover { background: #e5eef9; }
+    .va-row-sc.va-connected { background: #fff7e6; box-shadow: inset 4px 0 0 #e0a93a; }
+    .va-row-sc.va-connected:hover { background: #fff3d6; }
+    .va-row-sc.va-fullcircle { background: #fff2cc; box-shadow: inset 4px 0 0 #c9920a; }
+    .va-row-sc.va-fullcircle:hover { background: #ffedb5; }
+    .va-row-sc-body { flex: 1; min-width: 0; }
+    /* Line 1: meta row */
+    .va-line1 {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 0.79rem;
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+    .va-l1-time { color: #6a7a8c; white-space: nowrap; font-size: 0.73rem; margin-right: 4px; flex: none; }
+    .va-l1-geo { display: flex; align-items: center; gap: 4px; white-space: nowrap; font-weight: 600; color: #16335c; }
+    .va-l1-isp { color: #6a7a8c; font-size: 0.72rem; white-space: nowrap; }
+    /* Line 2: page/referrer/keyword row */
+    .va-line2 {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.74rem;
+      line-height: 1.3;
+      color: #6a7a8c;
+    }
+    .va-l2-page { color: #2e6fbf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; text-decoration: none; }
+    .va-l2-page:hover { text-decoration: underline; }
+    .va-l2-ref  { color: #6a7a8c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; text-decoration: none; }
+    .va-l2-ref:hover { text-decoration: underline; }
+    .va-l2-kw   { background: #fef9c3; color: #7a5b00; padding: 0 5px; border-radius: 3px; white-space: nowrap; }
+    .va-l2-sep  { color: #c7d4e2; }
+    /* Small chip base (inline on Line 1) */
+    .va-chip {
+      display: inline-flex; align-items: center; gap: 2px;
+      padding: 0 6px; height: 18px; border-radius: 9px;
+      font-size: 0.64rem; font-weight: 700; white-space: nowrap;
+      vertical-align: middle; line-height: 1;
+      border: 1px solid transparent;
+    }
+    .va-chip-id   { background: #e0eeff; color: #1a4fa0; border-color: #b3d0f5; }
+    .va-chip-grade-a { background: #dcfce7; color: #15803d; border-color: #86efac; }
+    .va-chip-grade-b { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+    .va-chip-grade-c { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+    .va-chip-grade-empty {
+      background: transparent; color: #94a3b8; border: 1px dashed #cbd5e1;
+      cursor: pointer;
+    }
+    .va-chip-grade-empty:hover { border-color: #94a3b8; color: #64748b; }
+    .va-chip-ai   { background: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
+    .va-chip-action { background: #f8fafc; color: #334155; border-color: #e2e8f0; }
+    .va-chip-action-phone { background: #fde8c0; color: #8a5a00; border-color: #fcd7a0; }
+    .va-chip-action-email { background: #e2eef7; color: #1d5d86; border-color: #b0d4ee; }
+    .va-chip-action-form  { background: #eaf6ee; color: #0f6e56; border-color: #a7dfbe; }
+    /* Visit # badge */
+    .va-visitbadge {
+      display: inline-flex; align-items: center;
+      background: #eef2f7; color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px; padding: 0 6px; height: 18px;
+      font-size: 0.64rem; font-weight: 700; white-space: nowrap;
+    }
+    /* RETURNING badge */
+    .va-retbadge {
+      display: inline-flex; align-items: center;
+      background: #fdf2c9; color: #7a5b00;
+      border: 1px solid #e8c204;
+      border-radius: 9px; padding: 0 7px; height: 18px;
+      font-size: 0.64rem; font-weight: 700; letter-spacing: 0.03em;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    /* Magnify (expand) button — right edge */
+    .va-magnify {
+      flex: none; margin-left: 10px; margin-top: 2px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #eef4fc; border: 1px solid #c7d4e2;
+      color: #2e6fbf; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; transition: background 0.15s;
+    }
+    .va-magnify:hover { background: #d9eaf8; border-color: #9db8dd; }
+    .va-row-sc.va-detail-open .va-magnify { background: #2e6fbf; color: #fff; border-color: #2e6fbf; }
+    /* Detail panel — slides in below the row */
+    .va-detail-sc {
+      display: none;
+      padding: 12px 14px 16px 14px;
+      border-top: 1px dashed #e3e9f0;
+      background: #fafcff;
+      gap: 6px;
+    }
+    .va-detail-sc.open {
+      display: grid;
+    }
+    /* Row wrapper groups a compact row with its detail panel */
+    .va-vrow { border-top: 1px solid #eef2f7; }
+    .va-vrow:first-child { border-top: 0; }
+    .va-vrow > .va-row-sc { border-top: 0; cursor: pointer; }
+    /* Browser / OS inline-SVG marker — Windows-safe (no flag-emoji trap), no favicons, no icon font */
+    .va-osmark { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+    .va-osmark .va-osmark-txt { color: #6a7a8c; font-size: 0.72rem; }
+    .va-bico, .va-osico { width: 13px; height: 13px; display: inline-block; vertical-align: -2px; flex: none; }
+    /* Expand chevron flips when the detail panel is open */
+    .va-magnify svg { transition: transform 0.15s; display: block; }
+    .va-row-sc.va-detail-open .va-magnify svg { transform: rotate(180deg); }
+    .va-detail-sc .attrib-line { margin: 0; }
+
     /* Country flag image (StatCounter look) + raw-code fallback when the flag can't render */
     .va-flag { display: inline-block; width: 20px; height: 15px; vertical-align: -2px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.10); }
     .va-cc { color: #6a7a8c; }
@@ -929,6 +1062,58 @@ const isDevDashboard = import.meta.env.DEV;
       line-height: 1.45;
       max-width: 520px;
     }
+
+    /* ── Inline grade select (Line 1) ─────────────────────────── */
+    .va-grade-select {
+      height: 18px; padding: 0 4px;
+      border: 1px solid #cbd5e1; border-radius: 9px;
+      font-size: 0.65rem; font-weight: 700;
+      background: #f8fafc; color: #475569;
+      cursor: pointer; outline: none;
+      vertical-align: middle;
+    }
+    .va-grade-select.grade-a { background: #dcfce7; color: #15803d; border-color: #86efac; }
+    .va-grade-select.grade-b { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+    .va-grade-select.grade-c { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+    /* Grade control inside the Save Visitor panel */
+    .visitor-grade-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .visitor-grade-label { font-size: 0.75rem; font-weight: 700; color: #475569; }
+    .visitor-grade-input { padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.8rem; background: #fff; color: #16335c; cursor: pointer; }
+    .visitor-grade-hint { font-size: 0.68rem; color: #94a3b8; }
+
+    /* ── Filter bar (below toolbar) ───────────────────────────── */
+    .sc-filter-bar {
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .sc-filter-label {
+      font-size: 0.72rem; font-weight: 700; color: #6a7a8c;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px;
+    }
+    .sc-filter-btn {
+      border: 1px solid #c7d4e2; border-radius: 20px;
+      background: #fff; color: #16335c;
+      padding: 4px 12px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .sc-filter-btn:hover { background: #eef4fc; border-color: #9db8dd; }
+    .sc-filter-btn.active { background: #1f4575; color: #fff; border-color: #1f4575; }
+
+    /* ── Weekly report button in topbar ──────────────────────── */
+    #weekly-report-btn {
+      background: transparent;
+      border: 1px solid #c7d4e2;
+      color: #2f6db5;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    #weekly-report-btn:hover { background: #2f6db5; color: #fff; border-color: #2f6db5; }
   </style>
 </head>
 <body>
@@ -984,6 +1169,7 @@ const isDevDashboard = import.meta.env.DEV;
         <div class="sc-topbar-title">Dolphincentrifuge.com</div>
         <div class="sc-topbar-right">
           <span class="sc-admin-tag">Admin</span>
+          <button id="weekly-report-btn" title="Download 14-day growth-ops report">📊 Weekly Report</button>
           <button id="logout-btn">Log Out</button>
         </div>
       </div>
@@ -996,6 +1182,7 @@ const isDevDashboard = import.meta.env.DEV;
             <option value="all">All time</option>
             <option value="today">Today</option>
             <option value="7d">Last 7 days</option>
+            <option value="14d">Last 14 days</option>
             <option value="30d" selected>Last 30 days</option>
             <option value="month">This month</option>
             <option value="custom">Custom…</option>
@@ -1009,6 +1196,15 @@ const isDevDashboard = import.meta.env.DEV;
             <option value="200">200 / page</option>
           </select>
           <span id="count-badge">Loading…</span>
+        </div>
+
+        <!-- Filter bar for the Visitor Activity view -->
+        <div class="sc-filter-bar" id="visitor-filter-bar">
+          <span class="sc-filter-label">Filter:</span>
+          <button type="button" class="sc-filter-btn" id="filter-identified" data-filter="identified">👤 Identified only</button>
+          <button type="button" class="sc-filter-btn" id="filter-graded" data-filter="graded">🏅 Graded only</button>
+          <button type="button" class="sc-filter-btn" id="filter-paid" data-filter="paid">💰 Paid only</button>
+          <button type="button" class="sc-filter-btn" id="filter-ai" data-filter="ai">🤖 AI-referral only</button>
         </div>
 
         <!-- Visitor activity / Known visitors share this panel -->
@@ -1089,6 +1285,8 @@ const isDevDashboard = import.meta.env.DEV;
     let leadsPage = 1;
     let visitorsPage = 1;
     let activeView = 'activity';
+    // Visitor Activity toggle-filters (Last-14-days lives in the date preset).
+    const activeFilters = { identified: false, graded: false, paid: false, ai: false };
     let curStart = null;   // YYYY-MM-DD inclusive, or null = no lower bound
     let curEnd = null;     // YYYY-MM-DD inclusive, or null = no upper bound
     let dataTruncated = false;
@@ -1105,6 +1303,7 @@ const isDevDashboard = import.meta.env.DEV;
       if (preset === 'all') return { start: null, end: null };
       if (preset === 'today') return { start: end, end };
       if (preset === '7d') { const s = new Date(now); s.setUTCDate(s.getUTCDate() - 6); return { start: isoDay(s), end }; }
+      if (preset === '14d') { const s = new Date(now); s.setUTCDate(s.getUTCDate() - 13); return { start: isoDay(s), end }; }
       if (preset === '30d') { const s = new Date(now); s.setUTCDate(s.getUTCDate() - 29); return { start: isoDay(s), end }; }
       if (preset === 'month') { const s = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)); return { start: isoDay(s), end }; }
       return { start: null, end: null };
@@ -1607,6 +1806,10 @@ const isDevDashboard = import.meta.env.DEV;
       if (hasPaid) {
         return '<span class="va-pill va-pill-ads">Paid &middot; Google</span>';
       }
+      const ai = aiReferralInfo(visitor);
+      if (ai) {
+        return `<span class="va-pill va-pill-ai">AI &middot; ${esc(ai.name)}</span>`;
+      }
       if (med === 'organic' && src.includes('google')) {
         return '<span class="va-pill va-pill-org-g">Organic &middot; Google</span>';
       }
@@ -1837,6 +2040,68 @@ const isDevDashboard = import.meta.env.DEV;
     let dotsPopupEl = null;
     let dotsPopupAnchor = null;
 
+    // Scheme-guarded link for Line 2. last_page/referrer come from the public,
+    // unauthenticated tracking beacons, so only render an <a> for http(s); any
+    // other scheme falls back to inert text so the admin origin can't be a click sink.
+    function safeUrlLink(raw, cls) {
+      if (!raw) return '';
+      let safe = false, label = '';
+      try {
+        const u = new URL(String(raw), 'https://x');
+        safe = u.protocol === 'http:' || u.protocol === 'https:';
+      } catch (e) { safe = false; }
+      label = displayUrl(raw) || String(raw);
+      return safe
+        ? `<a class="${cls}" href="${esc(raw)}" target="_blank" rel="noopener" title="${esc(raw)}">${esc(label)}</a>`
+        : `<span class="${cls}" title="${esc(raw)}">${esc(label)}</span>`;
+    }
+
+    // Expanded detail panel for a visitor row — holds everything hidden from the
+    // compact row: cookie/GA/StatCounter IDs, full IP/UA/URLs, network, visit
+    // trail (timeline), plus the Save Visitor controls (incl. grade).
+    function renderVisitorRowDetail(visitor, visitorId) {
+      const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
+      const locCity = String(visitor.visitor_city || '').trim();
+      const locRegion = String(visitor.visitor_region || '').trim();
+      const location = [
+        locCity,
+        (locRegion && locRegion.toLowerCase() !== locCity.toLowerCase()) ? locRegion : '',
+        String(visitor.visitor_country || '').trim(),
+      ].filter(Boolean).join(', ');
+      const visits = Number(visitor.visit_count || 0);
+      const pageviews = Number(visitor.pageview_count || 0);
+      const ua = visitor.visitor_user_agent || '';
+      const uaDetails = ua
+        ? `<details class="attrib-details"><summary>${esc(browserSummary(ua))}</summary><div class="context-ua-text">${esc(ua)}</div></details>`
+        : '';
+      const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+      return `
+        <div class="attrib-panel">
+          <div class="attrib-source">Visitor detail</div>
+          ${attribLine('Cookie ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
+          ${attribLine('IP', visitor.visitor_ip ? esc(visitor.visitor_ip) : '')}
+          ${attribLine('Network / AS', network ? esc(network) : '')}
+          ${attribLine('Location', location ? esc(location) : '')}
+          ${attribLine('Language', visitor.visitor_accept_language ? esc(visitor.visitor_accept_language) : '')}
+          ${attribLine('CF-Ray', visitor.visitor_cf_ray ? esc(visitor.visitor_cf_ray) : '')}
+          ${attribLine('First seen', visitor.first_seen_at ? esc(formatWhen(visitor.first_seen_at)) : '')}
+          ${attribLine('Last seen', visitor.last_seen_at ? esc(formatWhen(visitor.last_seen_at)) : '')}
+          ${attribLine('Visits', visits ? esc(String(visits)) : '')}
+          ${attribLine('Page views', pageviews ? esc(String(pageviews)) : '')}
+          ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
+          ${attribLine('Source', sourceText ? esc(sourceText) : '')}
+          ${attribLine('Campaign', visitor.campaign ? esc(visitor.campaign) : '')}
+          ${attribLine('Landing page', visitor.first_landing_page ? esc(displayUrl(visitor.first_landing_page)) : '', 'attrib-path')}
+          ${attribLine('Current page', visitor.last_page ? esc(displayUrl(visitor.last_page)) : '', 'attrib-path')}
+          ${attribLine('Referrer', visitor.referrer ? esc(displayUrl(visitor.referrer)) : '', 'attrib-path')}
+          ${attribLine('GA client ID', visitor.ga_client_id ? esc(visitor.ga_client_id) : '')}
+          ${attribLine('StatCounter ID', visitor.statcounter_visitor_id ? esc(visitor.statcounter_visitor_id) : '')}
+          ${uaDetails}
+          ${visitorId ? renderVisitorTimelineShell(visitor) : ''}
+          ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
+        </div>`;
+    }
+
     function renderVisitorDirectory(visitors) {
       closeDotsPopup();
       const submitted = submittedVisitorIdSet();
@@ -1866,7 +2131,7 @@ const isDevDashboard = import.meta.env.DEV;
         return;
       }
 
-      visitorDirectory.innerHTML = `${heading}<div class="va-log">${shown.map(visitor => {
+      visitorDirectory.innerHTML = `${heading}<div class="va-log-sc">${shown.map(visitor => {
         const visitorId = visitor.visitor_id || '';
         const isFiller = submitted.has(visitorId);
         const name = visitorDisplayName(visitor);
@@ -1911,85 +2176,68 @@ const isDevDashboard = import.meta.env.DEV;
           : '';
         const sourcePill = visitorSourcePill(visitor);
 
-        // Identity header line — compact geo (flag + deduped "City, Region", no country text)
+        // Line 1 — geo (flag + deduped "City, Region"), ISP, browser/OS marker
         const geo = locationDisplay(visitor);
-        const anonIsp = visitor.visitor_as_organization || '';
-        const anonymousNameHtml = (geo.has || anonIsp)
-          ? `${geo.flagHtml ? geo.flagHtml + ' ' : ''}${esc(geo.loc)}${anonIsp ? ' <span class="va-company">&middot; ' + esc(anonIsp) + '</span>' : ''}`
-          : `Anonymous <span class="va-id">#${esc(String(visitor.visitor_id || '').slice(0, 12))}</span>`;
-        const nameHtml = name
-          ? `${esc(name)}${(visitor.contact_company && visitor.contact_company !== name) ? ' <span class="va-company">· ' + esc(visitor.contact_company) + '</span>' : ''}`
-          : anonymousNameHtml;
-        const filledBadge = isFiller ? '<span class="va-badge-filled">Filled Form</span>' : '';
-        const retBadge = isReturning ? `<span class="va-badge-ret">Returning ×${visits}</span>` : '';
-        const keyword = decipherKeyword(visitor);
+        const geoInner = geo.has
+          ? `${geo.flagHtml ? geo.flagHtml + ' ' : ''}${esc(geo.loc || '')}`
+          : `#${esc(String(visitorId).slice(0, 10))}`;
+        const geoHtml = `<span class="va-l1-geo">${geoInner}</span>`;
+        const isp = visitor.visitor_as_organization || '';
+        const ispHtml = isp ? `<span class="va-l1-isp">${esc(isp)}</span>` : '';
+        const osHtml = browserOsMarker(visitor.visitor_user_agent || '');
+        const timeHtml = `<span class="va-l1-time">${esc(formatWhen(visitor.last_seen_at))}</span>`;
 
-        // Column A
-        const system = browserSummary(visitor.visitor_user_agent || '');
-        // Column B — reuse the compact geo computed for the header line
-        const locationHtml = (geo.flagHtml ? geo.flagHtml + ' ' : '') + (geo.loc ? esc(geo.loc) : '');
-        const ispParts = [];
-        if (visitor.visitor_as_organization) ispParts.push(`<span class="va-isp">${esc(visitor.visitor_as_organization)}</span>`);
-        if (visitor.visitor_ip) ispParts.push(`(${esc(visitor.visitor_ip)})`);
-        const ispHtml = ispParts.join(' ');
-        const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ') || (visitor.referrer ? displayUrl(visitor.referrer) : '');
-        const lastPageRaw = visitor.last_page || visitor.first_landing_page || '';
-        let lastPageLabel = '';
-        // Scheme-guard: last_page / first_landing_page come from the public, unauthenticated
-        // /track/pageview beacon (Worker cleanText only trims+truncates — no scheme validation),
-        // so a javascript:/data: URL could be stored. Only link it when it parses to http(s);
-        // otherwise render the label as plain text so the admin origin can't be a click-XSS sink.
-        let lastPageSafe = false;
-        if (lastPageRaw) {
-          try {
-            const u = new URL(lastPageRaw, 'https://x');
-            lastPageSafe = u.protocol === 'http:' || u.protocol === 'https:';
-            lastPageLabel = u.pathname || displayUrl(lastPageRaw);
-          } catch (e) {
-            lastPageLabel = displayUrl(lastPageRaw);
-          }
-        }
-        const lastPageHtml = lastPageRaw
-          ? (lastPageSafe
-              ? `<a class="va-link" href="${esc(lastPageRaw)}" target="_blank" rel="noopener" title="${esc(lastPageRaw)}">${esc(lastPageLabel)} &#8599;</a>`
-              : `<span class="va-link-plain" title="${esc(lastPageRaw)}">${esc(lastPageLabel)}</span>`)
+        // Identity chip (name / company), shown only when identified
+        const identityLabel = name
+          ? name + ((visitor.contact_company && visitor.contact_company !== name) ? ' · ' + visitor.contact_company : '')
+          : '';
+        const identityChip = identityLabel
+          ? `<span class="va-chip va-chip-id" title="Identified visitor">${esc(identityLabel)}</span>`
           : '';
 
-        // Detail panel (attrib lines + identity controls)
-        const network = [visitor.visitor_asn ? 'AS' + visitor.visitor_asn : '', visitor.visitor_as_organization || ''].filter(Boolean).join(' ');
+        // Grade chip/select — inline, saves immediately. Canonical: visitor_profiles.grade
+        const grade = (visitor.grade === 'A' || visitor.grade === 'B' || visitor.grade === 'C') ? visitor.grade : '';
+        const gradeCls = grade ? ('grade-' + grade.toLowerCase()) : '';
+        const gradeSelect = visitorId
+          ? `<select class="va-grade-select ${gradeCls}" data-grade-visitor-id="${esc(visitorId)}" title="Lead grade">`
+            + `<option value=""${grade ? '' : ' selected'}>&mdash;</option>`
+            + `<option value="A"${grade === 'A' ? ' selected' : ''}>A</option>`
+            + `<option value="B"${grade === 'B' ? ' selected' : ''}>B</option>`
+            + `<option value="C"${grade === 'C' ? ' selected' : ''}>C</option>`
+            + `</select>`
+          : '';
+
+        // Visit-# badge + RETURNING badge
+        const visitN = visits || 1;
+        const visitBadge = `<span class="va-visitbadge" title="${esc(pageviews + ' pageviews over ' + visitN + ' visit' + (visitN === 1 ? '' : 's'))}">${visitN}&times;</span>`;
+        const retBadge = isReturning ? '<span class="va-retbadge">Returning</span>' : '';
+
+        // Action chips — grounded in signals known at the profile level
+        const actionChips =
+          (isFiller ? '<span class="va-chip va-chip-action-form" title="Submitted a lead form">Form</span>' : '')
+          + (hasPaid ? '<span class="va-chip va-chip-action" title="Arrived via a paid Google click">Ad click</span>' : '');
+
+        // Line 2 — entry/last page, referrer, keyword (all scheme-guarded)
+        const keyword = decipherKeyword(visitor);
+        const lastPageHtml = safeUrlLink(visitor.last_page || visitor.first_landing_page || '', 'va-l2-page');
+        const refHtml = visitor.referrer ? safeUrlLink(visitor.referrer, 'va-l2-ref') : '';
+        const kwHtml = keyword ? `<span class="va-l2-kw" title="Search keyword">${esc(keyword)}</span>` : '';
+        const line2Parts = [lastPageHtml, refHtml, kwHtml].filter(Boolean);
+        const line2 = line2Parts.length
+          ? line2Parts.join('<span class="va-l2-sep">·</span>')
+          : '<span class="va-l2-ref">No landing page recorded</span>';
 
         return `
-          <details class="va-row ${connectClass}" data-visitor-id="${esc(visitorId)}">
-            <summary class="va-summary">
-              <span class="va-expand" aria-hidden="true"></span>
-              <div class="va-main">
-                <div class="va-ident">
-                  <span class="va-name">${nameHtml}</span>${filledBadge}${retBadge}${sourcePill}${connectBadge}${quickTagBtn}
-                </div>
-                <div class="va-cols">
-                  ${vaPair('Page Views:', String(pageviews))}
-                  ${vaPair('Location:', locationHtml)}
-                  ${vaPair('Last seen:', visitor.last_seen_at ? esc(formatWhen(visitor.last_seen_at)) : '')}
-                  ${vaPair('ISP / IP:', ispHtml)}
-                  ${vaPair('Visits:', String(visits))}
-                  ${vaPair('Source:', sourceText ? esc(sourceText) : '')}
-                  ${vaPair('Searched:', keyword ? esc(keyword) : '')}
-                  ${vaPair('System:', system ? esc(system) : '')}
-                  ${vaPair('Visit Page:', lastPageHtml)}
-                </div>
+          <div class="va-vrow" data-visitor-id="${esc(visitorId)}">
+            <div class="va-row-sc ${connectClass}" data-va-expand>
+              <div class="va-row-sc-body">
+                <div class="va-line1">${timeHtml}${geoHtml}${ispHtml}${osHtml}${visitBadge}${retBadge}${identityChip}${gradeSelect}${sourcePill}${connectBadge}${actionChips}${quickTagBtn}</div>
+                <div class="va-line2">${line2}</div>
               </div>
-              <div class="va-when">${formatWhen(visitor.last_seen_at)}</div>
-            </summary>
-            <div class="va-detail">
-              ${attribLine('Visitor ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
-              ${attribLine('Network', network ? esc(network) : '')}
-              ${attribLine('First seen', visitor.first_seen_at ? formatWhen(visitor.first_seen_at) : '')}
-              ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
-              ${attribLine('Last page', visitor.last_page ? esc(visitor.last_page) : '', 'attrib-path')}
-              ${visitorId ? renderVisitorTimelineShell(visitor) : ''}
-              ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
+              <button type="button" class="va-magnify" data-va-expand aria-label="Toggle details"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6 L8 10 L12 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             </div>
-          </details>`;
+            <div class="va-detail-sc" data-visitor-detail="${esc(visitorId)}">${renderVisitorRowDetail(visitor, visitorId)}</div>
+          </div>`;
       }).join('')}</div>`;
       renderPager(visitorPager, total, visitorsPage, 'visitors');
     }
@@ -2010,11 +2258,21 @@ const isDevDashboard = import.meta.env.DEV;
       renderPager(leadsPager, leadsFiltered.length, leadsPage, 'leads');
       const returning = leadsFiltered.filter(isReturningRecord).length;
 
-      // Visitors — renderVisitorDirectory applies the known-only view + pagination.
-      const visitorsFiltered = allVisitors.filter(visitor =>
+      // Visitors — text filter, then the activity toggle-filters, then
+      // renderVisitorDirectory applies the known-only view + pagination.
+      const submittedForFilter = submittedVisitorIdSet();
+      let visitorsFiltered = allVisitors.filter(visitor =>
         visitorProfileSearchText(visitor).toLowerCase().includes(q)
       );
+      if (activeFilters.identified) visitorsFiltered = visitorsFiltered.filter(v => isIdentifiedVisitor(v, submittedForFilter));
+      if (activeFilters.graded) visitorsFiltered = visitorsFiltered.filter(v => v.grade === 'A' || v.grade === 'B' || v.grade === 'C');
+      if (activeFilters.paid) visitorsFiltered = visitorsFiltered.filter(v => visitorHasPaidOrigin(v));
+      if (activeFilters.ai) visitorsFiltered = visitorsFiltered.filter(v => isAiReferral(v));
       renderVisitorDirectory(visitorsFiltered);
+
+      // The toggle-filter bar only makes sense on the visitor views.
+      const fBar = document.getElementById('visitor-filter-bar');
+      if (fBar) fBar.style.display = (activeView === 'activity' || activeView === 'known') ? 'flex' : 'none';
 
       const callsFiltered = allCalls.filter(call =>
         callSearchText(call).toLowerCase().includes(q)
@@ -2119,16 +2377,17 @@ const isDevDashboard = import.meta.env.DEV;
     });
 
     visitorDirectory.addEventListener('click', function(e) {
+      // Interactive controls first — these must never toggle the row.
       const quickTagBtn = e.target.closest('[data-quick-tag-id]');
       if (quickTagBtn) {
-        e.preventDefault();   // don't toggle the <details> row
+        e.preventDefault();
         e.stopPropagation();
         quickTagVisitor(quickTagBtn.dataset.quickTagId);
         return;
       }
       const dotsToggle = e.target.closest('[data-dots-toggle]');
       if (dotsToggle) {
-        e.preventDefault();   // don't toggle the <details> row
+        e.preventDefault();
         e.stopPropagation();
         const src = dotsToggle.parentElement.querySelector('.va-dots-pop');
         const reopen = dotsPopupAnchor === dotsToggle;
@@ -2137,26 +2396,58 @@ const isDevDashboard = import.meta.env.DEV;
         return;
       }
       const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
-      if (saveVisitorBtn) saveVisitorSettings(saveVisitorBtn);
+      if (saveVisitorBtn) { saveVisitorSettings(saveVisitorBtn); return; }
+      // The grade dropdown, links, and anything inside the detail panel handle
+      // themselves — never toggle the row for those.
+      if (e.target.closest('[data-grade-visitor-id]') || e.target.closest('a')
+          || e.target.closest('.va-detail-sc')) return;
+      // Otherwise a click anywhere on the compact row toggles its detail panel.
+      const expander = e.target.closest('[data-va-expand]');
+      if (!expander) return;
+      const wrap = expander.closest('.va-vrow');
+      if (wrap) toggleVisitorDetail(wrap);
     });
 
-    // "Connected dots" popup — a single body-level node (so .va-log's overflow
-    // can't clip it), positioned under the badge and closed on any outside click.
-    visitorDirectory.addEventListener('toggle', function(e) {
-      const row = e.target && e.target.closest ? e.target.closest('details[data-visitor-id]') : null;
-      if (!row || !row.open) return;
-      loadVisitorTimeline(row.dataset.visitorId);
-    }, true);
-
-    visitorDirectory.addEventListener('click', function(e) {
-      const summary = e.target.closest('summary');
-      if (!summary) return;
-      const row = summary.closest('details[data-visitor-id]');
-      if (!row) return;
-      window.setTimeout(() => {
-        if (row.open) loadVisitorTimeline(row.dataset.visitorId);
-      }, 0);
+    // Inline + panel grade selectors save straight to visitor_profiles.grade.
+    // Bound on `dashboard` so it also catches the grade select inside the
+    // leads-table visitor panel (rendered outside visitorDirectory).
+    dashboard.addEventListener('change', function(e) {
+      const gradeSel = e.target.closest('[data-grade-visitor-id]');
+      if (!gradeSel) return;
+      saveVisitorGrade(gradeSel.dataset.gradeVisitorId, gradeSel.value);
     });
+
+    // Expand/collapse a compact row's detail panel; lazy-load its timeline on open.
+    function toggleVisitorDetail(wrap) {
+      const row = wrap.querySelector('.va-row-sc');
+      const detail = wrap.querySelector('.va-detail-sc');
+      if (!row || !detail) return;
+      const isOpen = detail.classList.toggle('open');
+      row.classList.toggle('va-detail-open', isOpen);
+      if (isOpen) loadVisitorTimeline(wrap.dataset.visitorId);
+    }
+
+    // ── Visitor Activity filter toggles ───────────────────────
+    (function wireVisitorFilters() {
+      const bar = document.getElementById('visitor-filter-bar');
+      if (!bar) return;
+      bar.addEventListener('click', function(e) {
+        const btn = e.target.closest('.sc-filter-btn[data-filter]');
+        if (!btn) return;
+        const key = btn.dataset.filter;
+        if (!(key in activeFilters)) return;
+        activeFilters[key] = !activeFilters[key];
+        btn.classList.toggle('active', activeFilters[key]);
+        visitorsPage = 1;
+        applySearch();
+      });
+    })();
+
+    // ── Weekly growth-ops report download ─────────────────────
+    (function wireWeeklyReport() {
+      const btn = document.getElementById('weekly-report-btn');
+      if (btn) btn.addEventListener('click', downloadWeeklyReport);
+    })();
 
     function closeDotsPopup() {
       if (dotsPopupEl) { dotsPopupEl.remove(); dotsPopupEl = null; }
@@ -2297,6 +2588,83 @@ const isDevDashboard = import.meta.env.DEV;
         applySearch();
       } catch (err) {
         alert('Could not save the tag. Please try again.');
+      }
+    }
+
+    // Inline lead-grade save. Reuses the /admin/visitors endpoint and MERGES the
+    // visitor's existing fields so a grade change never wipes label/contact, then
+    // updates local state + open selects in place (no full re-render / collapse).
+    async function saveVisitorGrade(visitorId, value) {
+      if (!visitorId) return;
+      const grade = (value === 'A' || value === 'B' || value === 'C') ? value : '';
+      const existing = allVisitors.find(v => v.visitor_id === visitorId) || {};
+      const token = sessionStorage.getItem(SESSION_KEY);
+      const payload = {
+        label: existing.label || '',
+        contact_name: existing.contact_name || '',
+        contact_company: existing.contact_company || '',
+        contact_email: existing.contact_email || '',
+        contact_phone: existing.contact_phone || '',
+        identity_source: existing.identity_source || 'manual',
+        identity_confidence: existing.identity_confidence || 'manual-confirmed',
+        notes: existing.notes || '',
+        alert_enabled: existing.alert_enabled ? true : false,
+        alert_email: existing.alert_email || 'sales@dolphincentrifuge.com',
+        grade: grade,   // '' clears; 'A' | 'B' | 'C' sets
+      };
+      // Optimistic local update.
+      allVisitors = allVisitors.map(v => v.visitor_id === visitorId ? { ...v, grade: grade } : v);
+      allData = allData.map(r => r.attribution_visitor_id === visitorId ? { ...r, visitor_grade: grade } : r);
+      // Reflect in every open select for this visitor without collapsing the row.
+      const selects = dashboard.querySelectorAll(`[data-grade-visitor-id="${cssEscape(visitorId)}"]`);
+      selects.forEach(sel => {
+        if (sel.value !== grade) sel.value = grade;
+        if (sel.classList.contains('va-grade-select')) {
+          sel.classList.remove('grade-a', 'grade-b', 'grade-c');
+          if (grade) sel.classList.add('grade-' + grade.toLowerCase());
+        }
+      });
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/visitors/${encodeURIComponent(visitorId)}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (resp.status === 401) { logout(); return; }
+        if (!resp.ok) throw new Error('Grade save failed');
+      } catch (err) {
+        alert('Could not save the grade. Please try again.');
+      }
+    }
+
+    // Download the 14-day growth-ops report (admin-gated JSON) as a file.
+    async function downloadWeeklyReport() {
+      const btn = document.getElementById('weekly-report-btn');
+      const token = sessionStorage.getItem(SESSION_KEY);
+      if (!token) { logout(); return; }
+      const original = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Building…'; }
+      try {
+        const resp = await fetch(`${WORKER_URL}/admin/api/weekly-report?days=14`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (resp.status === 401) { logout(); return; }
+        if (!resp.ok) throw new Error('Report request failed');
+        const json = await resp.json();
+        const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const stamp = String(json.generated_at || new Date().toISOString()).slice(0, 10);
+        a.href = url;
+        a.download = `dolphin-weekly-report-${stamp}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert('Could not generate the weekly report. Please try again.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = original; }
       }
     }
 
@@ -2507,24 +2875,89 @@ const isDevDashboard = import.meta.env.DEV;
       return { flagHtml, loc, has: Boolean(loc || flagHtml) };
     }
 
-    function browserSummary(userAgent) {
+    // Detect browser + OS from a user-agent. Order matters: SamsungBrowser and
+    // Edge UAs also contain "Chrome"; Android UAs also contain "Linux".
+    function browserOsInfo(userAgent) {
       const ua = String(userAgent || '');
-      let browser = 'Browser details';
-      if (ua.includes('Edg/')) browser = 'Edge';
-      else if (ua.includes('Chrome/')) browser = 'Chrome';
-      else if (ua.includes('Firefox/')) browser = 'Firefox';
-      else if (ua.includes('Safari/') && !ua.includes('Chrome/')) browser = 'Safari';
+      let bKey = '', bName = '';
+      if (ua.includes('Edg/') || ua.includes('EdgA/') || ua.includes('EdgiOS/')) { bKey = 'edge'; bName = 'Edge'; }
+      else if (ua.includes('SamsungBrowser')) { bKey = 'samsung'; bName = 'Samsung Internet'; }
+      else if (ua.includes('Firefox/') || ua.includes('FxiOS/')) { bKey = 'firefox'; bName = 'Firefox'; }
+      else if (ua.includes('CriOS/') || ua.includes('Chrome/')) { bKey = 'chrome'; bName = 'Chrome'; }
+      else if (ua.includes('Safari/') && !ua.includes('Chrome/')) { bKey = 'safari'; bName = 'Safari'; }
 
-      let device = '';
-      if (ua.includes('Windows')) device = 'Windows';
-      else if (ua.includes('Macintosh')) device = 'macOS';
-      else if (ua.includes('iPhone')) device = 'iPhone';
-      else if (ua.includes('iPad')) device = 'iPad';
-      else if (ua.includes('Android')) device = 'Android';
-      else if (ua.includes('Linux')) device = 'Linux';
-
-      return device ? `${browser} on ${device}` : browser;
+      let oKey = '', oName = '';
+      if (ua.includes('Windows')) { oKey = 'windows'; oName = 'Windows'; }
+      else if (ua.includes('Android')) { oKey = 'android'; oName = 'Android'; }
+      else if (ua.includes('iPhone')) { oKey = 'apple'; oName = 'iPhone'; }
+      else if (ua.includes('iPad')) { oKey = 'apple'; oName = 'iPad'; }
+      else if (ua.includes('Macintosh') || ua.includes('Mac OS')) { oKey = 'apple'; oName = 'macOS'; }
+      else if (ua.includes('Linux')) { oKey = 'linux'; oName = 'Linux'; }
+      return { bKey, bName, oKey, oName };
     }
+
+    function browserSummary(userAgent) {
+      const info = browserOsInfo(userAgent);
+      const browser = info.bName || 'Browser details';
+      return info.oName ? `${browser} on ${info.oName}` : browser;
+    }
+
+    // Local inline-SVG icons — render identically on Windows (no flag-emoji trap),
+    // no remote favicons, no icon font.
+    const BROWSER_ICONS = {
+      chrome: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#dfe1e5"/><g stroke="#fff" stroke-width="1.4"><path d="M8 8 L8 1"/><path d="M8 8 L14 11.5"/><path d="M8 8 L2 11.5"/></g><circle cx="8" cy="8" r="3" fill="#1a73e8"/><circle cx="8" cy="8" r="3" fill="none" stroke="#fff" stroke-width="0.8"/></svg>',
+      firefox: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#e66000"/><path d="M8.5 2.5c2.5 0.4 4 2.4 4 4.8 0 2.6-2.1 4.7-4.7 4.7 1.4-0.8 2.1-2 1.6-3.4-0.6 1.3-2.4 1-2.4-0.6 0-1.4 1.6-1.6 1-3.3 1.2 0.2 1.6 1 1.5 1.9 0.6-1.2 0-3.2-2-3.8Z" fill="#ffb64d"/></svg>',
+      safari: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#1e9bf0"/><circle cx="8" cy="8" r="5.4" fill="#fff"/><path d="M11 5 L8.6 8.2 L8 8 Z" fill="#ff3b30"/><path d="M5 11 L7.4 7.8 L8 8 Z" fill="#c3c9cf"/></svg>',
+      edge: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#2b73c4"/><path d="M4 10.5a4 4 0 0 1 7.5-2.2 5 3.2 0 0 0-8.2 1.2 5.6 5.6 0 0 0 0.7 1Z" fill="#48c7b0"/></svg>',
+      samsung: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#6b4bce"/><path d="M4.5 6a4 4 0 0 1 7 1.2 2.6 2.6 0 0 0-4.6-0.2 2.6 2.6 0 0 1-2.4-1Z M11.5 10a4 4 0 0 1-7-1.2 2.6 2.6 0 0 0 4.6 0.2 2.6 2.6 0 0 1 2.4 1Z" fill="#fff"/></svg>',
+    };
+    const OS_ICONS = {
+      windows: '<svg class="va-osico" viewBox="0 0 16 16" aria-hidden="true"><path fill="#3b82c4" d="M2 3.6 L7.3 2.9 L7.3 7.5 L2 7.5 Z M7.9 2.8 L14 2 L14 7.5 L7.9 7.5 Z M2 8.1 L7.3 8.1 L7.3 12.7 L2 12 Z M7.9 8.1 L14 8.1 L14 14 L7.9 13.2 Z"/></svg>',
+      apple: '<svg class="va-osico" viewBox="0 0 16 16" aria-hidden="true"><path fill="#888" d="M10.8 8.4c0-1.5 1.2-2.2 1.3-2.3-0.7-1-1.8-1.2-2.2-1.2-0.9-0.1-1.8 0.5-2.3 0.5-0.5 0-1.2-0.5-2-0.5-1 0-1.9 0.6-2.4 1.5-1 1.8-0.3 4.5 0.7 6 0.5 0.7 1 1.5 1.8 1.5 0.7 0 1-0.5 1.9-0.5 0.8 0 1.1 0.5 1.9 0.5 0.8 0 1.3-0.7 1.8-1.4 0.5-0.8 0.8-1.6 0.8-1.6 0 0-1.5-0.6-1.5-2.2Z M9.6 4c0.4-0.5 0.7-1.1 0.6-1.8-0.6 0-1.2 0.4-1.6 0.9-0.4 0.4-0.7 1-0.6 1.6 0.6 0.1 1.2-0.3 1.6-0.7Z"/></svg>',
+      android: '<svg class="va-osico" viewBox="0 0 16 16" aria-hidden="true"><g fill="#3ddc84"><path d="M4.2 7 h7.6 v4 a1 1 0 0 1-1 1 H5.2 a1 1 0 0 1-1-1 Z"/><path d="M4.3 6.6 a3.7 3.7 0 0 1 7.4 0 Z"/><rect x="2.2" y="7" width="1.3" height="3.6" rx="0.65"/><rect x="12.5" y="7" width="1.3" height="3.6" rx="0.65"/><rect x="6" y="11.6" width="1.2" height="2.6" rx="0.6"/><rect x="8.8" y="11.6" width="1.2" height="2.6" rx="0.6"/></g><g fill="#fff"><circle cx="6.4" cy="5.4" r="0.45"/><circle cx="9.6" cy="5.4" r="0.45"/></g></svg>',
+      linux: '<svg class="va-osico" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="9.3" rx="3.6" ry="4.5" fill="#2b2b2b"/><ellipse cx="8" cy="10.2" rx="2.1" ry="3" fill="#f5f5f5"/><circle cx="8" cy="4.8" r="2.4" fill="#2b2b2b"/><circle cx="7.1" cy="4.6" r="0.45" fill="#fff"/><circle cx="8.9" cy="4.6" r="0.45" fill="#fff"/><path d="M7.3 5.4 h1.4 l-0.7 0.9 Z" fill="#f4b400"/><path d="M5.8 13.3 l1.5-0.9 0.1 1 Z M10.2 13.3 l-1.5-0.9-0.1 1 Z" fill="#f4b400"/></svg>',
+    };
+
+    // Compact browser/OS marker for Line 1. Falls back to short text when unknown.
+    function browserOsMarker(userAgent) {
+      const info = browserOsInfo(userAgent);
+      const title = browserSummary(userAgent);
+      const bIcon = BROWSER_ICONS[info.bKey] || '';
+      const oIcon = OS_ICONS[info.oKey] || '';
+      if (!bIcon && !oIcon) {
+        if (!title || title === 'Browser details') return '';
+        return `<span class="va-osmark" title="${esc(title)}"><span class="va-osmark-txt">${esc(title)}</span></span>`;
+      }
+      return `<span class="va-osmark" title="${esc(title)}">${bIcon}${oIcon}</span>`;
+    }
+
+    // AI-assistant referral detection (owner-specified domains).
+    const AI_REFERRAL_MAP = [
+      { d: 'chatgpt.com', name: 'ChatGPT' },
+      { d: 'perplexity.ai', name: 'Perplexity' },
+      { d: 'claude.ai', name: 'Claude' },
+      { d: 'gemini.google.com', name: 'Gemini' },
+      { d: 'copilot.microsoft.com', name: 'Copilot' },
+      { d: 'you.com', name: 'You.com' },
+      { d: 'phind.com', name: 'Phind' },
+    ];
+    function aiReferralInfo(visitor) {
+      const candidates = [visitor.referrer, visitor.source].filter(Boolean);
+      for (const raw of candidates) {
+        let host = '';
+        try {
+          const s = String(raw).trim();
+          const withScheme = /^https?:\/\//i.test(s) ? s : 'https://' + s.replace(/^\/+/, '');
+          host = new URL(withScheme).hostname.replace(/^www\./, '').toLowerCase();
+        } catch (e) { continue; }
+        if (!host) continue;
+        for (const entry of AI_REFERRAL_MAP) {
+          if (host === entry.d || host.endsWith('.' + entry.d)) return entry;
+        }
+      }
+      return null;
+    }
+    function isAiReferral(visitor) { return Boolean(aiReferralInfo(visitor)); }
 
     function renderVisitorIdentityControls(record, visitorId) {
       const labelValue = record.visitor_label || record.label || '';
@@ -2535,6 +2968,11 @@ const isDevDashboard = import.meta.env.DEV;
       const notesValue = record.visitor_notes || record.notes || '';
       const alertEnabled = Number(record.visitor_alert_enabled || record.alert_enabled || 0);
       const alertEmail = record.visitor_alert_email || record.alert_email || 'sales@dolphincentrifuge.com';
+      // Grade lives on visitor_profiles; read the freshest value from the profile cache.
+      const liveGradeVisitor = (typeof allVisitors !== 'undefined' && Array.isArray(allVisitors))
+        ? allVisitors.find(v => v.visitor_id === visitorId) : null;
+      const gradeRawValue = (liveGradeVisitor && liveGradeVisitor.grade) || record.grade || record.visitor_grade || '';
+      const gVal = (gradeRawValue === 'A' || gradeRawValue === 'B' || gradeRawValue === 'C') ? gradeRawValue : '';
 
       return `
         <div class="visitor-label-box" data-visitor-box="${esc(visitorId)}">
@@ -2552,6 +2990,16 @@ const isDevDashboard = import.meta.env.DEV;
             <span>Email me when this visitor returns</span>
           </label>
           <input type="email" data-visitor-email="${esc(visitorId)}" value="${esc(alertEmail)}" placeholder="sales@dolphincentrifuge.com" />
+          <div class="visitor-grade-row">
+            <span class="visitor-grade-label">Lead grade</span>
+            <select class="visitor-grade-input" data-grade-visitor-id="${esc(visitorId)}">
+              <option value=""${gVal ? '' : ' selected'}>Ungraded</option>
+              <option value="A"${gVal === 'A' ? ' selected' : ''}>A &mdash; hot</option>
+              <option value="B"${gVal === 'B' ? ' selected' : ''}>B &mdash; warm</option>
+              <option value="C"${gVal === 'C' ? ' selected' : ''}>C &mdash; cold</option>
+            </select>
+            <span class="visitor-grade-hint">saves on change</span>
+          </div>
           <button class="visitor-save-btn" data-save-visitor-id="${esc(visitorId)}">Save Visitor</button>
           <span class="visitor-save-status" data-visitor-status="${esc(visitorId)}"></span>
         </div>

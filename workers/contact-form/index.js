@@ -67,6 +67,10 @@ export default {
       return handleAdminPages(request, env);
     }
 
+    if (request.method === 'GET' && path === '/admin/api/weekly-report') {
+      return handleAdminWeeklyReport(request, env);
+    }
+
     if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
       const visitorId = decodeURIComponent(path.split('/').pop() || '');
       return handleAdminVisitorUpdate(request, env, visitorId);
@@ -1037,51 +1041,234 @@ async function handleAdminVisitorUpdate(request, env, visitorId) {
   const alertEnabled = body.alert_enabled ? 1 : 0;
   const alertEmail = cleanText(body.alert_email || 'sales@dolphincentrifuge.com', 180);
   const notes = cleanText(body.notes, 1000);
+  // grade: 'A' | 'B' | 'C' sets it; any other explicit value ('' / 'none') clears it.
+  // When the `grade` key is ABSENT from the body, grade is left untouched — a plain
+  // "Save Visitor" must never wipe a grade set via the inline grade control.
+  const gradeProvided = body.grade !== undefined;
+  const grade = (body.grade === 'A' || body.grade === 'B' || body.grade === 'C') ? body.grade : null;
   const now = new Date().toISOString();
 
+  const writeWithGrade = () => env.DB.prepare(`
+    INSERT INTO visitor_profiles (
+      visitor_id, first_seen_at, last_seen_at,
+      label, contact_name, contact_company, contact_email, contact_phone,
+      identity_source, identity_confidence, identity_updated_at,
+      alert_enabled, alert_email, notes, grade
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(visitor_id) DO UPDATE SET
+      label = excluded.label,
+      contact_name = excluded.contact_name,
+      contact_company = excluded.contact_company,
+      contact_email = excluded.contact_email,
+      contact_phone = excluded.contact_phone,
+      identity_source = excluded.identity_source,
+      identity_confidence = excluded.identity_confidence,
+      identity_updated_at = excluded.identity_updated_at,
+      alert_enabled = excluded.alert_enabled,
+      alert_email = excluded.alert_email,
+      notes = excluded.notes,
+      grade = CASE WHEN excluded.grade IN ('A','B','C') THEN excluded.grade ELSE NULL END
+  `).bind(
+    cleanVisitorId, now, now, label, contactName, contactCompany,
+    contactEmail, contactPhone, identitySource, identityConfidence,
+    now, alertEnabled, alertEmail, notes, grade
+  ).run();
+
+  const writeWithoutGrade = () => env.DB.prepare(`
+    INSERT INTO visitor_profiles (
+      visitor_id, first_seen_at, last_seen_at,
+      label, contact_name, contact_company, contact_email, contact_phone,
+      identity_source, identity_confidence, identity_updated_at,
+      alert_enabled, alert_email, notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(visitor_id) DO UPDATE SET
+      label = excluded.label,
+      contact_name = excluded.contact_name,
+      contact_company = excluded.contact_company,
+      contact_email = excluded.contact_email,
+      contact_phone = excluded.contact_phone,
+      identity_source = excluded.identity_source,
+      identity_confidence = excluded.identity_confidence,
+      identity_updated_at = excluded.identity_updated_at,
+      alert_enabled = excluded.alert_enabled,
+      alert_email = excluded.alert_email,
+      notes = excluded.notes
+  `).bind(
+    cleanVisitorId, now, now, label, contactName, contactCompany,
+    contactEmail, contactPhone, identitySource, identityConfidence,
+    now, alertEnabled, alertEmail, notes
+  ).run();
+
   try {
-    await env.DB.prepare(`
-      INSERT INTO visitor_profiles (
-        visitor_id, first_seen_at, last_seen_at,
-        label, contact_name, contact_company, contact_email, contact_phone,
-        identity_source, identity_confidence, identity_updated_at,
-        alert_enabled, alert_email, notes
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      ON CONFLICT(visitor_id) DO UPDATE SET
-        label = excluded.label,
-        contact_name = excluded.contact_name,
-        contact_company = excluded.contact_company,
-        contact_email = excluded.contact_email,
-        contact_phone = excluded.contact_phone,
-        identity_source = excluded.identity_source,
-        identity_confidence = excluded.identity_confidence,
-        identity_updated_at = excluded.identity_updated_at,
-        alert_enabled = excluded.alert_enabled,
-        alert_email = excluded.alert_email,
-        notes = excluded.notes
-    `).bind(
-      cleanVisitorId,
-      now,
-      now,
-      label,
-      contactName,
-      contactCompany,
-      contactEmail,
-      contactPhone,
-      identitySource,
-      identityConfidence,
-      now,
-      alertEnabled,
-      alertEmail,
-      notes
-    ).run();
+    if (gradeProvided) await writeWithGrade();
+    else await writeWithoutGrade();
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
+    if (gradeProvided && isMissingColumnError(err)) {
+      // grade column not yet migrated — retry without it
+      try {
+        await writeWithoutGrade();
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200, headers: CORS_HEADERS,
+        });
+      } catch (fallbackErr) {
+        console.error('Admin visitor update fallback error:', fallbackErr.message);
+        return new Response(JSON.stringify({ error: 'Database error' }), {
+          status: 500, headers: CORS_HEADERS,
+        });
+      }
+    }
     console.error('Admin visitor update error:', err.message);
     return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+// ── ADMIN: Weekly growth-ops report ──────────────────────────
+async function handleAdminWeeklyReport(request, env) {
+  if (!isAdminAuthorized(request, env)) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  const url = new URL(request.url);
+  const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') || 14)));
+  const since = new Date(Date.now() - days * 86400000).toISOString();
+  const generatedAt = new Date().toISOString();
+
+  try {
+    // --- Leads list ---
+    let leads = [];
+    try {
+      const { results } = await env.DB.prepare(`
+        SELECT
+          s.id, s.created_at,
+          s.first_name, s.last_name, s.company, s.email,
+          s.attribution_source, s.attribution_medium, s.attribution_gclid,
+          s.attribution_landing_page, s.form_type,
+          vp.grade, vp.contact_name, vp.contact_company
+        FROM submissions s
+        LEFT JOIN visitor_profiles vp ON s.attribution_visitor_id = vp.visitor_id
+        WHERE s.deleted = 0 AND s.created_at >= ?
+        ORDER BY s.created_at DESC
+        LIMIT 500
+      `).bind(since).all();
+      leads = results || [];
+    } catch (e) {
+      if (!isMissingColumnError(e) && !isMissingTableError(e)) throw e;
+      // grade column not migrated yet — query without it
+      const { results } = await env.DB.prepare(`
+        SELECT s.id, s.created_at, s.first_name, s.last_name, s.company, s.email,
+               s.attribution_source, s.attribution_medium, s.attribution_gclid,
+               s.attribution_landing_page, s.form_type
+        FROM submissions s
+        WHERE s.deleted = 0 AND s.created_at >= ?
+        ORDER BY s.created_at DESC LIMIT 500
+      `).bind(since).all();
+      leads = (results || []).map(r => ({ ...r, grade: null }));
+    }
+
+    // --- Aggregate counts ---
+    const AI_REFERRAL_DOMAINS = ['chatgpt.com','perplexity.ai','claude.ai','gemini.google.com','copilot.microsoft.com','you.com','phind.com'];
+
+    // Total profiles active in window
+    let totalProfiles = 0, paidProfiles = 0, gradeA = 0, gradeB = 0, gradeC = 0, ungraded = 0;
+    try {
+      const { results: vp } = await env.DB.prepare(
+        `SELECT gclid, gbraid, wbraid, source, medium, grade FROM visitor_profiles WHERE last_seen_at >= ? LIMIT ${ADMIN_LIST_LIMIT}`
+      ).bind(since).all();
+      totalProfiles = vp.length;
+      for (const v of vp) {
+        const med = String(v.medium || '').toLowerCase();
+        const src = String(v.source || '').toLowerCase();
+        if (v.gclid || v.gbraid || v.wbraid || ['cpc','ppc','paid'].includes(med) || src.includes('googleads')) paidProfiles++;
+        if (v.grade === 'A') gradeA++;
+        else if (v.grade === 'B') gradeB++;
+        else if (v.grade === 'C') gradeC++;
+        else ungraded++;
+      }
+    } catch (e) { /* non-fatal */ }
+
+    // Pageviews, sessions
+    let pageviews = 0, sessions = 0;
+    try {
+      const { results: pvRes } = await env.DB.prepare(
+        `SELECT COUNT(*) AS cnt, COUNT(DISTINCT session_id) AS sess FROM visitor_events WHERE created_at >= ? AND event_type='pageview'`
+      ).bind(since).all();
+      pageviews = Number(pvRes[0]?.cnt || 0);
+      sessions = Number(pvRes[0]?.sess || 0);
+    } catch (e) { /* non-fatal */ }
+
+    // Phone clicks
+    let phoneClicks = 0;
+    try {
+      const { results: phRes } = await env.DB.prepare(
+        `SELECT COUNT(*) AS cnt FROM visitor_events WHERE created_at >= ? AND event_type='phone_click'`
+      ).bind(since).all();
+      phoneClicks = Number(phRes[0]?.cnt || 0);
+    } catch (e) { /* non-fatal */ }
+
+    // Email clicks
+    let emailClicks = 0;
+    try {
+      const { results: emRes } = await env.DB.prepare(
+        `SELECT COUNT(*) AS cnt FROM visitor_events WHERE created_at >= ? AND event_type='email_click'`
+      ).bind(since).all();
+      emailClicks = Number(emRes[0]?.cnt || 0);
+    } catch (e) { /* non-fatal */ }
+
+    // AI referral profiles (referrer domain in AI list)
+    let aiReferralProfiles = 0;
+    try {
+      const { results: aiRes } = await env.DB.prepare(
+        `SELECT referrer FROM visitor_profiles WHERE last_seen_at >= ? AND referrer != '' LIMIT ${ADMIN_LIST_LIMIT}`
+      ).bind(since).all();
+      for (const v of aiRes) {
+        try {
+          const host = new URL(String(v.referrer)).hostname.replace(/^www\./, '');
+          if (AI_REFERRAL_DOMAINS.some(d => host === d || host.endsWith('.' + d))) aiReferralProfiles++;
+        } catch (e) { /* bad url */ }
+      }
+    } catch (e) { /* non-fatal */ }
+
+    return new Response(JSON.stringify({
+      success: true,
+      generated_at: generatedAt,
+      window_days: days,
+      leads: leads.map(r => ({
+        date: String(r.created_at || '').slice(0, 10),
+        name: [r.contact_name || r.first_name, r.last_name].filter(Boolean).join(' ').trim() || '',
+        company: r.contact_company || r.company || '',
+        grade: r.grade || null,
+        source: [r.attribution_source, r.attribution_medium].filter(Boolean).join('/') || 'direct',
+        paid: Boolean(r.attribution_gclid),
+        landing_page: r.attribution_landing_page || '',
+        form_type: r.form_type || 'contact',
+        email: r.email || '',
+      })),
+      counts: {
+        pageviews,
+        sessions,
+        total_profiles: totalProfiles,
+        paid_profiles: paidProfiles,
+        ai_referral_profiles: aiReferralProfiles,
+        phone_clicks: phoneClicks,
+        email_clicks: emailClicks,
+        form_leads: leads.length,
+        grade_a: gradeA,
+        grade_b: gradeB,
+        grade_c: gradeC,
+        ungraded,
+      },
+    }), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('Weekly report error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error', detail: err.message }), {
       status: 500, headers: CORS_HEADERS,
     });
   }
