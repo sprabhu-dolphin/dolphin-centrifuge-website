@@ -1,7 +1,20 @@
 # Gmail Helper Handoff (Codex) - Permanent Fix for the Gmail Connector Problem
 
 Written by Claude, 2026-07-04. Audience: Codex. Status: helper BUILT and live-tested;
-one owner action remains (consent click for write scope).
+one owner action remains (consent click for write scope on Sanjay's own-token path).
+
+> **2026-07-04 update - MULTI-MAILBOX IS LIVE.** The helper now also supports EVERY
+> dolphincentrifuge.com mailbox via a domain-wide-delegated service account:
+> `node gmail-helper.mjs profile --mailbox jkraft@dolphincentrifuge.com`
+> Live-verified same day against sprabhu@, jkraft@, and devans@ (profile + real search).
+> Service account: `dolphin-gmail-agent@gen-lang-client-0409110854.iam.gserviceaccount.com`
+> (client ID 110240727590578948401, GCP project gen-lang-client-0409110854 / 356503740536).
+> Key: `%APPDATA%\gcloud\dolphin-gmail-sa-key.json`. Admin console DWD grant done 2026-07-04
+> (scopes: gmail.readonly, gmail.modify, gmail.compose). Least-privilege per command:
+> reads use readonly, label uses modify, create-draft uses compose. No per-user consent
+> clicks are ever needed for domain mailboxes - new mailboxes are covered automatically.
+> The Step 2 consent click below is now OPTIONAL (only needed for the tokened non-mailbox
+> path); prefer `--mailbox` for triage/auto-responder work.
 
 ## The one-paragraph summary
 

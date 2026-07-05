@@ -23,6 +23,7 @@ const gcloudDir = path.join(appDataDir, 'gcloud');
 const defaultClientPath = path.join(gcloudDir, 'dolphin-ga4-gtm-readonly-codex-oauth-client.json');
 const helperTokenPath = path.join(gcloudDir, 'dolphin-gmail-helper-token.json');
 const readonlyTokenPath = path.join(gcloudDir, 'dolphin-gmail-readonly-token.json');
+const saKeyPath = path.join(gcloudDir, 'dolphin-gmail-sa-key.json');
 const helperScopes = [
   'https://www.googleapis.com/auth/gmail.modify',
   'https://www.googleapis.com/auth/gmail.compose',
@@ -30,27 +31,45 @@ const helperScopes = [
 
 const WRITE_COMMANDS = new Set(['create-draft', 'label']);
 
+// Least-privilege scope per command for service-account (domain-wide delegation) access.
+const COMMAND_SCOPES = {
+  profile: 'https://www.googleapis.com/auth/gmail.readonly',
+  search: 'https://www.googleapis.com/auth/gmail.readonly',
+  read: 'https://www.googleapis.com/auth/gmail.readonly',
+  thread: 'https://www.googleapis.com/auth/gmail.readonly',
+  labels: 'https://www.googleapis.com/auth/gmail.readonly',
+  label: 'https://www.googleapis.com/auth/gmail.modify',
+  'create-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
+};
+
 function usage() {
   console.log(`Dolphin Gmail helper (connector-independent Gmail API access)
 
 Usage:
   node gmail-helper.mjs auth [--login-hint sprabhu@dolphincentrifuge.com]
-  node gmail-helper.mjs profile [--json]
-  node gmail-helper.mjs search --query "from:x newer_than:7d" [--max 25] [--json]
-  node gmail-helper.mjs read --id MESSAGE_ID [--json]
-  node gmail-helper.mjs thread --id THREAD_ID [--json]
-  node gmail-helper.mjs labels [--json]
-  node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"]
+  node gmail-helper.mjs profile [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs search --query "from:x newer_than:7d" [--mailbox EMAIL] [--max 25] [--json]
+  node gmail-helper.mjs read --id MESSAGE_ID [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs thread --id THREAD_ID [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs labels [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"] [--mailbox EMAIL]
   node gmail-helper.mjs create-draft --to EMAIL --subject "..." (--body "text" | --body-file FILE)
-        [--cc EMAIL] [--html] [--reply-to-message-id MSG_ID]
+        [--cc EMAIL] [--html] [--reply-to-message-id MSG_ID] [--mailbox EMAIL]
   node gmail-helper.mjs self-test
 
-Notes:
-  - Read commands fall back to the readonly token if the helper token is absent:
+Access modes:
+  - Default (no --mailbox): Sanjay's own mailbox via OAuth refresh tokens.
       helper (read/write): ${helperTokenPath}
       readonly (fallback): ${readonlyTokenPath}
-  - Write commands (create-draft, label) REQUIRE the helper token. Run auth once
-    (one browser consent click) to create it. Scopes: ${helperScopes}
+    Write commands (create-draft, label) REQUIRE the helper token; run auth once
+    (one browser consent click). Scopes: ${helperScopes}
+  - --mailbox EMAIL: ANY dolphincentrifuge.com mailbox (jkraft@, devans@, sprabhu@, ...)
+    via the domain-wide-delegated service account. Requires:
+      key file: ${saKeyPath}
+      one-time Admin console grant (Security > API Controls > Domain-wide delegation).
+    Uses least-privilege scopes per command (readonly for reads, modify/compose for writes).
+
+Notes:
   - There is intentionally NO send command. Drafts only.
   - This script never stores secrets in the repo and never prints token values.`);
 }
@@ -230,7 +249,60 @@ function resolveTokenPath(args, command) {
   throw new Error(`No Gmail token found at ${helperTokenPath} or ${readonlyTokenPath}. Run: npm run gmail:auth`);
 }
 
+function buildServiceAccountJwt({ saEmail, privateKey, mailbox, scope, tokenUri }) {
+  const now = Math.floor(Date.now() / 1000);
+  const header = encodeBase64Url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
+  const claims = encodeBase64Url(JSON.stringify({
+    iss: saEmail,
+    sub: mailbox,
+    scope,
+    aud: tokenUri,
+    iat: now,
+    exp: now + 3600,
+  }));
+  const signingInput = `${header}.${claims}`;
+  const signature = crypto.sign('RSA-SHA256', Buffer.from(signingInput, 'utf8'), privateKey)
+    .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return `${signingInput}.${signature}`;
+}
+
+async function getServiceAccountAccessToken(args, command) {
+  const keyPath = args['sa-key'] || saKeyPath;
+  if (!existsSync(keyPath)) {
+    throw new Error(`Service account key not found: ${keyPath}\n--mailbox requires the domain-wide-delegated service account key.`);
+  }
+  const key = await readJson(keyPath);
+  if (!key.client_email || !key.private_key) throw new Error(`Service account key file is missing client_email/private_key: ${keyPath}`);
+  const mailbox = String(args.mailbox).toLowerCase();
+  if (!mailbox.endsWith('@dolphincentrifuge.com')) {
+    throw new Error(`--mailbox must be a dolphincentrifuge.com address, got: ${mailbox}`);
+  }
+  const scope = COMMAND_SCOPES[command] || COMMAND_SCOPES.profile;
+  const tokenUri = key.token_uri || 'https://oauth2.googleapis.com/token';
+  const assertion = buildServiceAccountJwt({
+    saEmail: key.client_email,
+    privateKey: key.private_key,
+    mailbox,
+    scope,
+    tokenUri,
+  });
+  const res = await fetch(tokenUri, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion }),
+  });
+  const json = await res.json();
+  if (!res.ok) {
+    const hint = JSON.stringify(json).includes('unauthorized_client')
+      ? '\nHint: domain-wide delegation is not granted (or scopes mismatch) in Admin console > Security > API Controls > Domain-wide delegation.'
+      : '';
+    throw new Error(`Service account token failed for ${mailbox}: ${JSON.stringify(json)}${hint}`);
+  }
+  return json.access_token;
+}
+
 async function getAccessToken(args, command) {
+  if (args.mailbox) return getServiceAccountAccessToken(args, command);
   const tokenPath = resolveTokenPath(args, command);
   const clientPath = args.client || defaultClientPath;
   const token = await readJson(tokenPath);
@@ -476,6 +548,30 @@ function selfTest() {
   check('mime plain content type', mime.includes('text/plain'));
 
   check('write command gate', WRITE_COMMANDS.has('create-draft') && WRITE_COMMANDS.has('label') && !WRITE_COMMANDS.has('search'));
+
+  check('scope map reads are readonly', COMMAND_SCOPES.search === 'https://www.googleapis.com/auth/gmail.readonly');
+  check('scope map label is modify', COMMAND_SCOPES.label.includes('gmail.modify'));
+  check('scope map draft is compose', COMMAND_SCOPES['create-draft'].includes('gmail.compose'));
+
+  const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const jwt = buildServiceAccountJwt({
+    saEmail: 'sa@example.iam.gserviceaccount.com',
+    privateKey,
+    mailbox: 'jkraft@dolphincentrifuge.com',
+    scope: COMMAND_SCOPES.search,
+    tokenUri: 'https://oauth2.googleapis.com/token',
+  });
+  const [jwtHeader, jwtClaims, jwtSig] = jwt.split('.');
+  const verified = crypto.verify(
+    'RSA-SHA256',
+    Buffer.from(`${jwtHeader}.${jwtClaims}`, 'utf8'),
+    publicKey,
+    Buffer.from(jwtSig.replace(/-/g, '+').replace(/_/g, '/'), 'base64')
+  );
+  check('sa jwt signature verifies', verified);
+  const claims = JSON.parse(decodeBase64Url(jwtClaims));
+  check('sa jwt sub is mailbox', claims.sub === 'jkraft@dolphincentrifuge.com');
+  check('sa jwt aud is token uri', claims.aud === 'https://oauth2.googleapis.com/token');
 
   if (failures.length) {
     console.error(`self-test FAILED: ${failures.join(', ')}`);

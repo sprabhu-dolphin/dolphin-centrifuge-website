@@ -21,6 +21,8 @@ Quick line: Gmail goes through `gmail-helper.mjs`, never through the Codex Deskt
 1. For ANY Gmail task (health check, search, read, labels, drafts), use the local helper:
    `node gmail-helper.mjs profile|search|read|thread|labels|label|create-draft` (see `--help`).
    It uses direct Gmail API access with out-of-repo OAuth tokens under `%APPDATA%\gcloud`.
+   For ANY dolphincentrifuge.com mailbox (jkraft@, devans@, sprabhu@, future addresses),
+   add `--mailbox EMAIL` - domain-wide-delegated service account, no consent clicks needed.
 2. Do NOT build workflows on the Codex Gmail connector. It has a known, recurring
    `codex_apps` session/handshake failure class (see `docs/codex-gmail-connector-diagnostics.md`
    and `GMAIL_HELPER_HANDOFF_CODEX.md`). The connector may be used opportunistically for
