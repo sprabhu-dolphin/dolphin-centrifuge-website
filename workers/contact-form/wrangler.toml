@@ -9,6 +9,9 @@ compatibility_flags = ["nodejs_compat"]
 crons = ["30 14 * * *"]
 
 [vars]
+# Temporary compatibility vars kept so the current live config still resolves until
+# Sanjay supplies the Phase 1 secret set. The Worker code now prefers secret-backed
+# names and falls back to these legacy vars only to avoid breaking redeploys mid-fix.
 GA4_PROPERTY_ID = "536974508"
 GOOGLE_ADS_CUSTOMER_ID = "3917484159"
 GOOGLE_ADS_LOGIN_CUSTOMER_ID = "6124315358"
@@ -52,3 +55,13 @@ database_id  = "a5396fba-3578-4d7b-a802-8bcce711b77b"
 # GA4_REFRESH_TOKEN           - GA4 analytics.readonly refresh token
 # GOOGLE_ADS_REFRESH_TOKEN    - Google Ads API refresh token
 # GOOGLE_ADS_DEVELOPER_TOKEN  - Google Ads developer token
+# Phase 1 target secret names for the hardened live-read path:
+# DC_ADMIN_TOKEN_HASH         - preferred SHA-256 hash of the dashboard bearer token
+# GA4_SA_JSON                 - service-account JSON for GA4 Data API reads
+# GA4_PROPERTY_ID             - GA4 property id used by the Worker
+# GADS_DEVELOPER_TOKEN        - Google Ads developer token
+# GADS_CLIENT_ID              - Google Ads OAuth client id
+# GADS_CLIENT_SECRET          - Google Ads OAuth client secret
+# GADS_REFRESH_TOKEN          - Google Ads OAuth refresh token
+# GADS_LOGIN_CUSTOMER_ID      - Google Ads MCC login customer id
+# GADS_CUSTOMER_ID            - Google Ads customer id

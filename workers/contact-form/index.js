@@ -8,9 +8,6 @@
 // =============================================================
 
 import {
-  DEFAULT_ADS_CUSTOMER_ID,
-  DEFAULT_ADS_LOGIN_CUSTOMER_ID,
-  DEFAULT_GA4_PROPERTY_ID,
   D1_TEST_EXCLUSION_SQL,
   buildLeadMonitorWindow,
   formatLeadReconciliationText,
@@ -18,6 +15,11 @@ import {
   normalizeAdsCustomerId,
   reconcileLeadSources,
 } from '../../lead-reconciliation-core.mjs';
+
+const SOURCE_TIMEOUT_MS = 8_000;
+const SOURCE_RETRY_COUNT = 2;
+const SOURCE_CACHE_TTL_SECONDS = 15 * 60;
+const SOURCE_STALE_AFTER_DAYS = 7;
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -141,7 +143,7 @@ function buildDateFilter(request, column) {
 }
 
 async function handleAdminGet(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -198,7 +200,7 @@ async function handleAdminGet(request, env) {
 
 // ── ADMIN: Soft-delete a submission ─────────────────────────
 async function handleAdminDelete(request, env, id) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -228,7 +230,7 @@ async function handleAdminDelete(request, env, id) {
 
 // ── Check admin Authorization header ────────────────────────
 async function handleAdminVisitorsGet(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -286,7 +288,7 @@ function compareTimelineRows(a, b) {
 }
 
 async function handleAdminVisitorEventsGet(request, env, visitorId) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -404,7 +406,7 @@ async function handleAdminVisitorEventsGet(request, env, visitorId) {
 }
 
 async function handleAdminCallsGet(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -456,7 +458,7 @@ async function handleAdminCallsGet(request, env) {
 }
 
 async function handleAdminCallIngest(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -539,7 +541,7 @@ async function handleAdminCallIngest(request, env) {
 }
 
 async function handleAdminSummary(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -597,7 +599,7 @@ async function handleAdminSummary(request, env) {
 
 // ── ADMIN: Top / Entry / Exit pages over a date range ───────
 async function handleAdminLeadMonitor(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -612,6 +614,7 @@ async function handleAdminLeadMonitor(request, env) {
       endOffsetDays: url.searchParams.get('end_offset_days') || url.searchParams.get('endOffsetDays') || undefined,
       undercountTolerance: url.searchParams.get('undercount_tolerance') || url.searchParams.get('undercountTolerance') || undefined,
       minAbs: url.searchParams.get('min_abs') || url.searchParams.get('minAbs') || undefined,
+      noCache: truthyParam(url.searchParams.get('nocache')),
       sendAlert: truthyParam(url.searchParams.get('send')),
       forceAlert: truthyParam(url.searchParams.get('force')),
       source: 'manual',
@@ -635,6 +638,9 @@ async function handleScheduledLeadMonitor(controller, env) {
     });
     if (result.skipped) {
       console.warn(`Lead monitor skipped: ${result.reason || 'not configured'}`);
+    } else if (result.status === 'ERROR') {
+      console.error(`Lead monitor source error: ${result.error_summary || 'unknown error'}`);
+      await sendLeadMonitorFailureAlert(env, new Error(result.error_summary || 'Lead monitor source error'), scheduledTime);
     } else {
       const verdict = leadReconciliationVerdict(result.report);
       console.log(`Lead monitor ${verdict.status}: ${verdict.critical} critical, ${verdict.warn} warn`);
@@ -648,6 +654,7 @@ async function handleScheduledLeadMonitor(controller, env) {
 async function runLeadMonitor(env, opts = {}) {
   const sendAlert = Boolean(opts.sendAlert);
   const missing = missingLeadMonitorConfig(env, { sendAlert });
+  const now = opts.now || new Date();
   if (missing.length) {
     return {
       success: false,
@@ -656,6 +663,12 @@ async function runLeadMonitor(env, opts = {}) {
       missing,
       readOnly: true,
       alertSent: false,
+      status: 'ERROR',
+      label: 'Lead monitor',
+      fetched_at: new Date().toISOString(),
+      freshness_gate: 'OK',
+      freshness_message: '',
+      freshness: freshnessFromMaxDate('', now),
     };
   }
 
@@ -664,21 +677,45 @@ async function runLeadMonitor(env, opts = {}) {
     start: opts.start,
     end: opts.end,
     endOffsetDays: opts.endOffsetDays ?? env.LEAD_MONITOR_END_OFFSET_DAYS ?? 1,
-    now: opts.now || new Date(),
+    now,
   });
 
+  const sourceOpts = { now, noCache: Boolean(opts.noCache) };
   const [d1, ga4, ads] = await Promise.all([
-    pullLeadMonitorD1(env, window.start, window.endExclusive),
-    pullLeadMonitorGA4(env, window.start, window.end),
-    pullLeadMonitorAds(env, window.start, window.end),
+    readLeadMonitorD1Source(env, window, sourceOpts),
+    readLeadMonitorGA4Source(env, window, sourceOpts),
+    readLeadMonitorAdsSource(env, window, sourceOpts),
   ]);
+  const sourceBlocks = [d1, ga4, ads];
+  const topFreshness = buildTopLevelFreshness(sourceBlocks, now);
+  const fetchedAt = new Date().toISOString();
+  const status = summarizeSourceStatus(sourceBlocks);
 
-  const report = reconcileLeadSources(d1, ga4, ads, {
+  if (status === 'ERROR') {
+    return {
+      success: true,
+      skipped: false,
+      readOnly: true,
+      alertSent: false,
+      source: opts.source || 'manual',
+      status,
+      label: 'Lead monitor',
+      fetched_at: fetchedAt,
+      ...topFreshness,
+      window: { start: window.start, end: window.end },
+      verdict: null,
+      sources: { d1, ga4, ads },
+      report: null,
+      error_summary: sourceBlocks.filter((block) => block.status === 'ERROR').map((block) => `${block.label}: ${block.error}`).join(' | '),
+    };
+  }
+
+  const report = reconcileLeadSources(d1.data, ga4.data, ads.data, {
     undercountTolerance: opts.undercountTolerance ?? env.LEAD_MONITOR_UNDERCOUNT_TOLERANCE,
     minAbs: opts.minAbs ?? env.LEAD_MONITOR_MIN_ABS,
   });
   const verdict = leadReconciliationVerdict(report);
-  const ctx = { window: { start: window.start, end: window.end }, d1, ga4, ads };
+  const ctx = { window: { start: window.start, end: window.end }, d1: d1.data, ga4: ga4.data, ads: ads.data };
 
   let alertSent = false;
   if (sendAlert && (report.alerts.length || opts.forceAlert)) {
@@ -695,10 +732,428 @@ async function runLeadMonitor(env, opts = {}) {
     readOnly: true,
     alertSent,
     source: opts.source || 'manual',
+    status,
+    label: 'Lead monitor',
+    fetched_at: fetchedAt,
+    ...topFreshness,
     window: ctx.window,
     verdict,
     sources: { d1, ga4, ads },
     report,
+  };
+}
+
+function isoUtcDate(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toISOString().slice(0, 10);
+}
+
+function ageDaysFromDate(isoDate, now = new Date()) {
+  if (!isoDate) return null;
+  const nowDate = new Date(`${isoUtcDate(now.toISOString())}T00:00:00.000Z`);
+  const sourceDate = new Date(`${isoDate}T00:00:00.000Z`);
+  if (Number.isNaN(nowDate.getTime()) || Number.isNaN(sourceDate.getTime())) return null;
+  return Math.max(0, Math.floor((nowDate - sourceDate) / 86400000));
+}
+
+function freshnessFromMaxDate(maxDate, now = new Date()) {
+  const ageDays = ageDaysFromDate(maxDate, now);
+  return {
+    max_data_date: maxDate || '',
+    age_days: ageDays,
+    status: ageDays !== null && ageDays > SOURCE_STALE_AFTER_DAYS ? 'STALE' : 'OK',
+  };
+}
+
+function summarizeSourceStatus(sourceBlocks = []) {
+  if (sourceBlocks.some((block) => block.status === 'ERROR')) return 'ERROR';
+  if (sourceBlocks.some((block) => block.status === 'STALE')) return 'STALE';
+  return 'OK';
+}
+
+function summarizeMaxDataDate(sourceBlocks = []) {
+  const dates = sourceBlocks.map((block) => block?.freshness?.max_data_date).filter(Boolean).sort();
+  return dates.length ? dates[0] : '';
+}
+
+function buildTopLevelFreshness(sourceBlocks = [], now = new Date()) {
+  const staleBlocks = sourceBlocks.filter((block) => block?.freshness?.status === 'STALE');
+  return {
+    freshness_gate: staleBlocks.length ? 'STALE' : 'OK',
+    freshness_message: staleBlocks.length
+      ? staleBlocks.map((block) => `${block.label || block.source} data is ${block.freshness.age_days} days old - do not use for findings.`).join(' ')
+      : '',
+    freshness: freshnessFromMaxDate(summarizeMaxDataDate(sourceBlocks), now),
+  };
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function runWithTimeout(factory, label, timeoutMs = SOURCE_TIMEOUT_MS) {
+  let timeoutId;
+  try {
+    return await Promise.race([
+      factory(),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(`${label} timed out after ${timeoutMs}ms`)), timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
+async function runWithRetry(factory, label, retries = SOURCE_RETRY_COUNT) {
+  let lastError = null;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      return await runWithTimeout(factory, label);
+    } catch (err) {
+      lastError = err;
+      if (attempt >= retries) break;
+      await sleep(300 * (2 ** attempt));
+    }
+  }
+  throw lastError || new Error(`${label} failed`);
+}
+
+function sourceCacheRequest(cacheKey) {
+  return new Request(`https://dolphin-cache.invalid/${encodeURIComponent(cacheKey)}`);
+}
+
+async function readCachedSource(cacheKey, noCache, loader) {
+  const cache = (typeof caches !== 'undefined' && caches.default) ? caches.default : null;
+  if (!noCache && cache) {
+    const cached = await cache.match(sourceCacheRequest(cacheKey));
+    if (cached) {
+      const envelope = await cached.json().catch(() => null);
+      if (envelope && envelope.expires_at > Date.now() && envelope.value) {
+        return envelope.value;
+      }
+    }
+  }
+
+  const value = await loader();
+  if (!noCache && cache && value?.status !== 'ERROR') {
+    const envelope = {
+      expires_at: Date.now() + (SOURCE_CACHE_TTL_SECONDS * 1000),
+      value,
+    };
+    await cache.put(
+      sourceCacheRequest(cacheKey),
+      new Response(JSON.stringify(envelope), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${SOURCE_CACHE_TTL_SECONDS}`,
+        },
+      }),
+    );
+  }
+  return value;
+}
+
+async function buildSourceBlock({ source, label, cacheKey, noCache, maxDataDate, loader, now = new Date() }) {
+  const fetchedAt = new Date().toISOString();
+  const freshness = freshnessFromMaxDate(maxDataDate, now);
+  try {
+    const data = await readCachedSource(cacheKey, noCache, loader);
+    return {
+      source,
+      label,
+      status: freshness.status,
+      fetched_at: data?.fetched_at || fetchedAt,
+      freshness,
+      error: '',
+      ...data,
+    };
+  } catch (err) {
+    return {
+      source,
+      label,
+      status: 'ERROR',
+      fetched_at: fetchedAt,
+      freshness,
+      error: err.message,
+    };
+  }
+}
+
+async function safeRunLeadMonitor(env, opts = {}) {
+  try {
+    return await runLeadMonitor(env, opts);
+  } catch (err) {
+    return {
+      success: false,
+      skipped: true,
+      reason: err.message,
+      readOnly: true,
+      alertSent: false,
+      status: 'ERROR',
+      label: 'Lead monitor',
+      fetched_at: new Date().toISOString(),
+      freshness_gate: 'OK',
+      freshness_message: '',
+      freshness: freshnessFromMaxDate('', opts.now || new Date()),
+    };
+  }
+}
+
+async function pullTrafficHealthD1(env, startDate, endExclusive) {
+  const summary = {
+    newProfiles: 0,
+    googleOrganicProfiles: 0,
+    googleAdsProfiles: 0,
+    submissions: 0,
+  };
+  if (!env.DB) return summary;
+
+  try {
+    const row = await env.DB.prepare(`
+      SELECT
+        COUNT(*) AS new_profiles,
+        SUM(CASE WHEN source = 'google' AND medium = 'organic' THEN 1 ELSE 0 END) AS google_organic_profiles,
+        SUM(CASE WHEN source = 'googleads' THEN 1 ELSE 0 END) AS googleads_profiles
+      FROM visitor_profiles
+      WHERE first_seen_at >= ?
+        AND first_seen_at < ?
+    `).bind(startDate, endExclusive).first();
+    summary.newProfiles = Number(row?.new_profiles || 0);
+    summary.googleOrganicProfiles = Number(row?.google_organic_profiles || 0);
+    summary.googleAdsProfiles = Number(row?.googleads_profiles || 0);
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) throw err;
+  }
+
+  try {
+    const row = await env.DB.prepare(`
+      SELECT COUNT(*) AS submissions
+      FROM submissions
+      WHERE deleted = 0
+        AND created_at >= ?
+        AND created_at < ?
+        AND ${D1_TEST_EXCLUSION_SQL}
+    `).bind(startDate, endExclusive).first();
+    summary.submissions = Number(row?.submissions || 0);
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) throw err;
+  }
+
+  return summary;
+}
+
+async function pullTrafficHealthGA4(env, startDate, endDate) {
+  const accessToken = await getGA4AccessToken(env);
+  const property = resolveGA4PropertyId(env);
+  const body = await googleJsonFetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      dateRanges: [{ startDate, endDate }],
+      dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
+      metrics: [{ name: 'sessions' }, { name: 'keyEvents' }],
+      limit: 100,
+    }),
+    label: 'GA4 source health runReport',
+  });
+
+  const rows = {};
+  for (const row of body.rows || []) {
+    const source = row.dimensionValues?.[0]?.value || '';
+    const medium = row.dimensionValues?.[1]?.value || '';
+    rows[`${source} / ${medium}`] = {
+      sessions: Number(row.metricValues?.[0]?.value || 0),
+      keyEvents: Number(row.metricValues?.[1]?.value || 0),
+    };
+  }
+
+  return {
+    source: 'ga4_api',
+    configured: true,
+    googleOrganicSessions: Number(rows['google / organic']?.sessions || 0),
+    googleOrganicKeyEvents: Number(rows['google / organic']?.keyEvents || 0),
+    googleCpcSessions: Number(rows['google / cpc']?.sessions || 0),
+    googleCpcKeyEvents: Number(rows['google / cpc']?.keyEvents || 0),
+    directSessions: Number(rows['(direct) / (none)']?.sessions || 0),
+    directKeyEvents: Number(rows['(direct) / (none)']?.keyEvents || 0),
+  };
+}
+
+async function pullTrafficHealthAds(env, startDate, endDate) {
+  const oauth = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
+  const accessToken = await refreshGoogleAccessToken({
+    ...oauth,
+    refreshToken: env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN,
+    label: 'Google Ads',
+  });
+  const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
+  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID);
+  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID);
+  const query = `
+    SELECT metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions
+    FROM campaign
+    WHERE campaign.status = 'ENABLED'
+      AND segments.date BETWEEN '${startDate}' AND '${endDate}'
+  `;
+  const body = await googleJsonFetch(`https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/googleAds:searchStream`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'developer-token': env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN,
+      'login-customer-id': loginCustomerId,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query }),
+    label: 'Google Ads source health searchStream',
+  });
+
+  const rows = Array.isArray(body) ? body.flatMap((chunk) => chunk.results || []) : [];
+  let impressions = 0;
+  let clicks = 0;
+  let cost = 0;
+  let conversions = 0;
+  for (const row of rows) {
+    impressions += Number(row.metrics?.impressions || 0);
+    clicks += Number(row.metrics?.clicks || 0);
+    cost += Number(row.metrics?.costMicros || 0) / 1_000_000;
+    conversions += Number(row.metrics?.conversions || 0);
+  }
+  return {
+    source: 'google_ads_api',
+    configured: true,
+    impressions,
+    clicks,
+    spend: Number(cost.toFixed(2)),
+    conversions: Number(conversions.toFixed(2)),
+  };
+}
+
+function pctDelta(current, previous) {
+  const curr = Number(current || 0);
+  const prev = Number(previous || 0);
+  if (!prev) return curr ? null : 0;
+  return Number((((curr - prev) / prev) * 100).toFixed(1));
+}
+
+async function readTrafficHealthD1Source(env, currentWindow, previousWindow, opts = {}) {
+  return buildSourceBlock({
+    source: 'd1',
+    label: 'D1',
+    cacheKey: `traffic-health:d1:${currentWindow.start}:${currentWindow.end}:${previousWindow.start}:${previousWindow.end}`,
+    noCache: opts.noCache,
+    maxDataDate: currentWindow.end,
+    now: opts.now,
+    loader: async () => {
+      const fetchedAt = new Date().toISOString();
+      const [current, previous] = await runWithRetry(
+        () => Promise.all([
+          pullTrafficHealthD1(env, currentWindow.start, currentWindow.endExclusive),
+          pullTrafficHealthD1(env, previousWindow.start, previousWindow.endExclusive),
+        ]),
+        'D1 traffic health',
+      );
+      return {
+        fetched_at: fetchedAt,
+        current,
+        previous,
+        deltas: {
+          newProfilesPct: pctDelta(current.newProfiles, previous.newProfiles),
+          googleOrganicProfilesPct: pctDelta(current.googleOrganicProfiles, previous.googleOrganicProfiles),
+          googleAdsProfilesPct: pctDelta(current.googleAdsProfiles, previous.googleAdsProfiles),
+          submissionsPct: pctDelta(current.submissions, previous.submissions),
+        },
+      };
+    },
+  });
+}
+
+async function readTrafficHealthGA4Source(env, currentWindow, previousWindow, opts = {}) {
+  return buildSourceBlock({
+    source: 'ga4',
+    label: 'GA4',
+    cacheKey: `traffic-health:ga4:${currentWindow.start}:${currentWindow.end}:${previousWindow.start}:${previousWindow.end}`,
+    noCache: opts.noCache,
+    maxDataDate: currentWindow.end,
+    now: opts.now,
+    loader: async () => {
+      const fetchedAt = new Date().toISOString();
+      const [current, previous] = await runWithRetry(
+        () => Promise.all([
+          pullTrafficHealthGA4(env, currentWindow.start, currentWindow.end),
+          pullTrafficHealthGA4(env, previousWindow.start, previousWindow.end),
+        ]),
+        'GA4 traffic health',
+      );
+      return {
+        fetched_at: fetchedAt,
+        current,
+        previous,
+        deltas: {
+          googleOrganicSessionsPct: pctDelta(current.googleOrganicSessions, previous.googleOrganicSessions),
+          googleCpcSessionsPct: pctDelta(current.googleCpcSessions, previous.googleCpcSessions),
+          directSessionsPct: pctDelta(current.directSessions, previous.directSessions),
+        },
+      };
+    },
+  });
+}
+
+async function readTrafficHealthAdsSource(env, currentWindow, previousWindow, opts = {}) {
+  return buildSourceBlock({
+    source: 'ads',
+    label: 'Google Ads',
+    cacheKey: `traffic-health:ads:${currentWindow.start}:${currentWindow.end}:${previousWindow.start}:${previousWindow.end}`,
+    noCache: opts.noCache,
+    maxDataDate: currentWindow.end,
+    now: opts.now,
+    loader: async () => {
+      const fetchedAt = new Date().toISOString();
+      const [current, previous] = await runWithRetry(
+        () => Promise.all([
+          pullTrafficHealthAds(env, currentWindow.start, currentWindow.end),
+          pullTrafficHealthAds(env, previousWindow.start, previousWindow.end),
+        ]),
+        'Google Ads traffic health',
+      );
+      return {
+        fetched_at: fetchedAt,
+        current,
+        previous,
+        deltas: {
+          spendPct: pctDelta(current.spend, previous.spend),
+          clicksPct: pctDelta(current.clicks, previous.clicks),
+          conversionsPct: pctDelta(current.conversions, previous.conversions),
+        },
+      };
+    },
+  });
+}
+
+async function buildTrafficHealthSnapshot(env, now = new Date(), noCache = false) {
+  const currentWindow = buildLeadMonitorWindow({ days: 7, endOffsetDays: 1, now });
+  const previousWindow = buildLeadMonitorWindow({ days: 7, endOffsetDays: 8, now });
+  const sourceOpts = { now, noCache };
+  const [d1, ga4, ads] = await Promise.all([
+    readTrafficHealthD1Source(env, currentWindow, previousWindow, sourceOpts),
+    readTrafficHealthGA4Source(env, currentWindow, previousWindow, sourceOpts),
+    readTrafficHealthAdsSource(env, currentWindow, previousWindow, sourceOpts),
+  ]);
+  const sourceBlocks = [d1, ga4, ads];
+  const topFreshness = buildTopLevelFreshness(sourceBlocks, now);
+  return {
+    status: summarizeSourceStatus(sourceBlocks),
+    label: 'Traffic health',
+    fetched_at: new Date().toISOString(),
+    ...topFreshness,
+    windows: {
+      current: { start: currentWindow.start, end: currentWindow.end },
+      previous: { start: previousWindow.start, end: previousWindow.end },
+    },
+    note: 'This dashboard report uses live D1, GA4 Data API, and Google Ads API reads. Native GA4 BigQuery export is helpful for the SEO warehouse, but it is not required for this admin report.',
+    sources: { d1, ga4, ads },
   };
 }
 
@@ -721,13 +1176,8 @@ async function pullLeadMonitorD1(env, startDate, endExclusive) {
 }
 
 async function pullLeadMonitorGA4(env, startDate, endDate) {
-  const oauth = googleOAuthConfig(env, 'GA4');
-  const accessToken = await refreshGoogleAccessToken({
-    ...oauth,
-    refreshToken: env.GA4_REFRESH_TOKEN,
-    label: 'GA4',
-  });
-  const property = cleanText(env.GA4_PROPERTY_ID || DEFAULT_GA4_PROPERTY_ID, 80);
+  const accessToken = await getGA4AccessToken(env);
+  const property = resolveGA4PropertyId(env);
   const payload = {
     dateRanges: [{ startDate, endDate }],
     dimensions: [{ name: 'customEvent:lead_form' }],
@@ -760,15 +1210,15 @@ async function pullLeadMonitorGA4(env, startDate, endDate) {
 }
 
 async function pullLeadMonitorAds(env, startDate, endDate) {
-  const oauth = googleOAuthConfig(env, 'GOOGLE_ADS');
+  const oauth = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
   const accessToken = await refreshGoogleAccessToken({
     ...oauth,
-    refreshToken: env.GOOGLE_ADS_REFRESH_TOKEN,
+    refreshToken: env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN,
     label: 'Google Ads',
   });
   const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
-  const customerId = normalizeAdsCustomerId(env.GOOGLE_ADS_CUSTOMER_ID || DEFAULT_ADS_CUSTOMER_ID);
-  const loginCustomerId = normalizeAdsCustomerId(env.GOOGLE_ADS_LOGIN_CUSTOMER_ID || DEFAULT_ADS_LOGIN_CUSTOMER_ID);
+  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID);
+  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID);
   const sql = `
     SELECT segments.conversion_action_name, metrics.conversions, metrics.all_conversions
     FROM campaign
@@ -779,7 +1229,7 @@ async function pullLeadMonitorAds(env, startDate, endDate) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'developer-token': env.GOOGLE_ADS_DEVELOPER_TOKEN,
+      'developer-token': env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN,
       'login-customer-id': loginCustomerId,
       'Content-Type': 'application/json',
     },
@@ -796,7 +1246,64 @@ async function pullLeadMonitorAds(env, startDate, endDate) {
   return byAction;
 }
 
+async function readLeadMonitorD1Source(env, window, opts = {}) {
+  return buildSourceBlock({
+    source: 'd1',
+    label: 'D1',
+    cacheKey: `lead-monitor:d1:${window.start}:${window.end}`,
+    noCache: opts.noCache,
+    maxDataDate: window.end,
+    now: opts.now,
+    loader: async () => ({
+      fetched_at: new Date().toISOString(),
+      data: await runWithRetry(
+        () => pullLeadMonitorD1(env, window.start, window.endExclusive),
+        'D1 lead monitor',
+      ),
+    }),
+  });
+}
+
+async function readLeadMonitorGA4Source(env, window, opts = {}) {
+  return buildSourceBlock({
+    source: 'ga4',
+    label: 'GA4',
+    cacheKey: `lead-monitor:ga4:${window.start}:${window.end}`,
+    noCache: opts.noCache,
+    maxDataDate: window.end,
+    now: opts.now,
+    loader: async () => ({
+      fetched_at: new Date().toISOString(),
+      data: await runWithRetry(
+        () => pullLeadMonitorGA4(env, window.start, window.end),
+        'GA4 lead monitor',
+      ),
+    }),
+  });
+}
+
+async function readLeadMonitorAdsSource(env, window, opts = {}) {
+  return buildSourceBlock({
+    source: 'ads',
+    label: 'Google Ads',
+    cacheKey: `lead-monitor:ads:${window.start}:${window.end}`,
+    noCache: opts.noCache,
+    maxDataDate: window.end,
+    now: opts.now,
+    loader: async () => ({
+      fetched_at: new Date().toISOString(),
+      data: await runWithRetry(
+        () => pullLeadMonitorAds(env, window.start, window.end),
+        'Google Ads lead monitor',
+      ),
+    }),
+  });
+}
+
 async function refreshGoogleAccessToken({ clientId, clientSecret, refreshToken, tokenUri, label }) {
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error(`${label || 'Google'} OAuth refresh is not configured`);
+  }
   const body = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
@@ -810,6 +1317,63 @@ async function refreshGoogleAccessToken({ clientId, clientSecret, refreshToken, 
     label: `${label || 'Google'} token refresh`,
   });
   if (!parsed.access_token) throw new Error(`${label || 'Google'} token refresh returned no access_token`);
+  return parsed.access_token;
+}
+
+function pemToArrayBuffer(pem) {
+  const base64 = String(pem || '').replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
+
+async function getServiceAccountAccessToken(serviceAccountJson, scope, label) {
+  let serviceAccount;
+  try {
+    serviceAccount = JSON.parse(serviceAccountJson);
+  } catch (err) {
+    throw new Error(`${label || 'Google'} service account JSON could not be parsed`);
+  }
+  if (!serviceAccount.client_email || !serviceAccount.private_key) {
+    throw new Error(`${label || 'Google'} service account JSON is missing client_email/private_key`);
+  }
+
+  const tokenUri = serviceAccount.token_uri || 'https://oauth2.googleapis.com/token';
+  const now = Math.floor(Date.now() / 1000);
+  const header = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
+  const claim = Buffer.from(JSON.stringify({
+    iss: serviceAccount.client_email,
+    scope,
+    aud: tokenUri,
+    iat: now,
+    exp: now + 3600,
+  })).toString('base64url');
+  const signingInput = `${header}.${claim}`;
+  const key = await crypto.subtle.importKey(
+    'pkcs8',
+    pemToArrayBuffer(serviceAccount.private_key),
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const signature = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5',
+    key,
+    new TextEncoder().encode(signingInput),
+  );
+  const assertion = `${signingInput}.${Buffer.from(new Uint8Array(signature)).toString('base64url')}`;
+  const body = new URLSearchParams({
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    assertion,
+  });
+  const parsed = await googleJsonFetch(tokenUri, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+    label: `${label || 'Google'} service account token`,
+  });
+  if (!parsed.access_token) throw new Error(`${label || 'Google'} service account token returned no access_token`);
   return parsed.access_token;
 }
 
@@ -831,26 +1395,59 @@ async function googleJsonFetch(url, options) {
   return parsed;
 }
 
-function googleOAuthConfig(env, prefix) {
-  return {
-    clientId: env[`${prefix}_CLIENT_ID`] || env.GOOGLE_OAUTH_CLIENT_ID,
-    clientSecret: env[`${prefix}_CLIENT_SECRET`] || env.GOOGLE_OAUTH_CLIENT_SECRET,
-    tokenUri: env[`${prefix}_TOKEN_URI`] || env.GOOGLE_OAUTH_TOKEN_URI || 'https://oauth2.googleapis.com/token',
+function googleOAuthConfig(env, ...prefixes) {
+  const firstValue = (suffix, fallback = '') => {
+    for (const prefix of prefixes) {
+      const value = env[`${prefix}_${suffix}`];
+      if (value) return value;
+    }
+    return fallback;
   };
+  return {
+    clientId: firstValue('CLIENT_ID', env.GOOGLE_OAUTH_CLIENT_ID),
+    clientSecret: firstValue('CLIENT_SECRET', env.GOOGLE_OAUTH_CLIENT_SECRET),
+    tokenUri: firstValue('TOKEN_URI', env.GOOGLE_OAUTH_TOKEN_URI || 'https://oauth2.googleapis.com/token'),
+  };
+}
+
+function resolveGA4PropertyId(env) {
+  const property = cleanText(env.GA4_PROPERTY_ID, 80);
+  if (!property) throw new Error('GA4_PROPERTY_ID is not configured');
+  return property;
+}
+
+async function getGA4AccessToken(env) {
+  if (env.GA4_SA_JSON) {
+    return getServiceAccountAccessToken(
+      env.GA4_SA_JSON,
+      'https://www.googleapis.com/auth/analytics.readonly',
+      'GA4',
+    );
+  }
+
+  const oauth = googleOAuthConfig(env, 'GA4');
+  return refreshGoogleAccessToken({
+    ...oauth,
+    refreshToken: env.GA4_REFRESH_TOKEN,
+    label: 'GA4',
+  });
 }
 
 function missingLeadMonitorConfig(env, opts = {}) {
   const missing = [];
   if (!env.DB) missing.push('DB');
   const ga4 = googleOAuthConfig(env, 'GA4');
-  const ads = googleOAuthConfig(env, 'GOOGLE_ADS');
-  if (!ga4.clientId) missing.push('GA4_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
-  if (!ga4.clientSecret) missing.push('GA4_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
-  if (!env.GA4_REFRESH_TOKEN) missing.push('GA4_REFRESH_TOKEN');
-  if (!ads.clientId) missing.push('GOOGLE_ADS_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
-  if (!ads.clientSecret) missing.push('GOOGLE_ADS_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
-  if (!env.GOOGLE_ADS_REFRESH_TOKEN) missing.push('GOOGLE_ADS_REFRESH_TOKEN');
-  if (!env.GOOGLE_ADS_DEVELOPER_TOKEN) missing.push('GOOGLE_ADS_DEVELOPER_TOKEN');
+  const ads = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
+  if (!env.GA4_PROPERTY_ID) missing.push('GA4_PROPERTY_ID');
+  if (!env.GA4_SA_JSON && (!ga4.clientId || !ga4.clientSecret || !env.GA4_REFRESH_TOKEN)) {
+    missing.push('GA4_SA_JSON or GA4 OAuth secrets');
+  }
+  if (!ads.clientId) missing.push('GADS_CLIENT_ID or GOOGLE_ADS_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
+  if (!ads.clientSecret) missing.push('GADS_CLIENT_SECRET or GOOGLE_ADS_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
+  if (!(env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN)) missing.push('GADS_REFRESH_TOKEN or GOOGLE_ADS_REFRESH_TOKEN');
+  if (!(env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN)) missing.push('GADS_DEVELOPER_TOKEN or GOOGLE_ADS_DEVELOPER_TOKEN');
+  if (!(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID)) missing.push('GADS_LOGIN_CUSTOMER_ID or GOOGLE_ADS_LOGIN_CUSTOMER_ID');
+  if (!(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID)) missing.push('GADS_CUSTOMER_ID or GOOGLE_ADS_CUSTOMER_ID');
   if (opts.sendAlert && !env.RESEND_API_KEY) missing.push('RESEND_API_KEY');
   return missing;
 }
@@ -946,7 +1543,7 @@ function truthyParam(value) {
 }
 
 async function handleAdminPages(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -1009,7 +1606,7 @@ async function handleAdminPages(request, env) {
 }
 
 async function handleAdminVisitorUpdate(request, env, visitorId) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -1130,7 +1727,7 @@ async function handleAdminVisitorUpdate(request, env, visitorId) {
 
 // ── ADMIN: Weekly growth-ops report ──────────────────────────
 async function handleAdminWeeklyReport(request, env) {
-  if (!isAdminAuthorized(request, env)) {
+  if (!(await isAdminAuthorized(request, env))) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401, headers: CORS_HEADERS,
     });
@@ -1142,8 +1739,10 @@ async function handleAdminWeeklyReport(request, env) {
   const includeFields = String(url.searchParams.get('include') || '')
     .split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
   const includeEmail = includeFields.includes('email');
+  const noCache = truthyParam(url.searchParams.get('nocache'));
   const since = new Date(Date.now() - days * 86400000).toISOString();
   const generatedAt = new Date().toISOString();
+  const now = new Date();
 
   try {
     // --- Leads list ---
@@ -1240,10 +1839,21 @@ async function handleAdminWeeklyReport(request, env) {
       }
     } catch (e) { /* non-fatal */ }
 
+    const [leadMonitor, trafficHealth] = await Promise.all([
+      safeRunLeadMonitor(env, { days: 14, endOffsetDays: 1, now, source: 'weekly-report', noCache }),
+      buildTrafficHealthSnapshot(env, now, noCache),
+    ]);
+    const overallFreshness = buildTopLevelFreshness([trafficHealth, leadMonitor], now);
+
     return new Response(JSON.stringify({
       success: true,
       generated_at: generatedAt,
+      fetched_at: generatedAt,
       window_days: days,
+      nocache: noCache,
+      freshness_gate: overallFreshness.freshness_gate,
+      freshness_message: overallFreshness.freshness_message,
+      freshness: overallFreshness.freshness,
       leads: leads.map(r => {
         const lead = {
           date: String(r.created_at || '').slice(0, 10),
@@ -1271,6 +1881,8 @@ async function handleAdminWeeklyReport(request, env) {
         grade_c: gradeC,
         ungraded,
       },
+      traffic_health: trafficHealth,
+      lead_monitor: leadMonitor,
     }), { status: 200, headers: CORS_HEADERS });
   } catch (err) {
     console.error('Weekly report error:', err.message);
@@ -1280,10 +1892,19 @@ async function handleAdminWeeklyReport(request, env) {
   }
 }
 
-function isAdminAuthorized(request, env) {
+async function sha256Hex(value) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(value || '')));
+  return Buffer.from(new Uint8Array(digest)).toString('hex');
+}
+
+async function isAdminAuthorized(request, env) {
   const authHeader = request.headers.get('Authorization') || '';
   const token = authHeader.replace('Bearer ', '').trim();
-  return token && env.ADMIN_PASSWORD && token === env.ADMIN_PASSWORD;
+  if (!token) return false;
+  if (env.DC_ADMIN_TOKEN_HASH) {
+    return (await sha256Hex(token)) === String(env.DC_ADMIN_TOKEN_HASH).trim().toLowerCase();
+  }
+  return Boolean(token && env.ADMIN_PASSWORD && token === env.ADMIN_PASSWORD);
 }
 
 // ── PARTS REQUEST: Handle a parts-list submission ───────────
