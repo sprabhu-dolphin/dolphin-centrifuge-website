@@ -946,19 +946,12 @@ async function pullTrafficHealthD1(env, startDate, endExclusive) {
 }
 
 async function pullTrafficHealthGA4(env, startDate, endDate) {
-  const accessToken = await getGA4AccessToken(env);
-  const property = resolveGA4PropertyId(env);
-  const body = await googleJsonFetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      dateRanges: [{ startDate, endDate }],
-      dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
-      metrics: [{ name: 'sessions' }, { name: 'keyEvents' }],
-      limit: 100,
-    }),
-    label: 'GA4 source health runReport',
-  });
+  const body = await runGA4Report(env, {
+    dateRanges: [{ startDate, endDate }],
+    dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
+    metrics: [{ name: 'sessions' }, { name: 'keyEvents' }],
+    limit: 100,
+  }, 'GA4 source health runReport');
 
   const rows = {};
   for (const row of body.rows || []) {
@@ -1176,8 +1169,6 @@ async function pullLeadMonitorD1(env, startDate, endExclusive) {
 }
 
 async function pullLeadMonitorGA4(env, startDate, endDate) {
-  const accessToken = await getGA4AccessToken(env);
-  const property = resolveGA4PropertyId(env);
   const payload = {
     dateRanges: [{ startDate, endDate }],
     dimensions: [{ name: 'customEvent:lead_form' }],
@@ -1190,12 +1181,7 @@ async function pullLeadMonitorGA4(env, startDate, endDate) {
     },
     limit: 100,
   };
-  const body = await googleJsonFetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-    label: 'GA4 runReport',
-  });
+  const body = await runGA4Report(env, payload, 'GA4 runReport');
 
   const dimHeaders = (body.dimensionHeaders || []).map((h) => h.name);
   const metHeaders = (body.metricHeaders || []).map((h) => h.name);
@@ -1416,21 +1402,58 @@ function resolveGA4PropertyId(env) {
   return property;
 }
 
-async function getGA4AccessToken(env) {
+async function runGA4Report(env, payload, label = 'GA4 runReport') {
+  const property = resolveGA4PropertyId(env);
+  const url = `https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`;
+  const oauth = googleOAuthConfig(env, 'GA4');
+  const canFallbackToOAuth = Boolean(oauth.clientId && oauth.clientSecret && env.GA4_REFRESH_TOKEN);
+  let serviceAccountError = null;
+
   if (env.GA4_SA_JSON) {
-    return getServiceAccountAccessToken(
-      env.GA4_SA_JSON,
-      'https://www.googleapis.com/auth/analytics.readonly',
-      'GA4',
-    );
+    try {
+      const accessToken = await getServiceAccountAccessToken(
+        env.GA4_SA_JSON,
+        'https://www.googleapis.com/auth/analytics.readonly',
+        'GA4',
+      );
+      return await googleJsonFetch(url, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        label,
+      });
+    } catch (err) {
+      serviceAccountError = err;
+      const message = String(err?.message || err || '');
+      const shouldFallback = canFallbackToOAuth && /(?:\b401\b|\b403\b|PERMISSION_DENIED|ACCESS_TOKEN_SCOPE_INSUFFICIENT|insufficient authentication scopes|User does not have sufficient permissions|unauthorized_client)/i.test(message);
+      if (!shouldFallback) throw err;
+      console.warn(`GA4 service account path failed, falling back to OAuth: ${message}`);
+    }
   }
 
-  const oauth = googleOAuthConfig(env, 'GA4');
-  return refreshGoogleAccessToken({
+  if (!canFallbackToOAuth) {
+    if (serviceAccountError) throw serviceAccountError;
+    throw new Error('GA4 credentials are not configured');
+  }
+
+  const accessToken = await refreshGoogleAccessToken({
     ...oauth,
     refreshToken: env.GA4_REFRESH_TOKEN,
     label: 'GA4',
   });
+  try {
+    return await googleJsonFetch(url, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      label,
+    });
+  } catch (err) {
+    if (serviceAccountError) {
+      err.message = `${err.message}; prior GA4 service-account attempt failed: ${serviceAccountError.message}`;
+    }
+    throw err;
+  }
 }
 
 function missingLeadMonitorConfig(env, opts = {}) {
