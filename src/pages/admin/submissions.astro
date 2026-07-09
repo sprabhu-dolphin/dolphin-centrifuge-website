@@ -1075,6 +1075,11 @@ const isDevDashboard = import.meta.env.DEV;
     .va-grade-select.grade-a { background: #dcfce7; color: #15803d; border-color: #86efac; }
     .va-grade-select.grade-b { background: #fef9c3; color: #854d0e; border-color: #fde047; }
     .va-grade-select.grade-c { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+    .lead-grade-select { padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.78rem; background: #fff; color: #16335c; cursor: pointer; }
+    .lead-grade-select.grade-a { background: #dcfce7; color: #15803d; border-color: #86efac; }
+    .lead-grade-select.grade-b { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+    .lead-grade-select.grade-c { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+    .lead-grade-reason { margin-top: 4px; font-size: 0.68rem; color: #64748b; line-height: 1.25; max-width: 150px; }
     /* Grade control inside the Save Visitor panel */
     .visitor-grade-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
     .visitor-grade-label { font-size: 0.75rem; font-weight: 700; color: #475569; }
@@ -1565,6 +1570,30 @@ const isDevDashboard = import.meta.env.DEV;
       );
     }
 
+    function leadGradeValue(record) {
+      return (record.grade === 'A' || record.grade === 'B' || record.grade === 'C') ? record.grade : '';
+    }
+
+    function isLeadGraded(record) {
+      return Boolean(leadGradeValue(record));
+    }
+
+    function renderLeadGrade(record) {
+      const grade = leadGradeValue(record);
+      const cls = grade ? ` grade-${grade.toLowerCase()}` : '';
+      const reason = String(record.grade_reason || '').trim();
+      const source = String(record.grade_source || '').trim();
+      const title = [source ? `Source: ${source}` : '', reason].filter(Boolean).join(' | ');
+      const reasonText = reason ? (reason.length > 70 ? reason.slice(0, 70) + '...' : reason) : '';
+      return `<select class="lead-grade-select${cls}" data-grade-submission-id="${esc(record.id)}" title="${esc(title || 'Lead grade')}">`
+        + `<option value=""${grade ? '' : ' selected'}>Ungraded</option>`
+        + `<option value="A"${grade === 'A' ? ' selected' : ''}>A</option>`
+        + `<option value="B"${grade === 'B' ? ' selected' : ''}>B</option>`
+        + `<option value="C"${grade === 'C' ? ' selected' : ''}>C</option>`
+        + `</select>`
+        + (reasonText ? `<div class="lead-grade-reason" title="${esc(reason)}">${esc(reasonText)}</div>` : '');
+    }
+
     function renderTable(data) {
       if (data.length === 0) {
         tableContainer.innerHTML = '<div class="empty">No submissions in this range.</div>';
@@ -1576,6 +1605,7 @@ const isDevDashboard = import.meta.env.DEV;
           <col style="width:54px">
           <col style="width:108px">
           <col style="width:116px">
+          <col style="width:150px">
           <col style="width:170px">
           <col style="width:210px">
           <col style="width:230px">
@@ -1599,6 +1629,7 @@ const isDevDashboard = import.meta.env.DEV;
             <th>#</th>
             <th>Date</th>
             <th>Type</th>
+            <th>Grade</th>
             <th>Name</th>
             <th>Company</th>
             <th>Email</th>
@@ -1636,6 +1667,7 @@ const isDevDashboard = import.meta.env.DEV;
             <td>${r.id}</td>
             <td style="white-space:nowrap">${date}</td>
             <td><span class="type-badge">${esc(formTypeLabel(r.form_type))}</span></td>
+            <td>${renderLeadGrade(r)}</td>
             <td style="white-space:nowrap">${esc(r.first_name)} ${esc(r.last_name)}</td>
             <td>${esc(r.company)}</td>
             <td><a href="mailto:${esc(r.email)}" style="color:#1a2a4a;">${esc(r.email)}</a></td>
@@ -2195,17 +2227,8 @@ const isDevDashboard = import.meta.env.DEV;
           ? `<span class="va-chip va-chip-id" title="Identified visitor">${esc(identityLabel)}</span>`
           : '';
 
-        // Grade chip/select — inline, saves immediately. Canonical: visitor_profiles.grade
-        const grade = (visitor.grade === 'A' || visitor.grade === 'B' || visitor.grade === 'C') ? visitor.grade : '';
-        const gradeCls = grade ? ('grade-' + grade.toLowerCase()) : '';
-        const gradeSelect = visitorId
-          ? `<select class="va-grade-select ${gradeCls}" data-grade-visitor-id="${esc(visitorId)}" title="Lead grade">`
-            + `<option value=""${grade ? '' : ' selected'}>&mdash;</option>`
-            + `<option value="A"${grade === 'A' ? ' selected' : ''}>A</option>`
-            + `<option value="B"${grade === 'B' ? ' selected' : ''}>B</option>`
-            + `<option value="C"${grade === 'C' ? ' selected' : ''}>C</option>`
-            + `</select>`
-          : '';
+        // Lead grade now lives on the individual submission row, not the visitor profile.
+        const gradeSelect = '';
 
         // Visit-# badge + RETURNING badge
         const visitN = visits || 1;
@@ -2261,11 +2284,14 @@ const isDevDashboard = import.meta.env.DEV;
       // Visitors — text filter, then the activity toggle-filters, then
       // renderVisitorDirectory applies the known-only view + pagination.
       const submittedForFilter = submittedVisitorIdSet();
+      const gradedLeadVisitors = new Set(
+        allData.filter(isLeadGraded).map(r => r.attribution_visitor_id).filter(Boolean)
+      );
       let visitorsFiltered = allVisitors.filter(visitor =>
         visitorProfileSearchText(visitor).toLowerCase().includes(q)
       );
       if (activeFilters.identified) visitorsFiltered = visitorsFiltered.filter(v => isIdentifiedVisitor(v, submittedForFilter));
-      if (activeFilters.graded) visitorsFiltered = visitorsFiltered.filter(v => v.grade === 'A' || v.grade === 'B' || v.grade === 'C');
+      if (activeFilters.graded) visitorsFiltered = visitorsFiltered.filter(v => gradedLeadVisitors.has(v.visitor_id));
       if (activeFilters.paid) visitorsFiltered = visitorsFiltered.filter(v => visitorHasPaidOrigin(v));
       if (activeFilters.ai) visitorsFiltered = visitorsFiltered.filter(v => isAiReferral(v));
       renderVisitorDirectory(visitorsFiltered);
@@ -2399,8 +2425,7 @@ const isDevDashboard = import.meta.env.DEV;
       if (saveVisitorBtn) { saveVisitorSettings(saveVisitorBtn); return; }
       // The grade dropdown, links, and anything inside the detail panel handle
       // themselves — never toggle the row for those.
-      if (e.target.closest('[data-grade-visitor-id]') || e.target.closest('a')
-          || e.target.closest('.va-detail-sc')) return;
+      if (e.target.closest('a') || e.target.closest('.va-detail-sc')) return;
       // Otherwise a click anywhere on the compact row toggles its detail panel.
       const expander = e.target.closest('[data-va-expand]');
       if (!expander) return;
@@ -2408,13 +2433,11 @@ const isDevDashboard = import.meta.env.DEV;
       if (wrap) toggleVisitorDetail(wrap);
     });
 
-    // Inline + panel grade selectors save straight to visitor_profiles.grade.
-    // Bound on `dashboard` so it also catches the grade select inside the
-    // leads-table visitor panel (rendered outside visitorDirectory).
+    // Lead grade selectors save straight to submissions.grade.
     dashboard.addEventListener('change', function(e) {
-      const gradeSel = e.target.closest('[data-grade-visitor-id]');
+      const gradeSel = e.target.closest('[data-grade-submission-id]');
       if (!gradeSel) return;
-      saveVisitorGrade(gradeSel.dataset.gradeVisitorId, gradeSel.value);
+      saveSubmissionGrade(gradeSel.dataset.gradeSubmissionId, gradeSel.value);
     });
 
     // Expand/collapse a compact row's detail panel; lazy-load its timeline on open.
@@ -2591,49 +2614,45 @@ const isDevDashboard = import.meta.env.DEV;
       }
     }
 
-    // Inline lead-grade save. Reuses the /admin/visitors endpoint and MERGES the
-    // visitor's existing fields so a grade change never wipes label/contact, then
-    // updates local state + open selects in place (no full re-render / collapse).
-    async function saveVisitorGrade(visitorId, value) {
-      if (!visitorId) return;
+    async function saveSubmissionGrade(submissionId, value) {
+      if (!submissionId) return;
       const grade = (value === 'A' || value === 'B' || value === 'C') ? value : '';
-      const existing = allVisitors.find(v => v.visitor_id === visitorId) || {};
       const token = sessionStorage.getItem(SESSION_KEY);
-      const payload = {
-        label: existing.label || '',
-        contact_name: existing.contact_name || '',
-        contact_company: existing.contact_company || '',
-        contact_email: existing.contact_email || '',
-        contact_phone: existing.contact_phone || '',
-        identity_source: existing.identity_source || 'manual',
-        identity_confidence: existing.identity_confidence || 'manual-confirmed',
-        notes: existing.notes || '',
-        alert_enabled: existing.alert_enabled ? true : false,
-        alert_email: existing.alert_email || 'sales@dolphincentrifuge.com',
-        grade: grade,   // '' clears; 'A' | 'B' | 'C' sets
-      };
-      // Optimistic local update.
-      allVisitors = allVisitors.map(v => v.visitor_id === visitorId ? { ...v, grade: grade } : v);
-      allData = allData.map(r => r.attribution_visitor_id === visitorId ? { ...r, visitor_grade: grade } : r);
-      // Reflect in every open select for this visitor without collapsing the row.
-      const selects = dashboard.querySelectorAll(`[data-grade-visitor-id="${cssEscape(visitorId)}"]`);
+      const now = new Date().toISOString();
+      const reason = grade ? 'manual dashboard grade' : 'manual dashboard cleared grade';
+      allData = allData.map(r => String(r.id) === String(submissionId)
+        ? { ...r, grade: grade, grade_source: 'manual', grade_reason: reason, graded_at: now }
+        : r);
+      const selects = dashboard.querySelectorAll(`[data-grade-submission-id="${cssEscape(submissionId)}"]`);
       selects.forEach(sel => {
         if (sel.value !== grade) sel.value = grade;
-        if (sel.classList.contains('va-grade-select')) {
+        if (sel.classList.contains('lead-grade-select')) {
           sel.classList.remove('grade-a', 'grade-b', 'grade-c');
           if (grade) sel.classList.add('grade-' + grade.toLowerCase());
         }
       });
       try {
-        const resp = await fetch(`${WORKER_URL}/admin/visitors/${encodeURIComponent(visitorId)}`, {
+        const resp = await fetch(`${WORKER_URL}/admin/submissions/${encodeURIComponent(submissionId)}`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ grade }),
         });
         if (resp.status === 401) { logout(); return; }
         if (!resp.ok) throw new Error('Grade save failed');
+        const json = await resp.json().catch(() => ({}));
+        allData = allData.map(r => String(r.id) === String(submissionId)
+          ? {
+              ...r,
+              grade: json.grade || '',
+              grade_source: json.grade_source || 'manual',
+              grade_reason: json.grade_reason || reason,
+              graded_at: json.graded_at || now,
+            }
+          : r);
+        applySearch();
       } catch (err) {
         alert('Could not save the grade. Please try again.');
+        loadSubmissions(token);
       }
     }
 
@@ -2968,12 +2987,6 @@ const isDevDashboard = import.meta.env.DEV;
       const notesValue = record.visitor_notes || record.notes || '';
       const alertEnabled = Number(record.visitor_alert_enabled || record.alert_enabled || 0);
       const alertEmail = record.visitor_alert_email || record.alert_email || 'sales@dolphincentrifuge.com';
-      // Grade lives on visitor_profiles; read the freshest value from the profile cache.
-      const liveGradeVisitor = (typeof allVisitors !== 'undefined' && Array.isArray(allVisitors))
-        ? allVisitors.find(v => v.visitor_id === visitorId) : null;
-      const gradeRawValue = (liveGradeVisitor && liveGradeVisitor.grade) || record.grade || record.visitor_grade || '';
-      const gVal = (gradeRawValue === 'A' || gradeRawValue === 'B' || gradeRawValue === 'C') ? gradeRawValue : '';
-
       return `
         <div class="visitor-label-box" data-visitor-box="${esc(visitorId)}">
           ${attribLine('Label', labelValue ? esc(labelValue) : '<span class="attrib-muted">Unlabeled</span>')}
@@ -2990,16 +3003,6 @@ const isDevDashboard = import.meta.env.DEV;
             <span>Email me when this visitor returns</span>
           </label>
           <input type="email" data-visitor-email="${esc(visitorId)}" value="${esc(alertEmail)}" placeholder="sales@dolphincentrifuge.com" />
-          <div class="visitor-grade-row">
-            <span class="visitor-grade-label">Lead grade</span>
-            <select class="visitor-grade-input" data-grade-visitor-id="${esc(visitorId)}">
-              <option value=""${gVal ? '' : ' selected'}>Ungraded</option>
-              <option value="A"${gVal === 'A' ? ' selected' : ''}>A &mdash; hot</option>
-              <option value="B"${gVal === 'B' ? ' selected' : ''}>B &mdash; warm</option>
-              <option value="C"${gVal === 'C' ? ' selected' : ''}>C &mdash; cold</option>
-            </select>
-            <span class="visitor-grade-hint">saves on change</span>
-          </div>
           <button class="visitor-save-btn" data-save-visitor-id="${esc(visitorId)}">Save Visitor</button>
           <span class="visitor-save-status" data-visitor-status="${esc(visitorId)}"></span>
         </div>

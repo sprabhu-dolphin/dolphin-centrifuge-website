@@ -75,6 +75,10 @@ CREATE TABLE IF NOT EXISTS submissions (
   -- Admin Metadata
   is_reconnect         INTEGER NOT NULL DEFAULT 0,  -- 1 = returning customer detected
   reconnect_match_id   INTEGER          DEFAULT NULL, -- id of the previous matching entry
+  grade                TEXT             DEFAULT NULL, -- lead grade: 'A' | 'B' | 'C' | NULL
+  grade_source         TEXT             DEFAULT NULL, -- 'auto' | 'manual'
+  grade_reason         TEXT             DEFAULT '',   -- one-line reason for the current grade
+  graded_at            TEXT             DEFAULT '',   -- ISO timestamp
   deleted              INTEGER NOT NULL DEFAULT 0,  -- 1 = soft-deleted (hidden from dashboard)
   admin_notes          TEXT             DEFAULT ''
 );
@@ -91,6 +95,8 @@ CREATE INDEX IF NOT EXISTS idx_attribution_gclid ON submissions(attribution_gcli
 CREATE INDEX IF NOT EXISTS idx_attribution_source ON submissions(attribution_source);
 CREATE INDEX IF NOT EXISTS idx_visitor_ip ON submissions(visitor_ip);
 CREATE INDEX IF NOT EXISTS idx_visitor_country ON submissions(visitor_country);
+CREATE INDEX IF NOT EXISTS idx_submissions_grade ON submissions(grade);
+CREATE INDEX IF NOT EXISTS idx_submissions_grade_source ON submissions(grade_source);
 
 CREATE TABLE IF NOT EXISTS visitor_profiles (
   visitor_id              TEXT PRIMARY KEY,

@@ -15,6 +15,7 @@ import {
   normalizeAdsCustomerId,
   reconcileLeadSources,
 } from '../../lead-reconciliation-core.mjs';
+import { gradeLead, runLeadGradeBackfill } from './grading.js';
 
 const SOURCE_TIMEOUT_MS = 8_000;
 const SOURCE_RETRY_COUNT = 2;
@@ -73,6 +74,15 @@ export default {
       return handleAdminWeeklyReport(request, env);
     }
 
+    if (request.method === 'POST' && path === '/admin/backfill-grades') {
+      return handleAdminBackfillGrades(request, env);
+    }
+
+    if (request.method === 'POST' && path.startsWith('/admin/submissions/')) {
+      const id = path.split('/').pop();
+      return handleAdminSubmissionUpdate(request, env, id);
+    }
+
     if (request.method === 'POST' && path.startsWith('/admin/visitors/')) {
       const visitorId = decodeURIComponent(path.split('/').pop() || '');
       return handleAdminVisitorUpdate(request, env, visitorId);
@@ -97,9 +107,9 @@ export default {
         return handlePageview(request, env, ctx);
       }
       if (path === '/parts') {
-        return handlePartsSubmit(request, env);
+        return handlePartsSubmit(request, env, ctx);
       }
-      return handleFormSubmit(request, env);
+      return handleFormSubmit(request, env, ctx);
     }
 
     return new Response(
@@ -167,6 +177,7 @@ async function handleAdminGet(request, env) {
           vp.alert_enabled AS visitor_alert_enabled,
           vp.alert_email AS visitor_alert_email,
           vp.notes AS visitor_notes,
+          vp.grade AS visitor_grade,
           vp.visit_count AS visitor_profile_visit_count,
           vp.pageview_count AS visitor_profile_pageview_count,
           vp.last_seen_at AS visitor_profile_last_seen_at
@@ -222,6 +233,63 @@ async function handleAdminDelete(request, env, id) {
     });
   } catch (err) {
     console.error('Admin DELETE error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminSubmissionUpdate(request, env, id) {
+  if (!(await isAdminAuthorized(request, env))) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  const leadId = Number(id);
+  if (!Number.isFinite(leadId) || leadId <= 0) {
+    return new Response(JSON.stringify({ error: 'Invalid id' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  let body = {};
+  try {
+    body = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(body, 'grade')) {
+    return new Response(JSON.stringify({ error: 'Missing grade' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const grade = (body.grade === 'A' || body.grade === 'B' || body.grade === 'C') ? body.grade : null;
+  const reason = grade ? 'manual dashboard grade' : 'manual dashboard cleared grade';
+  const now = new Date().toISOString();
+
+  try {
+    const result = await env.DB.prepare(`
+      UPDATE submissions
+      SET grade = ?, grade_source = 'manual', grade_reason = ?, graded_at = ?
+      WHERE id = ? AND deleted = 0
+    `).bind(grade, reason, now, leadId).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id: leadId,
+      grade,
+      grade_source: 'manual',
+      grade_reason: reason,
+      graded_at: now,
+      updated: Number(result && result.meta && result.meta.changes || 0),
+    }), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('Admin submission grade update error:', err.message);
     return new Response(JSON.stringify({ error: 'Database error' }), {
       status: 500, headers: CORS_HEADERS,
     });
@@ -1730,7 +1798,8 @@ async function handleAdminWeeklyReport(request, env) {
           s.first_name, s.last_name, s.company, s.email,
           s.attribution_source, s.attribution_medium, s.attribution_gclid,
           s.attribution_landing_page, s.form_type,
-          vp.grade, vp.contact_name, vp.contact_company
+          s.grade, s.grade_source, s.grade_reason, s.graded_at,
+          vp.contact_name, vp.contact_company
         FROM submissions s
         LEFT JOIN visitor_profiles vp ON s.attribution_visitor_id = vp.visitor_id
         WHERE s.deleted = 0 AND s.created_at >= ?
@@ -1755,21 +1824,46 @@ async function handleAdminWeeklyReport(request, env) {
     // --- Aggregate counts ---
     const AI_REFERRAL_DOMAINS = ['chatgpt.com','perplexity.ai','claude.ai','gemini.google.com','copilot.microsoft.com','you.com','phind.com'];
 
+    let totalProfiles = 0, paidProfiles = 0;
+    let formLeadCount = 0, gradeA = 0, gradeBExplicit = 0, gradeB = 0, gradeC = 0, ungraded = 0;
+    try {
+      const { results: gradeRows } = await env.DB.prepare(`
+        SELECT
+          COUNT(*) AS form_leads,
+          SUM(CASE WHEN grade = 'A' THEN 1 ELSE 0 END) AS grade_a,
+          SUM(CASE WHEN grade = 'B' THEN 1 ELSE 0 END) AS grade_b_explicit,
+          SUM(CASE WHEN grade = 'C' THEN 1 ELSE 0 END) AS grade_c,
+          SUM(CASE WHEN grade IS NULL OR grade NOT IN ('A','B','C') THEN 1 ELSE 0 END) AS ungraded
+        FROM submissions
+        WHERE deleted = 0 AND created_at >= ?
+      `).bind(since).all();
+      const row = gradeRows[0] || {};
+      formLeadCount = Number(row.form_leads || 0);
+      gradeA = Number(row.grade_a || 0);
+      gradeBExplicit = Number(row.grade_b_explicit || 0);
+      gradeC = Number(row.grade_c || 0);
+      ungraded = Number(row.ungraded || 0);
+      gradeB = gradeBExplicit + ungraded; // Ungraded counts as B for reporting.
+    } catch (e) {
+      if (!isMissingColumnError(e) && !isMissingTableError(e)) throw e;
+      const { results: countRows } = await env.DB.prepare(
+        `SELECT COUNT(*) AS form_leads FROM submissions WHERE deleted = 0 AND created_at >= ?`
+      ).bind(since).all();
+      formLeadCount = Number(countRows[0]?.form_leads || leads.length || 0);
+      ungraded = formLeadCount;
+      gradeB = formLeadCount;
+    }
+
     // Total profiles active in window
-    let totalProfiles = 0, paidProfiles = 0, gradeA = 0, gradeB = 0, gradeC = 0, ungraded = 0;
     try {
       const { results: vp } = await env.DB.prepare(
-        `SELECT gclid, gbraid, wbraid, source, medium, grade FROM visitor_profiles WHERE last_seen_at >= ? LIMIT ${ADMIN_LIST_LIMIT}`
+        `SELECT gclid, gbraid, wbraid, source, medium FROM visitor_profiles WHERE last_seen_at >= ? LIMIT ${ADMIN_LIST_LIMIT}`
       ).bind(since).all();
       totalProfiles = vp.length;
       for (const v of vp) {
         const med = String(v.medium || '').toLowerCase();
         const src = String(v.source || '').toLowerCase();
         if (v.gclid || v.gbraid || v.wbraid || ['cpc','ppc','paid'].includes(med) || src.includes('googleads')) paidProfiles++;
-        if (v.grade === 'A') gradeA++;
-        else if (v.grade === 'B') gradeB++;
-        else if (v.grade === 'C') gradeC++;
-        else ungraded++;
       }
     } catch (e) { /* non-fatal */ }
 
@@ -1851,9 +1945,10 @@ async function handleAdminWeeklyReport(request, env) {
         ai_referral_profiles: aiReferralProfiles,
         phone_clicks: phoneClicks,
         email_clicks: emailClicks,
-        form_leads: leads.length,
+        form_leads: formLeadCount || leads.length,
         grade_a: gradeA,
         grade_b: gradeB,
+        grade_b_explicit: gradeBExplicit,
         grade_c: gradeC,
         ungraded,
       },
@@ -1878,6 +1973,42 @@ async function isAdminAuthorized(request, env) {
   const token = authHeader.replace('Bearer ', '').trim();
   if (!token || !env.DC_ADMIN_TOKEN_HASH) return false;
   return (await sha256Hex(token)) === String(env.DC_ADMIN_TOKEN_HASH).trim().toLowerCase();
+}
+
+async function isGradeBackfillAuthorized(request, env) {
+  const authHeader = request.headers.get('Authorization') || '';
+  const token = authHeader.replace('Bearer ', '').trim();
+  if (!token || !env.GRADE_BACKFILL_TOKEN_HASH) return false;
+  return (await sha256Hex(token)) === String(env.GRADE_BACKFILL_TOKEN_HASH).trim().toLowerCase();
+}
+
+async function handleAdminBackfillGrades(request, env) {
+  if (String(env.ENABLE_GRADE_BACKFILL || '') !== '1') {
+    return new Response(JSON.stringify({ error: 'Backfill disabled' }), {
+      status: 404, headers: CORS_HEADERS,
+    });
+  }
+
+  const authorized = (await isAdminAuthorized(request, env)) || (await isGradeBackfillAuthorized(request, env));
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  try {
+    const url = new URL(request.url);
+    const limit = Math.min(1000, Math.max(1, Number(url.searchParams.get('limit') || 1000)));
+    const summary = await runLeadGradeBackfill(env, { limit });
+    return new Response(JSON.stringify({ success: true, ...summary }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    console.error('Grade backfill error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error', detail: err.message }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
 }
 
 // ── PARTS REQUEST: Handle a parts-list submission ───────────
@@ -3197,7 +3328,25 @@ async function insertSubmission(env, row) {
   }
 }
 
-async function handlePartsSubmit(request, env) {
+function insertedLeadId(result) {
+  const id = Number(result && result.meta && result.meta.last_row_id);
+  return Number.isFinite(id) && id > 0 ? id : null;
+}
+
+function scheduleLeadAutoGrade(ctx, env, insertResult) {
+  const leadId = insertedLeadId(insertResult);
+  if (!leadId) {
+    console.error('Lead auto-grade skipped: D1 insert did not return last_row_id');
+    return;
+  }
+  if (ctx && typeof ctx.waitUntil === 'function') {
+    ctx.waitUntil(gradeLead(env, leadId));
+    return;
+  }
+  gradeLead(env, leadId);
+}
+
+async function handlePartsSubmit(request, env, ctx) {
   try {
     let body = {};
     try {
@@ -3323,7 +3472,7 @@ async function handlePartsSubmit(request, env) {
           `${part.quantity} x ${part.partNumber} - ${part.description}`
         )).join('\n');
 
-        await insertSubmission(env, {
+        const insertResult = await insertSubmission(env, {
           firstName: nameParts.firstName,
           lastName: nameParts.lastName,
           company,
@@ -3345,6 +3494,7 @@ async function handlePartsSubmit(request, env) {
           partsJson: safeJson(cleanParts, 10000),
           partsCount: cleanParts.length,
         });
+        scheduleLeadAutoGrade(ctx, env, insertResult);
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'parts', name, company, email, phone, parts: cleanParts,
@@ -3391,7 +3541,7 @@ async function handlePartsSubmit(request, env) {
 }
 
 // ── FORM: Handle a contact form submission ───────────────────
-async function handleFormSubmit(request, env) {
+async function handleFormSubmit(request, env, ctx) {
   try {
     // Parse form data
     const contentType = request.headers.get('Content-Type') || '';
@@ -3569,7 +3719,7 @@ async function handleFormSubmit(request, env) {
     // Save to D1 before email so an email outage cannot lose the lead.
     if (env.DB) {
       try {
-        await insertSubmission(env, {
+        const insertResult = await insertSubmission(env, {
           firstName,
           lastName,
           company,
@@ -3591,6 +3741,7 @@ async function handleFormSubmit(request, env) {
           partsJson: '',
           partsCount: 0,
         });
+        scheduleLeadAutoGrade(ctx, env, insertResult);
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'contact', firstName, lastName, company, email, phone,
