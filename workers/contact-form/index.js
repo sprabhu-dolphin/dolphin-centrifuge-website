@@ -21,6 +21,7 @@ const SOURCE_TIMEOUT_MS = 8_000;
 const SOURCE_RETRY_COUNT = 2;
 const SOURCE_CACHE_TTL_SECONDS = 15 * 60;
 const SOURCE_STALE_AFTER_DAYS = 7;
+const BIGQUERY_PROJECT_ID = 'gen-lang-client-0409110854';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -72,6 +73,18 @@ export default {
 
     if (request.method === 'GET' && path === '/admin/api/weekly-report') {
       return handleAdminWeeklyReport(request, env);
+    }
+
+    if (request.method === 'GET' && path === '/admin/api/ga4-weekly') {
+      return handleAdminGa4Weekly(request, env);
+    }
+
+    if (request.method === 'GET' && path === '/admin/api/gsc-weekly') {
+      return handleAdminGscWeekly(request, env);
+    }
+
+    if (request.method === 'GET' && path === '/admin/api/ads-weekly') {
+      return handleAdminAdsWeekly(request, env);
     }
 
     if (request.method === 'POST' && path === '/admin/backfill-grades') {
@@ -1770,12 +1783,276 @@ async function handleAdminVisitorUpdate(request, env, visitorId) {
 }
 
 // ── ADMIN: Weekly growth-ops report ──────────────────────────
-async function handleAdminWeeklyReport(request, env) {
-  if (!(await isAdminAuthorized(request, env))) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401, headers: CORS_HEADERS,
+function readReportDays(request, fallback = 7) {
+  const url = new URL(request.url);
+  return Math.min(90, Math.max(1, Number(url.searchParams.get('days') || fallback)));
+}
+
+function reportUnauthorizedResponse() {
+  return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    status: 401,
+    headers: CORS_HEADERS,
+  });
+}
+
+function parseBigQueryCell(cell, field) {
+  const value = cell?.v;
+  if (value === undefined || value === null) return null;
+  const type = String(field?.type || '').toUpperCase();
+  if (type === 'INTEGER' || type === 'INT64') return Number(value);
+  if (['FLOAT', 'FLOAT64', 'NUMERIC', 'BIGNUMERIC'].includes(type)) return Number(value);
+  if (type === 'BOOLEAN' || type === 'BOOL') return value === true || value === 'true';
+  return String(value);
+}
+
+function parseBigQueryRows(body) {
+  const fields = body?.schema?.fields || [];
+  return (body?.rows || []).map((row) => Object.fromEntries(
+    (row.f || []).map((cell, index) => [fields[index]?.name || `field_${index}`, parseBigQueryCell(cell, fields[index])]),
+  ));
+}
+
+async function runBigQueryQuery(env, query, label, maxResults = 1000) {
+  if (!env.GA4_SA_JSON) throw new Error('GA4_SA_JSON is not configured for BigQuery reads');
+  const projectId = cleanText(env.BIGQUERY_PROJECT_ID || BIGQUERY_PROJECT_ID, 120) || BIGQUERY_PROJECT_ID;
+  const accessToken = await getServiceAccountAccessToken(
+    env.GA4_SA_JSON,
+    'https://www.googleapis.com/auth/bigquery.readonly',
+    'BigQuery',
+  );
+  const body = await googleJsonFetch(`https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/queries`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query,
+      useLegacySql: false,
+      maxResults,
+      timeoutMs: SOURCE_TIMEOUT_MS,
+    }),
+    label,
+  });
+  if (body.jobComplete === false) throw new Error(`${label || 'BigQuery query'} did not complete within timeout`);
+  return {
+    rows: parseBigQueryRows(body),
+    jobReference: body.jobReference || null,
+    totalRows: Number(body.totalRows || 0),
+    totalBytesProcessed: Number(body.totalBytesProcessed || 0),
+  };
+}
+
+async function handleAdminGa4Weekly(request, env) {
+  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+
+  const days = readReportDays(request, 7);
+  const intervalDays = days - 1;
+  const generatedAt = new Date().toISOString();
+  const table = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_*\``;
+  const tableDateFilter = `
+    REGEXP_CONTAINS(_TABLE_SUFFIX, r'^(intraday_)?[0-9]{8}$')
+    AND PARSE_DATE('%Y%m%d', REGEXP_REPLACE(_TABLE_SUFFIX, r'^intraday_', ''))
+      BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+  `;
+
+  try {
+    const summarySql = `
+      SELECT
+        FORMAT_TIMESTAMP('%FT%TZ', MAX(TIMESTAMP_MICROS(event_timestamp))) AS pulled_at,
+        CAST(MAX(PARSE_DATE('%Y%m%d', event_date)) AS STRING) AS max_data_date,
+        COUNTIF(event_name = 'page_view') AS pageviews,
+        COUNT(DISTINCT user_pseudo_id) AS users,
+        COUNTIF(event_name = 'generate_lead') AS generate_leads,
+        COUNTIF(event_name = 'phone_call_click') AS phone_clicks,
+        COUNTIF(event_name = 'email_click') AS email_clicks
+      FROM ${table}
+      WHERE ${tableDateFilter}
+    `;
+    const landingSql = `
+      WITH events AS (
+        SELECT
+          event_name,
+          user_pseudo_id,
+          COALESCE((SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), '(not set)') AS page_location
+        FROM ${table}
+        WHERE ${tableDateFilter}
+      )
+      SELECT
+        page_location AS landing_page,
+        COUNTIF(event_name = 'page_view') AS pageviews,
+        COUNT(DISTINCT user_pseudo_id) AS users,
+        COUNTIF(event_name = 'generate_lead') AS generate_leads
+      FROM events
+      GROUP BY landing_page
+      HAVING pageviews > 0 OR generate_leads > 0
+      ORDER BY pageviews DESC, generate_leads DESC
+      LIMIT 100
+    `;
+    const [summaryResult, rowsResult] = await Promise.all([
+      runBigQueryQuery(env, summarySql, 'GA4 weekly BigQuery summary', 10),
+      runBigQueryQuery(env, landingSql, 'GA4 weekly BigQuery rows', 100),
+    ]);
+    const summary = summaryResult.rows[0] || {};
+    return new Response(JSON.stringify({
+      success: true,
+      source: 'ga4_native_bigquery_export',
+      generated_at: generatedAt,
+      pulled_at: summary.pulled_at || generatedAt,
+      max_data_date: summary.max_data_date || '',
+      window_days: days,
+      counts: {
+        pageviews: summary.pageviews || 0,
+        users: summary.users || 0,
+        generate_leads: summary.generate_leads || 0,
+        phone_clicks: summary.phone_clicks || 0,
+        email_clicks: summary.email_clicks || 0,
+      },
+      rows: rowsResult.rows,
+    }), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('GA4 weekly report error:', err.message);
+    return new Response(JSON.stringify({ success: false, error: 'GA4 weekly report error', detail: err.message }), {
+      status: 500, headers: CORS_HEADERS,
     });
   }
+}
+
+async function handleAdminGscWeekly(request, env) {
+  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+
+  const days = readReportDays(request, 7);
+  const intervalDays = days - 1;
+  const generatedAt = new Date().toISOString();
+
+  try {
+    const summarySql = `
+      SELECT
+        FORMAT_TIMESTAMP('%FT%TZ', (SELECT MAX(publish_time) FROM \`${BIGQUERY_PROJECT_ID}.searchconsole_dolphincentrifuge.ExportLog\`)) AS pulled_at,
+        CAST(MAX(data_date) AS STRING) AS max_data_date,
+        SUM(clicks) AS clicks,
+        SUM(impressions) AS impressions,
+        ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 2) AS ctr_pct,
+        ROUND(SAFE_DIVIDE(SUM(sum_position), SUM(impressions)) + 1, 1) AS avg_position
+      FROM \`${BIGQUERY_PROJECT_ID}.searchconsole_dolphincentrifuge.searchdata_url_impression\`
+      WHERE data_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+        AND search_type = 'WEB'
+    `;
+    const rowsSql = `
+      SELECT
+        COALESCE(query, '(anonymized)') AS query,
+        url,
+        SUM(clicks) AS clicks,
+        SUM(impressions) AS impressions,
+        ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 2) AS ctr_pct,
+        ROUND(SAFE_DIVIDE(SUM(sum_position), SUM(impressions)) + 1, 1) AS avg_position
+      FROM \`${BIGQUERY_PROJECT_ID}.searchconsole_dolphincentrifuge.searchdata_url_impression\`
+      WHERE data_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+        AND search_type = 'WEB'
+      GROUP BY query, url
+      ORDER BY clicks DESC, impressions DESC
+      LIMIT 150
+    `;
+    const [summaryResult, rowsResult] = await Promise.all([
+      runBigQueryQuery(env, summarySql, 'GSC weekly BigQuery summary', 10),
+      runBigQueryQuery(env, rowsSql, 'GSC weekly BigQuery rows', 150),
+    ]);
+    const summary = summaryResult.rows[0] || {};
+    return new Response(JSON.stringify({
+      success: true,
+      source: 'gsc_native_bulk_export',
+      generated_at: generatedAt,
+      pulled_at: summary.pulled_at || generatedAt,
+      max_data_date: summary.max_data_date || '',
+      window_days: days,
+      counts: {
+        clicks: summary.clicks || 0,
+        impressions: summary.impressions || 0,
+        ctr_pct: summary.ctr_pct || 0,
+        avg_position: summary.avg_position || 0,
+      },
+      rows: rowsResult.rows,
+    }), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('GSC weekly report error:', err.message);
+    return new Response(JSON.stringify({ success: false, error: 'GSC weekly report error', detail: err.message }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminAdsWeekly(request, env) {
+  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+
+  const days = readReportDays(request, 7);
+  const intervalDays = days - 1;
+  const generatedAt = new Date().toISOString();
+
+  try {
+    const summarySql = `
+      WITH meta AS (
+        SELECT FORMAT_TIMESTAMP('%FT%TZ', TIMESTAMP_MILLIS(MAX(last_modified_time))) AS pulled_at
+        FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.__TABLES__\`
+        WHERE table_id IN ('p_ads_SearchQueryStats_3917484159', 'ads_SearchQueryStats_3917484159')
+      )
+      SELECT
+        (SELECT pulled_at FROM meta) AS pulled_at,
+        CAST(MAX(segments_date) AS STRING) AS max_data_date,
+        ROUND(SUM(metrics_cost_micros) / 1000000, 2) AS spend,
+        SUM(metrics_clicks) AS clicks,
+        SUM(metrics_impressions) AS impressions,
+        ROUND(SUM(metrics_conversions), 2) AS conversions
+      FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\`
+      WHERE segments_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+    `;
+    const rowsSql = `
+      SELECT
+        s.search_term_view_search_term AS term,
+        COALESCE(k.ad_group_criterion_keyword_text, '') AS matched_keyword,
+        COALESCE(k.ad_group_criterion_keyword_match_type, '') AS match_type,
+        ROUND(SUM(s.metrics_cost_micros) / 1000000, 2) AS spend,
+        SUM(s.metrics_clicks) AS clicks,
+        SUM(s.metrics_impressions) AS impressions,
+        ROUND(SUM(s.metrics_conversions), 2) AS conversions
+      FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\` s
+      LEFT JOIN \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.ads_Keyword_3917484159\` k
+        ON k.ad_group_criterion_criterion_id = SAFE_CAST(REGEXP_EXTRACT(s.segments_keyword_ad_group_criterion, r'~([0-9]+)$') AS INT64)
+       AND k.ad_group_id = s.ad_group_id
+       AND k.campaign_id = s.campaign_id
+      WHERE s.segments_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+      GROUP BY term, matched_keyword, match_type
+      HAVING spend > 0 OR clicks > 0
+      ORDER BY spend DESC, clicks DESC
+      LIMIT 1000
+    `;
+    const [summaryResult, rowsResult] = await Promise.all([
+      runBigQueryQuery(env, summarySql, 'Ads weekly BigQuery summary', 10),
+      runBigQueryQuery(env, rowsSql, 'Ads weekly BigQuery rows', 1000),
+    ]);
+    const summary = summaryResult.rows[0] || {};
+    return new Response(JSON.stringify({
+      success: true,
+      source: 'google_ads_bigquery_data_transfer',
+      transfer_config: '6a512f10-0000-2ccd-b05c-d43a2cc8773f',
+      generated_at: generatedAt,
+      pulled_at: summary.pulled_at || generatedAt,
+      max_data_date: summary.max_data_date || '',
+      window_days: days,
+      counts: {
+        spend: summary.spend || 0,
+        clicks: summary.clicks || 0,
+        impressions: summary.impressions || 0,
+        conversions: summary.conversions || 0,
+      },
+      rows: rowsResult.rows,
+    }), { status: 200, headers: CORS_HEADERS });
+  } catch (err) {
+    console.error('Ads weekly report error:', err.message);
+    return new Response(JSON.stringify({ success: false, error: 'Ads weekly report error', detail: err.message }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function handleAdminWeeklyReport(request, env) {
+  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const url = new URL(request.url);
   const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') || 14)));
@@ -1968,18 +2245,31 @@ async function sha256Hex(value) {
   return Buffer.from(new Uint8Array(digest)).toString('hex');
 }
 
-async function isAdminAuthorized(request, env) {
+function bearerTokenFromRequest(request) {
   const authHeader = request.headers.get('Authorization') || '';
-  const token = authHeader.replace('Bearer ', '').trim();
-  if (!token || !env.DC_ADMIN_TOKEN_HASH) return false;
-  return (await sha256Hex(token)) === String(env.DC_ADMIN_TOKEN_HASH).trim().toLowerCase();
+  const match = authHeader.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1].trim() : '';
+}
+
+async function tokenMatchesHash(token, hash) {
+  if (!token || !hash) return false;
+  return (await sha256Hex(token)) === String(hash).trim().toLowerCase();
+}
+
+async function isAdminAuthorized(request, env) {
+  return tokenMatchesHash(bearerTokenFromRequest(request), env.DC_ADMIN_TOKEN_HASH);
+}
+
+async function isReportAuthorized(request, env) {
+  const token = bearerTokenFromRequest(request);
+  return (
+    await tokenMatchesHash(token, env.REPORT_TOKEN_HASH)
+    || await tokenMatchesHash(token, env.DC_ADMIN_TOKEN_HASH)
+  );
 }
 
 async function isGradeBackfillAuthorized(request, env) {
-  const authHeader = request.headers.get('Authorization') || '';
-  const token = authHeader.replace('Bearer ', '').trim();
-  if (!token || !env.GRADE_BACKFILL_TOKEN_HASH) return false;
-  return (await sha256Hex(token)) === String(env.GRADE_BACKFILL_TOKEN_HASH).trim().toLowerCase();
+  return tokenMatchesHash(bearerTokenFromRequest(request), env.GRADE_BACKFILL_TOKEN_HASH);
 }
 
 async function handleAdminBackfillGrades(request, env) {
