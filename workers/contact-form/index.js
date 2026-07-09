@@ -1840,21 +1840,132 @@ async function runBigQueryQuery(env, query, label, maxResults = 1000) {
   };
 }
 
+function utcDateDaysAgo(daysAgo) {
+  const date = new Date();
+  date.setUTCHours(0, 0, 0, 0);
+  date.setUTCDate(date.getUTCDate() - Math.max(0, Number(daysAgo || 0)));
+  return date.toISOString().slice(0, 10);
+}
+
+function ga4MetricValue(row, index) {
+  return Number(row?.metricValues?.[index]?.value || 0);
+}
+
+function ga4DimensionValue(row, index) {
+  return row?.dimensionValues?.[index]?.value || '';
+}
+
+function shouldUseGa4ApiFallback(summary, days) {
+  const nativeDataDays = Number(summary?.data_days || 0);
+  return Number(days || 0) > 1 && nativeDataDays < Number(days || 0);
+}
+
+async function readGa4WeeklyFromApi(env, days, generatedAt) {
+  const intervalDays = days - 1;
+  const startDate = utcDateDaysAgo(intervalDays);
+  const endDate = utcDateDaysAgo(0);
+  const eventNameFilter = {
+    filter: {
+      fieldName: 'eventName',
+      inListFilter: { values: ['page_view', 'generate_lead', 'phone_call_click', 'email_click'] },
+    },
+  };
+
+  const [summaryBody, eventBody, pageBody] = await Promise.all([
+    runGA4Report(env, {
+      dateRanges: [{ startDate, endDate }],
+      metrics: [{ name: 'screenPageViews' }, { name: 'totalUsers' }],
+    }, 'GA4 weekly fallback summary'),
+    runGA4Report(env, {
+      dateRanges: [{ startDate, endDate }],
+      dimensions: [{ name: 'eventName' }],
+      metrics: [{ name: 'eventCount' }],
+      dimensionFilter: eventNameFilter,
+      limit: 20,
+    }, 'GA4 weekly fallback event counts'),
+    runGA4Report(env, {
+      dateRanges: [{ startDate, endDate }],
+      dimensions: [{ name: 'pageLocation' }, { name: 'eventName' }],
+      metrics: [{ name: 'eventCount' }, { name: 'totalUsers' }],
+      dimensionFilter: eventNameFilter,
+      limit: 1000,
+    }, 'GA4 weekly fallback rows'),
+  ]);
+
+  const eventCounts = {};
+  for (const row of eventBody.rows || []) {
+    eventCounts[ga4DimensionValue(row, 0)] = ga4MetricValue(row, 0);
+  }
+
+  const pageRows = new Map();
+  for (const row of pageBody.rows || []) {
+    const pageLocation = ga4DimensionValue(row, 0) || '(not set)';
+    const eventName = ga4DimensionValue(row, 1);
+    const entry = pageRows.get(pageLocation) || {
+      landing_page: pageLocation,
+      pageviews: 0,
+      users: 0,
+      generate_leads: 0,
+    };
+    if (eventName === 'page_view') {
+      entry.pageviews += ga4MetricValue(row, 0);
+      entry.users = Math.max(entry.users, ga4MetricValue(row, 1));
+    } else if (eventName === 'generate_lead') {
+      entry.generate_leads += ga4MetricValue(row, 0);
+    }
+    pageRows.set(pageLocation, entry);
+  }
+
+  const summaryRow = summaryBody.rows?.[0] || {};
+  const rows = Array.from(pageRows.values())
+    .filter((row) => row.pageviews > 0 || row.generate_leads > 0)
+    .sort((a, b) => (b.pageviews - a.pageviews) || (b.generate_leads - a.generate_leads))
+    .slice(0, 100);
+
+  return {
+    success: true,
+    source: 'ga4_data_api_fallback',
+    generated_at: generatedAt,
+    pulled_at: generatedAt,
+    max_data_date: endDate,
+    window_days: days,
+    counts: {
+      pageviews: ga4MetricValue(summaryRow, 0),
+      users: ga4MetricValue(summaryRow, 1),
+      generate_leads: eventCounts.generate_lead || 0,
+      phone_clicks: eventCounts.phone_call_click || 0,
+      email_clicks: eventCounts.email_click || 0,
+    },
+    rows,
+  };
+}
+
 async function handleAdminGa4Weekly(request, env) {
   if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
   const intervalDays = days - 1;
   const generatedAt = new Date().toISOString();
-  const table = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_*\``;
-  const tableDateFilter = `
-    REGEXP_CONTAINS(_TABLE_SUFFIX, r'^(intraday_)?[0-9]{8}$')
-    AND PARSE_DATE('%Y%m%d', REGEXP_REPLACE(_TABLE_SUFFIX, r'^intraday_', ''))
-      BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+  const dailyTable = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_*\``;
+  const intradayTable = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_intraday_*\``;
+  const startDateSql = `DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY)`;
+  const windowEventsSql = `
+      WITH ga4_window_events AS (
+        SELECT event_timestamp, event_date, event_name, user_pseudo_id, event_params
+        FROM ${dailyTable}
+        WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', ${startDateSql})
+                                AND FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY))
+        UNION ALL
+        SELECT event_timestamp, event_date, event_name, user_pseudo_id, event_params
+        FROM ${intradayTable}
+        WHERE _TABLE_SUFFIX = FORMAT_DATE('%Y%m%d', CURRENT_DATE())
+          AND CURRENT_DATE() BETWEEN ${startDateSql} AND CURRENT_DATE()
+      )
   `;
 
   try {
     const summarySql = `
+      ${windowEventsSql}
       SELECT
         FORMAT_TIMESTAMP('%FT%TZ', MAX(TIMESTAMP_MICROS(event_timestamp))) AS pulled_at,
         CAST(MAX(PARSE_DATE('%Y%m%d', event_date)) AS STRING) AS max_data_date,
@@ -1862,18 +1973,18 @@ async function handleAdminGa4Weekly(request, env) {
         COUNT(DISTINCT user_pseudo_id) AS users,
         COUNTIF(event_name = 'generate_lead') AS generate_leads,
         COUNTIF(event_name = 'phone_call_click') AS phone_clicks,
-        COUNTIF(event_name = 'email_click') AS email_clicks
-      FROM ${table}
-      WHERE ${tableDateFilter}
+        COUNTIF(event_name = 'email_click') AS email_clicks,
+        COUNT(DISTINCT event_date) AS data_days
+      FROM ga4_window_events
     `;
     const landingSql = `
-      WITH events AS (
+      ${windowEventsSql},
+      events AS (
         SELECT
           event_name,
           user_pseudo_id,
           COALESCE((SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location'), '(not set)') AS page_location
-        FROM ${table}
-        WHERE ${tableDateFilter}
+        FROM ga4_window_events
       )
       SELECT
         page_location AS landing_page,
@@ -1886,11 +1997,15 @@ async function handleAdminGa4Weekly(request, env) {
       ORDER BY pageviews DESC, generate_leads DESC
       LIMIT 100
     `;
-    const [summaryResult, rowsResult] = await Promise.all([
-      runBigQueryQuery(env, summarySql, 'GA4 weekly BigQuery summary', 10),
-      runBigQueryQuery(env, landingSql, 'GA4 weekly BigQuery rows', 100),
-    ]);
+    const summaryResult = await runBigQueryQuery(env, summarySql, 'GA4 weekly BigQuery summary', 10);
     const summary = summaryResult.rows[0] || {};
+    if (shouldUseGa4ApiFallback(summary, days)) {
+      return new Response(JSON.stringify(await readGa4WeeklyFromApi(env, days, generatedAt)), {
+        status: 200, headers: CORS_HEADERS,
+      });
+    }
+
+    const rowsResult = await runBigQueryQuery(env, landingSql, 'GA4 weekly BigQuery rows', 100);
     return new Response(JSON.stringify({
       success: true,
       source: 'ga4_native_bigquery_export',
