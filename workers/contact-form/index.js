@@ -4,7 +4,7 @@
 //   POST /                       → Process form, save to D1, send email
 //   GET  /admin/submissions      → Return all submissions as JSON (auth required)
 //   DELETE /admin/submissions/:id → Soft-delete a submission (auth required)
-// Secrets: RESEND_API_KEY, ADMIN_PASSWORD, TURNSTILE_SECRET_KEY (optional)
+// Secrets: RESEND_API_KEY, DC_ADMIN_TOKEN_HASH, TURNSTILE_SECRET_KEY (optional)
 // =============================================================
 
 import {
@@ -976,15 +976,15 @@ async function pullTrafficHealthGA4(env, startDate, endDate) {
 }
 
 async function pullTrafficHealthAds(env, startDate, endDate) {
-  const oauth = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
+  const oauth = googleAdsOAuthConfig(env);
   const accessToken = await refreshGoogleAccessToken({
     ...oauth,
-    refreshToken: env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN,
+    refreshToken: env.GADS_REFRESH_TOKEN,
     label: 'Google Ads',
   });
   const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
-  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID);
-  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID);
+  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID);
+  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID);
   const query = `
     SELECT metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions
     FROM campaign
@@ -995,7 +995,7 @@ async function pullTrafficHealthAds(env, startDate, endDate) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'developer-token': env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN,
+      'developer-token': env.GADS_DEVELOPER_TOKEN,
       'login-customer-id': loginCustomerId,
       'Content-Type': 'application/json',
     },
@@ -1196,15 +1196,15 @@ async function pullLeadMonitorGA4(env, startDate, endDate) {
 }
 
 async function pullLeadMonitorAds(env, startDate, endDate) {
-  const oauth = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
+  const oauth = googleAdsOAuthConfig(env);
   const accessToken = await refreshGoogleAccessToken({
     ...oauth,
-    refreshToken: env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN,
+    refreshToken: env.GADS_REFRESH_TOKEN,
     label: 'Google Ads',
   });
   const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
-  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID);
-  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID);
+  const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID);
+  const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID);
   const sql = `
     SELECT segments.conversion_action_name, metrics.conversions, metrics.all_conversions
     FROM campaign
@@ -1215,7 +1215,7 @@ async function pullLeadMonitorAds(env, startDate, endDate) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'developer-token': env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN,
+      'developer-token': env.GADS_DEVELOPER_TOKEN,
       'login-customer-id': loginCustomerId,
       'Content-Type': 'application/json',
     },
@@ -1381,18 +1381,11 @@ async function googleJsonFetch(url, options) {
   return parsed;
 }
 
-function googleOAuthConfig(env, ...prefixes) {
-  const firstValue = (suffix, fallback = '') => {
-    for (const prefix of prefixes) {
-      const value = env[`${prefix}_${suffix}`];
-      if (value) return value;
-    }
-    return fallback;
-  };
+function googleAdsOAuthConfig(env) {
   return {
-    clientId: firstValue('CLIENT_ID', env.GOOGLE_OAUTH_CLIENT_ID),
-    clientSecret: firstValue('CLIENT_SECRET', env.GOOGLE_OAUTH_CLIENT_SECRET),
-    tokenUri: firstValue('TOKEN_URI', env.GOOGLE_OAUTH_TOKEN_URI || 'https://oauth2.googleapis.com/token'),
+    clientId: env.GADS_CLIENT_ID,
+    clientSecret: env.GADS_CLIENT_SECRET,
+    tokenUri: env.GADS_TOKEN_URI || 'https://oauth2.googleapis.com/token',
   };
 }
 
@@ -1405,72 +1398,32 @@ function resolveGA4PropertyId(env) {
 async function runGA4Report(env, payload, label = 'GA4 runReport') {
   const property = resolveGA4PropertyId(env);
   const url = `https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`;
-  const oauth = googleOAuthConfig(env, 'GA4');
-  const canFallbackToOAuth = Boolean(oauth.clientId && oauth.clientSecret && env.GA4_REFRESH_TOKEN);
-  let serviceAccountError = null;
-
-  if (env.GA4_SA_JSON) {
-    try {
-      const accessToken = await getServiceAccountAccessToken(
-        env.GA4_SA_JSON,
-        'https://www.googleapis.com/auth/analytics.readonly',
-        'GA4',
-      );
-      return await googleJsonFetch(url, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        label,
-      });
-    } catch (err) {
-      serviceAccountError = err;
-      const message = String(err?.message || err || '');
-      const shouldFallback = canFallbackToOAuth && /(?:\b401\b|\b403\b|PERMISSION_DENIED|ACCESS_TOKEN_SCOPE_INSUFFICIENT|insufficient authentication scopes|User does not have sufficient permissions|unauthorized_client)/i.test(message);
-      if (!shouldFallback) throw err;
-      console.warn(`GA4 service account path failed, falling back to OAuth: ${message}`);
-    }
-  }
-
-  if (!canFallbackToOAuth) {
-    if (serviceAccountError) throw serviceAccountError;
-    throw new Error('GA4 credentials are not configured');
-  }
-
-  const accessToken = await refreshGoogleAccessToken({
-    ...oauth,
-    refreshToken: env.GA4_REFRESH_TOKEN,
-    label: 'GA4',
+  if (!env.GA4_SA_JSON) throw new Error('GA4_SA_JSON is not configured');
+  const accessToken = await getServiceAccountAccessToken(
+    env.GA4_SA_JSON,
+    'https://www.googleapis.com/auth/analytics.readonly',
+    'GA4',
+  );
+  return await googleJsonFetch(url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    label,
   });
-  try {
-    return await googleJsonFetch(url, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      label,
-    });
-  } catch (err) {
-    if (serviceAccountError) {
-      err.message = `${err.message}; prior GA4 service-account attempt failed: ${serviceAccountError.message}`;
-    }
-    throw err;
-  }
 }
 
 function missingLeadMonitorConfig(env, opts = {}) {
   const missing = [];
   if (!env.DB) missing.push('DB');
-  const ga4 = googleOAuthConfig(env, 'GA4');
-  const ads = googleOAuthConfig(env, 'GADS', 'GOOGLE_ADS');
+  const ads = googleAdsOAuthConfig(env);
   if (!env.GA4_PROPERTY_ID) missing.push('GA4_PROPERTY_ID');
-  if (!env.GA4_SA_JSON && (!ga4.clientId || !ga4.clientSecret || !env.GA4_REFRESH_TOKEN)) {
-    missing.push('GA4_SA_JSON or GA4 OAuth secrets');
-  }
-  if (!ads.clientId) missing.push('GADS_CLIENT_ID or GOOGLE_ADS_CLIENT_ID or GOOGLE_OAUTH_CLIENT_ID');
-  if (!ads.clientSecret) missing.push('GADS_CLIENT_SECRET or GOOGLE_ADS_CLIENT_SECRET or GOOGLE_OAUTH_CLIENT_SECRET');
-  if (!(env.GADS_REFRESH_TOKEN || env.GOOGLE_ADS_REFRESH_TOKEN)) missing.push('GADS_REFRESH_TOKEN or GOOGLE_ADS_REFRESH_TOKEN');
-  if (!(env.GADS_DEVELOPER_TOKEN || env.GOOGLE_ADS_DEVELOPER_TOKEN)) missing.push('GADS_DEVELOPER_TOKEN or GOOGLE_ADS_DEVELOPER_TOKEN');
-  if (!(env.GADS_LOGIN_CUSTOMER_ID || env.GOOGLE_ADS_LOGIN_CUSTOMER_ID)) missing.push('GADS_LOGIN_CUSTOMER_ID or GOOGLE_ADS_LOGIN_CUSTOMER_ID');
-  if (!(env.GADS_CUSTOMER_ID || env.GOOGLE_ADS_CUSTOMER_ID)) missing.push('GADS_CUSTOMER_ID or GOOGLE_ADS_CUSTOMER_ID');
+  if (!env.GA4_SA_JSON) missing.push('GA4_SA_JSON');
+  if (!ads.clientId) missing.push('GADS_CLIENT_ID');
+  if (!ads.clientSecret) missing.push('GADS_CLIENT_SECRET');
+  if (!env.GADS_REFRESH_TOKEN) missing.push('GADS_REFRESH_TOKEN');
+  if (!env.GADS_DEVELOPER_TOKEN) missing.push('GADS_DEVELOPER_TOKEN');
+  if (!env.GADS_LOGIN_CUSTOMER_ID) missing.push('GADS_LOGIN_CUSTOMER_ID');
+  if (!env.GADS_CUSTOMER_ID) missing.push('GADS_CUSTOMER_ID');
   if (opts.sendAlert && !env.RESEND_API_KEY) missing.push('RESEND_API_KEY');
   return missing;
 }
@@ -1923,11 +1876,8 @@ async function sha256Hex(value) {
 async function isAdminAuthorized(request, env) {
   const authHeader = request.headers.get('Authorization') || '';
   const token = authHeader.replace('Bearer ', '').trim();
-  if (!token) return false;
-  if (env.DC_ADMIN_TOKEN_HASH) {
-    return (await sha256Hex(token)) === String(env.DC_ADMIN_TOKEN_HASH).trim().toLowerCase();
-  }
-  return Boolean(token && env.ADMIN_PASSWORD && token === env.ADMIN_PASSWORD);
+  if (!token || !env.DC_ADMIN_TOKEN_HASH) return false;
+  return (await sha256Hex(token)) === String(env.DC_ADMIN_TOKEN_HASH).trim().toLowerCase();
 }
 
 // ── PARTS REQUEST: Handle a parts-list submission ───────────
