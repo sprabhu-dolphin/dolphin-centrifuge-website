@@ -5,7 +5,8 @@
 // Gmail OAuth tokens are stored outside the repo under %APPDATA%/gcloud.
 //
 // Safety model:
-//   - Read commands (profile/search/read/thread/labels) work with either token.
+//   - Read commands (profile/search/read/thread/labels/attachments/download-attachment)
+//     work with either token.
 //   - Write commands are DRAFTS and LABELS only. There is deliberately NO send
 //     command in this helper. Sanjay reviews and sends drafts from Gmail himself.
 //   - Never print token or secret values.
@@ -37,6 +38,8 @@ const COMMAND_SCOPES = {
   search: 'https://www.googleapis.com/auth/gmail.readonly',
   read: 'https://www.googleapis.com/auth/gmail.readonly',
   thread: 'https://www.googleapis.com/auth/gmail.readonly',
+  attachments: 'https://www.googleapis.com/auth/gmail.readonly',
+  'download-attachment': 'https://www.googleapis.com/auth/gmail.readonly',
   labels: 'https://www.googleapis.com/auth/gmail.readonly',
   label: 'https://www.googleapis.com/auth/gmail.modify',
   'create-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
@@ -51,6 +54,9 @@ Usage:
   node gmail-helper.mjs search --query "from:x newer_than:7d" [--mailbox EMAIL] [--max 25] [--json]
   node gmail-helper.mjs read --id MESSAGE_ID [--mailbox EMAIL] [--json]
   node gmail-helper.mjs thread --id THREAD_ID [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs attachments --id MESSAGE_ID [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs download-attachment --id MESSAGE_ID (--attachment-id ATTACHMENT_ID | --filename NAME)
+        --output FILE [--overwrite] [--mailbox EMAIL] [--json]
   node gmail-helper.mjs labels [--mailbox EMAIL] [--json]
   node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"] [--mailbox EMAIL]
   node gmail-helper.mjs create-draft --to EMAIL --subject "..." (--body "text" | --body-file FILE)
@@ -342,6 +348,13 @@ function decodeBase64Url(value) {
   return Buffer.from(padded, 'base64').toString('utf8');
 }
 
+function decodeBase64UrlBuffer(value) {
+  if (!value) return Buffer.alloc(0);
+  const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=');
+  return Buffer.from(padded, 'base64');
+}
+
 function encodeBase64Url(value) {
   return Buffer.from(value, 'utf8').toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
@@ -359,6 +372,41 @@ function extractPlainText(part, out = []) {
   return out;
 }
 
+function collectAttachments(part, out = []) {
+  if (!part) return out;
+  if (part.filename) {
+    out.push({
+      filename: part.filename,
+      mimeType: part.mimeType || 'application/octet-stream',
+      size: Number(part.body?.size || 0),
+      attachmentId: part.body?.attachmentId || '',
+      inlineData: Boolean(part.body?.data),
+    });
+  }
+  for (const child of part.parts || []) collectAttachments(child, out);
+  return out;
+}
+
+function findAttachmentPart(part, attachmentId) {
+  if (!part) return null;
+  if (part.body?.attachmentId === attachmentId) return part;
+  for (const child of part.parts || []) {
+    const match = findAttachmentPart(child, attachmentId);
+    if (match) return match;
+  }
+  return null;
+}
+
+function findAttachmentPartByFilename(part, filename) {
+  if (!part) return null;
+  if (part.filename === filename) return part;
+  for (const child of part.parts || []) {
+    const match = findAttachmentPartByFilename(child, filename);
+    if (match) return match;
+  }
+  return null;
+}
+
 function summarizeMessage(message) {
   return {
     id: message.id,
@@ -366,7 +414,13 @@ function summarizeMessage(message) {
     date: headerValue(message, 'Date'),
     from: headerValue(message, 'From'),
     to: headerValue(message, 'To'),
+    cc: headerValue(message, 'Cc'),
+    bcc: headerValue(message, 'Bcc'),
+    replyTo: headerValue(message, 'Reply-To'),
     subject: headerValue(message, 'Subject'),
+    messageIdHeader: headerValue(message, 'Message-ID'),
+    inReplyTo: headerValue(message, 'In-Reply-To'),
+    references: headerValue(message, 'References'),
     snippet: message.snippet || '',
     labelIds: message.labelIds || [],
   };
@@ -397,7 +451,9 @@ async function search(args) {
   for (const id of ids) {
     const msgUrl = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}`);
     msgUrl.searchParams.set('format', 'metadata');
-    for (const header of ['From', 'To', 'Subject', 'Date']) msgUrl.searchParams.append('metadataHeaders', header);
+    for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References']) {
+      msgUrl.searchParams.append('metadataHeaders', header);
+    }
     summaries.push(summarizeMessage(await gmailFetch(args, 'search', msgUrl)));
   }
   if (args.json) { console.log(JSON.stringify(summaries, null, 2)); return; }
@@ -426,12 +482,85 @@ async function thread(args) {
   if (!args.id) throw new Error('thread requires --id THREAD_ID');
   const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${args.id}`);
   url.searchParams.set('format', 'metadata');
-  for (const header of ['From', 'To', 'Subject', 'Date']) url.searchParams.append('metadataHeaders', header);
+  for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References']) {
+    url.searchParams.append('metadataHeaders', header);
+  }
   const json = await gmailFetch(args, 'thread', url);
   const summaries = (json.messages || []).map(summarizeMessage);
   if (args.json) { console.log(JSON.stringify(summaries, null, 2)); return; }
   console.log(`Thread ${args.id}: ${summaries.length} message(s)`);
   printSummaries(summaries);
+}
+
+async function attachments(args) {
+  if (!args.id) throw new Error('attachments requires --id MESSAGE_ID');
+  const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${args.id}`);
+  url.searchParams.set('format', 'full');
+  const message = await gmailFetch(args, 'attachments', url);
+  const items = collectAttachments(message.payload);
+  if (args.json) {
+    console.log(JSON.stringify({ message: summarizeMessage(message), attachments: items }, null, 2));
+    return;
+  }
+  if (!items.length) { console.log('No attachments found.'); return; }
+  for (const item of items) {
+    console.log(`${item.attachmentId || '(inline)'} | ${item.size} bytes | ${item.mimeType} | ${item.filename}`);
+  }
+}
+
+async function downloadAttachment(args) {
+  const requestedAttachmentId = args['attachment-id'];
+  const requestedFilename = args.filename;
+  if (!args.id) throw new Error('download-attachment requires --id MESSAGE_ID');
+  if (!requestedAttachmentId && !requestedFilename) {
+    throw new Error('download-attachment requires --attachment-id ATTACHMENT_ID or --filename NAME');
+  }
+  if (!args.output) throw new Error('download-attachment requires --output FILE');
+
+  const messageUrl = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${args.id}`);
+  messageUrl.searchParams.set('format', 'full');
+  const message = await gmailFetch(args, 'download-attachment', messageUrl);
+  const part = requestedFilename
+    ? findAttachmentPartByFilename(message.payload, String(requestedFilename))
+    : findAttachmentPart(message.payload, String(requestedAttachmentId));
+  if (!part) {
+    const target = requestedFilename || requestedAttachmentId;
+    throw new Error(`Attachment not found on message ${args.id}: ${target}`);
+  }
+  const attachmentId = part.body?.attachmentId || '';
+
+  let payload;
+  if (part.body?.data) {
+    payload = { data: part.body.data, size: part.body.size };
+  } else {
+    if (!attachmentId) throw new Error(`Attachment has no downloadable data: ${part.filename || requestedFilename}`);
+    const attachmentUrl = `https://gmail.googleapis.com/gmail/v1/users/me/messages/${args.id}/attachments/${encodeURIComponent(String(attachmentId))}`;
+    payload = await gmailFetch(args, 'download-attachment', attachmentUrl);
+  }
+  const bytes = decodeBase64UrlBuffer(payload.data);
+  const expectedSize = Number(payload.size || part.body?.size || 0);
+  if (expectedSize && bytes.length !== expectedSize) {
+    throw new Error(`Attachment size mismatch: expected ${expectedSize} bytes, received ${bytes.length}`);
+  }
+
+  const outputPath = path.resolve(String(args.output));
+  const parent = path.dirname(outputPath);
+  if (!existsSync(parent)) throw new Error(`Output folder does not exist: ${parent}`);
+  if (existsSync(outputPath) && !args.overwrite) {
+    throw new Error(`Output file already exists (use --overwrite to replace it): ${outputPath}`);
+  }
+  await fs.writeFile(outputPath, bytes, { flag: args.overwrite ? 'w' : 'wx' });
+
+  const result = {
+    messageId: message.id,
+    attachmentId: String(attachmentId),
+    filename: part.filename || path.basename(outputPath),
+    mimeType: part.mimeType || 'application/octet-stream',
+    size: bytes.length,
+    output: outputPath,
+  };
+  if (args.json) { console.log(JSON.stringify(result, null, 2)); return; }
+  console.log(`Attachment saved: ${result.filename} (${result.size} bytes) -> ${result.output}`);
 }
 
 async function listLabels(args) {
@@ -467,6 +596,18 @@ async function label(args) {
   console.log(`Labels updated on ${json.id}: now [${(json.labelIds || []).join(', ')}]`);
 }
 
+// Convert plain text to safe HTML so drafts always open in Gmail's
+// rich-text composer. A text/plain draft locks the composer into
+// plain-text mode: the saved signature loses its links and the rich
+// signature cannot be inserted manually. (Fix 2026-07-15)
+function plainTextToHtml(text) {
+  const escaped = String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return `<div dir="ltr">${escaped.replace(/\r?\n/g, '<br>\r\n')}</div>`;
+}
+
 function buildMime({ to, cc, subject, body, html, inReplyTo, references }) {
   const lines = [];
   lines.push(`To: ${to}`);
@@ -475,10 +616,12 @@ function buildMime({ to, cc, subject, body, html, inReplyTo, references }) {
   if (inReplyTo) lines.push(`In-Reply-To: ${inReplyTo}`);
   if (references) lines.push(`References: ${references}`);
   lines.push('MIME-Version: 1.0');
-  lines.push(`Content-Type: ${html ? 'text/html' : 'text/plain'}; charset="UTF-8"`);
+  // ALWAYS text/html: --html means "body is already HTML"; plain bodies
+  // are escaped and converted. Never emit text/plain (see note above).
+  lines.push('Content-Type: text/html; charset="UTF-8"');
   lines.push('Content-Transfer-Encoding: 7bit');
   lines.push('');
-  lines.push(body);
+  lines.push(html ? body : plainTextToHtml(body));
   return lines.join('\r\n');
 }
 
@@ -545,7 +688,20 @@ function selfTest() {
   check('mime To', mime.includes('To: x@example.com'));
   check('mime reply headers', mime.includes('In-Reply-To: <abc@mail>'));
   check('mime no cc line', !mime.includes('Cc:'));
-  check('mime plain content type', mime.includes('text/plain'));
+  check('mime always html content type', mime.includes('text/html') && !mime.includes('text/plain'));
+  check('mime plain body converted to html', mime.includes('Line1<br>'));
+
+  const mimeEscape = buildMime({
+    to: 'x@example.com', cc: '', subject: 'Esc', body: 'a < b & c',
+    html: false, inReplyTo: '', references: '',
+  });
+  check('mime plain body escaped', mimeEscape.includes('a &lt; b &amp; c'));
+
+  const mimeHtml = buildMime({
+    to: 'x@example.com', cc: '', subject: 'H', body: '<p>Hi</p>',
+    html: true, inReplyTo: '', references: '',
+  });
+  check('mime html body passthrough', mimeHtml.includes('<p>Hi</p>'));
 
   check('write command gate', WRITE_COMMANDS.has('create-draft') && WRITE_COMMANDS.has('label') && !WRITE_COMMANDS.has('search'));
 
@@ -590,6 +746,8 @@ async function main() {
   if (command === 'search') return search(args);
   if (command === 'read') return read(args);
   if (command === 'thread') return thread(args);
+  if (command === 'attachments') return attachments(args);
+  if (command === 'download-attachment') return downloadAttachment(args);
   if (command === 'labels') return listLabels(args);
   if (command === 'label') return label(args);
   if (command === 'create-draft') return createDraft(args);

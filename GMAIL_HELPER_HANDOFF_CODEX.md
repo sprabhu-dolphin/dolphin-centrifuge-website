@@ -29,8 +29,9 @@ refresh tokens under `%APPDATA%\gcloud` and works even while the connector is br
 ## What already exists (do NOT rebuild any of this)
 
 - `gmail-helper.mjs` (repo root) - the connector-independent Gmail path.
-  Commands: `auth`, `profile`, `search`, `read`, `thread`, `labels`, `label`,
-  `create-draft`, `self-test`. Run `node gmail-helper.mjs --help` for flags.
+  Commands: `auth`, `profile`, `search`, `read`, `thread`, `attachments`,
+  `download-attachment`, `labels`, `label`, `create-draft`, `self-test`.
+  Run `node gmail-helper.mjs --help` for flags.
 - npm shortcuts: `gmail:auth`, `gmail:profile`, `gmail:search`, `gmail:self-test`.
 - OAuth client (shared with GA4/GSC/Ads helpers):
   `%APPDATA%\gcloud\dolphin-ga4-gtm-readonly-codex-oauth-client.json`
@@ -83,6 +84,15 @@ refresh tokens under `%APPDATA%\gcloud` and works even while the connector is br
     already has its own token path - leave it as is.
 
 #4. CODEX: stamp `01 Operating Rules\Agent Coordination.md` when #2/#3 are done.
+
+## Draft format (fix 2026-07-15)
+
+`create-draft` now ALWAYS builds the MIME body as text/html. Plain `--body` /
+`--body-file` text is HTML-escaped with newlines converted to `<br>`; pass `--html`
+ONLY when the body is already HTML markup. Before this fix, plain-text drafts locked
+Gmail's composer into plain-text mode, which stripped signature links and blocked
+inserting the rich signature. Any Gmail draft created before 2026-07-15 is plain-text
+and must be recreated to get a working signature. `self-test` covers the conversion.
 
 ## Failure modes and answers
 
