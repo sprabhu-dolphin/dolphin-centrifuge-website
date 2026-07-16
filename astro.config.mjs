@@ -8,9 +8,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://dolphincentrifuge.com',
   integrations: [react(), sitemap({
-    filter: (page) =>
-      !page.includes('/admin/') &&
-      !page.includes('/applications/'),
+    // /applications/ hub pages are self-canonical, internally linked, and
+    // indexable - they belong in the sitemap (Phase 0 SEO audit 2026-07-16).
+    filter: (page) => !page.includes('/admin/'),
   })],
   vite: {
     plugins: [tailwindcss()],
