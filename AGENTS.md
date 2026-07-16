@@ -2,6 +2,17 @@
 
 These local rules apply to this Dolphin Centrifuge Astro website repo.
 
+## Deployment Route (confirmed 2026-07-16)
+
+Quick line: Cloudflare Workers + Pages serves the live site; this repo is the deploy source.
+
+- Live site dolphincentrifuge.com = Cloudflare Pages (project `dolphin-centrifuge-website`)
+  + Worker `dolphin-contact-form` + D1 `dolphin-submissions`.
+- Deploy route: edit files -> commit -> push. `wrangler` is available for direct
+  Workers/Pages operations.
+- Netlify was retired. Any Netlify reference in old docs, legacy redo repos, or
+  archived reports is historical only - never a deploy target.
+
 ## API-First Platform Rule
 
 Quick line: API first, browser second.

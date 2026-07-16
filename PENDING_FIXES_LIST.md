@@ -38,7 +38,7 @@ These items are **not blockers for page refactoring** but **must be verified or 
 
 | Item | Affects | Needed Before Launch | Notes |
 | :--- | :--- | :--- | :--- |
-| **Sitewide Contact / RFQ Form** | `alfa-laval-centrifuge-parts`, `contact-for-alfa-laval-centrifuges`, admin dashboard, and Worker backend | Custom backend exists. Verify deployment and field behavior before go-live. | The old decision between Netlify Forms, Formspree, Google Forms, or custom backend is resolved. Current source uses Cloudflare Worker `dolphin-contact-form`, D1 database `dolphin-submissions`, `/admin/submissions/`, the main contact form, and the parts RFQ form endpoint `/parts`. Remaining launch work is verification, not vendor selection. |
+| **Sitewide Contact / RFQ Form** | `alfa-laval-centrifuge-parts`, `contact-for-alfa-laval-centrifuges`, admin dashboard, and Worker backend | Custom backend exists. Verify deployment and field behavior before go-live. | The old form-vendor decision (retired third-party form services vs. custom backend) is resolved. Current source uses Cloudflare Worker `dolphin-contact-form`, D1 database `dolphin-submissions`, `/admin/submissions/`, the main contact form, and the parts RFQ form endpoint `/parts`. Remaining launch work is verification, not vendor selection. |
 
 ---
 
