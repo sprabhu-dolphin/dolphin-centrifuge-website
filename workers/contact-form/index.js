@@ -3997,6 +3997,7 @@ async function handleFormSubmit(request, env, ctx) {
     const lastName          = (fields['last_name'] || '').trim();
     const company           = (fields['company'] || '').trim();
     const email             = (fields['email'] || '').trim();
+    const emailConfirm      = (fields['email_confirm'] || '').trim();
     const phone             = (fields['phone'] || '').trim();
     const contactMethod     = (fields['contact_method'] || '').trim();
     const country           = (fields['country'] || '').trim();
@@ -4012,9 +4013,39 @@ async function handleFormSubmit(request, env, ctx) {
     const countryDisplay    = country === 'Other' && countryOther ? `Other — ${countryOther}` : country;
 
     // Basic validation
-    if (!firstName || !lastName || !email || !company || !phone || !fluidType || !capacity) {
+    if (!firstName || !lastName || !email || !company || !phone || !fluidType) {
       return new Response(
         JSON.stringify({ success: false, error: 'Please fill in all required fields.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (!emailConfirm) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please confirm your email address.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (!contactMethod) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please select your preferred method of contact.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (!country) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please select your country.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (country === 'Other' && !countryOther) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please specify your country.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (!centrifugeCondition) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please select the required centrifuge condition.' }),
         { status: 400, headers: CORS_HEADERS }
       );
     }
@@ -4023,6 +4054,12 @@ async function handleFormSubmit(request, env, ctx) {
     if (!emailRegex.test(email)) {
       return new Response(
         JSON.stringify({ success: false, error: 'Please enter a valid email address.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
+    }
+    if (email !== emailConfirm) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Email addresses do not match. Please check and try again.' }),
         { status: 400, headers: CORS_HEADERS }
       );
     }

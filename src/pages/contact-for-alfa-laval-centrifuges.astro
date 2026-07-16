@@ -510,10 +510,11 @@ const faqJsonLd = {
       const countryOtherInput = document.getElementById('country_other');
       const usStateSelect = document.getElementById('us_state');
       if (countrySelect) {
-        countrySelect.addEventListener('change', function() {
-          const isOther = this.value === 'Other';
+        function syncCountryFields() {
+          const isOther = countrySelect.value === 'Other';
           // Show / hide the free-text country field
           countryOtherWrap.style.display = isOther ? 'block' : 'none';
+          countryOtherInput.required = isOther;
           if (!isOther) {
             countryOtherInput.value = '';
             clearFieldError(countryOtherInput);
@@ -525,7 +526,9 @@ const faqJsonLd = {
             usStateSelect.style.opacity = isOther ? '0.4' : '1';
             usStateSelect.style.cursor  = isOther ? 'not-allowed' : '';
           }
-        });
+        }
+        countrySelect.addEventListener('change', syncCountryFields);
+        syncCountryFields();
       }
 
       // Required field IDs (must match name attributes)
@@ -533,6 +536,10 @@ const faqJsonLd = {
         'first_name', 'last_name', 'company',
         'email', 'email_confirm', 'phone',
         'country', 'fluid_type'
+      ];
+      const REQUIRED_RADIO_GROUPS = [
+        'contact_method',
+        'centrifuge_condition'
       ];
 
       // Clear red highlight when user starts typing / changing
@@ -542,6 +549,12 @@ const faqJsonLd = {
         el.addEventListener('input', () => clearFieldError(el));
         el.addEventListener('change', () => clearFieldError(el));
       });
+      REQUIRED_RADIO_GROUPS.forEach(name => {
+        form.querySelectorAll(`[name="${name}"]`).forEach(el => {
+          el.addEventListener('change', () => clearRadioGroupError(name));
+        });
+      });
+      countryOtherInput?.addEventListener('input', () => clearFieldError(countryOtherInput));
 
       function markFieldError(el) {
         el.classList.remove('border-gray-200', 'focus:border-navy');
@@ -551,6 +564,22 @@ const faqJsonLd = {
       function clearFieldError(el) {
         el.classList.remove('border-red-500', 'bg-red-50');
         el.classList.add('border-gray-200', 'focus:border-navy');
+      }
+
+      function radioGroupContainer(name) {
+        return form.querySelector(`[name="${name}"]`)?.closest('.bg-gray-50');
+      }
+
+      function markRadioGroupError(name) {
+        const container = radioGroupContainer(name);
+        container?.classList.remove('border-gray-200', 'bg-gray-50');
+        container?.classList.add('border-red-500', 'bg-red-50');
+      }
+
+      function clearRadioGroupError(name) {
+        const container = radioGroupContainer(name);
+        container?.classList.remove('border-red-500', 'bg-red-50');
+        container?.classList.add('border-gray-200', 'bg-gray-50');
       }
 
       function validateRequired() {
@@ -569,6 +598,23 @@ const faqJsonLd = {
             clearFieldError(el);
           }
         });
+
+        REQUIRED_RADIO_GROUPS.forEach(name => {
+          const selected = form.querySelector(`[name="${name}"]:checked`);
+          if (!selected) {
+            markRadioGroupError(name);
+            anyEmpty = true;
+            if (!firstInvalid) firstInvalid = form.querySelector(`[name="${name}"]`);
+          } else {
+            clearRadioGroupError(name);
+          }
+        });
+
+        if (countrySelect?.value === 'Other' && !countryOtherInput?.value.trim()) {
+          markFieldError(countryOtherInput);
+          anyEmpty = true;
+          if (!firstInvalid) firstInvalid = countryOtherInput;
+        }
 
         return { anyEmpty, firstInvalid };
       }
@@ -639,6 +685,8 @@ const faqJsonLd = {
               const el = document.getElementById(id);
               if (el) clearFieldError(el);
             });
+            REQUIRED_RADIO_GROUPS.forEach(clearRadioGroupError);
+            countrySelect?.dispatchEvent(new Event('change'));
             // Show green toast (with optional redirect)
             showSuccessToast(redirectUrl);
           } else {
