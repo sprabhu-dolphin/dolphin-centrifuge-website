@@ -6,7 +6,7 @@ const isContactPage = Astro.url.pathname === '/contact-for-alfa-laval-centrifuge
 const quoteHref = isContactPage ? '#contact-form' : '/contact-for-alfa-laval-centrifuges/';
 ---
 
-<div class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-navy border-t border-navy-light shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
+<div id="sticky-mobile-cta" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-navy border-t border-navy-light shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
   <div class="flex items-stretch">
     {/* Call button */}
     <a
@@ -33,3 +33,11 @@ const quoteHref = isContactPage ? '#contact-form' : '/contact-for-alfa-laval-cen
 
 {/* Spacer to prevent content from being hidden behind the sticky bar on mobile */}
 <div class="h-[52px] md:hidden"></div>
+
+<style is:global>
+  @media (max-width: 767px) {
+    html[data-mobile-menu-open] #sticky-mobile-cta {
+      display: none;
+    }
+  }
+</style>
