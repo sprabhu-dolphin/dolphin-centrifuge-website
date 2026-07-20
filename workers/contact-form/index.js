@@ -1941,7 +1941,7 @@ async function readGa4WeeklyFromApi(env, days, generatedAt) {
 }
 
 async function handleAdminGa4Weekly(request, env) {
-  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+  if (!(await isAdminAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
   const intervalDays = days - 1;
@@ -2031,7 +2031,7 @@ async function handleAdminGa4Weekly(request, env) {
 }
 
 async function handleAdminGscWeekly(request, env) {
-  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+  if (!(await isAdminAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
   const intervalDays = days - 1;
@@ -2094,7 +2094,7 @@ async function handleAdminGscWeekly(request, env) {
 }
 
 async function handleAdminAdsWeekly(request, env) {
-  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+  if (!(await isAdminAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
   const intervalDays = days - 1;
@@ -2166,8 +2166,101 @@ async function handleAdminAdsWeekly(request, env) {
   }
 }
 
+async function loadWeeklyReportBuckets(env, since) {
+  const weekStartSql = (column) => `date(${column}, '-' || ((CAST(strftime('%w', ${column}) AS INTEGER) + 6) % 7) || ' days')`;
+  const load = async (includeGrades) => {
+    const gradeColumns = includeGrades ? `
+          SUM(CASE WHEN grade = 'A' THEN 1 ELSE 0 END) AS grade_a,
+          SUM(CASE WHEN grade = 'B' OR grade IS NULL OR grade NOT IN ('A','B','C') THEN 1 ELSE 0 END) AS grade_b,
+          SUM(CASE WHEN grade = 'C' THEN 1 ELSE 0 END) AS grade_c` : `
+          0 AS grade_a,
+          COUNT(*) AS grade_b,
+          0 AS grade_c`;
+    const { results } = await env.DB.prepare(`
+      WITH submission_weeks AS (
+        SELECT
+          ${weekStartSql('created_at')} AS week_start,
+          COUNT(*) AS form_leads,
+          ${gradeColumns}
+        FROM submissions
+        WHERE deleted = 0 AND created_at >= ?
+        GROUP BY week_start
+      ),
+      event_weeks AS (
+        SELECT
+          ${weekStartSql('created_at')} AS week_start,
+          SUM(CASE WHEN event_type = 'phone_click' THEN 1 ELSE 0 END) AS phone_clicks,
+          SUM(CASE WHEN event_type = 'email_click' THEN 1 ELSE 0 END) AS email_clicks
+        FROM visitor_events
+        WHERE created_at >= ? AND event_type IN ('phone_click', 'email_click')
+        GROUP BY week_start
+      ),
+      weeks AS (
+        SELECT week_start FROM submission_weeks
+        UNION
+        SELECT week_start FROM event_weeks
+      )
+      SELECT
+        weeks.week_start,
+        COALESCE(submission_weeks.form_leads, 0) AS form_leads,
+        COALESCE(submission_weeks.grade_a, 0) AS grade_a,
+        COALESCE(submission_weeks.grade_b, 0) AS grade_b,
+        COALESCE(submission_weeks.grade_c, 0) AS grade_c,
+        COALESCE(event_weeks.phone_clicks, 0) AS phone_clicks,
+        COALESCE(event_weeks.email_clicks, 0) AS email_clicks
+      FROM weeks
+      LEFT JOIN submission_weeks USING (week_start)
+      LEFT JOIN event_weeks USING (week_start)
+      ORDER BY weeks.week_start ASC
+    `).bind(since, since).all();
+    return (results || []).map((row) => ({
+      week_start: row.week_start,
+      form_leads: Number(row.form_leads || 0),
+      grade_a: Number(row.grade_a || 0),
+      grade_b: Number(row.grade_b || 0),
+      grade_c: Number(row.grade_c || 0),
+      phone_clicks: Number(row.phone_clicks || 0),
+      email_clicks: Number(row.email_clicks || 0),
+    }));
+  };
+
+  try {
+    return await load(true);
+  } catch (err) {
+    if (!isMissingColumnError(err) && !isMissingTableError(err)) throw err;
+    return load(false);
+  }
+}
+
+async function loadKillPatternSpend(env, days = 7) {
+  const intervalDays = Math.max(0, Number(days || 7) - 1);
+  const sql = `
+    SELECT
+      CAST(MAX(segments_date) AS STRING) AS max_data_date,
+      ROUND(SUM(IF(
+        REGEXP_CONTAINS(LOWER(search_term_view_search_term), r'(^|[^a-z0-9])(small|mini|home|diy|cheap|hobby|benchtop|lab scale|tabletop|juice|milk|blood|laboratory|cream separator|filter cartridge|oil filter|rental|rent|how to build|homemade|manual pdf|free|craigslist|ebay|alibaba)([^a-z0-9]|$)')
+        OR (
+          REGEXP_CONTAINS(LOWER(search_term_view_search_term), r'(^|[^a-z0-9])portable([^a-z0-9]|$)')
+          AND NOT REGEXP_CONTAINS(LOWER(search_term_view_search_term), r'(^|[^a-z0-9])mobile skid([^a-z0-9]|$)')
+        ),
+        metrics_cost_micros,
+        0
+      )) / 1000000, 2) AS spend_kill_pattern
+    FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\`
+    WHERE segments_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+  `;
+  const result = await runBigQueryQuery(env, sql, 'Ads kill-pattern spend', 10);
+  const row = result.rows[0] || {};
+  return {
+    status: 'OK',
+    window_days: days,
+    max_data_date: row.max_data_date || '',
+    spend: Number(row.spend_kill_pattern || 0),
+  };
+}
+
 async function handleAdminWeeklyReport(request, env) {
-  if (!(await isReportAuthorized(request, env))) return reportUnauthorizedResponse();
+  if (!(await isWeeklyReportAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const url = new URL(request.url);
   const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') || 14)));
@@ -2301,9 +2394,17 @@ async function handleAdminWeeklyReport(request, env) {
       }
     } catch (e) { /* non-fatal */ }
 
-    const [leadMonitor, trafficHealth] = await Promise.all([
+    const [leadMonitor, trafficHealth, weeklyBuckets, killPatternSpend] = await Promise.all([
       safeRunLeadMonitor(env, { days: 14, endOffsetDays: 1, now, source: 'weekly-report', noCache }),
       buildTrafficHealthSnapshot(env, now, noCache),
+      loadWeeklyReportBuckets(env, since),
+      loadKillPatternSpend(env, 7).catch((err) => ({
+        status: 'ERROR',
+        window_days: 7,
+        max_data_date: '',
+        spend: null,
+        detail: err.message,
+      })),
     ]);
     const overallFreshness = buildTopLevelFreshness([trafficHealth, leadMonitor], now);
 
@@ -2316,6 +2417,11 @@ async function handleAdminWeeklyReport(request, env) {
       freshness_gate: overallFreshness.freshness_gate,
       freshness_message: overallFreshness.freshness_message,
       freshness: overallFreshness.freshness,
+      days: weeklyBuckets,
+      spend_kill_pattern: killPatternSpend.spend,
+      spend_kill_pattern_status: killPatternSpend.status,
+      spend_kill_pattern_window_days: killPatternSpend.window_days,
+      spend_kill_pattern_max_data_date: killPatternSpend.max_data_date,
       leads: leads.map(r => {
         const lead = {
           date: String(r.created_at || '').slice(0, 10),
@@ -2375,7 +2481,7 @@ async function isAdminAuthorized(request, env) {
   return tokenMatchesHash(bearerTokenFromRequest(request), env.DC_ADMIN_TOKEN_HASH);
 }
 
-async function isReportAuthorized(request, env) {
+async function isWeeklyReportAuthorized(request, env) {
   const token = bearerTokenFromRequest(request);
   return (
     await tokenMatchesHash(token, env.REPORT_TOKEN_HASH)
