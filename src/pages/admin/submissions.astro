@@ -963,12 +963,93 @@ const isDevDashboard = import.meta.env.DEV;
       padding: 8px 10px;
       font-size: 0.78rem;
       color: #24344d;
+      font-family: inherit;
     }
     .va-origin strong { color: #16335c; }
-    .va-origin-code {
-      font-family: Consolas, monospace;
-      font-size: 0.72rem;
+    .va-gclid-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid #b7dfc2;
+      border-radius: 5px;
+      background: #eaf6ee;
+      color: #0f6e56;
+      font-size: 0.66rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .va-url {
+      display: inline-flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .va-url-path {
+      color: #2e6fbf;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+    .va-url-path:hover { text-decoration: underline; }
+    .va-url-params {
+      display: inline;
+      min-width: 0;
+    }
+    .va-url-toggle {
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: #6a7a8c;
+      cursor: pointer;
+      font-size: 0.68rem;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .va-url-toggle[aria-expanded="true"] { color: #2e6fbf; }
+    .va-url-raw {
+      display: block;
+      width: 100%;
+      margin-top: 4px;
+      padding: 5px 7px;
+      border: 1px solid #e3e9f0;
+      border-radius: 5px;
+      background: #f8fafc;
+      color: #475569;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.68rem;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+    .va-url-raw[hidden] { display: none; }
+    .va-detail-grid {
+      display: grid;
+      grid-template-columns: minmax(110px, 160px) minmax(0, 1fr);
+      margin: 0;
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      overflow: hidden;
+    }
+    .va-detail-grid dt,
+    .va-detail-grid dd {
+      margin: 0;
+      padding: 6px 9px;
+      border-top: 1px solid #eef2f7;
+    }
+    .va-detail-grid dt:nth-of-type(1),
+    .va-detail-grid dd:nth-of-type(1) { border-top: 0; }
+    .va-detail-grid dt {
+      color: #6a7a8c;
+      font-weight: 600;
+      background: #f8fafc;
+    }
+    .va-detail-grid dd {
+      color: #24344d;
       overflow-wrap: anywhere;
     }
     .va-timeline {
@@ -990,20 +1071,20 @@ const isDevDashboard = import.meta.env.DEV;
     .va-event-list { display: grid; gap: 0; }
     .va-event {
       display: grid;
-      grid-template-columns: 76px minmax(0, 1fr);
-      gap: 10px;
-      padding: 9px 11px;
+      grid-template-columns: 112px max-content minmax(0, 1fr);
+      align-items: baseline;
+      gap: 8px;
+      padding: 7px 11px;
       border-top: 1px solid #eef2f7;
       font-size: 0.78rem;
+      font-family: inherit;
     }
     .va-event:first-child { border-top: 0; }
     .va-event-time { color: #6a7a8c; white-space: nowrap; }
-    .va-event-main { min-width: 0; }
-    .va-event-label { color: #24344d; font-weight: 600; overflow-wrap: anywhere; }
-    .va-event-meta { color: #6a7a8c; margin-top: 2px; overflow-wrap: anywhere; }
+    .va-event-main { min-width: 0; color: #24344d; overflow-wrap: anywhere; }
+    .va-event-form-contact { color: #6a7a8c; margin-left: 6px; }
     .va-event-type {
       display: inline-block;
-      margin-right: 6px;
       padding: 1px 6px;
       border-radius: 5px;
       font-size: 0.66rem;
@@ -1012,6 +1093,7 @@ const isDevDashboard = import.meta.env.DEV;
       letter-spacing: 0.03em;
       background: #eef2f7;
       color: #506179;
+      white-space: nowrap;
     }
     .va-event-type-phone_click { background: #fde8c0; color: #8a5a00; }
     .va-event-type-phone_voicemail { background: #ffe3cd; color: #8d3d0c; }
@@ -1810,6 +1892,27 @@ const isDevDashboard = import.meta.env.DEV;
       return set;
     }
 
+    function latestSubmissionForVisitor(visitorId) {
+      if (!visitorId) return null;
+      return allData.find(row =>
+        row.attribution_visitor_id === visitorId
+        && (row.email || row.created_at)
+      ) || null;
+    }
+
+    function renderVisitorGrade(visitorId) {
+      const record = latestSubmissionForVisitor(visitorId);
+      if (!record) return '';
+      const grade = leadGradeValue(record);
+      const gradeClass = grade ? ` grade-${grade.toLowerCase()}` : '';
+      return `<select class="va-grade-select${gradeClass}" data-grade-submission-id="${esc(record.id)}" title="Lead grade for ${esc(record.email || 'identified form submission')}">`
+        + `<option value=""${grade ? '' : ' selected'}>-</option>`
+        + `<option value="A"${grade === 'A' ? ' selected' : ''}>A</option>`
+        + `<option value="B"${grade === 'B' ? ' selected' : ''}>B</option>`
+        + `<option value="C"${grade === 'C' ? ' selected' : ''}>C</option>`
+        + `</select>`;
+    }
+
     function visitorHasPaidOrigin(visitor) {
       const src = String(visitor.source || '').toLowerCase();
       const med = String(visitor.medium || '').toLowerCase();
@@ -1902,10 +2005,14 @@ const isDevDashboard = import.meta.env.DEV;
 
     function visitorOriginHtml(visitor) {
       const source = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
-      const clickId = visitor.gclid || visitor.gbraid || visitor.wbraid || '';
-      const clickLabel = visitor.gclid ? 'gclid' : (visitor.gbraid ? 'gbraid' : (visitor.wbraid ? 'wbraid' : ''));
-      if (clickId) {
-        return `<div class="va-origin"><strong>Origin:</strong> Google Ads <span class="va-origin-code">(${esc(clickLabel)} ${esc(clickId)})</span></div>`;
+      const urls = [visitor.first_landing_page, visitor.last_page, visitor.referrer].filter(Boolean);
+      const gclidFromUrl = firstVisitorParam(visitor, ['gclid']);
+      const gclid = visitor.gclid || gclidFromUrl || '';
+      const gclidUrl = urls.find(raw => urlDisplayData(raw).params.get('gclid')) || '';
+      const paramsUrl = urls.find(raw => urlDisplayData(raw).hasParams) || '';
+      const disclosure = gclidUrl || (gclid ? `gclid=${gclid}` : paramsUrl);
+      if (visitorHasPaidOrigin(visitor)) {
+        return `<div class="va-origin"><strong>Origin:</strong> Google Ads${gclid ? '<span class="va-gclid-badge">GCLID captured</span>' : ''}${rawParamsToggle('', disclosure)}</div>`;
       }
       if (source) return `<div class="va-origin"><strong>Origin:</strong> ${esc(source)}</div>`;
       return '<div class="va-origin"><strong>Origin:</strong> Direct or unknown</div>';
@@ -1953,37 +2060,19 @@ const isDevDashboard = import.meta.env.DEV;
       const meta = parseEventMeta(event.attribution_json);
       const safeType = type.replace(/[^a-z0-9_-]/gi, '');
       const when = event.created_at ? formatWhen(event.created_at) : '';
-      const path = shortPath(event.page_path || '');
+      const rawPath = event.page_path || '';
       const title = event.page_title || '';
       const target = meta.target || '';
-      let label = '';
-      let detail = '';
-      if (type === 'phone_click') {
-        label = `Clicked to call ${target || 'phone number'}`;
-        detail = [meta.link_text, path].filter(Boolean).join(' / ');
-      } else if (type === 'phone_voicemail') {
-        label = `Left voicemail ${target || 'phone lead'}`;
-        const duration = formatDuration(meta.duration_seconds);
-        const mailbox = meta.mailbox ? `Mailbox: ${meta.mailbox}` : '';
-        const transcript = meta.link_text ? String(meta.link_text).slice(0, 180) : 'No transcript available';
-        detail = [mailbox, duration, transcript].filter(Boolean).join(' / ');
-      } else if (type === 'email_click') {
-        label = `Clicked email ${target || 'email address'}`;
-        detail = [meta.link_text, path].filter(Boolean).join(' / ');
-      } else if (type === 'form_submit') {
-        label = `Submitted ${target || title || 'form'}`;
-        detail = [meta.link_text, path].filter(Boolean).join(' / ');
-      } else {
-        label = `Viewed ${path || title || 'page'}`;
-        detail = title && title !== path ? title : '';
-      }
+      const pathHtml = rawPath ? renderDisplayUrl(rawPath, 'va-event-path') : '';
+      const fallback = target || title || (type === 'phone_voicemail' ? 'Phone lead' : 'No page recorded');
+      const formContact = type === 'form_submit' && meta.link_text
+        ? `<span class="va-event-form-contact">${esc(meta.link_text)}</span>`
+        : '';
       return `
         <div class="va-event">
           <div class="va-event-time">${esc(when)}</div>
-          <div class="va-event-main">
-            <div class="va-event-label"><span class="va-event-type va-event-type-${esc(safeType)}">${esc(type.replace(/_/g, ' '))}</span>${esc(label)}</div>
-            ${detail ? `<div class="va-event-meta">${esc(detail)}</div>` : ''}
-          </div>
+          <span class="va-event-type va-event-type-${esc(safeType)}">${esc(type.replace(/_/g, ' '))}</span>
+          <div class="va-event-main">${pathHtml || esc(fallback)}${formContact}</div>
         </div>`;
     }
 
@@ -2075,16 +2164,12 @@ const isDevDashboard = import.meta.env.DEV;
     // unauthenticated tracking beacons, so only render an <a> for http(s); any
     // other scheme falls back to inert text so the admin origin can't be a click sink.
     function safeUrlLink(raw, cls) {
-      if (!raw) return '';
-      let safe = false, label = '';
-      try {
-        const u = new URL(String(raw), 'https://x');
-        safe = u.protocol === 'http:' || u.protocol === 'https:';
-      } catch (e) { safe = false; }
-      label = displayUrl(raw) || String(raw);
-      return safe
-        ? `<a class="${cls}" href="${esc(raw)}" target="_blank" rel="noopener" title="${esc(raw)}">${esc(label)}</a>`
-        : `<span class="${cls}" title="${esc(raw)}">${esc(label)}</span>`;
+      return renderDisplayUrl(raw, cls);
+    }
+
+    function vaDetailPair(label, valueHtml) {
+      if (!valueHtml) return '';
+      return `<dt>${esc(label)}</dt><dd>${valueHtml}</dd>`;
     }
 
     // Expanded detail panel for a visitor row — holds everything hidden from the
@@ -2105,29 +2190,39 @@ const isDevDashboard = import.meta.env.DEV;
       const uaDetails = ua
         ? `<details class="attrib-details"><summary>${esc(browserSummary(ua))}</summary><div class="context-ua-text">${esc(ua)}</div></details>`
         : '';
-      const sourceText = [visitor.source, visitor.medium].filter(Boolean).join(' / ');
+      const keyword = (visitor.term && visitor.term !== '(not provided)')
+        ? visitor.term
+        : firstVisitorParam(visitor, ['vt_keyword']);
+      const sourceValue = visitor.source || firstVisitorParam(visitor, ['utm_source']);
+      const sourceText = [sourceValue, visitor.medium].filter(Boolean).join(' / ');
+      const campaignId = firstVisitorParam(visitor, ['gad_campaignid', 'vt_campaign']);
+      const gclid = visitor.gclid || firstVisitorParam(visitor, ['gclid']);
       return `
         <div class="attrib-panel">
           <div class="attrib-source">Visitor detail</div>
-          ${attribLine('Cookie ID', visitorId ? esc(visitorId) : '', 'attrib-path')}
-          ${attribLine('IP', visitor.visitor_ip ? esc(visitor.visitor_ip) : '')}
-          ${attribLine('Network / AS', network ? esc(network) : '')}
-          ${attribLine('Location', location ? esc(location) : '')}
-          ${attribLine('Language', visitor.visitor_accept_language ? esc(visitor.visitor_accept_language) : '')}
-          ${attribLine('CF-Ray', visitor.visitor_cf_ray ? esc(visitor.visitor_cf_ray) : '')}
-          ${attribLine('First seen', visitor.first_seen_at ? esc(formatWhen(visitor.first_seen_at)) : '')}
-          ${attribLine('Last seen', visitor.last_seen_at ? esc(formatWhen(visitor.last_seen_at)) : '')}
-          ${attribLine('Visits', visits ? esc(String(visits)) : '')}
-          ${attribLine('Page views', pageviews ? esc(String(pageviews)) : '')}
-          ${attribLine('Keyword', visitor.term ? esc(visitor.term) : '')}
-          ${attribLine('Source', sourceText ? esc(sourceText) : '')}
-          ${attribLine('Campaign', visitor.campaign ? esc(visitor.campaign) : '')}
-          ${attribLine('Landing page', visitor.first_landing_page ? esc(displayUrl(visitor.first_landing_page)) : '', 'attrib-path')}
-          ${attribLine('Current page', visitor.last_page ? esc(displayUrl(visitor.last_page)) : '', 'attrib-path')}
-          ${attribLine('Referrer', visitor.referrer ? esc(displayUrl(visitor.referrer)) : '', 'attrib-path')}
-          ${attribLine('GA client ID', visitor.ga_client_id ? esc(visitor.ga_client_id) : '')}
-          ${attribLine('StatCounter ID', visitor.statcounter_visitor_id ? esc(visitor.statcounter_visitor_id) : '')}
-          ${uaDetails}
+          <dl class="va-detail-grid">
+            ${vaDetailPair('Cookie ID', visitorId ? esc(visitorId) : '')}
+            ${vaDetailPair('IP', visitor.visitor_ip ? esc(visitor.visitor_ip) : '')}
+            ${vaDetailPair('Network / AS', network ? esc(network) : '')}
+            ${vaDetailPair('Location', location ? esc(location) : '')}
+            ${vaDetailPair('Language', visitor.visitor_accept_language ? esc(visitor.visitor_accept_language) : '')}
+            ${vaDetailPair('CF-Ray', visitor.visitor_cf_ray ? esc(visitor.visitor_cf_ray) : '')}
+            ${vaDetailPair('First seen', visitor.first_seen_at ? esc(formatWhen(visitor.first_seen_at)) : '')}
+            ${vaDetailPair('Last seen', visitor.last_seen_at ? esc(formatWhen(visitor.last_seen_at)) : '')}
+            ${vaDetailPair('Visits', visits ? esc(String(visits)) : '')}
+            ${vaDetailPair('Page views', pageviews ? esc(String(pageviews)) : '')}
+            ${vaDetailPair('Keyword', keyword ? esc(keyword) : '')}
+            ${vaDetailPair('Source', sourceText ? esc(sourceText) : '')}
+            ${vaDetailPair('Campaign', visitor.campaign ? esc(visitor.campaign) : '')}
+            ${vaDetailPair('Campaign ID', campaignId ? esc(campaignId) : '')}
+            ${vaDetailPair('Google click ID', gclid ? '<span class="va-gclid-badge">GCLID captured</span>' : '')}
+            ${vaDetailPair('Landing page', renderDisplayUrl(visitor.first_landing_page || ''))}
+            ${vaDetailPair('Current page', renderDisplayUrl(visitor.last_page || ''))}
+            ${vaDetailPair('Referrer', renderDisplayUrl(visitor.referrer || ''))}
+            ${vaDetailPair('GA client ID', visitor.ga_client_id ? esc(visitor.ga_client_id) : '')}
+            ${vaDetailPair('StatCounter ID', visitor.statcounter_visitor_id ? esc(visitor.statcounter_visitor_id) : '')}
+            ${vaDetailPair('Browser', uaDetails)}
+          </dl>
           ${visitorId ? renderVisitorTimelineShell(visitor) : ''}
           ${visitorId ? renderVisitorIdentityControls(visitor, visitorId) : ''}
         </div>`;
@@ -2226,8 +2321,9 @@ const isDevDashboard = import.meta.env.DEV;
           ? `<span class="va-chip va-chip-id" title="Identified visitor">${esc(identityLabel)}</span>`
           : '';
 
-        // Lead grade now lives on the individual submission row, not the visitor profile.
-        const gradeSelect = '';
+        // The visitor card grades the latest linked form submission through the
+        // same submission endpoint and state used by the Form Submissions tab.
+        const gradeSelect = renderVisitorGrade(visitorId);
 
         // Visit-# badge + RETURNING badge
         const visitN = visits || 1;
@@ -2401,6 +2497,19 @@ const isDevDashboard = import.meta.env.DEV;
       if (deleteModal) deleteModal.style.display = 'flex';
     });
 
+    dashboard.addEventListener('click', function(e) {
+      const toggle = e.target.closest('[data-url-params-toggle]');
+      if (!toggle) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const raw = toggle.parentElement && toggle.parentElement.querySelector('.va-url-raw');
+      if (!raw) return;
+      const willOpen = raw.hidden;
+      raw.hidden = !willOpen;
+      toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      toggle.textContent = willOpen ? '- params' : '+ params';
+    });
+
     visitorDirectory.addEventListener('click', function(e) {
       // Interactive controls first — these must never toggle the row.
       const quickTagBtn = e.target.closest('[data-quick-tag-id]');
@@ -2424,7 +2533,8 @@ const isDevDashboard = import.meta.env.DEV;
       if (saveVisitorBtn) { saveVisitorSettings(saveVisitorBtn); return; }
       // The grade dropdown, links, and anything inside the detail panel handle
       // themselves — never toggle the row for those.
-      if (e.target.closest('a') || e.target.closest('.va-detail-sc')) return;
+      if (e.target.closest('[data-grade-submission-id]') || e.target.closest('[data-url-params-toggle]')
+        || e.target.closest('a') || e.target.closest('details') || e.target.closest('.va-detail-sc')) return;
       // Otherwise a click anywhere on the compact row toggles its detail panel.
       const expander = e.target.closest('[data-va-expand]');
       if (!expander) return;
@@ -2625,7 +2735,7 @@ const isDevDashboard = import.meta.env.DEV;
       const selects = dashboard.querySelectorAll(`[data-grade-submission-id="${cssEscape(submissionId)}"]`);
       selects.forEach(sel => {
         if (sel.value !== grade) sel.value = grade;
-        if (sel.classList.contains('lead-grade-select')) {
+        if (sel.classList.contains('lead-grade-select') || sel.classList.contains('va-grade-select')) {
           sel.classList.remove('grade-a', 'grade-b', 'grade-c');
           if (grade) sel.classList.add('grade-' + grade.toLowerCase());
         }
@@ -2806,9 +2916,9 @@ const isDevDashboard = import.meta.env.DEV;
       if (!value) return '';
       try {
         const url = new URL(String(value), window.location.origin);
-        return `${url.pathname}${url.search}`;
+        return url.pathname || '/';
       } catch (e) {
-        return String(value);
+        return String(value).split(/[?#]/, 1)[0];
       }
     }
 
@@ -2816,11 +2926,63 @@ const isDevDashboard = import.meta.env.DEV;
       if (!value) return '';
       try {
         const url = new URL(String(value), window.location.origin);
-        if (url.origin === window.location.origin) return `${url.pathname}${url.search}`;
-        return `${url.hostname}${url.pathname}${url.search}`;
+        return url.pathname || '/';
       } catch (e) {
-        return String(value);
+        return String(value).split(/[?#]/, 1)[0];
       }
+    }
+
+    function urlDisplayData(value) {
+      const raw = String(value || '');
+      if (!raw) return { raw: '', path: '', safeHref: '', hasParams: false, params: new URLSearchParams() };
+      try {
+        const url = new URL(raw, window.location.origin);
+        const safeHref = (url.protocol === 'http:' || url.protocol === 'https:') ? raw : '';
+        return {
+          raw,
+          path: url.pathname || '/',
+          safeHref,
+          hasParams: Boolean(url.search),
+          params: url.searchParams,
+        };
+      } catch (e) {
+        return {
+          raw,
+          path: raw.split(/[?#]/, 1)[0],
+          safeHref: '',
+          hasParams: raw.includes('?'),
+          params: new URLSearchParams(),
+        };
+      }
+    }
+
+    function rawParamsToggle(raw, fallbackRaw) {
+      const data = urlDisplayData(raw);
+      const disclosure = data.hasParams ? data.raw : String(fallbackRaw || '');
+      if (!disclosure) return '';
+      return `<span class="va-url-params"><button type="button" class="va-url-toggle" data-url-params-toggle aria-expanded="false">+ params</button><code class="va-url-raw" hidden>${esc(disclosure)}</code></span>`;
+    }
+
+    function renderDisplayUrl(raw, className) {
+      const data = urlDisplayData(raw);
+      if (!data.path) return '';
+      const cls = className ? `va-url-path ${className}` : 'va-url-path';
+      const pathHtml = data.safeHref
+        ? `<a class="${cls}" href="${esc(data.safeHref)}" target="_blank" rel="noopener">${esc(data.path)}</a>`
+        : `<span class="${cls}">${esc(data.path)}</span>`;
+      return `<span class="va-url">${pathHtml}${rawParamsToggle(raw)}</span>`;
+    }
+
+    function firstVisitorParam(visitor, names) {
+      const urls = [visitor.first_landing_page, visitor.last_page, visitor.referrer].filter(Boolean);
+      for (const raw of urls) {
+        const data = urlDisplayData(raw);
+        for (const name of names) {
+          const value = data.params.get(name);
+          if (value) return value.trim();
+        }
+      }
+      return '';
     }
 
     function parsePages(record) {
@@ -3024,8 +3186,8 @@ const isDevDashboard = import.meta.env.DEV;
       ].filter(Boolean).join(' ');
       const pages = parsePages(record);
       const pageCount = Number(record.attribution_page_count || pages.length || 0);
-      const referrer = displayUrl(record.attribution_referrer || '');
-      const landing = displayUrl(record.attribution_landing_page || '');
+      const referrer = renderDisplayUrl(record.attribution_referrer || '');
+      const landing = renderDisplayUrl(record.attribution_landing_page || '');
       const userAgent = record.visitor_user_agent || '';
       const cookieVisitorId = record.attribution_visitor_id || '';
       const visitCount = Number(record.visitor_profile_visit_count || record.attribution_visit_count || 0);
@@ -3068,7 +3230,7 @@ const isDevDashboard = import.meta.env.DEV;
         ? `${pages.length} shown of ${pageCount} pages`
         : `${pages.length} page${pages.length === 1 ? '' : 's'}`;
       const trail = pages.length
-        ? `<details class="attrib-details"><summary>Visit trail: ${esc(trailLabel)}</summary><ol>${pages.map(page => `<li><span class="attrib-path">${esc(displayUrl(page.path || ''))}</span>${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
+        ? `<details class="attrib-details"><summary>Visit trail: ${esc(trailLabel)}</summary><ol>${pages.map(page => `<li>${renderDisplayUrl(page.path || '', 'attrib-path')}${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
         : '';
       const labelControls = cookieVisitorId ? renderVisitorIdentityControls(record, cookieVisitorId) : '';
 
@@ -3087,8 +3249,8 @@ const isDevDashboard = import.meta.env.DEV;
           ${attribLine('Returning', isReturning ? 'Yes' : '')}
           ${attribLine('IP', record.visitor_ip ? esc(record.visitor_ip) : '')}
           ${attribLine('Location', location ? esc(location) : '')}
-          ${attribLine('Referrer', referrer ? esc(referrer) : '', 'attrib-path')}
-          ${attribLine('Landing', landing ? esc(landing) : '', 'attrib-path')}
+          ${attribLine('Referrer', referrer)}
+          ${attribLine('Landing', landing)}
           ${attribLine('Language', record.visitor_accept_language ? esc(record.visitor_accept_language) : '')}
           ${attribLine('Network', network ? esc(network) : '')}
           ${attribLine('CF-Ray', record.visitor_cf_ray ? esc(record.visitor_cf_ray) : '')}
@@ -3103,8 +3265,8 @@ const isDevDashboard = import.meta.env.DEV;
       const source = record.attribution_source || '';
       const medium = record.attribution_medium || '';
       const isGoogle = isGoogleAttribution(record);
-      const landing = shortPath(record.attribution_landing_page || '');
-      const current = shortPath(record.attribution_current_page || '');
+      const landing = renderDisplayUrl(record.attribution_landing_page || '');
+      const current = renderDisplayUrl(record.attribution_current_page || '');
       const campaign = record.attribution_campaign || '';
       const term = record.attribution_term || '';
       const pages = parsePages(record);
@@ -3136,7 +3298,7 @@ const isDevDashboard = import.meta.env.DEV;
         ? `${pages.length} shown of ${pageCount} pages`
         : `${pages.length} page${pages.length === 1 ? '' : 's'}`;
       const trail = pages.length
-        ? `<details class="attrib-details"><summary>${esc(trailLabel)}</summary><ol>${pages.map(page => `<li><span class="attrib-path">${esc(shortPath(page.path || ''))}</span>${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
+        ? `<details class="attrib-details"><summary>${esc(trailLabel)}</summary><ol>${pages.map(page => `<li>${renderDisplayUrl(page.path || '', 'attrib-path')}${page.title ? `<br><span class="attrib-muted">${esc(page.title)}</span>` : ''}</li>`).join('')}</ol></details>`
         : '';
 
       return `
@@ -3144,8 +3306,8 @@ const isDevDashboard = import.meta.env.DEV;
           <div class="attrib-source">${esc(sourceLabel)}</div>
           ${attribLine('Campaign', campaign ? esc(campaign) : '')}
           ${attribLine('Keyword', term ? esc(term) : '')}
-          ${attribLine('Landing', landing ? esc(landing) : '', 'attrib-path')}
-          ${attribLine('Form page', current ? esc(current) : '', 'attrib-path')}
+          ${attribLine('Landing', landing)}
+          ${attribLine('Form page', current)}
           ${attribLine('Ad IDs', clickIds.length ? esc(clickIds.join(', ')) : '')}
           ${attribLine('GA client', record.attribution_ga_client_id ? esc(record.attribution_ga_client_id) : '')}
           ${attribLine('StatCounter', record.attribution_statcounter_visitor_id ? esc(record.attribution_statcounter_visitor_id) : '')}
