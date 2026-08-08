@@ -30,7 +30,7 @@ const helperScopes = [
   'https://www.googleapis.com/auth/gmail.compose',
 ].join(' ');
 
-const WRITE_COMMANDS = new Set(['create-draft', 'label']);
+const WRITE_COMMANDS = new Set(['create-draft', 'update-draft', 'create-label', 'label']);
 
 // Least-privilege scope per command for service-account (domain-wide delegation) access.
 const COMMAND_SCOPES = {
@@ -41,9 +41,72 @@ const COMMAND_SCOPES = {
   attachments: 'https://www.googleapis.com/auth/gmail.readonly',
   'download-attachment': 'https://www.googleapis.com/auth/gmail.readonly',
   labels: 'https://www.googleapis.com/auth/gmail.readonly',
+  'create-label': 'https://www.googleapis.com/auth/gmail.modify',
   label: 'https://www.googleapis.com/auth/gmail.modify',
   'create-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
+  'update-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
 };
+const ACCESS_TOKEN_EARLY_EXPIRY_MS = 60_000;
+const DEFAULT_ACCESS_TOKEN_LIFETIME_MS = 60 * 60_000;
+const SEARCH_HYDRATION_CONCURRENCY = 6;
+const accessTokenCache = new Map();
+
+async function mapBoundedOrdered(items, concurrency, mapper) {
+  const results = new Array(items.length); let next = 0;
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (next < items.length) { const index = next++;
+      results[index] = await mapper(items[index], index);
+    }
+  }));
+  return results;
+}
+
+function accessTokenCacheKey(args, command) {
+  const mailbox = String(
+    args.mailbox || 'sprabhu@dolphincentrifuge.com',
+  ).trim().toLowerCase();
+  const scope = COMMAND_SCOPES[command] || COMMAND_SCOPES.profile;
+  return `${mailbox}\u0000${scope}`;
+}
+
+async function commandAccessToken(args, command, {
+  cache = accessTokenCache,
+  load = () => getAccessToken(args, command),
+  now = () => Date.now(),
+} = {}) {
+  const key = accessTokenCacheKey(args, command);
+  const nowMs = now();
+  const existing = cache.get(key);
+  if (
+    existing &&
+    existing.expiresAt - ACCESS_TOKEN_EARLY_EXPIRY_MS > nowMs
+  ) return existing.promise;
+
+  const pending = Promise.resolve()
+    .then(load)
+    .then((record) => {
+      const accessToken = String(record?.accessToken || '');
+      if (!accessToken) throw new Error('Gmail access-token response was empty.');
+      const expiresAt = Number.isFinite(record?.expiresAt)
+        ? Number(record.expiresAt)
+        : now() + DEFAULT_ACCESS_TOKEN_LIFETIME_MS;
+      if (cache.get(key)?.promise === pending) {
+        cache.set(key, {
+          promise: Promise.resolve(accessToken),
+          expiresAt,
+        });
+      }
+      return accessToken;
+    })
+    .catch((error) => {
+      if (cache.get(key)?.promise === pending) cache.delete(key);
+      throw error;
+    });
+  // Infinity keeps every caller on this exact in-flight acquisition. The
+  // resolved record replaces it with the provider expiry before reuse.
+  cache.set(key, { promise: pending, expiresAt: Number.POSITIVE_INFINITY });
+  return pending;
+}
 
 function usage() {
   console.log(`Dolphin Gmail helper (connector-independent Gmail API access)
@@ -51,23 +114,31 @@ function usage() {
 Usage:
   node gmail-helper.mjs auth [--login-hint sprabhu@dolphincentrifuge.com]
   node gmail-helper.mjs profile [--mailbox EMAIL] [--json]
-  node gmail-helper.mjs search --query "from:x newer_than:7d" [--mailbox EMAIL] [--max 25] [--json]
+  node gmail-helper.mjs search --query "from:x newer_than:7d" [--mailbox EMAIL] [--max 25]
+        [--page-token TOKEN] [--envelope] [--json]
   node gmail-helper.mjs read --id MESSAGE_ID [--mailbox EMAIL] [--json]
   node gmail-helper.mjs thread --id THREAD_ID [--mailbox EMAIL] [--json]
   node gmail-helper.mjs attachments --id MESSAGE_ID [--mailbox EMAIL] [--json]
   node gmail-helper.mjs download-attachment --id MESSAGE_ID (--attachment-id ATTACHMENT_ID | --filename NAME)
+        [--filename-index 1]
         --output FILE [--overwrite] [--mailbox EMAIL] [--json]
   node gmail-helper.mjs labels [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs create-label --name "LabelName" [--mailbox EMAIL] [--json]
   node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"] [--mailbox EMAIL]
   node gmail-helper.mjs create-draft --to EMAIL --subject "..." (--body "text" | --body-file FILE)
-        [--cc EMAIL] [--html] [--reply-to-message-id MSG_ID] [--mailbox EMAIL]
+        [--cc EMAIL] [--html] [--attach FILE ...] [--attach-name NAME ...]
+        [--inline-attach FILE ...] [--inline-name NAME ...] [--inline-cid CID ...]
+        [--verified-safe-newer-message-id MSG_ID ...]
+        [--reply-to-message-id MSG_ID] [--force-anchor] [--standalone] [--mailbox EMAIL]
+  node gmail-helper.mjs update-draft --draft-id DRAFT_ID --to EMAIL --subject "..."
+        (--body "text" | --body-file FILE) [same attachment and reply options as create-draft]
   node gmail-helper.mjs self-test
 
 Access modes:
   - Default (no --mailbox): Sanjay's own mailbox via OAuth refresh tokens.
       helper (read/write): ${helperTokenPath}
       readonly (fallback): ${readonlyTokenPath}
-    Write commands (create-draft, label) REQUIRE the helper token; run auth once
+    Write commands (create-draft, update-draft, create-label, label) REQUIRE the helper token; run auth once
     (one browser consent click). Scopes: ${helperScopes}
   - --mailbox EMAIL: ANY dolphincentrifuge.com mailbox (jkraft@, devans@, sprabhu@, ...)
     via the domain-wide-delegated service account. Requires:
@@ -77,19 +148,35 @@ Access modes:
 
 Notes:
   - There is intentionally NO send command. Drafts only.
+  - A reply anchor must be the newest real message. --force-anchor is an explicit logged override.
+  - Anchorless drafts check for recent correspondent activity; --standalone asserts a deliberate clean email.
   - This script never stores secrets in the repo and never prints token values.`);
 }
 
 function parseArgs(argv) {
   const args = { _: [] };
+  const assign = (key, value) => {
+    if ([
+      'attach',
+      'attach-name',
+      'inline-attach',
+      'inline-name',
+      'inline-cid',
+      'verified-safe-newer-message-id',
+    ].includes(key)) {
+      args[key] = [...(Array.isArray(args[key]) ? args[key] : []), value];
+      return;
+    }
+    args[key] = value;
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const item = argv[i];
     if (!item.startsWith('--')) { args._.push(item); continue; }
     const eq = item.indexOf('=');
-    if (eq !== -1) { args[item.slice(2, eq)] = item.slice(eq + 1); continue; }
+    if (eq !== -1) { assign(item.slice(2, eq), item.slice(eq + 1)); continue; }
     const key = item.slice(2);
     const next = argv[i + 1];
-    if (!next || next.startsWith('--')) { args[key] = true; } else { args[key] = next; i += 1; }
+    if (!next || next.startsWith('--')) { assign(key, true); } else { assign(key, next); i += 1; }
   }
   return args;
 }
@@ -304,7 +391,11 @@ async function getServiceAccountAccessToken(args, command) {
       : '';
     throw new Error(`Service account token failed for ${mailbox}: ${JSON.stringify(json)}${hint}`);
   }
-  return json.access_token;
+  return {
+    accessToken: json.access_token,
+    expiresAt: Date.now() +
+      (Number(json.expires_in) || DEFAULT_ACCESS_TOKEN_LIFETIME_MS / 1000) * 1000,
+  };
 }
 
 async function getAccessToken(args, command) {
@@ -327,11 +418,15 @@ async function getAccessToken(args, command) {
   });
   const json = await res.json();
   if (!res.ok) throw new Error(`Gmail token refresh failed (${tokenPath}): ${JSON.stringify(json)}`);
-  return json.access_token;
+  return {
+    accessToken: json.access_token,
+    expiresAt: Date.now() +
+      (Number(json.expires_in) || DEFAULT_ACCESS_TOKEN_LIFETIME_MS / 1000) * 1000,
+  };
 }
 
 async function gmailFetch(args, command, url, init = {}) {
-  const accessToken = await getAccessToken(args, command);
+  const accessToken = await commandAccessToken(args, command);
   const headers = { Authorization: `Bearer ${accessToken}`, ...(init.headers || {}) };
   const res = await fetch(url, { ...init, headers });
   const text = await res.text();
@@ -365,22 +460,49 @@ function headerValue(message, name) {
   return match?.value || '';
 }
 
+function mimePartHeaderValue(part, name) {
+  const headers = part?.headers || [];
+  const match = headers.find(
+    (header) => String(header?.name || '').toLowerCase() === name.toLowerCase(),
+  );
+  return String(match?.value || '');
+}
+
+function isAttachmentMimePart(part) {
+  if (!part) return false;
+  const disposition = mimePartHeaderValue(part, 'Content-Disposition');
+  return Boolean(String(part.filename || '').trim())
+    || /\battachment\b/i.test(disposition)
+    || String(part.mimeType || '').toLowerCase() === 'message/rfc822';
+}
+
 function extractPlainText(part, out = []) {
-  if (!part) return out;
+  if (!part || isAttachmentMimePart(part)) return out;
   if (part.mimeType === 'text/plain' && part.body?.data) out.push(decodeBase64Url(part.body.data));
   for (const child of part.parts || []) extractPlainText(child, out);
   return out;
 }
 
+function extractHtmlText(part, out = []) {
+  if (!part || isAttachmentMimePart(part)) return out;
+  if (part.mimeType === 'text/html' && part.body?.data) out.push(decodeBase64Url(part.body.data));
+  for (const child of part.parts || []) extractHtmlText(child, out);
+  return out;
+}
+
 function collectAttachments(part, out = []) {
   if (!part) return out;
-  if (part.filename) {
+  const contentId = (part.headers || [])
+    .find(header => String(header.name || '').toLowerCase() === 'content-id')?.value
+    ?.replace(/[<>]/g, '') || '';
+  if (part.filename || contentId) {
     out.push({
-      filename: part.filename,
+      filename: part.filename || contentId,
       mimeType: part.mimeType || 'application/octet-stream',
       size: Number(part.body?.size || 0),
       attachmentId: part.body?.attachmentId || '',
       inlineData: Boolean(part.body?.data),
+      contentId,
     });
   }
   for (const child of part.parts || []) collectAttachments(child, out);
@@ -397,20 +519,18 @@ function findAttachmentPart(part, attachmentId) {
   return null;
 }
 
-function findAttachmentPartByFilename(part, filename) {
+function findAttachmentPartByFilename(part, filename, occurrence = 1, matches = []) {
   if (!part) return null;
-  if (part.filename === filename) return part;
-  for (const child of part.parts || []) {
-    const match = findAttachmentPartByFilename(child, filename);
-    if (match) return match;
-  }
-  return null;
+  if (part.filename === filename) matches.push(part);
+  for (const child of part.parts || []) findAttachmentPartByFilename(child, filename, occurrence, matches);
+  return matches[Math.max(1, Number(occurrence || 1)) - 1] || null;
 }
 
 function summarizeMessage(message) {
   return {
     id: message.id,
     threadId: message.threadId,
+    internalDate: String(message.internalDate || ''),
     date: headerValue(message, 'Date'),
     from: headerValue(message, 'From'),
     to: headerValue(message, 'To'),
@@ -445,18 +565,30 @@ async function search(args) {
   const url = new URL('https://gmail.googleapis.com/gmail/v1/users/me/messages');
   url.searchParams.set('q', String(args.query));
   url.searchParams.set('maxResults', String(max));
+  if (args['page-token']) {
+    url.searchParams.set('pageToken', String(args['page-token']));
+  }
   const list = await gmailFetch(args, 'search', url);
   const ids = (list.messages || []).map((m) => m.id).filter(Boolean);
-  const summaries = [];
-  for (const id of ids) {
+  const summaries = await mapBoundedOrdered(ids, SEARCH_HYDRATION_CONCURRENCY, async (id) => {
     const msgUrl = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}`);
     msgUrl.searchParams.set('format', 'metadata');
     for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References']) {
       msgUrl.searchParams.append('metadataHeaders', header);
     }
-    summaries.push(summarizeMessage(await gmailFetch(args, 'search', msgUrl)));
+    return summarizeMessage(await gmailFetch(args, 'search', msgUrl));
+  });
+  if (args.json) {
+    const output = flagEnabled(args.envelope)
+      ? {
+          items: summaries,
+          nextPageToken: String(list.nextPageToken || ''),
+          complete: !list.nextPageToken,
+        }
+      : summaries;
+    console.log(JSON.stringify(output, null, 2));
+    return;
   }
-  if (args.json) { console.log(JSON.stringify(summaries, null, 2)); return; }
   if (!summaries.length) { console.log('No messages matched.'); return; }
   printSummaries(summaries);
 }
@@ -468,7 +600,8 @@ async function read(args) {
   const message = await gmailFetch(args, 'read', url);
   const summary = summarizeMessage(message);
   const bodyText = extractPlainText(message.payload).join('\n').trim();
-  if (args.json) { console.log(JSON.stringify({ ...summary, body: bodyText }, null, 2)); return; }
+  const htmlBody = extractHtmlText(message.payload).join('\n').trim();
+  if (args.json) { console.log(JSON.stringify({ ...summary, body: bodyText, htmlBody }, null, 2)); return; }
   console.log(`From: ${summary.from}`);
   console.log(`To: ${summary.to}`);
   console.log(`Date: ${summary.date}`);
@@ -511,6 +644,7 @@ async function attachments(args) {
 async function downloadAttachment(args) {
   const requestedAttachmentId = args['attachment-id'];
   const requestedFilename = args.filename;
+  const requestedFilenameIndex = Math.max(1, Number(args['filename-index'] || 1));
   if (!args.id) throw new Error('download-attachment requires --id MESSAGE_ID');
   if (!requestedAttachmentId && !requestedFilename) {
     throw new Error('download-attachment requires --attachment-id ATTACHMENT_ID or --filename NAME');
@@ -521,7 +655,7 @@ async function downloadAttachment(args) {
   messageUrl.searchParams.set('format', 'full');
   const message = await gmailFetch(args, 'download-attachment', messageUrl);
   const part = requestedFilename
-    ? findAttachmentPartByFilename(message.payload, String(requestedFilename))
+    ? findAttachmentPartByFilename(message.payload, String(requestedFilename), requestedFilenameIndex)
     : findAttachmentPart(message.payload, String(requestedAttachmentId));
   if (!part) {
     const target = requestedFilename || requestedAttachmentId;
@@ -572,6 +706,54 @@ async function listLabels(args) {
   }
 }
 
+async function createLabel(args) {
+  const name = String(args.name || '').trim();
+  if (!name) throw new Error('create-label requires --name "LabelName"');
+
+  const current = await gmailFetch(
+    args,
+    'create-label',
+    'https://gmail.googleapis.com/gmail/v1/users/me/labels',
+  );
+  const existing = (current.labels || []).find(
+    (item) => String(item.name || '').toLowerCase() === name.toLowerCase(),
+  );
+  if (existing) {
+    const result = {
+      action: 'reused_existing',
+      id: existing.id,
+      name: existing.name,
+      type: existing.type,
+    };
+    if (args.json) { console.log(JSON.stringify(result, null, 2)); return; }
+    console.log(`Label already exists: ${result.id} | ${result.name}`);
+    return;
+  }
+
+  const created = await gmailFetch(
+    args,
+    'create-label',
+    'https://gmail.googleapis.com/gmail/v1/users/me/labels',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        labelListVisibility: 'labelShow',
+        messageListVisibility: 'show',
+      }),
+    },
+  );
+  const result = {
+    action: 'created',
+    id: created.id,
+    name: created.name,
+    type: created.type,
+  };
+  if (args.json) { console.log(JSON.stringify(result, null, 2)); return; }
+  console.log(`Label created: ${result.id} | ${result.name}`);
+}
+
 async function resolveLabelId(args, name) {
   const json = await gmailFetch(args, 'label', 'https://gmail.googleapis.com/gmail/v1/users/me/labels');
   const match = (json.labels || []).find(
@@ -605,41 +787,354 @@ function plainTextToHtml(text) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
-  return `<div dir="ltr">${escaped.replace(/\r?\n/g, '<br>\r\n')}</div>`;
+  // Permit a narrowly scoped Markdown-style HTTPS link so Review Station
+  // drafts can show a clean phrase instead of exposing a long payment URL.
+  // Everything is escaped first; only the explicit [label](https://...) form
+  // is converted back into an anchor.
+  const linked = escaped.replace(
+    /\[([^\]\r\n]+)\]\((https:\/\/[^\s<>"')]+)\)/g,
+    '<a href="$2">$1</a>',
+  );
+  return `<div dir="ltr">${linked.replace(/\r?\n/g, '<br>\r\n')}</div>`;
 }
 
-function buildMime({ to, cc, subject, body, html, inReplyTo, references }) {
+function safeHeader(value) {
+  return String(value || '').replace(/[\r\n]+/g, ' ').trim();
+}
+
+function attachmentMimeType(filename) {
+  const extension = path.extname(String(filename || '')).toLowerCase();
+  return {
+    '.csv': 'text/csv',
+    '.doc': 'application/msword',
+    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    '.gif': 'image/gif',
+    '.jpeg': 'image/jpeg',
+    '.jpg': 'image/jpeg',
+    '.pdf': 'application/pdf',
+    '.png': 'image/png',
+    '.ppt': 'application/vnd.ms-powerpoint',
+    '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    '.txt': 'text/plain',
+    '.xls': 'application/vnd.ms-excel',
+    '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    '.zip': 'application/zip',
+  }[extension] || 'application/octet-stream';
+}
+
+function attachmentFilename(value) {
+  return path.basename(safeHeader(value)).replace(/\\/g, '\\\\').replace(/"/g, '\\"') || 'attachment';
+}
+
+function wrapBase64(buffer) {
+  return buffer.toString('base64').match(/.{1,76}/g)?.join('\r\n') || '';
+}
+
+function buildMime({
+  to, cc, subject, body, html, inReplyTo, references,
+  attachments = [], inlineAttachments = [],
+}) {
   const lines = [];
-  lines.push(`To: ${to}`);
-  if (cc) lines.push(`Cc: ${cc}`);
-  lines.push(`Subject: ${subject}`);
-  if (inReplyTo) lines.push(`In-Reply-To: ${inReplyTo}`);
-  if (references) lines.push(`References: ${references}`);
+  lines.push(`To: ${safeHeader(to)}`);
+  if (cc) lines.push(`Cc: ${safeHeader(cc)}`);
+  lines.push(`Subject: ${safeHeader(subject)}`);
+  if (inReplyTo) lines.push(`In-Reply-To: ${safeHeader(inReplyTo)}`);
+  if (references) lines.push(`References: ${safeHeader(references)}`);
   lines.push('MIME-Version: 1.0');
+  const htmlBody = html ? body : plainTextToHtml(body);
+  if (attachments.length || inlineAttachments.length) {
+    const boundary = `dolphin_${crypto.randomBytes(18).toString('hex')}`;
+    lines.push(`Content-Type: multipart/mixed; boundary="${boundary}"`);
+    lines.push('');
+    if (inlineAttachments.length) {
+      const relatedBoundary = `dolphin_related_${crypto.randomBytes(18).toString('hex')}`;
+      lines.push(`--${boundary}`);
+      lines.push(`Content-Type: multipart/related; boundary="${relatedBoundary}"`);
+      lines.push('');
+      lines.push(`--${relatedBoundary}`);
+      lines.push('Content-Type: text/html; charset="UTF-8"');
+      lines.push('Content-Transfer-Encoding: 7bit');
+      lines.push('');
+      lines.push(htmlBody);
+      for (const attachment of inlineAttachments) {
+        const filename = attachmentFilename(attachment.filename);
+        const contentId = safeHeader(attachment.contentId);
+        lines.push(`--${relatedBoundary}`);
+        lines.push(`Content-Type: ${attachment.mimeType}; name="${filename}"`);
+        lines.push(`Content-Disposition: inline; filename="${filename}"`);
+        lines.push(`Content-ID: <${contentId}>`);
+        lines.push('Content-Transfer-Encoding: base64');
+        lines.push('');
+        lines.push(wrapBase64(attachment.data));
+      }
+      lines.push(`--${relatedBoundary}--`);
+    } else {
+      lines.push(`--${boundary}`);
+      lines.push('Content-Type: text/html; charset="UTF-8"');
+      lines.push('Content-Transfer-Encoding: 7bit');
+      lines.push('');
+      lines.push(htmlBody);
+    }
+    for (const attachment of attachments) {
+      const filename = attachmentFilename(attachment.filename);
+      lines.push(`--${boundary}`);
+      lines.push(`Content-Type: ${attachment.mimeType}; name="${filename}"`);
+      lines.push(`Content-Disposition: attachment; filename="${filename}"`);
+      lines.push('Content-Transfer-Encoding: base64');
+      lines.push('');
+      lines.push(wrapBase64(attachment.data));
+    }
+    lines.push(`--${boundary}--`);
+    return lines.join('\r\n');
+  }
   // ALWAYS text/html: --html means "body is already HTML"; plain bodies
   // are escaped and converted. Never emit text/plain (see note above).
   lines.push('Content-Type: text/html; charset="UTF-8"');
   lines.push('Content-Transfer-Encoding: 7bit');
   lines.push('');
-  lines.push(html ? body : plainTextToHtml(body));
+  lines.push(htmlBody);
   return lines.join('\r\n');
 }
 
+function flagEnabled(value) {
+  return value === true || String(value || '').trim().toLowerCase() === 'true';
+}
+
+function isDraftMessage(message) {
+  return Array.isArray(message?.labelIds) && message.labelIds.includes('DRAFT');
+}
+
+function newestRealMessage(messages) {
+  return [...(messages || [])]
+    .filter(message => !isDraftMessage(message))
+    .sort((left, right) => Number(left.internalDate || 0) - Number(right.internalDate || 0))
+    .at(-1);
+}
+
+function inspectReplyAnchorPlacement(messages, replyToMessageId, verifiedSafeIds = []) {
+  const orderedReal = [...(messages || [])]
+    .filter(message => !isDraftMessage(message))
+    .sort((left, right) => Number(left.internalDate || 0) - Number(right.internalDate || 0));
+  const newest = orderedReal.at(-1) || null;
+  const anchorIndex = orderedReal.findIndex(message => message.id === replyToMessageId);
+  const laterIds = anchorIndex < 0
+    ? []
+    : orderedReal.slice(anchorIndex + 1).map(message => String(message.id || ''));
+  const verifiedSafe = new Set(verifiedSafeIds);
+  return {
+    newest,
+    anchorIndex,
+    laterIds,
+    unverifiedLaterIds: laterIds.filter(id => !verifiedSafe.has(id)),
+    unusedVerifiedIds: verifiedSafeIds.filter(id => !laterIds.includes(id)),
+  };
+}
+
+function isReplyStyleSubject(value) {
+  const confusableSkeleton = String(value || '')
+    .normalize('NFKC')
+    .replace(/\p{Cf}/gu, '')
+    .normalize('NFKD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[\u0433\u0491\u04f7\u0393\u03a1\u03c1\u0420\u0440]/gu, 'r')
+    .replace(/[\u03b5\u0395\u0435\u0415\u025b\u0258]/gu, 'e')
+    .replace(/[\u0192\u03dc\u03dd\u0492\u0493]/gu, 'f')
+    .replace(/[\u03c9\u03a9\u051d\u051c\u0428\u0448]/gu, 'w')
+    .replace(/[\u0501\u0500]/gu, 'd')
+    .replace(/[:\u02d0\u02f8\u0589\u05c3\u0703\u0704\u1361\u1803\u1809\u205a\u2236\u2997\ua789\ufe13\ufe30\ufe55\uff1a]/gu, ':');
+  const compact = confusableSkeleton.trimStart().replace(/\s+/gu, '');
+  const delimitedPrefix = compact.match(/^([\p{L}]{2,3})[\p{P}\p{S}]/u);
+  if (delimitedPrefix) {
+    const letters = delimitedPrefix[1];
+    const ascii = letters.replace(/[^a-z]/g, '');
+    if (new Set(['re', 'fw', 'fwd']).has(ascii)) return true;
+    if (/[^\x00-\x7f]/.test(letters)) return true;
+  }
+  const colonIndex = confusableSkeleton.indexOf(':');
+  if (colonIndex < 0) return false;
+  const letters = confusableSkeleton.slice(0, colonIndex).replace(/[^\p{L}]/gu, '');
+  const prefix = letters.replace(/[^a-z]/g, '');
+  if (new Set(['re', 'fw', 'fwd']).has(prefix)) return true;
+  const letterCount = Array.from(letters).length;
+  return letterCount >= 2 && letterCount <= 3 && /[^\x00-\x7f]/.test(letters);
+}
+
+function correspondentAddress(value) {
+  const matches = [...String(value || '').matchAll(/[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9.-]+\.[a-z]{2,}/gi)]
+    .map(match => match[0].toLowerCase());
+  const unique = [...new Set(matches)];
+  if (unique.length !== 1) {
+    throw new Error('An anchorless draft requires exactly one unique recipient address, or explicit --standalone.');
+  }
+  return unique[0];
+}
+
+function recentCorrespondentQuery(recipient) {
+  return `newer_than:30d -label:drafts {from:${recipient} to:${recipient} cc:${recipient}}`;
+}
+
+async function recentCorrespondentActivity(args, command, recipient) {
+  const url = new URL('https://gmail.googleapis.com/gmail/v1/users/me/messages');
+  url.searchParams.set('q', recentCorrespondentQuery(recipient));
+  url.searchParams.set('maxResults', '1');
+  const list = await gmailFetch(args, command, url);
+  return (list.messages || [])[0] || null;
+}
+
+async function readReplyAnchor(args, command, messageId) {
+  const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${encodeURIComponent(messageId)}`);
+  url.searchParams.set('format', 'metadata');
+  for (const header of ['Message-ID', 'References', 'Subject']) url.searchParams.append('metadataHeaders', header);
+  return gmailFetch(args, command, url);
+}
+
+async function readThreadMetadata(args, command, threadId) {
+  const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${encodeURIComponent(threadId)}`);
+  url.searchParams.set('format', 'metadata');
+  return gmailFetch(args, command, url);
+}
+
 async function createDraft(args) {
+  const command = args._[0] === 'update-draft' ? 'update-draft' : 'create-draft';
+  if (command === 'update-draft' && !args['draft-id']) throw new Error('update-draft requires --draft-id');
   if (!args.to) throw new Error('create-draft requires --to');
   if (!args.subject) throw new Error('create-draft requires --subject');
   let body = args.body;
   if (!body && args['body-file']) body = await fs.readFile(String(args['body-file']), 'utf8');
   if (!body) throw new Error('create-draft requires --body or --body-file');
+  const replyToMessageId = String(args['reply-to-message-id'] || '').trim();
+  const requestedThreadId = String(args['thread-id'] || '').trim();
+  const standalone = flagEnabled(args.standalone);
+  const forceAnchor = flagEnabled(args['force-anchor']);
+  const verifiedSafeNewerMessageIds = Array.isArray(args['verified-safe-newer-message-id'])
+    ? args['verified-safe-newer-message-id'].map(value => String(value || '').trim())
+    : [];
+  if (
+    verifiedSafeNewerMessageIds.length > 32 ||
+    verifiedSafeNewerMessageIds.some(value => !/^[a-z0-9_-]{1,200}$/i.test(value)) ||
+    new Set(verifiedSafeNewerMessageIds).size !== verifiedSafeNewerMessageIds.length
+  ) {
+    throw new Error('Verified safe newer message IDs are malformed or exceed the limit.');
+  }
+  if (forceAnchor && verifiedSafeNewerMessageIds.length) {
+    throw new Error('--force-anchor cannot be combined with verified safe newer message IDs.');
+  }
+  if (standalone && replyToMessageId) {
+    throw new Error('--standalone cannot be combined with --reply-to-message-id');
+  }
+  if (standalone && requestedThreadId) {
+    throw new Error('--standalone cannot be combined with --thread-id');
+  }
+  if (forceAnchor && !replyToMessageId) {
+    throw new Error('--force-anchor requires --reply-to-message-id');
+  }
+  if (requestedThreadId && !replyToMessageId) {
+    throw new Error(`${command} refuses --thread-id without --reply-to-message-id`);
+  }
+  if (!replyToMessageId && isReplyStyleSubject(args.subject)) {
+    throw new Error('An anchorless draft cannot use a Re:, FW:, or Fwd: subject. Reply to the newest message instead.');
+  }
+
+  let original = null;
+  let forceAnchorUsed = false;
+  if (replyToMessageId) {
+    original = await readReplyAnchor(args, command, replyToMessageId);
+    if (!original.threadId || isDraftMessage(original)) {
+      throw new Error('The reply anchor must be a real non-draft Gmail message.');
+    }
+    if (requestedThreadId && requestedThreadId !== original.threadId) {
+      throw new Error(`The supplied thread id does not match the reply anchor thread ${original.threadId}.`);
+    }
+    const thread = await readThreadMetadata(args, command, original.threadId);
+    const placement = inspectReplyAnchorPlacement(
+      thread.messages,
+      replyToMessageId,
+      verifiedSafeNewerMessageIds,
+    );
+    const newest = placement.newest;
+    if (!newest) throw new Error(`No real message exists in reply anchor thread ${original.threadId}.`);
+    if (newest.id !== replyToMessageId) {
+      if (placement.anchorIndex < 0) {
+        throw new Error(`Reply anchor ${replyToMessageId} is not present in its Gmail thread.`);
+      }
+      if (!forceAnchor && (
+        placement.unverifiedLaterIds.length ||
+        placement.unusedVerifiedIds.length
+      )) {
+        throw new Error(
+          `Reply anchor ${replyToMessageId} is stale. The newest real message is ${newest.id}. `
+          + 'Reply to the newest message, or supply only exact caller-verified safe newer message IDs.',
+        );
+      }
+      if (forceAnchor) {
+        forceAnchorUsed = true;
+        console.warn(
+          `PLACEMENT OVERRIDE: --force-anchor accepted stale anchor ${replyToMessageId}; newest real message is ${newest.id}.`,
+        );
+      } else {
+        console.warn(
+          `PLACEMENT SAFE TAIL: accepted ${verifiedSafeNewerMessageIds.length} exact caller-verified newer message(s) after anchor ${replyToMessageId}.`,
+        );
+      }
+    } else if (forceAnchor) {
+      console.warn(`PLACEMENT OVERRIDE FLAG: --force-anchor supplied; anchor ${replyToMessageId} is already newest.`);
+    } else if (verifiedSafeNewerMessageIds.length) {
+      throw new Error('Verified safe newer message IDs were supplied, but the reply anchor is already newest.');
+    }
+  } else if (!standalone) {
+    const recipient = correspondentAddress([args.to, args.cc, args.bcc].filter(Boolean).join(', '));
+    const recent = await recentCorrespondentActivity(args, command, recipient);
+    if (recent) {
+      throw new Error(
+        `Recent Gmail activity with ${recipient} exists. Newest thread id: ${recent.threadId}, message id: ${recent.id}. `
+        + 'Reply to that message, or pass --standalone for a deliberate clean email.',
+      );
+    }
+  }
+  const attachments = [];
+  const requestedAttachments = Array.isArray(args.attach) ? args.attach : [];
+  const requestedNames = Array.isArray(args['attach-name']) ? args['attach-name'] : [];
+  if (requestedNames.length && requestedNames.length !== requestedAttachments.length) {
+    throw new Error('Each --attach-name must correspond to one --attach file');
+  }
+  for (let index = 0; index < requestedAttachments.length; index += 1) {
+    const requestedPath = requestedAttachments[index];
+    const attachmentPath = path.resolve(String(requestedPath));
+    if (!existsSync(attachmentPath)) throw new Error(`Attachment file not found: ${attachmentPath}`);
+    const data = await fs.readFile(attachmentPath);
+    if (!data.length) throw new Error(`Attachment file is empty: ${attachmentPath}`);
+    attachments.push({
+      filename: requestedNames[index] ? path.basename(String(requestedNames[index])) : path.basename(attachmentPath),
+      mimeType: attachmentMimeType(attachmentPath),
+      data,
+    });
+  }
+  const inlineAttachments = [];
+  const requestedInlineAttachments = Array.isArray(args['inline-attach']) ? args['inline-attach'] : [];
+  const requestedInlineNames = Array.isArray(args['inline-name']) ? args['inline-name'] : [];
+  const requestedInlineCids = Array.isArray(args['inline-cid']) ? args['inline-cid'] : [];
+  if (requestedInlineNames.length !== requestedInlineAttachments.length
+      || requestedInlineCids.length !== requestedInlineAttachments.length) {
+    throw new Error('Each --inline-attach requires one --inline-name and one --inline-cid');
+  }
+  for (let index = 0; index < requestedInlineAttachments.length; index += 1) {
+    const attachmentPath = path.resolve(String(requestedInlineAttachments[index]));
+    if (!existsSync(attachmentPath)) throw new Error(`Inline image file not found: ${attachmentPath}`);
+    const data = await fs.readFile(attachmentPath);
+    if (!data.length) throw new Error(`Inline image file is empty: ${attachmentPath}`);
+    inlineAttachments.push({
+      filename: path.basename(String(requestedInlineNames[index])),
+      contentId: String(requestedInlineCids[index]).replace(/[<>\r\n]/g, ''),
+      mimeType: attachmentMimeType(attachmentPath),
+      data,
+    });
+  }
 
   let inReplyTo = '';
   let references = '';
-  let threadId = args['thread-id'] || '';
-  if (args['reply-to-message-id']) {
-    const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${args['reply-to-message-id']}`);
-    url.searchParams.set('format', 'metadata');
-    for (const header of ['Message-ID', 'References', 'Subject']) url.searchParams.append('metadataHeaders', header);
-    const original = await gmailFetch(args, 'create-draft', url);
+  let threadId = requestedThreadId;
+  if (original) {
     const originalMessageId = headerValue(original, 'Message-ID');
     inReplyTo = originalMessageId;
     references = [headerValue(original, 'References'), originalMessageId].filter(Boolean).join(' ');
@@ -654,21 +1149,31 @@ async function createDraft(args) {
     html: Boolean(args.html),
     inReplyTo,
     references,
+    attachments,
+    inlineAttachments,
   });
   const draftBody = { message: { raw: encodeBase64Url(mime) } };
   if (threadId) draftBody.message.threadId = threadId;
 
-  const json = await gmailFetch(args, 'create-draft',
-    'https://gmail.googleapis.com/gmail/v1/users/me/drafts', {
-      method: 'POST',
+  const endpoint = command === 'update-draft'
+    ? `https://gmail.googleapis.com/gmail/v1/users/me/drafts/${encodeURIComponent(String(args['draft-id']))}`
+    : 'https://gmail.googleapis.com/gmail/v1/users/me/drafts';
+  const json = await gmailFetch(args, command,
+    endpoint, {
+      method: command === 'update-draft' ? 'PUT' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(draftBody),
     });
-  console.log(`Draft created (NOT sent). Draft id: ${json.id}, message id: ${json.message?.id}`);
+  console.log(`Draft ${command === 'update-draft' ? 'updated' : 'created'} (NOT sent). Draft id: ${json.id}, message id: ${json.message?.id}`);
+  if (forceAnchorUsed) console.log('Placement override used: --force-anchor');
+  if (attachments.length || inlineAttachments.length) {
+    const allFiles = [...attachments, ...inlineAttachments];
+    console.log(`Attachments: ${allFiles.length} | ${allFiles.map(item => item.filename).join(' | ')}`);
+  }
   console.log('Review and send it from Gmail.');
 }
 
-function selfTest() {
+async function selfTest() {
   const failures = [];
   const check = (name, cond) => { if (!cond) failures.push(name); };
 
@@ -677,9 +1182,145 @@ function selfTest() {
   check('parseArgs spaced value', args.query === 'from:a b');
   check('parseArgs eq value', args.max === '5');
   check('parseArgs flag', args.json === true);
+  const pagingArgs = parseArgs([
+    'search', '--query', 'newer_than:1d', '--page-token', 'opaque-page',
+    '--envelope', '--json',
+  ]);
+  check('parseArgs paging token', pagingArgs['page-token'] === 'opaque-page');
+  check('parseArgs envelope flag', pagingArgs.envelope === true);
+  let hydrationActive = 0, hydrationPeak = 0;
+  const orderedHydration = await mapBoundedOrdered([3, 1, 2], 2, async (value) => {
+    hydrationPeak = Math.max(hydrationPeak, ++hydrationActive);
+    await Promise.resolve();
+    hydrationActive--;
+    return value;
+  });
+  check('bounded hydration preserves order', orderedHydration.join('|') === '3|1|2');
+  check('bounded hydration respects concurrency', hydrationPeak === 2);
+  let hydrationFailed = false;
+  try { await mapBoundedOrdered([1, 2], 2, async (value) => {
+    if (value === 2) throw new Error('hydrate failed');
+    return value;
+  }); } catch { hydrationFailed = true; }
+  check('bounded hydration fails the whole search', hydrationFailed);
+  check(
+    'summary exposes authoritative Gmail time',
+    summarizeMessage({
+      id: 'message-1',
+      threadId: 'thread-1',
+      internalDate: '1234567890',
+      payload: { headers: [] },
+    }).internalDate === '1234567890',
+  );
+  const attachmentArgs = parseArgs([
+    'create-draft',
+    '--attach', 'one.pdf',
+    '--attach=two.xlsx',
+    '--attach-name', 'First brochure.pdf',
+    '--attach-name=Second sheet.xlsx',
+  ]);
+  check('parseArgs repeated attachments', Array.isArray(attachmentArgs.attach)
+    && attachmentArgs.attach.join('|') === 'one.pdf|two.xlsx');
+  check('parseArgs repeated attachment names', Array.isArray(attachmentArgs['attach-name'])
+    && attachmentArgs['attach-name'].join('|') === 'First brochure.pdf|Second sheet.xlsx');
+  const safeTailArgs = parseArgs([
+    'create-draft',
+    '--verified-safe-newer-message-id', 'internal-forward-1',
+    '--verified-safe-newer-message-id', 'automatic-reply-2',
+  ]);
+  check('parseArgs repeated verified safe newer IDs',
+    Array.isArray(safeTailArgs['verified-safe-newer-message-id'])
+      && safeTailArgs['verified-safe-newer-message-id'].join('|')
+        === 'internal-forward-1|automatic-reply-2');
+  check('standalone reply subject blocked', isReplyStyleSubject('  R\u200Be : Existing thread'));
+  check('standalone reply subject blocked after long leading whitespace', isReplyStyleSubject(`${' '.repeat(80)}Re: Existing thread`));
+  check('standalone reply subject blocked after long internal whitespace', isReplyStyleSubject(`R${' '.repeat(200)}e: Existing thread`));
+  check('standalone reply subject blocks Cyrillic e', isReplyStyleSubject('R\u0435: Existing thread'));
+  check('standalone reply subject blocks mixed Unicode lookalikes', isReplyStyleSubject('\u0280\u0435: Existing thread'));
+  check('standalone forward subject blocks small-cap Unicode F', isReplyStyleSubject('\ua730W: Existing thread'));
+  check('standalone reply subject blocks modifier-letter colon', isReplyStyleSubject('Re\ua789 Existing thread'));
+  check('standalone reply subject blocks ratio colon', isReplyStyleSubject('Re\u2236 Existing thread'));
+  check('standalone reply subject blocks vertical two-dot leader', isReplyStyleSubject('Re\ufe30 Existing thread'));
+  check('standalone reply subject blocks generic symbol delimiter', isReplyStyleSubject('Re\u25aa Existing thread'));
+  check('standalone reply subject blocks folded whitespace', isReplyStyleSubject('\r\n R\t e : Existing thread'));
+  check('standalone forward subject blocked', isReplyStyleSubject('Fwd: Existing thread'));
+  check('clean standalone subject accepted', !isReplyStyleSubject('Independent proposal for review'));
+  check('recent correspondent query is bounded', recentCorrespondentQuery('x@example.com')
+    === 'newer_than:30d -label:drafts {from:x@example.com to:x@example.com cc:x@example.com}');
+  let multiRecipientRefused = false;
+  try {
+    correspondentAddress('brandnew@example.com, existingcustomer@example.com');
+  } catch {
+    multiRecipientRefused = true;
+  }
+  check('anchorless multi-recipient ambiguity refused', multiRecipientRefused);
+  const newestFixture = newestRealMessage([
+    { id: 'older', internalDate: '100', labelIds: ['INBOX'] },
+    { id: 'draft', internalDate: '300', labelIds: ['DRAFT'] },
+    { id: 'newest-real', internalDate: '200', labelIds: ['SENT'] },
+  ]);
+  check('newest real ignores drafts', newestFixture?.id === 'newest-real');
+  const safeTailFixture = [
+    { id: 'customer-anchor', internalDate: '100', labelIds: ['INBOX'] },
+    { id: 'internal-forward', internalDate: '200', labelIds: ['SENT'] },
+  ];
+  const safeTailPlacement = inspectReplyAnchorPlacement(
+    safeTailFixture,
+    'customer-anchor',
+    ['internal-forward'],
+  );
+  check('exact verified safe tail is accepted',
+    safeTailPlacement.unverifiedLaterIds.length === 0
+      && safeTailPlacement.unusedVerifiedIds.length === 0);
+  const racedCustomerPlacement = inspectReplyAnchorPlacement(
+    [...safeTailFixture, { id: 'new-customer', internalDate: '300', labelIds: ['INBOX'] }],
+    'customer-anchor',
+    ['internal-forward'],
+  );
+  check('an unlisted newer customer message still blocks',
+    racedCustomerPlacement.unverifiedLaterIds.join('|') === 'new-customer');
+  const unusedSafePlacement = inspectReplyAnchorPlacement(
+    safeTailFixture,
+    'customer-anchor',
+    ['internal-forward', 'not-in-thread'],
+  );
+  check('unused safe IDs fail closed',
+    unusedSafePlacement.unusedVerifiedIds.join('|') === 'not-in-thread');
 
   const roundTrip = decodeBase64Url(encodeBase64Url('Dolphin ~ test + / body'));
   check('base64url round trip', roundTrip === 'Dolphin ~ test + / body');
+  const bodyWithTextAttachments = {
+    mimeType: 'multipart/mixed',
+    parts: [
+      {
+        mimeType: 'text/plain',
+        filename: '',
+        body: { data: encodeBase64Url('Real message body') },
+      },
+      {
+        mimeType: 'text/plain',
+        filename: 'notes.txt',
+        body: { data: encodeBase64Url('Attached text must stay hidden') },
+      },
+      {
+        mimeType: 'message/rfc822',
+        filename: 'forwarded.eml',
+        headers: [{ name: 'Content-Disposition', value: 'attachment' }],
+        parts: [{
+          mimeType: 'text/html',
+          body: { data: encodeBase64Url('<p>Attached message must stay hidden</p>') },
+        }],
+      },
+    ],
+  };
+  check(
+    'read excludes text attachment bodies',
+    extractPlainText(bodyWithTextAttachments).join('\n') === 'Real message body',
+  );
+  check(
+    'read excludes attached-message HTML bodies',
+    extractHtmlText(bodyWithTextAttachments).length === 0,
+  );
 
   const mime = buildMime({
     to: 'x@example.com', cc: '', subject: 'Hello', body: 'Line1\nLine2',
@@ -697,17 +1338,115 @@ function selfTest() {
   });
   check('mime plain body escaped', mimeEscape.includes('a &lt; b &amp; c'));
 
+  const mimeLinkedPhrase = buildMime({
+    to: 'x@example.com', cc: '', subject: 'Link',
+    body: '[here is the direct payment link](https://www.paypal.com/invoice/p/#INV2-TEST)',
+    html: false, inReplyTo: '', references: '',
+  });
+  check(
+    'mime converts explicit HTTPS linked phrase',
+    mimeLinkedPhrase.includes('<a href="https://www.paypal.com/invoice/p/#INV2-TEST">here is the direct payment link</a>'),
+  );
+  check(
+    'mime does not linkify non-HTTPS markup',
+    plainTextToHtml('[unsafe](javascript:alert(1))').includes('[unsafe](javascript:alert(1))'),
+  );
+
   const mimeHtml = buildMime({
     to: 'x@example.com', cc: '', subject: 'H', body: '<p>Hi</p>',
     html: true, inReplyTo: '', references: '',
   });
   check('mime html body passthrough', mimeHtml.includes('<p>Hi</p>'));
 
-  check('write command gate', WRITE_COMMANDS.has('create-draft') && WRITE_COMMANDS.has('label') && !WRITE_COMMANDS.has('search'));
+  const mimeAttachment = buildMime({
+    to: 'x@example.com', cc: '', subject: 'Attachment', body: 'Attached',
+    html: false, inReplyTo: '', references: '',
+    attachments: [{
+      filename: 'brochure.pdf',
+      mimeType: 'application/pdf',
+      data: Buffer.from('test-pdf'),
+    }],
+  });
+  check('mime attachment multipart', mimeAttachment.includes('multipart/mixed'));
+  check('mime attachment filename', mimeAttachment.includes('filename="brochure.pdf"'));
+  check('mime attachment encoded', mimeAttachment.includes(Buffer.from('test-pdf').toString('base64')));
 
+  check(
+    'write command gate',
+    WRITE_COMMANDS.has('create-draft')
+      && WRITE_COMMANDS.has('create-label')
+      && WRITE_COMMANDS.has('label')
+      && !WRITE_COMMANDS.has('search'),
+  );
   check('scope map reads are readonly', COMMAND_SCOPES.search === 'https://www.googleapis.com/auth/gmail.readonly');
+  check('scope map create-label is modify', COMMAND_SCOPES['create-label'].includes('gmail.modify'));
   check('scope map label is modify', COMMAND_SCOPES.label.includes('gmail.modify'));
   check('scope map draft is compose', COMMAND_SCOPES['create-draft'].includes('gmail.compose'));
+
+  const singleFlightCache = new Map();
+  let singleFlightLoads = 0;
+  let releaseSingleFlight;
+  const singleFlightGate = new Promise((resolve) => {
+    releaseSingleFlight = resolve;
+  });
+  const loadSingleFlight = async () => {
+    singleFlightLoads += 1;
+    await singleFlightGate;
+    return { accessToken: 'single-flight-token', expiresAt: 500_000 };
+  };
+  const firstToken = commandAccessToken(
+    { mailbox: 'devans@dolphincentrifuge.com' },
+    'search',
+    { cache: singleFlightCache, load: loadSingleFlight, now: () => 1_000 },
+  );
+  const secondToken = commandAccessToken(
+    { mailbox: 'DEVANS@dolphincentrifuge.com' },
+    'search',
+    { cache: singleFlightCache, load: loadSingleFlight, now: () => 1_000 },
+  );
+  await Promise.resolve();
+  check('token acquisition is single flight', singleFlightLoads === 1);
+  releaseSingleFlight();
+  check(
+    'single-flight callers share one token',
+    await firstToken === 'single-flight-token' &&
+      await secondToken === 'single-flight-token',
+  );
+
+  const expiryCache = new Map();
+  let expiryNow = 10_000;
+  let expiryLoads = 0;
+  const loadExpiring = async () => ({
+    accessToken: `expiry-token-${++expiryLoads}`,
+    expiresAt: expiryNow + 120_000,
+  });
+  const freshToken = await commandAccessToken(
+    { mailbox: 'sprabhu@dolphincentrifuge.com' },
+    'search',
+    { cache: expiryCache, load: loadExpiring, now: () => expiryNow },
+  );
+  expiryNow += 61_000;
+  const renewedToken = await commandAccessToken(
+    { mailbox: 'sprabhu@dolphincentrifuge.com' },
+    'search',
+    { cache: expiryCache, load: loadExpiring, now: () => expiryNow },
+  );
+  check(
+    'token cache renews before expiry',
+    freshToken === 'expiry-token-1' &&
+      renewedToken === 'expiry-token-2' &&
+      expiryLoads === 2,
+  );
+  check(
+    'token cache is mailbox and scope keyed',
+    accessTokenCacheKey(
+      { mailbox: 'devans@dolphincentrifuge.com' },
+      'search',
+    ) !== accessTokenCacheKey(
+      { mailbox: 'devans@dolphincentrifuge.com' },
+      'create-draft',
+    ),
+  );
 
   const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
   const jwt = buildServiceAccountJwt({
@@ -749,8 +1488,10 @@ async function main() {
   if (command === 'attachments') return attachments(args);
   if (command === 'download-attachment') return downloadAttachment(args);
   if (command === 'labels') return listLabels(args);
+  if (command === 'create-label') return createLabel(args);
   if (command === 'label') return label(args);
   if (command === 'create-draft') return createDraft(args);
+  if (command === 'update-draft') return createDraft(args);
   if (command === 'self-test') return selfTest();
   throw new Error(`Unknown command: ${command}`);
 }
