@@ -541,6 +541,8 @@ function summarizeMessage(message) {
     messageIdHeader: headerValue(message, 'Message-ID'),
     inReplyTo: headerValue(message, 'In-Reply-To'),
     references: headerValue(message, 'References'),
+    listUnsubscribe: headerValue(message, 'List-Unsubscribe'),
+    precedence: headerValue(message, 'Precedence'),
     snippet: message.snippet || '',
     labelIds: message.labelIds || [],
   };
@@ -573,7 +575,7 @@ async function search(args) {
   const summaries = await mapBoundedOrdered(ids, SEARCH_HYDRATION_CONCURRENCY, async (id) => {
     const msgUrl = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}`);
     msgUrl.searchParams.set('format', 'metadata');
-    for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References']) {
+    for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References', 'List-Unsubscribe', 'Precedence']) {
       msgUrl.searchParams.append('metadataHeaders', header);
     }
     return summarizeMessage(await gmailFetch(args, 'search', msgUrl));
@@ -615,7 +617,7 @@ async function thread(args) {
   if (!args.id) throw new Error('thread requires --id THREAD_ID');
   const url = new URL(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${args.id}`);
   url.searchParams.set('format', 'metadata');
-  for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References']) {
+  for (const header of ['From', 'To', 'Cc', 'Bcc', 'Reply-To', 'Subject', 'Date', 'Message-ID', 'In-Reply-To', 'References', 'List-Unsubscribe', 'Precedence']) {
     url.searchParams.append('metadataHeaders', header);
   }
   const json = await gmailFetch(args, 'thread', url);
