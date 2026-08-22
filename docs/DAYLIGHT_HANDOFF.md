@@ -19,10 +19,17 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   caption says "base machines" plural - confirm both units are WHPX 405; several app pages
   (diesel, algae, crude-oil, whpx-510 page) still lead WHPX where MOPX may now be preferred.
 
-### 2026-08-22 - P1.5 IN FLIGHT
-- Reframing pass on the same 12 pages to Sanjay's module-featuring language ("a Dolphin
-  module featuring a remanufactured Alfa Laval <model>"), per the messaging ruling in the
-  plan. Deploy via skill route when green.
+### 2026-08-22 - P1.5 SHIPPED AND LIVE
+- All 12 pages reframed to module-featuring language; Alfa Laval model now in title, meta,
+  H1, and first 100 words of each. Merged as PR #20 (merge 4389842), Cloudflare green,
+  live-verified (dmb-019 title: "DMB-019 Lube Oil Module - Alfa Laval MAB 205 | Dolphin").
+- Note: these 12 titles use short suffix "| Dolphin"; rest of site still "| Dolphin
+  Centrifuge" - unify decision pending.
+
+### 2026-08-22 - P2 IN FLIGHT (identity layer)
+- Schema plumbing (un-drop Product JSON-LD, Organization + founder Person schema),
+  homepage + about, AL hub cluster (additive), trust cluster. Deploy via skill route
+  when green, then P3-a per docs/daylight-priority.md (128 pages ranked, 13 batches).
 
 ### NEXT UP
 - P2: identity layer - homepage, about (Sanjay Prabhu MSME, Person/author schema),
