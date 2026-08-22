@@ -39,7 +39,28 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   Centrifuge" on AL-platform pages (mostly /alfa-laval-wspx-*, whpx-*, application
   pages) - being fixed batch-by-batch in P3 (instruction baked into batch prompts).
 
-### 2026-08-22 - P3-a IN FLIGHT
+### 2026-08-22 - P3-a SHIPPED AND LIVE
+- Top-10 traffic pages fixed and merged (PR #22, merge a8ff848), Cloudflare green,
+  live-verified (decanter positioning + waste-oil Alfa Laval brand schema serving).
+- Numeric conflicts collected for Sanjay's batch ruling (NOT changed): WHPX-405 GPM
+  shown as 10 vs 5 vs 15 across pages; WHPX-513 50 vs 60 GPM; G-force 12,000 vs 8,000
+  vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
+  ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
+
+### 2026-08-22 - P3-b SHIPPED (pending merge)
+- 10 pages: decanter-differential-speed, fuel-oil, disc-stack-applications, wvo,
+  beer-wine, used-oil, decanter-vs-disc difference, parts-glossary, centrifugal-filter,
+  oil-centrifuge. Schema brands to Alfa Laval, hidden platforms named, captions
+  restored, positioning added. Build clean.
+- New numeric flags for Sanjay (not changed): WHPX 405 frame 21 vs 23 GPM; DMPX-042
+  rated 68 vs 69 vs 52-70 GPM and sludge 1.6 vs 1.55 vs 1.64 gal; WVO rail 15 GPM
+  attributed to DMPX-028 vs spec table's DMPX-014; 405-frame bowl speed 8,500 vs
+  7,600 RPM (may be FOPX-vs-WHPX real difference).
+- Photo flag: DMPX-014/DMPX-042 skid photos on disc-stack-applications now captioned
+  WHPX 405 / MOPX 209 per digest; machines not visually verified - drop to model-neutral
+  if wrong.
+
+P3-a page list:
 - Top-10 traffic pages per docs/daylight-priority.md (decanter, waste-oil, diesel,
   AL parts, AL centrifugal separator, wastewater, lube-oil, alfa-laval-centrifuge,
   algae, crude-oil). Deploy via skill route when green; then P3-b ... P3-m.
