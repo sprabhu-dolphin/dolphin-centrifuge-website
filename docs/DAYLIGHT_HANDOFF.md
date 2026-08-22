@@ -47,7 +47,15 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-k SHIPPED (pending merge)
+### 2026-08-22 - P3-l SHIPPED (pending merge)
+- 10 pages: tramp-oil, wspx-307 (additive), wspx-207 (additive), fluid-heating (brand
+  stays Dolphin - genuinely Dolphin-built skid), privacy-policy, wspx-407 (additive),
+  buyback, epc, wastewater-types, reconditioning-standard.
+- New WSPX flags: 207 rated 20 vs 32 vs 8-12 GPM across pages; 307 22 vs 28 GPM;
+  series sizing story inconsistent (207 "entry" at 20 GPM vs 303 "mid" at 8 GPM);
+  no Dolphin code maps to WSPX in BRAIN - confirm if one exists.
+
+### 2026-08-22 - P3-k SHIPPED AND LIVE (PR #32, merge 46ba646)
 - 10 pages: clogged-bowl, training, performance, design, controls (panel brand stays
   Dolphin - genuinely Dolphin-built), parts (manufacturer node removed), lubrication,
   whpx-513-module (additive), extrusion, offshore.
