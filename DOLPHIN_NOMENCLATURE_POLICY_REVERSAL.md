@@ -1,5 +1,7 @@
 # Centrifuge Nomenclature Policy — REVERSAL (May 2026)
 
+> **Update 2026-08-21 (Sanjay):** Reconfirmed and extended to ALL channels including email and quote correspondence. In July 2026 the email/sales stack (Reply Desk, T1 runbook, drafting skills) had re-created the old camouflage rule; that recreation is now retired everywhere. One timing rule survives: first replies to fresh inquiries contain no model numbers or pricing (qualification discipline, not secrecy).
+
 **Purpose:** Paste-ready replacement language for the nomenclature policy in `CENTRIFUGE_BRAIN.md` (v3.0) and `CENTRIFUGE_SKILLS.md` (v4.0).
 
 **Why this document exists:** The earlier policy required Dolphin nomenclature (DMPX-XXX, DMB-XXX) on all customer-facing material to prevent price-shopping. As of May 2026, that policy is **reversed**. Alfa Laval model names are now used everywhere — on the website, in quotes, in proposals, in email correspondence, in social posts, and in Jake's outreach copy. **Specifically, the WHPX series (partial discharge, current production) is the default recommendation** at every capacity tier; the older full-discharge MOPX and MAPX series are end-of-life and should only be referenced for legacy installations or applications that specifically require full-discharge operation. The rationale is global recognition, current product availability, and AI entity matching for the generative-search era.

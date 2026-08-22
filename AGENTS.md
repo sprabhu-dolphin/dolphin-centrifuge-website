@@ -43,4 +43,5 @@ Quick line: Gmail goes through `gmail-helper.mjs`, never through the Codex Deskt
    continue the task via `gmail-helper.mjs`. Never hand a reconnect-click loop back to Sanjay.
 4. The helper is drafts-only by design - it has no send command. Do not add one without
    Sanjay's explicit approval.
+5. `gmail-helper.mjs` changes only through its own dedicated commits, never inside website content merges.
 
