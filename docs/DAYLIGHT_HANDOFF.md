@@ -47,7 +47,17 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-e SHIPPED (pending merge)
+### 2026-08-22 - P3-f SHIPPED (pending merge)
+- 10 pages: btpx-205 (additive), whpx-510 (additive), sharples-p3400, ethanol-comparison,
+  efficiency, sludge-ejection, mopx-207 (additive), smallest, liquid-seal-break,
+  crude-oil-tank-bottom.
+- Notable: Sharples P-3400 brand set to Alfa Laval (manufacturer "Alfa Laval (Sharples)")
+  to match the shipped P-3000 sibling - digest had said keep Sharples; revert if wrong.
+  MOPX 310 "3 cSt" typo fixed to 13 cSt per digest. Photo flags: WHPX-510 cutaway sits
+  in the MOPX 310 section; SS food-grade decanter photo (4 pages) left model-neutral
+  pending Sanjay naming the machine.
+
+### 2026-08-22 - P3-e SHIPPED AND LIVE (PR #26, merge 6f88eba)
 - 10 pages: bad-separation, clara-20 (additive), containerized, backpressure,
   machining-coolant-recovery, operating-water, sharples-p3000, yellow-grease,
   g2-40 (additive), pyrolysis-oil.
