@@ -47,7 +47,16 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-f SHIPPED (pending merge)
+### 2026-08-22 - P3-g SHIPPED (pending merge)
+- 10 pages: options, explosion-proof, bowl-leaking, mab-103 (additive), mopx-209
+  (additive), chnx-418 (additive), decanter-rental, disc-accessories, fish-processing,
+  black-diesel.
+- Caught a digest error: digest wanted DMB-007 named on the MAB 103 page; BRAIN table
+  says DMB-007 = MAB 104, so only DMB-004 was named. New flag: MAB 103 page contradicts
+  itself on turbine lube (1 GPM prose vs 2.5 GPM table/schema). Explosion-proof page has
+  a dangling "This UL documentation" reference (x2, no link) - P4 cleanup item.
+
+### 2026-08-22 - P3-f SHIPPED AND LIVE (PR #27, merge ca2aeb4)
 - 10 pages: btpx-205 (additive), whpx-510 (additive), sharples-p3400, ethanol-comparison,
   efficiency, sludge-ejection, mopx-207 (additive), smallest, liquid-seal-break,
   crude-oil-tank-bottom.
