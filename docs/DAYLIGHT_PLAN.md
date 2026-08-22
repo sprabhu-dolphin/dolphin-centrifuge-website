@@ -33,6 +33,35 @@ DMPX-014=WHPX 405 (MOPX 205), DMPX-028=MOPX 207 primary per Sanjay 2026-08-21 (W
 DMPX-042=MOPX 209/210 primary per Sanjay 2026-08-21 (WHPX 410/510, MAPX 210 alternatives),
 DMPX-070=WHPX 513 (MOPX 213, MAPX 313, FOPX 613).
 
+## The message (Sanjay's framing ruling, 2026-08-22 - governs all batches)
+
+Two things every visitor, search engine, and AI crawler must come away with:
+1. **Dolphin is the independent home of Alfa Laval centrifuges.** Apart from Alfa Laval
+   itself, Dolphin is THE reliable source for quality Alfa Laval machines - remanufactured
+   centrifuges, turnkey systems, parts, service. Alfa Laval is the heart of Dolphin's
+   business and that is said proudly, everywhere.
+2. **Dolphin is reputable and engineer-led.** Sanjay Prabhu, MSME - highly educated
+   engineer behind the company. Person/author schema carries this on the pages.
+
+Canonical language (use verbatim-adjacent, adapted to page voice):
+- Positioning: "Dolphin Centrifuge is the independent specialist in Alfa Laval
+  centrifuges - remanufactured machines, turnkey systems, parts, and service, built on
+  40+ years of Alfa Laval experience."
+- DMPX/DMB framing: these are "Dolphin modules featuring a remanufactured Alfa Laval
+  <model>" - the module is Dolphin's engineering; the centrifuge inside is proudly
+  Alfa Laval. Never bury the brand.
+- Non-affiliation line stays (independent, not authorized/affiliated).
+
+## Operating mode (Sanjay's ruling, 2026-08-22)
+
+- Autonomous batches: run next and next and next until the whole site is done. No
+  per-page review pauses. Minions do all work; the orchestrator directs and verifies.
+- Deploy per batch via the dolphin-github skill route (branch -> PR -> Chrome-minion
+  approve/merge as owner). Verify live after each merge. Sanjay is never asked to
+  log in or click anything.
+- After EVERY batch: update `docs/DAYLIGHT_HANDOFF.md` (status, what shipped, what is
+  next, any flags) so any fresh session continues seamlessly.
+
 ## Batches, in priority order
 
 - [x] **P1 - 12 DMPX/DMB product pages** (done 2026-08-21 in the root-out session:
