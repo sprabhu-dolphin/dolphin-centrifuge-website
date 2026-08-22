@@ -47,7 +47,15 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-i SHIPPED (pending merge)
+### 2026-08-22 - P3-j SHIPPED (pending merge)
+- 10 pages: decanter-applications, manure, mab hub (additive), explosion-proof-ss,
+  wspx-303 (additive, got genuine WSPX 303 photos), waste-oil-emulsion, cutting-oil,
+  product-loss, washer-fluid, paring-disc-block.
+- Decision needed: "CBPX-213-XP" (one page) vs "BRPX 213" (four pages) - pick the
+  designation once. MAB hub has seven filename-style alts (additive rule blocked
+  cleanup - say the word). NX-314 G-force 3,150 vs 3,100 across two pages.
+
+### 2026-08-22 - P3-i SHIPPED AND LIVE (PR #30, merge 4406640)
 - 10 pages: silicon-wafer case study, cannot-reach-speed, food-grade (fresh pass),
   used-oil-plant, salt-from-water, alfa-laval-industrial (additive), lapx-404
   (additive), installation, marine waste-oil case study, liquid-humus.
