@@ -47,7 +47,13 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-l SHIPPED (pending merge)
+### 2026-08-22 - P3-m (FINAL BATCH) SHIPPED (pending merge)
+- 8 pages: alfa-laval-diesel (two digest-ordered model corrections: WHPX 510 wrongly
+  equated to DMPX-070, now DMPX-042), knowledge hub cluster (case-studies, center,
+  comparisons, guides, product-brand, troubleshooting), sample-testing-case-studies.
+- 72 vs 95-108 GPM resolved as actual-vs-rated labeling, no numbers changed.
+
+### 2026-08-22 - P3-l SHIPPED AND LIVE (PR #33, merge 577e54d)
 - 10 pages: tramp-oil, wspx-307 (additive), wspx-207 (additive), fluid-heating (brand
   stays Dolphin - genuinely Dolphin-built skid), privacy-policy, wspx-407 (additive),
   buyback, epc, wastewater-types, reconditioning-standard.
