@@ -47,7 +47,16 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-b SHIPPED (pending merge)
+### 2026-08-22 - P3-c SHIPPED (pending merge)
+- 10 pages: disc-repair, biodiesel, dewatering, troubleshoot-bowl, decanter-optimization,
+  purifier-clarifier-difference, NX-418 page (additive), stainless-steel, MAB-104 page
+  (additive), machine-coolant. Build clean.
+- New flags for Sanjay: NX-314 specs disagree across four pages (bowl RPM 3,250 vs
+  4,000; capacity 60/50/40/25 GPM; motor 15 kW vs 15 HP vs 10 HP; bowl 34" vs 40");
+  NX-418 bowl length 58" vs 68"; BDPX-207 mapped to MOPX 207 from its hero photo and
+  specs - confirm it is not a WHPX 407.
+
+### 2026-08-22 - P3-b SHIPPED AND LIVE (PR #23, merge 31b817f, live-verified fuel-oil)
 - 10 pages: decanter-differential-speed, fuel-oil, disc-stack-applications, wvo,
   beer-wine, used-oil, decanter-vs-disc difference, parts-glossary, centrifugal-filter,
   oil-centrifuge. Schema brands to Alfa Laval, hidden platforms named, captions
