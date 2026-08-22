@@ -47,7 +47,16 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-h SHIPPED (pending merge)
+### 2026-08-22 - P3-i SHIPPED (pending merge)
+- 10 pages: silicon-wafer case study, cannot-reach-speed, food-grade (fresh pass),
+  used-oil-plant, salt-from-water, alfa-laval-industrial (additive), lapx-404
+  (additive), installation, marine waste-oil case study, liquid-humus.
+- Notable: DMSC-042 reconciled as the acid-service build of DMPX-042 (confirm, or
+  retire the code); "SSB-206" found on food-grade page - confirm designation for the
+  model map; more self-contradictions logged (NX-314 40 vs 60 GPM on one page,
+  DMPX-070 G-force and GPM, food-grade 1.0 vs 0.1 micron).
+
+### 2026-08-22 - P3-h SHIPPED AND LIVE (PR #29, merge 089171e)
 - 10 pages: hydraulic-oil, disc-vibration, industrial-faq, friction-clutch,
   remove-metals-ash, disadvantages, sample-testing, picking-the-right, nx-314
   (additive), capacity.
