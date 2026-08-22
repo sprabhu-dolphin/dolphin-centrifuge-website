@@ -26,10 +26,23 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
 - Note: these 12 titles use short suffix "| Dolphin"; rest of site still "| Dolphin
   Centrifuge" - unify decision pending.
 
-### 2026-08-22 - P2 IN FLIGHT (identity layer)
-- Schema plumbing (un-drop Product JSON-LD, Organization + founder Person schema),
-  homepage + about, AL hub cluster (additive), trust cluster. Deploy via skill route
-  when green, then P3-a per docs/daylight-priority.md (128 pages ranked, 13 batches).
+### 2026-08-22 - P2 SHIPPED AND LIVE (identity layer)
+- Product JSON-LD restored sitewide (1 -> 71 nodes), canonical Organization schema on
+  every page (positioning line, knowsAbout, Warren MI, sameAs) + canonical Person for
+  Sanjay Prabhu MSME ("Owner and Chief Engineer" - founder claim held back pending
+  Sanjay's confirmation of the 1982 history; one-line flip in src/lib/siteSchema.ts).
+- Homepage repositioned ("The Independent Home of Alfa Laval Centrifuges"), About
+  engineer-led story, AL hub cluster additive fixes, trust cluster majors fixed.
+- Merged PR #21 (merge 453298f), Cloudflare green, live-verified: homepage Organization
+  + positioning + Person all serving; dmpx-042 Product node with Alfa Laval brand live.
+- New visibility debt: ~39 now-rendered Product nodes still carry brand "Dolphin
+  Centrifuge" on AL-platform pages (mostly /alfa-laval-wspx-*, whpx-*, application
+  pages) - being fixed batch-by-batch in P3 (instruction baked into batch prompts).
+
+### 2026-08-22 - P3-a IN FLIGHT
+- Top-10 traffic pages per docs/daylight-priority.md (decanter, waste-oil, diesel,
+  AL parts, AL centrifugal separator, wastewater, lube-oil, alfa-laval-centrifuge,
+  algae, crude-oil). Deploy via skill route when green; then P3-b ... P3-m.
 
 ### NEXT UP
 - P2: identity layer - homepage, about (Sanjay Prabhu MSME, Person/author schema),
