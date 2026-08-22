@@ -47,7 +47,15 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-c SHIPPED (pending merge)
+### 2026-08-22 - P3-d SHIPPED (pending merge)
+- 10 pages: quench-oil, decanter-vibration, whpx-405 (additive), rental, pond-depth,
+  disc-faq, mechanical-issues, whpx-513 (additive), rcf-rpm, three-phase-decanter.
+- New flags: rental page MAPX 207 22 vs 28 GPM on the same page; MAPX 210 42 vs 47 GPM;
+  WHPX-405 15 vs 21 GPM rated (vs fuel-oil page); quench DMPX-028 20 vs 28 GPM (likely
+  fluid difference); two photo confirmations (quench skid model plate unreadable;
+  vibration-page shop photos assumed Alfa Laval NX).
+
+### 2026-08-22 - P3-c SHIPPED AND LIVE (PR #24, merge 21b7ad0)
 - 10 pages: disc-repair, biodiesel, dewatering, troubleshoot-bowl, decanter-optimization,
   purifier-clarifier-difference, NX-418 page (additive), stainless-steel, MAB-104 page
   (additive), machine-coolant. Build clean.
