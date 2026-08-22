@@ -4,6 +4,74 @@ Continuity file. Updated after every batch. Read with `docs/DAYLIGHT_PLAN.md` (r
 messaging kit, mappings) and `docs/daylight-audit-digest.json` (per-page audit findings).
 Deploy route: `dolphin-github` skill (never involve Sanjay).
 
+## SANJAY'S ONE-SHOT RULING LIST (2026-08-22)
+
+Every open flag raised across P1 -> P3-m, deduplicated and grouped. Nothing in this list
+has been changed on the site - each item is waiting on one ruling from Sanjay, and one
+answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
+
+### A. Numeric spec rulings (24)
+
+1. WHPX 405 throughput 5 vs 10 vs 15 GPM - top-10 traffic pages, waste-oil, fuel-oil, whpx-405.
+2. WHPX 405 rated/frame capacity 15 vs 21 vs 23 GPM - whpx-405, fuel-oil, disc-stack-applications.
+3. WHPX 405-frame bowl speed 8,500 vs 7,600 RPM (may be a real FOPX-vs-WHPX difference) - whpx-405, fuel-oil.
+4. WHPX 513 capacity 50 vs 60 GPM - whpx-513, whpx-513-module, top-10 pages.
+5. Waste-oil G-force 12,000 vs 8,000 vs 7,200 - waste-oil cluster (P3-a pages).
+6. NX-314 capacity 25 vs 40 vs 50 vs 60 GPM - nx-314, capacity, used-oil-plant, decanter pages.
+7. NX-314 bowl speed 3,250 vs 4,000 RPM - four decanter pages (P3-c set).
+8. NX-314 G-force 3,150 vs 3,100 - two pages (P3-j set).
+9. NX-314 motor 15 kW vs 15 HP vs 10 HP - nx-314 plus decanter pages.
+10. NX-314 bowl diameter 34" vs 40" - nx-314 plus decanter pages.
+11. NX-418 bowl length 58" vs 68" - nx-418, decanter-applications.
+12. DMB-004 diesel 4 vs 3 GPM (BRAIN table says 4) - dmb-004, alfa-laval-mab-103-centrifuge.
+13. MAB 103 turbine lube 1 GPM prose vs 2.5 GPM table/schema - mab-103.
+14. DMPX-042 rated 68 vs 69 vs 52-70 GPM - dmpx-042 plus application pages.
+15. DMPX-042 sludge volume 1.6 vs 1.55 vs 1.64 gal - dmpx-042 plus application pages.
+16. DMPX-070 G-force and internal GPM self-contradiction (72 vs 95-108 already settled as actual-vs-rated) - dmpx-070, used-oil-plant, selection guide.
+17. DMPX-028 quench-service 20 vs 28 GPM (likely a fluid difference - confirm) - quench-oil, dmpx-028.
+18. WVO rail 15 GPM attributed to DMPX-028 vs spec table's DMPX-014 - wvo.
+19. MAPX 207 22 vs 28 GPM on the same page - rental.
+20. MAPX 210 42 vs 47 GPM - rental, alfa-laval-diesel.
+21. WSPX 207 rated 20 vs 32 vs 8-12 GPM - wspx-207 plus wastewater pages.
+22. WSPX 307 22 vs 28 GPM - wspx-307, wastewater-types.
+23. WSPX series sizing story inconsistent (207 "entry" at 20 GPM vs 303 "mid" at 8 GPM) - wspx-207, wspx-303, wspx-307, wspx-407.
+24. Food-grade filtration claim 1.0 vs 0.1 micron, and bad-separation title "6 Causes" vs summary "five" - food-grade, bad-separation.
+
+### B. Model-designation confirmations (10)
+
+1. "CBPX-213-XP" (one page) vs "BRPX 213" (four pages) - pick the designation once: explosion-proof-ss plus the four BRPX pages.
+2. DMSC-042 = acid-service build of DMPX-042, or retire the code - DMSC-042 references (P3-i pages).
+3. "SSB-206" designation - confirm for the model map: food-grade.
+4. MAPX-210 vs MOPX-210 spec-table ownership - alfa-laval-diesel.
+5. BDPX-207 mapped to MOPX 207 from hero photo and specs - confirm it is not a WHPX 407: bdpx-207.
+6. Sharples P-3400 brand set to Alfa Laval ("Alfa Laval (Sharples)") against the digest - confirm or revert: sharples-p3400.
+7. DMPX-028 caption keeps WHPX-407 vs the MOPX 207 primary ruling - flip both or leave: industrial-faq, industrial.
+8. App pages still leading WHPX where MOPX may now be preferred - alfa-laval-diesel, algae, crude-oil, whpx-510.
+9. No Dolphin house code maps to WSPX in BRAIN - confirm whether one exists: WSPX pages.
+10. DMB-007 mapping - digest wanted DMB-007 on the MAB 103 page, BRAIN says DMB-007 = MAB 104: mab-103.
+
+### C. Photo confirmations (10)
+
+1. DMPX-014 duplex caption says "base machines" plural - confirm both units are WHPX 405: dmpx-014.
+2. DMPX-014 / DMPX-042 skid photos captioned WHPX 405 / MOPX 209 per digest, not visually verified - disc-stack-applications.
+3. WHPX-510 cutaway sits in the MOPX 310 section - confirm or move: whpx-510.
+4. SS food-grade decanter photo left model-neutral pending a name - 4 pages (P3-f set).
+5. Containerized-page interior photos captioned Alfa Laval with no model (nameplates unreadable) - containerized.
+6. Training-page photos named brand-only, nameplates unreadable - name exact models: training.
+7. Quench skid model plate unreadable - confirm model: quench-oil.
+8. Shop photos assumed to be Alfa Laval NX - confirm: decanter-vibration.
+9. MAB 209 photo refresh when the new skid arrives - alfa-laval-mab-centrifuge (MAB 209 section) and centrifuges/dmb-062 hero.
+10. Some DMB hero photos show a different MAB model than the page's base machine - swap photos or keep honest generic captions: DMB product pages.
+
+### D. Misc decisions (6)
+
+1. Title suffix unification - "| Dolphin" on the 12 P1.5 pages vs "| Dolphin Centrifuge" sitewide.
+2. Founder vs owner in Person schema - "Owner and Chief Engineer" now; founder claim needs the 1982 history confirmed (one-line flip in src/lib/siteSchema.ts).
+3. MAB hub carries seven filename-style alternateName alts - say the word to clean them up (additive rule blocked it): alfa-laval-mab-centrifuge.
+4. Clara 20 spec heading left without LAPX-404 by the additive-only rule - approve adding it: clara-20.
+5. Dangling "This UL documentation" reference x2 with no link - supply the doc or drop the sentence: explosion-proof.
+6. Duplicate BreadcrumbList emitted (pre-existing) - approve the P4 cleanup: backpressure.
+
 ## Status log
 
 ### 2026-08-22 - P1 SHIPPED AND LIVE
@@ -164,3 +232,8 @@ P3-a page list:
 - P3: top-traffic application pages ranked by GA4/GSC data (see docs/daylight-priority.md
   once the data minion lands it).
 - P4: minor sweep, 104 pages, scripted batches of ~20.
+
+### 2026-08-22 - ALL BATCHES COMPLETE (P1, P1.5, P2, P3-a..P3-m shipped and live; 144-page worklist done)
+- Supersedes the NEXT UP list above. The only work left is Sanjay's answers to the
+  50-item ruling list at the top of this file (A=24 numeric, B=10 designations,
+  C=10 photos, D=6 misc), which one editing pass will apply.
