@@ -25,10 +25,32 @@ const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Sharples P 3400 Decanter Centrifuge",
-  "description": "Sharples P 3400 decanter centrifuge is a large capacity decanter that finds multiple uses for sludge thickening, biomass extraction & wastewater treatment",
+  "description": "Sharples P 3400 decanter centrifuge is a large capacity decanter that finds multiple uses for sludge thickening, biomass extraction & wastewater treatment. The Sharples and Pennwalt Super-D-Canter decanter line is now part of Alfa Laval. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges and remanufactures, stocks, and supports used Sharples P-3400 decanters at its Warren, Michigan shop. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.",
   "image": "https://dolphincentrifuge.com/images/sharples-p-3400-decanter/Dolphin-Centrifuge-Sharples-P-3400-Decanter-Centrifuge-800.webp",
-  "brand": { "@type": "Brand", "name": "Sharples" },
+  "brand": { "@type": "Brand", "name": "Alfa Laval" },
+  "manufacturer": { "@type": "Organization", "name": "Alfa Laval (Sharples)" },
   "model": "P-3400",
+  "alternateName": [
+    "Sharples P-3400",
+    "Sharples P3400 decanter centrifuge",
+    "Pennwalt Super-D-Canter P-3400",
+    "Alfa Laval Sharples P-3400",
+    "Sharples PM 30000"
+  ],
+  "category": "Decanter Centrifuges",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "itemCondition": "https://schema.org/RefurbishedCondition",
+    "url": "https://dolphincentrifuge.com/sharples-p-3400-decanter/",
+    "seller": {
+      "@type": "Organization",
+      "name": "Dolphin Centrifuge",
+      "url": "https://dolphincentrifuge.com",
+      "description": "Independent specialist in Alfa Laval centrifuges. Not affiliated with or authorized by Alfa Laval."
+    }
+  },
   "additionalProperty": [
     { "@type": "PropertyValue", "name": "Rated Capacity", "value": "50 GPM on Ethanol Biomass Separation" },
     { "@type": "PropertyValue", "name": "Bowl Speed", "value": "4000 RPM (3,150 Gs RCF)" },
@@ -39,11 +61,41 @@ const productJsonLd = {
     { "@type": "PropertyValue", "name": "Max Gravity (Brochure)", "value": "3180 G / 2100 G" },
     { "@type": "PropertyValue", "name": "RPM (Brochure)", "value": "4000 / 3150" },
     { "@type": "PropertyValue", "name": "Max Power (Brochure)", "value": "40 HP" },
-    { "@type": "PropertyValue", "name": "Net Weight (Brochure)", "value": "1400 kg" }
+    { "@type": "PropertyValue", "name": "Net Weight (Brochure)", "value": "1400 kg" },
+    { "@type": "PropertyValue", "name": "Manufacturer Lineage", "value": "Sharples / Pennwalt Super-D-Canter, now part of Alfa Laval" }
   ]
 };
 
-const jsonLd = [articleJsonLd, productJsonLd];
+const faqItems = [
+  {
+    question: "Who makes the Sharples P-3400 decanter centrifuge today?",
+    answer: "The Sharples and Pennwalt Super-D-Canter decanter line is now part of Alfa Laval, so a P-3400 is an Alfa Laval platform machine. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges and buys, remanufactures, stocks, and supports used P-3400 decanters. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval."
+  },
+  {
+    question: "Can I buy a used or remanufactured Sharples P-3400 decanter?",
+    answer: "Yes. Dolphin Centrifuge keeps used Sharples P-3400 decanters in stock and remanufactures them at its Warren, Michigan shop. Each machine is stripped and inspected, bearings and seals replaced, the conveyor rebuilt or hard-surfaced with tungsten carbide, the rotating assembly balanced, and the unit test-run before shipment. A remanufactured P-3400 typically costs 40% to 60% of a comparable new decanter."
+  },
+  {
+    question: "What are the Sharples P-3400 specifications?",
+    answer: "The P-3400 runs a bowl speed of 4,000 RPM for about 3,150 G, uses a 1:95 gearbox with an auger differential of 1 to 42 RPM, and is driven by a 25 HP motor. Rated capacity is 50 GPM on ethanol biomass separation. Wear surfaces are protected with carbide tile or tungsten carbide hard-surfacing."
+  },
+  {
+    question: "How does the P-3400 compare with the Sharples P-3000 and the Alfa Laval NX decanters?",
+    answer: "The P-3400 is the large-capacity machine in the Sharples line, above the smaller P-3000. Dolphin also remanufactures the Alfa Laval NX 314, NX 418, CHNX 418, and G2-40 decanters, so the selection comes down to flow rate, solids loading, and area classification rather than availability. Sanjay Prabhu, M.S.M.E., sizes the machine to the actual process data."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'applications', label: 'Applications' },
@@ -54,6 +106,8 @@ const toc = [
   { id: 'construction-and-wear-protection', label: 'Construction & Wear Protection' },
   { id: 'performance-factors', label: 'Performance Factors' },
   { id: 'selected-applications', label: 'Selected Applications' },
+  { id: 'used-and-remanufactured', label: 'Used and Remanufactured P-3400' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
 ];
 
 const relatedApplications = [
@@ -92,6 +146,7 @@ const relatedProducts = [
   <div class="prose prose-lg max-w-none mb-8">
     <p>The Sharples P-3400 <a href="/decanter-centrifuge/">Decanter Centrifuge</a> is a horizontal de-sludging centrifuge built for the two-phase separation of crude oil tank bottoms, refinery slop sludge, industrial sludge-thickening, municipal sludge dewatering, paint sludge handling, etc.</p>
     <p>With a 25 HP Motor, the P 3400 decanter has a bowl RPM of 4,000 and can process 50 GPM on ethanol hemp biomass separation.</p>
+    <p>The Sharples and Pennwalt Super-D-Canter decanter line is now part of <a href="/alfa-laval-centrifuges/">Alfa Laval</a>, so a P-3400 is an Alfa Laval platform machine today. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: we buy, remanufacture, stock, and support used Sharples P-3400 decanters alongside Alfa Laval NX, G2, and ALDEC machines, rebuilt and test-run at our Warren, Michigan shop and shipped with a warranty and free ongoing technical support. Every system is engineered by Sanjay Prabhu, M.S.M.E. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.</p>
   </div>
 
   <!-- Product Image (centered) -->
@@ -162,6 +217,10 @@ const relatedProducts = [
           <td>Sharples P-3400</td>
         </tr>
         <tr>
+          <td>Manufacturer</td>
+          <td>Sharples / Pennwalt (Alfa Laval)</td>
+        </tr>
+        <tr>
           <td>Rated Capacity</td>
           <td>50 GPM on Ethanol Biomass Separation</td>
         </tr>
@@ -199,6 +258,7 @@ const relatedProducts = [
 
   <div class="prose prose-lg max-w-none mb-8">
     <p>The Pennwalt Super-D-Canter is a specially developed solid-bowl centrifuge for effective separation of slurries into liquid and solid phases.</p>
+    <p>The Pennwalt and Sharples Super-D-Canter decanter line passed to <a href="/alfa-laval-centrifuges/">Alfa Laval</a>, which carries the platform forward today. Dolphin Centrifuge remanufactures and supports these machines independently, the same way we do the Alfa Laval <a href="/alfa-laval-nx-418-decanter-centrifuge/">NX 418</a> and <a href="/alfa-laval-g2-40-decanter/">G2-40</a> decanters.</p>
     <p>The Super-D-Canter operates on the centrifugal sedimentation process.</p>
     <p>The Pennwalt Super-D-Canter becomes an extremely flexible separation tool with application areas involving clarification of liquids, classification of solids, concentration of solids, and dewatering of solids.</p>
     <p>The Super-D-Canter can handle a wide range of solid particles from 6 mm dia. to a few microns and a slurry concentration varying from 0.5% to over 65% w/w.</p>
@@ -274,7 +334,7 @@ const relatedProducts = [
     <figure>
       <img
         src="/images/sharples-p-3400-decanter/sharples-P3400-fish-meal-decanters-600.webp"
-        alt="sharples-P3400-fish-meal-decanters-600"
+        alt="Sharples P3400 fish meal decanter centrifuges"
         width="600"
         height="600"
         loading="lazy"
@@ -315,5 +375,26 @@ const relatedProducts = [
   <div class="prose prose-lg max-w-none mb-8">
     <p>Animal Blood, Antibiotics, Brewers Grains, Calcium Carbonate, Calcium Sulphate, Cannery Effluent, Chemical Intermediates, Coal Tailing, Cutting Oils, Distillery Stillage, DMT, Drilling Mud, Dyestuffs, Electroplating Solutions, Enzymes Harvesting, Ethanol Stillage Dewatering, Fine Chemicals, Fish Liquors, Food Processing Effluents, Fruit Juices and Pulp, Industrial Effluents, Inedible Tallow, Instant Tea, Insulin Tissue Separation, Lactose, Municipal Sewage, Nuclear Effluents, Petrochemicals, Pharmaceuticals, Pigments, Polymers, Polystyrene, PTA, PVC Dewatering, Refinery Effluent, Slop Oil Pretreatment, Sodium Sulphate, Synthetic Fibres, Titanium Dioxide, Vegetable Oils.</p>
   </div>
+
+  <!-- Used and remanufactured supply -->
+  <h2 id="used-and-remanufactured">Used and Remanufactured Sharples P-3400 Decanters</h2>
+
+  <div class="prose prose-lg max-w-none mb-8">
+    <p>Apart from Alfa Laval itself, Dolphin is the reliable source in the United States for quality used and remanufactured Sharples, Pennwalt, and Alfa Laval decanter centrifuges. We buy used P-3400 machines, strip and inspect them, replace bearings and seals, rebuild or hard-surface the conveyor with tungsten carbide, balance the rotating assembly, and test-run the unit before shipment. A remanufactured P-3400 typically costs 40% to 60% of a comparable new decanter.</p>
+    <p>Units can be supplied bare-shaft or as a complete module with base frame, feed pump, VFD drives, and a <a href="/industrial-centrifuge-controls/">PLC control panel</a>, including explosion-proof builds for hemp and ethanol extraction. Every machine ships with a warranty, on-site startup and training, and free ongoing technical support from an engineer-led team headed by Sanjay Prabhu, M.S.M.E. Call <a href="tel:+12485222573">(248) 522-2573</a> or email <a href="mailto:sales@dolphincentrifuge.com">sales@dolphincentrifuge.com</a> to check current P-3400 availability, or see our full <a href="/decanter-centrifuge/">decanter centrifuge</a> line and <a href="/decanter-centrifuge-rental/">rental fleet</a>.</p>
+  </div>
+
+  <!-- FAQ -->
+  <h2 id="faq">Frequently Asked Questions</h2>
+
+  {faqItems.map((item) => (
+    <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+      <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+        {item.question}
+        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+      </summary>
+      <p class="text-text-light mt-2 pb-2">{item.answer}</p>
+    </details>
+  ))}
 
 </ApplicationLayout>
