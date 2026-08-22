@@ -47,7 +47,14 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-j SHIPPED (pending merge)
+### 2026-08-22 - P3-k SHIPPED (pending merge)
+- 10 pages: clogged-bowl, training, performance, design, controls (panel brand stays
+  Dolphin - genuinely Dolphin-built), parts (manufacturer node removed), lubrication,
+  whpx-513-module (additive), extrusion, offshore.
+- Flag: training-page photos are Alfa Laval machines with unreadable nameplates -
+  named brand-only; Sanjay can name exact models for a one-pass tightening.
+
+### 2026-08-22 - P3-j SHIPPED AND LIVE (PR #31, merge fe4c7f8)
 - 10 pages: decanter-applications, manure, mab hub (additive), explosion-proof-ss,
   wspx-303 (additive, got genuine WSPX 303 photos), waste-oil-emulsion, cutting-oil,
   product-loss, washer-fluid, paring-disc-block.
