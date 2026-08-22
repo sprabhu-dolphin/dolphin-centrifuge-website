@@ -18,7 +18,19 @@ const faqItems = [
     question:
       "How does acid-treated used oil affect the used oil centrifuge?",
     answer:
-      "Acid-treated used oil has a low pH and is therefore not directly suitable for generic disc-stack centrifuges that may have material that is not compatible with low pH fluids. Specially manufactured acid-resistant components need to be retrofitted for such applications.",
+      "Acid-treated used oil has a low pH and is therefore not directly suitable for generic disc-stack centrifuges that may have material that is not compatible with low pH fluids. Specially manufactured acid-resistant components need to be retrofitted for such applications. Dolphin builds this configuration as the DMSC-042, the acid-service variant of the DMPX-042 module, on a remanufactured Alfa Laval MOPX 209 or WHPX 410 self-cleaning separator.",
+  },
+  {
+    question:
+      "Can a centrifuge re-refine used oil into base oil?",
+    answer:
+      "No. Centrifuges do not re-refine used oil on their own. Re-refining to a Group II base oil needs vacuum distillation and hydrotreating to strip the light ends, additives, and heavy residue. What centrifuges do is the front end of a re-refinery: a decanter such as the Alfa Laval NX-314 pulls the bulk sludge out, and a high-speed disc-stack centrifuge such as the Alfa Laval MOPX 209 or WHPX 410 dehydrates and de-fuels the feed so the distillation column sees clean, dry oil. That protects the vacuum column and the hydrotreating catalyst, cuts energy load, and raises base oil yield. Processors who are not re-refining use the same two centrifuge stages on their own to produce a clean, dry recycled fuel oil.",
+  },
+  {
+    question:
+      "What does the centrifuge stage do for a used oil re-refinery?",
+    answer:
+      "It removes water, glycol, sediment, and metal wear particles before distillation. Free water flashing in a vacuum column wastes energy and upsets the column, and residual solids foul heat exchangers and poison hydrotreating catalyst. A two-stage centrifuge front end (decanter for desludging, disc-stack for water and fine solids) typically brings a used oil feed to under 0.1 percent water and sediment, which is the specification most re-refining and fuel-blending contracts are written against.",
   },
   {
     question:
@@ -75,6 +87,33 @@ const jsonLd = [
     url: "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
     mainEntityOfPage:
       "https://dolphincentrifuge.com/used-oil-centrifuge-plant/",
+    about: {
+      "@type": "Product",
+      name: "Dolphin DMSC-042 Used Oil Module (Alfa Laval MOPX 209)",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Dolphin DMSC-042 Used Oil Centrifuge Module - Alfa Laval MOPX 209",
+    alternateName: "Alfa Laval MOPX 209 / WHPX 410",
+    model: "DMSC-042",
+    description:
+      "Acid-service build of the Dolphin DMPX-042 module, featuring a remanufactured Alfa Laval MOPX 209 or MOPX 210 self-cleaning three-phase disc stack centrifuge (also supplied on the equivalent WHPX 410 base machine), with acid-resistant elastomers for polishing and dewatering acid-treated used oil at 25 GPM. Paired with an Alfa Laval NX-314 decanter for primary desludging in a 6 MGY used oil plant.",
+    brand: { "@type": "Brand", name: "Alfa Laval" },
+    category: "Industrial Centrifuges",
+    image:
+      "https://dolphincentrifuge.com/images/used-oil-centrifuge-plant/Alfa-Laval-WHPX-410-Waste-Oil-Centrifuge-600.webp",
+    url: "https://dolphincentrifuge.com/centrifuges/dmpx-042/",
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "Dolphin Centrifuge",
+        url: "https://dolphincentrifuge.com",
+      },
+    },
   },
   faqJsonLd,
 ];
@@ -106,6 +145,10 @@ const toc = [
       { id: "desludging", label: "Desludging" },
       { id: "polishing", label: "Polishing and Water Separation" },
     ],
+  },
+  {
+    id: "re-refining",
+    label: "Centrifuges in Used Oil Re-Refining",
   },
   {
     id: "benefits",
@@ -182,9 +225,10 @@ const relatedApplications = [
 
 const relatedProducts = [
   {
-    label: "DMSC-042 Disc Stack Centrifuge",
-    href: "/disc-stack-centrifuge/",
-    description: "25 GPM capacity, 6,500 G-force, used oil polishing.",
+    label: "DMSC-042 Module (Alfa Laval MOPX 209 / WHPX 410)",
+    href: "/centrifuges/dmpx-042/",
+    description:
+      "25 GPM on used oil, 6,500 G-force, acid-service build for used oil polishing.",
   },
   {
     label: "Alfa Laval NX-314 Decanter",
@@ -204,7 +248,7 @@ const relatedProducts = [
   pageTitle="6MGY Used Oil Centrifuge Plant | Layout, Benefits, Equip Specs"
   description="This case study details 6 million gallons used oil centrifuge plant per year. The plant layout and equipment specifications are widely applicable."
   heroImage="/images/used-oil-centrifuge-plant/Used_Oil_Centrifuge_Plant_Hero.webp"
-  heroImageAlt="Used Oil Centrifuge Plant Layout"
+  heroImageAlt="6 MGY used oil centrifuge plant layout built on Alfa Laval NX-314 decanter and MOPX 209 class disc stack centrifuges"
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/used-oil-centrifuge-plant/"
@@ -223,6 +267,16 @@ const relatedProducts = [
     sludge. This article discusses the typical layout of a used oil plant
     using industrial centrifuges, highlighting the benefits of centrifuges
     over conventional heating and settling methods.
+  </p>
+
+  <p>
+    Every centrifuge in this layout is a remanufactured <a
+      href="/alfa-laval-centrifuges/">Alfa Laval</a
+    > machine: an NX-314 decanter for desludging and a MOPX 209 class self-cleaning
+    disc-stack separator for polishing, each packaged onto a Dolphin skid with pumps,
+    heaters, and controls. Dolphin Centrifuge is the independent specialist in Alfa
+    Laval centrifuges, and apart from Alfa Laval itself is the reliable source for
+    quality Alfa Laval machines, parts, and service in the United States.
   </p>
 
   <h2 id="plant-layout">Plant Layout</h2>
@@ -437,15 +491,15 @@ const relatedProducts = [
 
   <figure class="not-prose mb-6">
     <img
-      src="/images/used-oil-centrifuge-plant/Alfa-Laval-WHPX-410-Waste-Oil-Centrifuge-600.webp"
-      alt="Alfa Laval WHPX 410 Waste Oil Centrifuge"
-      width="600"
+      src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Alfa-Laval-MAPX204-4.webp"
+      alt="Dolphin used oil centrifuge module built on a remanufactured Alfa Laval MAPX 204 disc stack separator"
+      width="450"
       height="450"
       loading="lazy"
       class="img-cap-400"
     />
     <figcaption>
-      <strong>Alfa Laval WHPX 410 Waste Oil Centrifuge</strong>
+      <strong>Used Oil Polishing Module - Alfa Laval MAPX 204</strong>
     </figcaption>
   </figure>
 
@@ -480,6 +534,53 @@ const relatedProducts = [
       >it possible to produce 99.9% clean used oil</strong
     > from the disc-stack centrifuge. The separate water phase does carry some
     oil in the 100 to 5000 ppm range.
+  </p>
+
+  <h2 id="re-refining">Centrifuges in Used Oil Re-Refining</h2>
+
+  <p>
+    A plant like the one above produces clean, dry recycled fuel oil. A
+    re-refinery goes further and takes used oil back to a lubricant base oil.
+    Centrifuges do not do that step, and no centrifuge on its own re-refines
+    oil. Re-refining needs vacuum distillation to separate the base oil
+    fractions from light ends and heavy residue, followed by hydrotreating to
+    remove sulfur, nitrogen, and color bodies.
+  </p>
+
+  <p>
+    What centrifuges do is the front end that makes those steps economic. The
+    same two stages described above serve a re-refinery directly:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Desludging.</strong> An <a
+        href="/alfa-laval-nx-314-decanter-centrifuge/">Alfa Laval NX-314</a
+      > decanter pulls the bulk sludge, metal fines, and heavy sediment out of the
+      raw feed, so the distillation train is not fed abrasives.
+    </li>
+    <li>
+      <strong>Dehydration and de-fueling.</strong> A high-speed Alfa Laval
+      disc-stack centrifuge such as the MOPX 209 or WHPX 410 removes free water,
+      glycol, and fine solids down to 0.5 microns. Free water flashing inside a
+      vacuum column wastes heat and upsets the column, so drying the feed first
+      protects the column and cuts energy load.
+    </li>
+    <li>
+      <strong>Catalyst protection.</strong> Residual solids and water shorten
+      hydrotreating catalyst life. Removing them ahead of the reactor is far
+      cheaper than replacing catalyst.
+    </li>
+  </ul>
+
+  <p>
+    Processors who are not re-refining stop after these two stages and sell the
+    result as a clean recycled fuel oil. Either way, the centrifuge section of
+    the plant is the same, which is why an operator can start with the layout on
+    this page and add distillation later without replacing the separation
+    equipment. Dolphin Centrifuge is the independent specialist in Alfa Laval
+    centrifuges and sizes both stages against your actual feed. Send us a
+    sample and we will run it.
   </p>
 
   <h2 id="benefits">
@@ -677,23 +778,36 @@ const relatedProducts = [
 
   <figure class="not-prose mb-6">
     <img
-      src="/images/used-oil-centrifuge-plant/Used-Oil-Centrifuge-Alfa-Laval-MAPX204-4.webp"
-      alt="Used-Oil-Centrifuge-Alfa-Laval-MAPX204"
-      width="450"
+      src="/images/used-oil-centrifuge-plant/Alfa-Laval-WHPX-410-Waste-Oil-Centrifuge-600.webp"
+      alt="Dolphin DMSC-042 class used oil centrifuge module built on a remanufactured Alfa Laval WHPX 410 self-cleaning disc stack separator"
+      width="600"
       height="450"
       loading="lazy"
       class="img-cap-400"
     />
     <figcaption>
-      <strong>Used Oil Centrifuge - Alfa Laval MAPX 204</strong>
+      <strong>DMSC-042 Class Module - Alfa Laval WHPX 410 Used Oil Centrifuge</strong>
     </figcaption>
   </figure>
 
   <p>
-    The DMSC-042 is originally an Alfa Laval 'Self-Cleaning' disc-stack
-    centrifuge that has been modified specifically for used oil purification.
-    The centrifuge is also augmented with special elastomers to handle
-    acid-treated used oil.
+    The DMSC-042 is the acid-service build of Dolphin's <a
+      href="/centrifuges/dmpx-042/">DMPX-042 module</a
+    >. At its heart is a remanufactured Alfa Laval MOPX 209 or MOPX 210
+    self-cleaning disc-stack centrifuge, also supplied on the equivalent WHPX 410
+    base machine, rebuilt and reconfigured for used oil purification. The bowl,
+    seals, and wetted parts are augmented with acid-resistant elastomers so the
+    machine can run acid-treated used oil.
+  </p>
+
+  <p>
+    The skid, controls, pumps, and piping are Dolphin engineering; the centrifuge
+    inside is <a href="/alfa-laval-centrifuges/">Alfa Laval</a>. Dolphin
+    Centrifuge is the independent specialist in Alfa Laval centrifuges, with
+    remanufactured machines, turnkey systems, parts, and service built on 40+
+    years of Alfa Laval experience and led by Sanjay Prabhu, M.S.M.E. Dolphin is
+    an independent remanufacturer and is not affiliated with or authorized by
+    Alfa Laval.
   </p>
 
   <p>
@@ -706,11 +820,13 @@ const relatedProducts = [
       <thead>
         <tr>
           <th>Specification</th>
-          <th>DMSC-042 Disc Stack Centrifuge</th>
+          <th>DMSC-042 Disc Stack Centrifuge (Alfa Laval MOPX 209 / WHPX 410)</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td><strong>Centrifuge Model</strong></td><td><strong>DMSC-042 Disc Stack Centrifuge (Modified Alfa Laval Separator)</strong></td></tr>
+        <tr><td><strong>Centrifuge Model</strong></td><td><strong>DMSC-042 Disc Stack Centrifuge</strong></td></tr>
+        <tr><td><strong>Base Machine</strong></td><td><strong>Alfa Laval MOPX 209 / MOPX 210 (also supplied as WHPX 410)</strong></td></tr>
+        <tr><td>Configuration</td><td>Acid-service build of the Dolphin DMPX-042 module</td></tr>
         <tr><td>Bowl Speed</td><td>~5,000 RPM</td></tr>
         <tr><td>G-Force</td><td>~6,500 Gs</td></tr>
         <tr><td>Main Motor Power</td><td>15 HP</td></tr>
