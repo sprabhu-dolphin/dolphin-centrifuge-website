@@ -47,7 +47,16 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-d SHIPPED (pending merge)
+### 2026-08-22 - P3-e SHIPPED (pending merge)
+- 10 pages: bad-separation, clara-20 (additive), containerized, backpressure,
+  machining-coolant-recovery, operating-water, sharples-p3000, yellow-grease,
+  g2-40 (additive), pyrolysis-oil.
+- New flags: bad-separation title "6 Causes" vs summary "five"; containerized-page
+  interior photos captioned Alfa Laval without model (nameplates unreadable - confirm);
+  backpressure page emits duplicate BreadcrumbList (pre-existing, P4 cleanup); Clara 20
+  spec heading left without LAPX-404 (additive-only slug).
+
+### 2026-08-22 - P3-d SHIPPED AND LIVE (PR #25, merge 027f9cd)
 - 10 pages: quench-oil, decanter-vibration, whpx-405 (additive), rental, pond-depth,
   disc-faq, mechanical-issues, whpx-513 (additive), rcf-rpm, three-phase-decanter.
 - New flags: rental page MAPX 207 22 vs 28 GPM on the same page; MAPX 210 42 vs 47 GPM;
