@@ -47,7 +47,16 @@ Deploy route: `dolphin-github` skill (never involve Sanjay).
   vs 7,200 on waste-oil pages; NX-314 50 vs 40 GPM; MAPX-210/MOPX-210 spec-table
   ownership on diesel page; DMB-004 4 vs 3 GPM (pre-existing).
 
-### 2026-08-22 - P3-g SHIPPED (pending merge)
+### 2026-08-22 - P3-h SHIPPED (pending merge)
+- 10 pages: hydraulic-oil, disc-vibration, industrial-faq, friction-clutch,
+  remove-metals-ash, disadvantages, sample-testing, picking-the-right, nx-314
+  (additive), capacity.
+- FAQ page gained a lead Q&A "What brand does Dolphin supply?" answering Alfa Laval
+  openly (also in FAQPage schema). Flag: DMPX-028 photo caption kept WHPX-407 on
+  FAQ/industrial pages (matching identical photo) vs MOPX 207 primary ruling - decide
+  whether to flip both. Photo-confirmation list keeps growing in the flags.
+
+### 2026-08-22 - P3-g SHIPPED AND LIVE (PR #28, merge f8197be)
 - 10 pages: options, explosion-proof, bowl-leaking, mab-103 (additive), mopx-209
   (additive), chnx-418 (additive), decanter-rental, disc-accessories, fish-processing,
   black-diesel.
