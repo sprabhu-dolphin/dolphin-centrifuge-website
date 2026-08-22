@@ -9,7 +9,53 @@ import ProvenResults from '../components/ProvenResults.astro';
 import TrustPillars from '../components/TrustPillars.astro';
 import FeaturedTestimonial from '../components/FeaturedTestimonial.astro';
 
+const sanjayPrabhuPersonJsonLd = {
+  "@type": "Person",
+  "@id": "https://dolphincentrifuge.com/about-dolphin-centrifuge/#sanjay-prabhu",
+  "name": "Sanjay Prabhu",
+  "honorificSuffix": "M.S.M.E.",
+  "jobTitle": "Centrifuge Applications Engineer",
+  "knowsAbout": [
+    "Alfa Laval centrifuge systems",
+    "Alfa Laval centrifuge remanufacturing",
+    "Industrial centrifuges",
+    "Disc stack centrifuges",
+    "Decanter centrifuges",
+    "Centrifuge repair and remanufacturing",
+    "Waste oil separation",
+    "Coolant recycling",
+    "Industrial fluid separation"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Dolphin Centrifuge",
+    "url": "https://dolphincentrifuge.com"
+  },
+  "description": "40+ years of specialized experience in industrial centrifuge systems",
+  "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of Arkansas",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Fayetteville",
+      "addressRegion": "AR",
+      "addressCountry": "US"
+    }
+  },
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Master of Science in Mechanical Engineering",
+    "credentialCategory": "Master's degree",
+    "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990"
+  }
+};
+
 const homepageJsonLd = [
+  {
+    "@context": "https://schema.org",
+    ...sanjayPrabhuPersonJsonLd,
+  },
   {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -17,7 +63,11 @@ const homepageJsonLd = [
     "name": "Dolphin Centrifuge",
     "url": "https://dolphincentrifuge.com",
     "logo": "https://dolphincentrifuge.com/images/homepage/dolphin-centrifuge-logo.png",
-    "description": "Dolphin Centrifuge specializes in Alfa Laval industrial centrifuge systems with 40+ years of expertise. Complete turnkey systems for oil, fuel, wastewater, food & beverage, and more.",
+    "description": "Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service, built on 40+ years of Alfa Laval experience. Complete turnkey systems for oil, fuel, wastewater, food & beverage, and more.",
+    "disambiguatingDescription": "Dolphin Centrifuge is an independent remanufacturer of Alfa Laval centrifuges and is not affiliated with or authorized by Alfa Laval.",
+    "employee": {
+      "@id": "https://dolphincentrifuge.com/about-dolphin-centrifuge/#sanjay-prabhu"
+    },
     "telephone": "+1-248-522-2573",
     "email": "sales@dolphincentrifuge.com",
     "address": {
@@ -83,45 +133,9 @@ const homepageJsonLd = [
       "@id": "https://dolphincentrifuge.com/#organization",
     },
     "dateModified": "2026-05-12",
-    "description": "Dolphin Centrifuge builds turnkey Alfa Laval industrial centrifuge systems for waste oil, fuel, wastewater, food, and industrial fluids in Warren, Michigan.",
+    "description": "Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service from Warren, Michigan.",
     "author": {
-      "@type": "Person",
-      "name": "Sanjay Prabhu",
-      "honorificSuffix": "M.S.M.E.",
-      "jobTitle": "Centrifuge Applications Engineer",
-      "knowsAbout": [
-        "Industrial centrifuges",
-        "Disc stack centrifuges",
-        "Decanter centrifuges",
-        "Alfa Laval centrifuge systems",
-        "Centrifuge repair and remanufacturing",
-        "Waste oil separation",
-        "Coolant recycling",
-        "Industrial fluid separation"
-      ],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Dolphin Centrifuge",
-        "url": "https://dolphincentrifuge.com"
-      },
-      "description": "40+ years of specialized experience in industrial centrifuge systems",
-      "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "University of Arkansas",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Fayetteville",
-          "addressRegion": "AR",
-          "addressCountry": "US"
-        }
-      },
-      "hasCredential": {
-        "@type": "EducationalOccupationalCredential",
-        "name": "Master of Science in Mechanical Engineering",
-        "credentialCategory": "Master's degree",
-        "description": "Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990"
-      }
+      "@id": "https://dolphincentrifuge.com/about-dolphin-centrifuge/#sanjay-prabhu"
     },
   },
 ];
@@ -129,7 +143,7 @@ const homepageJsonLd = [
 
 <BaseLayout
   title="Alfa Laval Industrial Centrifuge Systems | Dolphin Centrifuge"
-  description="Dolphin Centrifuge builds turnkey Alfa Laval industrial centrifuge systems for waste oil, fuel, wastewater, food, and industrial fluids in Warren, Michigan."
+  description="Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service from Warren, Michigan."
   disableTitleSuffix={true}
   jsonLd={homepageJsonLd}
 >
@@ -139,8 +153,8 @@ const homepageJsonLd = [
   ══════════════════════════════════════════════════════════════ */}
   <Hero
     title="Alfa Laval Industrial Centrifuge Systems"
-    subtitle="40+ Years of Centrifuge Expertise"
-    description="We manufacture complete turnkey centrifuge systems engineered for your exact process. From waste oil to wastewater, fuel purification to food processing — we've built the solution."
+    subtitle="The Independent Home of Alfa Laval Centrifuges"
+    description="Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service, built on 40+ years of Alfa Laval experience."
     initialImage={{
       src: "/images/homepage/hero/dolphin_centrifuge_homepage_slider_hero_2000.webp",
       alt: "Dolphin Centrifuge logo close-up on an industrial centrifuge bowl"
@@ -148,7 +162,7 @@ const homepageJsonLd = [
     sliderImages={[
       { src: "/images/homepage/hero/decanter-warehouse.webp", alt: "Wastewater decanter centrifuge system in Dolphin Centrifuge warehouse" },
       { src: "/images/homepage/hero/industrial-centrifuge-disc-stack-shop-floor.webp", alt: "Stainless steel disc stack centrifuge on Dolphin Centrifuge shop floor" },
-      { src: "/images/homepage/hero/nx314-decanter-module.webp", alt: "NX 314 decanter module for waste oil desludging" },
+      { src: "/images/homepage/hero/nx314-decanter-module.webp", alt: "Alfa Laval NX 314 decanter module for waste oil desludging" },
     ]}
     ctaLabel="Get a Consultation"
     ctaHref="/contact-for-alfa-laval-centrifuges/"
@@ -174,16 +188,16 @@ const homepageJsonLd = [
   ══════════════════════════════════════════════════════════════ */}
   <section class="py-14 md:py-20 bg-warm-white">
     <div class="container-dolphin max-w-4xl">
-      <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-navy text-center mb-8">Alfa Laval Centrifuge Systems</h2>
+      <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-navy text-center mb-8">The Independent Home of Alfa Laval Centrifuges</h2>
       <div class="prose-dolphin text-base md:text-lg leading-relaxed text-text-light space-y-5">
         <p>
-          Dolphin Centrifuge builds turnkey Alfa Laval <a href="/industrial-centrifuge/">industrial centrifuge</a> systems for oil, fuel, wastewater, food, and industrial-fluid separation. From its Warren, Michigan facility, the company rebuilds and wet-tests disc stack and decanter centrifuge skids with pumps, heaters, PLC controls, and piping for industrial customers worldwide.
+          <strong>Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges.</strong> Apart from Alfa Laval itself, Dolphin is the reliable source for quality Alfa Laval machines: remanufactured centrifuges, turnkey modules, parts, and service, built on 40+ years of Alfa Laval experience. From its Warren, Michigan facility, the company rebuilds and wet-tests Alfa Laval disc stack and decanter <a href="/industrial-centrifuge/">industrial centrifuge</a> skids with pumps, heaters, PLC controls, and piping for industrial customers worldwide.
         </p>
         <p>
-          Dolphin Centrifuge is an <a href="/industrial-centrifuge/">industrial centrifuge</a> manufacturer based in Warren, Michigan. For <strong>over 40 years</strong>, we have specialized exclusively in Alfa Laval centrifuges. We manufacture complete turnkey centrifuge systems — <a href="/disc-stack-centrifuge/">disc stack centrifuges</a>, <a href="/decanter-centrifuge/">decanter centrifuges</a>, <a href="/explosion-proof-centrifuge/">explosion-proof</a>, and <a href="/stainless-steel-centrifuge/">stainless steel configurations</a> — engineered for all industrial and commercial separation applications. <a href="/about-dolphin-centrifuge/">Learn more about us here.</a>
+          Dolphin Centrifuge is an engineer-led company based in Warren, Michigan. Sanjay Prabhu, MSME, is the applications engineer behind the system designs and the separation recommendations on this site. For <strong>over 40 years</strong>, we have specialized exclusively in Alfa Laval centrifuges. We build complete turnkey systems around them: <a href="/disc-stack-centrifuge/">disc stack centrifuges</a>, <a href="/decanter-centrifuge/">decanter centrifuges</a>, <a href="/explosion-proof-centrifuge/">explosion-proof</a>, and <a href="/stainless-steel-centrifuge/">stainless steel configurations</a>, engineered for all industrial and commercial separation applications. <a href="/about-dolphin-centrifuge/">Learn more about us here.</a>
         </p>
         <p>
-          Our 30,000 sq ft facility in Warren, MI houses <strong>over 150 reconditioned Alfa Laval centrifuges</strong> — the largest inventory in North America. Every system is rebuilt to OEM specifications with genuine parts, wet-tested in our shop, and ships as a plug-and-play skid with centrifuge, pumps, heaters, PLC controls, and piping. Over 500 turnkey systems have been delivered to customers worldwide across oil &amp; gas, wastewater, metalworking, food processing, and chemical industries.
+          Our 30,000 sq ft facility in Warren, MI houses <strong>over 150 reconditioned Alfa Laval centrifuges</strong>, the largest inventory in North America. Every system is rebuilt to OEM specifications with genuine parts, wet-tested in our shop, and ships as a plug-and-play skid with centrifuge, pumps, heaters, PLC controls, and piping. Over 500 turnkey systems have been delivered to customers worldwide across oil &amp; gas, wastewater, metalworking, food processing, and chemical industries. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.
         </p>
         <p>
           Not sure which centrifuge fits your process? <a href="/industrial-centrifuge-sample-testing/">Send us a sample</a> — we run it through the right centrifuge in our lab and deliver data-backed recommendations, not guesswork. See our complete <strong><a href="/disc-stack-centrifuge-applications/">A to Z disc centrifuge application list</a></strong>, or read our <strong><a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges</a></strong>.
@@ -203,7 +217,7 @@ const homepageJsonLd = [
       </div>
       <div class="max-w-3xl mx-auto mb-12">
         <p class="text-text-light text-base leading-relaxed">
-          Dolphin Centrifuge manufactures <a href="/alfa-laval-centrifuge/">Alfa Laval centrifuge</a> systems that extend the usable life of machining coolants, cutting oils, quench oils, draw oils, and industrial wash water. These self-cleaning disc stack centrifuges continuously remove tramp oil, fine metal particles, and sludge — reducing fluid replacement costs by 60–80% while improving finished part quality.
+          Dolphin Centrifuge builds turnkey systems around remanufactured <a href="/alfa-laval-centrifuge/">Alfa Laval centrifuges</a> that extend the usable life of machining coolants, cutting oils, quench oils, draw oils, and industrial wash water. These self-cleaning disc stack centrifuges continuously remove tramp oil, fine metal particles, and sludge, reducing fluid replacement costs by 60–80% while improving finished part quality.
         </p>
       </div>
 
@@ -326,7 +340,7 @@ const homepageJsonLd = [
           <div class="prose-dolphin">
             <p>Quenching oil has inherent heat-treating properties — hardening ability, heat resistance, thermal stability. Contamination causes these properties to degrade over time, leading to product quality issues and replenishment of costly quenching oil.</p>
             <p>Alfa Laval self-cleaning centrifuges separate the solid contaminants from quenching oil. These centrifuges also remove R&amp;O and coarse resin particles, allowing the reuse of the quenching oil. This recycling process extends the usable life of heat-treating oils.</p>
-            <p>Dolphin Centrifuge designed and manufactured the Alfa Laval centrifuge module shown above. A heat treatment supplier in the Midwest uses this system to reclaim their quench oil.</p>
+            <p>Dolphin Centrifuge designed and built the module shown above around a remanufactured Alfa Laval centrifuge. A heat treatment supplier in the Midwest uses this system to reclaim their quench oil.</p>
           </div>
           <a href="/quench-oil-centrifuge/" class="inline-flex items-center gap-1.5 mt-5 text-sm font-bold text-gold-dark hover:text-gold transition-colors">
             See Quench Oil Centrifuges <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -379,7 +393,7 @@ const homepageJsonLd = [
       </div>
       <div class="max-w-3xl mx-auto mb-12">
         <p class="text-text-light text-base leading-relaxed">
-          From waste motor oil to offshore diesel, transformer oil to heavy fuel oil — Dolphin Centrifuge manufactures Alfa Laval disc stack centrifuge systems that separate water and sludge from oils and fuels in a single pass. Our explosion-proof and ATEX-rated systems serve power plants, refineries, marine operations, and industrial manufacturers worldwide.
+          From waste motor oil to offshore diesel, transformer oil to heavy fuel oil, Dolphin Centrifuge builds turnkey systems around remanufactured Alfa Laval disc stack centrifuges that separate water and sludge from oils and fuels in a single pass. Our explosion-proof and ATEX-rated systems serve power plants, refineries, marine operations, and industrial manufacturers worldwide.
         </p>
       </div>
 
@@ -550,14 +564,14 @@ const homepageJsonLd = [
             <a href="/hydraulic-oil-centrifuge/" class="block rounded-lg overflow-hidden group">
               <img
                 src="/images/homepage/Alfa-Laval-MAB-103-Hydraulic_Oil_Skid_400.webp"
-                alt="Hydraulic oil purifier centrifuge system with heater"
+                alt="Alfa Laval MAB 103 hydraulic oil purifier centrifuge skid with heater"
                 width="400"
                 height="400"
                 class="img-cap-400 max-w-[400px] mx-auto w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
             </a>
-            <figcaption class="border-t border-gray-200 bg-gray-50 px-3 py-2 text-center text-xs font-medium leading-snug text-text-light">Hydraulic oil purifier centrifuge system, 3 GPM heated module for fine particle and water removal</figcaption>
+            <figcaption class="border-t border-gray-200 bg-gray-50 px-3 py-2 text-center text-xs font-medium leading-snug text-text-light">Alfa Laval MAB 103 hydraulic oil purifier centrifuge skid, 3 GPM heated module for fine particle and water removal</figcaption>
           </figure>
         </div>
         <div class="md:col-span-2">
@@ -567,7 +581,7 @@ const homepageJsonLd = [
           <div class="prose-dolphin">
             <p>Hydraulic oil is the power transmission fluid in industrial fluid-powered machinery. Hydraulic oil tends to accumulate particle contamination over time. These particles lead to premature wear and failure of critical machinery.</p>
             <p>An <a href="/disc-stack-centrifuge/">industrial disc stack centrifuge</a> is ideal for removing fine particulates from hydraulic oil. It removes all <strong>particles down to 0.5 microns and free water</strong>. Water removal is an added benefit of Alfa Laval 3-phase centrifuges.</p>
-            <p>The system shown features an <a href="/alfa-laval-whpx-405/">Alfa Laval 5 GPM self-cleaning disc stack centrifuge</a>. This centrifuge bowl rotates at 8,000 RPM for maximum separation efficiency.</p>
+            <p>The system shown is a Dolphin-built heated skid featuring a remanufactured <a href="/alfa-laval-mab-103-centrifuge/">Alfa Laval MAB 103</a> purifier. This centrifuge bowl rotates at 8,000 RPM for maximum separation efficiency.</p>
           </div>
           <a href="/hydraulic-oil-centrifuge/" class="inline-flex items-center gap-1.5 mt-5 text-sm font-bold text-gold-dark hover:text-gold transition-colors">
             Hydraulic Oil Systems <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -600,7 +614,7 @@ const homepageJsonLd = [
       </div>
       <div class="max-w-3xl mx-auto mb-12">
         <p class="text-text-light text-base leading-relaxed">
-          Dolphin Centrifuge manufactures decanter and disc stack centrifuge systems for sludge dewatering, waste vegetable oil processing, algae harvesting, biodiesel production, and crude oil tank bottom recovery. These heavy-duty mechanical separators use high centrifugal force to handle the toughest separation challenges at industrial scale.
+          Dolphin Centrifuge builds turnkey systems around remanufactured Alfa Laval decanter and disc stack centrifuges for sludge dewatering, waste vegetable oil processing, algae harvesting, biodiesel production, and crude oil tank bottom recovery. These heavy-duty mechanical separators use high centrifugal force to handle the toughest separation challenges at industrial scale.
         </p>
       </div>
 

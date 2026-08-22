@@ -6,11 +6,21 @@ const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Dolphin Centrifuge Customer Testimonials - Real Reviews from Industrial Users",
-  "description": "Read what real Dolphin Centrifuge customers say about our engineering expertise, centrifuge systems, and ongoing support across biodiesel, oilfield, and industrial applications.",
+  "description": "Read what real Dolphin Centrifuge customers say about our engineering expertise, remanufactured Alfa Laval centrifuge systems, and ongoing support across biodiesel, oilfield, and industrial applications.",
   "author": {
     "@type": "Person",
     "name": "Sanjay Prabhu MSME",
     "jobTitle": "Centrifuge Applications Engineer",
+    "honorificSuffix": "M.S.M.E.",
+    "description": "40+ years of specialized experience in Alfa Laval industrial centrifuge systems",
+    "url": "https://dolphincentrifuge.com/about-dolphin-centrifuge/",
+    "knowsAbout": [
+      "Alfa Laval centrifuge systems",
+      "Disc stack centrifuges",
+      "Decanter centrifuges",
+      "Centrifuge repair and remanufacturing",
+      "Industrial fluid separation"
+    ],
     "worksFor": { "@type": "Organization", "name": "Dolphin Centrifuge" }
   },
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
@@ -26,7 +36,8 @@ const testimonials = [
     contact: "T.G.",
     title: "President & CEO",
     highlight: "You've been there, you get it",
-    industry: "Biodiesel / Biofuel"
+    industry: "Biodiesel / Biofuel",
+    machineNote: null
   },
   {
     id: 2,
@@ -35,7 +46,8 @@ const testimonials = [
     contact: "J.E.",
     title: "Manager",
     highlight: "over 15 years",
-    industry: "Industrial / Reservoir"
+    industry: "Industrial / Reservoir",
+    machineNote: null
   },
   {
     id: 3,
@@ -44,7 +56,8 @@ const testimonials = [
     contact: null,
     title: null,
     highlight: "good separation",
-    industry: "Oilfield"
+    industry: "Oilfield",
+    machineNote: null
   },
   {
     id: 4,
@@ -53,7 +66,8 @@ const testimonials = [
     contact: "M.Z.",
     title: "President / COO",
     highlight: "knows his centrifuges",
-    industry: "Biodiesel"
+    industry: "Biodiesel",
+    machineNote: null
   },
   {
     id: 5,
@@ -62,7 +76,8 @@ const testimonials = [
     contact: "C.F.",
     title: "Facility Supervisor",
     highlight: "these guys were very experienced at running these units",
-    industry: "Oil Processing / Alaska"
+    industry: "Oil Processing / Alaska",
+    machineNote: "Alfa Laval MOPX-207 separator, remanufactured and skid-packaged by Dolphin"
   }
 ];
 
@@ -70,7 +85,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "Dolphin Centrifuge Customer Testimonials",
-  "description": "Real testimonials from Dolphin Centrifuge customers across biodiesel, oilfield, industrial, and oil processing industries.",
+  "description": "Real testimonials from Dolphin Centrifuge customers across biodiesel, oilfield, industrial, and oil processing industries, on systems built around remanufactured Alfa Laval centrifuges.",
   "numberOfItems": testimonials.length,
   "itemListElement": testimonials.map((t, i) => ({
     "@type": "ListItem",
@@ -78,6 +93,7 @@ const jsonLd = {
     "item": {
       "@type": "Review",
       "reviewBody": t.quote,
+      "reviewAspect": t.machineNote || undefined,
       "author": {
         "@type": "Person",
         "name": t.contact || t.descriptor,
@@ -107,9 +123,9 @@ const jsonLd = {
 
 <ApplicationLayout
   title="Customer Testimonials | Dolphin Centrifuge"
-  description="Real Dolphin Centrifuge customer reviews - biodiesel, oilfield, and industrial operators share their experience with our centrifuge systems and support."
+  description="Real Dolphin Centrifuge customer reviews - biodiesel, oilfield, and industrial operators share their experience with our remanufactured Alfa Laval centrifuge systems and support."
   heroImage="/images/about-dolphin-centrifuge/Dolphin-Centrifuge-Shop-600.webp"
-  heroImageAlt="Dolphin Centrifuge facility - Warren, Michigan industrial centrifuge service center"
+  heroImageAlt="Dolphin Centrifuge facility in Warren, Michigan, where Alfa Laval centrifuges are remanufactured and packaged"
   canonicalUrl="https://dolphincentrifuge.com/dolphin-centrifuge-customer-testimonials/"
   category="about"
   categoryLabel="About Us"
@@ -125,9 +141,9 @@ const jsonLd = {
     { label: "Centrifuge Applications Overview", href: "/disc-stack-centrifuge-applications/" }
   ]}
   relatedProducts={[
-    { label: "DMPX-042 Disc Centrifuge", href: "/centrifuges/dmpx-042/" },
-    { label: "DMPX-028 Disc Centrifuge", href: "/centrifuges/dmpx-028/" },
-    { label: "DMPX-070 Disc Centrifuge", href: "/centrifuges/dmpx-070/" }
+    { label: "DMPX-042 (Alfa Laval MOPX 209)", href: "/centrifuges/dmpx-042/" },
+    { label: "DMPX-028 (Alfa Laval MOPX 207)", href: "/centrifuges/dmpx-028/" },
+    { label: "DMPX-070 (Alfa Laval WHPX 513)", href: "/centrifuges/dmpx-070/" }
   ]}
   jsonLd={[jsonLd, articleJsonLd]}
   hideBottomCTA={true}
@@ -136,7 +152,7 @@ const jsonLd = {
   <article class="prose-dolphin max-w-none">
 
     <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge customer testimonials from biodiesel producers, oilfield operators, marine fuel treatment facilities, lube oil processors, and metalworking coolant users. Customers report extended fluid life, reduced disposal costs, eliminated filter costs, and rapid ROI from Dolphin Centrifuge <a href="/disc-stack-centrifuge/">disc stack</a> and <a href="/decanter-centrifuge/">decanter centrifuge</a> systems. Contact us for <a href="/industrial-centrifuge-sample-testing/">sample testing</a> or a <a href="/contact-for-alfa-laval-centrifuges/">custom quote</a>.</p>
+      <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge customer testimonials from biodiesel producers, oilfield operators, marine fuel treatment facilities, lube oil processors, and metalworking coolant users. Customers report extended fluid life, reduced disposal costs, eliminated filter costs, and rapid ROI from Dolphin Centrifuge systems built around remanufactured Alfa Laval <a href="/disc-stack-centrifuge/">disc stack</a> and <a href="/decanter-centrifuge/">decanter centrifuges</a>. Contact us for <a href="/industrial-centrifuge-sample-testing/">sample testing</a> or a <a href="/contact-for-alfa-laval-centrifuges/">custom quote</a>.</p>
     </div>
 
     <!-- Intro -->
@@ -144,6 +160,13 @@ const jsonLd = {
       The following testimonials are from real Dolphin Centrifuge customers - biodiesel producers,
       oilfield operators, lube oil processors, and industrial engineers who have put our equipment and
       expertise to work in demanding environments. We let their words speak for our reputation.
+    </p>
+    <p>
+      Alfa Laval is the heart of this business. Dolphin Centrifuge is the independent specialist in
+      <a href="/alfa-laval-centrifuges/">Alfa Laval centrifuges</a>: remanufactured machines, turnkey systems,
+      parts, and service, built on 40+ years of Alfa Laval experience and led by Sanjay Prabhu, MSME.
+      The machines described below are Alfa Laval separators our shop rebuilt, tested, and packaged.
+      Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.
     </p>
     <p>
       We are happy to provide additional customer references on request. Call us at
@@ -182,6 +205,10 @@ const jsonLd = {
             <div class="text-xs text-gray-400 mt-0.5">{t.industry}</div>
           </div>
         </div>
+
+        {t.machineNote && (
+          <p class="mt-4 text-xs text-gray-500 italic">Machine supplied: {t.machineNote}.</p>
+        )}
       </div>
     ))}
 
@@ -212,7 +239,8 @@ const jsonLd = {
     </p>
     <p>
       Our <strong>free ongoing technical support</strong> - no subscription required - reflects our
-      confidence in the equipment we build and our commitment to the customers who buy it. When you call
+      confidence in the Alfa Laval machines we remanufacture and the systems we build around them,
+      and our commitment to the customers who buy them. When you call
       us five years after your centrifuge ships with a question about bowl cleaning intervals or a
       troubleshooting puzzle, we pick up the phone.
     </p>
@@ -223,22 +251,22 @@ const jsonLd = {
       <div class="flex items-start gap-3">
         <span class="text-gold text-xl font-bold mt-0.5 flex-shrink-0">&rsaquo;</span>
         <div>
-          <div class="font-semibold text-navy mb-1">40+ Years of Specialization</div>
-          <p class="text-sm text-text">Industrial centrifuges exclusively since 1982 - not a side business or afterthought. Every staff member is focused on centrifuge applications, selection, and support.</p>
+          <div class="font-semibold text-navy mb-1">40+ Years on Alfa Laval</div>
+          <p class="text-sm text-text">Industrial centrifuges exclusively since 1982 - not a side business or afterthought. Four decades of that focus has been Alfa Laval work: selection, remanufacturing, and support.</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
         <span class="text-gold text-xl font-bold mt-0.5 flex-shrink-0">&rsaquo;</span>
         <div>
           <div class="font-semibold text-navy mb-1">Engineering-Led Company</div>
-          <p class="text-sm text-text">We design and build complete <a href="/disc-stack-centrifuge/">centrifuge systems</a> in-house at our Warren, MI factory - not just resell off-the-shelf equipment.</p>
+          <p class="text-sm text-text">Led by Sanjay Prabhu, MSME. We engineer and build complete <a href="/disc-stack-centrifuge/">centrifuge systems</a> in-house at our Warren, MI factory around remanufactured Alfa Laval separators: skid, pump, heater, controls, and testing.</p>
         </div>
       </div>
       <div class="flex items-start gap-3">
         <span class="text-gold text-xl font-bold mt-0.5 flex-shrink-0">&rsaquo;</span>
         <div>
           <div class="font-semibold text-navy mb-1">150+ Unit Inventory</div>
-          <p class="text-sm text-text">Over 150 reconditioned and new centrifuges on hand in Warren, MI. What you see on our site is equipment we actually own and can ship.</p>
+          <p class="text-sm text-text">Over 150 reconditioned and new centrifuges on hand in Warren, MI, led by our remanufactured Alfa Laval inventory. What you see on our site is equipment we actually own and can ship.</p>
         </div>
       </div>
       <div class="flex items-start gap-3">

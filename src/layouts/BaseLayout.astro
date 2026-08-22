@@ -5,6 +5,14 @@ import Footer from '../components/Footer.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import Lightbox from '../components/Lightbox.astro';
 import Statcounter from '@statcounter/astro';
+import {
+  dolphinOrganizationJsonLd,
+  hasSchemaValue,
+  isDolphinOrganizationNode,
+  linkSiteEntities,
+  mergeOrganizationSchema,
+  schemaTypes,
+} from '../lib/siteSchema';
 
 
 interface Props {
@@ -773,18 +781,6 @@ const getBreadcrumbItemUrl = (
   return index === total - 1 ? canonical : undefined;
 };
 
-const schemaTypes = (schema: Record<string, any>) => {
-  const type = schema?.['@type'];
-  return (Array.isArray(type) ? type : [type]).filter(Boolean).map(String);
-};
-
-const hasSchemaValue = (value: any): boolean => {
-  if (value === undefined || value === null) return false;
-  if (typeof value === 'string') return value.trim().length > 0;
-  if (Array.isArray(value)) return value.some(hasSchemaValue);
-  return true;
-};
-
 const normalizeSchemaImage = (image: any): any => {
   if (!hasSchemaValue(image)) return undefined;
   if (typeof image === 'string') return toAbsoluteUrl(image) || image;
@@ -816,6 +812,19 @@ const hasOfferPrice = (offer: any): boolean => {
   return priceSpecs.some((spec) => spec && typeof spec === 'object' && hasSchemaValue(spec.price));
 };
 
+/**
+ * Keeps the Product node on the page.
+ *
+ * Dolphin quotes every machine, so Product offers carry availability and a
+ * seller but no price. Google needs offers.price for a Product rich result,
+ * so a price-less offer is stripped - but the Product node itself stays.
+ * Its brand (Alfa Laval), alternateName (the base machine) and model are the
+ * signals buyers and AI crawlers read, and dropping the whole node to avoid a
+ * "recommended field" notice threw those away on every model page.
+ *
+ * Seller identity is not lost: the sitewide Organization node with
+ * @id .../#organization renders on every page.
+ */
 const normalizeProductSchema = (schema: Record<string, any>) => {
   const normalized = JSON.parse(JSON.stringify(schema));
   const offers = normalized.offers;
@@ -829,13 +838,26 @@ const normalizeProductSchema = (schema: Record<string, any>) => {
     }
   }
 
-  const hasRichResultBasis = hasSchemaValue(normalized.offers)
-    || hasSchemaValue(normalized.review)
-    || hasSchemaValue(normalized.aggregateRating);
-  if (!hasRichResultBasis) return null;
+  // Working rule: Dolphin sells and remanufactures these machines, it never
+  // manufactures them. Now that Product nodes reach the HTML, a leftover
+  // "manufacturer: Dolphin Centrifuge" would be a live claim, so it is dropped.
+  // A manufacturer naming anyone else is the page's own call and is kept.
+  if (hasSchemaValue(normalized.manufacturer)) {
+    if (Array.isArray(normalized.manufacturer)) {
+      const others = normalized.manufacturer.filter((entry: any) => !isDolphinOrganizationNode(entry));
+      if (others.length > 0) normalized.manufacturer = others;
+      else delete normalized.manufacturer;
+    } else if (isDolphinOrganizationNode(normalized.manufacturer)) {
+      delete normalized.manufacturer;
+    }
+  }
 
-  normalized.image = normalizeSchemaImage(normalized.image) || schemaFallbackImage;
-  if (!hasSchemaValue(normalized.image)) return null;
+  const normalizedImage = normalizeSchemaImage(normalized.image) || schemaFallbackImage;
+  if (hasSchemaValue(normalizedImage)) {
+    normalized.image = normalizedImage;
+  } else {
+    delete normalized.image;
+  }
 
   return normalized;
 };
@@ -913,7 +935,37 @@ if (jsonLd) {
     allSchemas.push(jsonLd);
   }
 }
-const normalizedSchemas = normalizeSearchSchema(allSchemas) || [];
+
+// Sitewide Organization node, exactly once per page. If the page already ships
+// its own top-level Organization, extend that one rather than duplicate it.
+const organizationIndex = allSchemas.findIndex((schema) =>
+  schemaTypes(schema).includes('Organization')
+  || (Array.isArray(schema?.['@graph'])
+    && schema['@graph'].some((node: any) => schemaTypes(node).includes('Organization'))),
+);
+if (organizationIndex >= 0) {
+  const pageOrganization = allSchemas[organizationIndex];
+  if (schemaTypes(pageOrganization).includes('Organization')) {
+    allSchemas[organizationIndex] = mergeOrganizationSchema(pageOrganization);
+  } else {
+    allSchemas[organizationIndex] = {
+      ...pageOrganization,
+      '@graph': pageOrganization['@graph'].map((node: any) =>
+        schemaTypes(node).includes('Organization') ? mergeOrganizationSchema(node) : node,
+      ),
+    };
+  }
+} else {
+  allSchemas.push(dolphinOrganizationJsonLd);
+}
+
+const searchNormalizedSchemas = normalizeSearchSchema(allSchemas) || [];
+// Pin every "Sanjay Prabhu" Person and every Dolphin publisher/seller reference
+// to the two canonical @id entities.
+const normalizedSchemas = (Array.isArray(searchNormalizedSchemas)
+  ? searchNormalizedSchemas
+  : [searchNormalizedSchemas]
+).map((schema: any) => linkSiteEntities(schema));
 ---
 
 <!doctype html>
