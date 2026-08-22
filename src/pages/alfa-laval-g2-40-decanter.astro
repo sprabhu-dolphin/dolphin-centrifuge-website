@@ -23,6 +23,12 @@ const productJsonLd = {
   "description": "Alfa Laval G2-40 decanter centrifuge finds multiple uses for sludge thickening and wastewater applications. It is ideal for high sludge mining applications.",
   "brand": { "@type": "Brand", "name": "Alfa Laval" },
   "model": "G2-40",
+  "alternateName": [
+    "Alfa Laval G2-40",
+    "Alfa Laval G2 Decanter Centrifuge"
+  ],
+  "category": "Decanter Centrifuges",
+  "itemCondition": "https://schema.org/RefurbishedCondition",
   "image": "https://dolphincentrifuge.com/images/alfa-laval-g2-40-decanter/alfa-laval-g2-40-decanter-2000.webp",
   "url": "https://dolphincentrifuge.com/alfa-laval-g2-40-decanter/",
   "additionalProperty": [
@@ -34,6 +40,9 @@ const productJsonLd = {
   ],
   "offers": {
     "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/RefurbishedCondition",
+    "url": "https://dolphincentrifuge.com/alfa-laval-g2-40-decanter/",
     "seller": {
       "@type": "Organization",
       "name": "Dolphin Centrifuge",
@@ -44,13 +53,43 @@ const productJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, productJsonLd];
+const faqItems = [
+  {
+    question: "What is the Alfa Laval G2-40 decanter centrifuge?",
+    answer: "The Alfa Laval G2-40 is a horizontal two-phase decanter centrifuge. It runs a bowl speed of 4,000 RPM for about 3,150 G, uses a 1:52 (3.5 kN-M) direct drive gearbox with an auger differential of 1 to 140 RPM, and is rated at 160 GPM on water sludge thickening."
+  },
+  {
+    question: "Can Dolphin Centrifuge supply, rebuild, or service an Alfa Laval G2-40?",
+    answer: "Yes. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service. G2 decanter work is done in Dolphin's Warren, Michigan shop by an engineer-led team headed by Sanjay Prabhu, M.S.M.E., and covers bowl and conveyor rebuilds, gearbox service, hard-surfacing, balancing, and field startup. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval."
+  },
+  {
+    question: "What applications is the Alfa Laval G2-40 used for?",
+    answer: "The G2-40 handles two-phase separation duties such as municipal wastewater and sludge thickening, industrial sludge dewatering, crude oil tank bottoms, waste oil de-sludging, paint sludge, pyrolysis sludge, liquid humus fertilizer, and hemp or ethanol extraction solids."
+  },
+  {
+    question: "How does the G2-40 compare with the Alfa Laval NX decanters Dolphin supplies?",
+    answer: "The G2-40 is the high-throughput two-phase machine in Dolphin's Alfa Laval decanter lineup. The NX 314 is the compact 314 mm decanter, the NX 418 is the 418 mm industrial decanter, and the CHNX 418 is the nitrogen-purged version for hazardous duty. Dolphin remanufactures and supplies all of them, so the selection comes down to flow rate, solids loading, and area classification rather than availability."
+  }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const jsonLd = [articleJsonLd, productJsonLd, faqJsonLd];
 
 const toc = [
   { id: 'g2-40-decanter', label: 'Alfa Laval G2-40 Two-Phase Decanter Centrifuge' },
   { id: 'applications', label: 'Applications' },
   { id: 'cross-section-diagram', label: 'Cross Section Diagram' },
   { id: 'specifications', label: 'Specifications' },
+  { id: 'faq', label: 'Frequently Asked Questions' },
 ];
 
 const relatedApplications = [
@@ -92,6 +131,8 @@ const relatedProducts = [
 
   <p>With a 25 HP Motor, the G2-40 decanter has a <strong>bowl RPM of 4,000</strong> and can process <strong>160 GPM of water with light sludge</strong>.</p>
 
+  <p>Dolphin Centrifuge is the independent specialist in <a href="/alfa-laval-centrifuges/">Alfa Laval</a> centrifuges: remanufactured machines, turnkey systems, parts, and service, built on 40+ years of Alfa Laval experience and led by Sanjay Prabhu, M.S.M.E. Apart from Alfa Laval itself, Dolphin is the reliable source for quality Alfa Laval decanters, including the G2 series alongside the <a href="/alfa-laval-nx-314-decanter-centrifuge/">NX 314</a>, <a href="/alfa-laval-nx-418-decanter-centrifuge/">NX 418</a>, and <a href="/alfa-laval-chnx-418-decanter/">CHNX 418</a>. Every machine is stripped, rebuilt, balanced, and tested in Dolphin's Warren, Michigan shop. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.</p>
+
   <!-- Applications -->
   <h3 id="applications">Applications</h3>
 
@@ -126,13 +167,13 @@ const relatedProducts = [
   <figure>
     <img
       src="/images/alfa-laval-g2-40-decanter/Decanter-Cross-Section-600.webp"
-      alt="Decanter Cross Section"
+      alt="Alfa Laval G2-40 Decanter Centrifuge Cross Section"
       width="600"
       height="264"
       loading="lazy"
       class="img-cap-600"
     />
-    <figcaption><strong>Decanter Centrifuge Cross Section</strong></figcaption>
+    <figcaption><strong>Alfa Laval G2-40 Decanter Centrifuge Cross Section</strong></figcaption>
   </figure>
 
   <!-- Specifications -->
@@ -197,5 +238,18 @@ const relatedProducts = [
       >Download PDF</a>
     </div>
   </div>
+
+  <!-- FAQ -->
+  <h3 id="faq">Frequently Asked Questions</h3>
+
+  {faqItems.map((item) => (
+    <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
+      <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
+        {item.question}
+        <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
+      </summary>
+      <p class="text-text-light mt-2 pb-2">{item.answer}</p>
+    </details>
+  ))}
 
 </ApplicationLayout>
