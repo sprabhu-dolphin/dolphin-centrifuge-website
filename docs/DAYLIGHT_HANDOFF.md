@@ -74,6 +74,22 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-23 - OVERNIGHT NON-SITE WORK (ads, GSC, docs)
+- Google Ads: 6 exact-match account-level negatives added (phone number / customer
+  service / contact number / email address / careers / golbey), per orders item 18.
+  Notable: the current 90-day search-terms report shows ZERO navigational bleed - all 81
+  Alfa Laval terms are product-intent - so no siblings were added. Nothing else touched.
+- April index cliff: RESOLVED AS A GHOST (docs/april-cliff-findings.md). The 337->154
+  figures were "pages with impressions", not indexed pages; GSC indexed count is flat at
+  ~149 = the entire live site; all 5 money pages verified indexed; the decline was
+  Google retiring WP-era junk URLs (CTR +25% through the window). Real defect found
+  instead: 6 invalid Product snippets incl. /waste-oil-centrifuge/ and
+  /industrial-centrifuge/ - follow-up candidate. performance-review lines 41-56 need
+  correcting so nobody chases this again.
+- New docs: docs/RULING_WORKSHEET.md (81 one-line fillable rulings for Sanjay's hour,
+  incl. new sections E audit-conflicts and F safety wording) and
+  docs/ads-budget-proposal-2026-08.md (6 checkbox budget decisions, morning approval).
+
 ### 2026-08-23 - TRUST & PROOF P3 SHIPPED (funnel work)
 - CTR rewrites (titles+metas only, H1s/slugs untouched): decanter-centrifuge -> "Decanter
   Centrifuge | Remanufactured Alfa Laval NX, In Stock"; industrial-centrifuge ->
