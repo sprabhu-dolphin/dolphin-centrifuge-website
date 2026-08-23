@@ -1788,6 +1788,24 @@ function readReportDays(request, fallback = 7) {
   return Math.min(90, Math.max(1, Number(url.searchParams.get('days') || fallback)));
 }
 
+// Optional `?end=YYYY-MM-DD` for the read-only GA4/Ads weekly routes.
+// Without it those routes can only ever report a window ending today, which makes
+// backfilling a missed week impossible. Strictly validated (calendar-checked, never
+// in the future) and only ever interpolated as a BigQuery DATE literal, so it cannot
+// carry SQL. Returns '' when absent/invalid, which keeps the original CURRENT_DATE()
+// behaviour byte-for-byte.
+function readReportEndDate(request) {
+  const raw = String(new URL(request.url).searchParams.get('end') || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return '';
+  const parsed = new Date(`${raw}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== raw) return '';
+  if (raw > new Date().toISOString().slice(0, 10)) return '';
+  return raw;
+}
+
+// BigQuery expression for the end of the reporting window.
+const reportEndDateSql = (endDate) => (endDate ? `DATE('${endDate}')` : 'CURRENT_DATE()');
+
 function reportUnauthorizedResponse() {
   return new Response(JSON.stringify({ error: 'Unauthorized' }), {
     status: 401,
@@ -1860,10 +1878,12 @@ function shouldUseGa4ApiFallback(summary, days) {
   return Number(days || 0) > 1 && nativeDataDays < Number(days || 0);
 }
 
-async function readGa4WeeklyFromApi(env, days, generatedAt) {
+async function readGa4WeeklyFromApi(env, days, generatedAt, requestedEndDate = '') {
   const intervalDays = days - 1;
-  const startDate = utcDateDaysAgo(intervalDays);
-  const endDate = utcDateDaysAgo(0);
+  const endDate = requestedEndDate || utcDateDaysAgo(0);
+  const startDate = new Date(`${endDate}T00:00:00Z`);
+  startDate.setUTCDate(startDate.getUTCDate() - intervalDays);
+  const startDateIso = startDate.toISOString().slice(0, 10);
   const eventNameFilter = {
     filter: {
       fieldName: 'eventName',
@@ -1873,18 +1893,18 @@ async function readGa4WeeklyFromApi(env, days, generatedAt) {
 
   const [summaryBody, eventBody, pageBody] = await Promise.all([
     runGA4Report(env, {
-      dateRanges: [{ startDate, endDate }],
+      dateRanges: [{ startDate: startDateIso, endDate }],
       metrics: [{ name: 'screenPageViews' }, { name: 'totalUsers' }],
     }, 'GA4 weekly fallback summary'),
     runGA4Report(env, {
-      dateRanges: [{ startDate, endDate }],
+      dateRanges: [{ startDate: startDateIso, endDate }],
       dimensions: [{ name: 'eventName' }],
       metrics: [{ name: 'eventCount' }],
       dimensionFilter: eventNameFilter,
       limit: 20,
     }, 'GA4 weekly fallback event counts'),
     runGA4Report(env, {
-      dateRanges: [{ startDate, endDate }],
+      dateRanges: [{ startDate: startDateIso, endDate }],
       dimensions: [{ name: 'pageLocation' }, { name: 'eventName' }],
       metrics: [{ name: 'eventCount' }, { name: 'totalUsers' }],
       dimensionFilter: eventNameFilter,
@@ -1929,6 +1949,7 @@ async function readGa4WeeklyFromApi(env, days, generatedAt) {
     pulled_at: generatedAt,
     max_data_date: endDate,
     window_days: days,
+    window_end: endDate,
     counts: {
       pageviews: ga4MetricValue(summaryRow, 0),
       users: ga4MetricValue(summaryRow, 1),
@@ -1941,25 +1962,30 @@ async function readGa4WeeklyFromApi(env, days, generatedAt) {
 }
 
 async function handleAdminGa4Weekly(request, env) {
-  if (!(await isAdminAuthorized(request, env))) return reportUnauthorizedResponse();
+  // Read-only weekly feed: the read-only report token is sufficient, exactly as for
+  // /admin/api/weekly-report. Mutating routes keep their DC_ADMIN-only guard.
+  if (!(await isWeeklyReportAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
+  const endDate = readReportEndDate(request);
+  const endDateSql = reportEndDateSql(endDate);
   const intervalDays = days - 1;
   const generatedAt = new Date().toISOString();
   const dailyTable = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_*\``;
   const intradayTable = `\`${BIGQUERY_PROJECT_ID}.analytics_536974508.events_intraday_*\``;
-  const startDateSql = `DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY)`;
+  const startDateSql = `DATE_SUB(${endDateSql}, INTERVAL ${intervalDays} DAY)`;
   const windowEventsSql = `
       WITH ga4_window_events AS (
         SELECT event_timestamp, event_date, event_name, user_pseudo_id, event_params
         FROM ${dailyTable}
         WHERE _TABLE_SUFFIX BETWEEN FORMAT_DATE('%Y%m%d', ${startDateSql})
-                                AND FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY))
+                                AND FORMAT_DATE('%Y%m%d', LEAST(${endDateSql}, DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)))
         UNION ALL
         SELECT event_timestamp, event_date, event_name, user_pseudo_id, event_params
         FROM ${intradayTable}
         WHERE _TABLE_SUFFIX = FORMAT_DATE('%Y%m%d', CURRENT_DATE())
-          AND CURRENT_DATE() BETWEEN ${startDateSql} AND CURRENT_DATE()
+          AND ${endDateSql} = CURRENT_DATE()
+          AND CURRENT_DATE() BETWEEN ${startDateSql} AND ${endDateSql}
       )
   `;
 
@@ -2000,7 +2026,7 @@ async function handleAdminGa4Weekly(request, env) {
     const summaryResult = await runBigQueryQuery(env, summarySql, 'GA4 weekly BigQuery summary', 10);
     const summary = summaryResult.rows[0] || {};
     if (shouldUseGa4ApiFallback(summary, days)) {
-      return new Response(JSON.stringify(await readGa4WeeklyFromApi(env, days, generatedAt)), {
+      return new Response(JSON.stringify(await readGa4WeeklyFromApi(env, days, generatedAt, endDate)), {
         status: 200, headers: CORS_HEADERS,
       });
     }
@@ -2013,6 +2039,7 @@ async function handleAdminGa4Weekly(request, env) {
       pulled_at: summary.pulled_at || generatedAt,
       max_data_date: summary.max_data_date || '',
       window_days: days,
+      window_end: endDate || utcDateDaysAgo(0),
       counts: {
         pageviews: summary.pageviews || 0,
         users: summary.users || 0,
@@ -2094,9 +2121,13 @@ async function handleAdminGscWeekly(request, env) {
 }
 
 async function handleAdminAdsWeekly(request, env) {
-  if (!(await isAdminAuthorized(request, env))) return reportUnauthorizedResponse();
+  // Read-only weekly feed: the read-only report token is sufficient, exactly as for
+  // /admin/api/weekly-report. Mutating routes keep their DC_ADMIN-only guard.
+  if (!(await isWeeklyReportAuthorized(request, env))) return reportUnauthorizedResponse();
 
   const days = readReportDays(request, 7);
+  const endDate = readReportEndDate(request);
+  const endDateSql = reportEndDateSql(endDate);
   const intervalDays = days - 1;
   const generatedAt = new Date().toISOString();
 
@@ -2115,7 +2146,7 @@ async function handleAdminAdsWeekly(request, env) {
         SUM(metrics_impressions) AS impressions,
         ROUND(SUM(metrics_conversions), 2) AS conversions
       FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\`
-      WHERE segments_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+      WHERE segments_date BETWEEN DATE_SUB(${endDateSql}, INTERVAL ${intervalDays} DAY) AND ${endDateSql}
     `;
     const rowsSql = `
       SELECT
@@ -2131,7 +2162,7 @@ async function handleAdminAdsWeekly(request, env) {
         ON k.ad_group_criterion_criterion_id = SAFE_CAST(REGEXP_EXTRACT(s.segments_keyword_ad_group_criterion, r'~([0-9]+)$') AS INT64)
        AND k.ad_group_id = s.ad_group_id
        AND k.campaign_id = s.campaign_id
-      WHERE s.segments_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL ${intervalDays} DAY) AND CURRENT_DATE()
+      WHERE s.segments_date BETWEEN DATE_SUB(${endDateSql}, INTERVAL ${intervalDays} DAY) AND ${endDateSql}
       GROUP BY term, matched_keyword, match_type
       HAVING spend > 0 OR clicks > 0
       ORDER BY spend DESC, clicks DESC
@@ -2150,6 +2181,7 @@ async function handleAdminAdsWeekly(request, env) {
       pulled_at: summary.pulled_at || generatedAt,
       max_data_date: summary.max_data_date || '',
       window_days: days,
+      window_end: endDate || utcDateDaysAgo(0),
       counts: {
         spend: summary.spend || 0,
         clicks: summary.clicks || 0,
