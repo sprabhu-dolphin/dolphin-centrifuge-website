@@ -74,6 +74,25 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-23 - TRUST & PROOF P0 SHIPPED AND LIVE (PR #36, merge bef4ba1)
+- Overnight campaign per docs/OVERNIGHT_ORDERS.md. P0 safety/liability batch, 26 files:
+  CHNX 418 all 8 bare "ATEX Certified" claims rewritten to the honest chain (original
+  Alfa Laval ATEX build, Dolphin rebuild + purge verification in Warren MI, cert docs on
+  request; spec row = "Hazardous-area design: ATEX (original Alfa Laval build)" with
+  Track-2 TBD marker). alfa-laval-diesel: "Class 1 Div 2 explosion-proof" corrected to
+  non-incendive/pressurized wording (5x), ASTM D975 restoration claim removed. Sitewide
+  Class 1 -> Class I (108 occurrences, 24 files, NEC contexts only). Homepage +
+  FeaturedProducts bare "ATEX certified systems" softened to NEC controls + ATEX-rated
+  base machines. Build green; live-verified chnx-418, diesel, explosion-proof.
+- New Track-2 flag from the pass: MAB 103/104 pages say "explosion-proof ATEX Zone II"
+  (same Div-2-style terminology error in ATEX form) - left alone (additive-only pages).
+
+### 2026-08-22 - CAMPAIGN CLOSED (final mop-up PR #35, merge 1f56169, live-verified)
+- Full-site verification: 148/148 in-scope pages name Alfa Laval; 147/153 carry the
+  independence disclaimer (remainder: 404/admin/privacy/tour); last two Product brand
+  misses fixed; live checks 8/8. Only open work: the ruling list above, and P4-class
+  polish items noted in batch entries (duplicate breadcrumb, UL reference, MAB hub alts).
+
 ### 2026-08-22 - P1 SHIPPED AND LIVE
 - All 12 DMPX/DMB product pages: open Alfa Laval naming (platform sentence, Base machine
   spec row, non-affiliation line, honest/model-accurate heroes, category labels), sitewide
