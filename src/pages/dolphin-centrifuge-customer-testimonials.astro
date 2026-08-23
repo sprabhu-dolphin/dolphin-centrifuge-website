@@ -81,44 +81,9 @@ const testimonials = [
   }
 ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Dolphin Centrifuge Customer Testimonials",
-  "description": "Real testimonials from Dolphin Centrifuge customers across biodiesel, oilfield, industrial, and oil processing industries, on systems built around remanufactured Alfa Laval centrifuges.",
-  "numberOfItems": testimonials.length,
-  "itemListElement": testimonials.map((t, i) => ({
-    "@type": "ListItem",
-    "position": i + 1,
-    "item": {
-      "@type": "Review",
-      "reviewBody": t.quote,
-      "reviewAspect": t.machineNote || undefined,
-      "author": {
-        "@type": "Person",
-        "name": t.contact || t.descriptor,
-        "jobTitle": t.title || undefined
-      },
-      "itemReviewed": {
-        "@type": "LocalBusiness",
-        "name": "Dolphin Centrifuge",
-        "url": "https://dolphincentrifuge.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "24248 Gibson Dr",
-          "addressLocality": "Warren",
-          "addressRegion": "MI",
-          "postalCode": "48089",
-          "addressCountry": "US"
-        }
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": t.descriptor
-      }
-    }
-  }))
-};
+// Review/ItemList JSON-LD intentionally omitted: the testimonials are anonymized
+// (no verified author identity, no dates, no ratings), so Review markup cannot be
+// emitted truthfully. Only the Article JSON-LD is published.
 ---
 
 <ApplicationLayout
@@ -145,7 +110,7 @@ const jsonLd = {
     { label: "DMPX-028 (Alfa Laval MOPX 207)", href: "/centrifuges/dmpx-028/" },
     { label: "DMPX-070 (Alfa Laval WHPX 513)", href: "/centrifuges/dmpx-070/" }
   ]}
-  jsonLd={[jsonLd, articleJsonLd]}
+  jsonLd={[articleJsonLd]}
   hideBottomCTA={true}
 >
 
