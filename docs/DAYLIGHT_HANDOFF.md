@@ -74,6 +74,28 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-23 - TRUST & PROOF P2a SHIPPED (crawler bugs + adjudicated contradictions)
+- TrustSignals counters now server-render real values (crawlers no longer see "0+ Years
+  Experience"); JS animation kept, reduced-motion respected. Testimonials Review/ItemList
+  JSON-LD stripped (untruthful publisher/author/no-ratings shape); quotes stay as content.
+  NX-314 page: AVNX 414 "three-phase... for 2-phase" sentence fixed, cloned spec rows
+  (bowl dims/HP/AE) removed with TBD markers, NX 416 prose HP contradiction TBD-marked.
+  liquid-humus: heading "40 GPM" made number-free (A6 frozen), NX 314 motor aligned to
+  model page 10 HP, "<5% moisture" cake claim replaced with honest generic + TBD.
+  CHNX 418 FAQ "5-20 m3/hr" removed (TBD comment). WHPX-510 page MOPX 310 table capacity
+  set to prose-corroborated 25 GPM used oil (42 GPM was a clone of the WHPX row) + TBD.
+- Also ready (uncommitted docs): docs/RULING_WORKSHEET.md (81 fillable ruling lines,
+  A24/B10/C10/D6 + E22 new audit conflicts + F9 safety wording) and
+  docs/ads-budget-proposal-2026-08.md (6 checkbox decisions for Sanjay's morning).
+
+### 2026-08-23 - TRUST & PROOF P1 SHIPPED AND LIVE (PR #37, merge 7e8780f)
+- Pyrolysis: AI-generated hero deleted; real Dolphin MOPX 210 (NEWGEN) hero at 2000x667;
+  the actual REK tire-pyrolysis MOPX 210 now the in-context installation photo (replacing
+  the mislabeled 250px MOPX205 thumb). liquid-humus: composting-yard fake hero deleted,
+  real NX-314 module hero (honest alt, no facility claim). three-phase-decanter +
+  decanter-centrifuge-applications: visible "Cutaway diagram (c) Alfa Laval Inc" credit
+  restored under the OEM cutaway on both pages. Live-verified all three URLs.
+
 ### 2026-08-23 - TRUST & PROOF P0 SHIPPED AND LIVE (PR #36, merge bef4ba1)
 - Overnight campaign per docs/OVERNIGHT_ORDERS.md. P0 safety/liability batch, 26 files:
   CHNX 418 all 8 bare "ATEX Certified" claims rewritten to the honest chain (original
