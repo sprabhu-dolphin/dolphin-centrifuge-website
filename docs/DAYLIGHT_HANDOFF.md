@@ -74,6 +74,25 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-23 - TRUST & PROOF P3 SHIPPED (funnel work)
+- CTR rewrites (titles+metas only, H1s/slugs untouched): decanter-centrifuge -> "Decanter
+  Centrifuge | Remanufactured Alfa Laval NX, In Stock"; industrial-centrifuge ->
+  "Industrial Centrifuge | Remanufactured Alfa Laval, In Stock"; metas lead informational,
+  close commercial (warranty phrasing = site standard; no "150+" claims). Hero copy kept
+  byte-identical via new heroDescription prop.
+- Money-page routing: 16 in-context links from 7 zero-lead traffic pages (industrial,
+  decanter, disc-stack, wastewater, al-centrifugal-separator, used-oil, oil-centrifuge)
+  to the converting cluster (wvo, waste-oil, WHPX-513, BTPX-205, NX-418). 2-3 per page,
+  natural placement, no new claims.
+
+### 2026-08-23 - TRUST & PROOF P2b + P2c SHIPPED AND LIVE (PRs #39 merge cbe9bb5, #40 merge d972eb1)
+- P2b: 89 pages got clean H1s via the existing additive heroTitle prop (raw SEO-title
+  pipes gone from every rendered H1; titles byte-identical). Live-verified.
+- P2c: new ArticleByline component on 145 pages: "By Sanjay Prabhu, M.S.M.E. | Owner and
+  Chief Engineer, Dolphin Centrifuge | Last reviewed: <Month Year>" (date only from the
+  page's own Article dateModified; placeholders never surfaced). Two conflicting
+  hand-rolled "Engineering Manager" bylines removed. Live-verified.
+
 ### 2026-08-23 - TRUST & PROOF P2a SHIPPED (crawler bugs + adjudicated contradictions)
 - TrustSignals counters now server-render real values (crawlers no longer see "0+ Years
   Experience"); JS animation kept, reduced-motion respected. Testimonials Review/ItemList
