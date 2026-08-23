@@ -2148,17 +2148,32 @@ async function handleAdminAdsWeekly(request, env) {
       FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\`
       WHERE segments_date BETWEEN DATE_SUB(${endDateSql}, INTERVAL ${intervalDays} DAY) AND ${endDateSql}
     `;
+    // ads_Keyword_* is a per-day snapshot table: it holds one row per keyword per
+    // day. Joining it directly fanned every stats row out by the number of days the
+    // keyword existed, inflating per-term spend/clicks/conversions ~46x against the
+    // (correct, unjoined) summary above. Collapse it to one row per criterion first
+    // so the join can only ever attach a label, never multiply a metric.
     const rowsSql = `
+      WITH keyword_labels AS (
+        SELECT
+          campaign_id,
+          ad_group_id,
+          ad_group_criterion_criterion_id,
+          ANY_VALUE(ad_group_criterion_keyword_text) AS keyword_text,
+          ANY_VALUE(ad_group_criterion_keyword_match_type) AS keyword_match_type
+        FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.ads_Keyword_3917484159\`
+        GROUP BY campaign_id, ad_group_id, ad_group_criterion_criterion_id
+      )
       SELECT
         s.search_term_view_search_term AS term,
-        COALESCE(k.ad_group_criterion_keyword_text, '') AS matched_keyword,
-        COALESCE(k.ad_group_criterion_keyword_match_type, '') AS match_type,
+        COALESCE(k.keyword_text, '') AS matched_keyword,
+        COALESCE(k.keyword_match_type, '') AS match_type,
         ROUND(SUM(s.metrics_cost_micros) / 1000000, 2) AS spend,
         SUM(s.metrics_clicks) AS clicks,
         SUM(s.metrics_impressions) AS impressions,
         ROUND(SUM(s.metrics_conversions), 2) AS conversions
       FROM \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.p_ads_SearchQueryStats_3917484159\` s
-      LEFT JOIN \`${BIGQUERY_PROJECT_ID}.dolphin_seo_monitoring.ads_Keyword_3917484159\` k
+      LEFT JOIN keyword_labels k
         ON k.ad_group_criterion_criterion_id = SAFE_CAST(REGEXP_EXTRACT(s.segments_keyword_ad_group_criterion, r'~([0-9]+)$') AS INT64)
        AND k.ad_group_id = s.ad_group_id
        AND k.campaign_id = s.campaign_id
