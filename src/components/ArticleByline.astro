@@ -1,0 +1,104 @@
+---
+/**
+ * Visible author byline + last-reviewed date.
+ *
+ * Surfaces the author E-E-A-T that the page JSON-LD already asserts, so human
+ * readers see what crawlers see. Truthful only:
+ *  - the person facts come from the canonical Person node in src/lib/siteSchema.ts;
+ *  - the date is read out of the page's own jsonLd (dateModified only) and is
+ *    shown as month + year, because the underlying stamps are edit dates and
+ *    day-level precision would imply more than the data supports;
+ *  - datePublished is deliberately not rendered: many pages carry placeholder
+ *    stubs (2021-01-01 and friends) and printing those would be false data;
+ *  - when no dateModified exists, the byline renders without any date.
+ *
+ * Server-rendered, no client JS.
+ */
+
+interface Props {
+  jsonLd?: Record<string, any> | Record<string, any>[];
+}
+
+const { jsonLd } = Astro.props;
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+/** Types whose dateModified describes this page's content. */
+const carriesPageDate = (type: string): boolean =>
+  /(?:Article|Posting|Page)$/.test(type);
+
+const nodeTypes = (node: Record<string, any>): string[] => {
+  const type = node['@type'];
+  return (Array.isArray(type) ? type : [type]).filter(Boolean).map(String);
+};
+
+/** Walks the schema tree and collects every page-level dateModified string. */
+const collectDates = (value: any, found: string[] = []): string[] => {
+  if (Array.isArray(value)) {
+    for (const entry of value) collectDates(entry, found);
+    return found;
+  }
+  if (!value || typeof value !== 'object') return found;
+
+  const modified = value.dateModified;
+  if (typeof modified === 'string' && nodeTypes(value).some(carriesPageDate)) {
+    found.push(modified.trim());
+  }
+
+  for (const child of Object.values(value)) collectDates(child, found);
+  return found;
+};
+
+/** "2026-05-13" or "2026-05-13T09:00:00Z" -> { key, label } ; null when unusable. */
+const parseDate = (raw: string): { key: string; label: string } | null => {
+  const match = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(raw);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  if (!year || month < 1 || month > 12) return null;
+  return {
+    key: `${match[1]}-${match[2]}-${match[3] || '01'}`,
+    label: `${MONTHS[month - 1]} ${year}`,
+  };
+};
+
+const parsed = collectDates(jsonLd)
+  .map(parseDate)
+  .filter((entry): entry is { key: string; label: string } => entry !== null)
+  .sort((a, b) => (a.key < b.key ? 1 : a.key > b.key ? -1 : 0));
+
+const lastReviewed = parsed.length > 0 ? parsed[0].label : null;
+---
+
+<div class="mb-7 pb-3 border-b border-gray-200">
+  <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-light">
+    <span>
+      By <a
+        href="/about-dolphin-centrifuge/"
+        class="font-semibold text-navy underline decoration-gold underline-offset-2 hover:text-gold-dark transition-colors"
+        >Sanjay Prabhu, M.S.M.E.</a
+      >
+    </span>
+    <span class="text-gray-300" aria-hidden="true">&#124;</span>
+    <span>Owner and Chief Engineer, Dolphin Centrifuge</span>
+    {lastReviewed && (
+      <>
+        <span class="text-gray-300" aria-hidden="true">&#124;</span>
+        <span>Last reviewed: {lastReviewed}</span>
+      </>
+    )}
+  </p>
+</div>

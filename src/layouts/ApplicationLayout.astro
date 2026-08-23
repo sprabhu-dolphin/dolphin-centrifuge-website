@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import TrustPillarsStrip from '../components/TrustPillarsStrip.astro';
 import TrustPillars from '../components/TrustPillars.astro';
+import ArticleByline from '../components/ArticleByline.astro';
 
 interface TocItem {
   id: string;
@@ -49,6 +50,10 @@ interface Props {
   hideTopTrustStrips?: boolean;
   /* Suppresses the sidebar "Request a Quote" button (redundant on the contact page). */
   hideSidebarQuoteCta?: boolean;
+  /* Visible author byline + last-reviewed date above the article. On by default;
+     set false only on utility pages where a personal byline makes no sense
+     (privacy policy, contact form). */
+  showByline?: boolean;
 }
 
 const {
@@ -78,6 +83,7 @@ const {
   contentCompact = false,
   hideTopTrustStrips = false,
   hideSidebarQuoteCta = false,
+  showByline = true,
 } = Astro.props;
 
 const defaultCategoryHrefs: Record<string, string> = {
@@ -185,6 +191,9 @@ const breadcrumbs = [
               </ol>
             </nav>
           )}
+
+          {/* Author byline + last reviewed date */}
+          {showByline && <ArticleByline jsonLd={jsonLd} />}
 
           {/* Article Content */}
           <article class="prose-dolphin">
