@@ -74,6 +74,35 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-24 - RULING SESSION EXECUTED (R1 PR #44 merge 2ad09ba, R2 PR #45 merge 18fa509, R3 hero cleanup)
+- Sanjay ruled 67 of 81 worksheet items in chat (bulk-accepted 57 RECs + 10 individual).
+  Key rulings: CHNX 418 = 5-20 m3/hr (100 GPM removed); NO ATEX docs exist (docs promise
+  removed sitewide); WSPX 207=20/307=28 GPM; max feed solids ~22%; BS&W <0.5%; decanter
+  cut ~50 micron; sizing band 50-100 GPM; NX-418 bowl 58"; warranty terms page SKIPPED.
+- R1: ~35 numeric conflicts fixed across 57 files. R2: 72 personal "40+ years" claims
+  moved to the company, designations unified, breadcrumbs deduped, parts provenance
+  canonicalized. R3: all 9 audit-flagged AI/composited heroes deleted (+2 more found),
+  replaced with genuine watermarked library photos; DMB-028 hero fixed to a real MAB 206.
+- STILL OPEN (14 items + photo session): A19 MAPX207, E1 MOPX205, E5 MAB206 HP, E7 110V,
+  E8 AFPX213, E10 WHPX510 coolant, E15 P-660 HP, E16 black diesel, E17 ethanol %,
+  B2 DMSC-042, B3 SSB-206, WSPX 303/407 GPM, F9 warranty; C2/C4/C5/C6/C7/C8 photo IDs
+  (Sanjay said "do them now" then stepped away - resume with side-by-side photo session).
+- Worksheet updated with all rulings. Next structural step: one authoritative spec source
+  per model so conflicts become impossible (worksheet "How this gets applied" step 3).
+
+### 2026-08-23 - TRUST & PROOF OVERNIGHT CAMPAIGN COMPLETE
+- All batches shipped and live: P0 (PR #36 bef4ba1), P1 (#37 7e8780f), P2a (#38 26feb10),
+  P2b (#39 cbe9bb5), P2c (#40 d972eb1), P3 (#41 ba045fd), docs (#42 96d1183). Every
+  batch live-verified. Ads negatives in, april-cliff resolved (ghost), worksheet and
+  ads proposal ready for Sanjay.
+- DECISIONS FOR SANJAY (morning): (1) repo is PUBLIC and docs/ now carries candid
+  strategy/audit/ads material (no secrets/PII; pattern predates tonight) - keep or move
+  private; (2) ads budget proposal checkboxes; (3) RULING_WORKSHEET hour.
+- Follow-up candidates: 6 invalid Product snippets on money pages (GSC, incl.
+  waste-oil-centrifuge + industrial-centrifuge); performance-review lines 41-56 correct
+  the "index cliff" misread; 2 unpushed local worker commits on this machine's master
+  (888cfa0f, 0794edff - ads/GA4 worker fixes, possibly deployed via wrangler only).
+
 ### 2026-08-23 - OVERNIGHT NON-SITE WORK (ads, GSC, docs)
 - Google Ads: 6 exact-match account-level negatives added (phone number / customer
   service / contact number / email address / careers / golbey), per orders item 18.
