@@ -74,6 +74,26 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-24 - RULING SESSION COMPLETE (R4)
+- Photo session done. Sanjay visually confirmed all six open photo items: C2 the
+  disc-stack-applications DMPX-042 photo IS a MOPX 209 (no change); C4 the stainless
+  food-grade decanter is an Alfa Laval NX 314 (now named in captions and alts on the four
+  pages carrying that photo); C5 containerized and C6 training stay brand-only (no change);
+  C7 the quench skid IS the DMPX-014 (WHPX 405), captions stand, and the 28 GPM quench
+  figure is now attributed explicitly to the DMPX-028 / MOPX 207 so photo and number agree;
+  C8 the decanter-vibration shop photos are Alfa Laval NX machines (no change).
+- Final 12 numeric and code items ruled and applied: A19 MAPX 207 = 28 GPM; E1 MOPX-205 =
+  21 GPM; E5 MAB-206 motor = 5 HP; E7 MAB 103 110 V single-phase option restored; E8
+  AFPX 213 = 4,150 RPM; E10 WHPX-510 coolant GPM removed, "sized per application"; E15
+  P-660 motor = 5 HP; E16 black diesel top capacity = 72 GPM on the DMPX-070 (WHPX 513),
+  small system = 2 GPM on the MAB 104; E17 basket ethanol recovery = 70%; B2 DMSC-042
+  retired in favour of "DMPX-042 acid-service configuration"; B3 SSB-206 is not a real code,
+  reworded to the stainless steel configuration of the Alfa Laval MAB 206; WSPX 303 and 407
+  publish no capacity numbers at all (207 = 20 and 307 = 28 stay as shipped).
+- Worksheet closed. Every item is now ruled except F9 (warranty terms), deliberately parked.
+- Deploy note from R3: Cloudflare missed the merge-commit build, so production needed a
+  manual deploy. Triggered via API, deployment d23631be, live-verified.
+
 ### 2026-08-24 - RULING SESSION EXECUTED (R1 PR #44 merge 2ad09ba, R2 PR #45 merge 18fa509, R3 hero cleanup)
 - Sanjay ruled 67 of 81 worksheet items in chat (bulk-accepted 57 RECs + 10 individual).
   Key rulings: CHNX 418 = 5-20 m3/hr (100 GPM removed); NO ATEX docs exist (docs promise
