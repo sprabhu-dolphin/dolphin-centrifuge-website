@@ -608,13 +608,42 @@ const breadcrumbs = [
     margin: 2rem 0;
   }
 
-  /* Global not-prose escape */
+  /* ── Global not-prose escape ──────────────────────────────────────
+     ROOT-CAUSE FIX 2026-08-26 — site-wide invisible text on dark panels.
+
+     Every rule in this `is:global` block is UNLAYERED author CSS, and
+     unlayered CSS outranks *all* Tailwind cascade layers no matter the
+     specificity. So the old `color: inherit` here beat the `text-*`
+     utilities that live in `@layer utilities`, and forced every
+     author-coloured element inside a .not-prose block back to the
+     inherited body colour (--color-text, #2d2d2d). On a .not-prose panel
+     sitting on bg-navy that rendered near-black text on dark navy —
+     e.g. `<p class="text-gray-300">` came out #2d2d2d at 1.18:1 contrast.
+     The same bug killed Tailwind's `underline` / `decoration-*` utilities
+     via the text-decoration rule below.
+
+     `revert-layer` is the correct escape hatch: it discards the unlayered
+     .prose-dolphin declarations for that property only, letting the
+     cascade fall through to `@layer utilities` (the author's own
+     text-white / text-gray-300 / underline classes) and, when no utility
+     is present, on down to Tailwind Preflight's `a { color: inherit;
+     text-decoration: inherit }` in `@layer base` — which reproduces the
+     old inherit behaviour exactly. Net effect: markup that sets no colour
+     behaves exactly as before; markup that *does* set a colour finally
+     gets the colour it asked for.
+
+     The `inherit` declarations are kept first as the fallback for
+     browsers predating `revert-layer` (pre-Chrome 99 / Safari 15.4):
+     they drop the invalid declaration and keep the old behaviour.       */
   .prose-dolphin .not-prose :where(h1, h2, h3, h4, p, li, strong, a, span) {
     color: inherit;
+    color: revert-layer;
   }
 
   .prose-dolphin .not-prose :where(a) {
     text-decoration: inherit;
     text-decoration-color: inherit;
+    text-decoration: revert-layer;
+    text-decoration-color: revert-layer;
   }
 </style>
