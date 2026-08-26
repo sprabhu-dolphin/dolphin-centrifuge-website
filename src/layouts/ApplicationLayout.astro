@@ -37,6 +37,8 @@ interface Props {
   ogImage?: string;
   jsonLd?: Record<string, any> | Record<string, any>[];
   disableTitleSuffix?: boolean;
+  /* Passed straight through to BaseLayout. Omit to keep the default index, follow. */
+  robots?: string;
   hideBottomCTA?: boolean;
   /* Hero overrides - default to the standard "Get a Quote -> contact page" behavior.
      The contact page overrides these so its hero CTA scrolls to the on-page form
@@ -74,6 +76,7 @@ const {
   ogImage,
   jsonLd,
   disableTitleSuffix = false,
+  robots,
   hideBottomCTA = false,
   heroCompact = false,
   heroCtaLabel = 'Get a Quote',
@@ -112,6 +115,7 @@ const breadcrumbs = [
   breadcrumbs={breadcrumbs}
   jsonLd={jsonLd}
   disableTitleSuffix={disableTitleSuffix}
+  robots={robots}
 >
   {/* ── Application Hero - Frosted Glass Backdrop ── */}
   <Hero

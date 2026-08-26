@@ -12,7 +12,10 @@ export default defineConfig({
     // edge-301'd by public/_redirects and unreachable by design); only /admin/
     // needs excluding now. If /applications/* ever come back as buildable
     // pages, re-add the exclusion or drop the _redirects rules - never both.
-    filter: (page) => !page.includes('/admin/'),
+    // /used-oil/ is the USED-OIL-001 direct-mail landing page: noindex by
+    // design, so it stays out of the sitemap. The endsWith match is exact and
+    // does not touch /used-oil-centrifuge/ or /used-oil-centrifuge-plant/.
+    filter: (page) => !page.includes('/admin/') && !page.endsWith('/used-oil/'),
   })],
   vite: {
     plugins: [tailwindcss()],

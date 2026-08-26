@@ -1,0 +1,480 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+
+// Direct-mail campaign USED-OIL-001 landing page.
+// Short slug (/used-oil/) so it fits a printed QR code.
+// The phone number on this page is the campaign-tracked line, deliberately
+// different from the site-wide sales number.
+const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
+  import.meta.env.DEV
+    ? 'http://127.0.0.1:8787'
+    : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
+)).replace(/\/$/, '');
+
+const campaignPhoneDisplay = '(248) 820-5840';
+const campaignPhoneHref = 'tel:+12488205840';
+const campaignEmail = 'usedoil@dolphincentrifuge.com';
+
+const productJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Used Oil Centrifuge Module",
+  "description": "Skid-mounted, plug-and-play used oil centrifuge modules built around remanufactured Alfa Laval self-cleaning disc stack separators. All-new PLC controls, feed pump, and skid. Every unit is test-run at rated speed before shipment and is built, test-run, and warrantied in Warren, Michigan. Dolphin Centrifuge is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.",
+  "brand": { "@type": "Brand", "name": "Alfa Laval" },
+  "manufacturer": { "@type": "Organization", "name": "Alfa Laval" },
+  "category": "Disc Stack Centrifuges",
+  "image": "https://dolphincentrifuge.com/images/used-oil-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Skid.webp",
+  "offers": {
+    "@type": "AggregateOffer",
+    "availability": "https://schema.org/InStock",
+    "priceCurrency": "USD",
+    "lowPrice": "50000",
+    "highPrice": "150000",
+    "seller": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" }
+  },
+  "url": "https://dolphincentrifuge.com/used-oil/"
+};
+
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Used Motor Oil Separation using Alfa Laval Disc Stack Centrifuge 1080",
+  "description": "Using an Alfa Laval Disc Stack centrifuge, separating water, rag layer, and sludge from Used Motor Oil.",
+  "thumbnailUrl": "https://img.youtube.com/vi/WvSYIQsDgUg/hqdefault.jpg",
+  "uploadDate": "2022-11-24",
+  "embedUrl": "https://www.youtube.com/embed/WvSYIQsDgUg",
+  "duration": "PT1M36S",
+  "width": "1280",
+  "height": "720",
+  "isFamilyFriendly": true
+};
+
+const jsonLd = [productJsonLd, videoJsonLd];
+
+const relatedApplications = [
+  { label: 'Used Oil Centrifuge', href: '/used-oil-centrifuge/' },
+  { label: 'Used Oil Centrifuge Plant Layout', href: '/used-oil-centrifuge-plant/' },
+  { label: 'Black Diesel Centrifuge', href: '/black-diesel-centrifuge/' },
+  { label: 'Sample Testing Service', href: '/industrial-centrifuge-sample-testing/' },
+];
+
+const relatedProducts = [
+  { label: 'Alfa Laval MOPX 207 Self-Cleaning System', href: '/centrifuges/dmpx-028/', description: 'Dolphin DMPX-028 module for smaller collection streams' },
+  { label: 'Alfa Laval MOPX 209 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: 'Dolphin DMPX-042 module, 40 GPM rated capacity' },
+  { label: 'Alfa Laval WHPX 513 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: 'Dolphin DMPX-070 module for main feed lines' },
+];
+
+const credibilityItems = [
+  'Established 1982',
+  '500+ systems delivered',
+  'Built and test-run in Warren, Michigan',
+  '6-month mechanical warranty',
+];
+---
+
+<ApplicationLayout
+  title="Used Oil Recovery Centrifuge Systems"
+  heroTitle="Recover More Sellable Oil From the Gallons You Already Haul"
+  heroDescription="For used oil processors and re-refiners: a three-phase disc stack centrifuge pulls water, sediment, and ash out of the oil your trucks already bring in, so more of every load leaves as sellable product."
+  pageTitle="Used Oil Recovery Centrifuge Systems"
+  description="Used oil processors and re-refiners: recover more sellable oil from the gallons you already haul. Skid-mounted centrifuge modules from Dolphin Centrifuge."
+  heroImage="/images/used-oil-centrifuge/Used_Oil_Centrifuge_Hero_1440.webp"
+  heroImageAlt="Used oil centrifuge module with a remanufactured Alfa Laval self-cleaning disc stack separator"
+  heroCtaLabel="Send Us One Gallon"
+  heroCtaHref="#used-oil-inquiry"
+  heroSecondaryCtaLabel={campaignPhoneDisplay}
+  heroSecondaryCtaHref={campaignPhoneHref}
+  category="applications"
+  categoryLabel="Applications"
+  categoryHref="/disc-stack-centrifuge-applications/"
+  canonicalUrl="https://dolphincentrifuge.com/used-oil/"
+  robots="noindex,follow"
+  jsonLd={jsonLd}
+  showByline={false}
+  hideBottomCTA={true}
+  hideTopTrustStrips={true}
+  hideSidebarQuoteCta={true}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+>
+
+  <p>You already pay to collect, haul, and store the oil. What you sell out the other end is whatever survives your settling tanks. Heat and settle leaves water, fine sediment, and a rag layer behind, and every gallon stuck in that layer is a gallon you bought and cannot sell.</p>
+
+  <p>A three-phase disc stack centrifuge takes the same feed and splits it continuously into clean oil, water, and sludge at over 7,000 Gs. No filter media to replace. No waiting for a tank to drop out. The oil comes off the top of the machine dry enough to move, and the sludge ejects on its own cycle.</p>
+
+  <!-- Campaign phone, above the fold on most screens -->
+  <div class="not-prose my-8 bg-navy rounded-2xl p-6 md:p-8 text-center">
+    <p class="text-gray-300 text-sm uppercase tracking-wider font-semibold mb-2">Talk to a centrifuge engineer</p>
+    <a href={campaignPhoneHref} class="block text-gold hover:text-gold-light font-heading font-extrabold text-4xl md:text-5xl leading-none transition-colors">
+      {campaignPhoneDisplay}
+    </a>
+    <p class="text-gray-300 text-sm mt-3">
+      or email <a href={`mailto:${campaignEmail}`} class="text-white font-semibold underline decoration-gold underline-offset-4 hover:text-gold transition-colors">{campaignEmail}</a>
+    </p>
+  </div>
+
+  <!-- ── Measured results ── -->
+  <h2 id="measured-results">Measured results, U.S. military contractor's used-oil facility</h2>
+
+  <div class="overflow-x-auto not-prose my-6">
+    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="px-4 py-3 text-left font-semibold" colspan="4">U.S. military contractor's used-oil facility, DMPX-028 module</th>
+        </tr>
+        <tr class="bg-navy/90 text-white text-xs uppercase tracking-wider">
+          <th class="px-4 py-2 text-left font-semibold">Contaminant</th>
+          <th class="px-4 py-2 text-left font-semibold">Before</th>
+          <th class="px-4 py-2 text-left font-semibold">After</th>
+          <th class="px-4 py-2 text-left font-semibold">Units</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-2 font-medium text-navy"><strong>Water</strong></td>
+          <td class="px-4 py-2 text-text-light">38.0</td>
+          <td class="px-4 py-2 text-text-light">1.2</td>
+          <td class="px-4 py-2 text-text-light">vol%</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-2 font-medium text-navy"><strong>Sediment</strong></td>
+          <td class="px-4 py-2 text-text-light">0.42</td>
+          <td class="px-4 py-2 text-text-light">0.06</td>
+          <td class="px-4 py-2 text-text-light">wt%</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-2 font-medium text-navy"><strong>Ash</strong></td>
+          <td class="px-4 py-2 text-text-light">1.17</td>
+          <td class="px-4 py-2 text-text-light">0.09</td>
+          <td class="px-4 py-2 text-text-light">wt%</td>
+        </tr>
+        <tr class="border-t border-gray-100">
+          <td class="px-4 py-2 font-medium text-navy"><strong>Aluminum + silicon</strong></td>
+          <td class="px-4 py-2 text-text-light">881</td>
+          <td class="px-4 py-2 text-text-light">222</td>
+          <td class="px-4 py-2 text-text-light">ppm</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>About 20% more sellable oil was recovered compared with heat-and-settle at that facility.</p>
+
+  <p>The measured ash reduction at that facility ran from 1.17 wt% to 0.09 wt%, and combined aluminum and silicon dropped from 881 ppm to 222 ppm.</p>
+
+  <p><a href="/waste-oil-centrifuge-case-study-marine-and-industrial-waste-oil-recovery/">Read the full write-up of that installation</a></p>
+
+  <!-- ── Video ── -->
+  <div class="bg-warm-white rounded-xl border border-gray-100 shadow-sm p-4 my-8">
+    <div class="aspect-video rounded-lg overflow-hidden">
+      <iframe
+        title="Used Motor Oil Separation using Alfa Laval Disc Stack Centrifuge 1080"
+        width="100%"
+        height="100%"
+        src="https://www.youtube.com/embed/WvSYIQsDgUg"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <p class="text-text-muted text-xs mt-3 text-center font-medium uppercase tracking-wider">Used Motor Oil Separation - Alfa Laval Disc Stack Centrifuge</p>
+  </div>
+
+  <!-- ── The offer ── -->
+  <h2 id="send-a-gallon">Send us one representative gallon of your incoming oil</h2>
+
+  <p>Ship us one representative gallon of your incoming oil, as it runs in production, not settled bottoms. We run it through the centrifuge in Warren, Michigan and send you what came out.</p>
+
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 md:p-6 my-8 not-prose">
+    <p class="font-bold text-navy text-base mb-3">What you get back</p>
+    <ul class="space-y-2.5">
+      <li class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 text-gold shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+        <span class="text-sm text-text-light leading-relaxed">Before and after photos of your own oil</span>
+      </li>
+      <li class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 text-gold shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+        <span class="text-sm text-text-light leading-relaxed">A detailed report with our recommendations</span>
+      </li>
+      <li class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 text-gold shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+        <span class="text-sm text-text-light leading-relaxed">A video of your own oil running through the centrifuge</span>
+      </li>
+      <li class="flex items-start gap-2.5">
+        <svg class="w-4 h-4 text-gold shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+        <span class="text-sm text-text-light leading-relaxed">Half the test fee credits toward your equipment purchase</span>
+      </li>
+    </ul>
+    <p class="text-sm text-text-light leading-relaxed mt-4 mb-0">Turnaround is 7 to 10 business days from the day your sample arrives. Sample testing is a paid service and this is a centrifuge pass-through test. See the <a href="/industrial-centrifuge-sample-testing/">industrial centrifuge sample testing page</a> for how the test is run and what the equipment can do.</p>
+  </div>
+
+  <p>Call <a href={campaignPhoneHref}><strong>{campaignPhoneDisplay}</strong></a> to arrange the sample, or use the short form further down this page.</p>
+
+  <!-- ── Modules ── -->
+  <h2 id="modules">Skid-mounted modules that arrive ready to run</h2>
+
+  <figure>
+    <img
+      src="/images/used-oil-centrifuge/Alfa-Laval-MOPX207-Used-Oil-Skid.webp"
+      alt="Skid-mounted used oil centrifuge module with a remanufactured Alfa Laval MOPX 207 disc stack separator, heater, and control panel"
+      width="400"
+      height="412"
+      loading="lazy"
+      class="img-cap-400"
+    />
+    <figcaption>Skid-mounted used oil module built around a remanufactured Alfa Laval MOPX 207 disc stack separator</figcaption>
+  </figure>
+
+  <p>Every module is plug-and-play: the separator, feed pump, controls, and piping land on one skid, so the install is power, feed, and discharge connections instead of a construction project.</p>
+
+  <ul>
+    <li>Built around a remanufactured <a href="/alfa-laval-centrifuge/">Alfa Laval</a> disc stack separator.</li>
+    <li>All-new PLC controls, feed pump, and skid.</li>
+    <li>Every unit is test-run at rated speed before it ships.</li>
+    <li>Delivery in 2 to 5 months at about half the cost of a new OEM system, compared with 8 to 18 months for new OEM equipment.</li>
+    <li>Complete modules run from about $50K to $150K, EXW Warren MI.</li>
+    <li>Systems sized 10 to 70 GPM.</li>
+    <li>Built, test-run, and warrantied in Warren, Michigan, with a 6-month mechanical warranty and ongoing parts and technical support.</li>
+  </ul>
+
+  <!-- ── Campaign phone, repeated ── -->
+  <div class="not-prose my-10 bg-navy rounded-2xl p-6 md:p-10 text-center">
+    <p class="text-gray-300 text-sm uppercase tracking-wider font-semibold mb-2">Call the used oil line</p>
+    <a href={campaignPhoneHref} class="block text-gold hover:text-gold-light font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl leading-none transition-colors">
+      {campaignPhoneDisplay}
+    </a>
+    <p class="text-gray-300 text-sm md:text-base mt-4">
+      <a href={`mailto:${campaignEmail}`} class="text-white font-semibold underline decoration-gold underline-offset-4 hover:text-gold transition-colors">{campaignEmail}</a>
+    </p>
+    <p class="text-gray-400 text-xs mt-4">Warren, Michigan. Monday to Friday, 8:00 to 17:00 Eastern.</p>
+  </div>
+
+  <!-- ── Inquiry form ── -->
+  <h2 id="used-oil-inquiry" class="scroll-mt-20">Tell us what you are running</h2>
+
+  <p>Five fields. An engineer reads every one of these.</p>
+
+  <div class="not-prose my-6">
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
+
+      <div id="used-oil-success" class="hidden bg-green-50 border border-green-200 rounded-xl p-4 mb-5">
+        <p class="text-green-800 text-sm font-semibold">Thank you. Your details are in. A centrifuge engineer will follow up within one business day.</p>
+      </div>
+
+      <div id="used-oil-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mb-5">
+        <p class="text-red-700 text-sm font-semibold" id="used-oil-error-text">Something went wrong. Please try again or call (248) 820-5840.</p>
+      </div>
+
+      <form id="used-oil-form" data-dolphin-attribution-name="used_oil_landing_form" class="space-y-4" novalidate>
+
+        <div style="display:none" aria-hidden="true">
+          <label>Leave this empty: <input type="text" name="bot-field" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <div>
+          <label for="uo-name" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Name <span class="text-red-500">*</span></label>
+          <input type="text" id="uo-name" name="contact_name" required autocomplete="name"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
+        </div>
+
+        <div>
+          <label for="uo-company" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Company <span class="text-red-500">*</span></label>
+          <input type="text" id="uo-company" name="company" required autocomplete="organization"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="uo-phone" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Phone <span class="text-red-500">*</span></label>
+            <input type="tel" id="uo-phone" name="phone" required autocomplete="tel"
+              class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
+          </div>
+          <div>
+            <label for="uo-email" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Email <span class="text-red-500">*</span></label>
+            <input type="email" id="uo-email" name="email" required autocomplete="email" placeholder="you@company.com"
+              class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
+          </div>
+        </div>
+
+        <div>
+          <label for="uo-gallons" class="block text-xs font-bold text-navy uppercase tracking-wide mb-1.5">Approximate gallons per month <span class="text-red-500">*</span></label>
+          <input type="text" id="uo-gallons" name="gallons_per_month" required autocomplete="off" placeholder="e.g. 400,000"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
+        </div>
+
+        <button type="submit" id="uo-submit"
+          class="w-full bg-navy text-white font-bold py-4 px-8 rounded-xl text-base hover:bg-gold hover:text-navy transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+          Send My Details
+        </button>
+
+        <p class="text-xs text-center text-gray-400">
+          Prefer the phone? Call <a href={campaignPhoneHref} class="text-navy font-semibold">{campaignPhoneDisplay}</a>.
+        </p>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Credibility strip ── -->
+  <div class="not-prose my-10 bg-navy rounded-2xl px-5 py-5 md:px-7 md:py-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {credibilityItems.map((item) => (
+        <div class="flex items-start gap-2">
+          <svg class="w-4 h-4 text-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          <span class="text-white text-sm font-semibold leading-snug">{item}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <p class="text-sm text-gray-500 italic">Dolphin Centrifuge is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.</p>
+
+  <script define:vars={{ contactWorkerBaseUrl }}>
+    (function() {
+      var WORKER_URL = contactWorkerBaseUrl;
+
+      var form      = document.getElementById('used-oil-form');
+      var successEl = document.getElementById('used-oil-success');
+      var errorEl   = document.getElementById('used-oil-error');
+      var errorText = document.getElementById('used-oil-error-text');
+      var submitBtn = document.getElementById('uo-submit');
+      if (!form) return;
+
+      var FIELD_IDS = ['uo-name', 'uo-company', 'uo-phone', 'uo-email', 'uo-gallons'];
+
+      function markFieldError(el) {
+        el.classList.remove('border-gray-200', 'focus:border-navy');
+        el.classList.add('border-red-500', 'bg-red-50');
+      }
+
+      function clearFieldError(el) {
+        el.classList.remove('border-red-500', 'bg-red-50');
+        el.classList.add('border-gray-200', 'focus:border-navy');
+      }
+
+      FIELD_IDS.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function() { clearFieldError(el); });
+      });
+
+      function showError(message) {
+        errorText.textContent = message;
+        errorEl.classList.remove('hidden');
+        successEl.classList.add('hidden');
+      }
+
+      // The contact Worker stores a first and last name separately. This page asks
+      // for one name field, so split on the first space and keep the remainder.
+      function splitName(fullName) {
+        var parts = fullName.split(/\s+/).filter(Boolean);
+        if (parts.length === 0) return { first: '', last: '' };
+        if (parts.length === 1) return { first: parts[0], last: parts[0] };
+        return { first: parts[0], last: parts.slice(1).join(' ') };
+      }
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        errorEl.classList.add('hidden');
+
+        var firstInvalid = null;
+        var anyEmpty = false;
+        FIELD_IDS.forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          if (!el.value.trim()) {
+            markFieldError(el);
+            anyEmpty = true;
+            if (!firstInvalid) firstInvalid = el;
+          } else {
+            clearFieldError(el);
+          }
+        });
+        if (anyEmpty) {
+          showError('Please fill in all five fields.');
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstInvalid.focus();
+          return;
+        }
+
+        var email = document.getElementById('uo-email').value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          markFieldError(document.getElementById('uo-email'));
+          showError('Please enter a valid email address.');
+          return;
+        }
+
+        var name    = splitName(document.getElementById('uo-name').value.trim());
+        var company = document.getElementById('uo-company').value.trim();
+        var phone   = document.getElementById('uo-phone').value.trim();
+        var gallons = document.getElementById('uo-gallons').value.trim();
+
+        submitBtn.disabled = true;
+        var originalLabel = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+
+        try {
+          if (window.dolphinAttribution && typeof window.dolphinAttribution.markFormSubmit === 'function') {
+            window.dolphinAttribution.markFormSubmit('used_oil_landing_form');
+          }
+
+          var payload = new FormData();
+          payload.append('bot-field', form.querySelector('input[name="bot-field"]').value);
+          payload.append('first_name', name.first);
+          payload.append('last_name', name.last);
+          payload.append('company', company);
+          payload.append('phone', phone);
+          payload.append('email', email);
+          payload.append('email_confirm', email);
+          // Fields the shared contact Worker requires but this short form does not ask for.
+          payload.append('contact_method', 'phone_dolphin_calls');
+          payload.append('country', 'US');
+          payload.append('centrifuge_condition', 'remanufactured_ok');
+          payload.append('fluid_type', 'Used oil');
+          payload.append('required_flow_rate', gallons + ' gallons per month');
+          payload.append('additional_details', 'Used oil landing page (/used-oil/), direct mail campaign USED-OIL-001. Approximate volume: ' + gallons + ' gallons per month.');
+          if (typeof window.dolphinGetAttributionForForm === 'function') {
+            payload.append('dolphin_attribution', window.dolphinGetAttributionForForm('used_oil_landing_form'));
+          }
+
+          var response = await fetch(WORKER_URL, { method: 'POST', body: payload });
+          var result = {};
+          try { result = await response.json(); } catch (parseErr) {}
+
+          if (response.ok && result.success) {
+            form.reset();
+            FIELD_IDS.forEach(function(id) {
+              var el = document.getElementById(id);
+              if (el) clearFieldError(el);
+            });
+            successEl.classList.remove('hidden');
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            try {
+              var leadDetail = {
+                lead_form: 'used_oil_landing_form',
+                lead_type: 'quote_request',
+                fluid_type: 'Used oil',
+                campaign: 'USED-OIL-001'
+              };
+              if (typeof window.dispatchEvent === 'function') {
+                window.dispatchEvent(new CustomEvent('dolphin:generate-lead', { detail: leadDetail }));
+              } else if (typeof window.dolphinTrackLead === 'function') {
+                window.dolphinTrackLead(leadDetail);
+              }
+            } catch (trackErr) {}
+          } else {
+            showError(result.error || 'Submission failed. Please call (248) 820-5840.');
+          }
+        } catch (err) {
+          showError('Network error. Please call (248) 820-5840 or email usedoil@dolphincentrifuge.com.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      });
+    })();
+  </script>
+
+</ApplicationLayout>
