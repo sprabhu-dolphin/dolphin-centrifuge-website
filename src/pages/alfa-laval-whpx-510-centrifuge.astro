@@ -4,11 +4,11 @@ import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 const faqItems = [
   {
     question: "What is the Dolphin equivalent of the Alfa Laval WHPX 510?",
-    answer: "The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval MOPX 209 or MOPX 210 bowl, or the equivalent WHPX 510 (also MOPX 310 / MAPX 210) centrifuge bowl. The DMPX-042 is a complete system module rated at 32-47 GPM on diesel, with full PLC controls, electric heaters, and piping."
+    answer: "The Dolphin DMPX-042 is a commercial system class that can be built around several documented Alfa Laval base machines, including the WHPX 510. Capacity must be stated for the selected base machine. A WHPX 510-based DMPX-042 has a published diesel application capacity of 10,700 L/h (47.11 US GPM) at 13 cSt and 40 C."
   },
   {
     question: "What flow rate does the Alfa Laval WHPX 510 handle?",
-    answer: "The Alfa Laval WHPX 510 handles approximately 42 GPM on diesel fuel (13 cSt at operating temperature) and approximately 24 GPM on lube oil at 30 cSt. For the equivalent Dolphin DMPX-042 system, rated capacity ranges from 32 to 47 GPM on diesel depending on configuration."
+    answer: "For marine diesel at 13 cSt and 40 C, the published WHPX 510 application capacity is 10,700 L/h (47.11 US GPM). The source table also lists a rated reference value of 16,000 L/h (70.45 US GPM), but does not identify its fluid, so it must not be presented as a diesel, water, or other application capacity. Heavy-fuel-oil and lube-oil figures vary with the exact fluid and temperature conditions."
   },
   {
     question: "Is the WHPX 510 self-cleaning or manual clean?",
@@ -16,7 +16,7 @@ const faqItems = [
   },
   {
     question: "What industries use the WHPX 510 / DMPX-042 centrifuge?",
-    answer: "The WHPX 510 / DMPX-042 is widely used in: waste oil recovery and re-refining, diesel fuel polishing for large fleet operations, crude oil dehydration in oilfields, biodiesel glycerin separation, marine fuel purification, and industrial lube oil reclamation. Its 42 GPM capacity on diesel makes it one of the most popular mid-range industrial centrifuges."
+    answer: "WHPX 510-based systems are used for fuel and oil separation duties such as diesel purification, marine fuel treatment, lube-oil purification, and industrial oil recovery. Final flow and separation performance depend on the exact fluid, viscosity, temperature, contamination, and required product quality."
   },
   {
     question: "Can Dolphin Centrifuge supply parts or rebuild the WHPX 510?",
@@ -28,20 +28,34 @@ const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Alfa Laval WHPX 510 Waste Oil Centrifuge",
-  "description": "Alfa Laval WHPX 510 self-cleaning disc stack centrifuge for waste oil, diesel, biodiesel, and crude oil. 42 GPM on diesel, 10 HP motor. Remanufactured and supplied by Dolphin Centrifuge, the independent specialist in Alfa Laval centrifuges, also available as the Dolphin DMPX-042 turnkey module.",
+  "description": "Alfa Laval WHPX 510 self-cleaning disc stack centrifuge. Published marine-diesel application capacity is 10,700 L/h (47.11 US GPM) at 13 cSt and 40 C. 10 HP motor. Available from Dolphin as a remanufactured machine or a WHPX 510-based DMPX-042 module.",
   "brand": { "@type": "Brand", "name": "Alfa Laval" },
   "manufacturer": { "@type": "Organization", "name": "Alfa Laval" },
   "model": "WHPX 510",
   "alternateName": [
     "Alfa Laval WHPX 510",
-    "Alfa Laval WHPX 510 TGD 24-60",
-    "Dolphin DMPX-042",
-    "Alfa Laval MOPX 209",
-    "Alfa Laval MOPX 310",
-    "Alfa Laval MAPX 210"
+    "Alfa Laval WHPX 510 TGD 24-60"
   ],
+  "isRelatedTo": {
+    "@type": "Product",
+    "name": "Dolphin DMPX-042 Centrifuge System",
+    "description": "Dolphin commercial system class available with a WHPX 510 base machine.",
+    "url": "https://dolphincentrifuge.com/centrifuges/dmpx-042/"
+  },
   "category": "Disc Stack Centrifuges",
   "url": "https://dolphincentrifuge.com/alfa-laval-whpx-510-centrifuge/",
+  "subjectOf": {
+    "@type": "DigitalDocument",
+    "name": "WHPX 510 machine-readable technical record",
+    "url": "https://dolphincentrifuge.com/technical-data/alfa-laval-whpx-510.json"
+  },
+  "additionalProperty": [
+    { "@type": "PropertyValue", "name": "Marine diesel application capacity", "value": "10,700 L/h (47.11 US GPM) at 13 cSt and 40 C" },
+    { "@type": "PropertyValue", "name": "Rated reference capacity", "value": "16,000 L/h (70.45 US GPM); source fluid not specified" },
+    { "@type": "PropertyValue", "name": "Motor power", "value": "10 HP" },
+    { "@type": "PropertyValue", "name": "Bowl speed", "value": "5,180 RPM" },
+    { "@type": "PropertyValue", "name": "Voltage", "value": "230 / 460 V, 3 phase" }
+  ],
   "offers": {
     "@type": "Offer",
     "availability": "https://schema.org/InStock",
@@ -119,6 +133,7 @@ const jsonLd = [productJsonLd, faqJsonLd, articleJsonLd];
 const toc = [
   { id: 'overview', label: 'WHPX 510 Self-Cleaning Centrifuge' },
   { id: 'specifications', label: 'WHPX 510 Specifications' },
+  { id: 'capacity-data', label: 'Published Capacity Data' },
   { id: 'mopx-310', label: 'MOPX 310 Total-Discharge' },
   { id: 'applications', label: 'Applications' },
   { id: 'faq', label: 'Frequently Asked Questions' },
@@ -132,15 +147,15 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: '32-47 GPM diesel, WHPX 510 bowl' },
-  { label: 'DMPX-070 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: '47-72 GPM large-scale' },
+  { label: 'DMPX-042 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: 'Commercial class; WHPX 510 base is 47.11 GPM on diesel at stated conditions' },
+  { label: 'DMPX-070 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: 'Larger commercial class; capacity depends on selected base machine' },
 ];
 ---
 
 <ApplicationLayout
   title="Alfa Laval WHPX 510 Self-Cleaning Waste Oil Centrifuge | Dolphin Centrifuge"
   heroTitle="Alfa Laval WHPX 510 Self-Cleaning Waste Oil Centrifuge"
-  description="Alfa Laval WHPX 510 self-cleaning disc centrifuge for waste oil, diesel, and crude oil. 42 GPM, 10 HP, 5,180 RPM. Parts and rebuilds from Dolphin Centrifuge."
+  description="Alfa Laval WHPX 510 self-cleaning disc centrifuge. Diesel application capacity: 10,700 L/h (47.11 US GPM) at 13 cSt and 40 C. 10 HP, 5,180 RPM."
   category="products"
   categoryLabel="Products"
   heroImage="/images/alfa-laval-whpx-510-centrifuge/whpx-510-hero-2000x600.webp"
@@ -154,7 +169,7 @@ const relatedProducts = [
 >
 
   <div class="bg-navy/5 border-l-4 border-gold/40 rounded-r-lg p-4 mb-6 not-prose">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WHPX 510 self-cleaning disc stack centrifuges rated at 42 GPM on diesel (13 cSt) with a 10 HP motor at 5,180 RPM. Available as the complete DMPX-042 system module for waste oil, diesel, crude oil, and biodiesel separation.</p>
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge supplies parts, repairs, and remanufactured Alfa Laval WHPX 510 self-cleaning disc stack centrifuges. The published marine-diesel application capacity is 10,700 L/h (47.11 US GPM) at 13 cSt and 40 C. The machine uses a 10 HP motor and operates at 5,180 RPM.</p>
   </div>
 
   <h2 id="overview">WHPX 510 Self-Cleaning Centrifuge</h2>
@@ -220,12 +235,43 @@ const relatedProducts = [
   <table>
     <tbody>
       <tr><td><strong>Model Type</strong></td><td>Alfa Laval WHPX 510 TGD 24-60</td></tr>
-      <tr><td><strong>Rated Capacity</strong></td><td>42 GPM on 13 cSt Diesel Fuel</td></tr>
+      <tr><td><strong>Diesel Application Capacity</strong></td><td>10,700 L/h (47.11 US GPM) at 13 cSt and 40 &deg;C</td></tr>
+      <tr><td><strong>Rated Reference Capacity</strong></td><td>16,000 L/h (70.45 US GPM); source fluid not specified</td></tr>
       <tr><td><strong>Sludge Space</strong></td><td>1.62 Gallons</td></tr>
       <tr><td><strong>Motor HP</strong></td><td>10 HP</td></tr>
-      <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
+      <tr><td><strong>Voltages</strong></td><td>230 / 460 V, 3 phase</td></tr>
+      <tr><td><strong>Bowl Speed</strong></td><td>5,180 RPM</td></tr>
     </tbody>
   </table>
+
+  <p>The rated reference value is published without a process-fluid identity. It is not a water or diesel capacity. Application capacities must stay attached to the exact fluid, viscosity, and centrifugation temperature shown below.</p>
+
+  <h2 id="capacity-data">Published WHPX 510 Capacity Data</h2>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-6">
+    <table class="w-full text-sm">
+      <thead>
+        <tr><th>Fluid</th><th>Published capacity</th><th>Derived US GPM</th><th>Conditions</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Marine diesel</td><td>10,700 L/h</td><td>47.11</td><td>13 cSt at 40 &deg;C; centrifugation at 40 &deg;C</td></tr>
+        <tr><td>HFO, 30 cSt at 50 &deg;C</td><td>9,900 L/h</td><td>43.59</td><td>Centrifugation at 70-98 &deg;C</td></tr>
+        <tr><td>HFO, 40 cSt at 50 &deg;C</td><td>9,900 L/h</td><td>43.59</td><td>Centrifugation at 80-98 &deg;C</td></tr>
+        <tr><td>HFO, 60 cSt at 50 &deg;C</td><td>7,500 L/h</td><td>33.02</td><td>Centrifugation at 80-98 &deg;C</td></tr>
+        <tr><td>HFO, 100 cSt at 50 &deg;C</td><td>7,200 L/h</td><td>31.70</td><td>Centrifugation at 90-98 &deg;C</td></tr>
+        <tr><td>HFO, 180 cSt at 50 &deg;C</td><td>5,000 L/h</td><td>22.01</td><td>Centrifugation at 90-98 &deg;C</td></tr>
+        <tr><td>HFO, 380 cSt at 50 &deg;C</td><td>4,200 L/h</td><td>18.49</td><td>Centrifugation at 98 &deg;C</td></tr>
+        <tr><td>HFO, 460 cSt at 50 &deg;C</td><td>3,500 L/h</td><td>15.41</td><td>Centrifugation at 98 &deg;C</td></tr>
+        <tr><td>HFO, 600 cSt at 50 &deg;C</td><td>2,900 L/h</td><td>12.77</td><td>Centrifugation at 98 &deg;C</td></tr>
+        <tr><td>Cross-head R&amp;O lube oil</td><td>4,800-5,600 L/h</td><td>21.13-24.66</td><td>Centrifugation at 80-90 &deg;C</td></tr>
+        <tr><td>Cross-head detergent lube oil</td><td>4,000-4,800 L/h</td><td>17.61-21.13</td><td>Centrifugation at 80-90 &deg;C</td></tr>
+        <tr><td>Trunk detergent lube oil</td><td>2,900-3,500 L/h</td><td>12.77-15.41</td><td>Centrifugation at 80-90 &deg;C</td></tr>
+        <tr><td>Steam turbine lube oil</td><td>10,400 L/h</td><td>45.79</td><td>Centrifugation at 60-70 &deg;C</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>US GPM values are derived from the published L/h figures using L/h &divide; 227.124707 and rounded to two decimals. See the <a href="/technical-data/">technical data methodology</a> or use the <a href="/technical-data/alfa-laval-whpx-510.json">WHPX 510 machine-readable record</a>.</p>
 
   <p>
     If you have simple, routine questions: We have condensed our 40+ years of disc-stack centrifuge experience into <a href="/disc-stack-centrifuge-faq/">101 Frequently Asked Questions about Disc Stack Centrifuges</a>.
@@ -256,7 +302,7 @@ const relatedProducts = [
             <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
             <td class="px-4 py-3 font-mono text-text-light">Alfa Laval MOPX 310 TGT 20-60</td>
           </tr>
-          <!-- TBD: Track-2 ruling - MOPX 310 rated capacity; previous 42 GPM cell was cloned from the WHPX 510 row -->
+          <!-- MOPX 310 application figure is kept separate from WHPX 510 capacity data. -->
           <tr class="bg-gray-50 border-b border-gray-200">
             <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
             <td class="px-4 py-3 font-mono text-text-light">25 GPM on Used Oil @ 180 &deg;F</td>
@@ -348,13 +394,13 @@ const relatedProducts = [
     <figure>
       <img
         src="/images/alfa-laval-whpx-510-centrifuge/Alfa-Laval-42-GPM-Self-Cleaning-Rental-Centrifuge-e1614022214276.webp"
-        alt="Alfa Laval 42 GPM self-cleaning disc centrifuge"
+        alt="Alfa Laval WHPX 510 self-cleaning disc centrifuge system"
         width="300"
         height="300"
         loading="lazy"
         class="rounded-lg w-full"
       />
-      <figcaption>Alfa Laval 42 GPM Self-Cleaning Fuel Oil Centrifuge</figcaption>
+      <figcaption>Alfa Laval WHPX 510 Self-Cleaning Fuel Oil Centrifuge</figcaption>
     </figure>
   </div>
 
@@ -369,14 +415,14 @@ const relatedProducts = [
       What is the Dolphin equivalent of the Alfa Laval WHPX 510?
       <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
     </summary>
-    <p class="text-text-light mt-2 pb-2">The Dolphin DMPX-042 centrifuge system is built around the Alfa Laval MOPX 209 or MOPX 210 bowl, or the equivalent WHPX 510 (also MOPX 310 / MAPX 210) centrifuge bowl. The DMPX-042 is a complete system module rated at 32-47 GPM on diesel, with full PLC controls, electric heaters, and piping.</p>
+    <p class="text-text-light mt-2 pb-2">The Dolphin DMPX-042 is a commercial system class that can be built around several documented Alfa Laval base machines, including the WHPX 510. Capacity must be stated for the selected base machine. A WHPX 510-based DMPX-042 has a published diesel application capacity of 10,700 L/h (47.11 US GPM) at 13 cSt and 40 &deg;C.</p>
   </details>
   <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
     <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
       What flow rate does the Alfa Laval WHPX 510 handle?
       <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
     </summary>
-    <p class="text-text-light mt-2 pb-2">The Alfa Laval WHPX 510 handles approximately 42 GPM on diesel fuel (13 cSt at operating temperature) and approximately 24 GPM on lube oil at 30 cSt. For the equivalent Dolphin DMPX-042 system, rated capacity ranges from 32 to 47 GPM on diesel depending on configuration.</p>
+    <p class="text-text-light mt-2 pb-2">For marine diesel at 13 cSt and 40 &deg;C, the published WHPX 510 application capacity is 10,700 L/h (47.11 US GPM). The source table also lists a rated reference value of 16,000 L/h (70.45 US GPM), but does not identify its fluid, so it must not be presented as a diesel, water, or other application capacity. Heavy-fuel-oil and lube-oil figures vary with the exact fluid and temperature conditions.</p>
   </details>
   <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
     <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">
@@ -390,7 +436,7 @@ const relatedProducts = [
       What industries use the WHPX 510 / DMPX-042 centrifuge?
       <span class="text-gold ml-2 group-open:rotate-180 transition-transform">&#9660;</span>
     </summary>
-    <p class="text-text-light mt-2 pb-2">The WHPX 510 / DMPX-042 is widely used in: waste oil recovery and re-refining, diesel fuel polishing for large fleet operations, crude oil dehydration in oilfields, biodiesel glycerin separation, marine fuel purification, and industrial lube oil reclamation. Its 42 GPM capacity on diesel makes it one of the most popular mid-range industrial centrifuges.</p>
+    <p class="text-text-light mt-2 pb-2">WHPX 510-based systems are used for fuel and oil separation duties such as diesel purification, marine fuel treatment, lube-oil purification, and industrial oil recovery. Final flow and separation performance depend on the exact fluid, viscosity, temperature, contamination, and required product quality.</p>
   </details>
   <details class="border-l-4 border-gold/40 pl-4 mb-3 group">
     <summary class="cursor-pointer font-semibold text-navy py-2 list-none flex justify-between items-center">

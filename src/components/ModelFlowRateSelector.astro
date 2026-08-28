@@ -1,264 +1,96 @@
 ---
-const modelFlowRows = [
-  {
-    flow: '3 GPM on 13 cSt diesel fuel',
-    model: 'MAB 103',
-    base: 'Alfa Laval MAB 103',
-    href: '/alfa-laval-mab-103-centrifuge/',
-    cleaning: 'Manual-clean',
-    applications: 'Small diesel, turbine lube oil, and hydraulic oil systems',
-  },
-  {
-    flow: '6 GPM on 13 cSt diesel fuel',
-    model: 'MAB 104',
-    base: 'Alfa Laval MAB 104',
-    href: '/alfa-laval-mab-104-centrifuge/',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel, turbine lube oil, hydraulic oil, and compact mobile skids',
-  },
-  {
-    flow: '~6 GPM rated throughput (water)',
-    model: 'DMB-004',
-    base: 'Alfa Laval MAB 103',
-    href: '/centrifuges/dmb-004/',
-    cleaning: 'Manual-clean',
-    applications: 'Small generator diesel polishing and low-volume turbine lube oil',
-  },
-  {
-    flow: '~10 GPM rated throughput (water)',
-    model: 'DMB-007',
-    base: 'Alfa Laval MAB 104',
-    href: '/centrifuges/dmb-007/',
-    cleaning: 'Manual-clean',
-    applications: 'Generator diesel, turbine lube oil, and low-solids industrial fluids',
-  },
-  {
-    flow: '~12 GPM diesel throughput (rated)',
-    model: 'DMPX-010',
-    base: 'Alfa Laval MMPX 304',
-    href: '/centrifuges/dmpx-010/',
-    cleaning: 'Self-cleaning',
-    applications: 'Compact diesel, waste oil, hydraulic oil, and portable skids',
-  },
-  {
-    flow: '15 GPM on diesel fuel',
-    model: 'MAB 204',
-    base: 'Alfa Laval MAB 204',
-    href: '/alfa-laval-mab-centrifuge/#mab-204',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel fuel, turbine lube oil, and hydraulic oil',
-  },
-  {
-    flow: '15 GPM on 180 cSt light crude oil',
-    model: 'WHPX 405',
-    base: 'Alfa Laval WHPX 405',
-    href: '/alfa-laval-whpx-405/',
-    cleaning: 'Self-cleaning',
-    applications: 'Light crude oil, diesel, and small three-phase oil systems',
-  },
-  {
-    flow: '~19 GPM rated throughput (water)',
-    model: 'DMB-013',
-    base: 'Alfa Laval MAB 204',
-    href: '/centrifuges/dmb-013/',
-    cleaning: 'Manual-clean',
-    applications: 'Mid-size diesel polishing and turbine lube oil purification',
-  },
-  {
-    flow: '22 GPM on aluminum draw oil',
-    model: 'MOPX 209',
-    base: 'Alfa Laval MOPX 209',
-    href: '/alfa-laval-mopx-209-centrifuge/#specifications',
-    cleaning: 'Self-cleaning',
-    applications: 'Drawing oil, waste oil, diesel, and industrial oil recovery',
-  },
-  {
-    flow: '~22-24 GPM rated',
-    model: 'DMPX-014',
-    base: 'Alfa Laval WHPX 405',
-    href: '/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/',
-    cleaning: 'Self-cleaning',
-    applications: 'Waste oil, biodiesel, fish oil, and hydraulic oil purification',
-  },
-  {
-    flow: '24 GPM on steam turbine lube oil',
-    model: 'MAPX 309',
-    base: 'Alfa Laval MAPX 309',
-    href: '/alfa-laval-mopx-209-centrifuge/#mapx-309',
-    cleaning: 'Self-cleaning',
-    applications: 'Steam turbine lube oil and light viscosity industrial oil',
-  },
-  {
-    flow: '25 GPM on diesel fuel',
-    model: 'MAB 205',
-    base: 'Alfa Laval MAB 205',
-    href: '/alfa-laval-mab-centrifuge/#mab-205',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel fuel, turbine lube oil, and hydraulic oil',
-  },
-  {
-    flow: '25 GPM on 180 cSt light fuel oil',
-    model: 'WHPX 407',
-    base: 'Alfa Laval WHPX 407',
-    href: '/alfa-laval-mopx-207-centrifuge/',
-    cleaning: 'Self-cleaning',
-    applications: 'Light fuel oil and three-phase fuel-oil separation',
-  },
-  {
-    flow: '28 GPM on 13 cSt diesel fuel',
-    model: 'MOPX 207',
-    base: 'Alfa Laval MOPX 207',
-    href: '/alfa-laval-mopx-207-centrifuge/',
-    cleaning: 'Self-cleaning',
-    applications: 'Diesel, turbine lube oil, hydraulic oil, WVO, and waste oil',
-  },
-  {
-    flow: '~29 GPM rated throughput (water)',
-    model: 'DMB-019',
-    base: 'Alfa Laval MAB 205',
-    href: '/centrifuges/dmb-019/',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel, gas oil, and lube oil polishing',
-  },
-  {
-    flow: '~33-40 GPM diesel throughput (rated)',
-    model: 'DMPX-028',
-    base: 'Alfa Laval MOPX 207',
-    href: '/centrifuges/dmpx-028/',
-    cleaning: 'Self-cleaning',
-    applications: 'Waste oil, biodiesel, HFO, lube oil, and coolant separation',
-  },
-  {
-    flow: '36 GPM on diesel fuel',
-    model: 'MAB 206',
-    base: 'Alfa Laval MAB 206',
-    href: '/alfa-laval-mab-centrifuge/#mab-206',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel fuel, turbine lube oil, hydraulic oil, and larger oil systems',
-  },
-  {
-    flow: '42 GPM on 13 cSt diesel fuel',
-    model: 'WHPX 510',
-    base: 'Alfa Laval WHPX 510',
-    href: '/alfa-laval-whpx-510-centrifuge/',
-    cleaning: 'Self-cleaning',
-    applications: 'Diesel, lube oil, used oil, WVO, and black diesel',
-  },
-  {
-    flow: '~42 GPM rated throughput (water)',
-    model: 'DMB-028',
-    base: 'Alfa Laval MAB 206',
-    href: '/centrifuges/dmb-028/',
-    cleaning: 'Manual-clean',
-    applications: 'High-capacity clean diesel and turbine lube oil',
-  },
-  {
-    flow: '45 GPM on kerosene',
-    model: 'WHPX 409',
-    base: 'Alfa Laval WHPX 409',
-    href: '/alfa-laval-mopx-209-centrifuge/#whpx-409',
-    cleaning: 'Self-cleaning',
-    applications: 'Kerosene, diesel, light crude oil, and light fuel oil',
-  },
-  {
-    flow: '48 GPM on diesel fuel',
-    model: 'MAB 207',
-    base: 'Alfa Laval MAB 207',
-    href: '/alfa-laval-mab-centrifuge/#mab-207',
-    cleaning: 'Manual-clean',
-    applications: 'Diesel, turbine lube oil, biodiesel glycerin separation, and hydraulic oil',
-  },
-  {
-    flow: '69 GPM diesel rated; ~32-47 GPM actual, varies by duty',
-    model: 'DMPX-042',
-    base: 'Alfa Laval MOPX 209 or MOPX 210',
-    href: '/centrifuges/dmpx-042/',
-    cleaning: 'Self-cleaning',
-    applications: 'Crude oil, HFO, waste oil, transformer oil, WVO, and cutting oil',
-  },
-  {
-    flow: '~55 GPM rated throughput (water)',
-    model: 'DMB-037',
-    base: 'Alfa Laval MAB 207',
-    href: '/centrifuges/dmb-037/',
-    cleaning: 'Manual-clean',
-    applications: 'Large fuel depots, diesel polishing, and turbine lube oil',
-  },
-  {
-    flow: '60 GPM on wastewater clarification',
-    model: 'WHPX 513 centrifuge',
-    base: 'Alfa Laval WHPX 513',
-    href: '/alfa-laval-whpx-513-clarifier-centrifuge-module/',
-    cleaning: 'Self-cleaning',
-    applications: 'Wastewater clarification and high-throughput solids removal',
-  },
-  {
-    flow: '72 GPM on 13 cSt diesel fuel',
-    model: 'WHPX 513',
-    base: 'Alfa Laval WHPX 513',
-    href: '/alfa-laval-whpx-513/',
-    cleaning: 'Self-cleaning',
-    applications: 'Diesel fuel, distillate, heavy fuel oil, and used motor oil',
-  },
-  {
-    flow: '78 GPM on diesel fuel',
-    model: 'MAB 209',
-    base: 'Alfa Laval MAB 209',
-    href: '/alfa-laval-mab-centrifuge/#mab-209',
-    cleaning: 'Manual-clean',
-    applications: 'Large diesel, turbine lube oil, biodiesel glycerin separation, and hydraulic oil',
-  },
-  {
-    flow: '~92 GPM rated throughput (water)',
-    model: 'DMB-062',
-    base: 'Alfa Laval MAB 209',
-    href: '/centrifuges/dmb-062/',
-    cleaning: 'Manual-clean',
-    applications: 'Major turbine lube oil systems and high-volume clean diesel polishing',
-  },
-  {
-    flow: '~95-108 GPM diesel throughput (rated)',
-    model: 'DMPX-070',
-    base: 'Alfa Laval WHPX 513',
-    href: '/centrifuges/dmpx-070/',
-    cleaning: 'Self-cleaning',
-    applications: 'Power plants, refineries, marine fuel systems, crude oil, and slop oil',
-  },
-];
+import { technicalCatalog } from '../data/centrifugeTechnicalRegistry.mjs';
+
+type NumericValue = { value: number } | { minimum: number; maximum: number };
+type CapacityRecord = {
+  fluid: { category: string };
+  sourceValue: NumericValue;
+  derivedConversions: NumericValue[];
+};
+type ModelRecord = {
+  recordType: string;
+  displayName: string;
+  canonicalPage: string;
+  specifications: { cleaningMethod?: { value: string } };
+  capacities: CapacityRecord[];
+};
+type FlowRow = {
+  model: ModelRecord;
+  gpmValue: number;
+  gpmText: string;
+  litersText: string;
+  cleaning: string;
+  otherFluids: string;
+};
+
+const fluidLabels: Record<string, string> = {
+  'fuel-oil': 'gas oil',
+  'heavy-fuel-oil': 'HFO',
+  'lube-oil': 'lube oil',
+};
+
+const models = technicalCatalog.models as unknown as ModelRecord[];
+const rows = models
+  .filter((model) => model.recordType === 'oem-base-machine' && model.capacities.length > 0)
+  .map((model) => {
+    const diesel = model.capacities.find((capacity) => capacity.fluid.category === 'diesel');
+    if (!diesel) return null;
+    const gpm = diesel.derivedConversions[0];
+    if (!gpm) return null;
+    const gpmValue = 'value' in gpm ? gpm.value : gpm.minimum;
+    const otherFluids = [...new Set(model.capacities
+      .filter((capacity) => capacity.fluid.category !== 'diesel' && capacity.fluid.category !== 'reference')
+      .map((capacity) => capacity.fluid.category))]
+      .map((category) => fluidLabels[category] || category)
+      .join(', ');
+    return {
+      model,
+      gpmValue,
+      gpmText: 'value' in gpm ? gpm.value.toFixed(2) : `${gpm.minimum.toFixed(2)}–${gpm.maximum.toFixed(2)}`,
+      litersText: 'value' in diesel.sourceValue
+        ? diesel.sourceValue.value.toLocaleString()
+        : `${diesel.sourceValue.minimum.toLocaleString()}–${diesel.sourceValue.maximum.toLocaleString()}`,
+      cleaning: model.specifications.cleaningMethod?.value || 'See model record',
+      otherFluids,
+    };
+  })
+  .filter((row): row is FlowRow => row !== null)
+  .sort((a, b) => a.gpmValue - b.gpmValue);
 ---
 
 <section id="find-your-model-by-flow-rate" class="my-10 not-prose">
-  <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Find Your Model by Flow Rate</h2>
-  <p class="text-text-light mb-3 max-w-3xl">
-    Published model capacities vary by fluid, viscosity, temperature, and solids load. Use this as a first-pass selector, then confirm sizing with an application engineer.
+  <h2 class="text-2xl md:text-3xl font-bold text-navy mb-4">Find an Exact Model by Diesel Capacity</h2>
+  <p class="text-text-light mb-3 max-w-4xl">
+    These are exact Alfa Laval base-machine application values, not blended Dolphin class ratings. The original L/h value is authoritative; US GPM is calculated as L/h ÷ 227.124707.
   </p>
-  <p class="text-text-light mb-5 max-w-3xl">
-    DMPX and DMB models are Dolphin modules built around a remanufactured Alfa Laval centrifuge. The Alfa Laval base machine for every row is listed below, so a Dolphin module and the Alfa Laval model it is built on are always readable side by side. Dolphin is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.
+  <p class="text-text-light mb-5 max-w-4xl">
+    Capacity changes with fluid, viscosity, temperature, density difference, and solids loading. DMB and DMPX commercial classes can contain more than one base-machine variant, so select that exact machine before using a capacity. <a href="/technical-data/" class="font-semibold text-navy hover:text-gold">See all {technicalCatalog.statistics.capacityRecords} condition-qualified records and model mappings.</a>
   </p>
   <div class="overflow-x-auto border border-gray-100 rounded-xl shadow-sm">
     <table class="w-full text-sm text-left border-collapse">
       <thead>
         <tr class="bg-navy text-white">
-          <th class="px-4 py-3 font-semibold">Flow rate (GPM)</th>
-          <th class="px-4 py-3 font-semibold">Model</th>
-          <th class="px-4 py-3 font-semibold">Alfa Laval base machine</th>
-          <th class="px-4 py-3 font-semibold">Self-clean or Manual</th>
-          <th class="px-4 py-3 font-semibold">Typical applications</th>
+          <th class="px-4 py-3 font-semibold">Diesel application capacity</th>
+          <th class="px-4 py-3 font-semibold">Exact Alfa Laval model</th>
+          <th class="px-4 py-3 font-semibold">Canonical source value</th>
+          <th class="px-4 py-3 font-semibold">Cleaning method</th>
+          <th class="px-4 py-3 font-semibold">Other source-backed fluids</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 bg-white">
-        {modelFlowRows.map((row) => (
+        {rows.map((row) => (
           <tr class="hover:bg-gray-50">
-            <td class="px-4 py-3 font-mono text-navy whitespace-nowrap">{row.flow}</td>
+            <td class="px-4 py-3 font-mono text-navy whitespace-nowrap">{row.gpmText} US GPM</td>
             <td class="px-4 py-3 font-semibold">
-              <a href={row.href} class="text-navy hover:text-gold transition-colors">{row.model}</a>
+              <a href={row.model.canonicalPage} class="text-navy hover:text-gold transition-colors">{row.model.displayName}</a>
             </td>
-            <td class="px-4 py-3 text-text-light whitespace-nowrap">{row.base}</td>
+            <td class="px-4 py-3 font-mono text-text-light whitespace-nowrap">{row.litersText} L/h</td>
             <td class="px-4 py-3 text-text-light whitespace-nowrap">{row.cleaning}</td>
-            <td class="px-4 py-3 text-text-light">{row.applications}</td>
+            <td class="px-4 py-3 text-text-light">{row.otherFluids || 'No additional fluid record in v1'}</td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
+  <p class="mt-3 text-xs text-text-muted">Diesel conditions: 13 cSt at 40°C. WHPX records are labeled marine diesel in the source table. Always confirm final sizing for the actual feed.</p>
 </section>

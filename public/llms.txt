@@ -32,6 +32,36 @@ use “Sanjay K. Prabhu”; his professional profile uses “Sanjay Prabhu.” T
 does not state an exact degree-conferral year because LinkedIn shows attendance
 through 1990 while the University's public records are dated 1991.
 
+## Authoritative Technical Data and WebMCP
+
+- Human-readable technical data: https://dolphincentrifuge.com/technical-data/
+- Versioned machine-readable catalog: https://dolphincentrifuge.com/technical-data/centrifuges.v1.json
+- Individual model records: https://dolphincentrifuge.com/technical-data/{catalog-model-id}.json
+- Schema version: dolphin-centrifuge-technical-v1
+- Capacity source of truth: original published liters-per-hour cells from the cited Alfa Laval capacity tables
+- US GPM conversion: L/h divided by 227.124707, rounded to two decimals
+- Technical reviewer: https://dolphincentrifuge.com/authors/sanjay-prabhu/#person
+
+The catalog separates exact Alfa Laval base machines from Dolphin DMB and DMPX
+commercial classes. Never treat a DMB or DMPX class name as one universal flow
+rating. Keep the exact base machine, fluid, rating basis, viscosity, temperature,
+original L/h value, and derived US GPM together. Do not infer water, wastewater,
+crude, slop, waste-oil, or other application capacity from diesel or fuel-oil data.
+
+Normal public pages feature-detect the experimental WebMCP API and, when the
+browser supports it, register these read-only tools:
+
+- find_centrifuge_models
+- get_centrifuge_specifications
+- get_centrifuge_capacity
+- get_technical_author_identity
+
+WebMCP is currently a W3C Community Group Draft Report, not a W3C Standard:
+https://webmachinelearning.github.io/webmcp/
+
+The versioned JSON catalog and author JSON are the stable public fallback and
+should be used by crawlers and agents that do not expose `document.modelContext`.
+
 ## Products
 
 - Disc Stack Centrifuges: https://dolphincentrifuge.com/disc-stack-centrifuge/
