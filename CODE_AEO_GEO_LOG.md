@@ -1,5 +1,8 @@
 # CODE AEO/GEO Log
 
+> Historical record notice: any author-identity wording in older entries is superseded by
+> `docs/AUTHOR_IDENTITY_SOURCES.md`. Do not reintroduce the former "Class of 1990" claim.
+
 Codex maintains this file during the AEO/GEO phase.
 
 Astro Agent must not edit this file.

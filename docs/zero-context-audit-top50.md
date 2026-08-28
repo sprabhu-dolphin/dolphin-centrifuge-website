@@ -1,5 +1,8 @@
 # Zero-context audit - top 50 pages
 
+> Historical audit notice: author-identity wording quoted below is superseded by
+> `docs/AUTHOR_IDENTITY_SOURCES.md`. Do not use this audit as a source for a degree year.
+
 50 independent auditors, one page each, no prior knowledge of Dolphin. Each returned
 `what_is_this`, `entity_and_brand_read`, `who_runs_it`, `trust_score_0_10`, `doubts[]`,
 `single_best_fix`, `verdict`. Source: `zerocontext-top50.json` (562 doubt items).

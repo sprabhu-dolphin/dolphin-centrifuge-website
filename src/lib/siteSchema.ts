@@ -13,7 +13,24 @@
 
 export const SITE_URL = 'https://dolphincentrifuge.com';
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
-export const PERSON_ID = `${SITE_URL}/about-dolphin-centrifuge/#sanjay-prabhu`;
+export const PERSON_PROFILE_PATH = '/authors/sanjay-prabhu/';
+export const PERSON_PROFILE_URL = `${SITE_URL}${PERSON_PROFILE_PATH}`;
+export const PERSON_PROFILE_PAGE_ID = `${PERSON_PROFILE_URL}#profile`;
+export const PERSON_ID = `${PERSON_PROFILE_URL}#person`;
+export const PERSON_JSON_URL = `${SITE_URL}/authors/sanjay-prabhu.json`;
+
+export const SANJAY_LINKEDIN_URL =
+  'https://www.linkedin.com/in/sanjay-prabhu-a987085';
+export const SANJAY_EXTERNAL_AUTHOR_URL =
+  'https://www.machinerylubrication.com/Authors/Detail/2429';
+export const UARK_THESIS_RECORD_URL =
+  'https://onesearch.uark.edu/permalink/01UARK_INST/6np6g9/alma991022032739707336';
+export const UARK_COMMENCEMENT_RECORD_URL =
+  'https://archive.org/details/1991-05_202504/page/n48/mode/1up';
+export const UARK_SENIOR_WALK_URL =
+  'https://www.uark.edu/about/senior-walk/?year=1991#find';
+export const UARK_SENIOR_WALK_DATA_URL =
+  'https://campusdata.uark.edu/apiv2/map/seniorwalklist/1991';
 
 /** Canonical positioning line (docs/DAYLIGHT_PLAN.md, "The message"). */
 export const ORG_POSITIONING =
@@ -43,43 +60,110 @@ export const ORG_KNOWS_ABOUT = [
   'industrial oil purification',
 ];
 
+export const universityOfArkansasJsonLd = {
+  '@type': 'CollegeOrUniversity',
+  name: 'University of Arkansas',
+  url: 'https://www.uark.edu/',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Fayetteville',
+    addressRegion: 'AR',
+    addressCountry: 'US',
+  },
+};
+
+export const sanjayCredentialEvidenceJsonLd = [
+  {
+    '@type': 'WebPage',
+    name: 'University of Arkansas Libraries thesis catalog record',
+    url: UARK_THESIS_RECORD_URL,
+  },
+  {
+    '@type': 'DigitalDocument',
+    name: 'University of Arkansas May 1991 commencement program, printed page 47',
+    url: UARK_COMMENCEMENT_RECORD_URL,
+  },
+  {
+    '@type': 'Dataset',
+    name: 'University of Arkansas Senior Walk record',
+    url: UARK_SENIOR_WALK_URL,
+    distribution: {
+      '@type': 'DataDownload',
+      encodingFormat: 'application/json',
+      contentUrl: UARK_SENIOR_WALK_DATA_URL,
+    },
+  },
+];
+
 /**
  * Canonical Person node for Sanjay Prabhu.
- * Credential facts match /about-dolphin-centrifuge/.
+ *
+ * The degree is deliberately year-neutral. LinkedIn shows attendance through
+ * 1990, while the University's public thesis, commencement and Senior Walk
+ * records are dated 1991. The public institutional records conclusively
+ * corroborate the credential, but an exact conferral date is not inferred.
  */
 export const sanjayPrabhuPersonJsonLd = {
   '@type': 'Person',
   '@id': PERSON_ID,
   name: 'Sanjay Prabhu',
-  honorificSuffix: 'MSME',
+  additionalName: 'K.',
+  alternateName: 'Sanjay K. Prabhu',
+  honorificSuffix: 'M.S.M.E.',
   jobTitle: 'Owner and Chief Engineer',
   description:
-    'Mechanical engineer (MSME, University of Arkansas) who leads Dolphin Centrifuge, covering centrifuge application engineering, Alfa Laval remanufacturing, and turnkey system design.',
-  url: `${SITE_URL}/about-dolphin-centrifuge/`,
+    'Mechanical engineer with an M.S.M.E. from the University of Arkansas who leads centrifuge application engineering, Alfa Laval centrifuge remanufacturing, and turnkey separation-system design at Dolphin Centrifuge.',
+  url: PERSON_PROFILE_URL,
+  mainEntityOfPage: { '@id': PERSON_PROFILE_PAGE_ID },
   worksFor: { '@id': ORGANIZATION_ID },
+  sameAs: [SANJAY_LINKEDIN_URL, SANJAY_EXTERNAL_AUTHOR_URL],
+  subjectOf: [
+    ...sanjayCredentialEvidenceJsonLd,
+    {
+      '@type': 'ProfilePage',
+      name: 'Sanjay Prabhu author profile at Machinery Lubrication',
+      url: SANJAY_EXTERNAL_AUTHOR_URL,
+    },
+  ],
   knowsAbout: [
     'Alfa Laval centrifuges',
     'Disc stack centrifuges',
     'Decanter centrifuges',
     'Centrifuge remanufacturing',
     'Industrial fluid separation',
+    'Turnkey centrifuge system design',
   ],
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: 'University of Arkansas',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Fayetteville',
-      addressRegion: 'AR',
-      addressCountry: 'US',
+  alumniOf: universityOfArkansasJsonLd,
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'Master of Science in Mechanical Engineering',
+      alternateName: 'M.S.M.E.',
+      credentialCategory: "Master's degree",
+      recognizedBy: universityOfArkansasJsonLd,
+      description:
+        'Master of Science in Mechanical Engineering from the University of Arkansas, corroborated by public University thesis, commencement, and Senior Walk records.',
+      subjectOf: sanjayCredentialEvidenceJsonLd,
     },
-  },
-  hasCredential: {
-    '@type': 'EducationalOccupationalCredential',
-    name: 'Master of Science in Mechanical Engineering',
-    credentialCategory: "Master's degree",
-    description:
-      'Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990',
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'Bachelor of Engineering',
+      alternateName: 'B.E.',
+      credentialCategory: "Bachelor's degree",
+      recognizedBy: {
+        '@type': 'CollegeOrUniversity',
+        name: 'University of Poona',
+      },
+      description:
+        'Prior Bachelor of Engineering degree recorded in the University of Arkansas May 1991 commencement program.',
+      subjectOf: [sanjayCredentialEvidenceJsonLd[1]],
+    },
+  ],
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'University of Arkansas Libraries thesis catalog record',
+    value: 'alma991022032739707336',
+    url: UARK_THESIS_RECORD_URL,
   },
 };
 
@@ -171,11 +255,33 @@ const ORG_REFERENCE_KEYS = new Set(['publisher', 'worksFor', 'seller', 'provider
 
 const normalizePersonNode = (node: Record<string, any>) => {
   node.name = 'Sanjay Prabhu';
-  node.honorificSuffix = 'MSME';
-  if (!hasSchemaValue(node['@id'])) node['@id'] = PERSON_ID;
-  if (!hasSchemaValue(node.jobTitle)) node.jobTitle = sanjayPrabhuPersonJsonLd.jobTitle;
-  if (!hasSchemaValue(node.url)) node.url = sanjayPrabhuPersonJsonLd.url;
-  if (!hasSchemaValue(node.worksFor)) node.worksFor = { '@id': ORGANIZATION_ID };
+  node.additionalName = sanjayPrabhuPersonJsonLd.additionalName;
+  node.alternateName = sanjayPrabhuPersonJsonLd.alternateName;
+  node.honorificSuffix = sanjayPrabhuPersonJsonLd.honorificSuffix;
+  node['@id'] = PERSON_ID;
+  node.jobTitle = sanjayPrabhuPersonJsonLd.jobTitle;
+  node.description = sanjayPrabhuPersonJsonLd.description;
+  node.url = PERSON_PROFILE_URL;
+  node.mainEntityOfPage = sanjayPrabhuPersonJsonLd.mainEntityOfPage;
+  node.worksFor = { '@id': ORGANIZATION_ID };
+  node.sameAs = sanjayPrabhuPersonJsonLd.sameAs;
+  node.subjectOf = sanjayPrabhuPersonJsonLd.subjectOf;
+  node.alumniOf = sanjayPrabhuPersonJsonLd.alumniOf;
+  node.hasCredential = sanjayPrabhuPersonJsonLd.hasCredential;
+  node.identifier = sanjayPrabhuPersonJsonLd.identifier;
+
+  const currentKnowledge = Array.isArray(node.knowsAbout)
+    ? node.knowsAbout
+    : hasSchemaValue(node.knowsAbout)
+      ? [node.knowsAbout]
+      : [];
+  const seen = new Set(currentKnowledge.map((entry: any) => String(entry).toLowerCase()));
+  node.knowsAbout = [
+    ...currentKnowledge,
+    ...sanjayPrabhuPersonJsonLd.knowsAbout.filter(
+      (entry) => !seen.has(entry.toLowerCase()),
+    ),
+  ];
 };
 
 /**
@@ -184,8 +290,10 @@ const normalizePersonNode = (node: Record<string, any>) => {
  *    and @id, so all author nodes resolve to one person;
  *  - publisher/worksFor/seller/provider Organization nodes named
  *    "Dolphin Centrifuge" get the canonical Organization @id.
- * Page-authored values are never overwritten apart from the person's name and
- * honorific suffix, which exist only to be consistent.
+ * Canonical identity and credential fields overwrite page-local copies so an
+ * article cannot accidentally publish a stale title, URL, or degree claim.
+ * Page-specific knowsAbout values are retained and unioned with the canonical
+ * expertise list.
  */
 export const linkSiteEntities = (value: any, parentKey?: string): any => {
   if (Array.isArray(value)) return value.map((entry) => linkSiteEntities(entry, parentKey));

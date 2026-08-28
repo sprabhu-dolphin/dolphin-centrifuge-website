@@ -22,6 +22,7 @@ interface Props {
   canonicalUrl?: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
   jsonLd?: Record<string, any> | Record<string, any>[];
+  alternateJsonUrl?: string;
   disableTitleSuffix?: boolean;
   /* Robots meta content. Every page indexes by default; pass a value only to
      override (e.g. "noindex,follow" on a campaign landing page). */
@@ -35,6 +36,7 @@ const {
   canonicalUrl,
   breadcrumbs = [],
   jsonLd,
+  alternateJsonUrl,
   disableTitleSuffix = false,
   robots = 'index, follow',
 } = Astro.props;
@@ -982,6 +984,9 @@ const normalizedSchemas = (Array.isArray(searchNormalizedSchemas)
 
     <!-- Canonical -->
     <link rel="canonical" href={canonical} />
+    {alternateJsonUrl && (
+      <link rel="alternate" type="application/json" href={alternateJsonUrl} />
+    )}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

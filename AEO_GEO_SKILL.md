@@ -157,7 +157,7 @@ Canonical hidden Sanjay author object:
 - description: 40+ years of specialized experience in industrial centrifuge systems
 - url: use the existing Dolphin about page unless a dedicated author page exists
 - alumniOf: University of Arkansas, Fayetteville
-- hasCredential: Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990
+- hasCredential: Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville. Do not publish a class year; use the canonical author profile and its linked University records as credential evidence.
 - Keep education and credential details schema-only. Do not add visible degree, school, class year, author, or reviewed-by text unless Sanjay explicitly asks for visible author treatment.
 
 Retroactive page rule:

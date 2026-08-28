@@ -1,0 +1,200 @@
+---
+import ApplicationLayout from '../../layouts/ApplicationLayout.astro';
+import {
+  ORGANIZATION_ID,
+  PERSON_ID,
+  PERSON_JSON_URL,
+  PERSON_PROFILE_PAGE_ID,
+  PERSON_PROFILE_URL,
+  SANJAY_EXTERNAL_AUTHOR_URL,
+  SANJAY_LINKEDIN_URL,
+  UARK_COMMENCEMENT_RECORD_URL,
+  UARK_SENIOR_WALK_DATA_URL,
+  UARK_SENIOR_WALK_URL,
+  UARK_THESIS_RECORD_URL,
+  sanjayPrabhuPersonJsonLd,
+} from '../../lib/siteSchema';
+
+const profilePageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': PERSON_PROFILE_PAGE_ID,
+  url: PERSON_PROFILE_URL,
+  name: 'Sanjay Prabhu, M.S.M.E. | Owner and Chief Engineer',
+  description:
+    'Source-backed author profile for Sanjay Prabhu, owner and chief engineer of Dolphin Centrifuge, with public University of Arkansas credential records and external professional identity links.',
+  mainEntity: { '@id': PERSON_ID },
+  about: { '@id': PERSON_ID },
+  publisher: { '@id': ORGANIZATION_ID },
+  datePublished: '2026-08-28',
+  dateModified: '2026-08-28',
+};
+
+const jsonLd = [
+  profilePageJsonLd,
+  {
+    '@context': 'https://schema.org',
+    ...sanjayPrabhuPersonJsonLd,
+  },
+];
+
+const toc = [
+  { id: 'verified-identity', label: 'Verified identity' },
+  { id: 'education-and-thesis', label: 'Education and thesis' },
+  { id: 'technical-background', label: 'Technical background' },
+  { id: 'authorship', label: 'Technical authorship' },
+  { id: 'source-records', label: 'Independent source records' },
+  { id: 'date-handling', label: 'How the degree date is handled' },
+];
+---
+
+<ApplicationLayout
+  title="Sanjay Prabhu, M.S.M.E. | Owner and Chief Engineer"
+  heroTitle="Sanjay Prabhu, M.S.M.E."
+  heroDescription="Owner and Chief Engineer of Dolphin Centrifuge. Source-backed author identity, engineering background, and public credential records."
+  description="Source-backed author profile for Sanjay Prabhu, M.S.M.E., owner and chief engineer of Dolphin Centrifuge, with University of Arkansas credential records and professional identity links."
+  canonicalUrl={PERSON_PROFILE_URL}
+  alternateJsonUrl={PERSON_JSON_URL}
+  heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
+  heroImageAlt="Dolphin Centrifuge engineering and remanufacturing facility in Warren, Michigan"
+  category="about"
+  categoryLabel="About Us"
+  categoryHref="/about-dolphin-centrifuge/"
+  toc={toc}
+  showByline={false}
+  hideTopTrustStrips={true}
+  jsonLd={jsonLd}
+>
+  <div id="profile">
+    <section id="person" aria-labelledby="verified-identity">
+      <p class="text-lg leading-relaxed">
+        <strong>Sanjay Prabhu, M.S.M.E.</strong>, is the owner and chief engineer of
+        Dolphin Centrifuge in Warren, Michigan. He leads centrifuge application
+        engineering, Alfa Laval centrifuge remanufacturing, machine selection,
+        and turnkey separation-system design.
+      </p>
+
+      <div class="not-prose my-7 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-gold-darker">Role</p>
+          <p class="mt-2 font-heading text-lg font-bold text-navy">Owner and Chief Engineer</p>
+          <p class="mt-1 text-sm text-text-light">Dolphin Centrifuge, Warren, Michigan</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <p class="text-xs font-bold uppercase tracking-wider text-gold-darker">Credential</p>
+          <p class="mt-2 font-heading text-lg font-bold text-navy">M.S. in Mechanical Engineering</p>
+          <p class="mt-1 text-sm text-text-light">University of Arkansas, Fayetteville</p>
+        </div>
+      </div>
+
+      <h2 id="verified-identity">Verified identity</h2>
+      <p>
+        The public professional profile uses <strong>Sanjay Prabhu</strong>. The
+        University of Arkansas records use <strong>Sanjay K. Prabhu</strong>.
+        The records are tied to the same person by the full name, the exact
+        M.S.M.E. credential, the earlier B.E. from the University of Poona, and
+        the matching mechanical-engineering background. Sanjay's public
+        <a href={SANJAY_LINKEDIN_URL} rel="me external noopener">LinkedIn profile</a>
+        identifies Dolphin Centrifuge and links to dolphincentrifuge.com.
+      </p>
+
+      <h2 id="education-and-thesis">Education and thesis</h2>
+      <p>
+        Sanjay holds a <strong>Master of Science in Mechanical Engineering</strong>
+        from the University of Arkansas. The University's library catalog records
+        his master's thesis as <cite>Comprehensive Software for Link Manufacture:
+        A Basic CAM Approach</cite>. Its subjects include CAD/CAM systems and
+        numerical-control programming for machine tools.
+      </p>
+      <p>
+        The University's May 1991 commencement program lists Sanjay K. Prabhu
+        directly under “Master of Science in Mechanical Engineering” and records
+        his prior B.E. from the University of Poona.
+      </p>
+
+      <h2 id="technical-background">Technical background</h2>
+      <p>
+        Sanjay's work at Dolphin covers disc stack and decanter centrifuges,
+        process-duty evaluation, fluid testing, capacity and machine selection,
+        material-of-construction decisions, motor and control specifications,
+        hazardous-area configurations, skid layout, system design, and technical
+        review of remanufacturing scopes.
+      </p>
+      <p>
+        An external technical publisher, Machinery Lubrication, also maintains a
+        <a href={SANJAY_EXTERNAL_AUTHOR_URL} rel="me external noopener">Sanjay Prabhu author record</a>
+        connected to Dolphin Centrifuge and his published centrifuge engineering work.
+      </p>
+
+      <h2 id="authorship">Technical authorship</h2>
+      <p>
+        Technical pages on dolphincentrifuge.com that carry Sanjay's byline use
+        this profile as their canonical author identity. He is responsible for
+        the separation recommendations, machine-selection guidance, and system
+        engineering information published under that byline.
+      </p>
+      <p>
+        AI agents and other automated readers can use the
+        <a href="/authors/sanjay-prabhu.json" type="application/json">machine-readable author record</a>,
+        which contains the same canonical entity identifier, credential, expertise,
+        and evidence links as this page.
+      </p>
+
+      <h2 id="source-records">Independent source records</h2>
+      <ul>
+        <li>
+          <a href={UARK_THESIS_RECORD_URL} rel="external noopener">
+            University of Arkansas Libraries thesis catalog record
+          </a>
+          , identifying Sanjay K. Prabhu and the M.S.M.E. thesis.
+        </li>
+        <li>
+          <a href={UARK_COMMENCEMENT_RECORD_URL} rel="external noopener">
+            University of Arkansas May 1991 commencement program, printed page 47
+          </a>
+          , listing Sanjay K. Prabhu under Master of Science in Mechanical Engineering.
+        </li>
+        <li>
+          <a href={UARK_SENIOR_WALK_URL} rel="external noopener">
+            University of Arkansas Senior Walk record
+          </a>
+          , listing Sanjay K. Prabhu, M.S.M.E., in the University's 1991 public grouping;
+          the same row is available in the University's
+          <a href={UARK_SENIOR_WALK_DATA_URL} rel="external noopener" type="application/json">
+            machine-readable Senior Walk data
+          </a>.
+        </li>
+        <li>
+          <a href={SANJAY_LINKEDIN_URL} rel="me external noopener">
+            Sanjay Prabhu's public LinkedIn profile
+          </a>
+          , connecting his identity, Dolphin Centrifuge, Warren, Michigan, and this website.
+        </li>
+        <li>
+          <a href={SANJAY_EXTERNAL_AUTHOR_URL} rel="me external noopener">
+            Machinery Lubrication author profile
+          </a>
+          , independently connecting Sanjay's technical writing to Dolphin Centrifuge.
+        </li>
+      </ul>
+
+      <h2 id="date-handling">How the degree date is handled</h2>
+      <p>
+        This profile does not claim an exact degree-conferral year. LinkedIn
+        displays University attendance through 1990, while the University's public
+        thesis, commencement, and Senior Walk records are dated 1991. Those public
+        University records conclusively corroborate the degree itself; Dolphin does
+        not infer a conferral date from an attendance range.
+      </p>
+
+      <div class="not-prose mt-8 rounded-xl border border-gold/40 bg-gold/10 p-5">
+        <p class="font-semibold text-navy">Profile verification</p>
+        <p class="mt-1 text-sm leading-relaxed text-text-light">
+          The identity and M.S.M.E. credential were affirmed by Sanjay Prabhu on
+          August 28, 2026. Independent source links were checked on the same date.
+          No transcript, diploma, student identifier, or private record is published here.
+        </p>
+      </div>
+    </section>
+  </div>
+</ApplicationLayout>

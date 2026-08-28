@@ -1,5 +1,8 @@
 # Dolphin AEO/GEO Handoff
 
+> Author identity source of truth: `docs/AUTHOR_IDENTITY_SOURCES.md`. Historical text in
+> this handoff must not be used to restore the former "Class of 1990" claim.
+
 Use this file to restart the AEO/GEO optimization exercise in a fresh chat.
 
 LEAD-VALUE PRIORITY (post-launch): PAGE_QUEUE.md in the dolphin-growth-ops
