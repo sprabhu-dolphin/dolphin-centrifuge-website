@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { technicalCatalog } from '../../data/centrifugeTechnicalRegistry.mjs';
+
+type NumericValue = { value: number } | { minimum: number; maximum: number };
+type CapacityRecord = {
+  fluid: { name: string };
+  ratingBasis: string;
+  sourceValue: NumericValue;
+  derivedConversions: NumericValue[];
+  conditions?: { sourceLabel?: string; fluidDefinition?: string };
+};
+type ExactModelRecord = {
+  id: string;
+  displayName: string;
+  machineReadableRecord: string;
+  capacities: CapacityRecord[];
+};
+type CommercialModelRecord = {
+  id: string;
+  displayName: string;
+  canonicalPage: string;
+  baseMachineVariantIds: string[];
+  requiresBaseModelSelection: boolean;
+};
+
+const catalogModels = technicalCatalog.models as unknown as Array<
+  ExactModelRecord & { recordType: string }
+>;
+const exactModels = catalogModels.filter(
+  (model) => model.recordType === 'oem-base-machine' && model.capacities.length > 0,
+);
+const commercialModels = technicalCatalog.models.filter(
+  (model) => model.recordType === 'dolphin-commercial-class',
+) as unknown as CommercialModelRecord[];
+
+function sourceValueText(capacity: CapacityRecord) {
+  const value = capacity.sourceValue;
+  return 'value' in value
+    ? `${value.value.toLocaleString()} L/h`
+    : `${value.minimum.toLocaleString()}–${value.maximum.toLocaleString()} L/h`;
+}
+
+function gpmText(capacity: CapacityRecord) {
+  const conversion = capacity.derivedConversions[0];
+  if (!conversion) return 'Conversion unavailable';
+  return 'value' in conversion
+    ? `${conversion.value.toFixed(2)} US GPM`
+    : `${conversion.minimum.toFixed(2)}–${conversion.maximum.toFixed(2)} US GPM`;
+}
+
+function conditionText(capacity: CapacityRecord) {
+  const conditions = capacity.conditions || {};
+  if (conditions.sourceLabel) return conditions.sourceLabel;
+  if (conditions.fluidDefinition) return conditions.fluidDefinition;
+  return 'See the machine-readable record';
+}
+
+const datasetSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  '@id': 'https://dolphincentrifuge.com/technical-data/#dataset',
+  name: technicalCatalog.title,
+  description: 'Source-backed Alfa Laval centrifuge application capacities with canonical L/h values, deterministic US GPM conversions, operating conditions, Dolphin commercial-class mappings, and published machine specifications.',
+  url: 'https://dolphincentrifuge.com/technical-data/',
+  dateModified: technicalCatalog.lastReviewed,
+  creator: { '@id': technicalCatalog.reviewedBy.id },
+  publisher: { '@id': 'https://dolphincentrifuge.com/#organization' },
+  measurementTechnique: technicalCatalog.methodology.capacitySourceOfTruth,
+  distribution: {
+    '@type': 'DataDownload',
+    encodingFormat: 'application/json',
+    contentUrl: technicalCatalog.catalogId,
+  },
+};
+---
+
+<BaseLayout
+  title="Authoritative Centrifuge Technical Data"
+  description="Machine-readable Alfa Laval MAB, MAPX, MOPX, and WHPX processing capacities with exact L/h source values, derived US GPM, conditions, motor power, voltage, dimensions, materials, and Dolphin model mappings."
+  canonicalUrl="https://dolphincentrifuge.com/technical-data/"
+  alternateJsonUrl="https://dolphincentrifuge.com/technical-data/centrifuges.v1.json"
+  jsonLd={datasetSchema}
+  breadcrumbs={[{ label: 'Technical Data' }]}
+>
+  <section class="bg-navy text-white py-16 md:py-20">
+    <div class="container-dolphin max-w-5xl">
+      <p class="text-gold font-semibold tracking-wide uppercase text-sm mb-3">For engineers, crawlers, and AI agents</p>
+      <h1 class="font-heading text-4xl md:text-5xl font-bold mb-5">Authoritative Centrifuge Technical Data</h1>
+      <p class="text-lg text-gray-200 max-w-3xl leading-relaxed mb-7">
+        Exact source capacities, exact operating conditions, and explicit model relationships—published so a person or agent can answer a technical question without guessing from scattered page copy.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/technical-data/centrifuges.v1.json" class="inline-flex items-center rounded-lg bg-gold px-5 py-3 font-bold text-navy hover:bg-gold-light transition-colors">Open JSON catalog</a>
+        <a href="/authors/sanjay-prabhu/" class="inline-flex items-center rounded-lg border border-white/30 px-5 py-3 font-semibold text-white hover:border-gold hover:text-gold transition-colors">Technical reviewer identity</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-18">
+    <div class="container-dolphin max-w-5xl">
+      <div class="grid md:grid-cols-3 gap-5 mb-12 not-prose">
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <p class="text-3xl font-bold text-navy">{technicalCatalog.statistics.exactOemCapacityModels}</p>
+          <p class="text-sm text-text-light mt-1">exact OEM capacity models</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <p class="text-3xl font-bold text-navy">{technicalCatalog.statistics.capacityRecords}</p>
+          <p class="text-sm text-text-light mt-1">condition-qualified capacity records</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <p class="text-3xl font-bold text-navy">1</p>
+          <p class="text-sm text-text-light mt-1">canonical L/h → US GPM formula</p>
+        </div>
+      </div>
+
+      <article class="prose prose-lg max-w-none">
+        <h2 id="methodology">Capacity methodology</h2>
+        <p>
+          The source value is always the published liters-per-hour cell from the cited Alfa Laval capacity table. US GPM is always derived as <strong>L/h ÷ 227.124707</strong> and rounded to two decimal places. The old GPM spreadsheet cells are not used because their conversion formulas are inconsistent.
+        </p>
+        <p>
+          Each private-library source workbook is identified in the JSON by a SHA-256 fingerprint, exact sheet/cell location, review date, and reviewer identity. That makes each transcription tamper-evident and auditable by a holder of the cited source without publishing the proprietary workbook itself.
+        </p>
+        <div class="not-prose rounded-xl border-l-4 border-gold bg-gold/10 p-5 my-7">
+          <p class="font-bold text-navy mb-2">No blended model ratings</p>
+          <p class="text-text-light leading-relaxed">
+            DMB and DMPX names identify Dolphin commercial classes. Capacity belongs to an exact Alfa Laval base machine and a stated fluid, viscosity, temperature, and basis. If a class has several possible base machines, the catalog and WebMCP tool require that exact base machine before returning a number.
+          </p>
+        </div>
+        <p>
+          Water, wastewater, crude, slop oil, waste oil, pyrolysis oil, and other application claims are not inferred from diesel or fuel-oil tables. They require their own documented field case, Dolphin test, or design-estimate record before they can become machine-readable facts.
+        </p>
+
+        <h2 id="webmcp">WebMCP tools</h2>
+        <p>
+          On browsers that implement the experimental WebMCP API, every normal Dolphin page registers four read-only tools. WebMCP is a <a href="https://webmachinelearning.github.io/webmcp/" rel="noopener noreferrer">W3C Community Group Draft Report</a>, not a W3C Standard. Unsupported browsers simply ignore the feature; the same data remains available today through the versioned JSON catalog and this page.
+        </p>
+        <ul>
+          <li><code>find_centrifuge_models</code> — find exact machines and Dolphin commercial classes.</li>
+          <li><code>get_centrifuge_specifications</code> — return published motor, voltage, dimensions, bowl, and material data without filling unknown fields.</li>
+          <li><code>get_centrifuge_capacity</code> — return source L/h and derived US GPM for an exact machine, fluid, and conditions.</li>
+          <li><code>get_technical_author_identity</code> — return the canonical public identity record for Sanjay Prabhu, M.S.M.E.</li>
+        </ul>
+
+        <h2 id="commercial-classes">Dolphin commercial-class mappings</h2>
+      </article>
+
+      <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm mb-14 not-prose">
+        <table class="w-full text-sm border-collapse">
+          <thead class="bg-navy text-white">
+            <tr>
+              <th class="text-left px-4 py-3">Dolphin class</th>
+              <th class="text-left px-4 py-3">Exact base-machine records</th>
+              <th class="text-left px-4 py-3">Capacity behavior</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 bg-white">
+            {commercialModels.map((model) => (
+              <tr id={model.id}>
+                <td class="px-4 py-3 font-semibold"><a class="text-navy hover:text-gold" href={model.canonicalPage}>{model.displayName}</a></td>
+                <td class="px-4 py-3 font-mono text-xs text-text-light">{model.baseMachineVariantIds.join(', ')}</td>
+                <td class="px-4 py-3 text-text-light">{model.requiresBaseModelSelection ? 'Exact base selection required' : 'Uses the one named base record'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <article class="prose prose-lg max-w-none mb-6">
+        <h2 id="oem-capacities">Exact OEM capacity records</h2>
+        <p>Each figure below retains its source location, process fluid, rating basis, and operating conditions in the JSON catalog.</p>
+      </article>
+
+      <div class="space-y-5 not-prose">
+        {exactModels.map((model) => (
+          <details id={model.id} class="group rounded-xl border border-gray-200 bg-white shadow-sm open:shadow-md">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 px-5 py-4">
+              <span>
+                <span class="block font-bold text-navy text-lg">{model.displayName}</span>
+                <span class="block text-sm text-text-light mt-1">{model.capacities.length} source-backed capacity records</span>
+              </span>
+              <span class="flex items-center gap-4">
+                <a href={model.machineReadableRecord} class="text-xs font-semibold text-navy hover:text-gold">JSON record</a>
+                <span class="text-gold text-xl group-open:rotate-180 transition-transform">⌄</span>
+              </span>
+            </summary>
+            <div class="overflow-x-auto border-t border-gray-100">
+              <table class="w-full text-sm border-collapse">
+                <thead class="bg-light-bg text-navy">
+                  <tr>
+                    <th class="text-left px-4 py-3">Fluid / basis</th>
+                    <th class="text-left px-4 py-3">Canonical source</th>
+                    <th class="text-left px-4 py-3">Derived conversion</th>
+                    <th class="text-left px-4 py-3">Conditions</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  {model.capacities.map((capacity) => (
+                    <tr>
+                      <td class="px-4 py-3"><span class="font-semibold text-navy">{capacity.fluid.name}</span><br/><span class="text-xs text-text-light">{capacity.ratingBasis}</span></td>
+                      <td class="px-4 py-3 font-mono whitespace-nowrap">{sourceValueText(capacity)}</td>
+                      <td class="px-4 py-3 font-mono whitespace-nowrap">{gpmText(capacity)}</td>
+                      <td class="px-4 py-3 text-text-light">{conditionText(capacity)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <div class="mt-12 rounded-xl bg-navy p-6 md:p-8 text-white not-prose">
+        <h2 class="font-heading text-2xl font-bold mb-3">Need application-specific sizing?</h2>
+        <p class="text-gray-200 mb-5 max-w-3xl">Published tables are a technical starting point. Feed density, water and solids loading, separation target, temperature, and exact bowl configuration determine final sizing.</p>
+        <a href="/contact-for-alfa-laval-centrifuges/" class="inline-flex rounded-lg bg-gold px-5 py-3 font-bold text-navy hover:bg-gold-light transition-colors">Ask a centrifuge engineer</a>
+      </div>
+
+      <p class="mt-6 text-sm text-text-muted">Dolphin Centrifuge is an independent remanufacturer and is not affiliated with or authorized by Alfa Laval.</p>
+    </div>
+  </section>
+</BaseLayout>

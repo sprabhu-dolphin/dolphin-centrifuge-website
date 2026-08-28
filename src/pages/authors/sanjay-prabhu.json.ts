@@ -37,6 +37,12 @@ const authorRecord = {
     responsibility:
       'Centrifuge application engineering, machine selection, remanufacturing scope, turnkey separation-system design, and technical recommendations published under his byline.',
   },
+  technicalDataReview: {
+    role: 'Named technical reviewer',
+    catalog: 'https://dolphincentrifuge.com/technical-data/centrifuges.v1.json',
+    methodology: 'https://dolphincentrifuge.com/technical-data/#methodology',
+    reviewedOn: '2026-08-28',
+  },
   evidence: [
     {
       claim: 'Full name and Master of Science in Mechanical Engineering credential',
