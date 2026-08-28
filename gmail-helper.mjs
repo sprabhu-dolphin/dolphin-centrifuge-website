@@ -815,6 +815,7 @@ function attachmentMimeType(filename) {
     '.jpg': 'image/jpeg',
     '.pdf': 'application/pdf',
     '.png': 'image/png',
+    '.webp': 'image/webp',
     '.ppt': 'application/vnd.ms-powerpoint',
     '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     '.txt': 'text/plain',
@@ -1184,6 +1185,7 @@ async function selfTest() {
   check('parseArgs spaced value', args.query === 'from:a b');
   check('parseArgs eq value', args.max === '5');
   check('parseArgs flag', args.json === true);
+  check('attachment MIME recognizes WebP', attachmentMimeType('illustration.WEBP') === 'image/webp');
   const pagingArgs = parseArgs([
     'search', '--query', 'newer_than:1d', '--page-token', 'opaque-page',
     '--envelope', '--json',
