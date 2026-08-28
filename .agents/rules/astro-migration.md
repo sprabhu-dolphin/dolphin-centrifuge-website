@@ -109,7 +109,7 @@ All future AEO/GEO Astro instructions must include a page-local quick link check
 - Do not add unsupported Product, Article, brand, manufacturer, capacity, price, performance, or authorization claims.
 - If an FAQ is rendered and approved, `FAQPage` schema must match it exactly.
 - If no rendered FAQ exists, do not include `FAQPage` schema.
-- For AEO/GEO schema, add schema-only author enrichment for Sanjay Prabhu MSME when truthful. Use `Article.author` when Article schema exists. If there is no Article schema, use `WebPage.author`; do not create Article schema only to carry author data. Current hidden-only credential: Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville, Class of 1990. Do not add visible author, degree, school, class year, or reviewed-by text unless Sanjay explicitly asks for visible author treatment.
+- For AEO/GEO schema, resolve every Sanjay Prabhu author reference to the canonical Person at `https://dolphincentrifuge.com/authors/sanjay-prabhu/#person`. Use `Article.author` when Article schema exists. If there is no Article schema, use `WebPage.author`; do not create Article schema only to carry author data. The canonical profile visibly publishes the source-backed credential and evidence links. Do not add a class year or maintain a second page-local biography.
 - If Codex assigns a supplemental author-credential pass for a page that already passed, keep it hidden-schema-only and do not reopen content, images, layout, captions, CTAs, links, or visible text unless Codex explicitly assigns that separate issue.
 
 ## FAQ
