@@ -74,6 +74,51 @@ answer pass clears the whole backlog. 50 items: A=24, B=10, C=10, D=6.
 
 ## Status log
 
+### 2026-08-29 - R5 FINAL EIGHT RULED AND APPLIED
+- Sanjay ruled the last eight spec conflicts (R5-1 to R5-8). Every item on
+  docs/RULING_WORKSHEET.md is now ruled except F9 (warranty terms, still parked).
+  The worksheet carries the eight in a new "R5 - final eight" section.
+- Applied through the spec-source system: src/data/centrifugeSpecs.ts holds the values,
+  the resolved notes and tbd markers were cleared, and the newly rejected numbers went
+  into rejectedValues tagged R5-1..R5-8 so the build guard forbids them from here on.
+- R5-1 MAB-102 = 9,375 RPM (prose fixed on smallest-industrial-centrifuges).
+  R5-2 Sharples P-660 = 3,050 Gs (same page, prose fixed).
+  R5-3 NX 416 = 15 HP confirmed; the page row now renders from the data file and the
+  R2a-era TBD comment is gone. 20 HP is rejected for the NX 416 ONLY - it stays correct
+  for the NX 418.
+  R5-4 MOPX 207 = 6,325 RPM; the DMPX-028 case study's 8,000 RPM is corrected in both
+  the spec table and the related-product blurb. 8,000 RPM stays legitimate elsewhere.
+  R5-5 wastewater NX rows aligned to the model pages: NX 314 = 25 GPM fluid-labeled,
+  NX 418 = 110 GPM on water sludge thickening. 80 and 170 GPM removed and rejected.
+  R5-6 homepage disc-stack badge is now "Up to 8,500 Gs depending on model".
+  R5-7 the G2-40's cloned 3,150 RCF and AE 1,565 are removed from the page, the JSON-LD
+  and the FAQ answer. No replacement invented; both fields carry tbd notes.
+  R5-8 DMPX-070 G-force is officially NOT PUBLISHED, closing A16's leftover. Placeholder
+  row and TBD comment removed from /centrifuges/dmpx-070/.
+- The guard did its job: adding the R5-5 rejections failed the build on
+  /industrial-centrifuge/, which was still carrying the same NX 314 80 GPM claim. That
+  table and the two matching NX 418 170 GPM spots on /decanter-centrifuge/ were corrected
+  in the same pass.
+- npm run build passes: 153 pages, spec-consistency-check OK, 54 models, 59 rejected
+  values, 155 pages scanned. dist verified clean on all eight.
+
+### 2026-08-29 - SPEC SOURCE OF TRUTH LIVE (PR #58, merge a46293b)
+- src/data/centrifugeSpecs.ts is the single authoritative spec source: 54 models, 180
+  fluid-labeled capacities, 47 rejected values carrying their ruling ids. Imports the
+  OEM L/h registry (2026-08-28) rather than forking it. 25 spec tables on 17 pages
+  render from it via SpecTable.astro.
+- Build now FAILS on contradiction: scripts/spec-consistency-check.mjs runs inside
+  npm run build (rejected value near its model, or a model page missing its canonical
+  values). To change a spec: edit centrifugeSpecs.ts only. See docs/SPEC_SOURCE.md.
+- Public machine-readable endpoint live: https://dolphincentrifuge.com/specs.json
+  (feeds AI crawlers and the WebMCP agent-data work).
+- 13 surviving contradictions surfaced and fixed per existing rulings (rental page
+  JSON-LD was the worst offender). 8 NEW small conflicts found and parked in the data
+  file notes awaiting Sanjay: MAB-102 9,300 vs 9,375 RPM; P-660 3,070 vs 3,050 Gs;
+  NX 416 15 vs 20 HP; MOPX 207 8,000 vs 6,325 RPM; wastewater page NX 314/418 80/170
+  GPM rated rows; homepage class-wide "12,000 x g" badge; G2-40 values look cloned
+  from pre-correction NX 418; DMPX-070 G-force (still frozen per A16).
+
 ### 2026-08-24 - RULING SESSION COMPLETE (R4)
 - Photo session done. Sanjay visually confirmed all six open photo items: C2 the
   disc-stack-applications DMPX-042 photo IS a MOPX 209 (no change); C4 the stainless

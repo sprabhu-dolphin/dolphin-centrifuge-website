@@ -124,23 +124,27 @@ switching that test to read `dist` instead of source.
 
 ## Open items needing an owner ruling
 
-These are live contradictions the guard surfaced that no ruling covers. They are recorded
-in the `notes` of their model records so they cannot be lost:
+**None.** The eight contradictions the guard surfaced were ruled on 2026-08-29 as R5-1 to
+R5-8 and applied. See the "R5 - final eight" section of `docs/RULING_WORKSHEET.md` for the
+rulings, and each model record's `notes` and `rejectedValues` for how they are enforced:
 
-- **MAB-102 bowl speed.** `/smallest-industrial-centrifuges/` prose says 9,300 RPM; its own
-  spec table says 9,375 RPM.
-- **Sharples P-660 G-force.** The same page's prose says 3,070 Gs; its table says 3,050 Gs.
-- **NX 416 motor.** The page table says 15 HP; its prose said 20 HP.
-- **MOPX 207 bowl speed.** The DMPX-028 case study says 8,000 RPM; the model page says
-  6,325 RPM.
-- **NX 314 / NX 418 rated capacity on `/wastewater-centrifuge/`.** That comparison table
-  gives 80 GPM and 170 GPM against 25 GPM and 110 GPM on the model pages.
-- **Homepage disc-stack card** carries a class-wide "12,000 × g" badge, which E4 ruled
-  against as a class-wide claim, but E4 named only the 8,000 / 10,000 / 12,000 Gs figures in
-  prose and this is a badge, so it was left alone.
-- **G2-40 G-force and AE.** 3,150 RCF and AE 1,565 match the pre-correction NX 418 values
-  and look cloned. No ruling covers the G2-40.
-- **DMPX-070 G-force** stays frozen and parked per A16. None is published.
+- **R5-1 MAB-102 bowl speed** = 9,375 RPM. 9,300 RPM rejected.
+- **R5-2 Sharples P-660 G-force** = 3,050 Gs. 3,070 Gs rejected.
+- **R5-3 NX 416 motor** = 15 HP confirmed. 20 HP rejected for the NX 416 only; it remains
+  correct for the NX 418.
+- **R5-4 MOPX 207 bowl speed** = 6,325 RPM. 8,000 RPM rejected for the MOPX 207 only; it
+  remains legitimate on other frames.
+- **R5-5 NX 314 / NX 418 rated capacity** aligned to the model pages: 25 GPM stated with its
+  fluid, and 110 GPM on water sludge thickening. 80 GPM and 170 GPM rejected.
+- **R5-6 Homepage disc-stack card** now reads "Up to 8,500 Gs depending on model". 12,000 is
+  rejected as a disc-stack class G-force claim.
+- **R5-7 G2-40 G-force and AE** removed from the page, since both were cloned from the
+  pre-correction NX 418. No replacement was invented; both fields carry `tbd` notes.
+- **R5-8 DMPX-070 G-force** is officially NOT PUBLISHED, closing A16's parked item.
+
+Two items stay genuinely open and are recorded in their records rather than here: the NX 416
+bowl diameter (possibly cloned from the NX 314) and the MAPX 210 fluid label behind A20's
+42 GPM.
 
 ---
 
