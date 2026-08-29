@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const faqItems = [
   {
@@ -296,31 +297,18 @@ const relatedProducts = [
       <p class="text-text-light mb-4">
         The Alfa Laval MOPX 310 is a self-cleaning disc-stack centrifuge in the same size class, designed for three-phase separation of <a href="/pyrolysis-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">industrial oil</a>, <a href="/lube-oil-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">lube oil</a>, <a href="/wvo-centrifuge-separator/" class="text-navy font-semibold hover:text-gold transition-colors">WVO</a>, <a href="/black-diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">black diesel</a>, and other mineral oils. With a 10 HP motor at 5,180 RPM, it processes 25 GPM of <a href="/disc-stack-centrifuge-remove-metals-ash-used-oil/" class="text-navy font-semibold hover:text-gold transition-colors">used oil</a> at 180&deg;F.
       </p>
-      <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-        <tbody>
-          <tr class="bg-white border-b border-gray-200">
-            <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-            <td class="px-4 py-3 font-mono text-text-light">Alfa Laval MOPX 310 TGT 20-60</td>
-          </tr>
-          <!-- MOPX 310 application figure is kept separate from WHPX 510 capacity data. -->
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-            <td class="px-4 py-3 font-mono text-text-light">25 GPM on Used Oil @ 180 &deg;F</td>
-          </tr>
-          <tr class="bg-white border-b border-gray-200">
-            <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-            <td class="px-4 py-3 font-mono text-text-light">1.55 Gallons</td>
-          </tr>
-          <tr class="bg-gray-50 border-b border-gray-200">
-            <td class="px-4 py-3 font-semibold text-navy">Motor HP</td>
-            <td class="px-4 py-3 font-mono text-text-light">10 HP</td>
-          </tr>
-          <tr class="bg-white">
-            <td class="px-4 py-3 font-semibold text-navy">Voltages</td>
-            <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- MOPX 310 application figure is kept separate from WHPX 510 capacity data. -->
+      <SpecTable
+        model="alfa-laval-mopx-310"
+        variant="striped-card"
+        rows={[
+          { label: 'Model Type', field: 'modelType' },
+          { label: 'Rated Capacity', capacity: 0 },
+          { label: 'Sludge Space', field: 'sludgeVolumeGal' },
+          { label: 'Motor HP', field: 'motorHp' },
+          { label: 'Voltages', field: 'voltages' },
+        ]}
+      />
     </div>
   </div>
 

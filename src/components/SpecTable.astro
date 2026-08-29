@@ -1,0 +1,233 @@
+---
+/**
+ * SpecTable - renders a machine spec table from the ONE authoritative spec source
+ * (`src/data/centrifugeSpecs.ts`). No page types a spec number by hand any more.
+ *
+ * Usage:
+ *   <SpecTable model="alfa-laval-nx-314" variant="collapse" rows={[
+ *     { label: 'Model Type', field: 'modelType', firstCol: true },
+ *     { label: 'Rated Capacity', capacity: 0 },
+ *     { label: 'Conveyor Protection', field: 'conveyorProtection' },
+ *   ]} />
+ *
+ * Rows that the data file cannot represent cleanly (page-specific options, notes)
+ * pass through literally with `value` or `html`. Zero content loss.
+ *
+ * `variant` reproduces each page's existing table styling exactly. Add a variant
+ * rather than restyling a page.
+ */
+import { getModel, type ModelSpec, type Capacity, type Numeric } from '../data/centrifugeSpecs';
+
+export type SpecVariant = 'plain' | 'striped-card' | 'collapse' | 'bare';
+
+export interface SpecRow {
+  label: string;
+  /** Raw HTML label, for labels containing markup such as A<sub>E</sub>. */
+  labelHtml?: string;
+  /** Name of a scalar field on the model record. */
+  field?: keyof ModelSpec;
+  /** Index into the model's `capacities` array. */
+  capacity?: number;
+  /** Literal value for a page-specific row the data file does not own. */
+  value?: string;
+  /** Literal value containing markup (links, entities). */
+  html?: string;
+  /** Wrap the label in <strong>. */
+  strongLabel?: boolean;
+  /** Wrap the value in <strong>. */
+  strongValue?: boolean;
+  /** Add w-1/2 to this row's label cell (pages put it on the first row only). */
+  firstCol?: boolean;
+  /** Per-row class overrides, when one row of a table differs from the rest. */
+  labelClass?: string;
+  valueClass?: string;
+  /**
+   * Overrides the unit token a numeric field is printed with, so a page that
+   * says "3,740 RCF" and one that says "3,740 Gs" can share one stored number.
+   */
+  unitLabel?: string;
+}
+
+interface Props {
+  model: string;
+  rows: SpecRow[];
+  variant?: SpecVariant;
+  /** Overrides the variant's <table> class entirely. */
+  tableClass?: string;
+  /** thead row of column headings, when the page has one. */
+  headings?: string[];
+  headRowClass?: string;
+  headCellClass?: string;
+}
+
+const {
+  model: modelId,
+  rows,
+  variant = 'plain',
+  tableClass,
+  headings,
+  headRowClass,
+  headCellClass,
+} = Astro.props as Props;
+
+const model = getModel(modelId);
+
+/* ------------------------------------------------------------- formatting */
+
+function num(value: number): string {
+  return value >= 1000 ? value.toLocaleString('en-US') : String(value);
+}
+
+function numeric(value: Numeric, join = '-'): string {
+  return Array.isArray(value) ? `${num(value[0])}${join}${num(value[1])}` : num(value);
+}
+
+function formatCapacity(capacity: Capacity): string {
+  if (capacity.label) return capacity.label;
+  const head = `${numeric(capacity.value)} ${capacity.unit === 'US GPM' ? 'GPM' : capacity.unit}`;
+  const derived =
+    capacity.derivedGpm !== undefined ? ` (${numeric(capacity.derivedGpm)} GPM)` : '';
+  const fluid = capacity.fluid ? ` on ${capacity.fluid}` : '';
+  const conditions = capacity.conditions ? ` ${capacity.conditions}` : '';
+  return `${head}${derived}${fluid}${conditions}`;
+}
+
+function formatField(key: keyof ModelSpec, unitLabel?: string): string {
+  const raw = model[key];
+  if (raw === undefined || raw === null) {
+    throw new Error(`SpecTable: ${modelId} has no published value for "${String(key)}"`);
+  }
+  switch (key) {
+    case 'bowlSpeedRpm':
+      return `${numeric(raw as Numeric)} ${unitLabel ?? 'RPM'}`;
+    case 'motorHp':
+      return `${numeric(raw as Numeric)} ${unitLabel ?? 'HP'}`;
+    case 'sludgeVolumeGal':
+      return `${numeric(raw as Numeric)} ${unitLabel ?? 'Gallons'}`;
+    case 'netWeightLb':
+      return `${numeric(raw as Numeric)} ${unitLabel ?? 'Lbs'}`;
+    case 'gForce':
+      return typeof raw === 'string' ? raw : `${numeric(raw as Numeric)} ${unitLabel ?? 'Gs'}`;
+    case 'areaEquivalent':
+      return numeric(raw as Numeric);
+    case 'micronRating':
+      return `${raw} micron`;
+    case 'bowlDiameter':
+    case 'bowlLength': {
+      const d = raw as { value: Numeric; unit: string; alsoMm?: Numeric; alsoIn?: Numeric };
+      const primary = d.unit === 'in' ? `${numeric(d.value)}"` : `${numeric(d.value)} ${d.unit}`;
+      if (d.alsoMm !== undefined) return `${primary} (${numeric(d.alsoMm)} mm)`;
+      if (d.alsoIn !== undefined) return `${primary} (${numeric(d.alsoIn)}")`;
+      return primary;
+    }
+    default:
+      return String(raw);
+  }
+}
+
+function cellValue(row: SpecRow): { text?: string; html?: string } {
+  if (row.html !== undefined) return { html: row.html };
+  if (row.value !== undefined) return { text: row.value };
+  if (row.capacity !== undefined) {
+    const capacity = model.capacities[row.capacity];
+    if (!capacity) {
+      throw new Error(`SpecTable: ${modelId} has no capacity at index ${row.capacity}`);
+    }
+    return { text: formatCapacity(capacity) };
+  }
+  if (row.field !== undefined) return { text: formatField(row.field, row.unitLabel) };
+  throw new Error(`SpecTable: row "${row.label}" on ${modelId} has no source`);
+}
+
+/* ----------------------------------------------------------- variant style */
+
+const VARIANTS: Record<
+  SpecVariant,
+  {
+    table: string;
+    row: (index: number, last: boolean) => string;
+    label: (first: boolean) => string;
+    value: string;
+  }
+> = {
+  /** Bare <table> inheriting the page's prose styles. */
+  plain: {
+    table: '',
+    row: () => '',
+    label: () => '',
+    value: '',
+  },
+  /** Un-styled table inside a not-prose card wrapper the page already provides. */
+  bare: {
+    table: '',
+    row: () => '',
+    label: (first) => (first ? 'font-semibold w-1/2' : 'font-semibold'),
+    value: 'font-mono',
+  },
+  /** Bordered rounded card with alternating white / gray-50 rows. */
+  'striped-card': {
+    table: 'w-full text-sm border border-gray-200 rounded-lg overflow-hidden',
+    row: (index, last) =>
+      `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}${last ? '' : ' border-b border-gray-200'}`,
+    label: () => 'px-4 py-3 font-semibold text-navy',
+    value: 'px-4 py-3 font-mono text-text-light',
+  },
+  /** Borderless collapse table with gray-100 rules and alternating gray-50 rows. */
+  collapse: {
+    table: 'w-full text-sm border-collapse',
+    row: (index, last) =>
+      [last ? '' : 'border-b border-gray-100', index % 2 === 1 ? 'bg-gray-50' : '']
+        .filter(Boolean)
+        .join(' '),
+    label: (first) => `py-3 pr-4 font-semibold text-navy${first ? ' w-1/2' : ''}`,
+    value: 'py-3 font-mono text-gray-700',
+  },
+};
+
+const style = VARIANTS[variant];
+const resolvedTableClass = tableClass ?? style.table;
+
+const cells = rows.map((row, index) => {
+  const last = index === rows.length - 1;
+  const value = cellValue(row);
+  return {
+    row,
+    rowClass: style.row(index, last),
+    labelClass: row.labelClass ?? style.label(Boolean(row.firstCol)),
+    valueClass: row.valueClass ?? style.value,
+    ...value,
+  };
+});
+---
+
+<table class:list={resolvedTableClass || undefined}>
+  {headings && (
+    <thead>
+      <tr class:list={headRowClass || undefined}>
+        {headings.map((heading) => (
+          <th class:list={headCellClass || undefined} set:html={heading} />
+        ))}
+      </tr>
+    </thead>
+  )}
+  <tbody>
+    {cells.map((cell) => (
+      <tr class:list={cell.rowClass || undefined}>
+        <td class:list={cell.labelClass || undefined}>
+          {cell.row.labelHtml
+            ? (cell.row.strongLabel
+                ? <strong set:html={cell.row.labelHtml} />
+                : <Fragment set:html={cell.row.labelHtml} />)
+            : (cell.row.strongLabel ? <strong>{cell.row.label}</strong> : cell.row.label)}
+        </td>
+        <td class:list={cell.valueClass || undefined}>
+          {cell.html !== undefined
+            ? (cell.row.strongValue
+                ? <strong set:html={cell.html} />
+                : <Fragment set:html={cell.html} />)
+            : (cell.row.strongValue ? <strong>{cell.text}</strong> : cell.text)}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>

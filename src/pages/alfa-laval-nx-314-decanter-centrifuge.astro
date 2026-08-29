@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const jsonLd = [
   {
@@ -199,58 +200,24 @@ const toc = [
     <!-- NX-314 Specifications -->
     <h3 id="nx314-specifications">Specifications</h3>
     <div class="overflow-x-auto">
-      <table class="w-full text-sm border-collapse">
-        <tbody>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy w-1/2">Model Type</td>
-            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 314 B31-G</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Rated Capacity</td>
-            <td class="py-3 font-mono text-gray-700">25 GPM on Hemp Ethanol Slurry</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Auger Differential Speed</td>
-            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Diameter</td>
-            <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Length</td>
-            <td class="py-3 font-mono text-gray-700">34" (860 mm)</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Beach Angle (Half Cone)</td>
-            <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Drive Motor Power</td>
-            <td class="py-3 font-mono text-gray-700">10 HP</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Gearbox Ratio</td>
-            <td class="py-3 font-mono text-gray-700">1: 159 (2.5 kN-M)</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">AE (Area Equivalent)</td>
-            <td class="py-3 font-mono text-gray-700">780</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Centrifugal Force</td>
-            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Speed</td>
-            <td class="py-3 font-mono text-gray-700">4000 RPM </td>
-          </tr>
-          <tr class="bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Conveyor Protection</td>
-            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-          </tr>
-        </tbody>
-      </table>
+      <SpecTable
+        model="alfa-laval-nx-314"
+        variant="collapse"
+        rows={[
+          { label: 'Model Type', field: 'modelType', firstCol: true },
+          { label: 'Rated Capacity', capacity: 0 },
+          { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+          { label: 'Bowl Diameter', field: 'bowlDiameter' },
+          { label: 'Bowl Length', field: 'bowlLength' },
+          { label: 'Beach Angle (Half Cone)', field: 'beachAngle' },
+          { label: 'Drive Motor Power', field: 'motorHp' },
+          { label: 'Gearbox Ratio', field: 'gearboxRatio' },
+          { label: 'AE (Area Equivalent)', field: 'areaEquivalent' },
+          { label: 'Centrifugal Force', html: '3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>' },
+          { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+          { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        ]}
+      />
     </div>
 
     <!-- Mid-page CTA -->
@@ -416,38 +383,19 @@ const toc = [
     <h3 id="avnx414-specifications">Specifications</h3>
     <!-- TBD: Track-2 ruling - AVNX/NX 414 bowl dimensions, motor HP, AE; previous values were cloned from the NX 314 table -->
     <div class="overflow-x-auto">
-      <table class="w-full text-sm border-collapse">
-        <tbody>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy w-1/2">Model Type</td>
-            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 414 B31-G</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Rated Capacity</td>
-            <td class="py-3 font-mono text-gray-700">25 GPM on Cannabis THC Solvent Biomass Separation</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Auger Differential Speed</td>
-            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Gearbox Ratio</td>
-            <td class="py-3 font-mono text-gray-700">1: 159 (2.5 kN-M)</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Centrifugal Force</td>
-            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Speed</td>
-            <td class="py-3 font-mono text-gray-700">4000 RPM </td>
-          </tr>
-          <tr>
-            <td class="py-3 pr-4 font-semibold text-navy">Conveyor Protection</td>
-            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-          </tr>
-        </tbody>
-      </table>
+      <SpecTable
+        model="alfa-laval-nx-414"
+        variant="collapse"
+        rows={[
+          { label: 'Model Type', field: 'modelType', firstCol: true },
+          { label: 'Rated Capacity', capacity: 0 },
+          { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+          { label: 'Gearbox Ratio', field: 'gearboxRatio' },
+          { label: 'Centrifugal Force', html: '3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>' },
+          { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+          { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        ]}
+      />
     </div>
 
     <p class="text-sm text-text-light">
@@ -477,58 +425,24 @@ const toc = [
     <h3 id="nx416-specifications">Specifications</h3>
     <!-- TBD: Track-2 ruling - NX 416 motor HP (prose said 20, table says 15) and bowl diameter (14"/353mm may be cloned from NX 314) -->
     <div class="overflow-x-auto">
-      <table class="w-full text-sm border-collapse">
-        <tbody>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy w-1/2">Model Type</td>
-            <td class="py-3 font-mono text-gray-700">Alfa Laval NX 416 B31-G</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Rated Capacity</td>
-            <td class="py-3 font-mono text-gray-700">40 GPM on UCO @ 180 F</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Auger Differential Speed</td>
-            <td class="py-3 font-mono text-gray-700">1 ~ 50 RPM</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Diameter</td>
-            <td class="py-3 font-mono text-gray-700">14" (353 mm)</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Length</td>
-            <td class="py-3 font-mono text-gray-700">46" (1,160 mm)</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Beach Angle (Half Cone)</td>
-            <td class="py-3 font-mono text-gray-700">8.5 Degrees</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Drive Motor Power</td>
-            <td class="py-3 font-mono text-gray-700">15 HP</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Gearbox Ratio</td>
-            <td class="py-3 font-mono text-gray-700">1: 159 (2.5 kN-M)</td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">AE (Area Equivalent)</td>
-            <td class="py-3 font-mono text-gray-700">1,170</td>
-          </tr>
-          <tr class="border-b border-gray-100 bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Centrifugal Force</td>
-            <td class="py-3 font-mono text-gray-700">3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a></td>
-          </tr>
-          <tr class="border-b border-gray-100">
-            <td class="py-3 pr-4 font-semibold text-navy">Bowl Speed</td>
-            <td class="py-3 font-mono text-gray-700">4000 RPM </td>
-          </tr>
-          <tr class="bg-gray-50">
-            <td class="py-3 pr-4 font-semibold text-navy">Conveyor Protection</td>
-            <td class="py-3 font-mono text-gray-700">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-          </tr>
-        </tbody>
-      </table>
+      <SpecTable
+        model="alfa-laval-nx-416"
+        variant="collapse"
+        rows={[
+          { label: 'Model Type', field: 'modelType', firstCol: true },
+          { label: 'Rated Capacity', capacity: 0 },
+          { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+          { label: 'Bowl Diameter', field: 'bowlDiameter' },
+          { label: 'Bowl Length', field: 'bowlLength' },
+          { label: 'Beach Angle (Half Cone)', field: 'beachAngle' },
+          { label: 'Drive Motor Power', value: '15 HP' },
+          { label: 'Gearbox Ratio', field: 'gearboxRatio' },
+          { label: 'AE (Area Equivalent)', field: 'areaEquivalent' },
+          { label: 'Centrifugal Force', html: '3,157 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>' },
+          { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+          { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        ]}
+      />
     </div>
 
     <!-- Photo Gallery -->

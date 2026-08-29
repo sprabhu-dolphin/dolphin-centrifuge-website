@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const productJsonLd = {
   "@context": "https://schema.org",
@@ -203,15 +204,17 @@ const relatedApplications = [
   <h3 id="fopx-613-specifications">Specifications</h3>
 
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
-    <table>
-      <tbody>
-        <tr><td>Model Type</td><td>Alfa Laval FOPX 613 TGD 24-60</td></tr>
-        <tr><td>Rated Capacity</td><td>30 GPM on 380 cSt Heavy Fuel oil (HFO)</td></tr>
-        <tr><td>Sludge Space</td><td>3.95 Gallons</td></tr>
-        <tr><td>Motor HP:</td><td>15 HP</td></tr>
-        <tr><td>Voltages:</td><td>230 / 460 V</td></tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-fopx-613"
+      variant="plain"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Rated Capacity', capacity: 0 },
+        { label: 'Sludge Space', field: 'sludgeVolumeGal' },
+        { label: 'Motor HP:', field: 'motorHp' },
+        { label: 'Voltages:', field: 'voltages' },
+      ]}
+    />
   </div>
 
   <h2 id="mopx-213">Alfa Laval MOPX 213 TGT Total-Discharge Disc-Stack Centrifuge</h2>
@@ -235,15 +238,17 @@ const relatedApplications = [
   <h3 id="mopx-213-specifications">Specifications</h3>
 
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
-    <table>
-      <tbody>
-        <tr><td>Model Type</td><td>Alfa Laval MOPX 213 TGT 20-60</td></tr>
-        <tr><td>Dolphin Application Figure</td><td>40 GPM on used engine oil at 180 &deg;F</td></tr>
-        <tr><td>Sludge Space</td><td>3.61 Gallons</td></tr>
-        <tr><td>Motor HP:</td><td>15 HP</td></tr>
-        <tr><td>Voltages:</td><td>230 / 460 V</td></tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-mopx-213"
+      variant="plain"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Dolphin Application Figure', capacity: 4 },
+        { label: 'Sludge Space', field: 'sludgeVolumeGal' },
+        { label: 'Motor HP:', field: 'motorHp' },
+        { label: 'Voltages:', field: 'voltages' },
+      ]}
+    />
   </div>
 
   <h2 id="WHPX-513-Gallery">Used (Re-Manufactured) Alfa Laval WHPX 513 Centrifuges Modules</h2>

@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -181,46 +182,21 @@ const relatedProducts = [
   <h3 id="specifications">Specifications</h3>
 
   <div class="overflow-x-auto mb-8">
-    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <tbody>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval G2-40 Decanter Centrifuge</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-          <td class="px-4 py-3 font-mono text-text-light">160 GPM on Water Sludge Thickening</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Auger Differential Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">1 ~ 140 RPM</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Drive Motor Power</td>
-          <td class="px-4 py-3 font-mono text-text-light">20 HP</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">GearBox Ratio</td>
-          <td class="px-4 py-3 font-mono text-text-light">1: 52 (3.5 kN-M) DD Gearbox</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">A<sub>E</sub> (Area Equivalent)</td>
-          <td class="px-4 py-3 font-mono text-text-light">1,565</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">4,000 RPM</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
-          <td class="px-4 py-3 font-mono text-text-light">3,150 RCF</td>
-        </tr>
-        <tr class="bg-white">
-          <td class="px-4 py-3 font-semibold text-navy">Conveyor Protection</td>
-          <td class="px-4 py-3 font-mono text-text-light">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-        </tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-g2-40"
+      variant="striped-card"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Rated Capacity', capacity: 0 },
+        { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+        { label: 'Drive Motor Power', field: 'motorHp' },
+        { label: 'GearBox Ratio', field: 'gearboxRatio' },
+        { label: 'AE (Area Equivalent)', labelHtml: 'A<sub>E</sub> (Area Equivalent)', field: 'areaEquivalent' },
+        { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+        { label: 'G-Force', value: '3,150 RCF' },
+        { label: 'Conveyor Protection', field: 'conveyorProtection' },
+      ]}
+    />
   </div>
 
   <!-- PDF Datasheet - after specs table -->

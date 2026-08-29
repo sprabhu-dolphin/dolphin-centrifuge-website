@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const faqItems = [
   {
@@ -167,18 +168,20 @@ const relatedProducts = [
 
   <h2 id="specifications">WSPX 307 Specifications</h2>
 
-  <table>
-    <tbody>
-      <tr><td><strong>Model Type</strong></td><td>Alfa Laval WSPX 307 TGD</td></tr>
-      <tr><td><strong>Rated Capacity</strong></td><td>28 GPM</td></tr>
-      <tr><td><strong>Sludge Space</strong></td><td>0.87 Gallons</td></tr>
-      <tr><td><strong>Motor HP</strong></td><td>10 HP</td></tr>
-      <tr><td><strong>Bowl Speed</strong></td><td>8,600 RPM</td></tr>
-      <tr><td><strong>G-Force</strong></td><td>7,000+</td></tr>
-      <tr><td><strong>Bowl Type</strong></td><td>Self-Cleaning (Automatic Discharge)</td></tr>
-      <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
-    </tbody>
-  </table>
+  <SpecTable
+    model="alfa-laval-wspx-307"
+    variant="plain"
+    rows={[
+      { label: 'Model Type', field: 'modelType', strongLabel: true },
+      { label: 'Rated Capacity', capacity: 0, strongLabel: true },
+      { label: 'Sludge Space', field: 'sludgeVolumeGal', strongLabel: true },
+      { label: 'Motor HP', field: 'motorHp', strongLabel: true },
+      { label: 'Bowl Speed', field: 'bowlSpeedRpm', strongLabel: true },
+      { label: 'G-Force', field: 'gForce', strongLabel: true },
+      { label: 'Bowl Type', field: 'bowlType', strongLabel: true },
+      { label: 'Voltages', field: 'voltages', strongLabel: true },
+    ]}
+  />
 
   <h2 id="applications">Applications</h2>
 

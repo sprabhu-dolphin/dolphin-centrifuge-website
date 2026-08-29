@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -130,38 +131,19 @@ const relatedApplications = [
   <!-- Specifications -->
   <h2 id="specifications">Specifications</h2>
   <div class="overflow-x-auto mb-8 not-prose">
-    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <tbody>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval BTPX-205</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-          <td class="px-4 py-3 font-mono text-text-light">5 GPM on Pharma Cell Broth</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Sludge Space</td>
-          <td class="px-4 py-3 font-mono text-text-light">0.25 Gallons</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl RPM</td>
-          <td class="px-4 py-3 font-mono text-text-light">9,650</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
-          <td class="px-4 py-3 font-mono text-text-light">12,800 Gs</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Motor HP:</td>
-          <td class="px-4 py-3 font-mono text-text-light">7.5 HP</td>
-        </tr>
-        <tr class="bg-white">
-          <td class="px-4 py-3 font-semibold text-navy">Voltages:</td>
-          <td class="px-4 py-3 font-mono text-text-light">230 / 460 V</td>
-        </tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-btpx-205"
+      variant="striped-card"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Rated Capacity', capacity: 0 },
+        { label: 'Sludge Space', field: 'sludgeVolumeGal' },
+        { label: 'Bowl RPM', value: '9,650' },
+        { label: 'G-Force', field: 'gForce' },
+        { label: 'Motor HP:', field: 'motorHp' },
+        { label: 'Voltages:', field: 'voltages' },
+      ]}
+    />
   </div>
 
   <!-- Applications -->

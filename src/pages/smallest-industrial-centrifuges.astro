@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -146,17 +147,19 @@ const relatedProducts = [
   <h3 id="specifications-651395ab-ac65-4ea0-8ae3-fc6be01b666b">Specifications</h3>
 
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
-    <table>
-      <tbody>
-        <tr><td><strong>Decanter Model</strong></td><td><strong>Sharples P-660</strong></td></tr>
-        <tr><td>Motor Power</td><td>5 HP</td></tr>
-        <tr><td>Weight</td><td>450 Lbs</td></tr>
-        <tr><td>Bowl Speed</td><td>6,000 RPM</td></tr>
-        <tr><td>G-Force</td><td>3,050 Gs</td></tr>
-        <tr><td>Dimensions</td><td>15" H x 40" L x 30" D</td></tr>
-        <tr><td>Manufacturer</td><td>Sharples (Alfa Laval)</td></tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="sharples-p-660"
+      variant="plain"
+      rows={[
+        { label: 'Decanter Model', field: 'modelType', strongLabel: true, strongValue: true },
+        { label: 'Motor Power', field: 'motorHp' },
+        { label: 'Weight', field: 'netWeightLb' },
+        { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+        { label: 'G-Force', field: 'gForce' },
+        { label: 'Dimensions', field: 'dimensions' },
+        { label: 'Manufacturer', field: 'manufacturer' },
+      ]}
+    />
   </div>
 
   <h3 id="applications-824052bc-2600-473c-9b72-597dc8d2c831">Applications</h3>
@@ -235,17 +238,19 @@ const relatedProducts = [
   <h3 id="specifications-3490d955-df73-4eb9-aa68-29dd44be7557">Specifications</h3>
 
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
-    <table>
-      <tbody>
-        <tr><td><strong>Centrifuge Model</strong></td><td><strong>Alfa Laval MAB-102</strong></td></tr>
-        <tr><td>Motor Power</td><td>0.5 HP</td></tr>
-        <tr><td>Weight</td><td>100 Lbs</td></tr>
-        <tr><td>Bowl Speed</td><td>9,375 RPM</td></tr>
-        <tr><td>G-Force</td><td>8,500 Gs</td></tr>
-        <tr><td>Dimensions</td><td>18" x 25" x 12"</td></tr>
-        <tr><td>Capacity</td><td>2 GPM on Diesel Fuel</td></tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-mab-102"
+      variant="plain"
+      rows={[
+        { label: 'Centrifuge Model', field: 'modelType', strongLabel: true, strongValue: true },
+        { label: 'Motor Power', field: 'motorHp' },
+        { label: 'Weight', field: 'netWeightLb' },
+        { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+        { label: 'G-Force', field: 'gForce' },
+        { label: 'Dimensions', field: 'dimensions' },
+        { label: 'Capacity', capacity: 0 },
+      ]}
+    />
   </div>
 
   <h3 id="applications-26dce8cd-e3a3-40b3-a56d-e01b8ffd79ce">Applications</h3>

@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -151,46 +152,21 @@ const relatedApplications = [
   <!-- Specifications -->
   <h2 id="specifications">Technical Specifications (Clara 20 / LAPX-404)</h2>
   <div class="overflow-x-auto mb-8 not-prose">
-    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <tbody>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Max. Throughput (High Flow)</td>
-          <td class="px-4 py-3 font-mono text-text-light">17.6 GPM (4,000 l/h)</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Max. Throughput (Low Flow)</td>
-          <td class="px-4 py-3 font-mono text-text-light">4.4 GPM (1,000 l/h)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">9,512 RPM</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Max. G-Force</td>
-          <td class="px-4 py-3 font-mono text-text-light">11,130 g</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Motor Power</td>
-          <td class="px-4 py-3 font-mono text-text-light">5.0 HP (3.7 kW)</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Liquid Volume</td>
-          <td class="px-4 py-3 font-mono text-text-light">0.6 Gal (2.2 L)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Sludge Space Volume</td>
-          <td class="px-4 py-3 font-mono text-text-light">~0.3 Gal (1.1 L)</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Net Weight (Module incl. Bowl)</td>
-          <td class="px-4 py-3 font-mono text-text-light">827 Lbs (375 kg)</td>
-        </tr>
-        <tr class="bg-white">
-          <td class="px-4 py-3 font-semibold text-navy">Module Dimensions (LxWxH)</td>
-          <td class="px-4 py-3 font-mono text-text-light">59" x 31.5" x 57"</td>
-        </tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-clara-20"
+      variant="striped-card"
+      rows={[
+        { label: 'Max. Throughput (High Flow)', capacity: 0 },
+        { label: 'Max. Throughput (Low Flow)', capacity: 1 },
+        { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+        { label: 'Max. G-Force', value: '11,130 g' },
+        { label: 'Motor Power', value: '5.0 HP (3.7 kW)' },
+        { label: 'Bowl Liquid Volume', value: '0.6 Gal (2.2 L)' },
+        { label: 'Sludge Space Volume', value: '~0.3 Gal (1.1 L)' },
+        { label: 'Net Weight (Module incl. Bowl)', value: '827 Lbs (375 kg)' },
+        { label: 'Module Dimensions (LxWxH)', field: 'dimensions' },
+      ]}
+    />
   </div>
   <p class="text-sm text-text-light italic mb-8">&#8224;Actual capacity depends on process liquid characteristics and required clarity.</p>
 
