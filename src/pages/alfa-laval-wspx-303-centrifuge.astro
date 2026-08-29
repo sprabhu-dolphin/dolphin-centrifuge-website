@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const faqItems = [
   {
@@ -148,17 +149,19 @@ const relatedProducts = [
 
   <h2 id="specifications">WSPX 303 Specifications</h2>
 
-  <table>
-    <tbody>
-      <tr><td><strong>Model Type</strong></td><td>Alfa Laval WSPX 303 TGD</td></tr>
-      <tr><td><strong>Rated Capacity</strong></td><td>Sized per application on water-based coolant</td></tr>
-      <tr><td><strong>Sludge Space</strong></td><td>0.14 Gallons</td></tr>
-      <tr><td><strong>Motor HP</strong></td><td>4 HP</td></tr>
-      <tr><td><strong>Voltages</strong></td><td>230 / 460 V</td></tr>
-      <tr><td><strong>Bowl Speed</strong></td><td>9,200 RPM</td></tr>
-      <tr><td><strong>G-Force</strong></td><td>8,000+</td></tr>
-    </tbody>
-  </table>
+  <SpecTable
+    model="alfa-laval-wspx-303"
+    variant="plain"
+    rows={[
+      { label: 'Model Type', field: 'modelType', strongLabel: true },
+      { label: 'Rated Capacity', field: 'capacityPolicy', strongLabel: true },
+      { label: 'Sludge Space', field: 'sludgeVolumeGal', strongLabel: true },
+      { label: 'Motor HP', field: 'motorHp', strongLabel: true },
+      { label: 'Voltages', field: 'voltages', strongLabel: true },
+      { label: 'Bowl Speed', field: 'bowlSpeedRpm', strongLabel: true },
+      { label: 'G-Force', field: 'gForce', strongLabel: true },
+    ]}
+  />
 
   <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
     <p class="text-base font-semibold text-navy mb-1">Need parts, repairs, or a remanufactured WSPX 303?</p>

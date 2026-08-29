@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const faqItems = [
   {
@@ -171,58 +172,24 @@ const relatedProducts = [
   <h2 id="specifications">CHNX 418 Specifications</h2>
 
   <div class="overflow-x-auto mb-8">
-    <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <tbody>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Model Type</td>
-          <td class="px-4 py-3 font-mono text-text-light">Alfa Laval CHNX 418 B31-G Decanter Centrifuge</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Rated Capacity</td>
-          <td class="px-4 py-3 font-mono text-text-light">5-20 m3/hr (22-88 GPM) depending on duty</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Diameter</td>
-          <td class="px-4 py-3 font-mono text-text-light">418 mm</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Bowl Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">4,000 RPM</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">G-Force</td>
-          <td class="px-4 py-3 font-mono text-text-light">3,150 RCF</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Drive Motor Power</td>
-          <td class="px-4 py-3 font-mono text-text-light">20 HP</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Auger Differential Speed</td>
-          <td class="px-4 py-3 font-mono text-text-light">1 ~ 50 RPM</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">GearBox Ratio</td>
-          <td class="px-4 py-3 font-mono text-text-light">1 : 159 (2.5 kN-M)</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">AE (Area Equivalent)</td>
-          <td class="px-4 py-3 font-mono text-text-light">1,565</td>
-        </tr>
-        <tr class="bg-gray-50 border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Conveyor Protection</td>
-          <td class="px-4 py-3 font-mono text-text-light">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-        </tr>
-        <tr class="bg-white border-b border-gray-200">
-          <td class="px-4 py-3 font-semibold text-navy">Inert Gas Purging</td>
-          <td class="px-4 py-3 font-mono text-text-light">Gas Nozzle Manifold for Inert Gas blanketing of Vessel and Glands</td>
-        </tr>
-        <tr class="bg-gray-50">
-          <td class="px-4 py-3 font-semibold text-navy">Hazardous-area design</td>
-          <td class="px-4 py-3 font-mono text-text-light">ATEX (original Alfa Laval build)</td>
-        </tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="alfa-laval-chnx-418"
+      variant="striped-card"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Rated Capacity', capacity: 0 },
+        { label: 'Bowl Diameter', field: 'bowlDiameter' },
+        { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+        { label: 'G-Force', field: 'gForce', unitLabel: 'RCF' },
+        { label: 'Drive Motor Power', field: 'motorHp' },
+        { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+        { label: 'GearBox Ratio', field: 'gearboxRatio' },
+        { label: 'AE (Area Equivalent)', field: 'areaEquivalent' },
+        { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        { label: 'Inert Gas Purging', value: 'Gas Nozzle Manifold for Inert Gas blanketing of Vessel and Glands' },
+        { label: 'Hazardous-area design', value: 'ATEX (original Alfa Laval build)' },
+      ]}
+    />
   </div>
 
   <!-- Applications -->

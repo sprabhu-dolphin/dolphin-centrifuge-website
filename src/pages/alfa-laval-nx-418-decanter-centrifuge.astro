@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const sanjayPrabhuAuthorJsonLd = {
   "@type": "Person",
@@ -223,50 +224,22 @@ const toc = [
     <h3 id="specifications-two-phase">Specifications</h3>
     <p>The following are the technical specifications for the Alfa Laval NX 418 B31-G two-phase decanter centrifuge.</p>
     <div class="overflow-x-auto">
-      <table>
-        <tbody>
-          <tr>
-            <td class="font-semibold w-1/2">Model Type</td>
-            <td class="font-mono font-bold">Alfa Laval NX 418 B31-G Decanter Centrifuge</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Rated Capacity</td>
-            <td class="font-mono font-bold">110 GPM on Water Sludge Thickening</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Auger Differential Speed</td>
-            <td class="font-mono">1 ~ 50 RPM</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Drive Motor Power</td>
-            <td class="font-mono">20 HP</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">GearBox Ratio</td>
-            <td class="font-mono">1 : 159 (2.5 kN-M)</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">A<sub>E</sub> (Area Equivalent)</td>
-            <td class="font-mono">1,565</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Bowl Length</td>
-            <td class="font-mono">58&quot;</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Bowl Speed</td>
-            <td class="font-mono">4,000 RPM</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">G-Force</td>
-            <td class="font-mono font-bold">3,740 RCF</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Conveyor Protection</td>
-            <td class="font-mono">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-          </tr>
-        </tbody>
-      </table>
+      <SpecTable
+        model="alfa-laval-nx-418"
+        variant="bare"
+        rows={[
+          { label: 'Model Type', field: 'modelType', firstCol: true, valueClass: 'font-mono font-bold' },
+          { label: 'Rated Capacity', capacity: 0, valueClass: 'font-mono font-bold' },
+          { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+          { label: 'Drive Motor Power', field: 'motorHp' },
+          { label: 'GearBox Ratio', field: 'gearboxRatio' },
+          { label: 'AE (Area Equivalent)', labelHtml: 'A<sub>E</sub> (Area Equivalent)', field: 'areaEquivalent' },
+          { label: 'Bowl Length', field: 'bowlLength' },
+          { label: 'Bowl Speed', field: 'bowlSpeedRpm' },
+          { label: 'G-Force', field: 'gForce', unitLabel: 'RCF', valueClass: 'font-mono font-bold' },
+          { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        ]}
+      />
     </div>
 
     <!-- UVNX 418 Three-Phase -->
@@ -292,38 +265,19 @@ const toc = [
     <h3 id="specifications-three-phase">Specifications</h3>
     <p>The following are the technical specifications for the Alfa Laval UVNX 418 B11-G three-phase decanter centrifuge (tricanter).</p>
     <div class="overflow-x-auto">
-      <table>
-        <tbody>
-          <tr>
-            <td class="font-semibold w-1/2">Model Type</td>
-            <td class="font-mono font-bold">Alfa Laval UVNX 418 B11-G (<a href="/three-phase-decanter/">Three-Phase Decanter</a>)</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Rated Capacity</td>
-            <td class="font-mono font-bold">70 GPM on Fish Stickwater &amp; Fishmeal Separation</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Auger Differential Speed</td>
-            <td class="font-mono">1 ~ 50 RPM</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Drive Motor Power</td>
-            <td class="font-mono">20 HP</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">GearBox Ratio</td>
-            <td class="font-mono">1 : 159 (2.5 kN-M)</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Bowl Speed</td>
-            <td class="font-mono">4000 RPM (3,740 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>)</td>
-          </tr>
-          <tr>
-            <td class="font-semibold">Conveyor Protection</td>
-            <td class="font-mono">Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-          </tr>
-        </tbody>
-      </table>
+      <SpecTable
+        model="alfa-laval-uvnx-418"
+        variant="bare"
+        rows={[
+          { label: 'Model Type', html: 'Alfa Laval UVNX 418 B11-G (<a href="/three-phase-decanter/">Three-Phase Decanter</a>)', firstCol: true, valueClass: 'font-mono font-bold' },
+          { label: 'Rated Capacity', capacity: 0, valueClass: 'font-mono font-bold' },
+          { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+          { label: 'Drive Motor Power', field: 'motorHp' },
+          { label: 'GearBox Ratio', field: 'gearboxRatio' },
+          { label: 'Bowl Speed', html: '4000 RPM (3,740 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>)' },
+          { label: 'Conveyor Protection', field: 'conveyorProtection' },
+        ]}
+      />
     </div>
 
     <!-- Photo Gallery -->

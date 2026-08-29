@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import SpecTable from '../components/SpecTable.astro';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -211,46 +212,21 @@ const relatedProducts = [
   <h2 id="specifications">Specifications</h2>
 
   <div class="overflow-x-auto mb-8">
-    <table>
-      <tbody>
-        <tr>
-          <td>Model Type</td>
-          <td>Sharples P-3400</td>
-        </tr>
-        <tr>
-          <td>Manufacturer</td>
-          <td>Sharples / Pennwalt (Alfa Laval)</td>
-        </tr>
-        <tr>
-          <td>Rated Capacity</td>
-          <td>50 GPM on Ethanol Biomass Separation</td>
-        </tr>
-        <tr>
-          <td>Auger Differential Speed</td>
-          <td>1 ~ 42 RPM</td>
-        </tr>
-        <tr>
-          <td>Drive Motor Power</td>
-          <td>25 HP</td>
-        </tr>
-        <tr>
-          <td>Gearbox Ratio</td>
-          <td>1: 95</td>
-        </tr>
-        <tr>
-          <td>A<sub>E</sub> (Area Equivalent)</td>
-          <td>1,500</td>
-        </tr>
-        <tr>
-          <td>Bowl Speed</td>
-          <td>4000 RPM (3,150 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>)</td>
-        </tr>
-        <tr>
-          <td>Conveyor Protection</td>
-          <td>Carbide Tile or Tungsten Carbide Hard-Surfacing</td>
-        </tr>
-      </tbody>
-    </table>
+    <SpecTable
+      model="sharples-p-3400"
+      variant="plain"
+      rows={[
+        { label: 'Model Type', field: 'modelType' },
+        { label: 'Manufacturer', field: 'manufacturer' },
+        { label: 'Rated Capacity', capacity: 0 },
+        { label: 'Auger Differential Speed', field: 'augerDifferentialRpm' },
+        { label: 'Drive Motor Power', field: 'motorHp' },
+        { label: 'Gearbox Ratio', field: 'gearboxRatio' },
+        { label: 'AE (Area Equivalent)', labelHtml: 'A<sub>E</sub> (Area Equivalent)', field: 'areaEquivalent' },
+        { label: 'Bowl Speed', html: '4000 RPM (3,150 Gs <a href="/centrifuge-rcf-rpm-difference-calculation/">RCF</a>)' },
+        { label: 'Conveyor Protection', field: 'conveyorProtection' },
+      ]}
+    />
   </div>
 
   <!-- Brochure Supplement -->
