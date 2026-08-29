@@ -1,6 +1,8 @@
 # RULING WORKSHEET - frozen numbers, names, photos and claims
 
-**ALL ITEMS RULED 2026-08-24 except F9 (warranty terms - deliberately parked).**
+**EVERY ITEM ON THIS SHEET IS RULED except F9 (warranty terms - deliberately parked).** The A-F
+sections were ruled 2026-08-24; the final eight leftovers were ruled 2026-08-29 as R5-1 to R5-8
+at the bottom of this file.
 
 **Date: 2026-08-23. For Sanjay only.** Every frozen item on the site is one line here.
 
@@ -142,3 +144,21 @@ The auditors found ~35 distinct numeric conflicts; list A covers about 9. These 
    every page renders its specs from that source. After that a spec conflict is impossible to
    create by editing a page, which is the fix 11 of the 50 auditors named as their single best.
 4. Anything left blank stays frozen and stays on this sheet for the next pass.
+
+---
+
+## R5 - final eight (ruled 2026-08-29)
+
+These were the eight live contradictions the spec-source build guard surfaced that no earlier
+ruling covered. They were listed under "Open items needing an owner ruling" in
+`docs/SPEC_SOURCE.md`. All eight are now ruled and applied, and every rejected value below is
+enforced by `scripts/spec-consistency-check.mjs`.
+
+- [x] **R5-1.** MAB-102 bowl speed: prose said 9,300 RPM, spec table said 9,375 RPM - RULING: **9,375 RPM**. The prose was corrected. 9,300 RPM is rejected for the MAB-102.
+- [x] **R5-2.** Sharples P-660 G-force: prose said 3,070 Gs, spec table said 3,050 Gs - RULING: **3,050 Gs**. The prose was corrected. 3,070 Gs is rejected for the P-660.
+- [x] **R5-3.** NX 416 motor: table said 15 HP, prose said 20 HP - RULING: **15 HP confirmed**. The table was right. 20 HP is rejected for the NX 416 only; 20 HP remains correct for the NX 418.
+- [x] **R5-4.** MOPX 207 bowl speed: DMPX-028 case study said 8,000 RPM, model page said 6,325 RPM - RULING: **6,325 RPM**. The case study was corrected. 8,000 RPM is rejected for the MOPX 207 only; it stays legitimate for other frames.
+- [x] **R5-5.** NX 314 / NX 418 rated rows on `/wastewater-centrifuge/`: 80 GPM and 170 GPM against 25 GPM and 110 GPM on the model pages - RULING: **align to the model pages. NX 314 = 25 GPM stated with its fluid; NX 418 = 110 GPM on water sludge thickening.** The 80 GPM and 170 GPM claims are removed and rejected.
+- [x] **R5-6.** Homepage disc-stack card carried a class-wide "12,000 x g" badge - RULING: **"Up to 8,500 Gs depending on model"** (8,500 Gs = MAB-102, the highest disc-stack figure the site publishes). 12,000 is rejected as a disc-stack class G-force claim.
+- [x] **R5-7.** G2-40 G-force 3,150 RCF and AE 1,565, both cloned from the pre-correction NX 418 - RULING: **remove both from the page. No replacement invented.** The data record now carries TBD markers for G-force and AE, and 3,150 RCF / 3,150 G / 1,565 are rejected for the G2-40.
+- [x] **R5-8.** DMPX-070 G-force, frozen and parked since A16 - RULING: **officially NOT PUBLISHED.** The placeholder row and TBD comment are removed from `/centrifuges/dmpx-070/`, the data record marks `gForce` intentionally unpublished, and A16's leftover is closed.
