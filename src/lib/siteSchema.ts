@@ -84,14 +84,9 @@ export const sanjayCredentialEvidenceJsonLd = [
     url: UARK_COMMENCEMENT_RECORD_URL,
   },
   {
-    '@type': 'Dataset',
+    '@type': 'WebPage',
     name: 'University of Arkansas Senior Walk record',
     url: UARK_SENIOR_WALK_URL,
-    distribution: {
-      '@type': 'DataDownload',
-      encodingFormat: 'application/json',
-      contentUrl: UARK_SENIOR_WALK_DATA_URL,
-    },
   },
 ];
 
