@@ -38,7 +38,7 @@ export const ORG_POSITIONING =
 
 /** Independence statement. Dolphin is never described as authorized or affiliated. */
 export const ORG_NON_AFFILIATION =
-  'Dolphin Centrifuge is an independent remanufacturer and supplier of Alfa Laval centrifuges. It is not affiliated with, authorized by, or a distributor for Alfa Laval.';
+  'Dolphin Centrifuge is an independent remanufacturer and supplier of Alfa Laval centrifuges. It is not affiliated with or a distributor for Alfa Laval.';
 
 /**
  * Social profiles carried over from the previous WordPress site's footer links

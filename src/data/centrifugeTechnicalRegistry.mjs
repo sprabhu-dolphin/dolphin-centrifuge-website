@@ -584,7 +584,7 @@ export const technicalCatalog = {
   publisher: {
     name: 'Dolphin Centrifuge',
     url: SITE_URL,
-    relationshipToAlfaLaval: 'Independent remanufacturer; not affiliated with or authorized by Alfa Laval.',
+    relationshipToAlfaLaval: 'Independent remanufacturer; not affiliated with Alfa Laval.',
   },
   agentInterface: {
     webMcp: {

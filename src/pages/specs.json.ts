@@ -29,7 +29,7 @@ export function GET() {
       url: SITE_URL,
       location: 'Warren, Michigan, USA',
       relationshipToAlfaLaval:
-        'Independent remanufacturer. Not affiliated with, authorized by, or a distributor for Alfa Laval.',
+        'Independent remanufacturer. Not affiliated with or a distributor for Alfa Laval.',
       reviewedBy: {
         name: 'Sanjay Prabhu, M.S.M.E.',
         role: 'Owner and Chief Engineer',
