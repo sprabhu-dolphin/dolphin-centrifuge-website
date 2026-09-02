@@ -1603,6 +1603,6 @@ export const SPEC_SOURCE_VERSION = 'dolphin-centrifuge-specs-v1';
 export const SPEC_SOURCE_REVIEWED = '2026-08-29';
 
 export const disclaimer =
-  'Dolphin Centrifuge is an independent remanufacturer of Alfa Laval centrifuges and is not affiliated with or authorized by Alfa Laval. Alfa Laval model designations identify the base machines Dolphin remanufactures. Every capacity below is published with the fluid or duty it belongs to; never transfer a capacity between fluids or between base machines.';
+  'Dolphin Centrifuge is an independent remanufacturer of Alfa Laval centrifuges and is not affiliated with Alfa Laval. Alfa Laval model designations identify the base machines Dolphin remanufactures. Every capacity below is published with the fluid or duty it belongs to; never transfer a capacity between fluids or between base machines.';
 
 export default models;
