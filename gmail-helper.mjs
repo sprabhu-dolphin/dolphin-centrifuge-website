@@ -30,7 +30,7 @@ const helperScopes = [
   'https://www.googleapis.com/auth/gmail.compose',
 ].join(' ');
 
-const WRITE_COMMANDS = new Set(['create-draft', 'update-draft', 'create-label', 'label']);
+const WRITE_COMMANDS = new Set(['create-draft', 'update-draft', 'create-label', 'label', 'trash-thread']);
 
 // Least-privilege scope per command for service-account (domain-wide delegation) access.
 const COMMAND_SCOPES = {
@@ -43,6 +43,7 @@ const COMMAND_SCOPES = {
   labels: 'https://www.googleapis.com/auth/gmail.readonly',
   'create-label': 'https://www.googleapis.com/auth/gmail.modify',
   label: 'https://www.googleapis.com/auth/gmail.modify',
+  'trash-thread': 'https://www.googleapis.com/auth/gmail.modify',
   'create-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
   'update-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
 };
@@ -125,6 +126,7 @@ Usage:
   node gmail-helper.mjs labels [--mailbox EMAIL] [--json]
   node gmail-helper.mjs create-label --name "LabelName" [--mailbox EMAIL] [--json]
   node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"] [--mailbox EMAIL]
+  node gmail-helper.mjs trash-thread --id THREAD_ID [--mailbox EMAIL]
   node gmail-helper.mjs create-draft --to EMAIL --subject "..." (--body "text" | --body-file FILE)
         [--cc EMAIL] [--html] [--attach FILE ...] [--attach-name NAME ...]
         [--inline-attach FILE ...] [--inline-name NAME ...] [--inline-cid CID ...]
@@ -138,7 +140,7 @@ Access modes:
   - Default (no --mailbox): Sanjay's own mailbox via OAuth refresh tokens.
       helper (read/write): ${helperTokenPath}
       readonly (fallback): ${readonlyTokenPath}
-    Write commands (create-draft, update-draft, create-label, label) REQUIRE the helper token; run auth once
+    Write commands (create-draft, update-draft, create-label, label, trash-thread) REQUIRE the helper token; run auth once
     (one browser consent click). Scopes: ${helperScopes}
   - --mailbox EMAIL: ANY dolphincentrifuge.com mailbox (jkraft@, devans@, sprabhu@, ...)
     via the domain-wide-delegated service account. Requires:
@@ -148,6 +150,8 @@ Access modes:
 
 Notes:
   - There is intentionally NO send command. Drafts only.
+  - trash-thread moves a whole thread to Gmail Trash, where Gmail keeps it for 30 days.
+    It is a recoverable move, not a delete: there is no permanent-delete command either.
   - A reply anchor must be the newest real message. --force-anchor is an explicit logged override.
   - Anchorless drafts check for recent correspondent activity; --standalone asserts a deliberate clean email.
   - This script never stores secrets in the repo and never prints token values.`);
@@ -780,6 +784,30 @@ async function label(args) {
   console.log(`Labels updated on ${json.id}: now [${(json.labelIds || []).join(', ')}]`);
 }
 
+// Move an entire thread to Gmail's Trash. Gmail keeps a trashed thread for 30
+// days and untrash restores it, so this is a recoverable move rather than a
+// delete - and, like everything else here, it never sends anything.
+async function trashThread(args) {
+  if (!args.id) throw new Error('trash-thread requires --id THREAD_ID');
+  const threadId = String(args.id);
+  if (!/^[A-Za-z0-9_-]{1,200}$/.test(threadId)) {
+    throw new Error('trash-thread requires a plain Gmail thread id');
+  }
+  const json = await gmailFetch(args, 'trash-thread',
+    `https://gmail.googleapis.com/gmail/v1/users/me/threads/${threadId}/trash`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    });
+  const messages = json.messages || [];
+  const labelIds = [...new Set(messages.flatMap((m) => m.labelIds || []))];
+  if (args.json) {
+    console.log(JSON.stringify({ id: json.id, messages: messages.length, labelIds }, null, 2));
+    return;
+  }
+  console.log(`Thread trashed: ${json.id}, messages: ${messages.length}, now [${labelIds.join(', ')}]`);
+}
+
 // Convert plain text to safe HTML so drafts always open in Gmail's
 // rich-text composer. A text/plain draft locks the composer into
 // plain-text mode: the saved signature loses its links and the rich
@@ -1380,11 +1408,13 @@ async function selfTest() {
     WRITE_COMMANDS.has('create-draft')
       && WRITE_COMMANDS.has('create-label')
       && WRITE_COMMANDS.has('label')
+      && WRITE_COMMANDS.has('trash-thread')
       && !WRITE_COMMANDS.has('search'),
   );
   check('scope map reads are readonly', COMMAND_SCOPES.search === 'https://www.googleapis.com/auth/gmail.readonly');
   check('scope map create-label is modify', COMMAND_SCOPES['create-label'].includes('gmail.modify'));
   check('scope map label is modify', COMMAND_SCOPES.label.includes('gmail.modify'));
+  check('scope map trash-thread is modify', COMMAND_SCOPES['trash-thread'].includes('gmail.modify'));
   check('scope map draft is compose', COMMAND_SCOPES['create-draft'].includes('gmail.compose'));
 
   const singleFlightCache = new Map();
@@ -1494,6 +1524,7 @@ async function main() {
   if (command === 'labels') return listLabels(args);
   if (command === 'create-label') return createLabel(args);
   if (command === 'label') return label(args);
+  if (command === 'trash-thread') return trashThread(args);
   if (command === 'create-draft') return createDraft(args);
   if (command === 'update-draft') return createDraft(args);
   if (command === 'self-test') return selfTest();
