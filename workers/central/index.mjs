@@ -15,7 +15,7 @@ export async function readSession(token,secret,now=Date.now()){
 }
 const cookie=t=>`central_session=${t}; Path=/central; HttpOnly; Secure; SameSite=Strict; Max-Age=${SESSION_SECONDS}`;
 async function body(request,max=50000){const text=await request.text();if(text.length>max)throw new Error('The question or context is too long.');return JSON.parse(text||'{}');}
-function allowedOrigin(request){const origin=request.headers.get('origin');return ['https://dolphincentrifuge.com','https://www.dolphincentrifuge.com','https://dolphin-centrifuge-website.pages.dev'].includes(origin);}
+function allowedOrigin(request){const origin=request.headers.get('origin');return ['https://dolphincentrifuge.com','https://www.dolphincentrifuge.com','https://dolphin-centrifuge-website.pages.dev','https://codex-central-staff.dolphin-centrifuge-website.pages.dev'].includes(origin);}
 
 export default {
  async fetch(request,env){

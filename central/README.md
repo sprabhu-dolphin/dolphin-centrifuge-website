@@ -1,6 +1,8 @@
 # Central
 
-Staff page: https://dolphincentrifuge.com/central/
+Staff page available now: https://codex-central-staff.dolphin-centrifuge-website.pages.dev/central/
+
+Permanent website address after the repository-required review and merge: https://dolphincentrifuge.com/central/ . PR #62 contains the website integration. Its Cloudflare preview is the same password-protected staff app, using the same live answer engine and knowledge master.
 
 Sanjay's local page: http://127.0.0.1:4412/central/
 

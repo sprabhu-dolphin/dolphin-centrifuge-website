@@ -37,9 +37,13 @@ export class Knowledge{
   const rows=this.docs.filter(d=>!kind||d.kind===kind).map(d=>{let score=0;for(const t of ts){const f=d.tf.get(t)||0;if(f)score+=Math.log(1+(this.docs.length-(this.df.get(t)||0)+.5)/((this.df.get(t)||0)+.5))*f*2.2/(f+1.2*(.25+.75*d.length/this.average));}return {d,score:score*(d.kind==='website'?1.15:d.kind==='skills'?1.1:1)};}).filter(r=>r.score>0).sort((a,b)=>b.score-a.score);
   for(const row of rows){if((counts.get(row.d.url)||0)>=3)continue;counts.set(row.d.url,(counts.get(row.d.url)||0)+1);out.push(row.d);if(out.length>=limit)break;}return out;
  }
+ contactSources(question){
+  if(!/\baddress\b|\bphone\b|\bcontact details\b|\bwhere\b.*\b(?:ship|send|visit|locat)/i.test(question))return [];
+  return this.docs.filter(d=>d.kind==='website'&&d.url==='https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/'&&d.heading==='Reach Us Directly').slice(0,1);
+ }
  candidates(question,context='',extra=[]){
   const queries=[question,question+' '+context.slice(-5000),...extra];
-  const docs=queries.flatMap(q=>this.search(q,{limit:12}));
+  const docs=[...this.contactSources(question),...queries.flatMap(q=>this.search(q,{limit:12}))];
   // Include basic principles for removal targets, not just matching machine numbers.
   if(/remove|separat|clarif|purif|starch|sulfur|ppm/i.test(question+' '+context))docs.push(...this.search('dissolved suspended free water sulfur starch sugar separation limitations',{limit:6}));
   if(/test|sample|ship/i.test(question))docs.push(...this.search('sample testing lab scale disc centrifuge return shipping quotation',{limit:5,kind:'website'}));
