@@ -4,6 +4,7 @@ import {mkdtemp,mkdir,writeFile,stat,unlink,rmdir} from 'node:fs/promises';
 import path from 'node:path';
 import worker,{CentralQueue,makeSession,readSession,sha} from '../workers/central/index.mjs';
 import {answerQuestion} from './engine.mjs';
+import {Knowledge} from './knowledge.mjs';
 import {cleanTemporary,runtimeRoot} from './model.mjs';
 
 class MemoryStorage{
@@ -37,4 +38,12 @@ test('new app schema files are cleaned automatically, while unknown files are pr
  const root=path.join(runtimeRoot,'temporary');await mkdir(root,{recursive:true});const disposable=await mkdtemp(path.join(root,'request-')),preserved=await mkdtemp(path.join(root,'request-'));
  await writeFile(path.join(disposable,'schema.json'),'{}');await writeFile(path.join(preserved,'unrecognized-fixture.json'),'{}');
  try{await cleanTemporary({olderThan:0,now:Date.now()+1000});await assert.rejects(stat(disposable),{code:'ENOENT'});assert.ok(await stat(path.join(preserved,'unrecognized-fixture.json')));}finally{await unlink(path.join(preserved,'unrecognized-fixture.json'));await rmdir(preserved);}
+});
+
+test('an address request retains the public contact source even when the planner overlooks it',async()=>{
+ const contact={id:'contact',title:'Contact Dolphin',heading:'Reach Us Directly',text:'Address 24248 Gibson Dr, Warren, MI 48089',kind:'website',url:'https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/'};
+ const service={id:'service',title:'Sample testing',text:'A paid sample-testing service.',kind:'website',url:'https://dolphincentrifuge.com/industrial-centrifuge-sample-testing/'};
+ const knowledge=new Knowledge();knowledge.docs=[contact,service];knowledge.load=async()=>{};knowledge.candidates=()=>[service,contact];knowledge.search=()=>[];
+ let calls=0;const modelCall=async({input})=>{calls++;if(calls===1)return {needs:['shipping address'],selectedIds:['service'],additionalSearches:[]};if(calls===3)return {needsCorrection:false,issues:[]};assert.ok(input.evidence.some(d=>d.id==='contact'));return {customerAnswer:contact.text,followUpQuestions:[],staffNote:'',needsStaffFollowUp:false,sourceIds:['contact'],coverage:[]};};
+ const answer=await answerQuestion({question:'Please confirm the test and provide the shipping address.'},{knowledge,modelCall});assert.equal(answer.sources[0].id,'contact');assert.equal(knowledge.contactSources('What size centrifuge?').length,0);
 });

@@ -13,6 +13,7 @@ const fresh=[
 ];
 report.operationalValidation??={startedAt:new Date().toISOString(),scope:'Three known problem cases after source-backed learning, plus six new practical scenarios. Development checks, not an independent accuracy benchmark.',results:[]};
 let saves=Promise.resolve();const save=()=>{const text=JSON.stringify(report,null,2);saves=saves.then(()=>writeFile(file,text));return saves;};
-const pending=[...prior,...fresh].filter(c=>!report.operationalValidation.results.some(r=>r.id===c.id));let next=0;
-await Promise.all(Array.from({length:2},async()=>{while(next<pending.length){const c=pending[next++];try{const result=await answerQuestion(c);report.operationalValidation.results.push({...c,result,completedAt:new Date().toISOString()});await save();console.log(JSON.stringify({id:c.id,completed:report.operationalValidation.results.length}));}catch(e){console.log(JSON.stringify({id:c.id,error:e.message}));throw e;}}}));
+const requested=process.argv.slice(2);
+const pending=[...prior,...fresh].filter(c=>requested.length?requested.includes(c.id):!report.operationalValidation.results.some(r=>r.id===c.id));let next=0;
+await Promise.all(Array.from({length:2},async()=>{while(next<pending.length){const c=pending[next++];try{const result=await answerQuestion(c);const entry={...c,result,completedAt:new Date().toISOString()},at=report.operationalValidation.results.findIndex(r=>r.id===c.id);if(at<0)report.operationalValidation.results.push(entry);else report.operationalValidation.results[at]=entry;await save();console.log(JSON.stringify({id:c.id,completed:report.operationalValidation.results.length}));}catch(e){console.log(JSON.stringify({id:c.id,error:e.message}));throw e;}}}));
 report.operationalValidation.completedAt=new Date().toISOString();await save();console.log(JSON.stringify({complete:true,cases:report.operationalValidation.results.length}));
