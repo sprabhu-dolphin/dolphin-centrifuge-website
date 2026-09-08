@@ -1,0 +1,36 @@
+const $=id=>document.getElementById(id);
+let history=[],active=null,activeQuestion='',pollTimer=null,busy=false;
+async function api(path,options={}){const r=await fetch('/central/api/'+path,{credentials:'same-origin',...options,headers:{'content-type':'application/json',...options.headers}});const data=await r.json();if(r.status===401){showLogin();throw new Error(data.error||'Please sign in.');}if(!r.ok)throw new Error(data.error||'Please try again.');return data;}
+function showLogin(){$('login').hidden=false;$('desk').hidden=true;$('connection').textContent='Staff sign-in';$('connection').className='';}
+async function start(){try{const session=await api('session');$('login').hidden=true;$('desk').hidden=false;$('local-sharing').hidden=!session.local;$('signout').hidden=!!session.local;if(session.local){$('home-link').textContent='Dolphin Home';$('home-link').href='http://127.0.0.1:4400/';}await health();}catch(e){if(!$('login').hidden)return;$('login-error').textContent='Central is temporarily unavailable. Please try again.';showLogin();}}
+async function health(){try{const h=await api('health');$('connection').textContent=h.connected?'Knowledge connected':'Dolphin computer offline';$('connection').className=h.connected?'connected':'';if(h.knowledge)$('library-summary').textContent=`${h.knowledge.websitePages||151} Dolphin website pages · ${Number(h.knowledge.conversations||0).toLocaleString()} source-linked conversations`;}catch{}}
+function wait(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+function setBusy(value){busy=value;for(const id of ['ask','new-question','copy-answer','useful','correction'])$(id).disabled=value;if(!value)$('working').textContent='';}
+function render(result){
+ active=result;$('answer-section').hidden=false;$('answer-text').textContent=result.customerAnswer;
+ $('followup-list').replaceChildren();for(const q of result.followUpQuestions||[]){const li=document.createElement('li');li.textContent=q;$('followup-list').append(li);}$('followups').hidden=!result.followUpQuestions?.length;
+ $('staff-note').textContent=result.staffNote||'';$('staff-card').hidden=!result.staffNote;
+ $('sources').replaceChildren();for(const s of result.sources||[]){const details=document.createElement('details');details.className='source';const title=document.createElement('summary');title.append(document.createTextNode(s.title));const type=document.createElement('small');type.textContent=s.kind==='website'||s.kind==='catalog'?'Dolphin website':'Internal Dolphin reference';title.append(type);const text=document.createElement('blockquote');text.textContent=s.excerpt;details.append(title,text);if(s.url&&/^https:\/\/(dolphincentrifuge\.com|mail\.google\.com)\//.test(s.url)){const link=document.createElement('a');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=s.kind==='email'?'Original email (mailbox access required)':'Read the source';details.append(link);}$('sources').append(details);}
+ if(!result.sources?.length){const p=document.createElement('p');p.textContent='No matching source was found. Use the specific staff follow-up above.';$('sources').append(p);}
+ $('feedback-status').textContent='';$('feedback-form').hidden=true;$('copy-answer').textContent='Copy response';$('history-list').replaceChildren();
+ for(const turn of history.slice(0,-1)){const div=document.createElement('div');div.className='history-item';const strong=document.createElement('strong');strong.textContent=turn.question;const p=document.createElement('p');p.textContent=turn.answer;div.append(strong,p);$('history-list').append(div);}$('earlier').hidden=history.length<2;
+ $('answer-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('login-form').addEventListener('submit',async e=>{e.preventDefault();$('login-error').textContent='';const button=e.target.querySelector('button');button.disabled=true;try{await api('login',{method:'POST',body:JSON.stringify({password:$('password').value})});$('password').value='';await start();}catch(error){$('login-error').textContent=error.message;}finally{button.disabled=false;}});
+$('signout').addEventListener('click',async()=>{await api('logout',{method:'POST',body:'{}'}).catch(()=>{});history=[];active=null;$('context').value='';$('question').value='';$('answer-section').hidden=true;showLogin();});
+$('ask-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(busy)return;setBusy(true);$('ask-error').textContent='';$('working').textContent='Sending your question';activeQuestion=$('question').value.trim();const started=Date.now();
+ try{const job=await api('ask',{method:'POST',body:JSON.stringify({question:activeQuestion,context:$('context').value,history})});
+  while(Date.now()-started<14*60000){await wait(2200);const status=await api('result/'+encodeURIComponent(job.id));$('working').textContent=status.stage||'Working on your answer';if(status.status==='failed')throw new Error(status.error||'The answer could not be completed.');if(status.status==='complete'){history.push({question:activeQuestion,answer:status.result.customerAnswer});history=history.slice(-6);render({...status.result,id:job.id,question:activeQuestion});return;}}
+  throw new Error('This answer is taking too long. Please ask again.');
+ }catch(error){$('ask-error').textContent=error.message;}finally{setBusy(false);}
+});
+$('new-question').addEventListener('click',()=>{history=[];active=null;$('question').value='';$('context').value='';$('answer-section').hidden=true;$('earlier').hidden=true;$('ask-error').textContent='';$('question').focus();});
+for(const b of document.querySelectorAll('[data-example]'))b.addEventListener('click',()=>{$('question').value=b.dataset.example;$('question').focus();});
+$('copy-answer').addEventListener('click',async()=>{if(!active)return;const text=active.customerAnswer+(active.followUpQuestions?.length?'\n\n'+active.followUpQuestions.map(q=>'- '+q).join('\n'):'');try{await navigator.clipboard.writeText(text);$('copy-answer').textContent='Copied';}catch{$('ask-error').textContent='Select the customer response and copy it.';}});
+async function feedback(rating,note=''){if(!active?.id)return;await api('feedback',{method:'POST',body:JSON.stringify({id:active.id,rating,note,question:(active.question||'').slice(0,1000)})});$('feedback-status').textContent='Feedback saved';$('feedback-form').hidden=true;}
+$('useful').addEventListener('click',()=>feedback('useful').catch(e=>$('feedback-status').textContent=e.message));
+$('correction').addEventListener('click',()=>{$('feedback-form').hidden=false;$('feedback-note').focus();});
+$('feedback-form').addEventListener('submit',async e=>{e.preventDefault();try{await feedback('needs-correction',$('feedback-note').value);$('feedback-note').value='';}catch(error){$('feedback-status').textContent=error.message;}});
+$('copy-password').addEventListener('click',async()=>{try{const data=await api('staff-password',{method:'POST',body:'{}'});await navigator.clipboard.writeText(data.password);$('password-status').textContent='Password copied';}catch{$('password-status').textContent='The password could not be copied. Please try again.';}});
+start();setInterval(()=>{if(!$('desk').hidden)health();},60000);
