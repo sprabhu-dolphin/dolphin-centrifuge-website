@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,writeFile,stat,unlink,rmdir} from 'node:fs/promises';
+import {mkdtemp,mkdir,writeFile,stat,unlink,rmdir,utimes} from 'node:fs/promises';
 import path from 'node:path';
 import worker,{CentralQueue,makeSession,readSession,sha} from '../workers/central/index.mjs';
 import {answerQuestion} from './engine.mjs';
@@ -37,7 +37,8 @@ test('answer engine repairs a concrete missing detail and returns only verified 
 test('new app schema files are cleaned automatically, while unknown files are preserved',async()=>{
  const root=path.join(runtimeRoot,'temporary');await mkdir(root,{recursive:true});const disposable=await mkdtemp(path.join(root,'request-')),preserved=await mkdtemp(path.join(root,'request-'));
  await writeFile(path.join(disposable,'schema.json'),'{}');await writeFile(path.join(preserved,'unrecognized-fixture.json'),'{}');
- try{await cleanTemporary({olderThan:0,now:Date.now()+1000});await assert.rejects(stat(disposable),{code:'ENOENT'});assert.ok(await stat(path.join(preserved,'unrecognized-fixture.json')));}finally{await unlink(path.join(preserved,'unrecognized-fixture.json'));await rmdir(preserved);}
+ const old=new Date(Date.now()-2*3600000);await utimes(disposable,old,old);await utimes(preserved,old,old);
+ try{await cleanTemporary();await assert.rejects(stat(disposable),{code:'ENOENT'});assert.ok(await stat(path.join(preserved,'unrecognized-fixture.json')));}finally{await unlink(path.join(preserved,'unrecognized-fixture.json'));await rmdir(preserved);}
 });
 
 test('an address request retains the public contact source even when the planner overlooks it',async()=>{
