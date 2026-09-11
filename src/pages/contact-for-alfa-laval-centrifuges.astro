@@ -672,7 +672,7 @@ const faqJsonLd = {
           const response = await fetch(WORKER_URL, { method: 'POST', body: formData });
           const result   = await response.json();
 
-          if (result.success) {
+          if (response.ok && result.success) {
             // Capture fluid type BEFORE reset
             const fluidType = (form.querySelector('[name="fluid_type"]')?.value || '').trim();
             const contactMethod = (form.querySelector('[name="contact_method"]:checked')?.value || '').trim();

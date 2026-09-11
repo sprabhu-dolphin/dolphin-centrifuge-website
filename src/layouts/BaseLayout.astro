@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import Lightbox from '../components/Lightbox.astro';
 import Statcounter from '@statcounter/astro';
+import { buildOpenAiAdsBootstrap } from '../lib/openaiAds.mjs';
 import {
   dolphinOrganizationJsonLd,
   hasSchemaValue,
@@ -76,6 +77,10 @@ const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
     ? 'http://127.0.0.1:8787'
     : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
 )).replace(/\/$/, '');
+const openAiAdsBootstrap = buildOpenAiAdsBootstrap({
+  pixelId: import.meta.env.PUBLIC_OPENAI_ADS_PIXEL_ID || '',
+  allowedHosts: trackingAllowedHosts,
+});
 // Pre-build GTM loader snippet (avoids nested template literals)
 const _gtmSnippet = gtmId
   ? `var _gtmId=${JSON.stringify(gtmId)};(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',_gtmId);`
@@ -664,6 +669,9 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
   return true;
 };
 window.dolphinTrackLead = window.dolphinTrackLead || function(params) {
+  try {
+    if (typeof window.dolphinTrackOpenAiLead === 'function') window.dolphinTrackOpenAiLead();
+  } catch (_) {}
   return window.dolphinTrackEvent('generate_lead', params || {});
 };
 window.dolphinTrackPhoneClick = window.dolphinTrackPhoneClick || function(params) {
@@ -979,6 +987,7 @@ const normalizedSchemas = (Array.isArray(searchNormalizedSchemas)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {openAiAdsBootstrap && <script is:inline set:html={openAiAdsBootstrap} />}
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
 
