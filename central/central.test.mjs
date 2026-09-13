@@ -50,6 +50,14 @@ test('an address request retains the public contact source even when the planner
  const answer=await answerQuestion({question:'Please confirm the test and provide the shipping address.'},{knowledge,modelCall});assert.equal(answer.sources[0].id,'contact');assert.equal(knowledge.contactSources('What size centrifuge?').length,0);
 });
 
+test('the next-reply plan reaches both drafting and checking with the revised project basis',async()=>{
+ const d={id:'project',title:'Application guide',text:'Use the actual process flow.',kind:'website',url:'https://dolphincentrifuge.com/'};
+ const knowledge={load:async()=>{},candidates:()=>[d],search:()=>[],info:{}};
+ const stage={asOfDate:'2026-09-01',latestCustomerDate:'2026-08-20',latestDolphinDate:'2026-08-21',latestCustomerRequestAlreadyAnswered:true,replyPurpose:'Follow up on the revised quote',currentProjectFacts:['Revised basis is 10,000 liters in five hours.'],unresolvedNextStep:'Ask whether the revised quote has been reviewed.',missingStaffRecords:[]};
+ let calls=0;const modelCall=async({input})=>{calls++;if(calls===1)return {conversationStage:stage,needs:['quote follow-up'],selectedIds:['project'],additionalSearches:[]};assert.deepEqual(input.conversationStage,stage);if(calls===3)return {needsCorrection:false,issues:[]};return {customerAnswer:'Following up on the revised quote.',followUpQuestions:['Have you had a chance to review it?'],staffNote:'',needsStaffFollowUp:false,sourceIds:['project'],coverage:[]};};
+ const result=await answerQuestion({question:'Draft the next customer reply.',context:'Original basis changed to 10,000 liters in five hours. Dolphin sent the revised quote August 21.'},{knowledge,modelCall});assert.equal(calls,3);assert.equal(result.followUpQuestions.length,1);
+});
+
 test('inquiries require staff auth, exclude deleted records, paginate and expose only customer fields',async()=>{
  const {env}=await setup();let reads=0;
  env.SUBMISSIONS={prepare:()=>{reads++;throw new Error('Unexpected read');}};
