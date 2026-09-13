@@ -70,7 +70,11 @@ WebMCP remains experimental, not a W3C Standard. Ordinary browser activation is 
 - [Chrome trial registration](https://developer.chrome.com/origintrials/#/register_trial/4163014905550602241): Chrome 149–156, trial expiry 16 November 2026.
 - [Microsoft Edge trial](https://developer.microsoft.com/en-us/microsoft-edge/origin-trials/trials/0b76fe60-b266-458e-a285-04e375c0c31a): expiry 17 November 2026.
 
-No issued tokens were present at audit time. Trial sign-in/registration was staged; agreement acceptance and actual token issuance are not completed in this source revision. `PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS` accepts comma-separated browser-issued tokens and emits separate origin-trial meta tags at build time. Configure the exact apex origin and rebuild after issuance; then verify in ordinary eligible Chrome/Edge. Do not claim trial activation merely because a token field or feature-detection code exists.
+Microsoft registration completed on 13 September with owner-approved terms. The issued public activation token targets `https://dolphincentrifuge.com:443`, feature `WebMCP`, with no subdomain or third-party matching. Its actual expiry is Unix `1793165191` (28 October 2026), earlier than the trial end. It is configured in the Cloudflare Pages production environment. Google registration is still awaiting successful Google reauthentication; no Chrome-issued token is claimed.
+
+`PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS` accepts comma-separated browser-issued public activation tokens and emits separate origin-trial meta tags at build time. These origin-bound values are intended for publication and grant no account access. Rebuild after issuance/renewal and verify in an eligible browser. The technical-data page now includes a native discovery and read-only diesel example check; it reports unavailable support explicitly.
+
+The final selection review also removed generic drive HP from candidate output, attached explicit fluid/rating-basis/capacity identifiers, restricted partial-word fluid matches, and made ambiguous fluid duties request clarification before ranking. Generic `oil` cannot silently select a diesel or turbine-oil duty.
 
 ## Future on-site answer assistant
 

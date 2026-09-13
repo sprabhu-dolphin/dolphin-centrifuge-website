@@ -16,6 +16,7 @@ export function selectCentrifugeCandidates(catalog, input) {
   }
   const requiredLph = input.requiredFlow * (input.flowUnit === 'US GPM' ? LPH_PER_US_GPM : 1);
   const candidates = [];
+  const matchedFluids = new Set();
   for (const model of catalog.models) {
     if (model.recordType !== 'oem-base-machine') continue;
     const cleaningText = model.specifications?.cleaningMethod?.value ?? '';
@@ -28,6 +29,8 @@ export function selectCentrifugeCandidates(catalog, input) {
       // References, maximum ceilings and one-off actual runs cannot establish a
       // general application selection. OEM application tables provide this lane.
       if (capacity.ratingBasis !== 'oem-application') continue;
+      const fluid = capacity.fluid;
+      matchedFluids.add(['diesel', 'heavy-fuel-oil'].includes(fluid.category) ? fluid.category : fluid.name);
       const conditions = capacity.conditions;
       const temperature = conditions.centrifugationTemperatureC ?? conditions.fluidTemperatureC;
       const temperatureMatches = typeof temperature === 'number' ? temperature === input.temperatureC
@@ -42,6 +45,12 @@ export function selectCentrifugeCandidates(catalog, input) {
       candidates.push({model, cleaning, capacity, conservativeLph});
     }
   }
+  if (matchedFluids.size > 1) return {
+    status: 'needs_input', canRecommendPurchase: false,
+    message: 'The application matches different fluid duties. Specify the exact fluid before ranking machines.',
+    matchingFluids: [...matchedFluids].sort(),
+    missingInputs: ['exact fluid/application'],
+  };
   candidates.sort((a, b) => a.conservativeLph - b.conservativeLph || a.model.id.localeCompare(b.model.id) || a.capacity.id.localeCompare(b.capacity.id));
   const unique = candidates.filter((candidate, i) => candidates.findIndex(other => other.model.id === candidate.model.id) === i);
   const offset = input.offset ?? 0;
@@ -63,11 +72,12 @@ export function selectCentrifugeCandidates(catalog, input) {
     ranking: 'Smallest documented OEM application capacity meeting the requested flow; not a universal best-machine ranking.',
     candidate: {
       modelId: model.id, cleaning,
+      fluid: capacity.fluid.name, capacityId: capacity.id, ratingBasis: capacity.ratingBasis,
       capacity: {...capacity.sourceValue, usGpm: capacity.derivedConversions[0].value ?? capacity.derivedConversions[0].minimum},
       conditions: capacity.conditions,
       moduleIds: catalog.models.filter(m => m.baseMachineVariantIds?.includes(model.id)).map(m => m.id),
-      driveHp: model.specifications.motorPower?.value ?? null,
-      powerScope: 'Published centrifuge drive only; installed pump variant and total system load require configuration evidence.',
+      motorPower: {status: 'requires_configuration',
+        message: 'Query specifications for the selected machine and installed pump/electrical configuration before stating motor power.'},
       sourceUrl: model.machineReadableRecord,
       sourceLocation: capacity.source.location,
     },

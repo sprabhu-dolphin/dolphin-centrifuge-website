@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebMcpCheck from '../../components/WebMcpCheck.astro';
 import { technicalCatalog } from '../../data/agentCatalog.mjs';
 
 type NumericValue = { value: number } | { minimum: number; maximum: number };
@@ -135,14 +136,17 @@ const datasetSchema = {
 
         <h2 id="webmcp">WebMCP tools</h2>
         <p>
-          On browsers that implement the experimental WebMCP API, every normal Dolphin page registers four read-only tools. WebMCP is a <a href="https://webmachinelearning.github.io/webmcp/" rel="noopener noreferrer">W3C Community Group Draft Report</a>, not a W3C Standard. Unsupported browsers simply ignore the feature; the same data remains available today through the versioned JSON catalog and this page.
+          On browsers that implement the experimental WebMCP API, every normal Dolphin page registers five read-only tools. WebMCP is a <a href="https://webmachinelearning.github.io/webmcp/" rel="noopener noreferrer">W3C Community Group Draft Report</a>, not a W3C Standard. Unsupported browsers simply ignore the feature; the same data remains available today through the versioned JSON catalog and this page.
         </p>
         <ul>
           <li><code>find_centrifuge_models</code> — find exact machines and Dolphin commercial classes.</li>
           <li><code>get_centrifuge_specifications</code> — return published motor, voltage, dimensions, bowl, and material data without filling unknown fields.</li>
           <li><code>get_centrifuge_capacity</code> — return source L/h and derived US GPM for an exact machine, fluid, and conditions.</li>
           <li><code>get_technical_author_identity</code> — return the canonical public identity record for Sanjay Prabhu, M.S.M.E.</li>
+          <li><code>select_centrifuge_candidates</code> — shortlist documented machines for an exact fluid and required flow, retaining process conditions and missing engineering inputs.</li>
         </ul>
+        <p>The contact page also offers <code>prepare_centrifuge_inquiry</code> to fill the visible inquiry form for review.</p>
+        <WebMcpCheck />
 
         <h2 id="commercial-classes">Dolphin commercial-class mappings</h2>
       </article>
