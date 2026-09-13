@@ -2,7 +2,8 @@ import {readFile,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 
-export const knowledgeRoot=process.env.CENTRAL_KNOWLEDGE_ROOT||'N:/Business Docs/AI/Knowledge/Current';
+// Use the established NAS share directly: a scheduled process may not inherit N:.
+export const knowledgeRoot=process.env.CENTRAL_KNOWLEDGE_ROOT||'//dolphin-nas.tail7427a5.ts.net/Dolphin-NAS/Business Docs/AI/Knowledge/Current';
 const names=['SITE_KNOWLEDGE.json','CENTRIFUGE_BRAIN.md','CENTRIFUGE_SKILLS.md','TECHNICAL_CATALOG.json','CENTRIFUGE_WIKI.json'];
 const stop=new Set('the a an and or of in for to from on with is are it this that we you our your can could would please about have has be as at by what how which do does will need want thank thanks regards hello hi information request question customer company name dolphin centrifuge centrifuges'.split(' '));
 const hash=s=>createHash('sha256').update(s).digest('hex');
