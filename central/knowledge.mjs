@@ -4,14 +4,14 @@ import path from 'node:path';
 
 // Use the established NAS share directly: a scheduled process may not inherit N:.
 export const knowledgeRoot=process.env.CENTRAL_KNOWLEDGE_ROOT||'//dolphin-nas.tail7427a5.ts.net/Dolphin-NAS/Business Docs/AI/Knowledge/Current';
-const names=['SITE_KNOWLEDGE.json','CENTRIFUGE_BRAIN.md','CENTRIFUGE_SKILLS.md','TECHNICAL_CATALOG.json','CENTRIFUGE_WIKI.json'];
+const names=['SITE_KNOWLEDGE.json','CENTRIFUGE_BRAIN.md','CENTRIFUGE_SKILLS.md','TECHNICAL_CATALOG.json','CENTRIFUGE_WIKI.json','SANJAY_WRITING_STYLE.md','SANJAY_WORDING_LIBRARY.json'];
 const stop=new Set('the a an and or of in for to from on with is are it this that we you our your can could would please about have has be as at by what how which do does will need want thank thanks regards hello hi information request question customer company name dolphin centrifuge centrifuges'.split(' '));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 export function tokens(s){return (String(s).toLowerCase().replace(/\buco\b/g,'used cooking oil').replace(/\bfuel\b/g,'fuel diesel').replace(/\bsolids?\b/g,'solid sludge').replace(/\bdisk\b/g,'disc').match(/[a-z0-9]+(?:[-.][a-z0-9]+)*/g)||[]).filter(t=>t.length>1&&!stop.has(t)).map(t=>t.length>5?t.replace(/(?:ing|es|s)$/,''):t);}
 function pieces(text,max=2200){let section='',heading='';const out=[];for(const para of String(text||'').split(/\n\s*\n/)){if(/^#{1,5} /.test(para)){if(section.trim())out.push({text:section,heading});section='';heading=para.split('\n')[0].replace(/^#+\s*/,'');}if(section.length+para.length>max&&section){out.push({text:section,heading});section='';}for(let at=0;at<para.length;at+=max){const p=para.slice(at,at+max);if(at){if(section)out.push({text:section,heading});section='';}section+=(section?'\n\n':'')+p;}}if(section.trim())out.push({text:section,heading});return out;}
 
 export class Knowledge{
- constructor({root=knowledgeRoot,excludeThreads=[]}={}){this.root=root;this.excluded=new Set(excludeThreads);this.docs=[];this.checked=0;this.signature='';}
+ constructor({root=knowledgeRoot,excludeThreads=[]}={}){this.root=root;this.excluded=new Set(excludeThreads);this.docs=[];this.writingGuide='';this.wording=[];this.checked=0;this.signature='';}
  async load(){
   if(Date.now()-this.checked<60000&&this.docs.length)return;
   this.checked=Date.now();const infos=await Promise.all(names.map(n=>stat(path.join(this.root,n))));
@@ -30,8 +30,19 @@ export class Knowledge{
   for(const c of wiki.cases){if(this.excluded.has(c.threadId))continue;for(const v of c.sourceVariants||[]){const d=v.data;if(d.status&&d.status!=='useful')continue;const text=d.technicalFacts?[...(d.technicalFacts||[]).map(f=>f.statement+' Conditions: '+f.conditions),...(d.salesGuidance||[]).map(f=>f.statement+' Conditions: '+f.conditions),...(d.customerQuestions||[]).map(q=>q.question+' '+q.answer)].join('\n'):JSON.stringify(d);add(text,d.title||c.application||'Historical Dolphin case',`https://mail.google.com/mail/u/sprabhu@dolphincentrifuge.com/#all/${c.threadId}`,'email',c.threadId,c.date);}}
   const df=new Map();let total=0;
   for(const d of docs){d.tf=new Map();for(const t of tokens(d.title+' '+d.heading+' '+d.text))d.tf.set(t,(d.tf.get(t)||0)+1);d.length=[...d.tf.values()].reduce((a,b)=>a+b,0);total+=d.length;for(const t of d.tf.keys())df.set(t,(df.get(t)||0)+1);}
+  const wording=JSON.parse(contents[6].replace(/^\uFEFF/,''));
+  const sourceThreads=new Map((wording.sources||[]).map(s=>[s.sourceMessageId,s.threadId]));
+  // Writing examples are not factual evidence. Historical factual values are
+  // removed from templates, and excluded passages never reach the model.
+  this.wording=(wording.blocks||[]).filter(b=>!this.excluded.has(sourceThreads.get(b.sourceMessageId))&&((b.eligibility==='safe'&&!b.factSensitive)||(b.eligibility==='requires_bindings'&&b.slotCoverageComplete&&b.template))).map(b=>({id:b.id,text:b.eligibility==='safe'?b.text:b.template,terms:tokens((b.tags||[]).join(' ')+' '+(b.eligibility==='safe'?b.text:b.template))}));
+  this.writingGuide=contents[5];
   this.docs=docs;this.df=df;this.average=total/docs.length;this.signature=signature;
   this.info={loadedAt:new Date().toISOString(),websitePages:site.pages.length,conversations:wiki.cases.length,sourceFiles:names.map((name,i)=>({name,sha256:hash(contents[i]),modifiedAt:infos[i].mtime.toISOString()}))};
+ }
+ writingReference(query){
+  const queryTokens=new Set(tokens(query));
+  const examples=this.wording.map(b=>({b,score:[...new Set(b.terms)].filter(t=>queryTokens.has(t)).length})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,4).map(({b})=>({id:b.id,text:b.text}));
+  return {guide:this.writingGuide,examples};
  }
  search(query,{limit=12,kind}={}){
   const ts=[...new Set(tokens(query))],counts=new Map(),out=[];
