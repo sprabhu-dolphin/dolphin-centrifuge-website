@@ -13,8 +13,18 @@ test('10 US GPM diesel yields separate manual and self-cleaning candidates with 
     assert.equal(result.candidate.conditions.viscosity.value,13);
     assert.equal(result.candidate.conditions.centrifugationTemperatureC,40);
     assert.equal(result.canRecommendPurchase,false);
+    assert.equal(result.candidate.ratingBasis,'oem-application');
+    assert.ok(result.candidate.fluid.toLowerCase().includes('diesel'));
+    assert.equal(result.candidate.motorPower.status,'requires_configuration');
+    assert.equal(result.candidate.driveHp,undefined);
     assert.ok(result.missingInputs.includes('solids loading'));
     assert.equal(select(catalog,{application:'diesel',requiredFlow:2271.24707,flowUnit:'L/h',cleaning}).candidate.modelId,id);
+  }
+});
+test('generic oil needs a fluid choice and partial words or conditions alone cannot name a fluid', () => {
+  assert.equal(select(catalog,{application:'oil',requiredFlow:10,flowUnit:'US GPM'}).status,'needs_input');
+  for (const application of ['d','die','40 C','13 cSt']) {
+    assert.equal(select(catalog,{application,requiredFlow:10,flowUnit:'US GPM'}).status,'no_documented_match');
   }
 });
 test('selection cannot substitute another fluid, a hydraulic ceiling, or the top of a capacity range', () => {

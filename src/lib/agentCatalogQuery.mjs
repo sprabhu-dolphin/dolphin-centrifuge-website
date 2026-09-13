@@ -122,11 +122,11 @@ function capacityMatchesFluid(capacity, requestedFluid) {
   }
 
   fluidNeedle = stripFluidConditionPhrases(fluidNeedle);
-  if (!fluidNeedle) return true;
+  if (!fluidNeedle) return false;
 
   return capacityFluidTerms(capacity).some(
     (term) =>
-      term === fluidNeedle || term.includes(fluidNeedle),
+      term === fluidNeedle || ` ${term} `.includes(` ${fluidNeedle} `),
   );
 }
 

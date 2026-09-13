@@ -1,0 +1,36 @@
+<details class="not-prose rounded-xl border border-gray-200 bg-white p-5 my-6">
+  <summary class="cursor-pointer font-semibold text-navy">Check WebMCP in this browser</summary>
+  <p class="my-3 text-sm">Checks native tool discovery and runs the read-only diesel example at 10 US GPM. Browser support is experimental; the JSON catalog remains available in all browsers.</p>
+  <button id="webmcp-check" type="button" class="rounded-lg bg-navy text-white px-4 py-2 font-semibold">Check browser tools</button>
+  <pre id="webmcp-check-result" role="status" aria-live="polite" class="whitespace-pre-wrap break-words text-sm mt-4"></pre>
+</details>
+<script>
+  import {registerDolphinWebMcpTools} from '../scripts/dolphinWebMcp';
+  const button = document.getElementById('webmcp-check') as HTMLButtonElement;
+  const output = document.getElementById('webmcp-check-result')!;
+  button.addEventListener('click', async () => {
+    button.disabled = true;
+    output.textContent = 'Checking native WebMCP support…';
+    try {
+      const context = (document as Document & {modelContext?: {
+        getTools?: () => Promise<Array<{name: string; origin: string}>>;
+        executeTool?: (tool: unknown, input: object) => Promise<unknown>;
+      }}).modelContext;
+      if (!context?.getTools || !context.executeTool) {
+        output.textContent = 'Native WebMCP discovery/execution is unavailable in this browser. The website and JSON catalog are available.';
+        return;
+      }
+      await registerDolphinWebMcpTools();
+      const tools = (await context.getTools()).filter(tool => tool.origin === location.origin);
+      const selection = tools.find(tool => tool.name === 'select_centrifuge_candidates');
+      if (!selection) throw new Error('Dolphin selection tool was not discovered.');
+      const result = await context.executeTool(selection, {application: 'diesel', requiredFlow: 10, flowUnit: 'US GPM', cleaning: 'manual'});
+      output.textContent = JSON.stringify({nativeWebMcp: true, tools: tools.map(tool => tool.name),
+        dieselExample: typeof result === 'string' ? JSON.parse(result) : result}, null, 2);
+    } catch {
+      output.textContent = 'The native browser tool check did not complete. Use the JSON catalog; retry after checking browser/trial availability.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
