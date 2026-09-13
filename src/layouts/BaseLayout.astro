@@ -52,6 +52,9 @@ const fullTitle = title === 'Home'
       : `${title}${brandSuffix}`;
 
 const siteUrl = 'https://dolphincentrifuge.com';
+// Browser-issued origin-trial tokens are public, origin-bound activation values.
+const webMcpOriginTrialTokens = (import.meta.env.PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS || '')
+  .split(',').map((token: string) => token.trim()).filter(Boolean);
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 const defaultOgImage = '/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg';
 const ogImage = ogImageProp || defaultOgImage;
@@ -985,6 +988,7 @@ const normalizedSchemas = (Array.isArray(searchNormalizedSchemas)
 <!doctype html>
 <html lang="en">
   <head>
+    {webMcpOriginTrialTokens.map((token: string) => <meta http-equiv="origin-trial" content={token} />)}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {openAiAdsBootstrap && <script is:inline set:html={openAiAdsBootstrap} />}

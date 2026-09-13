@@ -1,4 +1,4 @@
-import { technicalCatalog } from '../../data/centrifugeTechnicalRegistry.mjs';
+import { technicalCatalog } from '../../data/agentCatalog.mjs';
 
 export const prerender = true;
 

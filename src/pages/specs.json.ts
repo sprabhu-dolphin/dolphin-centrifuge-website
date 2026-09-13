@@ -1,3 +1,4 @@
+import { technicalCatalog as agentCatalog } from '../data/agentCatalog.mjs';
 import {
   models,
   disclaimer,
@@ -58,6 +59,12 @@ export function GET() {
     },
     models: models.map((model) => ({
       ...model,
+      powerConfiguration: {
+        variants: agentCatalog.models.find(entry => entry.id === model.id)?.configurations ?? [],
+        centrifugeDrive: agentCatalog.models.find(entry => entry.id === model.id)?.specifications.motorPower ?? null,
+        auxiliaryPump: agentCatalog.models.find(entry => entry.id === model.id)?.specifications.auxiliaryPumpMotor ?? null,
+        totalSystemLoad: {status: 'not-published', reason: 'Requires exact installed pump, heater and drive configuration.'},
+      },
       url: model.canonicalPath ? `${SITE_URL}${model.canonicalPath}` : undefined,
     })),
   };

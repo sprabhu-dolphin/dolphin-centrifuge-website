@@ -15,7 +15,9 @@ function normalize(value) {
     .toLowerCase()
     .replace(/[\u2122\u00ae\u00a9]/g, '')
     .replace(/&/g, ' and ')
+    .replace(/(\d)\.(?=\d)/g, '$1decimalpoint')
     .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/decimalpoint/g, '.')
     .trim();
 }
 
@@ -124,7 +126,7 @@ function capacityMatchesFluid(capacity, requestedFluid) {
 
   return capacityFluidTerms(capacity).some(
     (term) =>
-      term === fluidNeedle || term.includes(fluidNeedle) || fluidNeedle.includes(term),
+      term === fluidNeedle || term.includes(fluidNeedle),
   );
 }
 
@@ -381,7 +383,7 @@ export function findCentrifugeModels(catalog, input = {}) {
 
 /**
  * @param {Record<string, unknown>} catalog
- * @param {{model?: string, baseMachineVariant?: string, baseMachineVariantId?: string}} input
+ * @param {{model?: string, baseMachineVariant?: string, baseMachineVariantId?: string, configurationId?: string, field?: string}} input
  */
 export function getCentrifugeSpecifications(catalog, input = {}) {
   const resolution = resolveModel(catalog, input.model);
@@ -424,12 +426,39 @@ export function getCentrifugeSpecifications(catalog, input = {}) {
   const selectedCommercialBase =
     baseVariantIds.length > 0 && selectedModel.id !== requestedModel.id;
   const needsBaseVariant = baseVariantIds.length > 1 && !effectiveVariant;
-  const specifications = selectedCommercialBase
+  let selectedSpecifications = selectedModel.specifications ?? {};
+  if (input.configurationId) {
+    const configuration = asArray(selectedModel.configurations).find(c => c.id === input.configurationId);
+    if (!configuration) return {
+      status: 'invalid_input', data: {selectedModel: modelSummary(selectedModel), configurationIds: asArray(selectedModel.configurations).map(c => c.id)},
+      answerability: {canStateAsFact: false, qualificationRequired: true, missingInputs: ['valid configurationId for the selected base machine']},
+      warnings: ['Configuration does not belong to the selected model.'], sources: [],
+    };
+    selectedSpecifications = {
+      motorPower: {...configuration.motorPower, configurationId: configuration.id,
+        machineType: configuration.machineType, productNumber: configuration.productNumber,
+        sourceUrl: configuration.sourceUrl, location: configuration.location,
+        qualification: configuration.qualification},
+      separatorWeight: {...configuration.separatorWeight, sourceUrl: configuration.sourceUrl},
+      ...(configuration.bowlSpeedByFrequency ? {bowlSpeedByFrequency: {values: configuration.bowlSpeedByFrequency, sourceUrl: configuration.sourceUrl}} : {}),
+    };
+  }
+  if (selectedSpecifications.motorPower?.status === 'requires_configuration') warnings.push('Select configurationId before stating motor power. RPM and weight also retain their frequency and assembly scope.');
+  let specifications = selectedCommercialBase
     ? {
         commercialClass: requestedModel.specifications ?? {},
-        baseMachine: selectedModel.specifications ?? {},
+        baseMachine: selectedSpecifications,
       }
-    : selectedModel.specifications ?? {};
+    : selectedSpecifications;
+  if (input.field) {
+    const fields = selectedCommercialBase ? selectedSpecifications : specifications;
+    if (!Object.hasOwn(fields, input.field)) return {
+      status: 'not_found', data: {selectedModel: modelSummary(selectedModel), specifications: {}},
+      answerability: {canStateAsFact: false, qualificationRequired: true, missingInputs: []},
+      warnings: ['Requested field is not published for this model/configuration.'], sources: [],
+    };
+    specifications = {[input.field]: fields[input.field]};
+  }
   const sources = specificationSources(specifications);
 
   if (sources.length === 0) {
@@ -472,9 +501,10 @@ export function getCentrifugeSpecifications(catalog, input = {}) {
         : {}),
     },
     answerability: {
-      canStateAsFact: true,
-      qualificationRequired: warnings.length > 0,
-      missingInputs: needsBaseVariant ? ['baseMachineVariant for variant-specific facts'] : [],
+      canStateAsFact: !(input.field === 'motorPower' && selectedSpecifications.motorPower?.status === 'requires_configuration'),
+      qualificationRequired: true,
+      missingInputs: [...(needsBaseVariant ? ['baseMachineVariant for variant-specific facts'] : []),
+        ...(selectedSpecifications.motorPower?.status === 'requires_configuration' ? ['configurationId for motor power'] : [])],
     },
     warnings,
     sources,

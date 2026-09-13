@@ -672,7 +672,7 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMB-007',
     canonicalPath: '/alfa-laval-mab-104-centrifuge/',
     capacities: fromRegistry('alfa-laval-mab-104'),
-    bowlSpeedRpm: 7500,
+    bowlSpeedRpm: 7350,
     motorHp: 2,
     sludgeVolumeGal: 0.25,
     voltages: V_230_460,

@@ -1,0 +1,19 @@
+---
+import { configurationSources, machineConfigurations } from '../data/machineConfigurations.mjs';
+const { model } = Astro.props;
+const source = configurationSources[model];
+const configurations = machineConfigurations(model);
+function power(value) { return 'value' in value ? `${value.value} kW` : `${value.minimum}–${value.maximum} kW`; }
+---
+{source && <aside class="my-6 rounded-lg border border-gray-200 p-5">
+  <h3>Motor and machine configuration</h3>
+  <p>Alfa Laval specifies different motors for {source.machineType}, product {source.productNumber}, depending on the OEM pump arrangement.</p>
+  <table class="w-full text-sm">
+    <thead><tr><th scope="col" class="text-left p-2">OEM configuration</th><th scope="col" class="text-left p-2">Motor rating</th></tr></thead>
+    <tbody>{configurations.map(config => <tr><td class="p-2">{config.pumpConfiguration}</td><td class="p-2">{power(config.motorPower)}</td></tr>)}</tbody>
+  </table>
+  {source.bowlSpeedByFrequency && <p>Bowl speed: {source.bowlSpeedByFrequency.map(row => `${row.value.toLocaleString('en-US')} RPM at ${row.frequencyHz} Hz`).join('; ')}.</p>}
+  <p>Separator weight without motor: {source.separatorWeight.value} kg. This is not the weight of a complete skid.</p>
+  <p>Match the machine type, product number and installed nameplate. A separate skid feed pump and heater have their own power requirements. Published nominal HP is not an exact conversion of the OEM kW rating.</p>
+  <p><a href={source.sourceUrl}>Alfa Laval manual</a>: {source.location}.</p>
+</aside>}

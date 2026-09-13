@@ -1,3 +1,6 @@
+import { selectCentrifugeCandidates } from '../lib/centrifugeSelection.mjs';
+import { inquiryWebMcpTools } from './inquiryWebMcp';
+import { compactToolResult } from '../lib/webMcpResponse.mjs';
 import {
   findCentrifugeModels,
   getCentrifugeCapacity,
@@ -16,8 +19,9 @@ type WebMcpTool = {
   description: string;
   inputSchema: JsonObject;
   annotations: {
-    readOnlyHint: true;
-    untrustedContentHint: false;
+    readOnlyHint: boolean;
+    untrustedContentHint: boolean;
+    consequentialHint: boolean;
   };
   execute: (input: JsonObject, context?: ToolExecutionContext) => Promise<JsonObject>;
 };
@@ -25,8 +29,7 @@ type ModelContext = { registerTool: (tool: WebMcpTool) => unknown };
 
 let catalogCache: JsonObject | undefined;
 let authorCache: JsonObject | undefined;
-let registeredContext: ModelContext | undefined;
-let registeringContext: ModelContext | undefined;
+const registrationsByContext = new WeakMap<ModelContext, Map<string, Promise<boolean>>>();
 
 function abortSignal(context?: ToolExecutionContext): AbortSignal | undefined {
   return context?.signal instanceof AbortSignal ? context.signal : undefined;
@@ -58,12 +61,14 @@ async function fetchJson(
 
 async function getCatalog(signal?: AbortSignal): Promise<JsonObject> {
   const catalog = await fetchJson(CATALOG_URL, signal, catalogCache);
+  if (catalog.schemaVersion !== 'dolphin-centrifuge-technical-v1' || !Array.isArray(catalog.models)) throw new Error('DOLPHIN_TECHNICAL_DATA_INVALID');
   catalogCache = catalog;
   return catalog;
 }
 
 async function getAuthor(signal?: AbortSignal): Promise<JsonObject> {
   const author = await fetchJson(AUTHOR_URL, signal, authorCache);
+  if (!author.profile || !author.canonicalEntityId || !author.credential) throw new Error('DOLPHIN_AUTHOR_DATA_INVALID');
   authorCache = author;
   return author;
 }
@@ -88,7 +93,7 @@ function unavailableResult(resource: 'catalog' | 'author'): JsonObject {
   };
 }
 
-function invalidInputResult(fields: string[]): JsonObject {
+function invalidInputResult(message: string): JsonObject {
   return {
     schemaVersion: 'dolphin-centrifuge-technical-v1',
     status: 'invalid_input',
@@ -99,7 +104,7 @@ function invalidInputResult(fields: string[]): JsonObject {
       missingInputs: [],
     },
     warnings: [
-      `Input exceeds the ${MAX_TOOL_INPUT_LENGTH}-character limit: ${fields.join(', ')}.`,
+      message,
     ],
     sources: [],
   };
@@ -118,34 +123,69 @@ async function withCatalog(
   }
 }
 
-async function withBoundedCatalogInput(
-  input: JsonObject,
-  context: ToolExecutionContext | undefined,
-  query: (catalog: JsonObject) => JsonObject,
-): Promise<JsonObject> {
-  const overLimit = Object.entries(input)
-    .filter(([, value]) => typeof value === 'string' && value.length > MAX_TOOL_INPUT_LENGTH)
-    .map(([key]) => key);
-  if (overLimit.length > 0) return invalidInputResult(overLimit);
-  return withCatalog(context, query);
+function validateInput(input: unknown, schema: JsonObject): string | undefined {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return 'Expected an object of named parameters.';
+  const fields = input as JsonObject;
+  const properties = schema.properties as Record<string, JsonObject>;
+  for (const name of (schema.required as string[] | undefined) ?? []) {
+    if (!Object.hasOwn(fields, name)) return `Missing required parameter: ${name}.`;
+  }
+  for (const [name, value] of Object.entries(fields)) {
+    if (!Object.hasOwn(properties, name)) return 'An unknown parameter was supplied. Use the declared tool schema.';
+    const rule = properties[name];
+    if (rule.type === 'integer') {
+      if (!Number.isSafeInteger(value) || (value as number) < 0) return `${name} must be a nonnegative integer.`;
+    } else if (rule.type === 'number') {
+      if (typeof value !== 'number' || !Number.isFinite(value)) return `${name} must be a finite number.`;
+      if (rule.exclusiveMinimum !== undefined && value <= Number(rule.exclusiveMinimum)) return `${name} must be positive.`;
+    } else {
+      if (typeof value !== 'string') return `${name} must be a string.`;
+      if (value.length > Number(rule.maxLength ?? MAX_TOOL_INPUT_LENGTH)) return `${name} exceeds the character limit.`;
+      if (rule.minLength && !value.trim()) return `${name} must contain a value.`;
+      if (Array.isArray(rule.enum) && !rule.enum.includes(value)) return `${name} must match a declared option.`;
+    }
+  }
 }
+
+const pagination = {
+  offset: { type: 'integer', minimum: 0, description: 'Result offset; use the returned page.nextOffset to read the next page. Defaults to 0.' },
+};
 
 const annotations = {
   readOnlyHint: true,
   untrustedContentHint: false,
+  consequentialHint: false,
 } as const;
 
 function tools(): WebMcpTool[] {
   return [
     {
+      name: 'select_centrifuge_candidates',
+      title: 'Select centrifuge candidates',
+      description: 'Shortlist exact machines for a documented fluid and required flow, such as diesel at 10 US GPM. Ranks by smallest qualifying OEM application capacity. Returns one candidate per page, operating conditions and missing inputs. This is an engineering shortlist, not a purchase recommendation or guaranteed throughput.',
+      inputSchema: {type: 'object', additionalProperties: false, required: ['application', 'requiredFlow', 'flowUnit'], properties: {
+        ...pagination,
+        application: {type: 'string', minLength: 1, maxLength: 200, description: 'Documented fluid, such as diesel, marine diesel or HFO 380 cSt. Application capacity is never borrowed from another fluid.'},
+        requiredFlow: {type: 'number', exclusiveMinimum: 0, description: 'Required process flow, in the explicitly selected flowUnit.'},
+        flowUnit: {type: 'string', enum: ['US GPM', 'L/h'], description: 'US gallons per minute or liters per hour; imperial gallons are not US gallons.'},
+        cleaning: {type: 'string', enum: ['any', 'manual', 'self-cleaning'], description: 'Solids discharge preference. Defaults to any.'},
+        temperatureC: {type: 'number', description: 'Actual fluid temperature at the centrifuge, degrees Celsius; omitted means unconfirmed.'},
+        viscosityCst: {type: 'number', exclusiveMinimum: 0, description: 'Fluid viscosity or fuel grade in cSt. Its reference temperature is separate from centrifugation temperature.'},
+        viscosityReferenceTemperatureC: {type: 'number', description: 'Temperature at which viscosity is measured, degrees Celsius; for example HFO 380 cSt at 50 C.'},
+      }},
+      annotations,
+      execute: (input, context) => withCatalog(context, catalog => selectCentrifugeCandidates(catalog, input)),
+    },
+    {
       name: 'find_centrifuge_models',
       title: 'Find centrifuge models',
       description:
-        'Find source-backed Dolphin and OEM centrifuge records by model, alias, manufacturer, record type, or documented fluid. Use an exact returned model ID for technical lookups.',
+        'Find source-backed Dolphin and OEM centrifuge records by model, alias, manufacturer, record type, or documented fluid. Returns three models per page. Use page.nextOffset for more results and an exact model ID for technical lookups.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
         properties: {
+          ...pagination,
           query: { type: 'string', maxLength: MAX_TOOL_INPUT_LENGTH, description: 'Model name, ID, family, or documented alias.' },
           manufacturer: { type: 'string', maxLength: MAX_TOOL_INPUT_LENGTH, description: 'Exact manufacturer name.' },
           recordType: {
@@ -159,19 +199,22 @@ function tools(): WebMcpTool[] {
       },
       annotations,
       execute: (input, context) =>
-        withBoundedCatalogInput(input, context, (catalog) => findCentrifugeModels(catalog, input)),
+        withCatalog(context, (catalog) => compactToolResult(findCentrifugeModels(catalog, input), input)),
     },
     {
       name: 'get_centrifuge_specifications',
       title: 'Get centrifuge specifications',
       description:
-        'Return source-backed specifications for an exact model or alias. For a commercial class, optionally select an exact documented base-machine variant for variant-specific facts.',
+        'Return one source-backed specification per page for an exact model. Optionally request a field such as motorPower, bowlSpeed or netWeight. Motor variants require configurationId from the model record. Use page.nextOffset for more fields and baseMachineVariant to select a commercial class’s exact machine.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
         required: ['model'],
         properties: {
+          ...pagination,
           model: { type: 'string', minLength: 1, maxLength: MAX_TOOL_INPUT_LENGTH, description: 'Exact model ID, name, or alias.' },
+          field: {type: 'string', minLength: 1, maxLength: 200, description: 'Optional exact field, such as motorPower, bowlSpeed or netWeight. Omit to enumerate all fields.'},
+          configurationId: {type: 'string', minLength: 1, maxLength: 200, description: 'Exact documented configuration ID from the model record, required to resolve pump-dependent motor power.'},
           baseMachineVariant: {
             type: 'string',
             minLength: 1,
@@ -182,18 +225,19 @@ function tools(): WebMcpTool[] {
       },
       annotations,
       execute: (input, context) =>
-        withBoundedCatalogInput(input, context, (catalog) => getCentrifugeSpecifications(catalog, input)),
+        withCatalog(context, (catalog) => compactToolResult(getCentrifugeSpecifications(catalog, input), input)),
     },
     {
       name: 'get_centrifuge_capacity',
       title: 'Get centrifuge capacity',
       description:
-        'Return source-backed capacity records with fluid, conditions, rating basis, original value, derived conversions, and provenance. A commercial class with multiple documented base machines requires an exact variant and never receives a synthesized universal flow rating.',
+        'Return one source-backed capacity per page with fluid, conditions, rating basis, units, and provenance. Use page.nextOffset for more records. A commercial class with multiple documented base machines requires an exact variant and never receives a synthesized universal flow rating.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,
         required: ['model'],
         properties: {
+          ...pagination,
           model: { type: 'string', minLength: 1, maxLength: MAX_TOOL_INPUT_LENGTH, description: 'Exact model ID, name, or alias.' },
           fluid: {
             type: 'string',
@@ -211,7 +255,7 @@ function tools(): WebMcpTool[] {
       },
       annotations,
       execute: (input, context) =>
-        withBoundedCatalogInput(input, context, (catalog) => getCentrifugeCapacity(catalog, input)),
+        withCatalog(context, (catalog) => compactToolResult(getCentrifugeCapacity(catalog, input), input)),
     },
     {
       name: 'get_technical_author_identity',
@@ -231,7 +275,14 @@ function tools(): WebMcpTool[] {
           return {
             schemaVersion: 'dolphin.author-identity.v1',
             status: 'ok',
-            data: author,
+            data: {
+              name: (author.profile as JsonObject)?.name,
+              url: author.canonicalProfile,
+              id: author.canonicalEntityId,
+              credential: author.credential,
+              lastVerified: author.lastVerified,
+              recordUrl: AUTHOR_URL,
+            },
             answerability: {
               canStateAsFact: true,
               qualificationRequired: false,
@@ -249,37 +300,41 @@ function tools(): WebMcpTool[] {
   ];
 }
 
-/**
- * Register Dolphin's four read-only WebMCP tools when the experimental browser
- * API exists. Unsupported browsers intentionally receive no shim or polyfill.
- */
-export function registerDolphinWebMcpTools(): boolean {
+/** Register each tool independently so one failure cannot strand the others. */
+export async function registerDolphinWebMcpTools(): Promise<boolean> {
   if (typeof document === 'undefined') return false;
-
   const modelContext = (document as Document & { modelContext?: ModelContext }).modelContext;
   if (!modelContext || typeof modelContext.registerTool !== 'function') return false;
-  if (registeredContext === modelContext || registeringContext === modelContext) return true;
-
-  registeringContext = modelContext;
-  let registrations: Promise<unknown>[];
-  try {
-    registrations = tools().map((tool) => Promise.resolve(modelContext.registerTool(tool)));
-  } catch (error) {
-    registeringContext = undefined;
-    console.warn('Dolphin WebMCP tool registration failed.', error);
-    return false;
+  let registrations = registrationsByContext.get(modelContext);
+  if (!registrations) {
+    registrations = new Map();
+    registrationsByContext.set(modelContext, registrations);
   }
-
-  void Promise.all(registrations)
-    .then(() => {
-      registeredContext = modelContext;
-      registeringContext = undefined;
-    })
-    .catch((error) => {
-      registeringContext = undefined;
-      console.warn('Dolphin WebMCP tool registration failed.', error);
-    });
-  return true;
+  const state = registrations;
+  const results = await Promise.all([...tools(), ...inquiryWebMcpTools()].map((definition) => {
+    const prior = state.get(definition.name);
+    if (prior) return prior;
+    const tool = {
+      ...definition,
+      execute: async (input: JsonObject, context?: ToolExecutionContext): Promise<JsonObject> => {
+        abortSignal(context)?.throwIfAborted();
+        const invalid = validateInput(input, definition.inputSchema);
+        if (invalid) return invalidInputResult(invalid);
+        return definition.execute(input, context);
+      },
+    };
+    const registration = Promise.resolve()
+      .then(() => modelContext.registerTool(tool))
+      .then(() => true)
+      .catch(() => {
+        state.delete(definition.name);
+        console.warn('Dolphin WebMCP tool registration failed.', definition.name);
+        return false;
+      });
+    state.set(definition.name, registration);
+    return registration;
+  }));
+  return results.every(Boolean);
 }
 
-registerDolphinWebMcpTools();
+void registerDolphinWebMcpTools();

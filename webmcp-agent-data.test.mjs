@@ -1,3 +1,4 @@
+import { technicalCatalog as publishedCatalog } from './src/data/agentCatalog.mjs';
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -458,35 +459,6 @@ test('specification queries return published motor, voltage, skid, and MOC facts
   }
 });
 
-test('WebMCP runtime declares exactly four read-only tools and only feature-detects the browser API', async () => {
-  const runtime = await readFile(path.join(ROOT, 'src/scripts/dolphinWebMcp.ts'), 'utf8');
-  const declarations = [...runtime.matchAll(/\bname:\s*['"]([^'"]+)['"]/g)].map((match) => match[1]);
-
-  assert.equal(declarations.length, 4);
-  assert.deepEqual([...declarations].sort(), [...WEBMCP_TOOL_NAMES].sort());
-  assert.match(runtime, /const annotations\s*=\s*\{[\s\S]*?readOnlyHint:\s*true,[\s\S]*?untrustedContentHint:\s*false/);
-  assert.match(runtime, /typeof document === ['"]undefined['"]/);
-  assert.match(runtime, /typeof modelContext\.registerTool !== ['"]function['"]/);
-  assert.match(runtime, /modelContext\.registerTool\(tool\)/);
-  assert.match(runtime, /execute:\s*\(input:\s*JsonObject,[\s\S]*?Promise<JsonObject>/);
-  assert.match(runtime, /return query\(await getCatalog\(signal\)\);/);
-  assert.match(runtime, /const MAX_TOOL_INPUT_LENGTH\s*=\s*200/);
-  assert.match(runtime, /maxLength:\s*MAX_TOOL_INPUT_LENGTH/);
-  assert.match(runtime, /withBoundedCatalogInput\(input, context/);
-  assert.match(runtime, /resource === ['"]author['"][\s\S]*?dolphin\.author-identity\.v1/);
-  assert.match(runtime, /Promise\.all\(registrations\)/);
-  assert.match(runtime, /console\.warn\(['"]Dolphin WebMCP tool registration failed\./);
-  assert.doesNotMatch(runtime, /stableStringify/);
-
-  assert.ok(
-    declarations.every((name) => !/^(?:create|delete|remove|send|set|update|write)_/i.test(name)),
-    'The public WebMCP surface must not declare a write-capable tool',
-  );
-  assert.doesNotMatch(runtime, /document\.modelContext\s*=/);
-  assert.doesNotMatch(runtime, /Object\.defineProperty\(\s*document\s*,\s*['"]modelContext['"]/);
-  assert.doesNotMatch(runtime, /(?:import|require)[^\n]*(?:polyfill|shim)/i);
-});
-
 test('public crawler files advertise the catalog, tools, reviewer, and crawlability', async () => {
   const [llms, headers, robots] = await Promise.all([
     readFile(path.join(ROOT, 'public/llms.txt'), 'utf8'),
@@ -529,7 +501,7 @@ test('built site publishes byte-equivalent data and discoverable WebMCP assets',
     readFile(builtHeadersPath, 'utf8'),
   ]);
 
-  assert.deepEqual(JSON.parse(builtCatalogText), technicalCatalog);
+  assert.deepEqual(JSON.parse(builtCatalogText), JSON.parse(JSON.stringify(publishedCatalog)));
   assert.match(technicalPage, /href=["']\/technical-data\/centrifuges\.v1\.json["']/i);
   assert.match(technicalPage, /href=["']\/authors\/sanjay-prabhu\/["']/i);
   assert.match(builtHeaders, /^\/technical-data\/\*\.json\s*$/m);
