@@ -6,6 +6,7 @@ import worker,{CentralQueue,makeSession,readSession,sha} from '../workers/centra
 import {answerQuestion} from './engine.mjs';
 import {Knowledge} from './knowledge.mjs';
 import {cleanTemporary,runtimeRoot} from './model.mjs';
+import {DatabaseSync} from 'node:sqlite';
 
 class MemoryStorage{
  constructor(){this.map=new Map();this.alarm=null;}
@@ -47,4 +48,27 @@ test('an address request retains the public contact source even when the planner
  const knowledge=new Knowledge();knowledge.docs=[contact,service];knowledge.load=async()=>{};knowledge.candidates=()=>[service,contact];knowledge.search=()=>[];
  let calls=0;const modelCall=async({input})=>{calls++;if(calls===1)return {needs:['shipping address'],selectedIds:['service'],additionalSearches:[]};if(calls===3)return {needsCorrection:false,issues:[]};assert.ok(input.evidence.some(d=>d.id==='contact'));return {customerAnswer:contact.text,followUpQuestions:[],staffNote:'',needsStaffFollowUp:false,sourceIds:['contact'],coverage:[]};};
  const answer=await answerQuestion({question:'Please confirm the test and provide the shipping address.'},{knowledge,modelCall});assert.equal(answer.sources[0].id,'contact');assert.equal(knowledge.contactSources('What size centrifuge?').length,0);
+});
+
+test('inquiries require staff auth, exclude deleted records, paginate and expose only customer fields',async()=>{
+ const {env}=await setup();let reads=0;
+ env.SUBMISSIONS={prepare:()=>{reads++;throw new Error('Unexpected read');}};
+ for(const url of ['/central/api/inquiries','/central/api/inquiries?id=1'])assert.equal((await request(env,url)).status,401);
+ assert.equal(reads,0);
+ const sql=new DatabaseSync(':memory:');
+ try{
+  sql.exec(`CREATE TABLE submissions (id INTEGER PRIMARY KEY, created_at TEXT, first_name TEXT, last_name TEXT, company TEXT, country TEXT, us_state TEXT, fluid_type TEXT, form_type TEXT, email TEXT, phone TEXT, contact_method TEXT, capacity TEXT, solids_percentage TEXT, centrifuge_condition TEXT, additional_details TEXT, parts_json TEXT, deleted INTEGER DEFAULT 0, visitor_ip TEXT, admin_notes TEXT)`);
+  const insert=sql.prepare('INSERT INTO submissions (id, company, country, deleted, additional_details, visitor_ip, admin_notes) VALUES (?, ?, ?, ?, ?, ?, ?)');
+  for(let id=1;id<=28;id++)insert.run(id,'Synthetic customer '+id,id===28?'Canada':'US',id===27?1:0,'Customer requirement','private-ip','private-admin');
+  env.SUBMISSIONS={prepare(query){const statement=sql.prepare(query);let args=[];const bound={bind(...values){args=values;return bound;},async all(){return {results:statement.all(...args)};},async first(){return statement.get(...args)||null;}};return bound;}};
+  const token=await makeSession(env.SESSION_KEY);
+  const listed=await request(env,'/central/api/inquiries',{token});assert.equal(listed.headers.get('cache-control'),'no-store');
+  const page=await listed.json();assert.equal(page.items.length,25);assert.equal(page.items[0].id,26);assert.equal(page.nextBefore,2);assert.equal(page.items[0].email,undefined);assert.equal(page.items[0].visitor_ip,undefined);
+  const tail=await (await request(env,'/central/api/inquiries?before=2',{token})).json();assert.deepEqual(tail.items.map(x=>x.id),[1]);assert.equal(tail.nextBefore,null);
+  const all=await (await request(env,'/central/api/inquiries?region=all',{token})).json();assert.equal(all.items[0].id,28);
+  const detail=await (await request(env,'/central/api/inquiries?id=26',{token})).json();assert.equal(detail.inquiry.additional_details,'Customer requirement');assert.equal(detail.inquiry.visitor_ip,undefined);assert.equal(detail.inquiry.admin_notes,undefined);
+  assert.equal((await request(env,'/central/api/inquiries?id=27',{token})).status,404);
+  for(const suffix of ['?id=1%20OR%201=1','?before=-1','?region=bogus'])assert.equal((await request(env,'/central/api/inquiries'+suffix,{token})).status,400);
+  assert.equal(sql.prepare('SELECT count(*) AS n FROM submissions').get().n,28);
+ }finally{sql.close();}
 });

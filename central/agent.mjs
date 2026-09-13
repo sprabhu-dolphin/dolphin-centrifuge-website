@@ -35,7 +35,7 @@ const server=http.createServer(async(req,res)=>{
   if(pathname.startsWith('/central/api/')){
    if(!['GET','POST'].includes(req.method))return send(res,405,{error:'Method not allowed'});
    const payload=req.method==='POST'?await requestBody(req):undefined;
-   const r=await fetch(remote+pathname,{method:req.method,headers:{cookie:'central_session='+await ownSession(),'content-type':'application/json',origin:'https://dolphincentrifuge.com'},body:payload,signal:AbortSignal.timeout(30000)});
+   const r=await fetch(remote+pathname+new URL(req.url,'http://127.0.0.1:'+port).search,{method:req.method,headers:{cookie:'central_session='+await ownSession(),'content-type':'application/json',origin:'https://dolphincentrifuge.com'},body:payload,signal:AbortSignal.timeout(30000)});
    if(r.status===401){ownerToken='';return send(res,503,{error:'Reconnecting Central. Please try again.'});}
    res.writeHead(r.status,{'content-type':'application/json','cache-control':'no-store'});return res.end(await r.text());
   }
