@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
 import {answerQuestion} from './engine.mjs';
-import {Knowledge} from './knowledge.mjs';
+import {Knowledge,knowledgeRoot} from './knowledge.mjs';
 import {cleanTemporary,runtimeRoot} from './model.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url)),repo=path.dirname(here),run=promisify(execFile);
@@ -57,5 +57,5 @@ async function poll(){
   }
  }catch{if(Date.now()-lastSeen>90000)await log('Waiting for the knowledge connection');}finally{polling=false;}
 }
-async function collectFeedback(){try{const data=await rpc('feedback');const p='N:/Business Docs/AI/Knowledge/Reports/CENTRAL_FEEDBACK.json';let old={items:[]};try{old=JSON.parse(await readFile(p,'utf8'));}catch{}const items=[...new Map([...old.items,...data.items].map(i=>[i.id,i])).values()].sort((a,b)=>b.createdAt-a.createdAt).slice(0,200);if(data.items.length)await writeFile(p,JSON.stringify({updatedAt:new Date().toISOString(),items},null,2));}catch{}}
+async function collectFeedback(){try{const data=await rpc('feedback');const p=path.join(knowledgeRoot,'..','Reports','CENTRAL_FEEDBACK.json');let old={items:[]};try{old=JSON.parse(await readFile(p,'utf8'));}catch{}const items=[...new Map([...old.items,...data.items].map(i=>[i.id,i])).values()].sort((a,b)=>b.createdAt-a.createdAt).slice(0,200);if(data.items.length)await writeFile(p,JSON.stringify({updatedAt:new Date().toISOString(),items},null,2));}catch{}}
 await cleanTemporary().catch(()=>{});poll();setInterval(poll,6000);setInterval(collectFeedback,60000);setInterval(()=>cleanTemporary().catch(()=>{}),3600000);
