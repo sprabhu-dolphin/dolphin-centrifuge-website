@@ -1,3 +1,4 @@
+import {readInquiries} from './inquiries.mjs';
 const SESSION_SECONDS=12*60*60, JOB_MS=30*60*1000;
 const encoder=new TextEncoder();
 const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','x-robots-tag':'noindex, nofollow'};
@@ -47,6 +48,10 @@ export default {
    if(!session)return json({error:'Sign in with the Dolphin staff password.',signIn:true},401);
    if(op==='logout'&&request.method==='POST')return json({ok:true},200,{'set-cookie':'central_session=; Path=/central; HttpOnly; Secure; SameSite=Strict; Max-Age=0'});
    if(op==='session'&&request.method==='GET')return json({signedIn:true,local:false});
+   if(op==='inquiries'&&request.method==='GET'){
+    const result=await readInquiries(new URL(request.url),env.SUBMISSIONS);
+    return json(result.data,result.status||200);
+   }
    if(op==='health'&&request.method==='GET')return rpc('health');
    if(op==='ask'&&request.method==='POST'){
     const data=await body(request);
