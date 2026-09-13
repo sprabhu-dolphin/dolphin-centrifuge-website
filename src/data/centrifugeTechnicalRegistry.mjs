@@ -325,8 +325,8 @@ const specSource = (page, extra = {}) => ({
 });
 
 const materialSet = (page) => [
-  { component: 'Bowl body and bowl hood', material: '316L duplex stainless steel', ...specSource(page) },
-  { component: 'Disc stack', material: '316L duplex stainless steel', ...specSource(page) },
+  { component: 'Bowl body and bowl hood', material: 'stainless steel (exact grade requires component/configuration verification)', ...specSource(page) },
+  { component: 'Disc stack', material: 'stainless steel (exact grade requires component/configuration verification)', ...specSource(page) },
   { component: 'Distributor / disc carrier', material: 'Marine-grade bronze; 316 stainless steel special-order option', ...specSource(page) },
   { component: 'Top disc', material: 'Marine-grade bronze; 316 stainless steel special-order option', ...specSource(page) },
   { component: 'Collecting covers', material: 'Silium aluminum alloy', ...specSource(page) },

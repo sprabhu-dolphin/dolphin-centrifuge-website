@@ -38,7 +38,7 @@ through 1990 while the University's public records are dated 1991.
 - Versioned machine-readable catalog: https://dolphincentrifuge.com/technical-data/centrifuges.v1.json
 - Individual model records: https://dolphincentrifuge.com/technical-data/{catalog-model-id}.json
 - Schema version: dolphin-centrifuge-technical-v1
-- Capacity source of truth: original published liters-per-hour cells from the cited Alfa Laval capacity tables
+- OEM capacity source of truth: original published liters-per-hour cells from the cited Alfa Laval capacity tables
 - US GPM conversion: L/h divided by 227.124707, rounded to two decimals
 - Technical reviewer: https://dolphincentrifuge.com/authors/sanjay-prabhu/#person
 
@@ -55,6 +55,32 @@ browser supports it, register these read-only tools:
 - get_centrifuge_specifications
 - get_centrifuge_capacity
 - get_technical_author_identity
+- select_centrifuge_candidates
+
+Model search, specifications, and capacity tools return compact pages. Reuse the
+same query with the returned page.nextOffset until it is null. Every technical
+result preserves its qualifiers and links to the complete public source record.
+An absent fact or an ambiguous base machine is not a capacity recommendation.
+
+For application selection, use select_centrifuge_candidates with application,
+requiredFlow and flowUnit (US GPM or L/h). Diesel at 10 US GPM has documented
+manual-clean MAB 204 and self-cleaning MOPX 205 candidates at the table's 40 C,
+13 cSt conditions. These are preliminary candidates; confirm actual process
+conditions, contamination, separation goal, duty and installed configuration.
+The selector uses OEM application rows, not hydraulic limits or single test runs.
+
+All published model specifications also feed this catalog from /specs.json.
+Additional Dolphin capacity records retain their original units and rating basis.
+Motor power is not total system load. For MAB 104 and MAB 206, request the
+motorPower field, then choose its documented configurationId for with/without
+OEM pump. Do not confuse that pump with a separate skid feed-pump motor.
+RPM requires the frequency/gearing version; weight requires the assembly scope.
+Unpublished installed nameplate and skid details remain explicitly unresolved.
+
+On the contact page, prepare_centrifuge_inquiry fills the visible application
+form for visitor review. Submission uses the existing Submit Application Details
+button; it requests engineering follow-up and does not place an equipment order.
+Contact page: https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/
 
 WebMCP is currently a W3C Community Group Draft Report, not a W3C Standard:
 https://webmachinelearning.github.io/webmcp/
