@@ -16,6 +16,7 @@ import {
   reconcileLeadSources,
 } from '../../lead-reconciliation-core.mjs';
 import { gradeLead, runLeadGradeBackfill } from './grading.js';
+import { savedLeadEventId, scheduleOpenAiLead } from './openai-ads.mjs';
 
 const SOURCE_TIMEOUT_MS = 8_000;
 const SOURCE_RETRY_COUNT = 2;
@@ -4022,6 +4023,7 @@ async function handlePartsSubmit(request, env, ctx) {
       </div>
     `;
 
+    let openaiEventId = null;
     // Save to D1 before email so an email outage cannot lose the lead.
     if (env.DB) {
       try {
@@ -4053,6 +4055,8 @@ async function handlePartsSubmit(request, env, ctx) {
           partsCount: cleanParts.length,
         });
         scheduleLeadAutoGrade(ctx, env, insertResult);
+        openaiEventId = savedLeadEventId(insertResult);
+        scheduleOpenAiLead(ctx, { env, request, attribution: body.attribution || body.dolphin_attribution, eventId: openaiEventId });
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'parts', name, company, email, phone, parts: cleanParts,
@@ -4086,7 +4090,7 @@ async function handlePartsSubmit(request, env, ctx) {
     }
 
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({ success: true, openai_event_id: openaiEventId }),
       { status: 200, headers: CORS_HEADERS }
     );
   } catch (err) {
@@ -4311,6 +4315,7 @@ async function handleFormSubmit(request, env, ctx) {
 </body>
 </html>`;
 
+    let openaiEventId = null;
     // Save to D1 before email so an email outage cannot lose the lead.
     if (env.DB) {
       try {
@@ -4337,6 +4342,8 @@ async function handleFormSubmit(request, env, ctx) {
           partsCount: 0,
         });
         scheduleLeadAutoGrade(ctx, env, insertResult);
+        openaiEventId = savedLeadEventId(insertResult);
+        scheduleOpenAiLead(ctx, { env, request, attribution: fields.dolphin_attribution || fields.attribution, eventId: openaiEventId });
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'contact', firstName, lastName, company, email, phone,
@@ -4432,6 +4439,7 @@ async function handleFormSubmit(request, env, ctx) {
     return new Response(
       JSON.stringify({
         success: true,
+        openai_event_id: openaiEventId,
         message: 'Your inquiry has been received! Our team will respond within a few business days.',
       }),
       { status: 200, headers: CORS_HEADERS }

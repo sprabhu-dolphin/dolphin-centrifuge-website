@@ -542,6 +542,7 @@ const dolphinAttributionBootstrap = `(function() {
     var formMeta = session.forms && session.forms[key] ? session.forms[key] : {};
     return {
       version: 1,
+      openai_ads: typeof window.dolphinOpenAiConversionContext === 'function' ? window.dolphinOpenAiConversionContext() : { allowed: false },
       form_name: key,
       visitor_id: visitor.visitor_id,
       visitor_first_seen_at: visitor.first_seen_at,
@@ -673,9 +674,11 @@ const dolphinTrackingBootstrap = `window.dolphinTrackEvent = window.dolphinTrack
 };
 window.dolphinTrackLead = window.dolphinTrackLead || function(params) {
   try {
-    if (typeof window.dolphinTrackOpenAiLead === 'function') window.dolphinTrackOpenAiLead();
+    if (typeof window.dolphinTrackOpenAiLead === 'function') window.dolphinTrackOpenAiLead(params);
   } catch (_) {}
-  return window.dolphinTrackEvent('generate_lead', params || {});
+  const googleParams = Object.assign({}, params || {});
+  delete googleParams.openai_event_id;
+  return window.dolphinTrackEvent('generate_lead', googleParams);
 };
 window.dolphinTrackPhoneClick = window.dolphinTrackPhoneClick || function(params) {
   return window.dolphinTrackEvent('phone_call_click', params || {});
