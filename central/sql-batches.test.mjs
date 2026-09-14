@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {DatabaseSync} from 'node:sqlite';import {compactInserts} from './sql-batches.mjs';
+test('grouped private index inserts remain safe to replay after a lost acknowledgment',()=>{
+ const db=new DatabaseSync(':memory:');try{db.exec('CREATE VIRTUAL TABLE source USING fts5(text); CREATE TABLE archive (id INTEGER PRIMARY KEY,text TEXT)');const statements=Array.from({length:150},(_,i)=>`INSERT OR REPLACE INTO source (rowid,text) VALUES (${i+1},'sample VALUES text ${i}')`);statements.push("INSERT OR REPLACE INTO archive VALUES (1,'an archived value')");const sql=compactInserts(statements);db.exec(sql);db.exec(sql);assert.equal(db.prepare('SELECT count(*) AS n FROM source').get().n,150);assert.equal(db.prepare('SELECT count(*) AS n FROM archive').get().n,1);assert.equal(sql.split(';').length,2);}finally{db.close();}
+});
