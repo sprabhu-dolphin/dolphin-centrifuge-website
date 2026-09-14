@@ -24,9 +24,9 @@ test('initializes once and measures only explicit successful leads without form 
   assert.equal(scripts.length, 1);
   assert.equal(scripts[0].src, 'https://bzrcdn.openai.com/sdk/oaiq.min.js');
   assert.equal(window.oaiq.q.length, 1);
-  window.dolphinTrackOpenAiLead({ email: 'private@example.invalid', fluid_type: 'private' });
+  window.dolphinTrackOpenAiLead({ openai_event_id: 'dolphin_lead_17', email: 'private@example.invalid', fluid_type: 'private' });
   const measured = JSON.parse(JSON.stringify(Array.from(window.oaiq.q[1])));
-  assert.deepEqual(measured, ['measure', 'lead_created', { type: 'customer_action' }, { opt_out: true }]);
+  assert.deepEqual(measured, ['measure', 'lead_created', { type: 'customer_action' }, { opt_out: true, event_id: 'dolphin_lead_17' }]);
 });
 
 test('suppresses previews, localhost, missing configuration, and privacy opt-outs', () => {
@@ -65,4 +65,18 @@ test('all four inquiry forms dispatch after both HTTP and application success', 
     assert.ok(success >= 0 && dispatch > success, page);
     assert.equal(source.match(/new CustomEvent\('dolphin:generate-lead'/g).length, 1, page);
   }
+});
+
+
+test('server ID is required and missing saves do not create browser events', () => {
+  const { window } = browser();
+  for (const input of [undefined, {}, { openai_event_id: null }]) assert.equal(window.dolphinTrackOpenAiLead(input), false);
+  assert.equal(window.oaiq.q.length, 1);
+});
+
+test('persisted consent denial suppresses server context and browser events', () => {
+  const { window } = browser();
+  window.localStorage = { getItem: () => 'false' };
+  assert.equal(window.dolphinOpenAiConversionContext().allowed, false);
+  assert.equal(window.dolphinTrackOpenAiLead({ openai_event_id: 'dolphin_lead_17' }), false);
 });
