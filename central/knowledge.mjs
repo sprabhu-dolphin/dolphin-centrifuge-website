@@ -11,7 +11,7 @@ export function tokens(s){return (String(s).toLowerCase().replace(/\buco\b/g,'us
 function pieces(text,max=2200){let section='',heading='';const out=[];for(const para of String(text||'').split(/\n\s*\n/)){if(/^#{1,5} /.test(para)){if(section.trim())out.push({text:section,heading});section='';heading=para.split('\n')[0].replace(/^#+\s*/,'');}if(section.length+para.length>max&&section){out.push({text:section,heading});section='';}for(let at=0;at<para.length;at+=max){const p=para.slice(at,at+max);if(at){if(section)out.push({text:section,heading});section='';}section+=(section?'\n\n':'')+p;}}if(section.trim())out.push({text:section,heading});return out;}
 
 export class Knowledge{
- constructor({root=knowledgeRoot,excludeThreads=[]}={}){this.root=root;this.excluded=new Set(excludeThreads);this.docs=[];this.writingGuide='';this.wording=[];this.checked=0;this.signature='';}
+ constructor({root=knowledgeRoot,excludeThreads=[],captureSources=false}={}){this.root=root;this.captureSources=captureSources;this.excluded=new Set(excludeThreads);this.docs=[];this.writingGuide='';this.wording=[];this.checked=0;this.signature='';}
  async load(){
   if(Date.now()-this.checked<60000&&this.docs.length)return;
   this.checked=Date.now();const infos=await Promise.all(names.map(n=>stat(path.join(this.root,n))));
@@ -36,6 +36,7 @@ export class Knowledge{
   // removed from templates, and excluded passages never reach the model.
   this.wording=(wording.blocks||[]).filter(b=>!this.excluded.has(sourceThreads.get(b.sourceMessageId))&&((b.eligibility==='safe'&&!b.factSensitive)||(b.eligibility==='requires_bindings'&&b.slotCoverageComplete&&b.template))).map(b=>({id:b.id,text:b.eligibility==='safe'?b.text:b.template,terms:tokens((b.tags||[]).join(' ')+' '+(b.eligibility==='safe'?b.text:b.template))}));
   this.writingGuide=contents[5];
+  if(this.captureSources)this.sourceContents=contents;
   this.docs=docs;this.df=df;this.average=total/docs.length;this.signature=signature;
   this.info={loadedAt:new Date().toISOString(),websitePages:site.pages.length,conversations:wiki.cases.length,sourceFiles:names.map((name,i)=>({name,sha256:hash(contents[i]),modifiedAt:infos[i].mtime.toISOString()}))};
  }
