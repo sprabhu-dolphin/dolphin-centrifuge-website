@@ -12,7 +12,7 @@ Staff access uses the existing shared password, signed twelve-hour HttpOnly/Secu
 
 The model receives only selected private passages and supplied customer context. It has no browser, email, filesystem, inventory, or external tools. Claude API processing is a cloud service, not offline processing. No email is sent. Responses include supporting sources and staff follow-ups for missing facts. Quotes, inventory and private project decisions are never inferred from old examples.
 
-Cloud alarms run queued questions, update progress, remove the original question/context on completion, and expire results after thirty minutes. Feedback is private cloud data retained for twenty-four hours; it is not automatically promoted into factual knowledge. The browser keeps conversation history in memory only. New inquiries are read from the existing dolphin-submissions database with staff authentication; the initial list defaults to U.S. forms. Reconnecting customer context is pasted by staff.
+Cloud alarms run queued questions, update progress, remove the original question/context on completion, and expire results after thirty minutes. Staff-submitted feedback is saved in the private cloud database, survives question expiry, and is not automatically promoted into factual knowledge. Apply workers/central/0001-feedback.sql to the named knowledge database before deploying this route. The browser keeps conversation history in memory only. New inquiries are read from the existing dolphin-submissions database with staff authentication; the initial list defaults to U.S. forms. Reconnecting customer context is pasted by staff.
 
 ## Knowledge updates
 
