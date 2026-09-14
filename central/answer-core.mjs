@@ -1,6 +1,7 @@
 
 import {replyGuidance} from './reply-guidance.mjs';
 import {object,string,strings} from './schema.mjs';
+import {technicalEvidence} from './technical-evidence.mjs';
 
 const performanceLimits=`A published application flow is a reference rating under its stated conditions, not proof of customer performance or spare capacity for contamination. When temperature/viscosity, solids loading or required outlet quality are unknown, describe equipment as a candidate pending those facts. Never say unknown contamination cannot change model selection. Prioritize missing process conditions over secondary electrical or installation details. A generic micron claim or another customer's heavy-water-slug experience is not a guaranteed cut size or water-handling capacity for this unit. Do not infer a pump arrangement: a mechanically driven integral pump can affect the centrifuge motor requirement, while a separately driven feed pump adds its own load. State a horsepower only for its explicitly documented base machine/package and pump configuration; do not assign a generic package drive rating to an unresolved pump-equipped or pump-free variant. Otherwise leave the number out and specify what must be confirmed. Keep the customer answer within 300 words and reserve detail about missing records for staffNote.`;
 
@@ -29,7 +30,9 @@ export async function answerQuestion({question,context='',history=[]},{knowledge
  const chosen=plan.selectedIds.map(id=>byId.get(id)).filter(Boolean).slice(0,10);
  const extra=(await Promise.all(plan.additionalSearches.slice(0,3).map(q=>knowledge.search(q,{limit:4})))).flat();
  const contact=await knowledge.contactSources?.(question)||[];
- const evidence=[...new Map([...contact,...chosen,...extra,...(!chosen.length?first.slice(0,8):[])].map(d=>[d.id,d])).values()].slice(0,18);
+ const selected=[...contact,...chosen,...extra,...(!chosen.length?first.slice(0,8):[])];
+ const currentRecords=technicalEvidence(question,context,selected);
+ const evidence=[...new Map([...currentRecords,...selected].map(d=>[d.id,d])).values()].slice(0,18);
  await onProgress('Writing the customer answer');
  const input={question,context,history:safeHistory,conversationStage:plan.conversationStage,customerNeeds:plan.needs.slice(0,6),evidence:evidence.map(sourcePacket),writingReference:await knowledge.writingReference?.(question+' '+(plan.conversationStage?.replyPurpose||''))||null};
  let answer=await modelCall({schema:answerSchema(evidence),prompt:answerPrompt+'\n'+performanceLimits,input,signal});
