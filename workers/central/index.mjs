@@ -1,4 +1,7 @@
 import {readInquiries} from './inquiries.mjs';
+import {CloudKnowledge} from './knowledge.mjs';
+import {cloudModel} from './model.mjs';
+import {answerQuestion} from '../../central/answer-core.mjs';
 const SESSION_SECONDS=12*60*60, JOB_MS=30*60*1000;
 const encoder=new TextEncoder();
 const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','x-robots-tag':'noindex, nofollow'};
@@ -79,7 +82,25 @@ export class CentralQueue{
   if(expired.length)await this.state.storage.delete(expired);
   return rows.size-expired.length;
  }
- async alarm(){if(await this.clean())await this.state.storage.setAlarm(Date.now()+60000);}
+ async alarm(){
+  if(this.env.CLOUD_ENABLED==='true')await this.answerNext();
+  if(await this.clean()){
+   const jobs=await this.state.storage.list({prefix:'job:'});
+   const pending=[...jobs.values()].some(j=>j.expiresAt>Date.now()&&j.status==='queued');
+   await this.state.storage.setAlarm(Date.now()+(pending?1000:60000));
+  }
+ }
+ async answerNext(){
+  const storage=this.state.storage,now=Date.now();
+  const job=await storage.transaction(async tx=>{
+   const rows=await tx.list({prefix:'job:'});const next=[...rows.values()].filter(j=>j.expiresAt>now&&(j.status==='queued'||(j.status==='running'&&j.leaseUntil<now))).sort((a,b)=>a.createdAt-b.createdAt)[0];
+   if(!next)return null;next.status='running';next.lease=crypto.randomUUID();next.leaseUntil=now+12*60000;next.stage='Finding Dolphin sources';await tx.put('job:'+next.id,next);return next;
+  });
+  if(!job)return;
+  const update=async fields=>{const current=await storage.get('job:'+job.id);if(!current||current.lease!==job.lease||current.expiresAt<=Date.now())return;Object.assign(current,fields);if(fields.status){delete current.question;delete current.context;delete current.history;}await storage.put('job:'+job.id,current);};
+  try{const result=await answerQuestion(job,{knowledge:new CloudKnowledge(this.env.KNOWLEDGE),modelCall:cloudModel(this.env),onProgress:stage=>update({stage})});await update({status:'complete',stage:'Answer ready',result});}
+  catch(error){const code=/^(MODEL_|KNOWLEDGE_)[A-Z0-9_]+$/.test(error.message)?error.message:'ANSWER_FAILED';console.error('Central cloud answer failed: '+code);await update({status:'failed',stage:'Could not complete this answer',error:'Central could not finish this answer. Please try again. Reference: '+code});}
+ }
  async fetch(request){
   const route=new URL(request.url).pathname.slice(1),data=await request.json(),now=Date.now(),storage=this.state.storage;
   await this.schedule();
@@ -88,20 +109,23 @@ export class CentralQueue{
    return record.count>20?json({error:'Too many sign-in attempts. Please wait ten minutes.'},429):json({ok:true});
   }
   if(route==='health'){
+   if(this.env.CLOUD_ENABLED==='true'){try{const kb=new CloudKnowledge(this.env.KNOWLEDGE);await kb.load();return json({connected:!!this.env.ANTHROPIC_API_KEY,hosting:'cloud',knowledge:kb.info});}catch{return json({connected:false,hosting:'cloud',knowledge:null});}}
    const meta=await storage.get('agent');return json({connected:!!meta&&now-meta.lastSeen<90000,lastSeen:meta?.lastSeen||null,knowledge:meta?.knowledge||null});
   }
   if(route==='ask')return storage.transaction(async tx=>{
    const jobs=await tx.list({prefix:'job:'});
    if([...jobs.values()].filter(j=>j.sid===data.sid&&j.expiresAt>now&&['queued','running'].includes(j.status)).length>=2)return json({error:'Please let your current answer finish first.'},429);
    if([...jobs.values()].filter(j=>j.expiresAt>now&&['queued','running'].includes(j.status)).length>=12)return json({error:'Central has several questions waiting. Please try again shortly.'},429);
-   const meta=await tx.get('agent');if(!meta||now-meta.lastSeen>90000)return json({error:'The Dolphin knowledge computer is offline. Please try again when it is connected.'},503);
-   const id=crypto.randomUUID();await tx.put('job:'+id,{id,...data,status:'queued',stage:'Waiting for the answer engine',createdAt:now,expiresAt:now+JOB_MS});return json({id},202);
+   if(this.env.CLOUD_ENABLED!=='true'){const meta=await tx.get('agent');if(!meta||now-meta.lastSeen>90000)return json({error:'The Dolphin knowledge computer is offline. Please try again when it is connected.'},503);}
+   else if(!this.env.KNOWLEDGE||!this.env.ANTHROPIC_API_KEY)return json({error:'Central is temporarily unavailable.'},503);
+   const id=crypto.randomUUID();await tx.put('job:'+id,{id,...data,status:'queued',stage:'Waiting for the answer engine',createdAt:now,expiresAt:now+JOB_MS});if(this.env.CLOUD_ENABLED==='true')await tx.setAlarm(now+1000);return json({id},202);
   });
   if(route==='result'){
    const job=await storage.get('job:'+data.id);if(!job||job.sid!==data.sid||job.expiresAt<=now)return json({error:'This question has expired. Please ask it again.'},404);
    return json({id:job.id,status:job.status,stage:job.stage,result:job.result||null,error:job.error||null});
   }
   if(route==='agent/claim')return storage.transaction(async tx=>{
+   if(this.env.CLOUD_ENABLED==='true')return json({job:null,hosting:'cloud'});
    await tx.put('agent',{lastSeen:now,knowledge:data.knowledge||null,expiresAt:now+24*3600000});
    if(data.busy)return json({job:null});
    const rows=await tx.list({prefix:'job:'});
