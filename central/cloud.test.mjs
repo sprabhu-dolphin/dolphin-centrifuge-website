@@ -6,13 +6,14 @@ import {CentralQueue} from '../workers/central/index.mjs';
 import {cloudModel,validate} from '../workers/central/model.mjs';
 function database(){
  const sql=new DatabaseSync(':memory:');sql.exec("CREATE TABLE knowledge_meta (key TEXT PRIMARY KEY,value TEXT); CREATE VIRTUAL TABLE knowledge_search USING fts5(release UNINDEXED,id UNINDEXED,title,heading,text,url UNINDEXED,kind UNINDEXED,date UNINDEXED,tokenize='porter unicode61');");
+ sql.exec('CREATE TABLE central_feedback (id TEXT PRIMARY KEY,rating TEXT,note TEXT,question TEXT,answer TEXT,source_ids TEXT,created_at INTEGER)');
  const active={release:'current',info:{hosting:'cloud',websitePages:1,conversations:1}};
  sql.prepare('INSERT INTO knowledge_meta VALUES (?,?)').run('active',JSON.stringify(active));
  sql.prepare('INSERT INTO knowledge_meta VALUES (?,?)').run('release:current',JSON.stringify({...active,writing:{guide:'Write briefly.',examples:[]}}));
  const insert=sql.prepare('INSERT INTO knowledge_search VALUES (?,?,?,?,?,?,?,?)');
  insert.run('current','fact','Diesel purification','','A disc-stack centrifuge removes free water from diesel.','https://dolphincentrifuge.com/diesel/','website','');
  insert.run('old','retired','Diesel diesel diesel','','RETIRED unsupported claim','private-old','brain','');
- return {sql,db:{prepare(query){const stmt=sql.prepare(query);let args=[];return {bind(...values){args=values;return this;},async all(){return {results:stmt.all(...args)};},async first(){return stmt.get(...args);}};}}};
+ return {sql,db:{prepare(query){const stmt=sql.prepare(query);let args=[];return {bind(...values){args=values;return this;},async all(){return {results:stmt.all(...args)};},async first(){return stmt.get(...args);},async run(){return stmt.run(...args);}};}}};
 }
 class Storage{
  constructor(){this.rows=new Map();this.nextAlarm=null;}
@@ -43,6 +44,9 @@ test('cloud alarm completes a session-owned question without a laptop heartbeat'
   assert.equal((await (await rpc('agent/claim')).json()).job,null);
   await queue.alarm();const result=await (await rpc('result',{sid:'hudson',id})).json();assert.equal(result.status,'complete');assert.equal(result.result.knowledge.hosting,'cloud');assert.equal(calls,3);
   assert.equal((await rpc('result',{sid:'another-person',id})).status,404);const stored=await storage.get('job:'+id);assert.equal(stored.question,undefined);assert.equal(stored.context,undefined);
+  assert.equal((await rpc('feedback',{sid:'another-person',id,rating:'useful',note:'',question:'diesel'})).status,404);
+  assert.equal((await rpc('feedback',{sid:'hudson',id,rating:'useful',note:'Synthetic verification',question:'diesel'})).status,200);
+  await queue.clean(Date.now()+31*60000);assert.equal(await storage.get('job:'+id),undefined);assert.equal((await (await rpc('agent/feedback')).json()).items.length,1);
  }finally{globalThis.fetch=original;sql.close();}
 });
 test('model adapter rejects truncation and invalid source IDs without exposing service errors',async()=>{

@@ -141,9 +141,11 @@ export class CentralQueue{
   }
   if(route==='feedback'){
    const job=await storage.get('job:'+data.id);if(!job||job.sid!==data.sid||job.status!=='complete'||job.expiresAt<=now)return json({error:'This answer has expired.'},404);
+   if(this.env.CLOUD_ENABLED==='true'){await this.env.KNOWLEDGE.prepare('INSERT OR REPLACE INTO central_feedback (id,rating,note,question,answer,source_ids,created_at) VALUES (?,?,?,?,?,?,?)').bind(data.id,data.rating,data.note,data.question,String(job.result?.customerAnswer||'').slice(0,4000),JSON.stringify(job.result?.sourceIds||[]),now).run();return json({ok:true});}
    await storage.put('feedback:'+data.id,{id:data.id,rating:data.rating,note:data.note,question:data.question,answer:String(job.result?.customerAnswer||'').slice(0,4000),sourceIds:job.result?.sourceIds||[],createdAt:now,expiresAt:now+24*3600000});return json({ok:true});
   }
   if(route==='agent/feedback'){
+   if(this.env.CLOUD_ENABLED==='true'){const rows=await this.env.KNOWLEDGE.prepare('SELECT id,rating,note,question,answer,source_ids,created_at FROM central_feedback ORDER BY created_at DESC LIMIT 200').all();return json({items:rows.results.map(r=>({id:r.id,rating:r.rating,note:r.note,question:r.question,answer:r.answer,sourceIds:JSON.parse(r.source_ids),createdAt:r.created_at}))});}
    const rows=await storage.list({prefix:'feedback:'});return json({items:[...rows.values()].filter(f=>f.expiresAt>now)});
   }
   return json({error:'Not found'},404);
