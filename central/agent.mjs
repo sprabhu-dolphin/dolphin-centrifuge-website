@@ -14,7 +14,7 @@ const remote='https://dolphin-central.dolphin-centrifuge.workers.dev';
 const port=4412,knowledge=new Knowledge();
 const secretsPath=path.join(process.env.APPDATA||path.join(os.homedir(),'AppData','Roaming'),'DolphinCodex','secrets','central','runtime.dpapi');
 const credentialScript=`$ErrorActionPreference='Stop';Add-Type -AssemblyName System.Security;$b=[IO.File]::ReadAllBytes($env:CENTRAL_SECRETS_FILE);$v=[Security.Cryptography.ProtectedData]::Unprotect($b,$null,[Security.Cryptography.DataProtectionScope]::CurrentUser);[Console]::Write([Text.Encoding]::UTF8.GetString($v))`;
-let secrets,busy=false,polling=false,lastSeen=0,ownerToken='',ownerTokenAt=0;
+let secrets,busy=false,polling=false,cloudMode=false,lastSeen=0,ownerToken='',ownerTokenAt=0;
 await mkdir(runtimeRoot,{recursive:true});
 async function log(message){const p=path.join(runtimeRoot,'runtime.log');try{if((await stat(p)).size>512000){const old=await readFile(p,'utf8');await writeFile(p,old.slice(-128000));}}catch{}await appendFile(p,new Date().toISOString()+' '+message+'\n');}
 async function getSecrets(){if(secrets)return secrets;const r=await run('powershell.exe',['-NoLogo','-NoProfile','-NonInteractive','-Command',credentialScript],{windowsHide:true,env:{...process.env,CENTRAL_SECRETS_FILE:secretsPath},maxBuffer:100000});secrets=JSON.parse(r.stdout);return secrets;}
@@ -51,11 +51,12 @@ server.listen(port,'127.0.0.1',()=>log('Central started on local port '+port));
 async function poll(){
  if(polling)return;polling=true;
  try{
+  const mode=await rpc('claim',{busy:true});lastSeen=Date.now();cloudMode=mode.hosting==='cloud';if(cloudMode)return;
   await knowledge.load();const response=await rpc('claim',{busy,knowledge:{websitePages:knowledge.info.websitePages,conversations:knowledge.info.conversations,loadedAt:knowledge.info.loadedAt}});lastSeen=Date.now();
   if(response.job&&!busy){busy=true;const job=response.job;log('Answer started '+job.id);
    (async()=>{try{const result=await answerQuestion(job,{knowledge,onProgress:stage=>rpc('progress',{id:job.id,lease:job.lease,stage})});await rpc('complete',{id:job.id,lease:job.lease,result});await log('Answer completed '+job.id);}catch{await rpc('complete',{id:job.id,lease:job.lease,error:'Central could not finish this answer. Please try again or add more customer context.'}).catch(()=>{});await log('Answer failed '+job.id);}finally{busy=false;}})();
   }
  }catch{if(Date.now()-lastSeen>90000)await log('Waiting for the knowledge connection');}finally{polling=false;}
 }
-async function collectFeedback(){try{const data=await rpc('feedback');const p=path.join(knowledgeRoot,'..','Reports','CENTRAL_FEEDBACK.json');let old={items:[]};try{old=JSON.parse(await readFile(p,'utf8'));}catch{}const items=[...new Map([...old.items,...data.items].map(i=>[i.id,i])).values()].sort((a,b)=>b.createdAt-a.createdAt).slice(0,200);if(data.items.length)await writeFile(p,JSON.stringify({updatedAt:new Date().toISOString(),items},null,2));}catch{}}
+async function collectFeedback(){if(cloudMode)return;try{const data=await rpc('feedback');const p=path.join(knowledgeRoot,'..','Reports','CENTRAL_FEEDBACK.json');let old={items:[]};try{old=JSON.parse(await readFile(p,'utf8'));}catch{}const items=[...new Map([...old.items,...data.items].map(i=>[i.id,i])).values()].sort((a,b)=>b.createdAt-a.createdAt).slice(0,200);if(data.items.length)await writeFile(p,JSON.stringify({updatedAt:new Date().toISOString(),items},null,2));}catch{}}
 await cleanTemporary().catch(()=>{});poll();setInterval(poll,6000);setInterval(collectFeedback,60000);setInterval(()=>cleanTemporary().catch(()=>{}),3600000);
