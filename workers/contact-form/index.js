@@ -1,10 +1,11 @@
+import { verifyTurnstile } from './turnstile.js';
 // =============================================================
 // Dolphin Centrifuge — Contact Form Cloudflare Worker
 // Routes:
 //   POST /                       → Process form, save to D1, send email
 //   GET  /admin/submissions      → Return all submissions as JSON (auth required)
 //   DELETE /admin/submissions/:id → Soft-delete a submission (auth required)
-// Secrets: RESEND_API_KEY, DC_ADMIN_TOKEN_HASH, TURNSTILE_SECRET_KEY (optional)
+// Secrets: RESEND_API_KEY, DC_ADMIN_TOKEN_HASH, TURNSTILE_SECRET_KEY (required)
 // =============================================================
 
 import {
@@ -3924,21 +3925,15 @@ async function handlePartsSubmit(request, env, ctx) {
       );
     }
 
-    // Optional Turnstile verification (mirrors handleFormSubmit pattern)
-    const turnstileToken = body['cf-turnstile-response'];
-    if (turnstileToken && env.TURNSTILE_SECRET_KEY) {
-      let verified = true;
-      try {
-        verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
-      } catch (turnstileErr) {
-        console.error('Turnstile verification infrastructure error (parts):', turnstileErr && turnstileErr.message);
-      }
-      if (!verified) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
-          { status: 400, headers: CORS_HEADERS }
-        );
-      }
+    // Required Turnstile verification
+    const verified = await verifyTurnstile(
+      body['cf-turnstile-response'], env.TURNSTILE_SECRET_KEY, request, 'parts_rfq'
+    );
+    if (!verified) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please complete the security verification and try again. If it cannot load, call (248) 522-2573.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
     }
 
     // Customer info
@@ -4128,21 +4123,15 @@ async function handleFormSubmit(request, env, ctx) {
       );
     }
 
-    // Turnstile verification (if keys present)
-    const turnstileToken = fields['cf-turnstile-response'];
-    if (turnstileToken && env.TURNSTILE_SECRET_KEY) {
-      let verified = true;
-      try {
-        verified = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY, request);
-      } catch (turnstileErr) {
-        console.error('Turnstile verification infrastructure error:', turnstileErr && turnstileErr.message);
-      }
-      if (!verified) {
-        return new Response(
-          JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
-          { status: 400, headers: CORS_HEADERS }
-        );
-      }
+    // Required Turnstile verification
+    const verified = await verifyTurnstile(
+      fields['cf-turnstile-response'], env.TURNSTILE_SECRET_KEY, request, 'contact'
+    );
+    if (!verified) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Please complete the security verification and try again. If it cannot load, call (248) 522-2573.' }),
+        { status: 400, headers: CORS_HEADERS }
+      );
     }
 
     // Extract fields
@@ -4447,16 +4436,4 @@ async function handleFormSubmit(request, env, ctx) {
       { status: 500, headers: CORS_HEADERS }
     );
   }
-}
-
-// ── Cloudflare Turnstile verification helper ─────────────────
-async function verifyTurnstile(token, secretKey, request) {
-  const ip = request.headers.get('CF-Connecting-IP') || '';
-  const verifyResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ secret: secretKey, response: token, remoteip: ip }),
-  });
-  const result = await verifyResponse.json();
-  return result.success === true;
 }

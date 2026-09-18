@@ -1,4 +1,5 @@
 ---
+import FormVerification from "../components/FormVerification.astro";
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
@@ -411,6 +412,7 @@ const faqJsonLd = {
                 </div>
 
                 <!-- Submit -->
+                <FormVerification action="contact" />
                 <button type="submit" id="submit-btn"
                   class="w-full bg-navy text-white font-bold py-4 px-8 rounded-xl text-base hover:bg-gold hover:text-navy transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
                   <span id="submit-btn-text">Submit Application Details</span>
@@ -663,6 +665,14 @@ const faqJsonLd = {
           return { status: 'invalid_input', message: 'The email addresses must match.' };
         }
 
+        const verification = form.querySelector('.dolphin-turnstile');
+        if (!form.querySelector('[name="cf-turnstile-response"]')?.value) {
+          errorText.textContent = 'Please complete the security verification below before sending your inquiry.';
+          errorMsg.classList.remove('hidden');
+          verification?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return { status: 'verification_required', message: 'Complete the security verification in the form.' };
+        }
+
         inquiryPending = true;
         submitBtn.disabled = true;
         submitBtnText.classList.add('hidden');
@@ -719,6 +729,9 @@ const faqJsonLd = {
           errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return { status: 'unconfirmed', message: 'Submission could not be confirmed. Review the visible error before retrying.' };
         } finally {
+          if (window.turnstile && verification?.dataset.widgetId) {
+            window.turnstile.reset(verification.dataset.widgetId);
+          }
           inquiryPending = false;
           submitBtn.disabled = false;
           submitBtnText.classList.remove('hidden');

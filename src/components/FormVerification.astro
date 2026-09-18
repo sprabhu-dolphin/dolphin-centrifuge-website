@@ -1,0 +1,46 @@
+---
+const { action } = Astro.props;
+const sitekey = '0x4AAAAAAE7RLpEr4FvRY_ce';
+---
+
+<div class="my-5" data-form-verification>
+  <div class="dolphin-turnstile" data-sitekey={sitekey} data-action={action}></div>
+  <p class="mt-2 text-sm text-gray-600" role="status" aria-live="polite">Loading security verification...</p>
+  <noscript>Please enable JavaScript to verify and submit this form, or call (248) 522-2573.</noscript>
+</div>
+
+<script>
+  const browser = window as any;
+  function renderVerification() {
+    document.querySelectorAll<HTMLElement>('.dolphin-turnstile').forEach((element) => {
+      if (element.dataset.widgetId) return;
+      const status = element.parentElement!.querySelector('p')!;
+      element.dataset.widgetId = browser.turnstile.render(element, {
+        sitekey: element.dataset.sitekey,
+        action: element.dataset.action,
+        theme: 'light',
+        size: 'flexible',
+        callback: () => { status.textContent = 'Verification complete.'; },
+        'expired-callback': () => { status.textContent = 'Renewing security verification...'; },
+        'timeout-callback': () => { status.textContent = 'Please complete the security verification.'; },
+        'error-callback': () => {
+          status.textContent = 'Verification could not finish. Please try the verification again, or call (248) 522-2573.';
+        },
+      });
+    });
+  }
+  if (browser.turnstile) {
+    renderVerification();
+  } else {
+    browser.dolphinTurnstileReady = renderVerification;
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=dolphinTurnstileReady&render=explicit';
+    script.async = true;
+    script.onerror = () => {
+      document.querySelectorAll('[data-form-verification] p').forEach((status) => {
+        status.textContent = 'Security verification could not load. Check your connection or browser blocker, then reload. You can also call (248) 522-2573.';
+      });
+    };
+    document.head.appendChild(script);
+  }
+</script>
