@@ -1,4 +1,5 @@
 ---
+import FormVerification from "../components/FormVerification.astro";
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
@@ -215,6 +216,7 @@ const relatedProducts = [
         </button>
       </div>
 
+      <FormVerification action="parts_rfq" />
       <!-- Submit -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <button type="submit" id="parts-submit-btn" class="px-6 py-3 bg-gold text-navy font-bold rounded-lg hover:bg-gold-light transition disabled:opacity-50 disabled:cursor-not-allowed">
@@ -312,6 +314,14 @@ const relatedProducts = [
           }
         }
 
+        const verification = form.querySelector('.dolphin-turnstile');
+        const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value;
+        if (!turnstileToken) {
+          setMessage('Please complete the security verification above before sending your parts request.', true);
+          verification?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
         submitBtn.disabled = true;
         const originalLabel = submitBtn.textContent;
         submitBtn.textContent = 'Sending...';
@@ -320,6 +330,7 @@ const relatedProducts = [
         }
 
         const payload = {
+          'cf-turnstile-response': turnstileToken,
           'bot-field': form.querySelector('input[name="bot-field"]').value,
           customer: customer,
           parts: parts,
@@ -361,6 +372,9 @@ const relatedProducts = [
         } catch (err) {
           setMessage('Network error. Please call (248) 522-2573 or email sales@dolphincentrifuge.com.', true);
         } finally {
+          if (window.turnstile && verification?.dataset.widgetId) {
+            window.turnstile.reset(verification.dataset.widgetId);
+          }
           submitBtn.disabled = false;
           submitBtn.textContent = originalLabel;
         }
