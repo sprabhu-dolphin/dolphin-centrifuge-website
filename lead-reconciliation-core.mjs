@@ -83,11 +83,12 @@ export function reconcileLeadSources(d1, ga4, ads, opts = {}) {
     ga4FormTotal += nGA4;
     const row = { formType: ft.key, d1: nD1, ga4: nGA4 };
 
-    if (nD1 >= 1 && nGA4 === 0) {
-      const level = nD1 >= minAbs ? 'CRITICAL' : 'WARN';
-      const msg = `${level} [${ft.key}]: D1 has ${nD1} form lead(s) but GA4 generate_lead=0 - the site's generate_lead may have stopped firing (check BaseLayout.astro dolphinTrackLead + the form success handler).`;
-      alerts.push({ level, formType: ft.key, message: msg });
-      row.flag = `${level}: GA4 silent`;
+    if (nD1 >= minAbs && nGA4 === 0) {
+      const msg = `CRITICAL [${ft.key}]: D1 has ${nD1} form lead(s) but GA4 generate_lead=0 - the site's generate_lead may have stopped firing (check BaseLayout.astro dolphinTrackLead + the form success handler).`;
+      alerts.push({ level: 'CRITICAL', formType: ft.key, message: msg });
+      row.flag = 'CRITICAL: GA4 silent';
+    } else if (nD1 >= 1 && nGA4 === 0) {
+      row.flag = `observe: below ${minAbs}-lead alert threshold`;
     } else if (nGA4 > nD1 && (nGA4 - nD1) >= minAbs && (nGA4 - nD1) / Math.max(nGA4, 1) > tol) {
       const msg = `WARN [${ft.key}]: GA4 generate_lead=${nGA4} exceeds D1=${nD1} by ${nGA4 - nD1}. Either client-side generate_lead is firing without a stored submission, or the D1 write is failing for this form. Investigate the ${ft.key} path.`;
       alerts.push({ level: 'WARN', formType: ft.key, message: msg });
