@@ -1,4 +1,5 @@
 ---
+import FormVerification from '../components/FormVerification.astro';
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 
 // Direct-mail campaign USED-OIL-001 landing page.
@@ -303,6 +304,7 @@ const credibilityItems = [
             class="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors" />
         </div>
 
+        <FormVerification action="contact" phone={campaignPhoneDisplay} />
         <button type="submit" id="uo-submit"
           class="w-full bg-navy text-white font-bold py-4 px-8 rounded-xl text-base hover:bg-gold hover:text-navy transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
           Send My Details
@@ -405,6 +407,15 @@ const credibilityItems = [
           return;
         }
 
+        // The contact Worker requires a Turnstile token on every submission.
+        var verification = form.querySelector('.dolphin-turnstile');
+        var turnstileToken = (form.querySelector('[name="cf-turnstile-response"]') || {}).value;
+        if (!turnstileToken) {
+          showError('Please complete the security verification above the button, or call (248) 820-5840.');
+          if (verification) verification.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
         var name    = splitName(document.getElementById('uo-name').value.trim());
         var company = document.getElementById('uo-company').value.trim();
         var phone   = document.getElementById('uo-phone').value.trim();
@@ -421,6 +432,7 @@ const credibilityItems = [
 
           var payload = new FormData();
           payload.append('bot-field', form.querySelector('input[name="bot-field"]').value);
+          payload.append('cf-turnstile-response', turnstileToken);
           payload.append('first_name', name.first);
           payload.append('last_name', name.last);
           payload.append('company', company);
@@ -469,6 +481,10 @@ const credibilityItems = [
         } catch (err) {
           showError('Network error. Please call (248) 820-5840 or email usedoil@dolphincentrifuge.com.');
         } finally {
+          // Tokens are single-use; get a fresh one for any retry.
+          if (window.turnstile && verification && verification.dataset.widgetId) {
+            window.turnstile.reset(verification.dataset.widgetId);
+          }
           submitBtn.disabled = false;
           submitBtn.textContent = originalLabel;
         }
