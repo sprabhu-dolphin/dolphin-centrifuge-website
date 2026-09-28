@@ -89,9 +89,10 @@ async function findUsed(input: JsonObject, context: Context | undefined, deps: D
     condition: { offered: offer.condition.offered, notOffered: offer.condition.notOffered, standard: offer.condition.sources[0] },
     warranty: offer.warranty.summary,
     inventory: `${offer.inventory.statement} ${offer.inventory.howToConfirm}`,
-    priceGuidance: { basis: offer.priceGuidance.basis, anchors: offer.priceGuidance.anchors.map((a: JsonObject) => `${a.item}: ${a.from}`) },
+    supplyOptions: offer.supplyOptions,
+    priceGuidance: { basis: offer.priceGuidance.basis, from: offer.priceGuidance.from, summary: offer.priceGuidance.summary },
     families: families.slice(offset, offset + PAGE_SIZE).map((family: JsonObject) => ({
-      key: family.key, name: family.name, type: family.type, role: family.role,
+      key: family.key, name: family.name, type: family.type,
       models: family.models.map((m: JsonObject) => ({ id: m.id, name: m.name, page: m.page })),
     })),
     ...(application ? { application: { key: application.key, label: application.label, page: application.page } } : {}),
@@ -107,7 +108,7 @@ export function usedEquipmentWebMcpTools(deps: Deps) {
   const tools: JsonObject[] = [{
     name: 'find_used_alfa_laval_centrifuges',
     title: 'Find used Alfa Laval centrifuges',
-    description: 'List the used (remanufactured) Alfa Laval centrifuge families Dolphin Centrifuge sells, filtered by application, family or cleaning type, with model pages, reconditioning standard, warranty, inventory statement and published price anchors. Add fluid, requiredFlow and flowUnit for a documented OEM flow shortlist. Three families per page.',
+    description: 'List the used (remanufactured) Alfa Laval centrifuge families Dolphin Centrifuge sells, filtered by application, family or cleaning type, with model pages, reconditioning standard, warranty, inventory statement and price guidance. Add fluid, requiredFlow and flowUnit for a documented OEM flow shortlist. Three families per page.',
     inputSchema: {
       type: 'object', additionalProperties: false, properties: {
         offset: { type: 'integer', minimum: 0, description: 'Result offset; use page.nextOffset for more families. Defaults to 0.' },

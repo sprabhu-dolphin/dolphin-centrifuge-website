@@ -50,7 +50,13 @@ test('offer record states no per-model counts or exact prices', () => {
   assert.equal(record.page, `https://dolphincentrifuge.com${USED_PAGE_PATH}`);
   assert.equal(record.inventory.perModelCountsPublished, false);
   assert.match(record.priceGuidance.basis, /Quoted per unit/);
-  assert.doesNotMatch(JSON.stringify(record), /—/, 'no em dashes in customer-facing copy');
+  assert.equal(record.priceGuidance.from, 'Modules start in the mid-$50s.');
+  assert.equal(record.warranty.summary, '6-month mechanical warranty with all skids, plus lifetime technical support.');
+  assert.deepEqual(record.supplyOptions, ['Complete plug-and-play modules only.']);
+  assert.equal(record.condition.standard.length, 8);
+  const json = JSON.stringify(record);
+  assert.doesNotMatch(json, /—/, 'no em dashes in customer-facing copy');
+  assert.doesNotMatch(json, /\bbare\b|without a skid|current Alfa Laval production|default recommendation|mid-\$30s|mid-\$60s/i, 'no unapproved claims');
 });
 
 test('short form sends explicit "Not asked" values, never guessed ones', () => {
@@ -162,7 +168,10 @@ test('built page renders one H1, matching FAQ schema, the quote form and crawlab
   const faq = schemas.find((node) => node['@type'] === 'FAQPage');
   assert.ok(faq, 'FAQPage schema');
   for (const question of faq.mainEntity) assert.ok(html.includes(question.name.replace(/'/g, '&#39;')) || html.includes(question.name), question.name);
-  assert.ok(schemas.some((node) => node['@type'] === 'ItemList'));
+  assert.equal(faq.mainEntity.length, 7);
+  const visibleQuestions = [...html.matchAll(/<summary[^>]*>[\s\S]*?<\/span>\s*([^<]+?)\s*<\/summary>/g)].map((m) => m[1].replace(/&#39;/g, "'"));
+  assert.deepEqual(visibleQuestions, faq.mainEntity.map((q) => q.name), 'FAQ schema matches visible FAQ');
+  assert.match(html, /cf-turnstile|data-sitekey/, 'Turnstile present');
   const record = JSON.parse(await readFile(path.join(ROOT, 'dist/technical-data/used-alfa-laval-centrifuges.v1.json'), 'utf8'));
   assert.deepEqual(record, JSON.parse(JSON.stringify(buildUsedOfferRecord())));
   const sitemap = await readFile(path.join(ROOT, 'dist/sitemap-0.xml'), 'utf8');
@@ -170,6 +179,10 @@ test('built page renders one H1, matching FAQ schema, the quote form and crawlab
   assert.ok(!sitemap.includes('https://dolphincentrifuge.com/used-alfa-laval-centrifuges-for-sale/'));
   assert.match(html, /<meta name="robots" content="noindex,follow"/);
   const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '');
-  const main = text.slice(text.indexOf('id="answer"'), text.indexOf('id="machine-readable"'));
+  const main = text.slice(text.indexOf('id="answer"'), text.indexOf('</article>'));
+  assert.ok(main.length > 1000);
   assert.doesNotMatch(main, /—/, 'no em dashes in page copy');
+  assert.doesNotMatch(main, /\bbare\b|current Alfa Laval production|mid-\$30s|mid-\$60s/i, 'no unapproved claims');
+  assert.doesNotMatch(html, /<title>[^<]*—/);
+  assert.match(html, /<title>Used Alfa Laval Centrifuges for Sale \| Dolphin Centrifuge<\/title>/);
 });
