@@ -18,6 +18,7 @@ import {
 } from '../../lead-reconciliation-core.mjs';
 import { gradeLead, runLeadGradeBackfill } from './grading.js';
 import { savedLeadEventId, scheduleOpenAiLead } from './openai-ads.mjs';
+import { talkrouteCallRaw } from './talkroute.js';
 
 const SOURCE_TIMEOUT_MS = 8_000;
 const SOURCE_RETRY_COUNT = 2;
@@ -115,6 +116,9 @@ export default {
 
     // ── Route: POST / (form submission) ─────────────────────
     if (request.method === 'POST') {
+      if (path.startsWith('/track/talkroute/')) {
+        return handleTalkrouteWebhook(request, env, path.slice('/track/talkroute/'.length));
+      }
       if (path === '/track/event') {
         return handleVisitorEvent(request, env, ctx);
       }
@@ -578,47 +582,9 @@ async function handleAdminCallIngest(request, env) {
     });
   }
 
-  const results = [];
-  let inserted = 0;
-  let updated = 0;
-  let matched = 0;
-
   try {
-    for (const raw of cleanRecords) {
-      const call = normalizeCallRecord(raw);
-      if (!call.sourceMessageId) {
-        results.push({ success: false, error: 'Missing Gmail message id', subject: call.emailSubject });
-        continue;
-      }
-
-      const match = await findCallPhoneMatch(env, call.callerPhoneDigits);
-      call.matchedSubmissionId = match.submissionId;
-      call.matchedVisitorId = match.visitorId;
-      call.matchStatus = match.status;
-      call.matchConfidence = match.confidence;
-      call.matchedAt = match.visitorId ? new Date().toISOString() : '';
-
-      const upsert = await upsertCallRecord(env, call, raw);
-      if (upsert.existed) updated += 1; else inserted += 1;
-      if (call.matchedVisitorId) matched += 1;
-
-      if (match.submission) {
-        await updateVisitorIdentityFromCallMatch(env, match.submission, call);
-      }
-
-      results.push({
-        success: true,
-        id: upsert.id,
-        source_message_id: call.sourceMessageId,
-        caller_phone: call.callerRaw || call.callerPhoneE164,
-        mailbox: call.mailbox,
-        match_status: call.matchStatus,
-        matched_submission_id: call.matchedSubmissionId,
-        matched_visitor_id: call.matchedVisitorId,
-      });
-    }
-
-    return new Response(JSON.stringify({ success: true, inserted, updated, matched, data: results }), {
+    const summary = await ingestCallRecords(env, cleanRecords);
+    return new Response(JSON.stringify({ success: true, ...summary }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
@@ -632,6 +598,96 @@ async function handleAdminCallIngest(request, env) {
       status: 500, headers: CORS_HEADERS,
     });
   }
+}
+
+// Shared by POST /admin/calls/ingest and the Talkroute webhook.
+async function ingestCallRecords(env, records) {
+  const results = [];
+  let inserted = 0;
+  let updated = 0;
+  let matched = 0;
+
+  for (const raw of records) {
+    const call = normalizeCallRecord(raw);
+    if (!call.sourceMessageId) {
+      results.push({ success: false, error: 'Missing source message id', subject: call.emailSubject });
+      continue;
+    }
+
+    const match = await findCallPhoneMatch(env, call.callerPhoneDigits);
+    call.matchedSubmissionId = match.submissionId;
+    call.matchedVisitorId = match.visitorId;
+    call.matchStatus = match.status;
+    call.matchConfidence = match.confidence;
+    call.matchedAt = match.visitorId ? new Date().toISOString() : '';
+
+    const upsert = await upsertCallRecord(env, call, raw);
+    if (upsert.existed) updated += 1; else inserted += 1;
+    if (call.matchedVisitorId) matched += 1;
+
+    if (match.submission) {
+      await updateVisitorIdentityFromCallMatch(env, match.submission, call);
+    }
+
+    results.push({
+      success: true,
+      id: upsert.id,
+      source_message_id: call.sourceMessageId,
+      caller_phone: call.callerRaw || call.callerPhoneE164,
+      mailbox: call.mailbox,
+      match_status: call.matchStatus,
+      matched_submission_id: call.matchedSubmissionId,
+      matched_visitor_id: call.matchedVisitorId,
+    });
+  }
+
+  return { inserted, updated, matched, data: results };
+}
+
+// POST /track/talkroute/<secret>: Talkroute webhooks carry no signature, so the
+// subscription URL holds a long random secret checked against TALKROUTE_WEBHOOK_SECRET.
+async function handleTalkrouteWebhook(request, env, providedSecret) {
+  if (!(await secretMatches(safeDecodeURIComponent(providedSecret), env.TALKROUTE_WEBHOOK_SECRET))) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401, headers: CORS_HEADERS,
+    });
+  }
+
+  let event;
+  try {
+    event = await readJsonRequest(request);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), {
+      status: 400, headers: CORS_HEADERS,
+    });
+  }
+
+  const raw = talkrouteCallRaw(event);
+  if (!raw) {
+    return new Response(JSON.stringify({ success: true, ignored: true }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  }
+
+  try {
+    const summary = await ingestCallRecords(env, [raw]);
+    return new Response(JSON.stringify({ success: true, inserted: summary.inserted, updated: summary.updated }), {
+      status: 200, headers: CORS_HEADERS,
+    });
+  } catch (err) {
+    console.error('Talkroute webhook ingest error:', err.message);
+    return new Response(JSON.stringify({ error: 'Database error' }), {
+      status: 500, headers: CORS_HEADERS,
+    });
+  }
+}
+
+async function secretMatches(provided, secret) {
+  if (!provided || !secret) return false;
+  const [a, b] = await Promise.all([sha256Hex(provided), sha256Hex(secret)]);
+  let diff = 0;
+  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }
 
 async function handleAdminSummary(request, env) {
