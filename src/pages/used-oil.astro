@@ -493,4 +493,27 @@ const credibilityItems = [
     })();
   </script>
 
+  <!-- This page only: the shared header, sidebar, bottom button and mobile call
+       bar show the main sales line. Point those links at the campaign line so
+       every call from this page reaches (248) 820-5840. -->
+  <script is:inline>
+    (function() {
+      function useCampaignLine() {
+        var links = document.querySelectorAll('a[href^="tel:"]');
+        for (var i = 0; i < links.length; i++) {
+          var a = links[i];
+          if (a.getAttribute('href').replace(/[^0-9]/g, '').slice(-10) !== '2485222573') continue;
+          a.setAttribute('href', 'tel:+12488205840');
+          var walker = document.createTreeWalker(a, NodeFilter.SHOW_TEXT);
+          var node;
+          while ((node = walker.nextNode())) {
+            if (node.nodeValue.indexOf('522-2573') !== -1) node.nodeValue = node.nodeValue.split('522-2573').join('820-5840');
+          }
+        }
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', useCampaignLine);
+      else useCampaignLine();
+    })();
+  </script>
+
 </ApplicationLayout>

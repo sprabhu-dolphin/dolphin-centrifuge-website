@@ -6,7 +6,8 @@ export const DEFAULT_ADS_CUSTOMER_ID = '3917484159';
 export const DEFAULT_ADS_LOGIN_CUSTOMER_ID = '6124315358';
 
 export const FORM_TYPES = [
-  { key: 'contact', d1: 'contact', ga4LeadForm: 'centrifuge_contact_form' },
+  // The /used-oil/ direct-mail form stores as D1 'contact' but reports its own GA4 lead_form.
+  { key: 'contact', d1: 'contact', ga4LeadForm: 'centrifuge_contact_form', ga4AlsoCounts: ['used_oil_landing_form'] },
   { key: 'parts', d1: 'parts_request_form', ga4LeadForm: 'parts_request_form' },
   { key: 'disc-glossary', d1: 'disc_parts_glossary_form', ga4LeadForm: 'disc_parts_glossary_form' },
 ];
@@ -100,7 +101,7 @@ export function reconcileLeadSources(d1, ga4, ads, opts = {}) {
 
   for (const ft of FORM_TYPES) {
     const nD1 = Number(d1?.[ft.d1] || 0);
-    const nGA4 = Number(ga4?.[ft.ga4LeadForm] || 0);
+    const nGA4 = [ft.ga4LeadForm, ...(ft.ga4AlsoCounts || [])].reduce((sum, name) => sum + Number(ga4?.[name] || 0), 0);
     d1FormTotal += nD1;
     ga4FormTotal += nGA4;
     const row = { formType: ft.key, d1: nD1, ga4: nGA4, flag: 'ok' };
@@ -149,7 +150,7 @@ export function reconcileLeadSources(d1, ga4, ads, opts = {}) {
   }
 
   const knownD1 = new Set(FORM_TYPES.map((f) => f.d1));
-  const knownGA4 = new Set(FORM_TYPES.map((f) => f.ga4LeadForm));
+  const knownGA4 = new Set(FORM_TYPES.flatMap((f) => [f.ga4LeadForm, ...(f.ga4AlsoCounts || [])]));
   for (const [k, v] of Object.entries(d1 || {})) {
     if (Number(v || 0) > 0 && !knownD1.has(k)) {
       alerts.push({ level: 'WARN', formType: k, keys: (d1Ids[k] || []).map((id) => `sub:${id}`), message: `WARN [coverage]: D1 has ${v} lead(s) with form_type='${k}' which is not mapped in FORM_TYPES - this form is unmonitored. Add it.` });

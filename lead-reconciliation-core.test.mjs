@@ -53,3 +53,14 @@ test('ads warns only on zero conversions with spend and >=3 paid D1 leads', () =
   assert.equal(leadReconciliationVerdict(reconcileLeadSources(base, ga4, {}, { adsSpend: 0, d1PaidIds: [1, 2, 3] })).status, 'OK');
   assert.equal(leadReconciliationVerdict(reconcileLeadSources(base, ga4, { 'Lead form - generate_lead': 1 }, { adsSpend: 120, d1PaidIds: [1, 2, 3] })).status, 'OK');
 });
+
+test('used-oil campaign form counts as a contact lead, not an unmonitored form', () => {
+  const report = reconcileLeadSources(
+    { contact: 1 },
+    { used_oil_landing_form: 1 },
+    {},
+  );
+  assert.equal(leadReconciliationVerdict(report).status, 'OK');
+  assert.equal(report.perType[0].ga4, 1);
+  assert.ok(!report.alerts.some((a) => /coverage/.test(a.message)));
+});
