@@ -1,0 +1,389 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FormVerification from '../components/FormVerification.astro';
+import {
+  USED_OFFER_JSON_PATH,
+  USED_PAGE_URL,
+  usedApplications,
+  usedFamilies,
+  usedOffer,
+} from '../data/usedAlfaLavalOffer.mjs';
+import { USED_QUOTE_ATTRIBUTION_NAME, USED_QUOTE_FORM_ID, WEBMCP_QUOTE_TOOL } from '../lib/usedQuote.mjs';
+
+// Same Worker endpoint and fallback as the contact page form.
+const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
+  import.meta.env.DEV
+    ? 'http://127.0.0.1:8787'
+    : 'https://dolphin-contact-form.dolphin-centrifuge.workers.dev'
+)).replace(/\/$/, '');
+
+const familyNames = new Map(usedFamilies.map((family) => [family.key, family.name]));
+const shortName = (name: string) => name.replace(/^Alfa Laval\s+/, '').replace(/^Sharples \([^)]*\)\s+/, 'Sharples ');
+const sitePath = (url: string) => url.replace('https://dolphincentrifuge.com', '');
+
+const faqItems = [
+  {
+    question: 'Where can I buy a used Alfa Laval centrifuge?',
+    answer: "Dolphin Centrifuge in Warren, Michigan sells used Alfa Laval centrifuges that it has remanufactured, test-run and warrantied in its own shop, with 150+ centrifuges in stock. General used equipment dealers usually sell Alfa Laval machines 'as is', and Alfa Laval itself sells new machines and some factory-remanufactured units. Call (248) 522-2573 or use the quote form on this page for current availability.",
+  },
+  {
+    question: "Are Dolphin's used Alfa Laval centrifuges sold as-is?",
+    answer: "No. Every machine is remanufactured before it ships: the bowl and rotating parts are inspected, every seal, gasket, friction pad, bearing and fastener is replaced, the rotating assembly is vibration-checked and balanced as needed, and the machine gets a full test run at rated speed. 'As is' machines from general dealers usually have no bowl inspection and no warranty, and a worn bowl can cost more to replace than the machine itself.",
+  },
+  {
+    question: 'What warranty comes with a used Alfa Laval centrifuge from Dolphin?',
+    answer: 'A 6-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal, plus ongoing technical support for the original purchaser for the life of the machine. Wear and consumable items such as seals, gaskets, friction material and bearings are excluded. Full terms come with every proposal.',
+  },
+  {
+    question: 'How much does a used Alfa Laval centrifuge cost?',
+    answer: 'Each unit is quoted for the application. As published anchors: the smallest manual-clean skid (Alfa Laval MAB 103) with controls and pumps starts around the mid-$30s, complete plug-and-play self-cleaning modules start around $50K EXW Warren MI, and systems with full stainless steel wetted parts start around the mid-$60s.',
+  },
+  {
+    question: 'Which used Alfa Laval models are usually in stock?',
+    answer: 'The models buyers ask for most: MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; and NX 309, NX 314 and NX 418 decanters. Stock changes, so availability of an exact model is confirmed with each quote.',
+  },
+  {
+    question: 'Can I buy just the centrifuge without a skid?',
+    answer: 'Yes. Machines ship as complete skids with pumps, heater and PLC controls, or as bare centrifuges for buyers who already have the supporting equipment.',
+  },
+  {
+    question: 'Can I inspect the machine or test my fluid before buying?',
+    answer: 'Yes. You can visit the Warren, Michigan facility by appointment to see machines in stock, and Dolphin runs a paid sample testing service that puts your fluid through the right centrifuge and reports the results with a sizing recommendation.',
+  },
+  {
+    question: 'Is Dolphin Centrifuge an authorized Alfa Laval dealer?',
+    answer: 'No. Dolphin Centrifuge is an independent remanufacturer of Alfa Laval centrifuges and is not affiliated with Alfa Laval. It was established in 1982 as an Alfa Laval aftermarket parts manufacturer and ships worldwide.',
+  },
+];
+
+const description = 'Used Alfa Laval centrifuges for sale: WHPX, MOPX and MAB disc stack and NX decanters, remanufactured and test-run in Warren, MI, with a 6-month warranty.';
+
+const webPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${USED_PAGE_URL}#webpage`,
+  name: 'Used Alfa Laval Centrifuges for Sale',
+  description,
+  url: USED_PAGE_URL,
+  dateModified: '2026-09-27',
+  inLanguage: 'en-US',
+  about: [
+    { '@type': 'Brand', name: 'Alfa Laval' },
+    { '@type': 'Thing', name: 'Remanufactured Alfa Laval centrifuges' },
+  ],
+  author: { '@type': 'Person', name: 'Sanjay Prabhu' },
+  publisher: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+  mainEntity: { '@id': `${USED_PAGE_URL}#models` },
+  subjectOf: {
+    '@type': 'DigitalDocument',
+    name: 'Used Alfa Laval centrifuge offer, machine-readable record',
+    url: `https://dolphincentrifuge.com${USED_OFFER_JSON_PATH}`,
+    encodingFormat: 'application/json',
+  },
+};
+
+const modelListItems = usedFamilies.flatMap((family) => family.models);
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${USED_PAGE_URL}#models`,
+  name: 'Remanufactured Alfa Laval centrifuge models available from Dolphin Centrifuge',
+  numberOfItems: modelListItems.length,
+  itemListElement: modelListItems.map((model, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: model.name,
+    url: model.page,
+  })),
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const toc = [
+  { id: 'answer', label: 'Where to buy a used Alfa Laval centrifuge' },
+  { id: 'quote', label: 'Get a quote' },
+  { id: 'key-facts', label: 'Key facts' },
+  { id: 'reconditioned', label: 'What reconditioned means here' },
+  { id: 'models', label: 'Models available' },
+  { id: 'applications', label: 'Applications' },
+  { id: 'how-to-choose', label: 'Choosing by fluid and flow rate' },
+  { id: 'price', label: 'Price guidance' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const linkClass = 'text-navy font-medium underline decoration-gold underline-offset-2 hover:text-gold-dark';
+const inputClass = 'w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 text-sm text-text focus:outline-none focus:border-navy transition-colors';
+const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb-1.5';
+---
+
+<ApplicationLayout
+  title="Used Alfa Laval Centrifuges for Sale"
+  heroTitle="Used Alfa Laval Centrifuges for Sale"
+  heroDescription="Remanufactured Alfa Laval disc stack and decanter centrifuges, rebuilt and test-run in Warren, Michigan, with a 6-month mechanical warranty."
+  description={description}
+  heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
+  heroImageAlt="Dolphin Centrifuge shop in Warren, Michigan, where used Alfa Laval centrifuges are remanufactured"
+  heroCtaLabel="Get a Quote"
+  heroCtaHref="#quote"
+  category="products"
+  categoryLabel="Products"
+  categoryHref="/alfa-laval-centrifuges/"
+  canonicalUrl={USED_PAGE_URL}
+  alternateJsonUrl={USED_OFFER_JSON_PATH}
+  jsonLd={[webPageJsonLd, itemListJsonLd, faqJsonLd]}
+  toc={toc}
+  hideBottomCTA={true}
+  relatedProducts={[
+    { label: 'Alfa Laval Centrifuges', href: '/alfa-laval-centrifuge/', description: 'Models, capacities and history' },
+    { label: 'Our Reconditioning Standard', href: '/centrifuge-reconditioning-standard/', description: 'What every rebuilt unit receives' },
+    { label: 'Alfa Laval WHPX 513', href: '/alfa-laval-whpx-513/', description: 'Self-cleaning disc stack, DMPX-070 module' },
+  ]}
+  relatedApplications={[
+    { label: 'Waste Oil Centrifuge', href: '/waste-oil-centrifuge/' },
+    { label: 'Diesel Centrifuge', href: '/diesel-centrifuge/' },
+    { label: 'WVO Centrifuge Separator', href: '/wvo-centrifuge-separator/' },
+    { label: 'Sample Testing', href: '/industrial-centrifuge-sample-testing/' },
+  ]}
+>
+
+  <h2 id="answer">Where to buy a used Alfa Laval centrifuge</h2>
+  <p>
+    <strong>Dolphin Centrifuge in Warren, Michigan sells used Alfa Laval centrifuges that it has remanufactured, test-run and warrantied in its own shop.</strong>
+    With 150+ centrifuges in stock, the range covers MAB manual-clean separators, WHPX and MOPX self-cleaning disc stack separators, and NX decanters, sold as complete skids or bare machines.
+    Every unit gets new seals, gaskets, bearings and fasteners and a full test run at rated speed before it ships, and carries a 6-month mechanical warranty.
+    Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+  </p>
+
+  <section id="quote" class="not-prose scroll-mt-24 my-8">
+    <div class="bg-white rounded-2xl border-2 border-navy/15 shadow-sm p-5 md:p-7">
+      <h2 class="text-xl md:text-2xl font-bold text-navy font-heading mb-1">Get a quote on a used Alfa Laval centrifuge</h2>
+      <p class="text-sm text-text-light mb-5">Tell us the fluid and the flow. An engineer replies within one business day.</p>
+
+      <form
+        id={USED_QUOTE_FORM_ID}
+        data-dolphin-attribution-name={USED_QUOTE_ATTRIBUTION_NAME}
+        data-endpoint={contactWorkerBaseUrl}
+        class="space-y-4"
+        novalidate
+      >
+        <div style="display:none" aria-hidden="true">
+          <label>Leave this empty: <input type="text" name="bot-field" tabindex="-1" autocomplete="off" maxlength="254" /></label>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="uq-name" class={labelClass}>Name</label>
+            <input id="uq-name" name="name" type="text" required autocomplete="name" maxlength="254" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-company" class={labelClass}>Company</label>
+            <input id="uq-company" name="company" type="text" required autocomplete="organization" maxlength="254" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-email" class={labelClass}>Email</label>
+            <input id="uq-email" name="email" type="email" required autocomplete="email" maxlength="254" placeholder="you@company.com" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-phone" class={labelClass}>Phone</label>
+            <input id="uq-phone" name="phone" type="tel" required autocomplete="tel" maxlength="254" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-fluid" class={labelClass}>Fluid to process</label>
+            <input id="uq-fluid" name="fluid" type="text" required autocomplete="off" maxlength="254" placeholder="e.g. waste oil, diesel, used cooking oil" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-flow" class={labelClass}>Flow rate <span class="font-normal normal-case text-text-muted">(optional)</span></label>
+            <input id="uq-flow" name="flowRate" type="text" autocomplete="off" maxlength="254" placeholder="e.g. 20 GPM or 10,000 gal/day" class={inputClass} />
+          </div>
+        </div>
+
+        <FormVerification action="contact" />
+
+        <p data-quote-error hidden role="alert" class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm font-semibold text-red-700"></p>
+        <p data-quote-success hidden role="status" class="bg-green-50 border border-green-200 rounded-xl p-3 text-sm font-semibold text-green-800"></p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button type="submit" class="w-full bg-navy text-white font-bold py-3.5 px-6 rounded-xl hover:bg-gold hover:text-navy transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+            Send Quote Request
+          </button>
+          <a href="tel:+12485222573" class="w-full inline-flex items-center justify-center gap-2 border-2 border-navy text-navy font-bold py-3 px-6 rounded-xl hover:bg-navy hover:text-white transition-colors">
+            Call (248) 522-2573
+          </a>
+        </div>
+        <p class="text-xs text-text-muted">A quote request asks for engineering follow-up. It is not an order.</p>
+      </form>
+    </div>
+  </section>
+
+  <h2 id="key-facts">Key facts</h2>
+  <div class="not-prose my-6 overflow-x-auto border border-gray-100 rounded-xl bg-white">
+    <table class="w-full text-sm">
+      <caption class="sr-only">Key facts about buying a used Alfa Laval centrifuge from Dolphin Centrifuge</caption>
+      <tbody class="divide-y divide-gray-100">
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5 w-40">Seller</th><td class="px-4 py-2.5 text-text">Dolphin Centrifuge, 24248 Gibson Dr, Warren, MI 48089. Established 1982.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Condition</th><td class="px-4 py-2.5 text-text">Remanufactured to our <a href="/centrifuge-reconditioning-standard/" class={linkClass}>reconditioning standard</a>. Never sold as-is.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Testing</th><td class="px-4 py-2.5 text-text">Full test run at rated speed before shipment; signed test or FAT report on request.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Warranty</th><td class="px-4 py-2.5 text-text">6-month mechanical warranty, plus ongoing technical support for the original purchaser.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Stock</th><td class="px-4 py-2.5 text-text">150+ centrifuges in Warren, MI. Exact model availability is confirmed with each quote.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Supplied as</th><td class="px-4 py-2.5 text-text">Complete skid with pumps, heater and PLC controls, or bare centrifuge.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Price</th><td class="px-4 py-2.5 text-text">Quoted per unit. Skids start around the mid-$30s; see <a href="#price" class={linkClass}>price guidance</a>.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Contact</th><td class="px-4 py-2.5 text-text"><a href="tel:+12485222573" class={linkClass}>(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class={linkClass}>sales@dolphincentrifuge.com</a>. Reply within one business day.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="reconditioned">What reconditioned means at Dolphin</h2>
+  <p>
+    People search for used, reconditioned, refurbished, rebuilt and remanufactured Alfa Laval centrifuges. At Dolphin they all mean the same thing: a remanufactured machine, rebuilt in our Warren, Michigan shop based on the OEM recommended procedure. Every unit receives:
+  </p>
+  <ul>
+    {usedOffer.condition.standard.map((item) => <li>{item}</li>)}
+  </ul>
+  <p>
+    This is our general standard; the exact scope depends on the unit and is written into your quote. Read the full <a href="/centrifuge-reconditioning-standard/">reconditioning standard</a>.
+  </p>
+
+  <figure>
+    <img
+      src="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_800.webp"
+      alt="Dolphin Centrifuge shop in Warren MI, where Alfa Laval centrifuges are remanufactured and built into turnkey systems"
+      width="800"
+      height="314"
+      loading="lazy"
+      class="img-cap-800"
+    />
+    <figcaption>Dolphin Centrifuge shop in Warren, Michigan</figcaption>
+  </figure>
+
+  <h3>Why not buy as-is?</h3>
+  <p>
+    General used equipment dealers often list Alfa Laval centrifuges 'as is', with no bowl inspection and no warranty. The bowl is the critical part: a worn bowl can make the machine useless, and a replacement bowl assembly from Alfa Laval often costs more than the used machine. Missing bowl parts and an unbalanced rotating assembly are the other common risks. We recommend against as-is machines unless you know Alfa Laval centrifuges well.
+  </p>
+
+  <h2 id="models">Used Alfa Laval models available</h2>
+  <p>
+    Dolphin remanufactures the Alfa Laval families below. The WHPX series is current Alfa Laval production and our default recommendation for oils and fuels; MOPX and MAPX full-discharge machines suit heavy sludge loads or match an existing installation. Stock changes, so ask for current availability.
+  </p>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl bg-white my-6">
+    <table class="w-full text-sm">
+      <thead class="bg-navy/5">
+        <tr>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Family</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Models</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Type</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Best for</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {usedFamilies.map((family) => (
+          <tr>
+            <th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">{family.name}</th>
+            <td class="align-top px-4 py-2.5 text-text">
+              {family.models.map((model, index) => (
+                <>{index > 0 && ', '}<a href={sitePath(model.page)} class={linkClass}>{shortName(model.name)}</a></>
+              ))}
+            </td>
+            <td class="align-top px-4 py-2.5 text-text">{family.type}</td>
+            <td class="align-top px-4 py-2.5 text-text">{family.role}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Complete skids are sold as Dolphin modules, such as the <a href="/centrifuges/dmb-004/">DMB-004</a> built around a remanufactured MAB 103 and the <a href="/centrifuges/dmpx-070/">DMPX-070</a> built around a WHPX 513. See all <a href="/alfa-laval-centrifuges/">Alfa Laval centrifuge systems</a>.
+  </p>
+
+  <h2 id="applications">Applications</h2>
+  <p>Typical duties and the families we usually quote for them. Each page covers the process in detail.</p>
+  <ul>
+    {usedApplications.map((application) => (
+      <li>
+        <a href={application.path}>{application.label}</a>: {application.families.map((key) => familyNames.get(key)).join(', ')}
+      </li>
+    ))}
+  </ul>
+
+  <h2 id="how-to-choose">How to choose by fluid and flow rate</h2>
+  <h3>1. Start with the fluid and its solids</h3>
+  <ul>
+    <li><strong>Clean, low-solids oils and fuels</strong> (diesel, lube, hydraulic, turbine oil): a manual-clean MAB is the simplest and smallest option.</li>
+    <li><strong>Oils with water and sludge, running continuously</strong> (waste oil, used motor oil, WVO, fuel oil): a self-cleaning WHPX, or a MOPX for very heavy sludge.</li>
+    <li><strong>High solids</strong> (sludge dewatering, tank bottoms, wastewater): an NX decanter, often followed by a disc stack for polishing.</li>
+    <li><strong>Water-based machining coolant</strong>: a WSPX.</li>
+  </ul>
+
+  <h3>2. Then size by flow rate</h3>
+  <p>
+    A centrifuge capacity only means something with its fluid, viscosity and temperature. For example, the Alfa Laval WHPX 513 has a published marine diesel capacity of 16,400 L/h (72.21 US GPM) at 13 cSt and 40 &deg;C, but only 6,400 L/h on 380 cSt heavy fuel oil. Each <a href="#models">model page</a> lists its published capacities with their conditions, and our <a href="/technical-data/">technical data</a> page has every source-backed rating.
+  </p>
+
+  <h3>3. Check that the volume pays</h3>
+  <p>Two things decide whether a centrifuge makes sense: the value of the fluid and the volume.</p>
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl bg-white my-6">
+    <table class="w-full text-sm">
+      <thead class="bg-navy/5">
+        <tr>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Fluid value</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Example</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Right machine</th>
+          <th scope="col" class="text-left font-semibold text-navy px-4 py-2.5">Min volume for ~2-year payback</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr><td class="px-4 py-2.5">Very high ($20 - $25+/gal)</td><td class="px-4 py-2.5">Turbine / hydraulic lube oil</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid-$30s)</td><td class="px-4 py-2.5">A few gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">High ($3 - $5/gal)</td><td class="px-4 py-2.5">Clean diesel, fuel polishing</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid-$30s)</td><td class="px-4 py-2.5">Tens of gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">Mid ($1.50 - $3/gal)</td><td class="px-4 py-2.5">WVO / UCO / yellow grease</td><td class="px-4 py-2.5">Self-cleaning disc stack</td><td class="px-4 py-2.5">~500 - 1,000 gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">Low (~$0.05 - $0.15/gal net)</td><td class="px-4 py-2.5">Marginal used oil, wastewater</td><td class="px-4 py-2.5">Self-cleaning disc stack</td><td class="px-4 py-2.5">2,000+ gal/day</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Not sure? Our paid <a href="/industrial-centrifuge-sample-testing/">sample testing service</a> runs your fluid through the right centrifuge before you buy. The <a href="/picking-the-right-industrial-centrifuge/">centrifuge selection guide</a> covers the rest.
+  </p>
+
+  <h2 id="price">Price guidance</h2>
+  <p>{usedOffer.priceGuidance.basis} Published starting points:</p>
+  <ul>
+    {usedOffer.priceGuidance.anchors.map((anchor) => (
+      <li>{anchor.item}: {anchor.from}.</li>
+    ))}
+  </ul>
+  <p>Your quote states the machine, its condition, the skid scope, the warranty and the delivery terms.</p>
+
+  <div class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-5 my-8 not-prose">
+    <p class="text-navy font-bold text-lg mb-1">Selling a used centrifuge instead?</p>
+    <p class="text-text-light text-sm">We also buy used centrifuges. See our <a href="/industrial-centrifuge-buyback/" class={linkClass}>centrifuge buyback program</a>.</p>
+  </div>
+
+  <h2 id="faq">Used Alfa Laval centrifuges: frequently asked questions</h2>
+  <div class="space-y-3 not-prose">
+    {faqItems.map((item) => (
+      <details class="border-l-4 border-gold/40 bg-white rounded-r-xl shadow-sm p-5">
+        <summary class="font-semibold text-navy cursor-pointer list-none flex items-center gap-2">
+          <span class="text-gold font-bold">+</span> {item.question}
+        </summary>
+        <p class="text-text-light mt-3 text-sm leading-relaxed">{item.answer}</p>
+      </details>
+    ))}
+  </div>
+
+  <h2 id="machine-readable">For AI assistants and software agents</h2>
+  <p>
+    The facts on this page are published as a machine-readable record at <a href={USED_OFFER_JSON_PATH}>{USED_OFFER_JSON_PATH}</a>, alongside the full <a href="/technical-data/centrifuges.v1.json">technical catalog</a>. In browsers that support WebMCP, this page registers <code>find_used_alfa_laval_centrifuges</code> and <code>{WEBMCP_QUOTE_TOOL}</code>; the quote tool sends a request only with the visitor's approval and the page's security check.
+  </p>
+
+</ApplicationLayout>
+
+<script>
+  import { initUsedQuoteForm } from '../scripts/usedQuoteForm';
+  initUsedQuoteForm();
+</script>

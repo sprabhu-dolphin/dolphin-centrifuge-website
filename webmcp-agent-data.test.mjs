@@ -25,6 +25,7 @@ const WEBMCP_TOOL_NAMES = [
   'get_centrifuge_specifications',
   'get_centrifuge_capacity',
   'get_technical_author_identity',
+  'find_used_alfa_laval_centrifuges',
 ];
 
 function allCapacities() {
