@@ -4,6 +4,7 @@ export const noindexRegistry = [
   {path: '/central', descendants: true, reason: 'Private staff assistant and evaluation pages'},
   {path: '/admin', descendants: true, reason: 'Private administration'},
   {path: '/used-oil', descendants: false, reason: 'Direct-mail campaign landing page'},
+  {path: '/used-alfa-laval-centrifuges-for-sale', descendants: false, reason: 'Draft until Sanjay rewrites the copy'},
   {path: '/404', descendants: false, reason: 'Not-found page'},
 ];
 
