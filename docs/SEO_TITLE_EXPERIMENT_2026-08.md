@@ -89,3 +89,20 @@ The weekly consolidated SEO brief should also report:
 - GA4 organic landings and D1 lead quality for both pages.
 
 No separate dashboard is required.
+
+## Result and rollback (2026-09-28)
+
+Variant C lost and missed the win rule after 4+ weeks (canonical 08-26..09-22 vs B 08-10..08-22):
+page CTR 0.45% (B) to 0.24% (C) at similar position (13.8 vs 13.4); exact query
+"industrial centrifuge" 1.66% (B) to 0.27% (C). Control page flat at 2.0-2.2% CTR.
+Per the decision rules, B is restored on 2026-09-28. Read again 4 weeks after
+deployment against the same controls.
+
+## Diesel title de-branding (started 2026-09-28)
+
+`/diesel-centrifuge/` title returns from "Alfa Laval Diesel Fuel Centrifuge | Removes
+Water, Sludge & Rust" (CTR 2.25% to 1.03% at unchanged position since June) to the
+pre-June "Diesel Fuel Centrifuge | Sludge & Water Separator". Title fields only;
+body, H1, meta description, links and schema unchanged. Control: untreated top-20
+median drift plus /black-diesel-centrifuge/. Read after 6 weeks. Source:
+dolphin-growth-ops/analysis/2026-09-28-search-ads-analysis.md (E1, E2).

@@ -3150,6 +3150,9 @@ async function handlePageview(request, env, ctx) {
   });
 }
 
+// form_start / form_error measure lead-form abandonment against D1 submissions.
+const VISITOR_INTENT_EVENT_TYPES = new Set(['phone_click', 'email_click', 'form_start', 'form_error']);
+
 async function handleVisitorEvent(request, env, ctx) {
   let body = {};
   try {
@@ -3161,7 +3164,7 @@ async function handleVisitorEvent(request, env, ctx) {
   }
 
   const eventType = cleanText(body.event_type, 40);
-  if (eventType !== 'phone_click' && eventType !== 'email_click') {
+  if (!VISITOR_INTENT_EVENT_TYPES.has(eventType)) {
     return new Response(JSON.stringify({ success: false, error: 'Unsupported event_type' }), {
       status: 400, headers: CORS_HEADERS,
     });
