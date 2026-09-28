@@ -471,7 +471,9 @@ test('public crawler files advertise the catalog, tools, reviewer, and crawlabil
   assert.ok(llms.includes(PUBLIC_CATALOG_URL));
   assert.ok(llms.includes(REVIEWER_ID));
   assert.ok(llms.includes(SCHEMA_VERSION));
-  for (const toolName of WEBMCP_TOOL_NAMES) assert.ok(llms.includes(toolName), toolName);
+  // The used Alfa Laval page is a draft (noindex) until Sanjay approves its copy,
+  // so llms.txt does not advertise its tool yet.
+  for (const toolName of WEBMCP_TOOL_NAMES.filter((name) => name !== 'find_used_alfa_laval_centrifuges')) assert.ok(llms.includes(toolName), toolName);
 
   assert.match(headers, /^\/technical-data\/\*\.json\s*$/m);
   assert.match(headers, /^\s+Content-Type:\s*application\/json;\s*charset=utf-8\s*$/mi);
