@@ -1,5 +1,5 @@
 ---
-// Admin Dashboard — Dolphin Centrifuge Submissions
+// Admin Dashboard - Dolphin Centrifuge Submissions
 // NO-INDEX: This page is hidden from search engines
 // Password protected via sessionStorage + Worker Bearer token
 const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
@@ -15,7 +15,7 @@ const isDevDashboard = import.meta.env.DEV;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Submissions Dashboard — Dolphin Centrifuge</title>
+  <title>Submissions Dashboard - Dolphin Centrifuge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style is:global>
@@ -682,7 +682,7 @@ const isDevDashboard = import.meta.env.DEV;
     .va-row { border-top: 1px solid #e3e9f0; }
     .va-row:first-child { border-top: 0; }
     .va-row.identified { background: #eef4fc; }
-    /* "Connected dots" — visitors where multiple signals fuse stand out in gold */
+    /* "Connected dots" - visitors where multiple signals fuse stand out in gold */
     .va-row.va-connected { background: #fff7e6; box-shadow: inset 4px 0 0 #e0a93a; }
     .va-row.va-fullcircle { background: #fff2cc; box-shadow: inset 4px 0 0 #c9920a; }
     .va-badge-connected, .va-badge-circle {
@@ -806,7 +806,7 @@ const isDevDashboard = import.meta.env.DEV;
       font-size: 0.64rem; font-weight: 700; letter-spacing: 0.03em;
       text-transform: uppercase; white-space: nowrap;
     }
-    /* Magnify (expand) button — right edge */
+    /* Magnify (expand) button - right edge */
     .va-magnify {
       flex: none; margin-left: 10px; margin-top: 2px;
       width: 26px; height: 26px; border-radius: 50%;
@@ -817,7 +817,7 @@ const isDevDashboard = import.meta.env.DEV;
     }
     .va-magnify:hover { background: #d9eaf8; border-color: #9db8dd; }
     .va-row-sc.va-detail-open .va-magnify { background: #2e6fbf; color: #fff; border-color: #2e6fbf; }
-    /* Detail panel — slides in below the row */
+    /* Detail panel - slides in below the row */
     .va-detail-sc {
       display: none;
       padding: 12px 14px 16px 14px;
@@ -832,7 +832,7 @@ const isDevDashboard = import.meta.env.DEV;
     .va-vrow { border-top: 1px solid #eef2f7; }
     .va-vrow:first-child { border-top: 0; }
     .va-vrow > .va-row-sc { border-top: 0; cursor: pointer; }
-    /* Browser / OS inline-SVG marker — Windows-safe (no flag-emoji trap), no favicons, no icon font */
+    /* Browser / OS inline-SVG marker - Windows-safe (no flag-emoji trap), no favicons, no icon font */
     .va-osmark { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
     .va-osmark .va-osmark-txt { color: #6a7a8c; font-size: 0.72rem; }
     .va-bico, .va-osico { width: 13px; height: 13px; display: inline-block; vertical-align: -2px; flex: none; }
@@ -844,7 +844,7 @@ const isDevDashboard = import.meta.env.DEV;
     /* Country flag image (StatCounter look) + raw-code fallback when the flag can't render */
     .va-flag { display: inline-block; width: 20px; height: 15px; vertical-align: -2px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.10); }
     .va-cc { color: #6a7a8c; }
-    /* "Connected dots" click-popup — appended to <body> so it isn't clipped by .va-log overflow */
+    /* "Connected dots" click-popup - appended to <body> so it isn't clipped by .va-log overflow */
     .va-dots-wrap { position: relative; display: inline-block; }
     .va-dots-wrap > .va-dots-pop { display: none; }
     .va-dots-pop {
@@ -1201,6 +1201,56 @@ const isDevDashboard = import.meta.env.DEV;
       font-family: inherit;
     }
     #weekly-report-btn:hover { background: #2f6db5; color: #fff; border-color: #2f6db5; }
+
+    .login-card input.visually-hidden,
+    .visually-hidden {
+      position: absolute !important; width: 1px !important; height: 1px !important;
+      padding: 0 !important; margin: -1px !important; border: 0 !important;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+    }
+
+    /* ── Active search filter chip + clear buttons ─────────── */
+    .sc-search-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff7d6; border: 1px solid #e8c204; color: #1a2a4a;
+      border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 0.78rem;
+    }
+    .sc-search-chip[hidden] { display: none; }
+    .sc-search-chip strong { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sc-search-chip button, .empty-clear {
+      background: #1a2a4a; color: #fff; border: 0; border-radius: 999px;
+      padding: 3px 10px; font-size: 0.75rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .empty-clear { margin-left: 8px; }
+    .va-empty { padding: 14px; }
+
+    /* ── Weekly report panel ───────────────────────────────── */
+    #weekly-report-modal {
+      position: fixed; inset: 0; background: rgba(10, 20, 40, 0.45);
+      display: none; align-items: flex-start; justify-content: center;
+      z-index: 2000; padding: 40px 16px; overflow-y: auto;
+    }
+    #weekly-report-modal.open { display: flex; }
+    .wr-card {
+      background: #fff; border-radius: 10px; max-width: 900px; width: 100%;
+      padding: 20px 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); color: #1a2a4a;
+    }
+    .wr-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .wr-head h2 { margin: 0; font-size: 1.15rem; flex: 1; }
+    .wr-head button {
+      background: #fff; border: 1px solid #c7d4e2; color: #1a2a4a; border-radius: 6px;
+      padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .wr-meta { color: #64748b; font-size: 0.8rem; margin-bottom: 12px; }
+    .wr-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .wr-tile { border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }
+    .wr-tile b { display: block; font-size: 1.2rem; }
+    .wr-tile span { font-size: 0.72rem; color: #64748b; }
+    .wr-card h3 { font-size: 0.9rem; margin: 16px 0 6px; }
+    .wr-card table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .wr-card th, .wr-card td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #edf2f7; }
+    .wr-card pre { white-space: pre-wrap; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 0.75rem; }
+    .wr-error { color: #9f1239; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 10px 12px; }
   </style>
 </head>
 <body>
@@ -1209,9 +1259,13 @@ const isDevDashboard = import.meta.env.DEV;
   <div id="login-screen">
     <div class="login-card">
       <h1>🔒 Admin Dashboard</h1>
-      <p>Dolphin Centrifuge — Form Submissions</p>
-      <input type="password" id="password-input" placeholder="Enter admin password" autocomplete="current-password" />
-      <button id="login-btn">Sign In</button>
+      <p>Dolphin Centrifuge - Form Submissions</p>
+      <form id="login-form" autocomplete="on">
+        <!-- Username slot for Chrome's password manager, so it never autofills the saved email into the dashboard search box. -->
+        <input type="text" name="username" autocomplete="username" value="admin" readonly tabindex="-1" aria-hidden="true" class="visually-hidden" />
+        <input type="password" id="password-input" name="password" placeholder="Enter admin password" autocomplete="current-password" />
+        <button id="login-btn" type="submit">Sign In</button>
+      </form>
       <div id="login-error"></div>
     </div>
   </div>
@@ -1255,7 +1309,7 @@ const isDevDashboard = import.meta.env.DEV;
         <div class="sc-topbar-title">Dolphincentrifuge.com</div>
         <div class="sc-topbar-right">
           <span class="sc-admin-tag">Admin</span>
-          <button id="weekly-report-btn" title="Download 14-day growth-ops report with live D1, GA4, and Ads source health">📊 Weekly Report</button>
+          <button id="weekly-report-btn" title="Show the 14-day growth-ops report (live D1, GA4, and Ads) with a JSON download">📊 Weekly Report</button>
           <button id="logout-btn">Log Out</button>
         </div>
       </div>
@@ -1263,7 +1317,8 @@ const isDevDashboard = import.meta.env.DEV;
       <div class="sc-body">
         <div id="summary-tiles" class="sc-tiles"></div>
         <div class="sc-toolbar">
-          <input type="search" id="search-input" placeholder="Search by name, company, email, fluid…" />
+          <input type="search" id="search-input" name="dashboard-search" autocomplete="off" data-lpignore="true" data-1p-ignore placeholder="Search by name, company, email, fluid…" />
+          <span id="search-chip" class="sc-search-chip" hidden>Filtered by: <strong id="search-chip-text"></strong> <button type="button" data-clear-search title="Clear the search filter">Clear</button></span>
           <select id="date-preset" class="sc-select" title="Date range (UTC day boundaries)">
             <option value="all">All time</option>
             <option value="today">Today</option>
@@ -1333,6 +1388,18 @@ const isDevDashboard = import.meta.env.DEV;
     </div>
   </div>
 
+  <!-- Weekly report, shown inline -->
+  <div id="weekly-report-modal" role="dialog" aria-modal="true" aria-labelledby="wr-title">
+    <div class="wr-card">
+      <div class="wr-head">
+        <h2 id="wr-title">Weekly report (last 14 days)</h2>
+        <button type="button" id="wr-download" title="Save the full report as a JSON file" disabled>Download JSON</button>
+        <button type="button" id="wr-close" title="Close the report (Esc)">Close</button>
+      </div>
+      <div id="wr-body"></div>
+    </div>
+  </div>
+
   <script define:vars={{ contactWorkerBaseUrl, isDevDashboard }}>
     // ── Config ────────────────────────────────────────────────
     const WORKER_URL = contactWorkerBaseUrl;
@@ -1378,6 +1445,7 @@ const isDevDashboard = import.meta.env.DEV;
     let dataTruncated = false;
     let visitorsTruncated = false;
     let callsTruncated = false;
+    let callsConnected = true;
 
     function currentToken() { return sessionStorage.getItem(SESSION_KEY); }
     function isoDay(d) { return d.toISOString().slice(0, 10); }
@@ -1448,8 +1516,7 @@ const isDevDashboard = import.meta.env.DEV;
     }
 
     // ── Login ─────────────────────────────────────────────────
-    loginBtn.addEventListener('click', attemptLogin);
-    passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
+    document.getElementById('login-form').addEventListener('submit', e => { e.preventDefault(); attemptLogin(); });
 
     async function attemptLogin() {
       const token = passwordInput.value.trim();
@@ -1536,10 +1603,11 @@ const isDevDashboard = import.meta.env.DEV;
         const json = await resp.json();
         allCalls = json.data || [];
         callsTruncated = !!json.truncated;
+        callsConnected = json.connected !== false;
         applySearch();
       } catch (err) {
         allCalls = [];
-        callsContainer.innerHTML = '<div class="empty">Phone leads are not available yet.</div>';
+        callsContainer.innerHTML = '<div class="empty">Phone leads could not be loaded. Try refreshing.</div>';
       }
     }
 
@@ -1557,13 +1625,15 @@ const isDevDashboard = import.meta.env.DEV;
       const visitors = Number(s.visitors || 0);
       const leads = Number(s.leads || 0);
       const conv = visitors > 0 ? ((leads / visitors) * 100) : 0;
-      const convStr = visitors > 0 ? `${conv.toFixed(conv < 10 ? 1 : 0)}%` : '—';
+      const convStr = visitors > 0 ? `${conv.toFixed(conv < 10 ? 1 : 0)}%` : '-';
       summaryTiles.innerHTML =
         tile(fmtNum(s.pageviews), 'Pageviews') +
         tile(fmtNum(visitors), 'Visitors') +
         tile(fmtNum(s.sessions), 'Sessions') +
         tile(fmtNum(leads), 'Form leads', '', true) +
-        tile(fmtNum(s.calls), 'Phone leads') +
+        (s.calls_connected === false
+          ? tile('Not connected', 'Phone leads', 'Talkroute feed not set up')
+          : tile(fmtNum(s.calls), 'Phone leads')) +
         tile(convStr, 'Lead rate', 'leads ÷ visitors');
     }
     async function loadSummary(token) {
@@ -1677,7 +1747,7 @@ const isDevDashboard = import.meta.env.DEV;
 
     function renderTable(data) {
       if (data.length === 0) {
-        tableContainer.innerHTML = '<div class="empty">No submissions in this range.</div>';
+        tableContainer.innerHTML = emptyWithSearch('No submissions in this range.', 'empty');
         return;
       }
 
@@ -1730,13 +1800,13 @@ const isDevDashboard = import.meta.env.DEV;
         </thead>`;
 
       const tbody = data.map(r => {
-        const date = r.created_at ? r.created_at.substring(0, 10) : '—';
+        const date = r.created_at ? r.created_at.substring(0, 10) : '-';
         const reconnectBadge = isReturningRecord(r)
           ? `<span class="badge-reconnect">⚡ RETURNING</span>`
           : '';
         const details = r.additional_details
           ? r.additional_details.substring(0, 80) + (r.additional_details.length > 80 ? '…' : '')
-          : '—';
+          : '-';
         const rowClass = isReturningRecord(r) ? 'reconnect-row' : '';
         // Country flag + foreigner cue: form country is a 2-letter ISO code.
         const cc = String(r.country || '').trim().toUpperCase();
@@ -1807,7 +1877,9 @@ const isDevDashboard = import.meta.env.DEV;
     function renderCalls(calls) {
       if (!callsContainer) return;
       if (!calls.length) {
-        callsContainer.innerHTML = '<div class="empty">No phone leads in this range.</div>';
+        callsContainer.innerHTML = callsConnected
+          ? emptyWithSearch('No phone leads in this range.', 'empty')
+          : '<div class="empty">Phone leads: Not connected. The Talkroute voicemail feed has not sent any calls to the dashboard yet, so no count is shown.</div>';
         return;
       }
 
@@ -2172,7 +2244,7 @@ const isDevDashboard = import.meta.env.DEV;
       return `<dt>${esc(label)}</dt><dd>${valueHtml}</dd>`;
     }
 
-    // Expanded detail panel for a visitor row — holds everything hidden from the
+    // Expanded detail panel for a visitor row - holds everything hidden from the
     // compact row: cookie/GA/StatCounter IDs, full IP/UA/URLs, network, visit
     // trail (timeline), plus the Save Visitor controls (incl. grade).
     function renderVisitorRowDetail(visitor, visitorId) {
@@ -2250,9 +2322,9 @@ const isDevDashboard = import.meta.env.DEV;
 
       if (shown.length === 0) {
         const emptyMsg = knownOnly
-          ? 'No identified visitors yet. Visitors who fill a form — or that you name/label — appear here.'
-          : 'No visitors match this filter yet. Tracking went live recently — new visitors appear here as they browse the site.';
-        visitorDirectory.innerHTML = `${heading}<div class="attrib-muted" style="padding:14px;">${emptyMsg}</div>`;
+          ? 'No identified visitors in this range. Visitors who fill a form - or that you name/label - appear here.'
+          : 'No visitors in this range.';
+        visitorDirectory.innerHTML = `${heading}${emptyWithSearch(emptyMsg, 'attrib-muted va-empty')}`;
         renderPager(visitorPager, total, visitorsPage, 'visitors');
         return;
       }
@@ -2266,7 +2338,7 @@ const isDevDashboard = import.meta.env.DEV;
         const pageviews = Number(visitor.pageview_count || 0);
         const isReturning = visits > 1;
 
-        // "Connected dots" — count how many distinct signal types fuse on this profile.
+        // "Connected dots" - count how many distinct signal types fuse on this profile.
         const srcL = String(visitor.source || '').toLowerCase();
         const hasIdentity = Boolean(visitor.contact_name || visitor.contact_email || visitor.contact_phone || visitor.label);
         const hasConversion = isFiller;
@@ -2302,7 +2374,7 @@ const isDevDashboard = import.meta.env.DEV;
           : '';
         const sourcePill = visitorSourcePill(visitor);
 
-        // Line 1 — geo (flag + deduped "City, Region"), ISP, browser/OS marker
+        // Line 1 - geo (flag + deduped "City, Region"), ISP, browser/OS marker
         const geo = locationDisplay(visitor);
         const geoInner = geo.has
           ? `${geo.flagHtml ? geo.flagHtml + ' ' : ''}${esc(geo.loc || '')}`
@@ -2330,12 +2402,12 @@ const isDevDashboard = import.meta.env.DEV;
         const visitBadge = `<span class="va-visitbadge" title="${esc(pageviews + ' pageviews over ' + visitN + ' visit' + (visitN === 1 ? '' : 's'))}">${visitN}&times;</span>`;
         const retBadge = isReturning ? '<span class="va-retbadge">Returning</span>' : '';
 
-        // Action chips — grounded in signals known at the profile level
+        // Action chips - grounded in signals known at the profile level
         const actionChips =
           (isFiller ? '<span class="va-chip va-chip-action-form" title="Submitted a lead form">Form</span>' : '')
           + (hasPaid ? '<span class="va-chip va-chip-action" title="Arrived via a paid Google click">Ad click</span>' : '');
 
-        // Line 2 — entry/last page, referrer, keyword (all scheme-guarded)
+        // Line 2 - entry/last page, referrer, keyword (all scheme-guarded)
         const keyword = decipherKeyword(visitor);
         const lastPageHtml = safeUrlLink(visitor.last_page || visitor.first_landing_page || '', 'va-l2-page');
         const refHtml = visitor.referrer ? safeUrlLink(visitor.referrer, 'va-l2-ref') : '';
@@ -2364,9 +2436,42 @@ const isDevDashboard = import.meta.env.DEV;
       if (initialSearch && !searchInput.value) searchInput.value = initialSearch;
     }
 
+    // Chrome's password manager can drop the saved login email into the search
+    // box. If it holds a dolphincentrifuge.com address the user never typed, clear it.
+    let userTypedSearch = false;
+    ['keydown', 'paste', 'drop'].forEach(evt => searchInput.addEventListener(evt, () => { userTypedSearch = true; }));
+    function scrubAutofilledSearch() {
+      const v = searchInput.value;
+      if (!userTypedSearch && v && v !== initialSearch && /@dolphincentrifuge\.com/i.test(v)) searchInput.value = '';
+    }
+
+    function emptyWithSearch(defaultMsg, cls) {
+      const raw = searchInput.value.trim();
+      if (!raw) return `<div class="${cls}">${esc(defaultMsg)}</div>`;
+      return `<div class="${cls}">No results match '${esc(raw)}'.<button type="button" class="empty-clear" data-clear-search title="Clear the search filter">Clear</button></div>`;
+    }
+
+    function clearSearch() {
+      searchInput.value = '';
+      leadsPage = 1; visitorsPage = 1;
+      applySearch();
+    }
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-clear-search]')) clearSearch();
+    });
+
+    function updateSearchChip() {
+      const chip = document.getElementById('search-chip');
+      const raw = searchInput.value.trim();
+      chip.hidden = !raw;
+      document.getElementById('search-chip-text').textContent = raw;
+    }
+
     function applySearch() {
+      scrubAutofilledSearch();
+      updateSearchChip();
       const q = searchInput.value.toLowerCase();
-      // Leads — date range is already applied server-side; this is the in-range text filter.
+      // Leads - date range is already applied server-side; this is the in-range text filter.
       const leadsFiltered = allData.filter(r =>
         `${r.first_name} ${r.last_name} ${r.company} ${r.email} ${r.phone} ${r.fluid_type} ${r.country} ${r.additional_details} ${r.form_type} ${googleAttributionSearchText(r)} ${visitorContextSearchText(r)}`
           .toLowerCase().includes(q)
@@ -2376,7 +2481,7 @@ const isDevDashboard = import.meta.env.DEV;
       renderPager(leadsPager, leadsFiltered.length, leadsPage, 'leads');
       const returning = leadsFiltered.filter(isReturningRecord).length;
 
-      // Visitors — text filter, then the activity toggle-filters, then
+      // Visitors - text filter, then the activity toggle-filters, then
       // renderVisitorDirectory applies the known-only view + pagination.
       const submittedForFilter = submittedVisitorIdSet();
       const gradedLeadVisitors = new Set(
@@ -2401,8 +2506,9 @@ const isDevDashboard = import.meta.env.DEV;
       renderCalls(callsFiltered);
 
       if (activeView === 'calls') {
-        countBadge.textContent =
-          `${callsFiltered.length} phone lead${callsFiltered.length === 1 ? '' : 's'}${callsTruncated ? ' · showing newest 10k' : ''}`;
+        countBadge.textContent = !callsConnected
+          ? 'Not connected'
+          : `${callsFiltered.length} phone lead${callsFiltered.length === 1 ? '' : 's'}${callsTruncated ? ' · showing newest 10k' : ''}`;
       } else if (activeView === 'pages') {
         const pageRows = (pagesData && pagesData[pagesTab]) || [];
         const pageLabel = pagesTab === 'top' ? 'page' : `${pagesTab} page`;
@@ -2447,7 +2553,7 @@ const isDevDashboard = import.meta.env.DEV;
       if (datePreset.value !== 'custom') return;
       let s = dateStart.value || null;
       let e = dateEnd.value || null;
-      // Guard an inverted range — swap so start <= end instead of silently returning nothing.
+      // Guard an inverted range - swap so start <= end instead of silently returning nothing.
       if (s && e && s > e) { const t = s; s = e; e = t; dateStart.value = s; dateEnd.value = e; }
       curStart = s;
       curEnd = e;
@@ -2511,7 +2617,7 @@ const isDevDashboard = import.meta.env.DEV;
     });
 
     visitorDirectory.addEventListener('click', function(e) {
-      // Interactive controls first — these must never toggle the row.
+      // Interactive controls first - these must never toggle the row.
       const quickTagBtn = e.target.closest('[data-quick-tag-id]');
       if (quickTagBtn) {
         e.preventDefault();
@@ -2532,7 +2638,7 @@ const isDevDashboard = import.meta.env.DEV;
       const saveVisitorBtn = e.target.closest('[data-save-visitor-id]');
       if (saveVisitorBtn) { saveVisitorSettings(saveVisitorBtn); return; }
       // The grade dropdown, links, and anything inside the detail panel handle
-      // themselves — never toggle the row for those.
+      // themselves - never toggle the row for those.
       if (e.target.closest('[data-grade-submission-id]') || e.target.closest('[data-url-params-toggle]')
         || e.target.closest('a') || e.target.closest('details') || e.target.closest('.va-detail-sc')) return;
       // Otherwise a click anywhere on the compact row toggles its detail panel.
@@ -2690,7 +2796,7 @@ const isDevDashboard = import.meta.env.DEV;
       if (!visitorId) return;
       const existing = allVisitors.find(v => v.visitor_id === visitorId) || {};
       const current = existing.label || existing.contact_name || '';
-      const entered = window.prompt('Quick name / tag for this visitor (phone match, form, your read, IP — your call):', current);
+      const entered = window.prompt('Quick name / tag for this visitor (phone match, form, your read, IP - your call):', current);
       if (entered === null) return; // cancelled
       const tag = entered.trim();
       const token = sessionStorage.getItem(SESSION_KEY);
@@ -2765,32 +2871,70 @@ const isDevDashboard = import.meta.env.DEV;
       }
     }
 
-    // Download the 14-day growth-ops report (admin-gated JSON) as a file.
+    // Build the 14-day growth-ops report and show it inline (with a JSON download).
+    const wrModal = document.getElementById('weekly-report-modal');
+    const wrBody = document.getElementById('wr-body');
+    const wrDownload = document.getElementById('wr-download');
+    let wrJson = null;
+    function closeWeeklyReport() { wrModal.classList.remove('open'); }
+    document.getElementById('wr-close').addEventListener('click', closeWeeklyReport);
+    wrModal.addEventListener('click', e => { if (e.target === wrModal) closeWeeklyReport(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && wrModal.classList.contains('open')) closeWeeklyReport(); });
+    wrDownload.addEventListener('click', () => {
+      if (!wrJson) return;
+      const blob = new Blob([JSON.stringify(wrJson, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dolphin-weekly-report-${String(wrJson.generated_at || new Date().toISOString()).slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+
+    function renderWeeklyReport(r) {
+      const c = r.counts || {};
+      const t = (v, l) => `<div class="wr-tile"><b>${esc(fmtNum(v))}</b><span>${esc(l)}</span></div>`;
+      const weeks = (r.days || []).map(w =>
+        `<tr><td>${esc(w.week_start)}</td><td>${fmtNum(w.form_leads)}</td><td>${fmtNum(w.grade_a)}</td><td>${fmtNum(w.grade_b)}</td><td>${fmtNum(w.grade_c)}</td><td>${fmtNum(w.phone_clicks)}</td><td>${fmtNum(w.email_clicks)}</td></tr>`).join('');
+      const leads = (r.leads || []).map(l =>
+        `<tr><td>${esc(l.date)}</td><td>${esc(l.name)}</td><td>${esc(l.company)}</td><td>${esc(l.grade || '-')}</td><td>${esc(l.source)}</td><td class="pg-path">${esc(l.landing_page)}</td></tr>`).join('');
+      const lm = r.lead_monitor || {};
+      const fresh = r.freshness_gate === 'STALE'
+        ? `<div class="wr-error">Stale data: ${esc(r.freshness_message || '')}</div>` : '';
+      wrBody.innerHTML =
+        `<div class="wr-meta">Generated ${esc(formatWhen(r.generated_at))} · data through ${esc((r.freshness || {}).max_data_date || '-')} · kill-pattern spend (7d): $${esc(Number(r.spend_kill_pattern || 0).toFixed(2))}</div>` +
+        fresh +
+        `<div class="wr-tiles">${t(c.form_leads, 'Form leads')}${t(c.grade_a, 'A-leads')}${t(c.grade_b, 'B-leads')}${t(c.grade_c, 'C-leads')}${t(c.phone_clicks, 'Phone clicks')}${t(c.email_clicks, 'Email clicks')}${t(c.sessions, 'Sessions')}${t(c.pageviews, 'Pageviews')}</div>` +
+        `<h3>By week</h3><table><thead><tr><th>Week of</th><th>Leads</th><th>A</th><th>B</th><th>C</th><th>Phone</th><th>Email</th></tr></thead><tbody>${weeks || '<tr><td colspan="7">No data.</td></tr>'}</tbody></table>` +
+        `<h3>Leads</h3><table><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Grade</th><th>Source</th><th>Landing page</th></tr></thead><tbody>${leads || '<tr><td colspan="6">No leads.</td></tr>'}</tbody></table>` +
+        (lm.text ? `<h3>Lead tracking monitor</h3><pre>${esc(lm.text)}</pre>` : '');
+    }
+
     async function downloadWeeklyReport() {
       const btn = document.getElementById('weekly-report-btn');
       const token = sessionStorage.getItem(SESSION_KEY);
       if (!token) { logout(); return; }
       const original = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Building…'; }
+      wrJson = null;
+      wrDownload.disabled = true;
+      wrBody.innerHTML = '<div class="wr-meta">Building the report from live D1, GA4, and Google Ads data…</div>';
+      wrModal.classList.add('open');
       try {
         const resp = await fetch(`${WORKER_URL}/admin/api/weekly-report?days=14`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
-        if (resp.status === 401) { logout(); return; }
-        if (!resp.ok) throw new Error('Report request failed');
+        if (resp.status === 401) { closeWeeklyReport(); logout(); return; }
+        if (!resp.ok) throw new Error(`the server returned ${resp.status}`);
         const json = await resp.json();
-        const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const stamp = String(json.generated_at || new Date().toISOString()).slice(0, 10);
-        a.href = url;
-        a.download = `dolphin-weekly-report-${stamp}.json`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+        if (!json || json.success === false) throw new Error((json && json.error) || 'the report came back empty');
+        wrJson = json;
+        wrDownload.disabled = false;
+        renderWeeklyReport(json);
       } catch (err) {
-        alert('Could not generate the weekly report. Please try again.');
+        wrBody.innerHTML = `<div class="wr-error">Could not build the weekly report: ${esc(err.message || 'connection error')}. Please try again.</div>`;
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = original; }
       }
@@ -2824,7 +2968,7 @@ const isDevDashboard = import.meta.env.DEV;
           allData = allData.filter(r => r.id !== id);
           applySearch();   // re-filter + re-paginate + refresh badge/pager
         } else {
-          alert('Delete failed — server returned an error.');
+          alert('Delete failed - server returned an error.');
         }
       } catch (err) {
         alert('Connection error. Please try again.');
@@ -2894,7 +3038,7 @@ const isDevDashboard = import.meta.env.DEV;
       btn.addEventListener('click', () => setView(btn.dataset.view));
     });
 
-    // Pages report tab switching (Top / Entry / Exit) — re-renders from cached data.
+    // Pages report tab switching (Top / Entry / Exit) - re-renders from cached data.
     document.querySelectorAll('.sc-pages-tab').forEach(btn => {
       btn.addEventListener('click', () => {
         pagesTab = btn.dataset.ptab;
@@ -3041,7 +3185,7 @@ const isDevDashboard = import.meta.env.DEV;
     // Compact location for the visitor log: dedupes a repeated city/region
     // (e.g. "Ho Chi Minh City, Ho Chi Minh City"), drops the country text (the
     // flag conveys it), and exposes the flag with the ISO code as a tooltip.
-    // Returns { flagHtml, loc, has } — loc is "City, Region" with no country.
+    // Returns { flagHtml, loc, has } - loc is "City, Region" with no country.
     function locationDisplay(visitor) {
       const code = String(visitor.visitor_country || '').trim().toUpperCase();
       const city = String(visitor.visitor_city || '').trim();
@@ -3082,7 +3226,7 @@ const isDevDashboard = import.meta.env.DEV;
       return info.oName ? `${browser} on ${info.oName}` : browser;
     }
 
-    // Local inline-SVG icons — render identically on Windows (no flag-emoji trap),
+    // Local inline-SVG icons - render identically on Windows (no flag-emoji trap),
     // no remote favicons, no icon font.
     const BROWSER_ICONS = {
       chrome: '<svg class="va-bico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#dfe1e5"/><g stroke="#fff" stroke-width="1.4"><path d="M8 8 L8 1"/><path d="M8 8 L14 11.5"/><path d="M8 8 L2 11.5"/></g><circle cx="8" cy="8" r="3" fill="#1a73e8"/><circle cx="8" cy="8" r="3" fill="none" stroke="#fff" stroke-width="0.8"/></svg>',

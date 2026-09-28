@@ -523,12 +523,13 @@ async function handleAdminCallsGet(request, env) {
     `).bind(...f.binds).all();
 
     const results = response.results || [];
-    return new Response(JSON.stringify({ success: true, data: results, truncated: results.length >= ADMIN_LIST_LIMIT }), {
+    const connected = results.length > 0 || await callsFeedConnected(env);
+    return new Response(JSON.stringify({ success: true, data: results, truncated: results.length >= ADMIN_LIST_LIMIT, connected }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
     if (isMissingColumnError(err) || isMissingTableError(err)) {
-      return new Response(JSON.stringify({ success: true, data: [], truncated: false }), {
+      return new Response(JSON.stringify({ success: true, data: [], truncated: false, connected: false }), {
         status: 200, headers: CORS_HEADERS,
       });
     }
@@ -536,6 +537,16 @@ async function handleAdminCallsGet(request, env) {
     return new Response(JSON.stringify({ error: 'Database error' }), {
       status: 500, headers: CORS_HEADERS,
     });
+  }
+}
+
+// The Talkroute feed counts as connected once it has ever ingested a call.
+async function callsFeedConnected(env) {
+  try {
+    return Boolean(await env.DB.prepare('SELECT 1 FROM calls LIMIT 1').first());
+  } catch (err) {
+    if (isMissingColumnError(err) || isMissingTableError(err)) return false;
+    throw err;
   }
 }
 
@@ -667,8 +678,9 @@ async function handleAdminSummary(request, env) {
     } catch (callErr) {
       if (!isMissingColumnError(callErr) && !isMissingTableError(callErr)) throw callErr;
     }
+    const callsConnected = await callsFeedConnected(env);
 
-    return new Response(JSON.stringify({ success: true, pageviews, visitors, sessions, leads, calls }), {
+    return new Response(JSON.stringify({ success: true, pageviews, visitors, sessions, leads, calls, calls_connected: callsConnected }), {
       status: 200, headers: CORS_HEADERS,
     });
   } catch (err) {
@@ -694,8 +706,6 @@ async function handleAdminLeadMonitor(request, env) {
       end: url.searchParams.get('end') || undefined,
       days: url.searchParams.get('days') || undefined,
       endOffsetDays: url.searchParams.get('end_offset_days') || url.searchParams.get('endOffsetDays') || undefined,
-      undercountTolerance: url.searchParams.get('undercount_tolerance') || url.searchParams.get('undercountTolerance') || undefined,
-      minAbs: url.searchParams.get('min_abs') || url.searchParams.get('minAbs') || undefined,
       noCache: truthyParam(url.searchParams.get('nocache')),
       sendAlert: truthyParam(url.searchParams.get('send')),
       forceAlert: truthyParam(url.searchParams.get('force')),
@@ -793,19 +803,33 @@ async function runLeadMonitor(env, opts = {}) {
   }
 
   const report = reconcileLeadSources(d1.data, ga4.data, ads.data, {
-    undercountTolerance: opts.undercountTolerance ?? env.LEAD_MONITOR_UNDERCOUNT_TOLERANCE,
-    minAbs: opts.minAbs ?? env.LEAD_MONITOR_MIN_ABS,
+    d1Ids: d1.ids,
+    d1PaidIds: d1.paidIds,
+    adsSpend: ads.spend,
+    windowEnd: window.end,
   });
-  const verdict = leadReconciliationVerdict(report);
   const ctx = { window: { start: window.start, end: window.end }, d1: d1.data, ga4: ga4.data, ads: ads.data };
 
+  // Dedupe: a WARN only emails when it carries a key (submission id etc.) not
+  // alerted before. CRITICAL (keys=null) always emails while the outage lasts.
+  const alertedKeys = await readAlertedLeadMonitorKeys(env, report.alerts);
+  for (const alert of report.alerts) {
+    alert.newKeys = alert.keys ? alert.keys.filter((key) => !alertedKeys.has(key)) : null;
+    alert.isNew = alert.keys ? alert.newKeys.length > 0 : true;
+  }
+  const verdict = leadReconciliationVerdict(report);
+  const freshAlerts = report.alerts.filter((alert) => alert.isNew);
+  const wouldAlert = freshAlerts.length > 0;
+
   let alertSent = false;
-  if (sendAlert && (report.alerts.length || opts.forceAlert)) {
+  if (sendAlert && (wouldAlert || opts.forceAlert)) {
     await sendLeadMonitorAlert(env, report, ctx, {
       source: opts.source || 'scheduled',
       forced: Boolean(opts.forceAlert),
+      status: leadReconciliationVerdict({ alerts: freshAlerts }).status,
     });
     alertSent = true;
+    await recordAlertedLeadMonitorKeys(env, freshAlerts);
   }
 
   return {
@@ -813,6 +837,7 @@ async function runLeadMonitor(env, opts = {}) {
     skipped: false,
     readOnly: true,
     alertSent,
+    wouldAlert,
     source: opts.source || 'manual',
     status,
     label: 'Lead monitor',
@@ -820,6 +845,7 @@ async function runLeadMonitor(env, opts = {}) {
     ...topFreshness,
     window: ctx.window,
     verdict,
+    text: formatLeadReconciliationText(report, ctx),
     sources: { d1, ga4, ads },
     report,
   };
@@ -1234,20 +1260,59 @@ async function buildTrafficHealthSnapshot(env, now = new Date(), noCache = false
 
 async function pullLeadMonitorD1(env, startDate, endExclusive) {
   const response = await env.DB.prepare(`
-    SELECT form_type, COUNT(*) AS n
+    SELECT id, form_type,
+      CASE WHEN coalesce(attribution_gclid,'') <> '' OR coalesce(attribution_gbraid,'') <> ''
+        OR coalesce(attribution_wbraid,'') <> ''
+        OR lower(coalesce(attribution_medium,'')) IN ('cpc','ppc','paid','paidsearch','paid_search')
+      THEN 1 ELSE 0 END AS paid
     FROM submissions
     WHERE deleted = 0
       AND created_at >= ?
       AND created_at < ?
       AND ${D1_TEST_EXCLUSION_SQL}
-    GROUP BY form_type
   `).bind(startDate, endExclusive).all();
 
   const byType = {};
+  const ids = {};
+  const paidIds = [];
   for (const row of response.results || []) {
-    byType[row.form_type || '(none)'] = Number(row.n || 0);
+    const type = row.form_type || '(none)';
+    byType[type] = (byType[type] || 0) + 1;
+    (ids[type] = ids[type] || []).push(row.id);
+    if (Number(row.paid)) paidIds.push(row.id);
   }
-  return byType;
+  return { byType, ids, paidIds };
+}
+
+// Alert-dedupe bookkeeping lives in its own table; the monitor never writes lead data.
+async function ensureLeadMonitorAlertTable(env) {
+  await env.DB.prepare(
+    'CREATE TABLE IF NOT EXISTS lead_monitor_alerted (alert_key TEXT PRIMARY KEY, alerted_at TEXT NOT NULL)'
+  ).run();
+}
+
+async function readAlertedLeadMonitorKeys(env, alerts = []) {
+  const keys = [...new Set(alerts.flatMap((alert) => alert.keys || []))];
+  const seen = new Set();
+  if (!keys.length) return seen;
+  await ensureLeadMonitorAlertTable(env);
+  for (let i = 0; i < keys.length; i += 90) {
+    const chunk = keys.slice(i, i + 90);
+    const rows = await env.DB.prepare(
+      `SELECT alert_key FROM lead_monitor_alerted WHERE alert_key IN (${chunk.map(() => '?').join(',')})`
+    ).bind(...chunk).all();
+    for (const row of rows.results || []) seen.add(row.alert_key);
+  }
+  return seen;
+}
+
+async function recordAlertedLeadMonitorKeys(env, alerts = []) {
+  const keys = [...new Set(alerts.flatMap((alert) => alert.newKeys || []))];
+  if (!keys.length) return;
+  await ensureLeadMonitorAlertTable(env);
+  const now = new Date().toISOString();
+  const stmt = env.DB.prepare('INSERT OR IGNORE INTO lead_monitor_alerted (alert_key, alerted_at) VALUES (?, ?)');
+  await env.DB.batch(keys.map((key) => stmt.bind(key, now)));
 }
 
 async function pullLeadMonitorGA4(env, startDate, endDate) {
@@ -1287,31 +1352,41 @@ async function pullLeadMonitorAds(env, startDate, endDate) {
   const apiVersion = cleanText(env.GOOGLE_ADS_API_VERSION || 'v24', 12);
   const customerId = normalizeAdsCustomerId(env.GADS_CUSTOMER_ID);
   const loginCustomerId = normalizeAdsCustomerId(env.GADS_LOGIN_CUSTOMER_ID);
-  const sql = `
-    SELECT segments.conversion_action_name, metrics.conversions, metrics.all_conversions
-    FROM campaign
-    WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'
-      AND metrics.all_conversions > 0
-  `;
-  const body = await googleJsonFetch(`https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/googleAds:searchStream`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'developer-token': env.GADS_DEVELOPER_TOKEN,
-      'login-customer-id': loginCustomerId,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query: sql }),
-    label: 'Google Ads searchStream',
-  });
+  const search = async (query) => {
+    const body = await googleJsonFetch(`https://googleads.googleapis.com/${apiVersion}/customers/${customerId}/googleAds:searchStream`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'developer-token': env.GADS_DEVELOPER_TOKEN,
+        'login-customer-id': loginCustomerId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
+      label: 'Google Ads searchStream',
+    });
+    return Array.isArray(body) ? body.flatMap((chunk) => chunk.results || []) : [];
+  };
+  const [convRows, costRows] = await Promise.all([
+    search(`
+      SELECT segments.conversion_action_name, metrics.conversions, metrics.all_conversions
+      FROM campaign
+      WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'
+        AND metrics.all_conversions > 0
+    `),
+    search(`
+      SELECT metrics.cost_micros
+      FROM customer
+      WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'
+    `),
+  ]);
 
-  const rows = Array.isArray(body) ? body.flatMap((chunk) => chunk.results || []) : [];
   const byAction = {};
-  for (const row of rows) {
+  for (const row of convRows) {
     const name = row.segments?.conversionActionName || '(unknown)';
     byAction[name] = (byAction[name] || 0) + Number(row.metrics?.conversions || 0);
   }
-  return byAction;
+  const spend = costRows.reduce((sum, row) => sum + Number(row.metrics?.costMicros || 0), 0) / 1e6;
+  return { byAction, spend };
 }
 
 async function readLeadMonitorD1Source(env, window, opts = {}) {
@@ -1322,13 +1397,13 @@ async function readLeadMonitorD1Source(env, window, opts = {}) {
     noCache: opts.noCache,
     maxDataDate: window.end,
     now: opts.now,
-    loader: async () => ({
-      fetched_at: new Date().toISOString(),
-      data: await runWithRetry(
+    loader: async () => {
+      const d1 = await runWithRetry(
         () => pullLeadMonitorD1(env, window.start, window.endExclusive),
         'D1 lead monitor',
-      ),
-    }),
+      );
+      return { fetched_at: new Date().toISOString(), data: d1.byType, ids: d1.ids, paidIds: d1.paidIds };
+    },
   });
 }
 
@@ -1358,13 +1433,13 @@ async function readLeadMonitorAdsSource(env, window, opts = {}) {
     noCache: opts.noCache,
     maxDataDate: window.end,
     now: opts.now,
-    loader: async () => ({
-      fetched_at: new Date().toISOString(),
-      data: await runWithRetry(
+    loader: async () => {
+      const ads = await runWithRetry(
         () => pullLeadMonitorAds(env, window.start, window.end),
         'Google Ads lead monitor',
-      ),
-    }),
+      );
+      return { fetched_at: new Date().toISOString(), data: ads.byAction, spend: ads.spend };
+    },
   });
 }
 
@@ -1511,10 +1586,11 @@ function missingLeadMonitorConfig(env, opts = {}) {
 }
 
 async function sendLeadMonitorAlert(env, report, ctx, meta = {}) {
-  const verdict = leadReconciliationVerdict(report);
-  const title = verdict.status === 'CRITICAL'
+  // Subject reflects only the fresh (not yet alerted) findings.
+  const status = meta.status || leadReconciliationVerdict(report).status;
+  const title = status === 'CRITICAL'
     ? 'Dolphin CRITICAL: lead tracking drift'
-    : verdict.status === 'WARN'
+    : status === 'WARN'
       ? 'Dolphin warning: lead tracking drift'
       : 'Dolphin lead monitor check';
   const dashboardUrl = adminDashboardUrl(env);
@@ -1523,7 +1599,7 @@ async function sendLeadMonitorAlert(env, report, ctx, meta = {}) {
     title,
     '',
     `Source: ${meta.source || 'scheduled'}${meta.forced ? ' (forced send)' : ''}`,
-    'Read-only check: no D1, GA4, Google Ads, Cloudflare, or site settings were changed.',
+    'Read-only check: no lead data, GA4, Google Ads, Cloudflare, or site settings were changed. Only new findings trigger this email.',
     '',
     reconciliationText,
     '',
@@ -1535,7 +1611,7 @@ async function sendLeadMonitorAlert(env, report, ctx, meta = {}) {
         <p style="margin:0 0 4px;color:#64748b;font-size:13px;text-transform:uppercase;letter-spacing:.04em;">Dolphin lead monitor</p>
         <h2 style="color:#0a2540;margin:0;font-size:24px;">${esc(title)}</h2>
       </div>
-      <p style="margin:0 0 14px;color:#475569;">Read-only check. No D1, GA4, Google Ads, Cloudflare, or site settings were changed.</p>
+      <p style="margin:0 0 14px;color:#475569;">Read-only check. No lead data, GA4, Google Ads, Cloudflare, or site settings were changed. Only new findings trigger this email.</p>
       <pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #d9e2ec;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.45;">${esc(reconciliationText)}</pre>
       <p style="margin:24px 0 8px;">
         <a href="${esc(dashboardUrl)}" style="display:inline-block;background:#0a2540;color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:bold;">Open Dolphin dashboard</a>

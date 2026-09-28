@@ -67,10 +67,32 @@ export function sumMatching(byAction, patterns) {
   return total;
 }
 
+// DECISION_RULES section 2 (n<20 is noise): a per-form GA4 gap is only a verdict
+// when the form has at least LOW_N_MIN events. Below that it is INFO, never WARN.
+export const LOW_N_MIN = 10;
+export const MIN_MATCH_RATIO = 0.70;
+// A real outage: GA4 saw no leads at all while D1 stored at least this many.
+export const OUTAGE_MIN_D1 = 3;
+// Ads form-lead conversions of 0 only matter when D1 has this many paid leads.
+export const ADS_MIN_PAID_LEADS = 3;
+
+function isoWeekKey(isoDate) {
+  const d = new Date(`${isoDate || isoToday()}T00:00:00.000Z`);
+  d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+  return d.toISOString().slice(0, 10);
+}
+
+// d1: { form_type: count }, ga4: { lead_form: count }, ads: { action: conversions }.
+// opts.d1Ids: { form_type: [submission ids] }, opts.d1PaidIds: [submission ids],
+// opts.adsSpend: Ads cost in the window, opts.windowEnd: YYYY-MM-DD.
+// Each WARN carries dedupe `keys`; the monitor only emails when a key is new.
 export function reconcileLeadSources(d1, ga4, ads, opts = {}) {
-  const tol = Number(opts.undercountTolerance ?? 0.30);
-  const minAbs = Number(opts.minAbs ?? 2);
+  const minN = Number(opts.lowNMin ?? LOW_N_MIN);
+  const ratio = Number(opts.minMatchRatio ?? MIN_MATCH_RATIO);
+  const d1Ids = opts.d1Ids || {};
+  const week = isoWeekKey(opts.windowEnd);
   const alerts = [];
+  const info = [];
   const perType = [];
 
   let d1FormTotal = 0;
@@ -81,60 +103,102 @@ export function reconcileLeadSources(d1, ga4, ads, opts = {}) {
     const nGA4 = Number(ga4?.[ft.ga4LeadForm] || 0);
     d1FormTotal += nD1;
     ga4FormTotal += nGA4;
-    const row = { formType: ft.key, d1: nD1, ga4: nGA4 };
+    const row = { formType: ft.key, d1: nD1, ga4: nGA4, flag: 'ok' };
 
-    if (nD1 >= 1 && nGA4 === 0) {
-      const level = nD1 >= minAbs ? 'CRITICAL' : 'WARN';
-      const msg = `${level} [${ft.key}]: D1 has ${nD1} form lead(s) but GA4 generate_lead=0 - the site's generate_lead may have stopped firing (check BaseLayout.astro dolphinTrackLead + the form success handler).`;
-      alerts.push({ level, formType: ft.key, message: msg });
-      row.flag = `${level}: GA4 silent`;
-    } else if (nGA4 > nD1 && (nGA4 - nD1) >= minAbs && (nGA4 - nD1) / Math.max(nGA4, 1) > tol) {
-      const msg = `WARN [${ft.key}]: GA4 generate_lead=${nGA4} exceeds D1=${nD1} by ${nGA4 - nD1}. Either client-side generate_lead is firing without a stored submission, or the D1 write is failing for this form. Investigate the ${ft.key} path.`;
-      alerts.push({ level: 'WARN', formType: ft.key, message: msg });
-      row.flag = 'WARN: GA4 > D1';
-    } else if (nD1 > nGA4 && (nD1 - nGA4) >= minAbs && (nD1 - nGA4) / Math.max(nD1, 1) > tol) {
-      const msg = `WARN [${ft.key}]: D1=${nD1} exceeds GA4 generate_lead=${nGA4} by ${nD1 - nGA4} (> ${Math.round(tol * 100)}% undercount band). generate_lead may not be firing on every ${ft.key} submit.`;
-      alerts.push({ level: 'WARN', formType: ft.key, message: msg });
-      row.flag = 'WARN: D1 > GA4';
-    } else {
-      row.flag = 'ok';
+    if (nD1 > nGA4) {
+      if (nD1 >= minN && nGA4 / nD1 < ratio) {
+        alerts.push({
+          level: 'WARN',
+          formType: ft.key,
+          keys: (d1Ids[ft.d1] || []).map((id) => `sub:${id}`),
+          message: `WARN [${ft.key}]: D1=${nD1} but GA4 generate_lead=${nGA4} (${Math.round((nGA4 / nD1) * 100)}% matched, below ${Math.round(ratio * 100)}%). generate_lead may not be firing on every ${ft.key} submit.`,
+        });
+        row.flag = 'WARN: D1 > GA4';
+      } else if (nD1 < minN) {
+        info.push(`INFO [${ft.key}]: D1=${nD1}, GA4=${nGA4} - low-n, no verdict.`);
+        row.flag = 'low-n, no verdict';
+      } else {
+        row.flag = 'ok (within band)';
+      }
+    } else if (nGA4 > nD1) {
+      if (nGA4 >= minN && nD1 / nGA4 < ratio) {
+        alerts.push({
+          level: 'WARN',
+          formType: ft.key,
+          keys: [`ga4-surplus:${ft.key}:${week}`],
+          message: `WARN [${ft.key}]: GA4 generate_lead=${nGA4} exceeds D1=${nD1}. Either generate_lead fires without a stored submission, or the D1 write is failing for this form.`,
+        });
+        row.flag = 'WARN: GA4 > D1';
+      } else if (nGA4 < minN) {
+        info.push(`INFO [${ft.key}]: D1=${nD1}, GA4=${nGA4} - low-n, no verdict.`);
+        row.flag = 'low-n, no verdict';
+      } else {
+        row.flag = 'ok (within band)';
+      }
     }
     perType.push(row);
+  }
+
+  if (ga4FormTotal === 0 && d1FormTotal >= OUTAGE_MIN_D1) {
+    alerts.unshift({
+      level: 'CRITICAL',
+      formType: 'all',
+      keys: null,
+      message: `CRITICAL: D1 stored ${d1FormTotal} form leads but GA4 generate_lead=0 across all forms - site lead tracking looks down (check BaseLayout.astro dolphinTrackLead and the form success handlers).`,
+    });
   }
 
   const knownD1 = new Set(FORM_TYPES.map((f) => f.d1));
   const knownGA4 = new Set(FORM_TYPES.map((f) => f.ga4LeadForm));
   for (const [k, v] of Object.entries(d1 || {})) {
     if (Number(v || 0) > 0 && !knownD1.has(k)) {
-      alerts.push({ level: 'WARN', formType: k, message: `WARN [coverage]: D1 has ${v} lead(s) with form_type='${k}' which is not mapped in reconcile-leads.mjs FORM_TYPES - this form is unmonitored. Add it.` });
+      alerts.push({ level: 'WARN', formType: k, keys: (d1Ids[k] || []).map((id) => `sub:${id}`), message: `WARN [coverage]: D1 has ${v} lead(s) with form_type='${k}' which is not mapped in FORM_TYPES - this form is unmonitored. Add it.` });
     }
   }
   for (const [k, v] of Object.entries(ga4 || {})) {
     if (Number(v || 0) > 0 && !knownGA4.has(k)) {
-      alerts.push({ level: 'WARN', formType: k, message: `WARN [coverage]: GA4 has ${v} generate_lead event(s) with lead_form='${k}' which is not mapped in reconcile-leads.mjs FORM_TYPES - this form is unmonitored. Add it.` });
+      alerts.push({ level: 'WARN', formType: k, keys: [`ga4-coverage:${k}`], message: `WARN [coverage]: GA4 has ${v} generate_lead event(s) with lead_form='${k}' which is not mapped in FORM_TYPES - this form is unmonitored. Add it.` });
     }
   }
 
   const adsForm = sumMatching(ads || {}, ADS_FORM_LEAD_ACTIONS);
   const adsPhone = sumMatching(ads || {}, ADS_PHONE_LEAD_ACTIONS);
-  if (adsForm > ga4FormTotal && (adsForm - ga4FormTotal) >= minAbs) {
-    const msg = `WARN [ads]: Ads form-lead conversions=${adsForm} exceed GA4 generate_lead total=${ga4FormTotal}. Ads should count a subset of GA4 leads - a surplus suggests page-view or codeless actions counting again.`;
-    alerts.push({ level: 'WARN', formType: 'ads', message: msg });
+  const adsSpend = Number(opts.adsSpend || 0);
+  const paidIds = opts.d1PaidIds || [];
+  if (adsForm === 0 && adsSpend > 0 && paidIds.length >= ADS_MIN_PAID_LEADS) {
+    alerts.push({
+      level: 'WARN',
+      formType: 'ads',
+      keys: paidIds.map((id) => `ads-zero:${id}`),
+      message: `WARN [ads]: Ads recorded 0 form-lead conversions while spending $${adsSpend.toFixed(2)} and D1 has ${paidIds.length} paid-click leads in the same window. The Ads generate_lead conversion may not be importing.`,
+    });
+  } else if (adsForm > ga4FormTotal) {
+    info.push(`INFO [ads]: Ads form-lead conversions=${adsForm} exceed GA4 generate_lead total=${ga4FormTotal} (Ads conversion column is not used for decisions).`);
   }
 
   return {
     perType,
-    totals: { d1Forms: d1FormTotal, ga4Forms: ga4FormTotal, adsFormConversions: adsForm, adsPhoneConversions: adsPhone },
+    totals: {
+      d1Forms: d1FormTotal,
+      ga4Forms: ga4FormTotal,
+      adsFormConversions: adsForm,
+      adsPhoneConversions: adsPhone,
+      adsSpend,
+      d1PaidLeads: paidIds.length,
+    },
     alerts,
+    info,
   };
 }
 
 export function leadReconciliationVerdict(report) {
-  const critical = (report.alerts || []).filter((a) => a.level === 'CRITICAL').length;
-  const warn = (report.alerts || []).filter((a) => a.level === 'WARN').length;
+  const alerts = report?.alerts || [];
+  const critical = alerts.filter((a) => a.level === 'CRITICAL').length;
+  const warn = alerts.filter((a) => a.level === 'WARN').length;
   return {
     critical,
     warn,
+    info: (report?.info || []).length,
     status: critical ? 'CRITICAL' : warn ? 'WARN' : 'OK',
   };
 }
@@ -160,23 +224,23 @@ export function formatLeadReconciliationText(report, ctx = {}) {
   }
   lines.push(`  ${pad('TOTAL', 16)}${pad(report.totals?.d1Forms || 0, 6)}${pad(report.totals?.ga4Forms || 0, 6)}`);
   lines.push('');
-  lines.push('Google Ads conversions (window):');
-  const adsEntries = Object.entries(ads);
-  if (!adsEntries.length) {
-    lines.push('  (none yet - generate_lead + Calls-from-ads only accrue after the 2026-06-18/19 fixes)');
-  } else {
-    for (const [name, v] of adsEntries) lines.push(`  ${pad(name, 38)}${v}`);
-  }
-  lines.push(`  -> form-lead actions: ${report.totals?.adsFormConversions || 0} | phone actions: ${report.totals?.adsPhoneConversions || 0}`);
-  lines.push('  (phone = Ads "Calls from ads"; full phone-lead truth arrives with the Talkroute feed)');
+  lines.push('Google Ads (window):');
+  lines.push(`  spend: $${Number(report.totals?.adsSpend || 0).toFixed(2)} | D1 paid-click leads: ${report.totals?.d1PaidLeads || 0}`);
+  for (const [name, v] of Object.entries(ads)) lines.push(`  ${pad(name, 38)}${Number(v || 0).toFixed(1)}`);
+  lines.push(`  -> form-lead conversions: ${report.totals?.adsFormConversions || 0} | phone conversions: ${report.totals?.adsPhoneConversions || 0}`);
   lines.push('');
   lines.push('Alerts:');
   if (!report.alerts?.length) {
-    lines.push('  none - all systems reconcile within tolerance.');
+    lines.push('  none.');
   } else {
-    for (const a of report.alerts) lines.push(`  - ${a.message}`);
+    for (const a of report.alerts) lines.push(`  - ${a.message}${a.isNew === false ? ' (already alerted)' : ''}`);
+  }
+  if (report.info?.length) {
+    lines.push('');
+    lines.push('Info:');
+    for (const line of report.info) lines.push(`  - ${line}`);
   }
   lines.push('');
-  lines.push(`Verdict: ${verdict.status} (${verdict.critical} critical, ${verdict.warn} warn).`);
+  lines.push(`Verdict: ${verdict.status} (${verdict.critical} critical, ${verdict.warn} warn, ${verdict.info} info).`);
   return lines.join('\n');
 }
