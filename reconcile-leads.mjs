@@ -14,7 +14,6 @@
 // Usage:
 //   node reconcile-leads.mjs [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--days N] [--json]
 //                            [--complete-days] [--end-offset-days N]
-//                            [--undercount-tolerance 0.30] [--min-abs 2]
 
 import { execFile, exec } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -146,7 +145,7 @@ async function pullAds(startDate, endDate) {
 }
 
 function usage() {
-  console.log('node reconcile-leads.mjs [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--days N] [--json] [--complete-days] [--end-offset-days N] [--undercount-tolerance 0.30] [--min-abs 2]');
+  console.log('node reconcile-leads.mjs [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--days N] [--json] [--complete-days] [--end-offset-days N]');
 }
 
 async function main() {
@@ -170,10 +169,7 @@ async function main() {
     pullAds(window.start, window.end),
   ]);
 
-  const report = reconcileLeadSources(d1, ga4, ads, {
-    undercountTolerance: args['undercount-tolerance'],
-    minAbs: args['min-abs'],
-  });
+  const report = reconcileLeadSources(d1, ga4, ads, { windowEnd: window.end });
   const ctx = { window: { start: window.start, end: window.end }, d1, ga4, ads };
 
   if (args.json) {
