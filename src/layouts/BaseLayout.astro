@@ -459,9 +459,11 @@ const dolphinAttributionBootstrap = `(function() {
     } catch (e) {}
   }
 
+  var FIRST_PARTY_EVENT_TYPES = ['phone_click', 'email_click', 'form_start', 'form_error'];
+
   function sendFirstPartyEventBeacon(eventType, target, linkText) {
     if (!TRACKER_URL || !firstPartyTrackingAllowed) return false;
-    if (eventType !== 'phone_click' && eventType !== 'email_click') return false;
+    if (FIRST_PARTY_EVENT_TYPES.indexOf(eventType) === -1) return false;
     try {
       var attribution = getPayload(eventType);
       if (!attribution.visitor_id || !attribution.session_id) return false;
@@ -636,11 +638,31 @@ const dolphinAttributionBootstrap = `(function() {
     if (!form) return;
     markFormStart(getFormName(form));
     syncAttributionInputs(form);
+    // First field focus on a lead form = form_start (once per form per page load),
+    // so abandonment can be measured against D1 submissions.
+    if (form.hasAttribute('data-dolphin-attribution-name') && !form.__dolphinStartSent) {
+      form.__dolphinStartSent = true;
+      sendFirstPartyEventBeacon('form_start', getFormName(form), target.name || target.id || '');
+    }
   }, true);
 
   window.addEventListener('submit', function(event) {
     var form = event.target;
     if (!form || !form.getAttribute) return;
+    // After the form's own validation runs, report which fields blocked the
+    // submit (names only, never values) as form_error.
+    if (form.hasAttribute('data-dolphin-attribution-name')) {
+      setTimeout(function() {
+        var fields = [];
+        form.querySelectorAll('.border-red-500, [aria-invalid="true"]').forEach(function(el) {
+          var name = el.name || el.id || (el.querySelector && (el.querySelector('input,select,textarea') || {}).name) || '';
+          if (name && fields.indexOf(name) === -1) fields.push(name);
+        });
+        var turnstile = form.querySelector('[name="cf-turnstile-response"]');
+        if (form.querySelector('.dolphin-turnstile') && (!turnstile || !turnstile.value)) fields.push('verification');
+        if (fields.length) sendFirstPartyEventBeacon('form_error', getFormName(form), fields.join(',').slice(0, 200));
+      }, 150);
+    }
     markFormSubmit(getFormName(form));
     syncAttributionInputs(form);
   }, true);

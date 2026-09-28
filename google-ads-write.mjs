@@ -260,6 +260,25 @@ async function fixCallReporting(args) {
   console.log(JSON.stringify(assetResult.results || [], null, 2).slice(0, 1000));
 }
 
+async function campaignNegatives(args) {
+  const cfg = await readConfig();
+  const customerId = norm(args['customer-id'] || cfg.customer_id);
+  const campaignId = norm(args.campaign);
+  const matchType = String(args.match || 'EXACT').toUpperCase();
+  const apply = Boolean(args.apply);
+  if (!campaignId) throw new Error('Missing --campaign <id>');
+  if (!['EXACT', 'PHRASE'].includes(matchType)) throw new Error('--match must be EXACT or PHRASE');
+  const terms = String(args.terms || '').split(';').map((t) => t.trim()).filter(Boolean);
+  if (!terms.length) throw new Error('Missing --terms "a;b;c"');
+  const operations = terms.map((text) => ({
+    create: { campaign: `customers/${customerId}/campaigns/${campaignId}`, negative: true, keyword: { text, matchType } },
+  }));
+  const json = await googleAdsMutate(args, customerId, 'campaignCriteria', operations, apply);
+  const mode = apply ? 'APPLIED' : 'VALIDATE-ONLY';
+  console.log(`[${mode}] OK ${terms.length} campaign negative(s) ${matchType} on campaign ${campaignId}: ${terms.join(' | ')}`);
+  for (const r of json.results || []) console.log(r.resourceName);
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const cmd = args._[0] || 'help';
@@ -267,6 +286,7 @@ async function main() {
     console.log(`Gated Ads write helper (conversion_action only).
   node google-ads-write.mjs conv --resource <res> --status ENABLED|REMOVED [--primary true|false] [--apply]
   node google-ads-write.mjs create --name "..." --type AD_CALL --category PHONE_CALL_LEAD [--call-duration 60] [--counting ONE_PER_CLICK] [--primary true] [--include true|false] [--apply]
+  node google-ads-write.mjs neg --campaign <id> --terms "a;b;c" [--match EXACT|PHRASE] [--apply]
   node google-ads-write.mjs fix-call --asset customers/<cid>/assets/<id> --conversion-action customers/<cid>/conversionActions/<id> [--apply]
   Default = VALIDATE-ONLY. Add --apply to actually change it.`);
     return;
@@ -274,6 +294,7 @@ async function main() {
   if (cmd === 'conv') return convMutate(args);
   if (cmd === 'create') return convCreate(args);
   if (cmd === 'fix-call') return fixCallReporting(args);
+  if (cmd === 'neg') return campaignNegatives(args);
   throw new Error(`Unknown command: ${cmd}`);
 }
 

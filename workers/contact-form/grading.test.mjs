@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { autoGradeLead, gradeLead } from './grading.js';
 
-test('hard C home/garage lead does not call AI', async () => {
-  let aiCalls = 0;
+test('low-fit words are passed to the AI as hints instead of forcing C', async () => {
+  let prompt = '';
   const result = await autoGradeLead({
     first_name: 'Test',
     last_name: 'Lead',
@@ -11,11 +11,32 @@ test('hard C home/garage lead does not call AI', async () => {
     email: 'test@example.com',
     additional_details: 'I need a small centrifuge for home use in my garage.',
   }, {
-    AI: { run: async () => { aiCalls += 1; return { response: '{"grade":"B","reason":"wrong"}' }; } },
+    AI: { run: async (_model, input) => { prompt = input.messages[0].content; return { response: '{"grade":"C","reason":"Home garage use."}' }; } },
   });
 
   assert.equal(result.grade, 'C');
-  assert.equal(aiCalls, 0);
+  assert.equal(result.stage, 'ai');
+  assert.match(prompt, /low-fit words in the message: small, home/);
+});
+
+test('process wording like free water and a rental page URL does not force C', async () => {
+  let aiCalls = 0;
+  let prompt = '';
+  const result = await autoGradeLead({
+    company: 'Gulf Waste Oil Recovery',
+    email: 'ops@gulfwor.example',
+    fluid_type: 'Used oil with free water',
+    capacity: '10,000 L/h',
+    solids_percentage: 'small concentration',
+    additional_details: 'Please feel free to call.',
+    attribution_landing_page: '/centrifuge-rental/',
+  }, {
+    AI: { run: async (_model, input) => { aiCalls += 1; prompt = input.messages[0].content; return { response: '{"grade":"A","reason":"Industrial waste oil at 10,000 L/h."}' }; } },
+  });
+
+  assert.equal(aiCalls, 1);
+  assert.equal(result.grade, 'A');
+  assert.doesNotMatch(prompt, /low-fit words in the message: .*rent/);
 });
 
 test('strong industrial model signal can be graded A by AI', async () => {

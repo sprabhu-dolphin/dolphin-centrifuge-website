@@ -92,30 +92,34 @@ function obviousSpamReason(text) {
   return '';
 }
 
+// Low-fit words only become a hint for the AI, checked against the customer's
+// own message. They never force a C: "free water", "small concentration" or a
+// /rental/ page URL are not low-budget signals. Only obvious spam is decided here.
+function lowFitHints(lead) {
+  const message = [getLeadMessage(lead), cleanText(lead.company, 200)].filter(Boolean).join('\n');
+  const hints = KILL_PATTERNS
+    .map((pattern) => (message.match(pattern) || [])[0])
+    .filter(Boolean);
+  if (PORTABLE_RE.test(message) && !INDUSTRIAL_PORTABLE_CONTEXT_RE.test(message)) hints.push('portable');
+  return [...new Set(hints.map((hint) => hint.toLowerCase()))];
+}
+
 function deterministicGrade(lead) {
   const text = joinedLeadText(lead);
   const spam = obviousSpamReason(text);
   if (spam) return { decided: true, grade: 'C', reason: spam, stage: 'rules' };
 
-  const hasPortable = PORTABLE_RE.test(text);
-  const industrialPortable = hasPortable && INDUSTRIAL_PORTABLE_CONTEXT_RE.test(text);
-  if (hasPortable && !industrialPortable) {
-    return { decided: true, grade: 'C', reason: 'Portable use request without industrial skid, trailer, rig, plant, or marine context.', stage: 'rules' };
-  }
-
-  const killPattern = KILL_PATTERNS.find((pattern) => pattern.test(text));
-  if (killPattern) {
-    return { decided: true, grade: 'C', reason: 'Explicit low-fit or non-industrial wording matched the lead screen.', stage: 'rules' };
-  }
-
   const strongA = MODEL_FAMILY_RE.test(text) || (RECONDITIONED_RE.test(text) && EQUIPMENT_RE.test(text));
-  return { decided: false, strongA, stage: 'rules' };
+  return { decided: false, strongA, hints: lowFitHints(lead), stage: 'rules' };
 }
 
-function buildPrompt(lead, strongA) {
-  const bias = strongA
+function buildPrompt(lead, strongA, hints = []) {
+  const bias = (strongA
     ? '\nStrong A signal is present, but still grade B or C if the buyer/application is not plausible.'
-    : '';
+    : '')
+    + (hints.length
+      ? `\nPossible low-fit words in the message: ${hints.join(', ')}. Judge them in context - process terms like "free water", "small solids concentration", or "feel free" are NOT low-fit signals.`
+      : '');
   return `You grade sales leads for Dolphin Centrifuge, a dealer of reconditioned
 industrial Alfa Laval centrifuges (typical ticket $15,000+). Grade this
 contact-form lead A, B, or C.
@@ -177,7 +181,7 @@ export async function autoGradeLead(lead, env, options = {}) {
   try {
     const output = await env.AI.run(options.model || env.LEAD_GRADING_MODEL || DEFAULT_MODEL, {
       messages: [
-        { role: 'user', content: buildPrompt(lead, deterministic.strongA) },
+        { role: 'user', content: buildPrompt(lead, deterministic.strongA, deterministic.hints) },
       ],
       temperature: 0,
       max_tokens: 180,
