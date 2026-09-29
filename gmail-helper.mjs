@@ -52,6 +52,33 @@ const DEFAULT_ACCESS_TOKEN_LIFETIME_MS = 60 * 60_000;
 const SEARCH_HYDRATION_CONCURRENCY = 6;
 const accessTokenCache = new Map();
 
+// Every HTTP call to Google gets 30 seconds. A call that hangs is aborted and asked once more, and so is
+// a 5xx or a dropped connection, so one stuck request can never silently eat the caller's whole budget
+// (the Reply Desk gives each helper run 60 seconds). A call that creates something (a draft) is never
+// retried: the first try may have landed even though its answer did not.
+const FETCH_TIMEOUT_MS = 30_000;
+async function fetchTimed(url, init = {}, { retry = true } = {}) {
+  for (let attempt = 1; ; attempt++) {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), FETCH_TIMEOUT_MS);
+    try {
+      const res = await fetch(url, { ...init, signal: ctl.signal });
+      // The body is read inside the same 30 seconds, so a response that stalls mid-body is caught too.
+      const body = await res.arrayBuffer();
+      if (res.status >= 500 && retry && attempt === 1) { await new Promise((r) => setTimeout(r, 1000)); continue; }
+      return new Response([204, 205, 304].includes(res.status) ? null : body, { status: res.status, statusText: res.statusText, headers: res.headers });
+    } catch (e) {
+      const timedOut = ctl.signal.aborted;
+      if (retry && attempt === 1 && (timedOut || e instanceof TypeError)) continue;
+      const where = String(url).split('?')[0];
+      if (timedOut) throw new Error(`Google did not answer within ${FETCH_TIMEOUT_MS / 1000} seconds${retry ? ', twice' : ''}: ${where}`);
+      throw new Error(`${e.message} (${where})`);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+}
+
 async function mapBoundedOrdered(items, concurrency, mapper) {
   const results = new Array(items.length); let next = 0;
   await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, async () => {
@@ -241,7 +268,7 @@ async function exchangeCodeForToken({ client, code, redirectUri }) {
     grant_type: 'authorization_code',
     redirect_uri: redirectUri,
   });
-  const response = await fetch(client.tokenUri, {
+  const response = await fetchTimed(client.tokenUri, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params,
@@ -383,7 +410,7 @@ async function getServiceAccountAccessToken(args, command) {
     scope,
     tokenUri,
   });
-  const res = await fetch(tokenUri, {
+  const res = await fetchTimed(tokenUri, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion }),
@@ -415,7 +442,7 @@ async function getAccessToken(args, command) {
     refresh_token: token.refresh_token,
     grant_type: 'refresh_token',
   });
-  const res = await fetch(token.token_uri || client.tokenUri, {
+  const res = await fetchTimed(token.token_uri || client.tokenUri, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body,
@@ -432,7 +459,10 @@ async function getAccessToken(args, command) {
 async function gmailFetch(args, command, url, init = {}) {
   const accessToken = await commandAccessToken(args, command);
   const headers = { Authorization: `Bearer ${accessToken}`, ...(init.headers || {}) };
-  const res = await fetch(url, { ...init, headers });
+  // Reads, label changes and trash are safe to repeat; creating a draft is not.
+  const method = String(init.method || 'GET').toUpperCase();
+  const retry = method === 'GET' || /\/(modify|trash|untrash)$/.test(String(url).split('?')[0]);
+  const res = await fetchTimed(url, { ...init, headers }, { retry });
   const text = await res.text();
   let json;
   try { json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
