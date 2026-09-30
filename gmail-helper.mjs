@@ -18,6 +18,7 @@ import http from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import { createTrackerClient, trackDraft } from './tracker-client.mjs';
 
 const appDataDir = process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming');
 const gcloudDir = path.join(appDataDir, 'gcloud');
@@ -159,6 +160,7 @@ Usage:
         [--inline-attach FILE ...] [--inline-name NAME ...] [--inline-cid CID ...]
         [--verified-safe-newer-message-id MSG_ID ...]
         [--reply-to-message-id MSG_ID] [--force-anchor] [--standalone] [--mailbox EMAIL]
+        [--track [--no-track-online] [--tracker-previous-guid GUID]]
   node gmail-helper.mjs update-draft --draft-id DRAFT_ID --to EMAIL --subject "..."
         (--body "text" | --body-file FILE) [same attachment and reply options as create-draft]
   node gmail-helper.mjs self-test
@@ -181,6 +183,10 @@ Notes:
     It is a recoverable move, not a delete: there is no permanent-delete command either.
   - A reply anchor must be the newest real message. --force-anchor is an explicit logged override.
   - Anchorless drafts check for recent correspondent activity; --standalone asserts a deliberate clean email.
+  - --track registers the draft with the Dolphin Email Tracker (tracker-client.mjs): a view pixel under the
+    signature, tracked links in the new text, and "Also available online: <file>" for each attachment
+    (--no-track-online leaves that line out). Token: ${path.join(gcloudDir, 'dolphin-email-tracker.json')}.
+    A tracker failure never stops the draft; it prints one "Tracker:" line and the draft goes out untracked.
   - This script never stores secrets in the repo and never prints token values.`);
 }
 
@@ -402,6 +408,16 @@ async function getServiceAccountAccessToken(args, command) {
     throw new Error(`--mailbox must be a dolphincentrifuge.com address, got: ${mailbox}`);
   }
   const scope = COMMAND_SCOPES[command] || COMMAND_SCOPES.profile;
+  // Each helper run is its own process, so without this a thread of twelve reads asks Google for
+  // twelve tokens at once and Google sometimes refuses one. The token lives on disk for its hour.
+  const diskCachePath = path.join(gcloudDir, 'dolphin-gmail-sa-token-cache.json');
+  const diskKey = `${mailbox} ${scope}`;
+  let diskCache = {};
+  try { diskCache = JSON.parse(await fs.readFile(diskCachePath, 'utf8')); } catch {}
+  const cached = diskCache[diskKey];
+  if (cached && Number(cached.expiresAt) - 120000 > Date.now() && cached.accessToken) {
+    return { accessToken: cached.accessToken, expiresAt: Number(cached.expiresAt) };
+  }
   const tokenUri = key.token_uri || 'https://oauth2.googleapis.com/token';
   const assertion = buildServiceAccountJwt({
     saEmail: key.client_email,
@@ -422,11 +438,16 @@ async function getServiceAccountAccessToken(args, command) {
       : '';
     throw new Error(`Service account token failed for ${mailbox}: ${JSON.stringify(json)}${hint}`);
   }
-  return {
+  const record = {
     accessToken: json.access_token,
     expiresAt: Date.now() +
       (Number(json.expires_in) || DEFAULT_ACCESS_TOKEN_LIFETIME_MS / 1000) * 1000,
   };
+  try {
+    diskCache[diskKey] = record;
+    await fs.writeFile(diskCachePath, JSON.stringify(diskCache), { mode: 0o600 });
+  } catch {}
+  return record;
 }
 
 async function getAccessToken(args, command) {
@@ -1202,12 +1223,32 @@ async function createDraft(args) {
     threadId = threadId || original.threadId;
   }
 
+  // Tracking (the Reply Desk passes --track for Dan's drafts). Fails open: the draft is made either way.
+  let mailBody = String(body);
+  let draftIsHtml = Boolean(args.html);
+  let tracker = null;
+  let tracked = null;
+  if (flagEnabled(args.track)) {
+    tracker = createTrackerClient();
+    tracked = await trackDraft({
+      client: tracker,
+      html: args.html ? mailBody : plainTextToHtml(mailBody),
+      sender: String(args.mailbox || 'sprabhu@dolphincentrifuge.com').toLowerCase(),
+      recipients: [...new Set([args.to, args.cc].filter(Boolean).join(',').match(/[^\s<>,;"']+@[^\s<>,;"']+/g) || [])],
+      subject: String(args.subject),
+      attachments,
+      online: !flagEnabled(args['no-track-online']),
+      gmailDraftId: command === 'update-draft' ? String(args['draft-id']) : undefined,
+    });
+    if (tracked.guid) { mailBody = tracked.html; draftIsHtml = true; }
+  }
+
   const mime = buildMime({
     to: String(args.to),
     cc: args.cc ? String(args.cc) : '',
     subject: String(args.subject),
-    body: String(body),
-    html: Boolean(args.html),
+    body: mailBody,
+    html: draftIsHtml,
     inReplyTo,
     references,
     attachments,
@@ -1227,6 +1268,13 @@ async function createDraft(args) {
     });
   console.log(`Draft ${command === 'update-draft' ? 'updated' : 'created'} (NOT sent). Draft id: ${json.id}, message id: ${json.message?.id}`);
   if (forceAnchorUsed) console.log('Placement override used: --force-anchor');
+  if (tracked?.guid) {
+    await tracker.patchMessage(tracked.guid, { status: 'draft', ...(json.message?.threadId ? { gmailThreadId: json.message.threadId } : {}) });
+    console.log(`Tracker: guid ${tracked.guid}, ${tracked.links} tracked link(s), ${tracked.files} online file(s)`);
+  }
+  // An updated draft replaces the old body, so the old tracked message is cancelled.
+  const previousGuid = String(args['tracker-previous-guid'] || '').trim();
+  if (tracker && previousGuid && previousGuid !== tracked?.guid) await tracker.patchMessage(previousGuid, { status: 'cancelled' });
   if (attachments.length || inlineAttachments.length) {
     const allFiles = [...attachments, ...inlineAttachments];
     console.log(`Attachments: ${allFiles.length} | ${allFiles.map(item => item.filename).join(' | ')}`);
