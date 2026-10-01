@@ -73,6 +73,8 @@ export function createTrackerClient(options = {}) {
       return call(`upload ${filename}`, 'POST', `/messages/${encodeURIComponent(guid)}/files`, form);
     },
     patchMessage: (guid, fields) => call('update message', 'PATCH', `/messages/${encodeURIComponent(guid)}`, fields),
+    // The customer answered a tracked message (idempotent on the Worker).
+    reportReply: (guid, { at, from }) => call('report reply', 'POST', `/messages/${encodeURIComponent(guid)}/reply`, { at, from }),
     events: ({ since, limit = 500 } = {}) => {
       const q = new URLSearchParams({ limit: String(limit) });
       if (since) q.set('since', since);
