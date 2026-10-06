@@ -41,7 +41,7 @@ export function createTrackerClient(options = {}) {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       let payload = body;
-      if (body && !(body instanceof FormData)) { headers['Content-Type'] = 'application/json'; payload = JSON.stringify(body); }
+      if (body) { headers['Content-Type'] = 'application/json'; payload = JSON.stringify(body); }
       const res = await fetchImpl(`${baseUrl}/api/v1${route}`, { method, headers, body: payload, signal: ctl.signal });
       // The body is read inside the same 6 seconds.
       const text = await res.text();
@@ -66,12 +66,6 @@ export function createTrackerClient(options = {}) {
         ...(gmailDraftId ? { gmailDraftId } : {}), ...(rfcMessageId ? { rfcMessageId } : {}),
       }),
     registerLinks: (guid, urls) => call('register links', 'POST', `/messages/${encodeURIComponent(guid)}/links`, { urls }),
-    uploadFile: (guid, { filename, data, mimeType }) => {
-      const form = new FormData();
-      form.append('file', new Blob([data], { type: mimeType || 'application/octet-stream' }), filename);
-      form.append('filename', filename);
-      return call(`upload ${filename}`, 'POST', `/messages/${encodeURIComponent(guid)}/files`, form);
-    },
     patchMessage: (guid, fields) => call('update message', 'PATCH', `/messages/${encodeURIComponent(guid)}`, fields),
     // The customer answered a tracked message (idempotent on the Worker).
     reportReply: (guid, { at, from }) => call('report reply', 'POST', `/messages/${encodeURIComponent(guid)}/reply`, { at, from }),
@@ -90,7 +84,6 @@ const decodeEntities = (s) => String(s)
   .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
   .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
 const escapeAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const escapeText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 // Where the quoted reply starts: a Gmail quote block, a blockquote, an "On ... wrote:" line, a "> " line,
 // or an Outlook header. The earliest one wins; -1 when the email quotes nothing.
@@ -178,16 +171,11 @@ export function rewriteLinks(head, tracked) {
   });
 }
 
-export function onlineLineHtml(files) {
-  const links = files.map((f) => `<a href="${escapeAttr(f.url)}">${escapeText(f.filename)}</a>`);
-  return links.length ? `<div>Also available online: ${links.join(', ')}</div>` : '';
-}
-
-// The whole draft step: register the message, track the links of the new text, host a copy of each
-// attachment, and put the online line and the pixel under the signature, above any quoted reply.
+// The whole draft step: register the message, track the links of the new text, and put the pixel
+// under the signature, above any quoted reply. Attachments are never uploaded (owner ruling 2026-10-06).
 // Any failure leaves that piece out; with no message registered the HTML comes back unchanged.
-export async function trackDraft({ client, html, sender, recipients, subject, attachments = [], online = true, gmailDraftId }) {
-  const result = { html, guid: null, links: 0, files: 0 };
+export async function trackDraft({ client, html, sender, recipients, subject, gmailDraftId }) {
+  const result = { html, guid: null, links: 0 };
   const msg = await client.registerMessage({ sender, recipients, subject, gmailDraftId });
   if (!msg || !msg.guid) return result;
   result.guid = msg.guid;
@@ -198,12 +186,6 @@ export async function trackDraft({ client, html, sender, recipients, subject, at
     const reg = await client.registerLinks(msg.guid, urls);
     const tracked = new Map((reg?.links || []).filter((l) => l.url && l.trackedUrl).map((l) => [l.url, l.trackedUrl]));
     if (tracked.size) { newText = rewriteLinks(head, tracked); result.links = tracked.size; }
-  }
-  if (online && attachments.length) {
-    const hosted = (await Promise.all(attachments.map((a) => client.uploadFile(msg.guid, a))))
-      .map((r, i) => (r && r.url ? { url: r.url, filename: r.filename || attachments[i].filename } : null))
-      .filter(Boolean);
-    if (hosted.length) { newText += `<br>${onlineLineHtml(hosted)}`; result.files = hosted.length; }
   }
   result.html = newText + (msg.pixelHtml || '') + gap + tail;
   return result;

@@ -1,6 +1,6 @@
 // node --test tracker-client.test.mjs
 // The Reply Desk's tracked drafts against a stub tracker: pixel placement, link rewriting, quoted text left
-// alone, the online attachment line, and a draft that still goes out when the tracker is down.
+// alone, attachments never uploaded, and a draft that still goes out when the tracker is down.
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import { after, before, test } from 'node:test';
@@ -93,29 +93,14 @@ test('quoted text is found in Gmail, blockquote, and Outlook shapes', () => {
     ['https://a.com/x', 'https://b.com']);
 });
 
-test('attachments: real file kept by the caller, a copy hosted, one online line under the signature', async () => {
+test('attachments are never uploaded and add no line to the email', async () => {
   reset();
-  const attachments = [
-    { filename: 'Dolphin brochure.pdf', mimeType: 'application/pdf', data: Buffer.from('PDF-BYTES') },
-    { filename: 'price & terms.xlsx', mimeType: 'application/octet-stream', data: Buffer.from('PDF-BYTES') },
-  ];
-  const out = await trackDraft({ client: client(), html: deskDraft, ...common, attachments });
-  assert.deepEqual(seen.files.map((f) => f.filename), ['Dolphin brochure.pdf', 'price & terms.xlsx']);
-  assert.ok(seen.files.every((f) => f.hasBytes && f.multipart));
-  const line = `<br><div>Also available online: <a href="${base}/d/ft/Dolphin%20brochure.pdf">Dolphin brochure.pdf</a>, ` +
-    `<a href="${base}/d/ft/price%20%26%20terms.xlsx">price &amp; terms.xlsx</a></div>`;
-  assert.ok(out.html.includes(`Dan Evans${line}<div hspace="dolphin-pt-mark">`), 'line directly under the signature, pixel after it');
-  assert.ok(out.html.indexOf('Also available online') < out.html.indexOf('On Tue Sep 29 2026'));
-  assert.equal(out.files, 2);
-});
-
-test('online: false leaves the line out and uploads nothing', async () => {
-  reset();
-  const out = await trackDraft({ client: client(), html: deskDraft, ...common, online: false,
+  const out = await trackDraft({ client: client(), html: deskDraft, ...common,
     attachments: [{ filename: 'a.pdf', mimeType: 'application/pdf', data: Buffer.from('PDF-BYTES') }] });
   assert.equal(seen.files.length, 0);
-  assert.ok(!out.html.includes('Also available online'));
+  assert.ok(!out.html.includes('Also available'));
   assert.ok(out.html.includes('dolphin-pt-mark'));
+  assert.equal('files' in out, false);
 });
 
 test('tracker down: the draft HTML comes back unchanged with one log line', async () => {

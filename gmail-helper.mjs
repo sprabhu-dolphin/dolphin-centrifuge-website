@@ -160,7 +160,7 @@ Usage:
         [--inline-attach FILE ...] [--inline-name NAME ...] [--inline-cid CID ...]
         [--verified-safe-newer-message-id MSG_ID ...]
         [--reply-to-message-id MSG_ID] [--force-anchor] [--standalone] [--mailbox EMAIL]
-        [--track [--no-track-online] [--tracker-previous-guid GUID]]
+        [--track [--tracker-previous-guid GUID]]
   node gmail-helper.mjs update-draft --draft-id DRAFT_ID --to EMAIL --subject "..."
         (--body "text" | --body-file FILE) [same attachment and reply options as create-draft]
   node gmail-helper.mjs self-test
@@ -184,8 +184,7 @@ Notes:
   - A reply anchor must be the newest real message. --force-anchor is an explicit logged override.
   - Anchorless drafts check for recent correspondent activity; --standalone asserts a deliberate clean email.
   - --track registers the draft with the Dolphin Email Tracker (tracker-client.mjs): a view pixel under the
-    signature, tracked links in the new text, and "Also available online: <file>" for each attachment
-    (--no-track-online leaves that line out). Token: ${path.join(gcloudDir, 'dolphin-email-tracker.json')}.
+    signature and tracked links in the new text. Token: ${path.join(gcloudDir, 'dolphin-email-tracker.json')}.
     A tracker failure never stops the draft; it prints one "Tracker:" line and the draft goes out untracked.
   - This script never stores secrets in the repo and never prints token values.`);
 }
@@ -1236,8 +1235,6 @@ async function createDraft(args) {
       sender: String(args.mailbox || 'sprabhu@dolphincentrifuge.com').toLowerCase(),
       recipients: [...new Set([args.to, args.cc].filter(Boolean).join(',').match(/[^\s<>,;"']+@[^\s<>,;"']+/g) || [])],
       subject: String(args.subject),
-      attachments,
-      online: !flagEnabled(args['no-track-online']),
       gmailDraftId: command === 'update-draft' ? String(args['draft-id']) : undefined,
     });
     if (tracked.guid) { mailBody = tracked.html; draftIsHtml = true; }
@@ -1270,7 +1267,7 @@ async function createDraft(args) {
   if (forceAnchorUsed) console.log('Placement override used: --force-anchor');
   if (tracked?.guid) {
     await tracker.patchMessage(tracked.guid, { status: 'draft', ...(json.message?.threadId ? { gmailThreadId: json.message.threadId } : {}) });
-    console.log(`Tracker: guid ${tracked.guid}, ${tracked.links} tracked link(s), ${tracked.files} online file(s)`);
+    console.log(`Tracker: guid ${tracked.guid}, ${tracked.links} tracked link(s)`);
   }
   // An updated draft replaces the old body, so the old tracked message is cancelled.
   const previousGuid = String(args['tracker-previous-guid'] || '').trim();
