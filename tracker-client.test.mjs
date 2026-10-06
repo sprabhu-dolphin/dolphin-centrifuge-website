@@ -65,6 +65,13 @@ test('pixel sits after the signature and before the quoted reply', async () => {
   assert.deepEqual(seen.messages[0], { ...common, source: 'desk' });
 });
 
+test('an earlier Dolphin pixel in the quoted reply is removed', async () => {
+  reset();
+  const old = '<div hspace="dolphin-pt-mark" style="max-height:1px"><img alt="" src="https://t.dolphincentrifuge.com/o/old-guid.gif"></div>';
+  const out = await trackDraft({ client: client(), html: `<div>Thanks.<br>Dan Evans</div><div class="gmail_quote">On Tue, John wrote:<br>Hi${old}</div>`, ...common });
+  assert.ok(!out.html.includes('old-guid') && out.html.split('dolphin-pt-mark').length === 2, 'only the new pixel');
+});
+
 test('pixel goes at the end when nothing is quoted', async () => {
   reset();
   const out = await trackDraft({ client: client(), html: asHtml('Hi,\n\nThanks.\nDan Evans\n'), ...common });

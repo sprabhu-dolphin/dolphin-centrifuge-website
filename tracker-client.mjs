@@ -187,6 +187,8 @@ export async function trackDraft({ client, html, sender, recipients, subject, gm
     const tracked = new Map((reg?.links || []).filter((l) => l.url && l.trackedUrl).map((l) => [l.url, l.trackedUrl]));
     if (tracked.size) { newText = rewriteLinks(head, tracked); result.links = tracked.size; }
   }
-  result.html = newText + (msg.pixelHtml || '') + gap + tail;
+  // An earlier Dolphin pixel in the quoted reply would count this email's views for the old message.
+  const quoted = tail.replace(/<div[^>]*hspace="dolphin-pt-mark"[^>]*>\s*<img[^>]*>\s*<\/div>/gi, '');
+  result.html = newText + (msg.pixelHtml || '') + gap + quoted;
   return result;
 }
