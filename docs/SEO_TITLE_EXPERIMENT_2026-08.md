@@ -8,7 +8,9 @@ This is a controlled sequential A/B/C test, not simultaneous random title delive
 
 - A, ran through 2026-08-10: `Industrial Centrifuge | Types, Continuous Separation, Cost & Applications`
 - B, ran from 2026-08-10 through 2026-08-23: `Industrial Centrifuge Machines | Disc Stack Systems & Sizing`
-- C, current live since 2026-08-23: `Industrial Centrifuge | Remanufactured Alfa Laval, In Stock`
+- C, ran 2026-08-23 through 2026-09-27: `Industrial Centrifuge | Remanufactured Alfa Laval, In Stock` (0.13% CTR, position 9.1, 2026-08-24 to 09-27)
+- B restored 2026-09-28 (0.20% CTR, position 9.1, 2026-09-28 to 10-07)
+- D, live since 2026-10-10: `Industrial Centrifuge Machines: Types, Sizing & Price Guide`, with a new meta description. Keeps B's informational "Machines" framing; C's commercial framing lost.
 
 ### Disc stack centrifuge
 
