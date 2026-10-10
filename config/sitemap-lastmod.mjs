@@ -18,6 +18,11 @@ function loadLastCommitDates() {
   const dates = new Map();
   try {
     const shallowPath = path.resolve(root, git(['rev-parse', '--git-path', 'shallow']).trim());
+    // Cloudflare Pages builds from a shallow clone; the repo is public, so
+    // fetch the full history when possible. On failure the boundary rule below applies.
+    if (existsSync(shallowPath)) {
+      try { execFileSync('git', ['fetch', '--unshallow', '--quiet'], { cwd: root, stdio: 'ignore', timeout: 120000 }); } catch {}
+    }
     const boundary = new Set(existsSync(shallowPath)
       ? readFileSync(shallowPath, 'utf8').split(/\s+/).filter(Boolean)
       : []);
