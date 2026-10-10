@@ -42,7 +42,7 @@ test('partial registration failures recover without duplicate registrations', as
   assert.equal(await h.context.runtime.registerDolphinWebMcpTools(), true);
   assert.equal(h.tools.size, 6);
   assert.ok(h.tools.has('find_used_alfa_laval_centrifuges'));
-  assert.ok(!h.tools.has('request_used_alfa_laval_quote'), 'quote tool registers only on the page with the quote form');
+  assert.ok(!h.tools.has('prepare_used_alfa_laval_quote'), 'quote tool registers only on the page with the quote form');
   assert.equal(attempts.get('get_centrifuge_capacity'), 2);
   assert.equal(attempts.get('find_centrifuge_models'), 1);
 });
@@ -166,10 +166,15 @@ test('used Alfa Laval finder filters families, pages results and adds a document
   const diesel = await find.execute({application: 'diesel'});
   assert.equal(diesel.status, 'ok');
   assert.deepEqual(diesel.data.families.map(f => f.key), ['whpx', 'mopx', 'mab']);
-  assert.match(diesel.data.warranty, /6-month mechanical warranty/);
-  assert.match(diesel.data.inventory, /150\+ centrifuges in stock/);
-  assert.equal(diesel.data.quote.tool, 'request_used_alfa_laval_quote');
-  assert.ok(diesel.warnings.some(w => /not published/.test(w)));
+  assert.match(diesel.data.offer, /6-month mechanical warranty/);
+  assert.match(diesel.data.offer, /150\+ centrifuges in stock/);
+  assert.match(diesel.data.price, /^Smallest manual-clean skid from mid-\$30s; /);
+  assert.match(diesel.data.offer, /price confirmed per quote/);
+  assert.equal(diesel.data.families[0].models, 'WHPX 405, WHPX 407, WHPX 409, WHPX 510, WHPX 513');
+  assert.equal(diesel.sources[0], '/technical-data/used-alfa-laval-centrifuges.v1.json', 'links the full offer data');
+  assert.equal(diesel.data.quote.tool, 'prepare_used_alfa_laval_quote');
+  assert.ok(JSON.stringify(diesel).length <= 1500, `default output is ${JSON.stringify(diesel).length} chars`);
+  assert.ok(JSON.stringify(await find.execute({})).length <= 1500);
 
   const all = [];
   let offset = 0;
@@ -200,12 +205,14 @@ test('used Alfa Laval finder reports unavailable data instead of inventing an an
 
 function fakeQuotePage({token = ''} = {}) {
   const fields = {};
-  const field = (name, value = '') => (fields[name] ??= {name, value, dispatchEvent() {}});
-  for (const name of ['name', 'company', 'email', 'phone', 'fluid', 'flowRate', 'bot-field']) field(name);
+  const field = (name, value = '') => (fields[name] ??= {name, value, dispatchEvent() {}, focus() { focused = name; }});
+  let focused;
+  for (const name of ['name', 'company', 'email', 'phone', 'fluid', 'flowRate', 'country', 'preferredContact', 'modelInterest', 'details', 'bot-field']) field(name);
   field('cf-turnstile-response', token);
   const messages = {error: {hidden: true, textContent: ''}, success: {hidden: true, textContent: ''}};
-  const button = {disabled: false};
+  const button = {disabled: false, focus() { focused = 'submit'; }};
   let resets = 0;
+  let scrolled = 0;
   const form = {
     dataset: {endpoint: 'https://worker.test.invalid'},
     querySelector(selector) {
@@ -216,94 +223,56 @@ function fakeQuotePage({token = ''} = {}) {
       if (selector === 'button[type="submit"]') return button;
       return null;
     },
+    scrollIntoView() { scrolled++; },
     reset() { resets++; for (const f of Object.values(fields)) f.value = ''; },
   };
   const posts = [];
-  const events = [];
-  let respond;
   const globals = {
     Event: class { constructor(type) { this.type = type; } },
     CustomEvent: class { constructor(type, init) { this.type = type; this.detail = init?.detail; } },
     FormData, location: {pathname: '/used-alfa-laval-centrifuges-for-sale/'},
-    dispatchEvent: (event) => events.push(event),
-    dolphinGetAttributionForForm: (name) => JSON.stringify({form_name: name, source: 'chatgpt.com', medium: 'referral', content: 'x', landing_page: '/used-alfa-laval-centrifuges-for-sale/'}),
+    dispatchEvent() {},
   };
   const fetcher = async (url, init) => {
-    if (init?.method === 'POST') {
-      posts.push({url, body: Object.fromEntries(init.body.entries())});
-      return new Promise(resolve => { respond = resolve; });
-    }
+    if (init?.method === 'POST') posts.push({url});
     return routeFetch(url);
   };
-  return {form, fields, messages, button, posts, events, globals, fetcher,
+  return {form, fields, posts, globals, fetcher,
     documentExtras: {getElementById: id => (id === 'used-alfa-laval-quote-form' ? form : null)},
-    finish: (ok = true) => respond({ok, json: async () => (ok ? {success: true} : {success: false, error: 'Test failure'})}),
-    resets: () => resets};
+    focused: () => focused, scrolled: () => scrolled, resets: () => resets};
 }
 
 const agentQuote = {name: 'Ada Lovelace', company: 'Analytical Oil LLC', email: 'ada@example.com', phone: '+1 313 555 0100',
   fluid: 'Waste oil', flowRate: '20 US GPM', country: 'Canada', preferredContact: 'phone_dolphin_calls', modelInterest: 'WHPX 513'};
 
-test('quote tool exists only with the form and never bypasses the security check', async () => {
-  const page = fakeQuotePage();
-  const h = await harness(undefined, page.fetcher, page.documentExtras, page.globals);
-  const quote = h.tools.get('request_used_alfa_laval_quote');
-  assert.equal(h.tools.size, 7);
-  assert.equal(quote.annotations.consequentialHint, true);
-  assert.equal(quote.annotations.readOnlyHint, false);
-
-  const result = await quote.execute(agentQuote);
-  assert.equal(result.status, 'verification_required');
-  assert.equal(result.submitted, false);
-  assert.equal(page.posts.length, 0);
-  assert.equal(page.fields.name.value, 'Ada Lovelace', 'the visible form is filled for the visitor to finish');
-  assert.equal((await quote.execute({...agentQuote, email: 'not-an-email'})).status, 'invalid_input');
-  assert.equal((await quote.execute({...agentQuote, url: 'https://example.com'})).status, 'invalid_input');
-  assert.equal((await quote.execute({name: 'x'})).status, 'invalid_input');
-});
-
-test('quote tool posts the contact Worker payload with agent attribution and prevents duplicates', async () => {
+test('quote tool exists only with the form, fills every visible field and never submits', async () => {
   const page = fakeQuotePage({token: 'turnstile-token'});
   const h = await harness(undefined, page.fetcher, page.documentExtras, page.globals);
-  const quote = h.tools.get('request_used_alfa_laval_quote');
+  const quote = h.tools.get('prepare_used_alfa_laval_quote');
+  assert.equal(h.tools.size, 7);
+  assert.ok(!h.tools.has('request_used_alfa_laval_quote'));
+  assert.equal(quote.annotations.consequentialHint, false);
+  assert.equal(quote.annotations.readOnlyHint, false);
+  assert.ok(quote.description.length <= 500);
 
-  const first = quote.execute(agentQuote);
-  await new Promise(resolve => setImmediate(resolve));
-  assert.equal((await quote.execute(agentQuote)).status, 'pending');
-  assert.equal(page.posts.length, 1);
-  const {url, body} = page.posts[0];
-  assert.equal(url, 'https://worker.test.invalid');
-  assert.equal(body.first_name, 'Ada');
-  assert.equal(body.last_name, 'Lovelace');
-  assert.equal(body.email_confirm, 'ada@example.com');
-  assert.equal(body.contact_method, 'phone_dolphin_calls');
-  assert.equal(body.country, 'CA');
-  assert.equal(body.centrifuge_condition, 'remanufactured_ok');
-  assert.equal(body.required_flow_rate, '20 US GPM');
-  assert.equal(body['cf-turnstile-response'], 'turnstile-token');
-  assert.match(body.additional_details, /WebMCP quote tool/);
-  assert.match(body.additional_details, /Model of interest: WHPX 513/);
-  const attribution = JSON.parse(body.dolphin_attribution);
-  assert.equal(attribution.form_name, 'used_alfa_laval_quote_form');
-  assert.equal(attribution.source, 'chatgpt.com');
-  assert.equal(attribution.medium, 'webmcp');
-  assert.equal(attribution.content, 'webmcp');
-  assert.equal(attribution.pre_agent_medium, 'referral');
-  assert.equal(attribution.agent_tool, 'request_used_alfa_laval_quote');
+  const partial = await quote.execute({name: 'Ada Lovelace', fluid: 'Waste oil'});
+  assert.equal(partial.status, 'prepared');
+  assert.equal(partial.submitted, false);
+  assert.deepEqual([...partial.missingFields], ['company', 'email', 'phone']);
+  assert.equal(page.focused(), 'company');
 
-  page.finish(true);
-  const done = await first;
-  assert.equal(done.status, 'submitted');
-  assert.equal(page.resets(), 1);
-  const lead = page.events.find(e => e.type === 'dolphin:generate-lead');
-  assert.equal(lead.detail.lead_form, 'centrifuge_contact_form');
-  assert.equal(lead.detail.lead_channel, 'webmcp');
+  const result = await quote.execute(JSON.stringify(agentQuote));
+  assert.equal(result.status, 'prepared', 'a JSON string input from older Chrome builds is accepted');
+  assert.equal(result.missingFields.length, 0);
+  assert.match(result.message, /visitor reviews it and clicks Send Quote Request/);
+  assert.equal(page.focused(), 'submit');
+  assert.ok(page.scrolled() >= 2);
+  for (const [name, value] of Object.entries(agentQuote)) assert.equal(page.fields[name].value, value, `${name} is visible`);
+  assert.equal(page.form.dataset.agentPrepared, 'true');
+  assert.equal(page.posts.length, 0, 'the tool never posts the form');
+  assert.equal(page.resets(), 0);
 
-  assert.equal((await quote.execute(agentQuote)).status, 'verification_required', 'a Turnstile token is single-use');
-  page.fields['cf-turnstile-response'].value = 'renewed-token';
-  const failed = quote.execute(agentQuote);
-  await new Promise(resolve => setImmediate(resolve));
-  page.finish(false);
-  assert.equal((await failed).status, 'unconfirmed');
-  assert.equal(page.resets(), 1, 'a failed send keeps the visitor form');
+  assert.equal((await quote.execute({...agentQuote, url: 'https://example.com'})).status, 'invalid_input');
+  assert.equal((await quote.execute({...agentQuote, preferredContact: 'fax'})).status, 'invalid_input');
+  assert.equal((await quote.execute('not json')).status, 'invalid_input');
 });

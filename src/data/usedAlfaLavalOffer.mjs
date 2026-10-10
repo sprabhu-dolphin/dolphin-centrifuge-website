@@ -177,7 +177,7 @@ export function buildUsedOfferRecord() {
     page: USED_PAGE_URL,
     quoteRequest: {
       page: `${USED_PAGE_URL}#quote`,
-      webMcpTool: 'request_used_alfa_laval_quote',
+      webMcpTool: 'prepare_used_alfa_laval_quote',
       phone: '+1-248-522-2573',
       note: 'A quote request asks for engineering follow-up. It is not an order and does not reserve a machine.',
     },

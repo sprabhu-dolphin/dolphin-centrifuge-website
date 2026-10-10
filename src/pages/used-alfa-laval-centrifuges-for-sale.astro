@@ -204,6 +204,27 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
             <label for="uq-flow" class={labelClass}>Flow rate <span class="font-normal normal-case text-text-muted">(optional)</span></label>
             <input id="uq-flow" name="flowRate" type="text" autocomplete="off" maxlength="254" placeholder="e.g. 20 GPM or 10,000 gal/day" class={inputClass} />
           </div>
+          <div>
+            <label for="uq-country" class={labelClass}>Country <span class="font-normal normal-case text-text-muted">(optional)</span></label>
+            <input id="uq-country" name="country" type="text" autocomplete="country-name" maxlength="100" class={inputClass} />
+          </div>
+          <div>
+            <label for="uq-contact" class={labelClass}>Preferred contact <span class="font-normal normal-case text-text-muted">(optional)</span></label>
+            <select id="uq-contact" name="preferredContact" class={inputClass}>
+              <option value="">No preference</option>
+              <option value="email">Email</option>
+              <option value="phone_dolphin_calls">Phone - Dolphin Centrifuge calls you</option>
+              <option value="phone_you_call">Phone - You call us: (248) 522-2573</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="uq-model" class={labelClass}>Model of interest <span class="font-normal normal-case text-text-muted">(optional)</span></label>
+            <input id="uq-model" name="modelInterest" type="text" autocomplete="off" maxlength="200" placeholder="e.g. WHPX 513 or MAB 204" class={inputClass} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="uq-details" class={labelClass}>Other details <span class="font-normal normal-case text-text-muted">(optional)</span></label>
+            <textarea id="uq-details" name="details" rows="3" maxlength="2000" placeholder="Solids, water content, temperature, hours per day, timeline" class={inputClass}></textarea>
+          </div>
         </div>
 
         <FormVerification action="contact" />
@@ -379,7 +400,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
 
   <h2 id="machine-readable">For AI assistants and software agents</h2>
   <p>
-    The facts on this page are published as a machine-readable record at <a href={USED_OFFER_JSON_PATH}>{USED_OFFER_JSON_PATH}</a>, alongside the full <a href="/technical-data/centrifuges.v1.json">technical catalog</a>. In browsers that support WebMCP, this page registers <code>find_used_alfa_laval_centrifuges</code> and <code>{WEBMCP_QUOTE_TOOL}</code>; the quote tool sends a request only with the visitor's approval and the page's security check.
+    The facts on this page are published as a machine-readable record at <a href={USED_OFFER_JSON_PATH}>{USED_OFFER_JSON_PATH}</a>, alongside the full <a href="/technical-data/centrifuges.v1.json">technical catalog</a>. In browsers that support WebMCP, this page registers <code>find_used_alfa_laval_centrifuges</code> and <code>{WEBMCP_QUOTE_TOOL}</code>. The quote tool only fills the visible form; the visitor reviews it and clicks Send Quote Request.
   </p>
 
 </ApplicationLayout>

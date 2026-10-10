@@ -1,7 +1,7 @@
 // Pure payload rules for the short quote form on
-// /used-alfa-laval-centrifuges-for-sale/. The visitor form and the WebMCP quote
-// tool both build their Worker payload here, so a human and an agent submission
-// differ only in the attribution markers below.
+// /used-alfa-laval-centrifuges-for-sale/. The visitor always sends the form with
+// its own button. When the WebMCP prepare tool filled it first, the same payload
+// carries the agent attribution markers below.
 //
 // The shared contact Worker requires more fields than this short form asks for.
 // Fields the visitor was not asked are sent as an explicit "Not asked" value,
@@ -13,8 +13,8 @@ export const USED_QUOTE_ATTRIBUTION_NAME = 'used_alfa_laval_quote_form';
 /** GA4 lead_form stays the contact form so the lead monitor maps it to D1 form_type 'contact'. */
 export const USED_QUOTE_GA4_LEAD_FORM = 'centrifuge_contact_form';
 export const USED_QUOTE_FORM_VARIANT = 'used_alfa_laval_quick_quote';
-export const WEBMCP_QUOTE_TOOL = 'request_used_alfa_laval_quote';
-/** Marker for agent-submitted leads: D1 attribution_content = 'webmcp' (always) and attribution_medium = 'webmcp' (unless an ad click ID is present). */
+export const WEBMCP_QUOTE_TOOL = 'prepare_used_alfa_laval_quote';
+/** Marker for agent-prepared leads: D1 attribution_content = 'webmcp' (always) and attribution_medium = 'webmcp' (unless an ad click ID is present). */
 export const AGENT_CHANNEL = 'webmcp';
 export const NOT_ASKED = 'Not asked (quick quote form)';
 export const PREFERRED_CONTACT = ['email', 'phone_dolphin_calls', 'phone_you_call'];
@@ -53,7 +53,7 @@ export function validateUsedQuote(input) {
     if (input[field] !== undefined && (typeof input[field] !== 'string' || input[field].length > max)) return `${field} is too long or not text.`;
   }
   if (!EMAIL_RE.test(text(input.email))) return 'Please enter a valid email address.';
-  if (input.preferredContact !== undefined && !PREFERRED_CONTACT.includes(input.preferredContact)) return 'preferredContact must be email, phone_dolphin_calls or phone_you_call.';
+  if (text(input.preferredContact) && !PREFERRED_CONTACT.includes(input.preferredContact)) return 'preferredContact must be email, phone_dolphin_calls or phone_you_call.';
 }
 
 /** Ordered Worker fields (without Turnstile token and attribution). */
@@ -63,7 +63,7 @@ export function buildUsedQuoteFields(input, { channel = 'form', pagePath = '/use
   const { country, country_other } = normalizeCountry(input.country);
   const details = [
     `Quote request from ${pagePath} (used and reconditioned Alfa Laval centrifuges).`,
-    channel === AGENT_CHANNEL ? "Submitted by an AI agent through the page's WebMCP quote tool on the visitor's behalf." : '',
+    channel === AGENT_CHANNEL ? "Prepared by an AI agent with the page's WebMCP quote tool; the visitor reviewed and sent it." : '',
     text(input.modelInterest) ? `Model of interest: ${text(input.modelInterest)}` : '',
     text(input.details),
   ].filter(Boolean).join('\n');

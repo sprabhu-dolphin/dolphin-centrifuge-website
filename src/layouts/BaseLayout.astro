@@ -53,8 +53,15 @@ const fullTitle = title === 'Home'
 
 const siteUrl = 'https://dolphincentrifuge.com';
 // Browser-issued origin-trial tokens are public, origin-bound activation values.
-const webMcpOriginTrialTokens = (import.meta.env.PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS || '')
-  .split(',').map((token: string) => token.trim()).filter(Boolean);
+// WebMCP: Chrome token expires 2027-03-29, Edge token expires 2026-11-24.
+const WEBMCP_ORIGIN_TRIAL_TOKENS = [
+  'AuNrPZNVu3g59LjOST4Rs4aHgm1JJhqUMixWAlWcLOmr14NVLANQ9KyiFhw1cIig9dwUVAbqN6XOYAir9bW9+QUAAABVeyJvcmlnaW4iOiJodHRwczovL2RvbHBoaW5jZW50cmlmdWdlLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViTUNQIiwiZXhwaXJ5IjoxODA2MzY0ODAwfQ==',
+  'A+8TJhqxUZUgOp6os0WJJU24KRZlSUC23+iCqRewz7V189zHERlhDfKegI0dlgS4LPAKTddmUYtO49htp3PFrC0AAABVeyJvcmlnaW4iOiJodHRwczovL2RvbHBoaW5jZW50cmlmdWdlLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViTUNQIiwiZXhwaXJ5IjoxNzk1NTIzOTAyfQ==',
+];
+const webMcpOriginTrialTokens = [...new Set([
+  ...WEBMCP_ORIGIN_TRIAL_TOKENS,
+  ...(import.meta.env.PUBLIC_WEBMCP_ORIGIN_TRIAL_TOKENS || '').split(',').map((token: string) => token.trim()),
+].filter(Boolean))];
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 const defaultOgImage = '/images/homepage/alfa-laval-industrial-centrifuge-dolphin-centrifuge-1.jpg';
 const ogImage = ogImageProp || defaultOgImage;

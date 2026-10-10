@@ -1,6 +1,6 @@
-// Submission path for the short quote form on the used Alfa Laval page. The
-// visitor's Submit button and the WebMCP quote tool both call submitUsedQuote,
-// so both need the same Turnstile token and reach the same Worker endpoint.
+// Submission path for the quote form on the used Alfa Laval page. Only the
+// visitor's Send Quote Request button submits. The WebMCP prepare tool fills the
+// visible fields and marks the form so that send carries agent attribution.
 import {
   AGENT_CHANNEL,
   USED_QUOTE_ATTRIBUTION_NAME,
@@ -14,7 +14,9 @@ import {
 export type UsedQuoteInput = Record<string, string | undefined>;
 export type UsedQuoteResult = { status: string; submitted: boolean; message: string };
 
-const VISIBLE_FIELDS = ['name', 'company', 'email', 'phone', 'fluid', 'flowRate'] as const;
+const VISIBLE_FIELDS = ['name', 'company', 'email', 'phone', 'fluid', 'flowRate',
+  'country', 'preferredContact', 'modelInterest', 'details'] as const;
+export const REQUIRED_FIELDS = ['name', 'company', 'email', 'phone', 'fluid'] as const;
 const browser = globalThis as any;
 
 export function usedQuoteForm(): HTMLFormElement | null {
@@ -22,7 +24,7 @@ export function usedQuoteForm(): HTMLFormElement | null {
 }
 
 function control(form: HTMLFormElement, name: string) {
-  return form.querySelector<HTMLInputElement>(`[name="${name}"]`);
+  return form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${name}"]`);
 }
 
 function showMessage(form: HTMLFormElement, kind: 'error' | 'success', message: string) {
@@ -50,7 +52,13 @@ export function fillVisibleForm(form: HTMLFormElement, input: UsedQuoteInput) {
     if (!field || typeof input[name] !== 'string') continue;
     field.value = input[name] as string;
     field.dispatchEvent(new Event('input', { bubbles: true }));
+    field.dispatchEvent(new Event('change', { bubbles: true }));
   }
+}
+
+/** Fields a visitor still has to fill before sending. */
+export function missingFields(form: HTMLFormElement): string[] {
+  return REQUIRED_FIELDS.filter((name) => !control(form, name)?.value.trim());
 }
 
 export async function submitUsedQuote(
@@ -98,6 +106,7 @@ export async function submitUsedQuote(
     }
     browser.dispatchEvent?.(new CustomEvent('dolphin:generate-lead', { detail: usedQuoteLeadDetail(input, channel) }));
     form.reset();
+    delete form.dataset.agentPrepared;
     const message = 'Received. An engineer will reply within one business day. This is a quote request, not an order.';
     showMessage(form, 'success', message);
     return { status: 'submitted', submitted: true, message };
@@ -119,6 +128,6 @@ export function initUsedQuoteForm() {
   form.dataset.ready = 'true';
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    void submitUsedQuote(form, readVisibleInput(form), 'form');
+    void submitUsedQuote(form, readVisibleInput(form), form.dataset.agentPrepared === 'true' ? AGENT_CHANNEL : 'form');
   });
 }

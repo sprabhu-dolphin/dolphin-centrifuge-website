@@ -140,8 +140,8 @@ test('the existing contact Worker accepts both payloads and stores the agent mar
   assert.equal(column(agent, 'attribution_medium'), 'webmcp');
   assert.equal(column(agent, 'attribution_content'), 'webmcp');
   assert.equal(column(agent, 'country'), 'MX');
-  assert.match(column(agent, 'attribution_raw_json'), /"agent_tool":"request_used_alfa_laval_quote"/);
-  assert.match(column(agent, 'additional_details'), /WebMCP quote tool/);
+  assert.match(column(agent, 'attribution_raw_json'), /"agent_tool":"prepare_used_alfa_laval_quote"/);
+  assert.match(column(agent, 'additional_details'), /WebMCP quote tool; the visitor reviewed and sent it/);
 });
 
 test('built page renders one H1, matching FAQ schema, the quote form and crawlable data', async (t) => {

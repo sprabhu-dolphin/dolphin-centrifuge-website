@@ -129,7 +129,10 @@ export const technicalCatalog = {
   ],
   agentInterface: {...oemCatalog.agentInterface,
     webMcp: {...oemCatalog.agentInterface.webMcp,
-      tools: [...oemCatalog.agentInterface.webMcp.tools, 'select_centrifuge_candidates']}},
+      tools: [...oemCatalog.agentInterface.webMcp.tools, 'select_centrifuge_candidates', 'find_used_alfa_laval_centrifuges'],
+      pageTools: {
+        prepare_centrifuge_inquiry: `${SITE}/contact-for-alfa-laval-centrifuges/`,
+      }}},
   statistics: {...oemCatalog.statistics, modelRecords: models.length,
     capacityRecords: models.reduce((sum, model) => sum + model.capacities.length, 0)},
   models,

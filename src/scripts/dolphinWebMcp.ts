@@ -124,6 +124,16 @@ async function withCatalog(
   }
 }
 
+/** Older Chrome builds pass the input as a JSON string. */
+function parseInput(input: unknown): unknown {
+  if (typeof input !== 'string') return input;
+  try {
+    return JSON.parse(input);
+  } catch {
+    return undefined;
+  }
+}
+
 function validateInput(input: unknown, schema: JsonObject): string | undefined {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return 'Expected an object of named parameters.';
   const fields = input as JsonObject;
@@ -321,11 +331,12 @@ export async function registerDolphinWebMcpTools(): Promise<boolean> {
     if (prior) return prior;
     const tool = {
       ...definition,
-      execute: async (input: JsonObject, context?: ToolExecutionContext): Promise<JsonObject> => {
+      execute: async (rawInput: unknown, context?: ToolExecutionContext): Promise<JsonObject> => {
         abortSignal(context)?.throwIfAborted();
+        const input = parseInput(rawInput);
         const invalid = validateInput(input, definition.inputSchema);
         if (invalid) return invalidInputResult(invalid);
-        return definition.execute(input, context);
+        return definition.execute(input as JsonObject, context);
       },
     };
     const registration = Promise.resolve()
