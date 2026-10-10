@@ -5,8 +5,8 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "RCF vs RPM in a Centrifuge | Formula to Convert G-Force",
-    "description": "How to convert centrifuge RPM to RCF (g-force) and back - the RCF formula explained with a worked example, plus why relative centrifugal force matters for separation.",
+    "headline": "RCF to RPM Calculator | Convert Centrifuge G-Force and Speed",
+    "description": "Free RCF to RPM calculator. Convert centrifuge speed to g-force (RCF) and back for lab rotors or industrial bowls, with the formula and a worked example.",
     "author": {
       "@type": "Person",
       "name": "Sanjay Prabhu",
@@ -44,7 +44,7 @@ const jsonLd = [
     },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
     "datePublished": "2020-10-20",
-    "dateModified": "2026-05-14",
+    "dateModified": "2026-10-10",
     "url": "https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/",
     "mainEntityOfPage": { "@id": "https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/#webpage" }
   },
@@ -53,20 +53,20 @@ const jsonLd = [
     "@type": "WebPage",
     "@id": "https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/#webpage",
     "url": "https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/",
-    "name": "RCF vs RPM in a Centrifuge | Formula to Convert G-Force",
-    "description": "How to convert centrifuge RPM to RCF (g-force) and back - the RCF formula explained with a worked example, plus why relative centrifugal force matters for separation.",
+    "name": "RCF to RPM Calculator | Convert Centrifuge G-Force and Speed",
+    "description": "Free RCF to RPM calculator. Convert centrifuge speed to g-force (RCF) and back for lab rotors or industrial bowls, with the formula and a worked example.",
     "isPartOf": { "@type": "WebSite", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
     "about": { "@type": "Thing", "name": "Centrifuge RCF and RPM Difference" },
-    "dateModified": "2026-05-14"
+    "dateModified": "2026-10-10"
   }
 ];
 ---
 
 <ApplicationLayout
   hideBottomCTA={true}
-  title="RCF vs RPM in a Centrifuge | Formula to Convert G-Force"
+  title="RCF to RPM Calculator | Convert Centrifuge G-Force and Speed"
   heroTitle="RCF vs RPM in a Centrifuge"
-  description="How to convert centrifuge RPM to RCF (g-force) and back - the RCF formula explained with a worked example, plus why relative centrifugal force matters for separation."
+  description="Free RCF to RPM calculator. Convert centrifuge speed to g-force (RCF) and back for lab rotors or industrial bowls, with the formula and a worked example."
   canonicalUrl="https://dolphincentrifuge.com/centrifuge-rcf-rpm-difference-calculation/"
   heroImage="/images/centrifuge-rcf-rpm-difference-calculation/Centrifuge-RCF-vs-RPM-Force-vs-Speed-1400.webp"
   heroImageAlt="Centrifuge RCF vs RPM force versus speed comparison diagram"
@@ -82,6 +82,7 @@ const jsonLd = [
     { id: "example-rcf-rpm", label: "Example of RCF and RPM in a Centrifuge" },
     { id: "rcf-formula", label: "Formula to Calculate RCF from RPM" },
     { id: "rcf-calculator", label: "Live RCF Calculator" },
+    { id: "rcf-to-rpm", label: "RCF to RPM Calculator" },
     { id: "rcf-disc-stack", label: "RCF in Disc Stack Centrifuge" },
     { id: "summary", label: "Summary" },
   ]}
@@ -251,6 +252,54 @@ const jsonLd = [
     }
   }
   calcRCF();
+  </script>
+
+  <!-- RCF to RPM Calculator -->
+  <h2 id="rcf-to-rpm" class="text-2xl md:text-3xl font-bold font-heading text-navy mb-4">RCF to RPM Calculator</h2>
+  <p class="text-text-light mb-4">Know the g-force you need? Enter the rotor or bowl radius and the target RCF to get the speed in RPM.</p>
+
+  <div class="not-prose my-6 bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+    <div class="bg-navy px-6 py-4">
+      <h3 class="text-white font-bold font-heading text-base">RCF to RPM Converter</h3>
+    </div>
+    <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div>
+        <label for="rpm-radius" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Radius</label>
+        <input id="rpm-radius" type="number" value="10" min="0.1" step="0.1"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+          oninput="calcRPM()" />
+      </div>
+      <div>
+        <label for="rpm-unit" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Radius Unit</label>
+        <select id="rpm-unit" onchange="calcRPM()"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold">
+          <option value="cm" selected>cm (lab rotors)</option>
+          <option value="in">inches (industrial bowls)</option>
+        </select>
+      </div>
+      <div>
+        <label for="rpm-rcf" class="block text-xs font-semibold text-navy uppercase tracking-wide mb-1">Target RCF (&times;g)</label>
+        <input id="rpm-rcf" type="number" value="5000" min="1" step="100"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-navy font-mono text-base focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+          oninput="calcRPM()" />
+      </div>
+    </div>
+    <div class="mx-6 mb-6 rounded-xl bg-navy/5 border border-navy/10 px-6 py-5 text-center">
+      <p id="rpm-result" class="text-5xl font-bold font-mono text-gold-darker leading-none">6,687</p>
+      <p class="text-xs text-navy font-semibold mt-1 uppercase tracking-wide">RPM</p>
+      <p class="font-mono text-gray-500 text-sm mt-2">RPM = &radic;(RCF &divide; (1.118 &times; 10<sup>-5</sup> &times; radius in cm))</p>
+    </div>
+  </div>
+
+  <script is:inline>
+  function calcRPM() {
+    const r = Math.max(parseFloat(document.getElementById('rpm-radius').value) || 0, 0);
+    const g = Math.max(parseFloat(document.getElementById('rpm-rcf').value) || 0, 0);
+    const rCm = document.getElementById('rpm-unit').value === 'in' ? r * 2.54 : r;
+    const rpm = rCm > 0 ? Math.sqrt(g / (1.118e-5 * rCm)) : 0;
+    document.getElementById('rpm-result').textContent = Math.round(rpm).toLocaleString();
+  }
+  calcRPM();
   </script>
 
   <!-- RCF in Disc Stack Centrifuge -->
