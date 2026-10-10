@@ -861,36 +861,47 @@ const hasOfferPrice = (offer: any): boolean => {
   return priceSpecs.some((spec) => spec && typeof spec === 'object' && hasSchemaValue(spec.price));
 };
 
+// Properties a schema.org Thing accepts. A price-less Product keeps only these.
+const thingProperties = new Set([
+  '@context', '@id', 'name', 'alternateName', 'description', 'disambiguatingDescription',
+  'image', 'url', 'identifier', 'sameAs', 'mainEntityOfPage', 'subjectOf',
+]);
+
 /**
- * Keeps the Product node on the page.
- *
- * Dolphin quotes every machine, so Product offers carry availability and a
- * seller but no price. Google needs offers.price for a Product rich result,
- * so a price-less offer is stripped - but the Product node itself stays.
- * Its brand (Alfa Laval), alternateName (the base machine) and model are the
- * signals buyers and AI crawlers read, and dropping the whole node to avoid a
- * "recommended field" notice threw those away on every model page.
+ * Dolphin quotes every machine and never publishes prices, so a Product node
+ * here almost never has a real offers.price. Google validates every Product
+ * (top-level or nested) for offers, review or aggregateRating and flags each
+ * one, so a Product without a real price becomes a plain Thing: name,
+ * description, image and url stay, Product-only fields (brand, model, offers,
+ * additionalProperty) go. A Product with a real price stays a Product, with
+ * any price-less offers stripped.
  *
  * Seller identity is not lost: the sitewide Organization node with
  * @id .../#organization renders on every page.
  */
 const normalizeProductSchema = (schema: Record<string, any>) => {
-  const normalized = JSON.parse(JSON.stringify(schema));
-  const offers = normalized.offers;
-  if (offers) {
-    const offerList = Array.isArray(offers) ? offers : [offers];
-    const validOffers = offerList.filter(hasOfferPrice);
-    if (validOffers.length > 0) {
-      normalized.offers = Array.isArray(offers) ? validOffers : validOffers[0];
-    } else {
-      delete normalized.offers;
+  const offerList = schema.offers ? [schema.offers].flat() : [];
+  const validOffers = offerList.filter(hasOfferPrice);
+
+  if (validOffers.length === 0) {
+    const thing: Record<string, any> = {};
+    for (const [key, value] of Object.entries(schema)) {
+      if (key === '@type') thing['@type'] = 'Thing';
+      else if (thingProperties.has(key)) thing[key] = JSON.parse(JSON.stringify(value));
     }
+    const thingImage = normalizeSchemaImage(thing.image);
+    if (hasSchemaValue(thingImage)) thing.image = thingImage;
+    else delete thing.image;
+    return thing;
   }
 
+  const normalized = JSON.parse(JSON.stringify(schema));
+  normalized.offers = Array.isArray(schema.offers) ? validOffers : validOffers[0];
+
   // Working rule: Dolphin sells and remanufactures these machines, it never
-  // manufactures them. Now that Product nodes reach the HTML, a leftover
-  // "manufacturer: Dolphin Centrifuge" would be a live claim, so it is dropped.
-  // A manufacturer naming anyone else is the page's own call and is kept.
+  // manufactures them. A leftover "manufacturer: Dolphin Centrifuge" would be
+  // a live claim, so it is dropped. A manufacturer naming anyone else is the
+  // page's own call and is kept.
   if (hasSchemaValue(normalized.manufacturer)) {
     if (Array.isArray(normalized.manufacturer)) {
       const others = normalized.manufacturer.filter((entry: any) => !isDolphinOrganizationNode(entry));
@@ -932,26 +943,18 @@ const normalizeBreadcrumbSchema = (schema: Record<string, any>) => {
   return normalized;
 };
 
-const normalizeSearchSchema = (schema: Record<string, any> | Record<string, any>[] | null): any => {
-  if (!schema) return null;
-  if (Array.isArray(schema)) {
-    return schema
-      .map((entry) => normalizeSearchSchema(entry))
-      .filter(Boolean);
-  }
-  if (typeof schema !== 'object') return schema;
+// Walks every node, top-level or nested anywhere in the tree, so a Product
+// inside mentions, about, isRelatedTo or itemOffered is normalized too.
+const normalizeSearchSchema = (schema: any): any => {
+  if (Array.isArray(schema)) return schema.map((entry) => normalizeSearchSchema(entry));
+  if (!schema || typeof schema !== 'object') return schema;
 
   const types = schemaTypes(schema);
-  if (types.includes('Product')) return normalizeProductSchema(schema);
   if (types.includes('BreadcrumbList')) return normalizeBreadcrumbSchema(schema);
-
-  if (schema['@graph']) {
-    const graph = normalizeSearchSchema(schema['@graph']);
-    if (!graph || (Array.isArray(graph) && graph.length === 0)) return null;
-    return { ...schema, '@graph': graph };
-  }
-
-  return schema;
+  const node = types.includes('Product') ? normalizeProductSchema(schema) : schema;
+  return Object.fromEntries(
+    Object.entries(node).map(([key, value]) => [key, normalizeSearchSchema(value)]),
+  );
 };
 
 // Build BreadcrumbList JSON-LD from breadcrumbs prop
