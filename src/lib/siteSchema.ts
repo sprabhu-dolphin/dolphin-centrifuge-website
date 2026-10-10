@@ -23,6 +23,8 @@ export const SANJAY_LINKEDIN_URL =
   'https://www.linkedin.com/in/sanjay-prabhu-a987085';
 export const SANJAY_EXTERNAL_AUTHOR_URL =
   'https://www.machinerylubrication.com/Authors/Detail/2429';
+export const SANJAY_WIKIDATA_URL = 'https://www.wikidata.org/wiki/Q141688558';
+export const ORG_WIKIDATA_URL = 'https://www.wikidata.org/wiki/Q141688553';
 export const UARK_THESIS_RECORD_URL =
   'https://onesearch.uark.edu/permalink/01UARK_INST/6np6g9/alma991022032739707336';
 export const UARK_COMMENCEMENT_RECORD_URL =
@@ -50,6 +52,7 @@ export const ORG_SAME_AS = [
   'https://www.youtube.com/DolphinCentrifuge',
   'https://twitter.com/DCentrifuge',
   'https://www.instagram.com/dolphin_centrifuge',
+  ORG_WIKIDATA_URL,
 ];
 
 export const ORG_KNOWS_ABOUT = [
@@ -111,7 +114,7 @@ export const sanjayPrabhuPersonJsonLd = {
   url: PERSON_PROFILE_URL,
   mainEntityOfPage: { '@id': PERSON_PROFILE_PAGE_ID },
   worksFor: { '@id': ORGANIZATION_ID },
-  sameAs: [SANJAY_LINKEDIN_URL, SANJAY_EXTERNAL_AUTHOR_URL],
+  sameAs: [SANJAY_LINKEDIN_URL, SANJAY_EXTERNAL_AUTHOR_URL, SANJAY_WIKIDATA_URL],
   subjectOf: [
     ...sanjayCredentialEvidenceJsonLd,
     {
