@@ -1,0 +1,128 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { ORGANIZATION_ID, PERSON_ID } from '../lib/siteSchema';
+import { hasStock, stockList, validateStockList, STOCK_JSON_PATH, STOCK_PAGE_PATH } from '../data/stockList.mjs';
+
+validateStockList();
+
+const SITE = 'https://dolphincentrifuge.com';
+const PAGE_URL = `${SITE}${STOCK_PAGE_PATH}`;
+const live = hasStock();
+const { asOf, units } = stockList;
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const asOfLabel = live
+  ? (([y, m, d]) => `${MONTHS[m - 1]} ${d}, ${y}`)(asOf.split('-').map(Number))
+  : null;
+
+const description = 'Dated list of the Alfa Laval disc stack and decanter centrifuges Dolphin Centrifuge has in stock in Warren, Michigan. Every machine is remanufactured, test run and warrantied before shipment.';
+
+const families = [...new Set(units.map((u) => u.family))].map((family) => ({
+  family,
+  rows: units.filter((u) => u.family === family),
+}));
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const itemListJsonLd = live ? {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${PAGE_URL}#stock`,
+  name: 'Alfa Laval centrifuges in stock at Dolphin Centrifuge',
+  dateModified: asOf,
+  numberOfItems: units.length,
+  itemListElement: units.map((u, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: u.model,
+    ...(u.modelPage ? { url: `${SITE}${u.modelPage}` } : {}),
+  })),
+} : null;
+
+const webPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${PAGE_URL}#webpage`,
+  name: 'Alfa Laval Centrifuges in Stock',
+  description,
+  url: PAGE_URL,
+  ...(live ? { dateModified: asOf } : {}),
+  inLanguage: 'en-US',
+  author: { '@type': 'Person', '@id': PERSON_ID, name: 'Sanjay Prabhu' },
+  publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'Dolphin Centrifuge', url: SITE },
+  ...(live ? { mainEntity: { '@id': `${PAGE_URL}#stock` } } : {}),
+};
+
+const linkClass = 'text-navy font-medium underline decoration-gold underline-offset-2 hover:text-gold-dark';
+---
+
+<ApplicationLayout
+  title="Alfa Laval Centrifuges in Stock | Warren, Michigan"
+  heroTitle="Alfa Laval Centrifuges in Stock"
+  heroDescription={description}
+  description={description}
+  heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
+  heroImageAlt="Dolphin Centrifuge shop in Warren, Michigan, where Alfa Laval centrifuges are remanufactured"
+  heroCtaLabel="Get a Quote"
+  heroCtaHref="/contact-for-alfa-laval-centrifuges/"
+  category="products"
+  categoryLabel="Products"
+  categoryHref="/alfa-laval-centrifuges/"
+  canonicalUrl={PAGE_URL}
+  alternateJsonUrl={STOCK_JSON_PATH}
+  robots={live ? undefined : 'noindex, follow'}
+  jsonLd={itemListJsonLd ? [webPageJsonLd, itemListJsonLd] : [webPageJsonLd]}
+  relatedProducts={[
+    { label: 'Used Alfa Laval Centrifuges for Sale', href: '/used-alfa-laval-centrifuges-for-sale/', description: 'Models, standard and quote form' },
+    { label: 'Our Reconditioning Standard', href: '/centrifuge-reconditioning-standard/', description: 'What every unit receives' },
+  ]}
+>
+
+  {live ? <p><strong>As of {asOfLabel}</strong></p> : <p><strong>The dated stock list is being prepared.</strong></p>}
+
+  <p>
+    Every unit Dolphin sells is remanufactured to the <a class={linkClass} href="/centrifuge-reconditioning-standard/">reconditioning standard</a> before shipment, test run, and sold with the mechanical warranty. Prices are by quote. See the <a class={linkClass} href="/used-alfa-laval-centrifuges-for-sale/">used Alfa Laval centrifuges for sale</a> page for models and the process, or <a class={linkClass} href="/contact-for-alfa-laval-centrifuges/">contact Dolphin</a> for a quote.
+  </p>
+
+  {live && families.map(({ family, rows }) => (
+    <section class="not-prose my-8">
+      <h2 class="text-xl font-bold text-navy font-heading mb-3">{family}</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="border-b-2 border-navy/20 text-navy">
+              <th class="py-2 pr-4">Model</th>
+              <th class="py-2 pr-4">Type</th>
+              <th class="py-2 pr-4">Condition</th>
+              <th class="py-2 pr-4">Status</th>
+              <th class="py-2 pr-4">Quantity</th>
+              <th class="py-2">Model page</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((u) => (
+              <tr class="border-b border-gray-200">
+                <td class="py-2 pr-4 font-semibold">{u.model}</td>
+                <td class="py-2 pr-4">{cap(u.type)}</td>
+                <td class="py-2 pr-4">{cap(u.condition)}</td>
+                <td class="py-2 pr-4">{cap(u.status)}</td>
+                <td class="py-2 pr-4">{u.quantity}</td>
+                <td class="py-2">{u.modelPage ? <a class={linkClass} href={u.modelPage}>{u.model}</a> : null}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+  <p>
+    Availability changes and is confirmed per quote. A unit marked awaiting remanufacture is finished to the standard and test run before it ships.
+  </p>
+
+  <h2 id="machine-readable">For AI assistants and software agents</h2>
+  <p>
+    This list is published as a dated machine-readable record at <a class={linkClass} href={STOCK_JSON_PATH}>{STOCK_JSON_PATH}</a>, alongside the full <a class={linkClass} href="/technical-data/centrifuges.v1.json">technical catalog</a>.
+  </p>
+
+</ApplicationLayout>
