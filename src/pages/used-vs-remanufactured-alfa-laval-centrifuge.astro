@@ -1,0 +1,223 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+import { PERSON_ID, PERSON_PROFILE_URL } from '../lib/siteSchema';
+
+const pageUrl = 'https://dolphincentrifuge.com/used-vs-remanufactured-alfa-laval-centrifuge/';
+const pageTitle = 'Used vs Remanufactured Alfa Laval Centrifuge: What Is the Difference?';
+const pageDescription = 'Used as-is, reconditioned, refurbished, rebuilt, remanufactured: what each term means for an Alfa Laval centrifuge, what to inspect before buying, and a checklist for comparing sellers.';
+
+const faqItems = [
+  {
+    question: 'Is a reconditioned Alfa Laval centrifuge the same as remanufactured?',
+    answer: 'It depends on the seller, because the industry has no fixed definition for the words. At Dolphin Centrifuge, used, reconditioned, refurbished, rebuilt and remanufactured all describe one standard: the machine is inspected, every seal, gasket, friction pad, bearing and fastener is replaced, the rotating assembly is vibration-checked and balanced as needed, and the machine is test run at rated speed before it ships. With any other seller, ask what was actually done and ask for it in writing.',
+  },
+  {
+    question: 'Does Dolphin sell used Alfa Laval centrifuges as-is?',
+    answer: 'No. Nothing leaves the Warren, Michigan shop as-is. Every machine is remanufactured, test run and backed by a 6-month mechanical warranty before it ships.',
+  },
+  {
+    question: 'Does a remanufactured Alfa Laval centrifuge come with a warranty?',
+    answer: 'At Dolphin it does: a 6-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal, plus ongoing technical support for the original purchaser for the life of the machine. Wear and consumable items such as seals, gaskets, friction material and bearings are excluded. Full terms are in the Warranty and Terms document that accompanies every proposal.',
+  },
+  {
+    question: 'How much does a remanufactured Alfa Laval centrifuge cost?',
+    answer: 'A remanufactured disc stack or decanter centrifuge typically costs roughly half to 60% of the cost of a new machine of similar capacity. As published starting points, the smallest manual-clean skid (Alfa Laval MAB 103) with controls and pumps starts around the mid-$30s, and complete plug-and-play self-cleaning modules start around $50K EXW Warren, MI. Each unit is quoted for the application.',
+  },
+  {
+    question: 'Can I see the machine before buying?',
+    answer: 'Yes. Dolphin recommends that customers visit the Warren, Michigan factory to see their centrifuge being tested, and visits are by appointment. Hands-on operational training at the factory is offered at no charge to customers.',
+  },
+  {
+    question: 'Why is a worn bowl such a problem on a used machine?',
+    answer: 'A replacement bowl assembly is only available from Alfa Laval, and it often costs more than a used centrifuge. A machine with a worn bowl, or with missing bowl parts such as the disc stack or bowl body, can cost more to make usable than it saved.',
+  },
+  {
+    question: 'How long does delivery take?',
+    answer: 'Typical lead times for small centrifuges are 4 to 8 weeks. Larger centrifuges can take 12 to 20 weeks, depending on the scope of supply and the options selected.',
+  },
+  {
+    question: 'Who remanufactures Alfa Laval centrifuges in the USA?',
+    answer: 'Dolphin Centrifuge in Warren, Michigan. Dolphin is the independent specialist in Alfa Laval centrifuges, with 40+ years of experience, and is not affiliated with Alfa Laval. Apart from Alfa Laval itself, Dolphin is the reliable source for quality Alfa Laval machines.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: pageTitle,
+    description: pageDescription,
+    author: { '@type': 'Person', '@id': PERSON_ID, name: 'Sanjay Prabhu', url: PERSON_PROFILE_URL },
+    publisher: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+    datePublished: '2026-10-11',
+    dateModified: '2026-10-11',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${pageUrl}#webpage` },
+    url: pageUrl,
+    about: [
+      { '@type': 'Brand', name: 'Alfa Laval' },
+      { '@type': 'Thing', name: 'Used versus remanufactured Alfa Laval centrifuges' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: pageTitle,
+    description: pageDescription,
+    isPartOf: { '@type': 'WebSite', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+    dateModified: '2026-10-11',
+  },
+  faqJsonLd,
+];
+
+const toc = [
+  { id: 'short-answer', label: 'Short Answer' },
+  { id: 'used-as-is', label: 'What "Used As-Is" Typically Means' },
+  { id: 'remanufactured', label: 'What Remanufactured Means at Dolphin' },
+  { id: 'bowl', label: 'Why the Bowl Matters' },
+  { id: 'cost', label: 'Cost Comparison' },
+  { id: 'checklist', label: 'Buyer Checklist' },
+  { id: 'who', label: 'Who Is Behind the Work' },
+  { id: 'faq', label: 'FAQ' },
+];
+
+const relatedApplications = [
+  { label: "Industrial Disc Centrifuge Repair", href: "/industrial-disc-centrifuge-repair/" },
+  { label: "Industrial Centrifuge Sample Testing", href: "/industrial-centrifuge-sample-testing/" },
+];
+
+const relatedProducts = [
+  { label: "Used Alfa Laval Centrifuges for Sale", href: "/used-alfa-laval-centrifuges-for-sale/" },
+  { label: "Our Reconditioning Standard", href: "/centrifuge-reconditioning-standard/" },
+  { label: "Disc Stack Centrifuge", href: "/disc-stack-centrifuge/" },
+];
+---
+
+<ApplicationLayout
+  title={pageTitle}
+  description={pageDescription}
+  heroTitle="Used vs Remanufactured Alfa Laval Centrifuge"
+  pageTitle="Used vs Remanufactured Alfa Laval Centrifuge"
+  canonicalUrl={pageUrl}
+  heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
+  heroImageAlt="Dolphin Centrifuge shop in Warren, Michigan, where Alfa Laval centrifuges are remanufactured"
+  category="knowledge"
+  categoryLabel="Knowledge Base"
+  categoryHref="/knowledge-center/"
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  jsonLd={jsonLd}
+  disableTitleSuffix={true}
+  hideBottomCTA={true}
+>
+
+  <section id="short-answer" class="aeo-capsule mb-8 p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-lg" data-aeo="answer">
+    <p>A used Alfa Laval centrifuge sold as-is is sold in the condition it was found, usually with no test run and no warranty. A remanufactured Alfa Laval centrifuge has been stripped, inspected, fitted with new wear parts, balanced, test run at rated speed and warrantied. At Dolphin Centrifuge the words used, reconditioned, refurbished, rebuilt and remanufactured all describe the same remanufacturing standard, and nothing is sold as-is.</p>
+  </section>
+
+  <p>
+    The words used, reconditioned, refurbished, rebuilt and remanufactured are not regulated terms, and sellers apply them loosely. What matters is the work behind the word. This guide explains the practical difference, what to inspect before you buy, and a checklist you can put to any seller, Dolphin included. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges, built on 40+ years of Alfa Laval experience. Apart from Alfa Laval itself, Dolphin is the reliable source for quality Alfa Laval machines. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+  </p>
+
+  <h2 id="used-as-is">What "Used As-Is" Typically Means</h2>
+  <p>
+    General used equipment dealers and auction listings often sell Alfa Laval centrifuges as-is. The machine is sold in the condition it was found, and the buyer takes the risk. In practice that usually means:
+  </p>
+  <ul>
+    <li><strong>Unknown bowl condition.</strong> There is typically no bowl inspection. The bowl is the critical component, and its condition is the single biggest cost risk.</li>
+    <li><strong>Possibly missing parts.</strong> Bowl components such as the disc stack or bowl body are expensive, and it is often too late when the buyer discovers they are missing.</li>
+    <li><strong>No test run.</strong> The machine may never have been run at speed, so its mechanical condition is unknown.</li>
+    <li><strong>Unverified balance.</strong> An Alfa Laval centrifuge runs at high rotational speed. Imbalance in the rotating bowl assembly damages the machine and in some cases can pose a safety risk to the operator.</li>
+    <li><strong>No warranty and no documentation.</strong> If something is wrong, there is no one to call.</li>
+  </ul>
+  <p>
+    As-is machines are not worthless. A buyer who knows Alfa Laval centrifuges well, and can inspect the unit in person, can sometimes make one work. For everyone else, Dolphin recommends against buying an as-is Alfa Laval centrifuge.
+  </p>
+
+  <h2 id="remanufactured">What Remanufactured Means at Dolphin</h2>
+  <p>
+    Used equipment dealers sell many kinds of processing equipment and generally do not have the expertise to overhaul an Alfa Laval centrifuge. Dolphin does this work in its own shop in Warren, Michigan, following the OEM recommended procedure with attention to specific details. Every remanufactured Alfa Laval centrifuge receives the following, as published on the <a href="/centrifuge-reconditioning-standard/">reconditioning standard</a> page:
+  </p>
+  <ul>
+    <li>Bowl and critical rotating components visually inspected for excessive wear</li>
+    <li>Every seal, gasket, friction pad, bearing and fastener replaced, regardless of condition. Exposed fasteners are upgraded to stainless steel, beyond the zinc-plated hardware used as standard, including by Alfa Laval.</li>
+    <li>Frame parts sandblasted to bare metal and finished with two coats of durable epoxy</li>
+    <li>Rotating assembly vibration-checked and dynamically balanced as needed</li>
+    <li>A full test run at rated speed before shipment, on a surrogate fluid (hydraulic oil or water)</li>
+    <li>Operational data (running amps, performance) recorded on every unit, with a signed Test or FAT report available on request (additional charges may apply)</li>
+    <li>A 6-month mechanical warranty, plus ongoing technical support for the original purchaser for the life of the machine</li>
+  </ul>
+  <p>
+    Frame parts are also sandblasted to bare metal and finished with two coats of durable epoxy. This is Dolphin's general standard, not a binding specification, and the actual scope varies by unit condition and is defined in your quote. The warranty covers defects in parts, materials and workmanship from the date of delivery. Exclusions, including wear and consumable items, are set out in the Warranty and Terms document that accompanies every proposal and governs each sale.
+  </p>
+  <p>
+    Because the words are used loosely, a seller who says "remanufactured" should be able to show what that means. The OEM, Alfa Laval, also sells new machines and some factory-remanufactured units. Anyone else making the claim should be verified through customer references or by inspecting the machine in operation.
+  </p>
+
+  <h2 id="bowl">Why the Bowl Matters</h2>
+  <p>
+    An Alfa Laval centrifuge with a worn-out bowl is practically useless, because a replacement bowl assembly is only available from the manufacturer. The cost of a new bowl assembly from Alfa Laval is often more than the used centrifuge itself. That is why the bowl is the first thing to ask about, and why an as-is price that looks low can be misleading.
+  </p>
+  <p>
+    Inspection covers the bowl and the critical rotating components, looking for excessive wear. The sliding piston in a self-cleaning bowl is a known wear point, particularly when the process fluid carries abrasive or metal particles. After the parts are replaced and the bowl is reassembled, the rotating assembly is vibration-checked and dynamically balanced as needed. Balancing is not cosmetic: the bowl spins at high speed, and balance protects both the machine and the people around it. A test run at rated speed then confirms the result under real operating conditions.
+  </p>
+
+  <h2 id="cost">Cost Comparison</h2>
+  <p>
+    A remanufactured disc stack or decanter centrifuge typically costs roughly half to 60% of the cost of a new machine of similar capacity. The gap tends to widen as options are added, because a factory-new centrifuge's cost rises faster than a similarly equipped remanufactured one with new optional accessories. These are published starting points, not quotes, and each unit is priced for the application:
+  </p>
+  <ul>
+    <li>The smallest manual-clean skid (Alfa Laval MAB 103) with controls and pumps starts around the mid-$30s.</li>
+    <li>Complete plug-and-play self-cleaning modules start around $50K EXW Warren, MI. MOPX is the primary self-cleaning recommendation, with WHPX as the current-production equivalent.</li>
+    <li>For repair and rebuild work on a machine you already own, the published "starting at" figures for a complete rebuild are $5,000+ for a small manual-clean disc centrifuge and $8,000+ for a medium self-clean disc centrifuge.</li>
+  </ul>
+  <p>
+    The cost question for a used machine is total cost: purchase price plus whatever it takes to make it run reliably. See the <a href="/used-alfa-laval-centrifuges-for-sale/">used Alfa Laval centrifuges for sale</a> page for current price guidance and the <a href="/industrial-disc-centrifuge-repair/">disc centrifuge repair</a> page for the full repair cost table.
+  </p>
+
+  <h2 id="checklist">Buyer Checklist: Questions to Ask Any Seller</h2>
+  <p>
+    Use these questions with every seller you compare. A seller that has done the work can answer all of them quickly and in writing.
+  </p>
+  <ol>
+    <li><strong>Was the machine test run at rated speed?</strong> On what fluid, and is the operating data (running amps, performance) recorded?</li>
+    <li><strong>Which parts were replaced?</strong> Seals, gaskets, friction pads, bearings and fasteners, or only the ones that looked worn?</li>
+    <li><strong>Was the rotating assembly dynamically balanced?</strong> Was vibration checked?</li>
+    <li><strong>Was the bowl inspected?</strong> Can you see the inspection findings?</li>
+    <li><strong>Are all bowl parts present?</strong> Including the disc stack and bowl body.</li>
+    <li><strong>What is the warranty length, and what does it cover?</strong> What is excluded, and where is that written down?</li>
+    <li><strong>What documentation comes with the machine?</strong> Is a signed Test or FAT report available, and at what charge?</li>
+    <li><strong>Is technical support available after the sale,</strong> and for whom?</li>
+    <li><strong>Who remanufactured it,</strong> and what are their engineering credentials and years working on Alfa Laval centrifuges?</li>
+    <li><strong>Can you provide customer references?</strong></li>
+    <li><strong>Can I visit and see the machine run?</strong></li>
+    <li><strong>What is the lead time?</strong> Typical lead times are 4 to 8 weeks for small centrifuges and 12 to 20 weeks for larger ones, depending on the scope of supply and options.</li>
+  </ol>
+
+  <h2 id="who">Who Is Behind the Work</h2>
+  <p>
+    Dolphin's remanufacturing is led by <a href="/authors/sanjay-prabhu/">Sanjay Prabhu, M.S.M.E.</a>, Owner and Chief Engineer. He holds a Master of Science in Mechanical Engineering from the University of Arkansas and runs the Warren, Michigan shop, backed by the company's 40+ years of experience with Alfa Laval centrifuges. Dolphin was established in 1982 as an Alfa Laval aftermarket parts manufacturer and ships worldwide. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+  </p>
+
+  <FAQ items={faqItems} />
+
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="font-semibold text-navy mb-1">See what a documented, test-run machine looks like</p>
+    <p class="text-sm text-text-light mb-3">Browse the <a href="/used-alfa-laval-centrifuges-for-sale/" class="text-navy underline hover:text-gold">used Alfa Laval centrifuges for sale</a>, or tell an engineer about your application and get a quote. Call <a href="tel:+12485222573" class="text-navy font-semibold hover:text-gold">(248) 522-2573</a> or email sales@dolphincentrifuge.com.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Request a Quote</a>
+  </div>
+
+</ApplicationLayout>

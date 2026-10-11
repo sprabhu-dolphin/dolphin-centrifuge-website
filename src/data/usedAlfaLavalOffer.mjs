@@ -141,7 +141,7 @@ export const usedOffer = {
     sources: [STANDARD],
   },
   inventory: {
-    statement: '150+ centrifuges in stock at the Warren, Michigan facility, available for rebuild and custom configuration.',
+    statement: '150+ Alfa Laval centrifuges in stock in Warren, Michigan',
     commonlyStocked: 'MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; NX 314 and NX 418 decanters.',
     perModelCountsPublished: false,
     howToConfirm: 'Current availability of an exact model is confirmed per quote. Call (248) 522-2573 or request a quote.',
