@@ -1,0 +1,115 @@
+# HANDOFF: Dolphin Centrifuge AI-visibility, rankings and outreach program
+
+Written 2026-10-11 (late) by the Claude session that ran the work. Read this whole file before doing anything. It is the complete record of what was done, what is live, what is pending, and exactly how to continue. The repository is `C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website` (production = `origin/master`; Cloudflare Pages deploys on push; the local checkout is on a stale branch `r5-last-rulings` with unrelated uncommitted work: NEVER touch it, always work in a fresh worktree `git worktree add --detach /tmp/dcw-<name> origin/master`).
+
+## 0. How to work with Sanjay (non-negotiable, learned the hard way)
+
+- Sanjay has ADHD. Lead with the result. Short bullets. ONE thing for him at a time, in bold at the very bottom of the reply. Never a list of tabs or clicks. Never dump ten files at once; show one, get "ok N", then the next.
+- He gets anxious from open Chrome tabs. Every agent must close the tabs it opened before reporting. Keep only the tab actively being worked.
+- Fable-class model = orchestrator only. Legwork goes to Sonnet (judgment/Chrome work) or Haiku (mechanical/research). Sanjay asked for Haiku minions where possible.
+- Hard limits that written authority does NOT change: the agent never types or creates passwords, never creates accounts, never enters card numbers, never solicits reviews. The agent stages the screen; Sanjay does the single keystroke/click. Once Chrome has a password saved, agents can get back in without him (Chrome autofills).
+- No bait-and-switch listings. Sanjay agreed: never list machines we do not have as in stock. Completed skids are listed as "built to order"; machines in stock are listed as in stock; every description carries "Dolphin Centrifuge keeps 150+ Alfa Laval centrifuges in stock in Warren, Michigan."
+- NO Google reviews solicitation, no "leave a review" links anywhere (owner ruling 2026-10-11: afraid of one bad review).
+- Customer-facing text: concise, engineer's voice, no em dashes, no invented facts, never "authorized"/"affiliated" except the standard line "Dolphin Centrifuge is an independent remanufacturer and is not affiliated with Alfa Laval." Never write "CRPX" (say "PX 207"). Warranty is now 12-month mechanical (owner decision 2026-10-11), mentioned as fine print ("Terms: 12-month mechanical warranty and ongoing technical support for the original purchaser, as specified in the formal proposal."), never in titles or banners.
+- Owner facts allowed: founded 1982 (Dolphin Marine Services, India origin not mentioned), US branch Google Business Profile opening date May 1994 (keep), 150+ machines in stock, 500+ systems since 1982, 40+ years, Sanjay Prabhu M.S.M.E. (University of Arkansas), Owner and Chief Engineer, CAGE 1WLJ5, UEI CLG9TCUVFDM8, recent single repair order $60,000, supplies nuclear and gas-fired power plants.
+- Capacities on the website must come from `src/data/centrifugeSpecs.ts` with fluid and conditions (docs/SPEC_SOURCE.md). Never type a GPM number into a page.
+- Push route: branch protection blocks `sprabhu-agent`; push as owner with `GIT_TERMINAL_PROMPT=0 GCM_INTERACTIVE=never git -c credential.helper= -c credential.helper=manager push origin HEAD:master` (see skill dolphin-github). Commit footer: `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>` (or current model).
+
+## 1. Author schema (done, live)
+
+- Canonical Person `https://dolphincentrifuge.com/authors/sanjay-prabhu/#person` on all pages; MSME University of Arkansas backed by thesis catalog, 1991 commencement program, Senior Walk; B.E. University of Poona; sameAs LinkedIn, Machinery Lubrication author page, Wikidata.
+- Fixed: the one article authored by the Organization (Alfa Laval industrial centrifuges); author page `dateModified` now full ISO timestamp (clears Google's Profile warning).
+- Wikidata created (account `DolphinCentrifuge`, WARP VPN must be OFF to edit Wikidata): Sanjay Prabhu Q141688558, Dolphin Centrifuge Q141688553 (inception 1982, director Sanjay, website, LinkedIn). COI disclosure on User:DolphinCentrifuge. Both linked from siteSchema sameAs and llms.txt.
+- Machinery Lubrication: email sent 2026-10-10 to Mike Ramsey (MRamsey@noria.com) asking to change title "Engineering Manager" to "Owner and Chief Engineer" and add bio; article offer sent 2026-10-11 (draft article at docs/press/2026-10-used-disc-stack-centrifuge-evaluation.md). No reply yet. Follow-up scheduled task Oct 18.
+- IQS Directory (Nate Skirvin) and OilMonster (info@) correction emails sent 2026-10-10; no reply yet.
+- LinkedIn personal profile website link: unverified (LinkedIn not signed in in agent Chrome).
+
+## 2. WebMCP (done, live)
+
+- Spec current (document.modelContext). Fixed: quote tool now only fills the form (prepare_used_alfa_laval_quote); used-finder output shortened; tool lists updated; JSON-string input accepted.
+- Origin-trial tokens in `src/layouts/BaseLayout.astro`: Chrome token (expires 2027-03-29), Edge token (expires 2026-11-24, renew at developer.microsoft.com Edge origin trials, GitHub sign-in). Old Edge token also present (expires 2026-10-28).
+
+## 3. Rankings / SEO fixes (done, live)
+
+- Decanter page: Aug 29 demotion traced to Aug 22-23 title/schema switch to sales listing; restored guide title "Decanter Centrifuge | Working, Types, Benefits, Cost, Specs, Uses", removed Product schema, neutral Manufacturers section. Check scheduled Oct 31.
+- New titles: /industrial-centrifuge/ (variant D "Industrial Centrifuge Machines: Types, Sizing & Price Guide", logged in docs/SEO_TITLE_EXPERIMENT_2026-08.md), /three-phase-decanter/, /dewatering-centrifuge/, /wastewater-centrifuge/, /centrifuge-rcf-rpm-difference-calculation/ (+ RCF-to-RPM calculator), /industrial-disc-centrifuge-repair/ ("Alfa Laval Centrifuge Repair | Disc Stack Rebuild & Testing"), /alfa-laval-centrifuges/ ("Remanufactured Alfa Laval Centrifuges for Sale | Tested, 12-Month Warranty"), /centrifuge-reconditioning-standard/.
+- Product schema removed sitewide (no real prices): BaseLayout converts price-less Product to Thing; clears Merchant/Product snippet errors. Only /used-oil/ (noindex) keeps a priced AggregateOffer.
+- Sitemap lastmod from git (config/sitemap-lastmod.mjs, unshallows the Cloudflare clone). /tour3/ added to sitemap and re-index requested (duplicate-canonical issue). Duplicate G2 PDF redirected. Video uploadDate timestamps fixed.
+- Semrush (account sprabhu@dolphincentrifuge.com, free, 10 keywords, weekly): removed typo/low keywords, added waste oil centrifuge for sale, used alfa laval centrifuge, alfa laval centrifuge repair, centrifuge parts. Old account wasteoil@ also exists.
+- Google Business Profile (Dolphin Centrifuge, 24248 Gibson Dr): website https, description rewritten (remanufacturer, 12-month warranty, Sanjay M.S.M.E.), 7 services, category "Machine repair service" added, one Update post (pending review, no photo). Second profile "Alfa Laval Centrifuge Systems" (Farmington Hills, website centrifug.es) kept per owner. centrifug.es https is broken (IONOS, no cert) - parked.
+- IndexNow installed: key file public/1f21bfa758a8c3d1d147fa89ab8c6c09.txt, `npm run indexnow -- --sitemap` or `MSYS_NO_PATHCONV=1 node scripts/indexnow-submit.mjs <urls>`; whole sitemap submitted several times. Bing Webmaster Tools NOT verified (needs Microsoft sign-in). Bing Places listing exists and is verified.
+- Google Search Console indexing requested for all new pages (used page, guide, press, reconditioning, Alfa Laval hub, sample testing, turbine, food wastewater, stock list, decanter, author).
+
+## 4. Site content for AI engines (done, live)
+
+- /used-alfa-laval-centrifuges-for-sale/ published (was noindex draft): title "Used Alfa Laval Centrifuges for Sale | Remanufactured, Tested, 12-Month Warranty", in nav "Used Alfa Laval for Sale", linked from 8 pages, in llms.txt, MOPX primary, prices "mid $30Ks / around $50K EXW / mid $60Ks".
+- /used-vs-remanufactured-alfa-laval-centrifuge/ guide (definitional page + buyer checklist).
+- /dolphin-centrifuge-in-the-press/ (every real external mention: Machinery Lubrication, two Wikipedia citations, Wikidata, UARK records, Grain Journal, IQS, OilMonster, LinkedIn).
+- /turbine-oil-centrifuge-power-plants/ and /food-industry-wastewater-centrifuge/ (high-value pages, nuclear and gas-fired plants, Class I Div 1/2, stainless, DAF/grease trap; BOD video embedded).
+- /alfa-laval-centrifuges-in-stock/ dated stock list (asOf 2026-10-11, source sheet "D:\Dolphin - Personal\Personal\2025 Business Evaluation Effort\Inventory\List w Capacities.xlsx" dated 2025-12-09): 45 complete units, specs from spec data, no prices/serials; data file src/data/stockList.mjs; JSON /technical-data/stock-list.v1.json. Conditions: remanufactured / remanufactured to order / new old stock, unused.
+- Test-run videos embedded with VideoObject on reconditioning, used-for-sale and sample-testing pages (src/lib/dolphinVideos.ts, YouTubeEmbed.astro).
+- llms-full.txt built at build time (scripts/build-llms-full.mjs, 13 key pages); Service + OfferCatalog schema sitewide (#remanufacturing-service); Organization slogan; knowsAbout extended (turbine oil, hazardous area, food wastewater, repair).
+- Fact consistency pass: stock wording, lead times (4-8 weeks small, 12-20 large), price vs new ("roughly half to 60%"), 12-month warranty everywhere, process list (sandblast + two-coat epoxy added), test fluid "hydraulic oil or water", parts "2,000+ OEM and aftermarket", team "40+ years", geo 42.473396/-83.002444, LocalBusiness @id.
+- All hand-typed capacity figures replaced by spec lookups (src/data/specLookup.ts) or "quoted per application"; WHPX 410 references removed.
+- Capabilities statement PDF: docs/press/Dolphin-Centrifuge-Capabilities-Statement-2026.pdf (for utility supplier registrations).
+
+## 5. External profiles (state)
+
+- Thomasnet: old buyer login sprabhu@dolphinmarine.com (password reset done); NEW owner account sprabhu@dolphincentrifuge.com created by Sanjay; company profile claimed (auto-approved, cid 1145995, public https://www.thomasnet.com/company/dolphin-marine-industrial-centrifuges-1145995/profile). Updated: name Dolphin Centrifuge, 24248 Gibson Dr, phone, founded 1982, https website, key personnel Sanjay, logo, social links (LinkedIn, Facebook, X, YouTube), 2,156-char description (all high-value capabilities, 12-month warranty). Not done (free tier lacks fields): categories/brands/keywords (paid Catalog Manager), news/press release and content library (not opened yet; may be free - check). Public page refreshes within 48 h. UPDATE 2026-10-11 pm: social links saved (Thomasnet forces http on FB/X/LinkedIn; LinkedIn real slug is /company/dolphin-centrifuge; X saved as twitter.com/DCentrifuge, x.com rejected; YouTube @DolphinCentrifuge). Content Library filled free: capabilities PDF, 6 images, 4 YouTube videos (11 items). Thomasnet-authored description is directly editable on mission.html via 'click here' (3,750 chars) - REPLACED and saved 2026-10-11 pm after Sanjay typed yes (new Dolphin Centrifuge blurb, 590 chars). Catalog Manager = paid Navigator ($75-$1000/mo tiers). WebTrax = free for listed suppliers, separate account at https://webtrax.thomasnet.com/register/login (email -> Company Info -> request); WebTrax account for sprabhu@dolphinmarine.com already existed (own password, not the Thomasnet one); password reset done by Sanjay 2026-10-11 ~20:20 UTC; access request SUBMITTED for Dolphin Centrifuge / https://dolphincentrifuge.com (submissionGuid f7192aaf-eae7-4af2-94f3-2a8b97c6ada8) with optional classification info (1982, 1-9 employees, $1-4.9M, Sanjay as President/Sales/Engineering, all export regions, 10 focus categories). Thomas 'will be in touch'; next: sign in at https://webtrax.thomasnet.com/ when approved, get tracking script, add to site layout, deploy. Analytics 90d: 80 impressions, 10 website views, 5 in-market buyers (names locked), 0 leads. Pricing not public; sales (877) 846-6638; third-party estimates $7-10k/yr typical, $25k+ in crowded categories.
+- ANS Nuclear News Buyers Guide: free listing submitted, id 2583 (https://www.ans.org/news/bg/listings/edit/id-2583/), categories Lubricating Oil Filters, Testing, Maintenance & Repair General, Pump Inspection & Repair; no description field. Paid: 1/3 page print ad $3,190 (reservation deadline March 19, 2027) gives logo + Featured Supplier; advertising@ans.org, 708-579-8226; Michigan rep Kingwill Co. 847-537-9196. Owner is open to paying (one nuclear sale pays for it).
+- POWER magazine Buyers' Guide: free basic listing request DRAFTED in sprabhu Gmail to Diane Burleson (dianeb@powermag.com), not sent.
+- IndustryNet/MNI: existing profile found by phone; contact form submitted asking for Company ID/Access Code (reply expected to sprabhu@).
+- Utility supplier portals to register (one at a time, with the capabilities PDF): DTE Energy (dteenergy.com/supplychain), Consumers Energy via PowerAdvocate (also FirstEnergy, Entergy), Dominion and AEP via SAP Ariba, Exelon/Constellation via GEP, TVA, FPL. Not started.
+- Social: Instagram corrected (name, bio). LinkedIn company page (address 24344 wrong, founded 1981 wrong, tagline), Facebook, X: NOT signed in in agent Chrome; corrected text ready in the social-check report (see task output folder). YouTube: channel renamed "Dolphin Centrifuge", description, links, contact email done; site-link footer appended to 75 of 79 videos (3 had it; 1 over length limit left alone).
+- Surplus Record: see section 6.
+- Machinio: NOT free (about $29/listing/month) - dropped per owner.
+- Google Ads: waste oil moved to own campaign "Search - Waste Oil" ($7/day), main campaign $13/day, 14 phrase negatives, 8 keywords paused, mobile bid -50%, Spanish removed, new ad copy, "40+ Years in Business" callout, assets copied. Monthly bleed scan runs at session start.
+
+## 6. Surplus Record (IN PROGRESS - the active workstream)
+
+- Account: sprabhu@dolphincentrifuge.com (password set by Sanjay; Chrome has it). Dealer portal https://surplusrecord.com/my-sr/. Sanjay PAID Basic ($90/month, month-to-month, 10 listings) on 2026-10-11; dashboard shows "We are busy upgrading your account" / "Upgrade Pending"; listings go live when Surplus Record verifies. Tracking: every listing dealer URL carries `?utm_source=surplusrecord&utm_medium=listing&utm_campaign=<slug>`; dealer profile link carries utm too; the contact Worker stores attribution in D1 `submissions`; GA4 G-9DCDDZTT9N.
+- Company name on the account still "DOLPHIN MARINE" (change request form unlocks after upgrade; text drafted in the Change Requests box, unsent). Dealer profile description, logo, website done (12-month wording).
+- Ten listings saved as PENDING. seq_ids: BTPX 205 62849341375341; PX 207 56388891836197; MAB 104 92776457488946; PX 210 45788467592443; NX 418 17996627852692; WHPX 513 27436919632418; WHPX 510 92752332973243; MOPX 207 87891459415987; Sharples P-3400 21775197959772; WSPX 207 39516167766731. Edit URL pattern https://surplusrecord.com/mysr/listings/edit/?seq_id=<id>, photos https://surplusrecord.com/mysr/listings/photos/?seq_id=<id>. Save needs a JavaScript click on `#my-sr-save-button` (ref clicks silently fail). Never select Feature ($10/$50).
+- Clean final texts: `%TEMP%\claude\C--Users-Sanjay-Prabhu-Documents-GitHub-dolphin-centrifuge-website\0b9bcdc1-f783-4dc5-953a-2c752d4e9349\scratchpad\listings\premium\listings-final.json` (n=1..10, no annotations, warranty as fine print). Build scripts mkfinal.cjs / build2.cjs in the scratchpad root. Previews: docs/press/surplus-record-previews/v2/NN-*.pdf and .png (v1 folder is the rejected version with notes/warranty banners).
+- APPROVAL STATUS (Sanjay reviews ONE preview at a time; he says "ok N"):
+  - 1 BTPX 205: APPROVED and UPDATED on Surplus Record (title "Alfa Laval BTPX 205 Biotech Disc Stack Centrifuge Module (2 available)", his three photos: module front, module side, nameplate with serial 4121948; price shows 0.00 because field cannot be blank).
+  - 2 PX 207: photos are the owner's two from `N:\Skids\_CRPX\CRPX 207 (CARBON OPT)` (`CRPX 207 Carbon Opt Codex.PNG` = skid front with stainless touch tank and sludge transfer pump; `DMPX 028 SS.png` = skid with stainless control cabinet and touchscreen), copied to premium\px207\PX207-1-skid-front.jpg and PX207-2-skid-controls.jpg. Title "Alfa Laval PX 207 Stainless Steel Clarifier Skid, Tested, Ready to Ship". Owner-corrected description (final, in listings-final.json n=2): stainless steel touch tank with stainless sludge transfer pump (NOT a heater tank), stainless control cabinet with touchscreen PLC, feed pump, stainless piping; applications: soy and plant protein extraction, chemical precipitate and catalyst separation, chemical clarification, algae harvesting, wastewater clarification and BOD reduction, solvent and cell culture clarification (never say food grade). Status: APPROVED by Sanjay ("ok 2", 2026-10-11 late); an agent was launched to update Surplus Record entry 56388891836197 (title, text verbatim, delete old 3 photos, upload the 2). First thing in the new chat: verify that entry shows the new title, the two photos and the touch-tank wording; redo if not. Then continue with listing 3 (MAB 104).
+  - 3 to 10: NOT yet shown to Sanjay. Process per listing: orchestrator reads the v2 PNG itself first, sends ONE preview via SendUserFile, waits for "ok N" or changes (he often supplies the exact photos: copy them into premium\<model>\ and rebuild), then an agent updates that seq_id on Surplus Record (text verbatim from listings-final.json, replace photos), then show the next. Posted titles for 6-10 still contain "12-Month Warranty" wording and must be replaced with the clean titles when approved.
+  - NX 418 (5) has no photos; candidate folders N:\Pictures\NX418, N:\Skids\NX418.
+- Scheduled: Oct 12 09:30 one-time check that the upgrade cleared and listings are live (task surplus-record-live-check-oct12); monthly keep-or-cancel review on the 10th (surplus-record-monthly-review; 6-month trial intent).
+
+## 7. Scheduled tasks (in C:\Users\Sanjay Prabhu\.claude\scheduled-tasks\)
+
+- decanter-ranking-check-oct31 (Oct 31): Search Console check of decanter recovery, new titles, used page, guide.
+- ai-engine-visibility-monthly (1st of month): re-run buyer questions on Claude/Gemini (scratchpad engines\run.mjs), 9 questions incl. turbine oil, food wastewater, overhaul; baseline Oct 11: ChatGPT #1 on 6/6, Gemini #1 on 2/6, hedging "self-reported".
+- press-and-directory-followup-oct18 (Oct 18): check replies from Noria, IQS, OilMonster, Surplus Record; draft follow-ups.
+- surplus-record-live-check-oct12 (Oct 12 09:30).
+- surplus-record-monthly-review (10th monthly).
+
+## 8. Measurement baseline (2026-10-11)
+
+- Search Console: clicks 1,157 vs 1,062 prior 28 days; position 11.6; "decanter centrifuge" 16.6 (was 9.8); "used alfa laval centrifuge" pos 26.
+- AI engines: Claude API cited Dolphin in 10/14 answers (#1 in 6); Gemini no-search hallucinated 1-year warranty; ChatGPT web (signed in) #1 on all 6 questions, 18 citations; Gemini web #1 on 2, competitors ahead for warranty length (Separators Inc 12 months parts; Separator Spares 180 days machines), food/dairy fit, visible inventory. Marketplace census (2,039 listings): none of those competitors are on Surplus Record/Machinio/eBay; marketplaces are brokers selling as-is; only 14% claim rebuilt; Surplus Record Alfa Laval sellers: Aaron 69, Perry Videx 40, Savona 15. A Mumbai "Dolphin Separation" sells reconditioned MAB on Machinio (name-confusion risk).
+- Google reviews: Dolphin 0 (owner: leave it).
+
+## 9. Open items / next steps (priority order)
+
+1. Finish Surplus Record approvals 2 through 10 one at a time; after the upgrade clears, submit the company-name change request ("Dolphin Centrifuge"), confirm listings live, send Sanjay the public URLs.
+2. Sanjay to send the POWER magazine draft (Gmail Drafts) when he wants.
+3. Thomasnet: check News/Press Release and Content Library free sections; verify the public profile after 48 h.
+4. Utility supplier registrations (DTE first, then PowerAdvocate), staged one at a time with the capabilities PDF; each needs Sanjay's password/submit.
+5. LinkedIn/Facebook/X corrections when Sanjay signs those in; LinkedIn address 24248 and founded 1982.
+6. MNI/IndustryNet: enter Company ID/Access Code when their reply arrives; update the free profile.
+7. Bing Webmaster Tools verification (needs Microsoft sign-in; add msvalidate meta or DNS).
+8. Edge origin-trial token renewal before 2026-11-24.
+9. ANS 1/3-page Buyers Guide ad decision before March 19, 2027.
+10. Food/dairy positioning page (Clara/BRPX/BTPX) and more bylined trade articles (Pumps & Systems, Plant Engineering) to reduce "self-reported" hedging.
+11. Low priority: centrifug.es SSL (IONOS), old worktrees under .worktrees/, docs/press files are uncommitted in the repo (previews, capabilities statement, article draft) - commit if wanted.
+
+## 10. Key paths
+
+- Repo: C:\Users\Sanjay Prabhu\Documents\GitHub\dolphin-centrifuge-website (work only in worktrees from origin/master).
+- Scratchpad (this session): C:\Users\SANJAY~1\AppData\Local\Temp\claude\C--Users-Sanjay-Prabhu-Documents-GitHub-dolphin-centrifuge-website\0b9bcdc1-f783-4dc5-953a-2c752d4e9349\scratchpad\ (listings\premium\, engines\, marketplaces\census.csv, ads\, ans\). Temp folders may be cleaned by the OS; the repo copies under docs/press are durable.
+- Gmail helper: `node gmail-helper.mjs ... --mailbox sprabhu@dolphincentrifuge.com` (draft-only, never send).
+- Search Console: service account key %APPDATA%\gcloud\dolphin-gsc-sa-key.json (read-only scope); Google Ads: google-ads-check.mjs / google-ads-write.mjs; Cloudflare via wrangler (account Dolphin Centrifuge).
+- Chrome automation: claude-in-chrome tools; Sanjay's Chrome holds sign-ins for Surplus Record, Thomasnet (owner account), Google (GBP, GSC, YouTube Studio for the Dolphin channel), Instagram, Semrush, Wikidata (WARP must be off), Gemini and ChatGPT.
