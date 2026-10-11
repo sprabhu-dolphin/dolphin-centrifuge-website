@@ -1,6 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 import FAQ from '../components/FAQ.astro';
+import { gpm, gpmOn } from '../data/specLookup';
 
 const faqItems = [
   {
@@ -167,10 +168,10 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMB-004 Manual-Clean (Alfa Laval MAB 103)', href: '/centrifuges/dmb-004/', description: 'Small turbines: 2 GPM on lube oil' },
-  { label: 'DMB-007 Manual-Clean (Alfa Laval MAB 104)', href: '/centrifuges/dmb-007/', description: 'Medium turbines: 4 GPM on lube oil' },
-  { label: 'DMB-019 Manual-Clean (Alfa Laval MAB 205)', href: '/centrifuges/dmb-019/', description: 'Large turbines: 10 GPM on lube oil' },
-  { label: 'Alfa Laval MOPX 209 / WHPX 510 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: '15-24 GPM on lube oil' },
+  { label: 'DMB-004 Manual-Clean (Alfa Laval MAB 103)', href: '/centrifuges/dmb-004/', description: `Small turbines: ${gpmOn('MAB 103', 'turbine')}` },
+  { label: 'DMB-007 Manual-Clean (Alfa Laval MAB 104)', href: '/centrifuges/dmb-007/', description: `Medium turbines: ${gpmOn('MAB 104', 'turbine')}` },
+  { label: 'DMB-019 Manual-Clean (Alfa Laval MAB 205)', href: '/centrifuges/dmb-019/', description: `Large turbines: ${gpmOn('MAB 205', 'turbine')}` },
+  { label: 'Alfa Laval MOPX 209 / WHPX 510 Self-Cleaning', href: '/centrifuges/dmpx-042/', description: `MOPX 209: ${gpm('MOPX 209', 'turbine')} GPM, WHPX 510: ${gpmOn('WHPX 510', 'turbine')}` },
 ];
 ---
 
@@ -195,7 +196,7 @@ const relatedProducts = [
 
   <section id="summary-takeaway" class="bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6 not-prose scroll-mt-20">
     <h2 class="text-base font-bold text-navy mb-2">30 Second Summary Takeaway</h2>
-    <p class="text-sm text-text-light leading-relaxed">Lube oil centrifuge systems remove free water, soot, oxidation products, and fine metal wear particles from lubricating oil without consumable filter media. A disc stack centrifuge uses more than 6,000 Gs to separate free water and solid particles down to about 0.5 micron. Dolphin supplies portable and skid-mounted Alfa Laval lube oil purifier modules for turbine lube oil, industrial lubricants, and gear oils. Systems on this page range from 3 to 45 GPM depending on model, oil viscosity, temperature, and flow rate.</p>
+    <p class="text-sm text-text-light leading-relaxed">Lube oil centrifuge systems remove free water, soot, oxidation products, and fine metal wear particles from lubricating oil without consumable filter media. A disc stack centrifuge uses more than 6,000 Gs to separate free water and solid particles down to about 0.5 micron. Dolphin supplies portable and skid-mounted Alfa Laval lube oil purifier modules for turbine lube oil, industrial lubricants, and gear oils. Systems on this page range from {gpm('MAB 103', 'turbine')} to {gpm('MOPX 210', 'turbine')} GPM on steam turbine lube oil at 60 to 70 &deg;C, depending on model. Other oils, viscosities, and temperatures change the flow rate.</p>
   </section>
 
   <p class="text-sm text-text-light italic mb-6">These centrifuges are also known as Lube Oil Purifiers or Lube Oil Conditioning Modules.</p>
@@ -227,7 +228,7 @@ const relatedProducts = [
 
   <h3>Turbine Oil Centrifuge Service</h3>
 
-  <p>Steam and gas turbine lube oil is the most common job these machines do. Turbine oil picks up condensate through gland seals and oxidation products through years of hot service, and both are what a centrifuge removes best. An Alfa Laval MAB 103 handles a small steam turbine sump at about 2.5 GPM on turbine lube oil, the MAB 205 covers mid-size turbine reservoirs at about 10 GPM on lube oil (R&amp;O), and the MAB 206 runs about 20 GPM. Power plants running larger reservoirs move up to the self-cleaning Alfa Laval MOPX 210, which processes 45 GPM of ISO 32 turbine oil and ejects its own sludge. Turbine oil separates best around 150 F, and a kidney loop off the main reservoir lets the centrifuge run continuously without taking the turbine offline. For utility and power plant systems, see <a href="/turbine-oil-centrifuge-power-plants/">turbine oil centrifuge systems for power plants and utilities</a>.</p>
+  <p>Steam and gas turbine lube oil is the most common job these machines do. Turbine oil picks up condensate through gland seals and oxidation products through years of hot service, and both are what a centrifuge removes best. An Alfa Laval MAB 103 handles a small steam turbine sump at {gpmOn('MAB 103', 'turbine')}, the MAB 205 covers mid-size turbine reservoirs at {gpmOn('MAB 205', 'turbine')}, and the MAB 206 runs {gpmOn('MAB 206', 'turbine')}. Power plants running larger reservoirs move up to the self-cleaning Alfa Laval MOPX 210, which processes {gpmOn('MOPX 210', 'turbine')} and ejects its own sludge. Turbine oil separates best around 150 F, and a kidney loop off the main reservoir lets the centrifuge run continuously without taking the turbine offline. For utility and power plant systems, see <a href="/turbine-oil-centrifuge-power-plants/">turbine oil centrifuge systems for power plants and utilities</a>.</p>
 
   <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
     <p class="font-bold text-navy text-base mb-1">Indicative Pricing</p>
@@ -281,7 +282,7 @@ const relatedProducts = [
         <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Sludge Handling</td><td class="py-3 px-3 font-mono text-sm">Manual Clean</td><td class="py-3 px-3 font-mono text-sm">Manual Clean</td><td class="py-3 px-3 font-mono text-sm">Self-Ejecting / Auto Desludging</td></tr>
         <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Bowl Speed</td><td class="py-3 px-3 font-mono text-sm">8,600 RPM</td><td class="py-3 px-3 font-mono text-sm">8,700 RPM</td><td class="py-3 px-3 font-mono text-sm">5,180 RPM</td></tr>
         <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Rated Capacity</td><td class="py-3 px-3 font-mono text-sm">5 GPM</td><td class="py-3 px-3 font-mono text-sm">29 GPM</td><td class="py-3 px-3 font-mono text-sm">72 GPM</td></tr>
-        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">ISO 32 Lube Oil Capacity</td><td class="py-3 px-3 font-mono text-sm">3 GPM</td><td class="py-3 px-3 font-mono text-sm">10 GPM</td><td class="py-3 px-3 font-mono text-sm">45 GPM</td></tr>
+        <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Steam Turbine Lube Oil Capacity (60 to 70 &deg;C)</td><td class="py-3 px-3 font-mono text-sm">{gpm('MAB 103', 'turbine')} GPM</td><td class="py-3 px-3 font-mono text-sm">{gpm('MAB 205', 'turbine')} GPM</td><td class="py-3 px-3 font-mono text-sm">{gpm('MOPX 210', 'turbine')} GPM</td></tr>
         <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Sludge Space</td><td class="py-3 px-3 font-mono text-sm">0.15 Gal</td><td class="py-3 px-3 font-mono text-sm">0.54 Gal</td><td class="py-3 px-3 font-mono text-sm">1.5 Gal</td></tr>
         <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Motor Power</td><td class="py-3 px-3 font-mono text-sm">1 HP</td><td class="py-3 px-3 font-mono text-sm">5 HP</td><td class="py-3 px-3 font-mono text-sm">15 HP</td></tr>
         <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Module Dimensions*</td><td class="py-3 px-3 font-mono text-sm">2' x 3' x 3' (H)</td><td class="py-3 px-3 font-mono text-sm">3' x 4' x 4' (H)</td><td class="py-3 px-3 font-mono text-sm">5' x 6' x 7' (H)</td></tr>
@@ -348,7 +349,7 @@ const relatedProducts = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">10 GPM on lube oil (R&amp;O); 19 GPM on 13 cSt diesel; 29 GPM rated</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">{gpm('MAB 205', 'ro')} GPM on R&amp;O lube oil at 80 to 90 &deg;C; {gpmOn('MAB 205', 'turbine')}; 19 GPM on 13 cSt diesel; 29 GPM rated</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">5 HP</td></tr>
             <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">110V / 230V / 460V</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">~4' x 5'</td></tr>
@@ -384,7 +385,7 @@ const relatedProducts = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">20 GPM on Lubricating Oil</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">{gpmOn('MAB 206', 'turbine')}; {gpm('MAB 206', 'ro')} GPM on R&amp;O lube oil at 80 to 90 &deg;C</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">7.5 HP</td></tr>
             <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">230V / 460V</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">4' x 5'</td></tr>
@@ -419,7 +420,7 @@ const relatedProducts = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">2.5 GPM on turbine lube oil; 4 GPM on 13 cSt diesel</td></tr>
+            <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Capacity</td><td class="py-3 px-3 font-mono text-sm">{gpmOn('MAB 103', 'turbine')}; 4 GPM on 13 cSt diesel</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Motor HP</td><td class="py-3 px-3 font-mono text-sm">1 HP</td></tr>
             <tr class="border-b border-gray-200"><td class="py-3 px-3 font-semibold text-navy">Voltages</td><td class="py-3 px-3 font-mono text-sm">230V / 460V; 110 V single-phase option available</td></tr>
             <tr class="border-b border-gray-200 bg-light-bg"><td class="py-3 px-3 font-semibold text-navy">Skid Dimensions</td><td class="py-3 px-3 font-mono text-sm">3' x 4'</td></tr>
