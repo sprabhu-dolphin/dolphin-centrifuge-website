@@ -175,6 +175,7 @@ export const dolphinOrganizationJsonLd = {
   logo: `${SITE_URL}/images/homepage/dolphin-centrifuge-logo.png`,
   image: `${SITE_URL}/images/homepage/dolphin-centrifuge-logo.png`,
   description: ORG_POSITIONING,
+  slogan: ORG_POSITIONING,
   disambiguatingDescription: ORG_NON_AFFILIATION,
   foundingDate: '1982',
   telephone: '+1-248-522-2573',
@@ -191,6 +192,46 @@ export const dolphinOrganizationJsonLd = {
   knowsAbout: ORG_KNOWS_ABOUT,
   employee: sanjayPrabhuPersonJsonLd,
   sameAs: ORG_SAME_AS,
+};
+
+export const REMANUFACTURING_SERVICE_ID = `${SITE_URL}/#remanufacturing-service`;
+
+const remanufacturedFamilyOffer = (name: string, path: string) => ({
+  '@type': 'Offer',
+  itemOffered: { '@type': 'Thing', name, url: `${SITE_URL}${path}` },
+});
+
+/**
+ * Sitewide Service node for the remanufacturing program. Offers carry no
+ * price and no availability: price and stock are confirmed per quote.
+ */
+export const remanufacturingServiceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': REMANUFACTURING_SERVICE_ID,
+  name: 'Alfa Laval centrifuge remanufacturing',
+  serviceType: 'Centrifuge remanufacturing',
+  description:
+    'Alfa Laval centrifuges remanufactured to the published reconditioning standard, test run at rated speed, with a 6-month mechanical warranty and never sold as-is.',
+  url: `${SITE_URL}/centrifuge-reconditioning-standard/`,
+  provider: { '@id': ORGANIZATION_ID },
+  areaServed: 'Worldwide',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Remanufactured Alfa Laval centrifuges',
+    itemListElement: [
+      remanufacturedFamilyOffer('Alfa Laval WHPX disc stack centrifuges', '/alfa-laval-whpx-510-centrifuge/'),
+      remanufacturedFamilyOffer('Alfa Laval MOPX disc stack centrifuges', '/alfa-laval-mopx-209-centrifuge/'),
+      remanufacturedFamilyOffer('Alfa Laval MAPX disc stack centrifuges', '/centrifuges/dmpx-010/'),
+      remanufacturedFamilyOffer('Alfa Laval MAB disc stack centrifuges', '/alfa-laval-mab-centrifuge/'),
+      remanufacturedFamilyOffer('Alfa Laval WSPX disc stack centrifuges', '/alfa-laval-wspx-307/'),
+      remanufacturedFamilyOffer('Alfa Laval NX decanter centrifuges', '/alfa-laval-nx-418-decanter-centrifuge/'),
+      remanufacturedFamilyOffer('Alfa Laval CHNX decanter centrifuges', '/alfa-laval-chnx-418-decanter/'),
+      remanufacturedFamilyOffer('Alfa Laval G2 decanter centrifuges', '/alfa-laval-g2-40-decanter/'),
+      remanufacturedFamilyOffer('Sharples P-3000 decanter centrifuge', '/sharples-p-3000-decanter/'),
+      remanufacturedFamilyOffer('Sharples P-3400 decanter centrifuge', '/sharples-p-3400-decanter/'),
+    ],
+  },
 };
 
 /* ── small shared schema helpers ─────────────────────────────────────────── */

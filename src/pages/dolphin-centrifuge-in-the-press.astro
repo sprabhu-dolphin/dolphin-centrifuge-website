@@ -1,0 +1,124 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import {
+  ORGANIZATION_ID,
+  ORG_WIKIDATA_URL,
+  SANJAY_EXTERNAL_AUTHOR_URL,
+  SANJAY_LINKEDIN_URL,
+  SANJAY_WIKIDATA_URL,
+  SITE_URL,
+  UARK_SENIOR_WALK_URL,
+  UARK_THESIS_RECORD_URL,
+} from '../lib/siteSchema';
+
+const PAGE_URL = `${SITE_URL}/dolphin-centrifuge-in-the-press/`;
+const TITLE = 'Dolphin Centrifuge in the Press and Public Records';
+const DESCRIPTION =
+  'External articles, encyclopedia citations, directory listings, and public records that mention Dolphin Centrifuge or its owner and chief engineer, Sanjay Prabhu, with dates and links.';
+
+const ML_ARTICLE_URL = 'https://www.machinerylubrication.com/Read/31902/disc-stack-centrifuge';
+const WIKI_CONICAL_URL = 'https://en.wikipedia.org/wiki/Conical_plate_centrifuge';
+const WIKI_WATER_OIL_URL = 'https://en.wikipedia.org/wiki/Centrifugal_water%E2%80%93oil_separator';
+const GRAIN_JOURNAL_URL = 'https://www.grainjournal.com/company/dolphin-marine-industrial-centrifuges';
+const IQS_URL = 'https://www.iqsdirectory.com/profile/dolphin-marine-services-57784/';
+const OILMONSTER_URL = 'https://www.oilmonster.com/company/24027';
+const LINKEDIN_COMPANY_URL = 'https://www.linkedin.com/company/dolphin-marine-&-industrial-centrifuges';
+
+const citation = [
+  { '@type': 'Article', name: 'Industrial Lubricant Recovery Using a Disc Stack Centrifuge', url: ML_ARTICLE_URL, datePublished: '2020', author: { '@type': 'Person', name: 'Sanjay Prabhu' }, publisher: { '@type': 'Organization', name: 'Machinery Lubrication' } },
+  { '@type': 'ProfilePage', name: 'Sanjay Prabhu author page at Machinery Lubrication', url: SANJAY_EXTERNAL_AUTHOR_URL },
+  { '@type': 'WebPage', name: 'Conical plate centrifuge (Wikipedia)', url: WIKI_CONICAL_URL },
+  { '@type': 'WebPage', name: 'Centrifugal water-oil separator (Wikipedia)', url: WIKI_WATER_OIL_URL },
+  { '@type': 'WebPage', name: 'Dolphin Centrifuge (Wikidata Q141688553)', url: ORG_WIKIDATA_URL },
+  { '@type': 'WebPage', name: 'Sanjay Prabhu (Wikidata Q141688558)', url: SANJAY_WIKIDATA_URL },
+  { '@type': 'WebPage', name: 'University of Arkansas Libraries thesis catalog record', url: UARK_THESIS_RECORD_URL },
+  { '@type': 'WebPage', name: 'University of Arkansas Senior Walk record, 1991', url: UARK_SENIOR_WALK_URL },
+  { '@type': 'WebPage', name: 'Grain Journal company listing', url: GRAIN_JOURNAL_URL },
+  { '@type': 'WebPage', name: 'IQS Directory company profile', url: IQS_URL },
+  { '@type': 'WebPage', name: 'OilMonster company listing', url: OILMONSTER_URL },
+  { '@type': 'WebPage', name: 'Dolphin Centrifuge on LinkedIn', url: LINKEDIN_COMPANY_URL },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: TITLE,
+    description: DESCRIPTION,
+    url: PAGE_URL,
+    mainEntityOfPage: PAGE_URL,
+    datePublished: '2026-10-11',
+    dateModified: '2026-10-11',
+    author: { '@type': 'Person', name: 'Sanjay Prabhu' },
+    publisher: { '@id': ORGANIZATION_ID },
+    about: { '@id': ORGANIZATION_ID },
+    citation,
+  },
+];
+
+const toc = [
+  { id: 'articles', label: 'Articles by Sanjay Prabhu' },
+  { id: 'encyclopedia', label: 'Encyclopedia and knowledge-base records' },
+  { id: 'academic', label: 'University of Arkansas records' },
+  { id: 'directories', label: 'Directory listings and profiles' },
+];
+---
+
+<ApplicationLayout
+  title={TITLE}
+  heroTitle="Dolphin Centrifuge in the Press and Public Records"
+  description={DESCRIPTION}
+  canonicalUrl={PAGE_URL}
+  robots="index, follow"
+  heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
+  heroImageAlt="Dolphin Centrifuge shop in Warren, Michigan"
+  category="about"
+  categoryLabel="About Us"
+  categoryHref="/about-dolphin-centrifuge/"
+  toc={toc}
+  relatedApplications={[
+    { label: 'About Dolphin Centrifuge', href: '/about-dolphin-centrifuge/' },
+    { label: 'Sanjay Prabhu, M.S.M.E.', href: '/authors/sanjay-prabhu/' },
+  ]}
+  jsonLd={jsonLd}
+>
+  <p>
+    External mentions of Dolphin Centrifuge and its owner and chief engineer,
+    <a href="/authors/sanjay-prabhu/">Sanjay Prabhu</a>. Each entry links to the
+    outside source. A date is shown only where the source states one.
+  </p>
+
+  <h2 id="articles">Articles by Sanjay Prabhu</h2>
+  <ul>
+    <li>2020: <a href={ML_ARTICLE_URL} rel="external noopener">Industrial Lubricant Recovery Using a Disc Stack Centrifuge</a>, Machinery Lubrication, by Sanjay Prabhu.</li>
+    <li>Undated: <a href={SANJAY_EXTERNAL_AUTHOR_URL} rel="me external noopener">Sanjay Prabhu author page</a>, Machinery Lubrication.</li>
+  </ul>
+
+  <h2 id="encyclopedia">Encyclopedia and knowledge-base records</h2>
+  <ul>
+    <li>Undated: Wikipedia, <a href={WIKI_CONICAL_URL} rel="external noopener">Conical plate centrifuge</a>, cites dolphincentrifuge.com.</li>
+    <li>Undated: Wikipedia, <a href={WIKI_WATER_OIL_URL} rel="external noopener">Centrifugal water-oil separator</a>, cites dolphincentrifuge.com.</li>
+    <li>Undated: Wikidata, <a href={ORG_WIKIDATA_URL} rel="external noopener">Dolphin Centrifuge (Q141688553)</a>.</li>
+    <li>Undated: Wikidata, <a href={SANJAY_WIKIDATA_URL} rel="external noopener">Sanjay Prabhu (Q141688558)</a>.</li>
+  </ul>
+
+  <h2 id="academic">University of Arkansas records</h2>
+  <ul>
+    <li>1991: <a href={UARK_THESIS_RECORD_URL} rel="external noopener">Thesis catalog record</a> for Sanjay K. Prabhu's M.S.M.E. thesis.</li>
+    <li>1991: <a href={UARK_SENIOR_WALK_URL} rel="external noopener">Senior Walk record</a> listing Sanjay K. Prabhu, M.S.M.E.</li>
+  </ul>
+
+  <h2 id="directories">Directory listings and profiles</h2>
+  <ul>
+    <li>Undated: <a href={GRAIN_JOURNAL_URL} rel="external noopener">Grain Journal</a> company listing for Dolphin Marine &amp; Industrial Centrifuges.</li>
+    <li>Undated: <a href={IQS_URL} rel="external noopener">IQS Directory</a> company profile.</li>
+    <li>Undated: <a href={OILMONSTER_URL} rel="external noopener">OilMonster</a> company listing.</li>
+    <li>Undated: <a href={LINKEDIN_COMPANY_URL} rel="external noopener">Dolphin Centrifuge on LinkedIn</a>.</li>
+    {/* TODO: add the Surplus Record dealer page here once its URL is known. Do not list it until then. */}
+  </ul>
+
+  <p>
+    Dolphin Centrifuge is an independent remanufacturer and is not affiliated with Alfa Laval.
+    Sanjay's public professional profile is on <a href={SANJAY_LINKEDIN_URL} rel="me external noopener">LinkedIn</a>.
+  </p>
+</ApplicationLayout>
