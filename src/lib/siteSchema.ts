@@ -48,7 +48,7 @@ export const ORG_NON_AFFILIATION =
  */
 export const ORG_SAME_AS = [
   'https://www.facebook.com/dolphincentrifuge',
-  'https://www.linkedin.com/company/dolphin-marine-&-industrial-centrifuges',
+  'https://www.linkedin.com/company/dolphin-centrifuge',
   'https://www.youtube.com/DolphinCentrifuge',
   'https://twitter.com/DCentrifuge',
   'https://www.instagram.com/dolphin_centrifuge',
