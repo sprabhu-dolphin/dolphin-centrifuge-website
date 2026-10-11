@@ -168,7 +168,7 @@ test('used Alfa Laval finder filters families, pages results and adds a document
   assert.deepEqual(diesel.data.families.map(f => f.key), ['whpx', 'mopx', 'mab']);
   assert.match(diesel.data.offer, /6-month mechanical warranty/);
   assert.match(diesel.data.offer, /150\+ centrifuges in stock/);
-  assert.match(diesel.data.price, /^Smallest manual-clean skid from mid-\$30s; /);
+  assert.match(diesel.data.price, /^Smallest manual-clean skid from mid \$30Ks; /);
   assert.match(diesel.data.offer, /price confirmed per quote/);
   assert.equal(diesel.data.families[0].models, 'WHPX 405, WHPX 407, WHPX 409, WHPX 510, WHPX 513');
   assert.equal(diesel.sources[0], '/technical-data/used-alfa-laval-centrifuges.v1.json', 'links the full offer data');

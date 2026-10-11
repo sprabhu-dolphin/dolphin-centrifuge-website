@@ -8,6 +8,7 @@ import {
   usedFamilies,
   usedOffer,
 } from '../data/usedAlfaLavalOffer.mjs';
+import { ORGANIZATION_ID, PERSON_ID } from '../lib/siteSchema';
 import { USED_QUOTE_ATTRIBUTION_NAME, USED_QUOTE_FORM_ID, WEBMCP_QUOTE_TOOL } from '../lib/usedQuote.mjs';
 
 // Same Worker endpoint and fallback as the contact page form.
@@ -32,15 +33,15 @@ const faqItems = [
   },
   {
     question: 'What warranty comes with a used Alfa Laval centrifuge from Dolphin?',
-    answer: 'A 6-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal, plus ongoing technical support for the original purchaser for the life of the machine. Wear and consumable items such as seals, gaskets, friction material and bearings are excluded. Full terms come with every proposal.',
+    answer: 'A 6-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal, plus ongoing technical support for the original purchaser for the life of the machine. Standard exclusions apply (wear and consumable items such as seals, gaskets, friction material and bearings). Full terms are in the Warranty and Terms document that accompanies every proposal.',
   },
   {
     question: 'How much does a used Alfa Laval centrifuge cost?',
-    answer: 'Each unit is quoted for the application. As published anchors: the smallest manual-clean skid (Alfa Laval MAB 103) with controls and pumps starts around the mid-$30s, complete plug-and-play self-cleaning modules start around $50K EXW Warren MI, and systems with full stainless steel wetted parts start around the mid-$60s.',
+    answer: 'Each unit is quoted for the application. As published anchors: the smallest manual-clean skid (Alfa Laval MAB 103) with controls and pumps starts around the mid $30Ks, complete plug-and-play self-cleaning modules start around $50K, EXW Warren MI, and systems with full stainless steel wetted parts start around the mid $60Ks.',
   },
   {
     question: 'Which used Alfa Laval models are usually in stock?',
-    answer: 'The models buyers ask for most: MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; and NX 309, NX 314 and NX 418 decanters. Stock changes, so availability of an exact model is confirmed with each quote.',
+    answer: 'The models buyers ask for most: MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; and NX 314 and NX 418 decanters. Stock changes, so availability of an exact model is confirmed with each quote.',
   },
   {
     question: 'Can I buy just the centrifuge without a skid?',
@@ -56,13 +57,13 @@ const faqItems = [
   },
 ];
 
-const description = 'Used Alfa Laval centrifuges for sale: WHPX, MOPX and MAB disc stack and NX decanters, remanufactured and test-run in Warren, MI, with a 6-month warranty.';
+const description = 'Used Alfa Laval centrifuges for sale: WHPX, MOPX, MAB disc stack and NX decanters, remanufactured in Warren, Michigan, test run at rated speed, 6-month mechanical warranty. Never sold as-is.';
 
 const webPageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': `${USED_PAGE_URL}#webpage`,
-  name: 'Used Alfa Laval Centrifuges for Sale',
+  name: 'Used Alfa Laval Centrifuges for Sale, Remanufactured and Warrantied',
   description,
   url: USED_PAGE_URL,
   dateModified: '2026-09-27',
@@ -71,8 +72,8 @@ const webPageJsonLd = {
     { '@type': 'Brand', name: 'Alfa Laval' },
     { '@type': 'Thing', name: 'Remanufactured Alfa Laval centrifuges' },
   ],
-  author: { '@type': 'Person', name: 'Sanjay Prabhu' },
-  publisher: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+  author: { '@type': 'Person', '@id': PERSON_ID, name: 'Sanjay Prabhu' },
+  publisher: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
   mainEntity: { '@id': `${USED_PAGE_URL}#models` },
   subjectOf: {
     '@type': 'DigitalDocument',
@@ -125,9 +126,8 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
 ---
 
 <ApplicationLayout
-  robots="noindex,follow"
-  title="Used Alfa Laval Centrifuges for Sale"
-  heroTitle="Used Alfa Laval Centrifuges for Sale"
+  title="Used Alfa Laval Centrifuges for Sale | Remanufactured, Tested, 6-Month Warranty"
+  heroTitle="Used Alfa Laval Centrifuges for Sale, Remanufactured and Warrantied"
   heroDescription="Remanufactured Alfa Laval disc stack and decanter centrifuges, rebuilt and test-run in Warren, Michigan, with a 6-month mechanical warranty."
   description={description}
   heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
@@ -161,6 +161,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
     With 150+ centrifuges in stock, the range covers MAB manual-clean separators, WHPX and MOPX self-cleaning disc stack separators, and NX decanters, sold as complete skids or bare machines.
     Every unit gets new seals, gaskets, bearings and fasteners and a full test run at rated speed before it ships, and carries a 6-month mechanical warranty.
     Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+    The remanufacturing is led by <a href="/authors/sanjay-prabhu/">Sanjay Prabhu, M.S.M.E.</a>, Dolphin's chief engineer.
   </p>
 
   <section id="quote" class="not-prose scroll-mt-24 my-8">
@@ -256,7 +257,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
         <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Warranty</th><td class="px-4 py-2.5 text-text">6-month mechanical warranty, plus ongoing technical support for the original purchaser.</td></tr>
         <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Stock</th><td class="px-4 py-2.5 text-text">150+ centrifuges in Warren, MI. Exact model availability is confirmed with each quote.</td></tr>
         <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Supplied as</th><td class="px-4 py-2.5 text-text">Complete skid with pumps, heater and PLC controls, or bare centrifuge.</td></tr>
-        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Price</th><td class="px-4 py-2.5 text-text">Quoted per unit. Skids start around the mid-$30s; see <a href="#price" class={linkClass}>price guidance</a>.</td></tr>
+        <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Price</th><td class="px-4 py-2.5 text-text">Quoted per unit. Skids start around the mid $30Ks; see <a href="#price" class={linkClass}>price guidance</a>.</td></tr>
         <tr><th scope="row" class="text-left align-top font-semibold text-navy px-4 py-2.5">Contact</th><td class="px-4 py-2.5 text-text"><a href="tel:+12485222573" class={linkClass}>(248) 522-2573</a> or <a href="mailto:sales@dolphincentrifuge.com" class={linkClass}>sales@dolphincentrifuge.com</a>. Reply within one business day.</td></tr>
       </tbody>
     </table>
@@ -292,7 +293,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
 
   <h2 id="models">Used Alfa Laval models available</h2>
   <p>
-    Dolphin remanufactures the Alfa Laval families below. The WHPX series is current Alfa Laval production and our default recommendation for oils and fuels; MOPX and MAPX full-discharge machines suit heavy sludge loads or match an existing installation. Stock changes, so ask for current availability.
+    Dolphin remanufactures the Alfa Laval families below. Our default recommendation for oils and fuels is the MOPX 207 or 209, and the WHPX series is the equivalent current-production family; MAPX full-discharge machines suit heavy sludge loads or match an existing installation. Stock changes, so ask for current availability.
   </p>
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl bg-white my-6">
     <table class="w-full text-sm">
@@ -338,14 +339,14 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   <h3>1. Start with the fluid and its solids</h3>
   <ul>
     <li><strong>Clean, low-solids oils and fuels</strong> (diesel, lube, hydraulic, turbine oil): a manual-clean MAB is the simplest and smallest option.</li>
-    <li><strong>Oils with water and sludge, running continuously</strong> (waste oil, used motor oil, WVO, fuel oil): a self-cleaning WHPX, or a MOPX for very heavy sludge.</li>
+    <li><strong>Oils with water and sludge, running continuously</strong> (waste oil, used motor oil, WVO, fuel oil): a self-cleaning MOPX or WHPX.</li>
     <li><strong>High solids</strong> (sludge dewatering, tank bottoms, wastewater): an NX decanter, often followed by a disc stack for polishing.</li>
     <li><strong>Water-based machining coolant</strong>: a WSPX.</li>
   </ul>
 
   <h3>2. Then size by flow rate</h3>
   <p>
-    A centrifuge capacity only means something with its fluid, viscosity and temperature. For example, the Alfa Laval WHPX 513 has a published marine diesel capacity of 16,400 L/h (72.21 US GPM) at 13 cSt and 40 &deg;C, but only 6,400 L/h on 380 cSt heavy fuel oil. Each <a href="#models">model page</a> lists its published capacities with their conditions, and our <a href="/technical-data/">technical data</a> page has every source-backed rating.
+    A centrifuge capacity only means something with its fluid, viscosity and temperature. For example, the Alfa Laval WHPX 513 has a published marine diesel capacity of 16,400 L/h (72.21 US GPM) at 13 cSt and 40 &deg;C, but only 6,400 L/h on 380 cSt heavy fuel oil at 50 &deg;C. Each <a href="#models">model page</a> lists its published capacities with their conditions, and our <a href="/technical-data/">technical data</a> page has every source-backed rating.
   </p>
 
   <h3>3. Check that the volume pays</h3>
@@ -361,10 +362,10 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        <tr><td class="px-4 py-2.5">Very high ($20 - $25+/gal)</td><td class="px-4 py-2.5">Turbine / hydraulic lube oil</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid-$30s)</td><td class="px-4 py-2.5">A few gal/day</td></tr>
-        <tr><td class="px-4 py-2.5">High ($3 - $5/gal)</td><td class="px-4 py-2.5">Clean diesel, fuel polishing</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid-$30s)</td><td class="px-4 py-2.5">Tens of gal/day</td></tr>
-        <tr><td class="px-4 py-2.5">Mid ($1.50 - $3/gal)</td><td class="px-4 py-2.5">WVO / UCO / yellow grease</td><td class="px-4 py-2.5">Self-cleaning disc stack</td><td class="px-4 py-2.5">~500 - 1,000 gal/day</td></tr>
-        <tr><td class="px-4 py-2.5">Low (~$0.05 - $0.15/gal net)</td><td class="px-4 py-2.5">Marginal used oil, wastewater</td><td class="px-4 py-2.5">Self-cleaning disc stack</td><td class="px-4 py-2.5">2,000+ gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">Very high ($20 - $25+/gal)</td><td class="px-4 py-2.5">Turbine / hydraulic lube oil</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid $30Ks)</td><td class="px-4 py-2.5">A few gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">High ($3 - $5/gal)</td><td class="px-4 py-2.5">Clean diesel, fuel polishing</td><td class="px-4 py-2.5">Smallest manual-clean skid (~mid $30Ks)</td><td class="px-4 py-2.5">Tens of gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">Mid ($1.50 - $3/gal)</td><td class="px-4 py-2.5">WVO / UCO / yellow grease</td><td class="px-4 py-2.5">Self-cleaning disc stack ($55K+)</td><td class="px-4 py-2.5">~500 - 1,000 gal/day</td></tr>
+        <tr><td class="px-4 py-2.5">Low (~$0.05 - $0.15/gal net)</td><td class="px-4 py-2.5">Marginal used oil, wastewater</td><td class="px-4 py-2.5">Self-cleaning disc stack ($55K+)</td><td class="px-4 py-2.5">2,000+ gal/day</td></tr>
       </tbody>
     </table>
   </div>

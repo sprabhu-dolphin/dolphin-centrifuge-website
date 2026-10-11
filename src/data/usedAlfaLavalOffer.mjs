@@ -50,7 +50,7 @@ export const usedFamilies = [
     name: 'Alfa Laval WHPX',
     type: 'Self-cleaning disc stack, partial discharge',
     cleaning: 'self-cleaning',
-    role: 'Current Alfa Laval production series and our default recommendation for oils and fuels. Partial discharge ejects only the sludge layer, so less oil is lost.',
+    role: 'Current Alfa Laval production series, equivalent to the MOPX 207 and 209 that are our default recommendation for oils and fuels. Partial discharge ejects only the sludge layer, so less oil is lost.',
     models: ['alfa-laval-whpx-405', 'alfa-laval-whpx-407', 'alfa-laval-whpx-409', 'alfa-laval-whpx-510', 'alfa-laval-whpx-513'].map(model),
   },
   {
@@ -58,7 +58,7 @@ export const usedFamilies = [
     name: 'Alfa Laval MOPX',
     type: 'Self-cleaning disc stack, full discharge',
     cleaning: 'self-cleaning',
-    role: 'Older full-discharge design, still a good fit for heavy sludge loads and for matching an existing installation.',
+    role: 'Full-discharge design and our default recommendation for oils and fuels (MOPX 207 and 209). Also a good fit for heavy sludge loads and for matching an existing installation.',
     models: ['alfa-laval-mopx-205', 'alfa-laval-mopx-207', 'alfa-laval-mopx-209', 'alfa-laval-mopx-213'].map(model),
   },
   {
@@ -87,7 +87,7 @@ export const usedFamilies = [
   },
   {
     key: 'nx',
-    name: 'Alfa Laval NX, CHNX and G2 decanters',
+    name: 'Alfa Laval NX, CHNX and G2 decanters, plus Sharples P-3000 and P-3400',
     type: 'Decanter centrifuge',
     cleaning: 'continuous',
     role: 'High-solids duties: sludge dewatering, wastewater and oily tank bottoms.',
@@ -142,7 +142,7 @@ export const usedOffer = {
   },
   inventory: {
     statement: '150+ centrifuges in stock at the Warren, Michigan facility, available for rebuild and custom configuration.',
-    commonlyStocked: 'MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; NX 309, NX 314 and NX 418 decanters.',
+    commonlyStocked: 'MAB 103, MAB 204, MAB 205, MAB 206 and MAB 209 manual-clean separators; MOPX 205, MOPX 207, MOPX 209, MOPX 213, WHPX 405, WHPX 510 and WHPX 513 self-cleaning separators; NX 314 and NX 418 decanters.',
     perModelCountsPublished: false,
     howToConfirm: 'Current availability of an exact model is confirmed per quote. Call (248) 522-2573 or request a quote.',
     visits: 'Buyers may visit the Warren, Michigan facility to inspect machines by appointment.',
@@ -155,9 +155,9 @@ export const usedOffer = {
   priceGuidance: {
     basis: 'Quoted per unit and application. Exact prices are not published.',
     anchors: [
-      { item: 'Smallest manual-clean skid (Alfa Laval MAB 103, Dolphin DMB-004), with controls and pumps', from: 'starts around the mid-$30s', source: `${SITE}/diesel-centrifuge/` },
+      { item: 'Smallest manual-clean skid (Alfa Laval MAB 103, Dolphin DMB-004), with controls and pumps', from: 'starts around the mid $30Ks', source: `${SITE}/diesel-centrifuge/` },
       { item: 'Complete plug-and-play self-cleaning module', from: 'starts around $50K, EXW Warren MI', source: `${SITE}/waste-oil-centrifuge/` },
-      { item: 'System with full stainless steel wetted parts', from: 'starts around the mid-$60s, EXW Warren MI', source: `${SITE}/wastewater-centrifuge/` },
+      { item: 'System with full stainless steel wetted parts', from: 'starts around the mid $60Ks, EXW Warren MI', source: `${SITE}/wastewater-centrifuge/` },
     ],
   },
   services: {

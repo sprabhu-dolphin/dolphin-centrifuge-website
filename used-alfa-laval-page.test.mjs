@@ -166,9 +166,11 @@ test('built page renders one H1, matching FAQ schema, the quote form and crawlab
   const record = JSON.parse(await readFile(path.join(ROOT, 'dist/technical-data/used-alfa-laval-centrifuges.v1.json'), 'utf8'));
   assert.deepEqual(record, JSON.parse(JSON.stringify(buildUsedOfferRecord())));
   const sitemap = await readFile(path.join(ROOT, 'dist/sitemap-0.xml'), 'utf8');
-  // Draft page: kept out of the sitemap until Sanjay approves the copy.
-  assert.ok(!sitemap.includes('https://dolphincentrifuge.com/used-alfa-laval-centrifuges-for-sale/'));
-  assert.match(html, /<meta name="robots" content="noindex,follow"/);
+  assert.ok(sitemap.includes('https://dolphincentrifuge.com/used-alfa-laval-centrifuges-for-sale/'), 'page is in the sitemap');
+  assert.doesNotMatch(html, /<meta name="robots" content="noindex/);
+  assert.match(html, /<meta name="robots" content="index, ?follow/);
+  const author = schemas.find((node) => node['@type'] === 'WebPage')?.author;
+  assert.equal(author?.['@id'], 'https://dolphincentrifuge.com/authors/sanjay-prabhu/#person');
   const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '');
   const main = text.slice(text.indexOf('id="answer"'), text.indexOf('id="machine-readable"'));
   assert.doesNotMatch(main, /—/, 'no em dashes in page copy');
