@@ -1,5 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import { DOLPHIN_VIDEOS, videoJsonLd } from '../lib/dolphinVideos';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -52,11 +54,12 @@ const videoJsonLd2 = {
   "contentUrl": "https://www.youtube.com/watch?v=CvZDcYdXo8U"
 };
 
-const jsonLd = [articleJsonLd, videoJsonLd1, videoJsonLd2];
+const jsonLd = [articleJsonLd, videoJsonLd1, videoJsonLd2, videoJsonLd(DOLPHIN_VIDEOS.bod), videoJsonLd(DOLPHIN_VIDEOS.trampOil)];
 
 const toc = [
   { id: 'lab-centrifuge', label: 'What is a Lab Scale Disc Centrifuge?' },
   { id: 'batch-testing', label: 'Small Batch Customer Sample Testing' },
+  { id: 'more-test-videos', label: 'More Sample Test Videos' },
   { id: 'specifications', label: 'Lab Centrifuge Specifications' },
   { id: 'testing-process', label: 'Testing Process' },
 ];
@@ -157,6 +160,11 @@ const relatedProducts = [
       <figcaption><strong>Industrial Centrifuge Lab Testing Results for Algae Water</strong></figcaption>
     </figure>
   </div>
+
+  <h2 id="more-test-videos">More Sample Test Videos</h2>
+  <p>Real sample tests run on an Alfa Laval disc stack centrifuge.</p>
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.bod.id} title={DOLPHIN_VIDEOS.bod.title} caption={DOLPHIN_VIDEOS.bod.title} />
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.trampOil.id} title={DOLPHIN_VIDEOS.trampOil.title} caption={DOLPHIN_VIDEOS.trampOil.title} />
 
   <h2 id="specifications">Lab Centrifuge Specifications</h2>
   <table>

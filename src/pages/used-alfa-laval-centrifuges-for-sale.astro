@@ -1,6 +1,8 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 import FormVerification from '../components/FormVerification.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import { DOLPHIN_VIDEOS, videoJsonLd } from '../lib/dolphinVideos';
 import {
   USED_OFFER_JSON_PATH,
   USED_PAGE_URL,
@@ -113,6 +115,7 @@ const toc = [
   { id: 'quote', label: 'Get a quote' },
   { id: 'key-facts', label: 'Key facts' },
   { id: 'reconditioned', label: 'What reconditioned means here' },
+  { id: 'test-runs', label: 'Real test runs' },
   { id: 'models', label: 'Models available' },
   { id: 'applications', label: 'Applications' },
   { id: 'how-to-choose', label: 'Choosing by fluid and flow rate' },
@@ -139,7 +142,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   categoryHref="/alfa-laval-centrifuges/"
   canonicalUrl={USED_PAGE_URL}
   alternateJsonUrl={USED_OFFER_JSON_PATH}
-  jsonLd={[webPageJsonLd, itemListJsonLd, faqJsonLd]}
+  jsonLd={[webPageJsonLd, itemListJsonLd, faqJsonLd, videoJsonLd(DOLPHIN_VIDEOS.motorOil), videoJsonLd(DOLPHIN_VIDEOS.trampOil)]}
   toc={toc}
   hideBottomCTA={true}
   relatedProducts={[
@@ -290,6 +293,11 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   <p>
     General used equipment dealers often list Alfa Laval centrifuges 'as is', with no bowl inspection and no warranty. The bowl is the critical part: a worn bowl can make the machine useless, and a replacement bowl assembly from Alfa Laval often costs more than the used machine. Missing bowl parts and an unbalanced rotating assembly are the other common risks. We recommend against as-is machines unless you know Alfa Laval centrifuges well.
   </p>
+
+  <h2 id="test-runs">Real test runs from our shop</h2>
+  <p>Test run videos of Alfa Laval disc stack centrifuges from the Dolphin Centrifuge YouTube channel.</p>
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.motorOil.id} title={DOLPHIN_VIDEOS.motorOil.title} caption={DOLPHIN_VIDEOS.motorOil.title} />
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.trampOil.id} title={DOLPHIN_VIDEOS.trampOil.title} caption={DOLPHIN_VIDEOS.trampOil.title} />
 
   <h2 id="models">Used Alfa Laval models available</h2>
   <p>

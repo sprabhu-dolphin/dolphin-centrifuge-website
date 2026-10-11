@@ -1,5 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import { DOLPHIN_VIDEOS, videoJsonLd } from '../lib/dolphinVideos';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -50,6 +52,7 @@ const articleJsonLd = {
 const toc = [
   { id: "standard", label: "What Every Remanufactured Alfa Laval Centrifuge Receives" },
   { id: "testing", label: "Why We Test Every Unit" },
+  { id: "test-run-videos", label: "See a test run" },
   { id: "warranty", label: "Warranty & Support" },
 ];
 ---
@@ -75,7 +78,7 @@ const toc = [
     { label: "Industrial Disc Centrifuge Repair", href: "/industrial-disc-centrifuge-repair/" },
     { label: "Industrial Centrifuge Sample Testing", href: "/industrial-centrifuge-sample-testing/" },
   ]}
-  jsonLd={[articleJsonLd]}
+  jsonLd={[articleJsonLd, videoJsonLd(DOLPHIN_VIDEOS.motorOil), videoJsonLd(DOLPHIN_VIDEOS.pilot)]}
 >
 
   <p>
@@ -103,6 +106,11 @@ const toc = [
   <p>
     Many sellers ship a reconditioned machine without ever running it. We don't. Every remanufactured Alfa Laval centrifuge gets a full test run at rated speed before it leaves our floor - on a surrogate fluid such as hydraulic oil or water - and we record its operational data (running amps and performance). If you need formal documentation, a signed Test or Factory Acceptance Test (FAT) report is available on request. Either way, your machine is run and verified before it ships - not an unknown.
   </p>
+
+  <h2 id="test-run-videos">See a test run</h2>
+  <p>Test run videos of Alfa Laval disc stack centrifuges from the Dolphin Centrifuge YouTube channel.</p>
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.motorOil.id} title={DOLPHIN_VIDEOS.motorOil.title} caption={DOLPHIN_VIDEOS.motorOil.title} />
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.pilot.id} title={DOLPHIN_VIDEOS.pilot.title} caption={DOLPHIN_VIDEOS.pilot.title} />
 
   <h2 id="warranty">Warranty &amp; Support</h2>
   <p>
