@@ -10,7 +10,7 @@ export function GET() {
     schemaVersion: 'dolphin-stock-list-v1',
     asOf: stockList.asOf,
     page: `${SITE}${STOCK_PAGE_PATH}`,
-    note: 'Dated list. Availability changes and is confirmed per quote. Prices by quote. Every unit sold is remanufactured to the published reconditioning standard before shipment.',
+    note: 'Dated list. Availability changes and is confirmed per quote. Prices by quote. Every unit is remanufactured to the published reconditioning standard before shipment and sold with the 12-month mechanical warranty, never as-is. Serial numbers on request to qualified buyers.',
     units: stockList.units.map((u) => ({
       family: u.family,
       model: u.model,
@@ -18,6 +18,14 @@ export function GET() {
       condition: u.condition,
       status: u.status,
       quantity: u.quantity,
+      ...(u.bowlSpeedRpm !== undefined ? { bowlSpeedRpm: u.bowlSpeedRpm } : {}),
+      ...(u.motorHp !== undefined ? { motorHp: u.motorHp } : {}),
+      ...(u.bowlDiameter ? { bowlDiameter: u.bowlDiameter } : {}),
+      ...(u.wettedParts ? { wettedParts: u.wettedParts } : {}),
+      ...(u.separationType ? { separationType: u.separationType } : {}),
+      ...(u.cleaningMethod ? { cleaningMethod: u.cleaningMethod } : {}),
+      ...(u.capacity ? { capacity: u.capacity } : {}),
+      ...(u.configuration ? { configuration: u.configuration } : {}),
       modelPage: u.modelPage ? `${SITE}${u.modelPage}` : null,
     })),
   };
