@@ -134,7 +134,7 @@ export const usedOffer = {
     sources: [STANDARD, HUB],
   },
   warranty: {
-    summary: '6-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal.',
+    summary: '12-month mechanical warranty covering defects in parts, materials and workmanship from the date of delivery, as specified in the formal proposal.',
     support: 'Ongoing technical support for the original purchaser for the life of the machine.',
     exclusions: 'Wear and consumable items such as seals, gaskets, friction material and bearings.',
     governingDocument: 'Full terms are in the Warranty and Terms document that accompanies every proposal.',

@@ -166,7 +166,7 @@ test('used Alfa Laval finder filters families, pages results and adds a document
   const diesel = await find.execute({application: 'diesel'});
   assert.equal(diesel.status, 'ok');
   assert.deepEqual(diesel.data.families.map(f => f.key), ['whpx', 'mopx', 'mab']);
-  assert.match(diesel.data.offer, /6-month mechanical warranty/);
+  assert.match(diesel.data.offer, /12-month mechanical warranty/);
   assert.match(diesel.data.offer, /150\+ Alfa Laval centrifuges in stock/);
   assert.match(diesel.data.price, /^Smallest manual-clean skid from mid \$30Ks; /);
   assert.match(diesel.data.offer, /price confirmed per quote/);

@@ -212,7 +212,7 @@ export const remanufacturingServiceJsonLd = {
   name: 'Alfa Laval centrifuge remanufacturing',
   serviceType: 'Centrifuge remanufacturing',
   description:
-    'Alfa Laval centrifuges remanufactured to the published reconditioning standard, test run at rated speed, with a 6-month mechanical warranty and never sold as-is.',
+    'Alfa Laval centrifuges remanufactured to the published reconditioning standard, test run at rated speed, with a 12-month mechanical warranty and never sold as-is.',
   url: `${SITE_URL}/centrifuge-reconditioning-standard/`,
   provider: { '@id': ORGANIZATION_ID },
   areaServed: 'Worldwide',
