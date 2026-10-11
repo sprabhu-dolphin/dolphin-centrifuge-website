@@ -61,6 +61,10 @@ export const ORG_KNOWS_ABOUT = [
   'decanter centrifuges',
   'centrifuge remanufacturing',
   'industrial oil purification',
+  'Turbine oil purification for power plants',
+  'Hazardous area centrifuge systems (Class I Division 1 and Division 2)',
+  'Food processing wastewater centrifuges',
+  'Centrifuge repair and overhaul',
 ];
 
 export const universityOfArkansasJsonLd = {
@@ -130,6 +134,10 @@ export const sanjayPrabhuPersonJsonLd = {
     'Centrifuge remanufacturing',
     'Industrial fluid separation',
     'Turnkey centrifuge system design',
+    'Turbine oil purification for power plants',
+    'Hazardous area centrifuge systems (Class I Division 1 and Division 2)',
+    'Food processing wastewater centrifuges',
+    'Centrifuge repair and overhaul',
   ],
   alumniOf: universityOfArkansasJsonLd,
   hasCredential: [
