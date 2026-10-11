@@ -1,0 +1,301 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import { DOLPHIN_VIDEOS, videoJsonLd } from '../lib/dolphinVideos';
+import { models } from '../data/centrifugeSpecs';
+
+const pageUrl = 'https://dolphincentrifuge.com/food-industry-wastewater-centrifuge/';
+const pageTitle = 'Wastewater Centrifuge Modules for Food Processing and Industrial Plants';
+const pageDescription =
+  'High-capacity disc stack and decanter centrifuge modules for food processing wastewater, DAF effluent, grease trap waste and industrial effluent. Stainless wetted parts, remanufactured Alfa Laval machines, 12-month warranty.';
+
+/* The NX 418 thickening rating is read from the single spec source, never retyped. */
+const nx418 = models.find((m) => m.designation === 'NX 418');
+const nx418Rated = nx418?.capacities.find((c) => /sludge thickening/i.test(c.fluid));
+if (!nx418Rated || typeof nx418Rated.value !== 'number') {
+  throw new Error('food wastewater page: no NX 418 sludge thickening capacity in spec data');
+}
+
+const capacityRows = [
+  { machine: 'Alfa Laval NX 418', href: '/alfa-laval-nx-418-decanter-centrifuge/', type: 'Decanter', duty: 'Water sludge thickening (rated)', flow: `${nx418Rated.value} GPM` },
+  { machine: 'Alfa Laval NX 418', href: '/alfa-laval-nx-418-decanter-centrifuge/', type: 'Decanter', duty: 'Wastewater at 5% sludge', flow: '100 GPM' },
+  { machine: 'Alfa Laval NX 418', href: '/alfa-laval-nx-418-decanter-centrifuge/', type: 'Decanter', duty: 'Wastewater at 10% sludge', flow: '60 GPM' },
+  { machine: 'Alfa Laval NX 314', href: '/alfa-laval-nx-314-decanter-centrifuge/', type: 'Decanter', duty: 'Wastewater at 5% sludge', flow: '40 GPM' },
+  { machine: 'Alfa Laval NX 314', href: '/alfa-laval-nx-314-decanter-centrifuge/', type: 'Decanter', duty: 'Wastewater at 10% sludge', flow: '25 GPM' },
+  { machine: 'DMPX-070 (Alfa Laval WHPX 513)', href: '/industrial-wastewater-centrifuge-silicon-wafer-facility/', type: 'Disc stack, self-cleaning', duty: 'Silicon wafer grinding wastewater, as installed', flow: '50 gallons per minute' },
+  { machine: 'DMPX-042 class (Alfa Laval WHPX 510)', href: '/centrifuges/dmpx-042/', type: 'Disc stack, three-phase', duty: 'Yellow grease and grease trap waste at 180 F', flow: '30 GPM' },
+];
+
+const faqItems = [
+  {
+    question: 'Should I use a disc stack centrifuge or a decanter on food processing wastewater?',
+    answer:
+      'It depends on how much solid is in the stream. A decanter handles high-sludge wastewater and produces a dewatered cake continuously. A disc stack centrifuge polishes lower-solids water and removes fine suspended particles and oil. Many food plants use both: the decanter first, then a disc stack machine as a polisher. See <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">decanter vs disc stack centrifuge</a>.',
+  },
+  {
+    question: 'Can a centrifuge remove fats, oils and grease from wastewater?',
+    answer:
+      'Yes. Industrial wastewater often carries oil as well as sludge, and a three-phase centrifuge separates the oil, the water, and the solids in one machine. Dolphin has built grease trap waste and yellow grease systems on a three-phase Alfa Laval disc stack machine with a decanter upstream for bulk solids. See <a href="/yellow-grease-purification-centrifuge/">yellow grease purification</a>.',
+  },
+  {
+    question: 'Will a centrifuge reduce BOD?',
+    answer:
+      'A centrifuge removes suspended solids and free oil, and the BOD those particles and droplets carry goes with them. BOD that is dissolved in the water stays in the water. The video on this page shows a real wastewater sample run through an Alfa Laval disc stack centrifuge to reduce BOD. For your effluent, a sample test with lab results is the only reliable answer.',
+  },
+  {
+    question: 'How much flow can one machine handle?',
+    answer:
+      'The table above lists each machine with its duty. A decanter such as the NX 418 handles 110 GPM on water sludge thickening, and a self-cleaning disc stack module handles tens of GPM depending on the solids load. Larger flows use several machines. Capacity changes with the sludge percentage, so we size from your sample.',
+  },
+  {
+    question: 'Can the wetted parts be stainless steel?',
+    answer:
+      'Yes. Systems with full stainless-steel wetted parts (piping, valves, tanks, and centrifuge) start around the mid-$60Ks, EXW Warren, MI. Standard NX decanter bowls are 316L stainless steel. If your plant has a sanitary or clean-in-place requirement, state it in your inquiry and we will confirm what a given machine supports.',
+  },
+  {
+    question: 'What does the warranty cover, and can you test my effluent first?',
+    answer:
+      'Remanufactured machines carry a 12-month mechanical warranty covering defects in parts, materials, and workmanship from the date of delivery, as specified in your formal proposal. Standard exclusions apply for wear and consumable items. Sample testing is a chargeable service: send a sample and we will run it on a lab-scale centrifuge and report the result. See <a href="/industrial-centrifuge-sample-testing/">industrial centrifuge sample testing</a>.',
+  },
+];
+
+const stripTags = (html: string) => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: stripTags(item.answer) },
+  })),
+};
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  url: pageUrl,
+  headline: pageTitle,
+  description:
+    'How disc stack and decanter centrifuge modules treat food processing wastewater, DAF effluent, grease trap waste and industrial effluent, with capacities, stainless options, a silicon wafer case study, and a BOD reduction test video.',
+  datePublished: '2026-10-11',
+  dateModified: '2026-10-11',
+  mainEntityOfPage: pageUrl,
+  author: {
+    '@type': 'Person',
+    name: 'Sanjay Prabhu',
+    honorificSuffix: 'M.S.M.E.',
+    jobTitle: 'Centrifuge Applications Engineer',
+    worksFor: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+    description:
+      "Leads centrifuge applications engineering at Dolphin Centrifuge, backed by the company's 40+ years of experience in industrial centrifuge systems",
+    url: 'https://dolphincentrifuge.com/about-dolphin-centrifuge/',
+    alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of Arkansas', location: 'Fayetteville, AR, US' },
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: "Master's degree",
+      name: 'Master of Science in Mechanical Engineering',
+      recognizedBy: { '@type': 'CollegeOrUniversity', name: 'University of Arkansas', location: 'Fayetteville, AR, US' },
+      description: 'Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville',
+    },
+  },
+  publisher: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+};
+
+const jsonLd = [articleJsonLd, faqJsonLd, videoJsonLd(DOLPHIN_VIDEOS.bod)];
+
+const toc = [
+  { id: 'the-problem', label: 'The Problem: BOD, TSS, Grease and DAF Sludge' },
+  { id: 'disc-vs-decanter', label: 'Disc Stack vs Decanter for This Duty' },
+  { id: 'modules', label: 'Modules and Capacities' },
+  { id: 'stainless', label: 'Stainless Steel and Sanitary Considerations' },
+  { id: 'silicon-wafer', label: 'Case: Silicon Wafer Wastewater' },
+  { id: 'bod-test', label: 'Video: BOD Reduction Test' },
+  { id: 'sample-testing', label: 'Sample Testing and Warranty' },
+  { id: 'faq', label: 'Food Industry Wastewater Centrifuge FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Wastewater Centrifuge', href: '/wastewater-centrifuge/' },
+  { label: 'Dewatering Centrifuge', href: '/dewatering-centrifuge/' },
+  { label: 'Food Grade Centrifuge', href: '/food-grade-centrifuge/' },
+  { label: 'Yellow Grease Purification', href: '/yellow-grease-purification-centrifuge/' },
+  { label: 'Silicon Wafer Wastewater Case', href: '/industrial-wastewater-centrifuge-silicon-wafer-facility/' },
+];
+
+const relatedProducts = [
+  { label: 'NX-418 Decanter', href: '/alfa-laval-nx-418-decanter-centrifuge/', description: '110 GPM on water sludge thickening' },
+  { label: 'NX-314 Decanter', href: '/alfa-laval-nx-314-decanter-centrifuge/', description: 'Compact wastewater decanter' },
+  { label: 'DMPX-042 Self-Cleaning Module', href: '/centrifuges/dmpx-042/', description: 'Three-phase disc stack class' },
+  { label: 'DMPX-070 Self-Cleaning Module', href: '/centrifuges/dmpx-070/', description: 'Largest disc stack class' },
+];
+---
+
+<ApplicationLayout
+  title={pageTitle}
+  heroTitle={pageTitle}
+  pageTitle={pageTitle}
+  description={pageDescription}
+  heroImage="/images/centrifuges-dmpx-070/Alfa-Laval-WHPX-513-DMPX-070-Centrifuge-Plant-hero-2000x600.webp"
+  heroImageAlt="Dolphin DMPX-070 disc stack centrifuge module installed on a processing plant floor for wastewater treatment"
+  category="applications"
+  categoryHref="/disc-stack-centrifuge-applications/"
+  categoryLabel="Applications"
+  canonicalUrl={pageUrl}
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  hideBottomCTA={true}
+  disableTitleSuffix={true}
+  robots="index, follow"
+>
+
+  <p>
+    Food processing and other industrial plants produce wastewater that carries suspended solids, fats, oils, and grease. A centrifuge module takes those out continuously, so the plant sends less sludge to haulers and cleaner water to the drain or back into the process. Dolphin Centrifuge builds these modules in Warren, Michigan around remanufactured Alfa Laval disc stack and decanter centrifuges. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+  </p>
+
+  <p>
+    For the broader wastewater background, including municipal sludge, mining effluent, and produced water, see the <a href="/wastewater-centrifuge/">wastewater centrifuge</a> page.
+  </p>
+
+  <h2 id="the-problem">The Problem: BOD, TSS, Grease and DAF Sludge</h2>
+
+  <p>
+    Four numbers usually decide what a food plant does with its wastewater.
+  </p>
+
+  <ul>
+    <li><strong>BOD</strong> (biochemical oxygen demand) measures the organic load. Flour, starch, sugars, and fats all add to it.</li>
+    <li><strong>TSS</strong> (total suspended solids) is the particulate fraction. It is what a centrifuge removes most directly.</li>
+    <li><strong>FOG</strong> (fats, oils, and grease) comes from cooking, frying, rendering, and cleaning. Oily water cannot go down a standard drain.</li>
+    <li><strong>DAF sludge</strong> is the float and sludge skimmed off a dissolved air flotation unit. It is thick, high in solids and grease, and expensive to haul.</li>
+  </ul>
+
+  <p>
+    Discharge limits for these parameters are set by the local sewer authority or permit, so check yours before sizing anything. A centrifuge removes the particulate and free-oil share of BOD along with the TSS and FOG. Dissolved BOD stays in the water, and a centrifuge does not change that. This is why a sample test is worth doing before you buy.
+  </p>
+
+  <p>
+    The benefits on the sludge side are direct. A decanter produces dry sludge cake, which cuts transportation cost by up to 50%, and the disposal volume is a fraction of the wet sludge. A tortilla factory on one of our decanters reduced waste hauling and disposal costs by over 60%.
+  </p>
+
+  <h2 id="disc-vs-decanter">Disc Stack vs Decanter for This Duty</h2>
+
+  <p>
+    The two machines solve different parts of the problem, and the choice follows the solids content of the stream.
+  </p>
+
+  <ul>
+    <li><strong>Decanter:</strong> a horizontal machine with an internal auger. It runs at 3,100 Gs or higher and handles high-sludge wastewater, up to 50% sludge, discharging dewatered solids and clarified water continuously. Use it for DAF sludge, wash-water sludge, and thickening.</li>
+    <li><strong>Disc stack:</strong> a high-speed self-cleaning machine that separates micron-level suspended particles and, in the three-phase version, oil as well. Use it to polish lower-solids water and to pull oil out of the water phase. Solids collect in the bowl and eject automatically.</li>
+    <li><strong>Both in series:</strong> when the water carries both sludge and oil, a decanter takes the bulk solids out first and a three-phase disc stack machine polishes the water and removes the oil. We supplied a two-step system of this kind to an automotive supplier for wash water.</li>
+  </ul>
+
+  <p>
+    The full comparison is on <a href="/difference-between-decanter-centrifuge-disc-centrifuge/">decanter vs disc stack centrifuge</a>. See also <a href="/dewatering-centrifuge/">dewatering centrifuges</a>.
+  </p>
+
+  <h2 id="modules">Modules and Capacities</h2>
+
+  <p>
+    A Dolphin module is a skid with the centrifuge, feed pump, controls, and piping. The skid, controls, and piping are Dolphin engineering. The centrifuge inside is a remanufactured Alfa Laval machine, rebuilt and test run in Warren, Michigan. The disc stack classes are the <a href="/centrifuges/dmpx-042/">DMPX-042</a> and <a href="/centrifuges/dmpx-070/">DMPX-070</a>, and the decanters are the NX series.
+  </p>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-4">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Machine</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Type</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Duty</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Flow</th>
+        </tr>
+      </thead>
+      <tbody>
+        {capacityRows.map((row, i) => (
+          <tr class={`border-b border-gray-200 ${i % 2 === 1 ? 'bg-light-bg' : ''}`}>
+            <td class="py-3 px-3 font-semibold text-navy"><a href={row.href}>{row.machine}</a></td>
+            <td class="py-3 px-3 text-sm">{row.type}</td>
+            <td class="py-3 px-3 text-sm">{row.duty}</td>
+            <td class="py-3 px-3 font-mono text-sm">{row.flow}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-text-light italic">
+    Every flow is tied to its duty. Capacity falls as the sludge percentage rises, so the final size comes from your sample. Larger flows use more than one machine.
+  </p>
+
+  <p>Examples from food and related plants:</p>
+
+  <ul>
+    <li><strong>Bakery wash-water:</strong> a Texas bakery processing 20,000 GPD of wash-water with flour and organic residues used a Dolphin-modified Alfa Laval NX-414 decanter to recover clean water for sewer discharge.</li>
+    <li><strong>Onion process water:</strong> one of the largest onion producers in California uses an Alfa Laval NX-416 2-phase decanter to dewater organic sludge from wash-water at 40 GPM.</li>
+    <li><strong>Tortilla factory:</strong> an Alfa Laval NX-314B-31 decanter thickens flour sludge. Hauling and disposal costs fell by over 60%, and the separated water was clean enough for sewer discharge.</li>
+    <li><strong>Grease trap waste and yellow grease:</strong> a Midwest collector processing about 6 million gallons a year uses a DMPX-042 module on an Alfa Laval WHPX 510 at 30 GPM on yellow grease at 180 F, with an NX-314 decanter and a coarse pre-strainer ahead of it. See <a href="/yellow-grease-purification-centrifuge/">yellow grease purification</a>.</li>
+  </ul>
+
+  <h2 id="stainless">Stainless Steel and Sanitary Considerations</h2>
+
+  <p>
+    Wetted-part material matters on food wastewater. This is what we offer.
+  </p>
+
+  <ul>
+    <li><strong>All-stainless systems:</strong> systems with full stainless-steel wetted parts (piping, valves, tanks, and centrifuge) start around the mid-$60Ks, EXW Warren, MI.</li>
+    <li><strong>Decanters:</strong> the NX 418 and NX 314 bowls are 316L stainless steel, with a tungsten carbide hard-surfaced auger and Stellite bushings on the sludge ports for wear.</li>
+    <li><strong>Disc stack:</strong> the WHPX 513 and WHPX 407 bowls are 316L stainless steel with some red metal parts. An all-stainless-contact version, the DMPX-070-SS, is offered. See <a href="/stainless-steel-centrifuge/">stainless steel centrifuges</a> and <a href="/food-grade-centrifuge/">food grade centrifuges</a>.</li>
+    <li><strong>Fasteners and enclosures:</strong> exposed fasteners on our remanufactured machines are upgraded to stainless steel, and control panels are available in NEMA 4X stainless enclosures.</li>
+  </ul>
+
+  <p>
+    We do not publish a sanitary certification or a clean-in-place rating for these wastewater modules. If your plant has either requirement, state it in the inquiry and we will confirm what a given machine supports.
+  </p>
+
+  <h2 id="silicon-wafer">Case: Silicon Wafer Wastewater</h2>
+
+  <p>
+    This case is not food, but it shows what a disc stack module does on very fine particles. A silicon wafer facility generating over 50,000 gallons a day of silica and diamond grinding wastewater replaced an ultra-filtration system with a Dolphin DMPX-070 module on a remanufactured Alfa Laval WHPX 513, sized for a 50 gallons per minute stream.
+  </p>
+
+  <ul>
+    <li><strong>Before:</strong> membrane cartridges at $350 each, replaced every 3 to 6 hours, about $1,400,000 a year in membranes plus $33,000 in labor. Total annual cost $1,433,000.</li>
+    <li><strong>After:</strong> the centrifuge system total annual cost is $154,000, with no membranes. Annual savings are about $1,279,000, an 89% reduction in operating cost.</li>
+    <li><strong>Pilot:</strong> a 1-gallon sample of the facility's wastewater was tested first. The test showed complete removal of particle contamination and clear, reusable water.</li>
+  </ul>
+
+  <p>
+    Read the full <a href="/industrial-wastewater-centrifuge-silicon-wafer-facility/">silicon wafer wastewater case study</a>.
+  </p>
+
+  <h2 id="bod-test">Video: Wastewater BOD Reduction Test</h2>
+
+  <p>
+    A real wastewater sample is run through an Alfa Laval disc stack centrifuge to reduce BOD. This is the kind of test we run on a customer sample before sizing a system.
+  </p>
+
+  <YouTubeEmbed id={DOLPHIN_VIDEOS.bod.id} title={DOLPHIN_VIDEOS.bod.title} caption={DOLPHIN_VIDEOS.bod.title} />
+
+  <h2 id="sample-testing">Sample Testing and Warranty</h2>
+
+  <p>
+    Send a sample of your effluent, DAF sludge, or grease trap waste. We run it on a lab-scale centrifuge and report the separation, so you can confirm performance before any commitment. Sample testing is a chargeable service. See <a href="/industrial-centrifuge-sample-testing/">industrial centrifuge sample testing</a> and the <a href="/sample-testing-case-studies/">sample testing case studies</a>.
+  </p>
+
+  <p>
+    Remanufactured Alfa Laval centrifuges from Dolphin carry a 12-month mechanical warranty covering defects in parts, materials, and workmanship from the date of delivery, as specified in your formal proposal, plus ongoing technical support available to the original purchaser for the life of the machine. Standard exclusions apply (wear and consumable items such as seals, gaskets, friction material, and bearings). Each machine is test run at rated speed before shipment. See the <a href="/centrifuge-reconditioning-standard/">reconditioning standard</a>.
+  </p>
+
+  <FAQ items={faqItems} heading="Food Industry Wastewater Centrifuge FAQ" />
+
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="font-semibold text-navy mb-1">Talk to an Engineer</p>
+    <p class="text-sm text-text-light mb-3">Tell us the flow, the sludge percentage, and the discharge limit you need to meet. An engineer will recommend a module. Call (248) 522-2573 or email sales@dolphincentrifuge.com.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Request a Quote</a>
+  </div>
+
+</ApplicationLayout>

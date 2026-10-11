@@ -1,0 +1,287 @@
+---
+import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
+import { models } from '../data/centrifugeSpecs';
+
+const pageUrl = 'https://dolphincentrifuge.com/turbine-oil-centrifuge-power-plants/';
+const pageTitle = 'Turbine Oil Centrifuge Systems for Power Plants and Utilities';
+const pageDescription =
+  'Remanufactured Alfa Laval centrifuge systems for turbine oil, lube oil and fuel oil purification at nuclear and gas-fired power plants and utilities. Stainless and Class I Div 2 options, 12-month warranty, Warren, Michigan.';
+
+/* Capacities come from the single spec source (src/data/centrifugeSpecs.ts), never retyped. */
+const machineOrder = ['MAB 103', 'MAB 104', 'MAB 205', 'MAB 206', 'MOPX 209', 'MOPX 210', 'WHPX 510', 'WHPX 513'];
+const fmt = (n: number) => n.toLocaleString('en-US');
+const machineRows = machineOrder.map((designation) => {
+  const m = models.find((model) => model.designation === designation);
+  if (!m) throw new Error(`turbine page: no spec record for ${designation}`);
+  const cap = m.capacities.find((c) => /steam turbine/i.test(c.fluid));
+  if (!cap || typeof cap.value !== 'number' || typeof cap.derivedGpm !== 'number') {
+    throw new Error(`turbine page: no steam turbine lube oil capacity for ${designation}`);
+  }
+  return {
+    name: `Alfa Laval ${m.designation}`,
+    href: m.canonicalPath ?? '/alfa-laval-centrifuges/',
+    module: m.dolphinModule ?? '',
+    handling: /^MAB/.test(m.designation) ? 'Manual clean' : 'Self-cleaning',
+    capacity: `${fmt(cap.value)} L/h (${cap.derivedGpm.toFixed(1)} GPM)`,
+  };
+});
+
+const faqItems = [
+  {
+    question: 'Why use a centrifuge on turbine oil instead of filters alone?',
+    answer:
+      'Filters remove solids but not all of the water, and the elements load up and lose flow. A disc stack centrifuge separates free water and solids in one continuous pass at over 6,000 Gs, down to about 0.5 micron, with no filter media to replace. Most turbine plants run a centrifuge in a kidney loop off the reservoir while the turbine stays on line.',
+  },
+  {
+    question: 'How dry will the turbine oil be after the centrifuge?',
+    answer:
+      'The moisture content of centrifuged lube oil ranges from the 500 ppm level to 1500 ppm or higher. Lower flow rates at higher temperatures produce drier oil, and steam turbine lube oil separates best at around 150 F. A centrifuge removes free water. It does not pull out water that is chemically bonded to the oil.',
+  },
+  {
+    question: 'How do I size a centrifuge for my turbine reservoir?',
+    answer:
+      'Sizing depends on reservoir volume, oil viscosity grade, and how much water is coming in. The table above gives the rated flow of each machine on steam turbine lube oil at 60 to 70 &deg;C. Send us the reservoir size, oil grade, and your water ingress history and we will recommend a machine. A small steam turbine sump and a large plant reservoir are very different jobs.',
+  },
+  {
+    question: 'Does a turbine oil centrifuge remove varnish?',
+    answer:
+      'A centrifuge removes free water and insoluble solids, including the oxidation particles and soft contaminants that later settle out as varnish deposits. It does not remove products that are still fully dissolved in the oil. Running a centrifuge continuously in a kidney loop keeps the insoluble load down, which is why it is used alongside, not instead of, varnish removal media on turbine systems.',
+  },
+  {
+    question: 'Do you supply nuclear and gas-fired plants, and what documentation comes with a system?',
+    answer:
+      'Dolphin supplies centrifuge systems to utilities and power plants, including nuclear and gas-fired plants. Every remanufactured machine is test run at rated speed before shipment and its running amps and performance are recorded. A signed Test or FAT report is available on request (additional charges may apply). If your purchase specification calls for drawings, P&amp;IDs, or other submittals, send it with your inquiry and the quote will address it. See <a href="/epc-industrial-centrifuge-systems/">EPC industrial centrifuge systems</a> for the document set we normally supply.',
+  },
+  {
+    question: 'Can you repair or overhaul the centrifuges we already have in the plant?',
+    answer:
+      'Yes. Dolphin repairs and overhauls large self-cleaning centrifuges at its Warren, Michigan shop, including full rebuilds with new bearings, friction material, seals, and gaskets, followed by a test run. A recent single-machine repair order came to $60,000, which shows the scope of work we take on. See <a href="/industrial-disc-centrifuge-repair/">industrial disc centrifuge repair</a> for the process and typical intervals.',
+  },
+];
+
+const stripTags = (html: string) => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&deg;/g, '°');
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: stripTags(item.answer) },
+  })),
+};
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  url: pageUrl,
+  headline: pageTitle,
+  description:
+    'How continuous centrifugal purification keeps turbine oil dry and clean at power plants and utilities, which Alfa Laval machines Dolphin uses, system options, documentation, and repair of existing plant centrifuges.',
+  datePublished: '2026-10-11',
+  dateModified: '2026-10-11',
+  mainEntityOfPage: pageUrl,
+  author: {
+    '@type': 'Person',
+    name: 'Sanjay Prabhu',
+    honorificSuffix: 'M.S.M.E.',
+    jobTitle: 'Centrifuge Applications Engineer',
+    worksFor: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+    description:
+      "Leads centrifuge applications engineering at Dolphin Centrifuge, backed by the company's 40+ years of experience in industrial centrifuge systems",
+    url: 'https://dolphincentrifuge.com/about-dolphin-centrifuge/',
+    alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of Arkansas', location: 'Fayetteville, AR, US' },
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: "Master's degree",
+      name: 'Master of Science in Mechanical Engineering',
+      recognizedBy: { '@type': 'CollegeOrUniversity', name: 'University of Arkansas', location: 'Fayetteville, AR, US' },
+      description: 'Master of Science in Mechanical Engineering, University of Arkansas, Fayetteville',
+    },
+  },
+  publisher: { '@type': 'Organization', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
+};
+
+const jsonLd = [articleJsonLd, faqJsonLd];
+
+const toc = [
+  { id: 'why-continuous', label: 'Why Turbine Oil Needs Continuous Purification' },
+  { id: 'machines', label: 'Which Machines, and How Much Oil They Handle' },
+  { id: 'system-options', label: 'System Options' },
+  { id: 'reliability', label: 'Reliability, Testing and Documentation' },
+  { id: 'repair', label: 'Repair and Overhaul of Plant Centrifuges' },
+  { id: 'sample-testing', label: 'Sample Testing' },
+  { id: 'faq', label: 'Turbine Oil Centrifuge FAQ' },
+];
+
+const relatedApplications = [
+  { label: 'Lube Oil Centrifuge', href: '/lube-oil-centrifuge/' },
+  { label: 'Fuel Oil Centrifuge', href: '/fuel-oil-centrifuge/' },
+  { label: 'Oil Centrifuge (General)', href: '/oil-centrifuge/' },
+  { label: 'Explosion Proof Centrifuge', href: '/explosion-proof-centrifuge/' },
+  { label: 'Stainless Steel Centrifuge', href: '/stainless-steel-centrifuge/' },
+];
+
+const relatedProducts = [
+  { label: 'DMB-019 Manual-Clean (Alfa Laval MAB 205)', href: '/centrifuges/dmb-019/', description: 'Mid-size turbine reservoirs' },
+  { label: 'DMB-028 Manual-Clean (Alfa Laval MAB 206)', href: '/centrifuges/dmb-028/', description: 'Larger turbine reservoirs' },
+  { label: 'DMPX-042 Self-Cleaning (MOPX 209 / MOPX 210)', href: '/centrifuges/dmpx-042/', description: 'Automatic sludge ejection' },
+  { label: 'DMPX-070 Self-Cleaning (MOPX 213 / WHPX 513)', href: '/centrifuges/dmpx-070/', description: 'Large plant reservoirs' },
+];
+---
+
+<ApplicationLayout
+  title={pageTitle}
+  heroTitle={pageTitle}
+  pageTitle={pageTitle}
+  description={pageDescription}
+  heroImage="/images/lube-oil-centrifuge/lube-oil-centrifuge-hero-2000.webp"
+  heroImageAlt="Alfa Laval disc stack centrifuge system for continuous turbine oil water and solids separation"
+  category="applications"
+  categoryHref="/disc-stack-centrifuge-applications/"
+  categoryLabel="Applications"
+  canonicalUrl={pageUrl}
+  jsonLd={jsonLd}
+  toc={toc}
+  relatedApplications={relatedApplications}
+  relatedProducts={relatedProducts}
+  hideBottomCTA={true}
+  disableTitleSuffix={true}
+  robots="index, follow"
+>
+
+  <p>
+    A turbine oil centrifuge is a continuous disc stack separator that removes free water and fine solids from turbine lube oil, typically in a kidney loop off the reservoir while the turbine stays on line. Dolphin Centrifuge builds these systems in Warren, Michigan around remanufactured Alfa Laval centrifuges and supplies centrifuge systems to utilities and power plants, including nuclear and gas-fired plants. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.
+  </p>
+
+  <p>
+    This page covers the machines we use, what each one handles, the options that turn a bare centrifuge into a plant-ready skid, and what documentation and warranty come with it. For the general lube oil background, see the <a href="/lube-oil-centrifuge/">lube oil centrifuge</a> page.
+  </p>
+
+  <h2 id="why-continuous">Why Turbine Oil Needs Continuous Centrifugal Purification</h2>
+
+  <p>
+    Turbine oil picks up condensate through gland seals, and oxidation products build up through years of hot service. Water also gets in from cooling system leaks, and sludge particles come from wear on moving parts. Both water and solids are what a centrifuge removes best.
+  </p>
+
+  <p>
+    Water is the bigger concern. The smallest quantity of water in lube oil can do real damage to expensive equipment such as gas turbines, and gas turbine manufacturers require the lube oil to be free of all water. Filters remove only the solids. They do not take out all the water, and the elements clog and lose flow as they load up.
+  </p>
+
+  <p>
+    A disc stack centrifuge works differently. It spins the oil at over 6,000 Gs, so free water and solids separate in one continuous pass, down to about 0.5 micron. There is no filter media to buy or change. Clean oil leaves from the center of the bowl, water leaves through a separate outlet, and the solids collect on the bowl wall. Because the flow does not degrade, the centrifuge can run around the clock beside the turbine.
+  </p>
+
+  <ul>
+    <li><strong>Moisture after the pass:</strong> from the 500 ppm level to 1500 ppm or higher. Lower flow at higher temperature gives drier oil.</li>
+    <li><strong>Temperature:</strong> steam turbine lube oil separates best at around 150 F.</li>
+    <li><strong>Varnish:</strong> a centrifuge removes the insoluble oxidation particles and soft contaminants that later settle out as varnish deposits. It does not remove products still dissolved in the oil, so it is used alongside varnish removal media, not instead of it.</li>
+  </ul>
+
+  <h2 id="machines">Which Machines, and How Much Oil They Handle</h2>
+
+  <p>
+    Small steam turbine sumps are served by the manual-clean Alfa Laval MAB machines. We also build small lube oil centrifuges on mobile carts to move between turbine lube oil sumps in power plants. Larger reservoirs move up to the self-cleaning MOPX and WHPX machines, which eject their own sludge, so no one has to open the bowl on a schedule.
+  </p>
+
+  <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-4">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-navy text-white">
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Machine</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Dolphin module</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Sludge handling</th>
+          <th class="py-3 px-3 text-left font-semibold text-xs uppercase tracking-wider text-white">Steam turbine lube oil</th>
+        </tr>
+      </thead>
+      <tbody>
+        {machineRows.map((row, i) => (
+          <tr class={`border-b border-gray-200 ${i % 2 === 1 ? 'bg-light-bg' : ''}`}>
+            <td class="py-3 px-3 font-semibold text-navy"><a href={row.href}>{row.name}</a></td>
+            <td class="py-3 px-3 font-mono text-sm">{row.module}</td>
+            <td class="py-3 px-3 font-mono text-sm">{row.handling}</td>
+            <td class="py-3 px-3 font-mono text-sm">{row.capacity}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-sm text-text-light italic">
+    Rated flow on steam turbine lube oil, centrifuged at 60 to 70 &deg;C, from the OEM capacity tables. A different oil grade, viscosity, or temperature changes the number, so every capacity here is tied to its fluid.
+  </p>
+
+  <p>
+    The 110 V single-phase option on the MAB 103 suits a small portable cart. The same machines also run fuel oil, which most power plants burn or store, and hydraulic oil. See the <a href="/fuel-oil-centrifuge/">fuel oil centrifuge</a> and <a href="/hydraulic-oil-centrifuge/">hydraulic oil centrifuge</a> pages, or the <a href="/oil-centrifuge/">oil centrifuge</a> overview.
+  </p>
+
+  <figure class="mb-6">
+    <img
+      src="/images/lube-oil-centrifuge/lube_oil_centrifuge_kindney_loop_by_Dolphin_Centrifuge_800.webp"
+      alt="Kidney loop arrangement for a turbine oil centrifuge taking oil from the reservoir and returning it clean"
+      loading="lazy"
+      width="600"
+      height="375"
+      class="img-cap-600"
+    />
+    <figcaption>Kidney loop: a pump feeds oil through a heater to the centrifuge and clean oil returns to the reservoir.</figcaption>
+  </figure>
+
+  <h2 id="system-options">System Options</h2>
+
+  <p>
+    A bare centrifuge is not a plant system. Dolphin mounts the centrifuge, heater, pump, and controls on one skid and wires them to a single panel, so site work is limited to connecting utilities and piping.
+  </p>
+
+  <ul>
+    <li><strong>Heater:</strong> pre-heating lowers oil viscosity and raises separation efficiency. We supply electric immersion heaters (3 to 60 kW) and steam heat exchangers, sized from your flow rate, oil, and available utilities. See <a href="/fluid-heating-systems/">fluid heating systems</a>.</li>
+    <li><strong>Pump:</strong> a positive displacement feed pump with VFD control and flow indication.</li>
+    <li><strong>PLC and touchscreen:</strong> automatic start sequencing, alarms, vibration monitoring, data logging, and SCADA integration. The standard platform is AutomationDirect CLICK PLUS with a Maple Systems HMI. We also build on Allen-Bradley or Siemens to match plant standards. See <a href="/industrial-centrifuge-controls/">centrifuge controls</a>.</li>
+    <li><strong>Stainless steel:</strong> all-stainless centrifuges are offered where the oil or the environment calls for them. See <a href="/stainless-steel-centrifuge/">stainless steel centrifuges</a>.</li>
+    <li><strong>Explosion proof:</strong> Class I Division 1 and Division 2 systems are offered. The classification follows the location of the machine, not the oil. Direct drive replaces the friction clutch to avoid sparking, and nitrogen purge is available. See <a href="/explosion-proof-centrifuge/">explosion proof centrifuges</a> and <a href="/explosion-proof-stainless-steel-centrifuge/">explosion proof stainless steel centrifuges</a>.</li>
+  </ul>
+
+  <h2 id="reliability">Reliability, Testing and Documentation</h2>
+
+  <p>
+    Every remanufactured Alfa Laval centrifuge from Dolphin is inspected, has every seal, gasket, friction pad, bearing, and fastener replaced, and is vibration-checked and balanced as needed. Frame parts are sandblasted and finished with two coats of epoxy. The full list is on the <a href="/centrifuge-reconditioning-standard/">reconditioning standard</a> page.
+  </p>
+
+  <ul>
+    <li><strong>Test run:</strong> a full test run at rated speed before shipment, on a surrogate fluid (hydraulic oil or water). Running amps and performance are recorded on every unit.</li>
+    <li><strong>FAT report:</strong> a signed Test or Factory Acceptance Test report is available on request (additional charges may apply).</li>
+    <li><strong>Warranty:</strong> 12-month mechanical warranty covering defects in parts, materials, and workmanship from the date of delivery, as specified in your formal proposal. Standard exclusions apply (wear and consumable items such as seals, gaskets, friction material, and bearings).</li>
+    <li><strong>Support:</strong> ongoing technical support, available to the original purchaser, for the life of the machine.</li>
+    <li><strong>Package documents:</strong> where a project needs them, GA drawings, P&amp;IDs, SDRL and VDRL submittals, ITP, FAT records, and an O&amp;M manual. See <a href="/epc-industrial-centrifuge-systems/">EPC industrial centrifuge systems</a>.</li>
+  </ul>
+
+  <p>
+    This describes our general standard. Actual scope is defined in your quote, and the Warranty and Terms document that accompanies every proposal governs each sale.
+  </p>
+
+  <h2 id="repair">Repair and Overhaul of Plant Centrifuges</h2>
+
+  <p>
+    Many plants already own a self-cleaning centrifuge that has run for years. Dolphin repairs and overhauls large self-cleaning centrifuges, and a recent single-machine repair order came to $60,000. That is an example of the scope we take on, not a standard price. The cost of any job depends on the machine and the wear we find when it is stripped down.
+  </p>
+
+  <p>
+    A major overhaul replaces the bearings, friction pads, seals, and gaskets, cleans the disc stack, inspects the gear train, and ends with a test run. Manufacturers recommend a major service every 2 to 3 years, and a complete overhaul of a large self-cleaning machine can take four weeks or more. Older timer-based machines can also be upgraded with a PLC and touchscreen and a direct drive with VFD. See <a href="/industrial-disc-centrifuge-repair/">industrial disc centrifuge repair</a>.
+  </p>
+
+  <h2 id="sample-testing">Sample Testing</h2>
+
+  <p>
+    If you are unsure what your oil will do, send a sample. We test it with a lab-scale disc stack centrifuge and report the separation. Sample testing is a chargeable service. Tell us the oil grade, the operating temperature, and the contamination you see, and we will tell you what to send. See <a href="/industrial-centrifuge-sample-testing/">industrial centrifuge sample testing</a> and the <a href="/sample-testing-case-studies/">sample testing case studies</a>.
+  </p>
+
+  <FAQ items={faqItems} heading="Turbine Oil Centrifuge FAQ" />
+
+  <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-5 my-8 not-prose">
+    <p class="font-semibold text-navy mb-1">Talk to an Engineer</p>
+    <p class="text-sm text-text-light mb-3">Send the reservoir size, oil grade, and your site requirements. An engineer will recommend a machine and quote a complete system. Call (248) 522-2573 or email sales@dolphincentrifuge.com.</p>
+    <a href="/contact-for-alfa-laval-centrifuges/" class="inline-block bg-gold text-navy font-semibold px-5 py-2 rounded-lg hover:bg-gold/90 transition-colors text-sm">Request a Quote</a>
+  </div>
+
+</ApplicationLayout>
