@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpmOn } from '../data/specLookup';
 
 const jsonLd = [
   {
@@ -46,7 +47,7 @@ const jsonLd = [
         "name": "What flow rate do Alfa Laval diesel centrifuges handle?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010, built on a remanufactured Alfa Laval MMPX 304) up to 72 GPM (DMPX-070, built on a remanufactured Alfa Laval WHPX 513) on diesel at 13 cSt. Those are actual operating throughputs; rated capacity under ideal low-viscosity conditions is higher. Larger capacity can be achieved with parallel centrifuge installations. The case study on this page uses a 40 GPM system built on an Alfa Laval WHPX 510, the equivalent frame to the MOPX 209/210 base machine Dolphin supplies as the DMPX-042 module."
+          "text": "Dolphin's DMPX series diesel centrifuge systems are sized by model, from the DMPX-010 (built on a remanufactured Alfa Laval MMPX 304) up to the DMPX-070 (built on a remanufactured Alfa Laval WHPX 513). Each module publishes its capacity with the fluid and conditions on its own page. Larger capacity can be achieved with parallel centrifuge installations. The case study on this page uses a system built on an Alfa Laval WHPX 510, the equivalent frame to the MOPX 209/210 base machine Dolphin supplies as the DMPX-042 module."
         }
       },
       {
@@ -115,7 +116,7 @@ const toc = [
   <p class="text-text-light mb-6 leading-relaxed">This case study covers applying an <a href="/diesel-centrifuge/" class="text-navy font-semibold hover:text-gold transition-colors">Alfa Laval diesel centrifuge</a> for the large-scale recovery of used diesel fuel that is used for washing crude oil railcars.</p>
 
   <div class="not-prose bg-navy/5 border-l-4 border-gold rounded-r-lg p-4 mb-6">
-    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service. Dolphin Centrifuge supplies disc stack centrifuge systems for diesel purification, removing sludge, water, and solids at up to 8,000 Gs. The DMPX-070 (Dolphin module featuring a remanufactured Alfa Laval WHPX 513) delivers 59–72 GPM with Class I Division 2 rated motors and controls (non-incendive/pressurized design). Over 40 years of diesel fuel centrifuge experience. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.</p>
+    <p class="text-sm text-text-light leading-relaxed italic">Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service. Dolphin Centrifuge supplies disc stack centrifuge systems for diesel purification, removing sludge, water, and solids at up to 8,000 Gs. The DMPX-070 (Dolphin module featuring a remanufactured Alfa Laval WHPX 513) delivers {gpmOn('WHPX 513', 'diesel')} with Class I Division 2 rated motors and controls (non-incendive/pressurized design). Over 40 years of diesel fuel centrifuge experience. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.</p>
   </div>
 
   <div class="bg-white rounded-xl border border-gray-200 p-6 mb-10 shadow-sm">
@@ -241,7 +242,7 @@ const toc = [
     </details>
     <details class="bg-white rounded-xl border-l-4 border-gold/40 p-5 shadow-sm">
       <summary class="font-semibold text-navy cursor-pointer">What flow rate do Alfa Laval diesel centrifuges handle?</summary>
-      <p class="text-text-light mt-3 text-sm">Dolphin's DMPX series diesel centrifuge systems range from 7 GPM (DMPX-010) up to 72 GPM (DMPX-070) on diesel at 13 cSt. Larger capacity can be achieved with parallel centrifuge installations. Each DMPX module is built on a remanufactured Alfa Laval centrifuge: MMPX 304 in the DMPX-010, WHPX 405 in the DMPX-014, MOPX 207 in the DMPX-028, MOPX 209/210 in the DMPX-042, and WHPX 513 in the DMPX-070. The figures above are actual operating throughputs; rated capacities under ideal low-viscosity conditions run higher.</p>
+      <p class="text-text-light mt-3 text-sm">Dolphin's DMPX series diesel centrifuge systems are sized by model, up to {gpmOn('WHPX 513', 'diesel')} on the DMPX-070. Larger capacity can be achieved with parallel centrifuge installations. Each DMPX module is built on a remanufactured Alfa Laval centrifuge: MMPX 304 in the DMPX-010, WHPX 405 in the DMPX-014, MOPX 207 in the DMPX-028, MOPX 209/210 in the DMPX-042, and WHPX 513 in the DMPX-070. The figures above are actual operating throughputs; rated capacities under ideal low-viscosity conditions run higher.</p>
     </details>
     <details class="bg-white rounded-xl border-l-4 border-gold/40 p-5 shadow-sm">
       <summary class="font-semibold text-navy cursor-pointer">How much diesel fuel can be recovered with centrifuge purification?</summary>

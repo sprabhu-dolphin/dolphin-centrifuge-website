@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpm, gpmOn } from '../data/specLookup';
 
 const sanjayPrabhuAuthorJsonLd = {
   "@type": "Person",
@@ -89,9 +90,9 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMB-007 (Alfa Laval MAB 104)', href: '/centrifuges/dmb-007/', description: 'Manual-clean module, 2 GPM black diesel purification' },
-  { label: 'DMPX-028 (Alfa Laval MOPX 207)', href: '/centrifuges/dmpx-028/', description: 'Self-cleaning module, 20 GPM continuous processing' },
-  { label: 'DMPX-070 (Alfa Laval WHPX 513)', href: '/centrifuges/dmpx-070/', description: 'Self-cleaning module, 72 GPM high-volume processing' },
+  { label: 'DMB-007 (Alfa Laval MAB 104)', href: '/centrifuges/dmb-007/', description: `Manual-clean module, ${gpmOn('MAB 104', 'diesel')}; black diesel quoted per application` },
+  { label: 'DMPX-028 (Alfa Laval MOPX 207)', href: '/centrifuges/dmpx-028/', description: `Self-cleaning module, ${gpmOn('MOPX 207', 'diesel')}; black diesel quoted per application` },
+  { label: 'DMPX-070 (Alfa Laval WHPX 513)', href: '/centrifuges/dmpx-070/', description: `Self-cleaning module, ${gpmOn('WHPX 513', 'diesel')}; black diesel quoted per application` },
 ];
 ---
 
@@ -204,7 +205,7 @@ const relatedProducts = [
 
   <h3>Large Capacity</h3>
 
-  <p>The largest black diesel system Dolphin builds is the <a href="/centrifuges/dmpx-070/">DMPX-070</a>, built on an <a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a>, and it processes up to 72 GPM. The smallest machine on this page, the Alfa Laval MAB 104 packaged as the <a href="/centrifuges/dmb-007/">DMB-007</a>, processes about 2 GPM of black diesel at 180 F.</p>
+  <p>The largest black diesel system Dolphin builds is the <a href="/centrifuges/dmpx-070/">DMPX-070</a>, built on an <a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a>, and its published capacity is {gpmOn('WHPX 513', 'diesel')}. The smallest machine on this page, the Alfa Laval MAB 104 packaged as the <a href="/centrifuges/dmb-007/">DMB-007</a>, has a published capacity of {gpmOn('MAB 104', 'diesel')}. Capacity on black diesel depends on the contamination and is quoted per application.</p>
 
   <h3>Water Separation</h3>
 
@@ -216,7 +217,7 @@ const relatedProducts = [
 
   <h3>Compact Footprint</h3>
 
-  <p>The MAB 104 machine that processes about 2 GPM of black diesel has a 3' x 4' footprint, compact enough to be placed in space-limited facilities. In general, centrifuges have small footprints relative to their processing capacities.</p>
+  <p>The MAB 104 machine has a 3' x 4' footprint, compact enough to be placed in space-limited facilities. In general, centrifuges have small footprints relative to their processing capacities.</p>
 
   <h3>Ash Removal</h3>
 
@@ -267,11 +268,11 @@ const relatedProducts = [
       </thead>
       <tbody class="divide-y divide-gray-100">
         <tr class="hover:bg-gray-50">
-          <td class="px-4 py-3 text-gray-700">Capacity on Black Diesel</td>
-          <td class="px-4 py-3 text-center text-gray-700">2 GPM</td>
-          <td class="px-4 py-3 text-center text-gray-700">10 GPM</td>
-          <td class="px-4 py-3 text-center text-gray-700">20 GPM</td>
-          <td class="px-4 py-3 text-center text-gray-700">72 GPM</td>
+          <td class="px-4 py-3 text-gray-700">Capacity on 13 cSt diesel at 40 &deg;C (black diesel quoted per application)</td>
+          <td class="px-4 py-3 text-center text-gray-700">{gpm('MAB 104', 'diesel')} GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">{gpm('WHPX 405', 'diesel')} GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">{gpm('MOPX 207', 'diesel')} GPM</td>
+          <td class="px-4 py-3 text-center text-gray-700">{gpm('WHPX 513', 'diesel')} GPM</td>
         </tr>
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-3 text-gray-700">Motor</td>

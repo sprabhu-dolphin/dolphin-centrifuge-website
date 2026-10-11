@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpmOn } from '../data/specLookup';
 
 
 
@@ -220,7 +221,7 @@ const relatedProducts = [
         <tr><th>Spec</th><th>Value</th></tr>
       </thead>
       <tbody>
-        <tr><td>Capacity</td><td>42 GPM on Diesel Fuel</td></tr>
+        <tr><td>Capacity</td><td>42 GPM rental machine size; capacity by fluid quoted per application</td></tr>
         <tr><td>Motor</td><td>460V / 3Ph - 15 HP Motor</td></tr>
         <tr><td>Skid Size</td><td>6' x 6' x 6' (H)</td></tr>
         <tr><td>Weight</td><td>~ 3,500 Lbs</td></tr>
@@ -252,11 +253,11 @@ const relatedProducts = [
         <tr><th>Dolphin Module</th><th>Alfa Laval Base Machine</th><th>Type</th><th>Flow Rate</th><th>Oil Applications (Qualifying)</th></tr>
       </thead>
       <tbody>
-        <tr><td><a href="/centrifuges/dmpx-010/">DMPX-010</a></td><td>Alfa Laval MMPX 304 (MMPX 404 / MAPX 204)</td><td>Self-Cleaning</td><td>Up to 8 GPM</td><td>Small-volume oil, diesel, biodiesel</td></tr>
-        <tr><td><a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/">DMPX-014</a></td><td><a href="/alfa-laval-whpx-405/">Alfa Laval WHPX 405</a> (MOPX 205)</td><td>Self-Cleaning</td><td>Up to 16 GPM</td><td>Waste oil, lube oil, diesel</td></tr>
-        <tr><td><a href="/centrifuges/dmpx-028/">DMPX-028</a></td><td><a href="/alfa-laval-mopx-207-centrifuge/">Alfa Laval MOPX 207</a> (MAPX 207 / WHPX 407)</td><td>Self-Cleaning</td><td>Up to 28 GPM</td><td>Fuel oil, hydraulic oil, crude oil</td></tr>
-        <tr><td><a href="/centrifuges/dmpx-042/">DMPX-042</a></td><td><a href="/alfa-laval-mopx-209-centrifuge/">Alfa Laval MOPX 209 / 210</a> (WHPX 410/510, MAPX 210)</td><td>Self-Cleaning</td><td>Up to 42 GPM</td><td>Large-volume waste oil, used oil</td></tr>
-        <tr><td><a href="/centrifuges/dmpx-070/">DMPX-070</a></td><td><a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a> (MOPX 213 / MAPX 313 / FOPX 613)</td><td>Self-Cleaning</td><td>Up to 72 GPM</td><td>High-volume oil, refinery, crude oil</td></tr>
+        <tr><td><a href="/centrifuges/dmpx-010/">DMPX-010</a></td><td>Alfa Laval MMPX 304 (MMPX 404 / MAPX 204)</td><td>Self-Cleaning</td><td>Quoted per unit</td><td>Small-volume oil, diesel, biodiesel</td></tr>
+        <tr><td><a href="/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/">DMPX-014</a></td><td><a href="/alfa-laval-whpx-405/">Alfa Laval WHPX 405</a> (MOPX 205)</td><td>Self-Cleaning</td><td>Up to {gpmOn('WHPX 405', 'diesel')}</td><td>Waste oil, lube oil, diesel</td></tr>
+        <tr><td><a href="/centrifuges/dmpx-028/">DMPX-028</a></td><td><a href="/alfa-laval-mopx-207-centrifuge/">Alfa Laval MOPX 207</a> (MAPX 207 / WHPX 407)</td><td>Self-Cleaning</td><td>Up to {gpmOn('MOPX 207', 'diesel')}</td><td>Fuel oil, hydraulic oil, crude oil</td></tr>
+        <tr><td><a href="/centrifuges/dmpx-042/">DMPX-042</a></td><td><a href="/alfa-laval-mopx-209-centrifuge/">Alfa Laval MOPX 209 / 210</a> (WHPX 410/510, MAPX 210)</td><td>Self-Cleaning</td><td>Up to {gpmOn('MOPX 210', 'diesel')}</td><td>Large-volume waste oil, used oil</td></tr>
+        <tr><td><a href="/centrifuges/dmpx-070/">DMPX-070</a></td><td><a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a> (MOPX 213 / MAPX 313 / FOPX 613)</td><td>Self-Cleaning</td><td>Up to {gpmOn('WHPX 513', 'diesel')}</td><td>High-volume oil, refinery, crude oil</td></tr>
       </tbody>
     </table>
   </div>

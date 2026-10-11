@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpmOn } from '../data/specLookup';
 import FAQ from '../components/FAQ.astro';
 
 // ── FAQ: RECOVERED from LW.xml → rank_math_schema_FAQPage postmeta (line 122712)
@@ -142,8 +143,8 @@ const relatedApplications = [
 
 const relatedProducts = [
   { label: 'Alfa Laval MOPX 207 Self-Cleaning System', href: '/centrifuges/dmpx-028/', description: 'Dolphin DMPX-028 module, compact disc stack for smaller throughput' },
-  { label: 'Alfa Laval MOPX 209 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: 'Dolphin DMPX-042 module, 40 GPM rated capacity' },
-  { label: 'Alfa Laval WHPX 513 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: 'Dolphin DMPX-070 module, 72 GPM actual on 13 cSt diesel, 95-108 GPM rated' },
+  { label: 'Alfa Laval MOPX 209 Self-Cleaning System', href: '/centrifuges/dmpx-042/', description: `Dolphin DMPX-042 module, ${gpmOn('MOPX 209', 'diesel')}` },
+  { label: 'Alfa Laval WHPX 513 Self-Cleaning System', href: '/centrifuges/dmpx-070/', description: `Dolphin DMPX-070 module, ${gpmOn('WHPX 513', 'diesel')}; ${gpmOn('WHPX 513', 'rated')}` },
   { label: 'Alfa Laval NX-418 Decanter Centrifuge', href: '/decanter-centrifuge/', description: 'Pre-processor for high-sludge feed' },
 ];
 ---
@@ -154,7 +155,7 @@ const relatedProducts = [
   pageTitle="Used Oil Centrifuge | Applications, Benefits, Specifications"
   description="A used oil centrifuge is an industrial disc-stack centrifuge that exerts over 7,000 G-force on the oil to separate all free water and 0.5 microns sediment."
   heroImage="/images/used-oil-centrifuge/Used_Oil_Centrifuge_Hero_1440.webp"
-  heroImageAlt="Alfa Laval WHPX 510 Used Oil Centrifuge - 40 GPM"
+  heroImageAlt="Alfa Laval WHPX 510 Used Oil Centrifuge"
   category="applications"
   categoryLabel="Applications"
   canonicalUrl="https://dolphincentrifuge.com/used-oil-centrifuge/"
@@ -223,7 +224,7 @@ const relatedProducts = [
 
   <h4 id="feed-stock-for-fresh-lube-oil">Feed Stock for Fresh Lube Oil</h4>
   <p>Refined used oil is a feedstock for the production of virgin lubricating oil. This process allows for the reuse of used oil as a low-cost and environmentally friendly alternative.</p>
-  <p>Re-refiners use the centrifuge as the front end of that process. Before vacuum distillation or hydrotreating, the collected oil has to be dewatered and de-ashed, and a three-phase disc stack centrifuge does both in one continuous pass. In a typical US re-refining plant the duty is split across capacities: an Alfa Laval MOPX 207 or WHPX 407 on a 20 to 25 GPM collection stream, an Alfa Laval MOPX 209 or WHPX 410 at 40 GPM, and an <a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a> at 72 GPM on 13 cSt diesel on the main feed line, with an <a href="/alfa-laval-nx-418-decanter-centrifuge/">Alfa Laval NX-418 decanter</a> ahead of them when the incoming oil carries bulk sludge. Dolphin supplies these machines remanufactured, skidded, heated, and test-run, which is how a re-refiner adds capacity for a fraction of new-equipment cost and lead time.</p>
+  <p>Re-refiners use the centrifuge as the front end of that process. Before vacuum distillation or hydrotreating, the collected oil has to be dewatered and de-ashed, and a three-phase disc stack centrifuge does both in one continuous pass. In a typical US re-refining plant the duty is split across capacities: an Alfa Laval MOPX 207 on a smaller collection stream, an Alfa Laval MOPX 209 on a mid-size stream, and an <a href="/alfa-laval-whpx-513/">Alfa Laval WHPX 513</a> ({gpmOn('WHPX 513', 'diesel')}) on the main feed line, with an <a href="/alfa-laval-nx-418-decanter-centrifuge/">Alfa Laval NX-418 decanter</a> ahead of them when the incoming oil carries bulk sludge. Dolphin supplies these machines remanufactured, skidded, heated, and test-run, which is how a re-refiner adds capacity for a fraction of new-equipment cost and lead time.</p>
 
   <h4 id="heating-fuel">Heating Fuel</h4>
   <p>A considerable amount of used oil finds use in heating industrial buildings. Though contaminated, used oil has a high calorific value and is ideal for heating fuel.</p>
@@ -284,7 +285,7 @@ const relatedProducts = [
       loading="lazy"
       class="img-cap-400"
     />
-    <figcaption>Alfa Laval WHPX 510 Used Oil Centrifuge - 40 GPM</figcaption>
+    <figcaption>Alfa Laval WHPX 510 Used Oil Centrifuge</figcaption>
   </figure>
 
   <h3 id="operation">Operation</h3>
@@ -306,7 +307,7 @@ const relatedProducts = [
       loading="lazy"
       class="img-cap-400"
     />
-    <figcaption>Alfa Laval MOPX207 Used Oil Centrifuge Skid - 25 GPM with 60 kW Heater</figcaption>
+    <figcaption>Alfa Laval MOPX207 Used Oil Centrifuge Skid with 60 kW Heater</figcaption>
   </figure>
 
   <h3 id="separation-efficiency">Separation Efficiency</h3>
@@ -397,7 +398,7 @@ const relatedProducts = [
       loading="lazy"
       class="img-cap-400"
     />
-    <figcaption>Alfa Laval MOPX207 Used Oil Centrifuge - 25 GPM</figcaption>
+    <figcaption>Alfa Laval MOPX207 Used Oil Centrifuge</figcaption>
   </figure>
 
   <p>The following are typical specifications for the used oil centrifuges Dolphin supplies, listed by the Dolphin module code and the <a href="http://alfalaval.us">Alfa Laval</a> base machine inside it. The centrifuges themselves are self-cleaning, three-phase disc stack machines manufactured by Alfa Laval; Dolphin remanufactures them and builds the skid, heater, pumps, and controls around them.</p>

@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpm, gpmOn } from '../data/specLookup';
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -112,10 +113,10 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'Alfa Laval MAB 103 (DMB-004)', href: '/centrifuges/dmb-004/', description: 'Small manual-clean: 4 GPM diesel purification' },
-  { label: 'Alfa Laval MAB 104 (DMB-007)', href: '/centrifuges/dmb-007/', description: 'Medium manual-clean: 7 GPM diesel workboats' },
-  { label: 'Alfa Laval WHPX-405 Self-Cleaning', href: '/alfa-laval-whpx-405/', description: '13-16 GPM continuous diesel' },
-  { label: 'Alfa Laval MOPX-209 (DMPX-042)', href: '/centrifuges/dmpx-042/', description: '32-47 GPM large-scale diesel' },
+  { label: 'Alfa Laval MAB 103 (DMB-004)', href: '/centrifuges/dmb-004/', description: `Small manual-clean: ${gpmOn('MAB 103', 'diesel')}` },
+  { label: 'Alfa Laval MAB 104 (DMB-007)', href: '/centrifuges/dmb-007/', description: `Medium manual-clean: ${gpmOn('MAB 104', 'diesel')}` },
+  { label: 'Alfa Laval WHPX-405 Self-Cleaning', href: '/alfa-laval-whpx-405/', description: `Continuous: ${gpmOn('WHPX 405', 'diesel')}` },
+  { label: 'Alfa Laval MOPX-209 (DMPX-042)', href: '/centrifuges/dmpx-042/', description: `Large-scale: ${gpmOn('MOPX 209', 'diesel')}` },
 ];
 ---
 
@@ -233,8 +234,7 @@ const relatedProducts = [
         <tr><td>Centrifuge Type</td><td colspan="3">Alfa Laval Self-Cleaning, Disc Stack</td></tr>
         <tr><td>Centrifuge Efficiency</td><td colspan="3">Solid Particles &gt; 0.5&mu;; Free Water &gt; 2&mu;</td></tr>
         <tr><td>Bowl Speed</td><td>7,600 RPM</td><td>6,300 RPM</td><td>4,140 RPM</td></tr>
-        <tr><td>Rated Capacity</td><td>20 GPM</td><td>32 GPM</td><td>90 GPM</td></tr>
-        <tr><td>Diesel Capacity</td><td>14 GPM</td><td>21 GPM</td><td>61 GPM</td></tr>
+        <tr><td>Diesel Capacity (13 cSt, 40 &deg;C)</td><td>{gpm('MOPX 205', 'diesel')} GPM</td><td>{gpm('MOPX 207', 'diesel')} GPM</td><td>{gpm('MOPX 213', 'diesel')} GPM</td></tr>
         <tr><td>Sludge Space</td><td>0.38 Gal</td><td>1.03 Gal</td><td>3.61 Gal</td></tr>
         <tr><td>Motor Power</td><td>5 HP</td><td>7.5 HP</td><td>15 HP</td></tr>
         <tr><td>Dimensions</td><td>4' x 4'</td><td>4' x 5'</td><td>5' x 6'</td></tr>
@@ -344,7 +344,7 @@ const relatedProducts = [
       <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mt-4">
         <table>
           <tbody>
-            <tr><td>Flow-Rate</td><td>30 GPM on Diesel</td></tr>
+            <tr><td>Flow-Rate</td><td>{gpmOn('MOPX 210', 'diesel')}</td></tr>
             <tr><td>Motor</td><td>10 HP</td></tr>
             <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
             <tr><td>Size</td><td>5' x 6' x 8' (H)</td></tr>
@@ -373,7 +373,7 @@ const relatedProducts = [
       <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mt-4">
         <table>
           <tbody>
-            <tr><td>Flow-Rate</td><td>60 GPM on Diesel</td></tr>
+            <tr><td>Flow-Rate</td><td>{gpmOn('MOPX 213', 'diesel')}</td></tr>
             <tr><td>Motor</td><td>15 HP</td></tr>
             <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
             <tr><td>Size</td><td>6' x 6' x 8' (H)</td></tr>
@@ -402,7 +402,7 @@ const relatedProducts = [
       <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mt-4">
         <table>
           <tbody>
-            <tr><td>Flow-Rate</td><td>26 GPM on MDO</td></tr>
+            <tr><td>Flow-Rate</td><td>{gpmOn('MAB 206', 'diesel')}</td></tr>
             <tr><td>Motor</td><td>7.5 HP</td></tr>
             <tr><td>Voltage</td><td>230 / 460 V 3-Ph</td></tr>
             <tr><td>Size</td><td>5' x 6' x 5' (H)</td></tr>

@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpmOn } from '../data/specLookup';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -152,9 +153,9 @@ const relatedApplications = [
 ];
 
 const relatedProducts = [
-  { label: 'DMB-004 Manual-Clean (Alfa Laval MAB 103)', href: '/centrifuges/dmb-004/', description: 'Small: 4 GPM on diesel' },
-  { label: 'DMPX-042 Self-Cleaning (Alfa Laval MOPX 209)', href: '/centrifuges/dmpx-042/', description: 'Large: 32-47 GPM on diesel' },
-  { label: 'DMPX-070 Self-Cleaning (Alfa Laval WHPX 513)', href: '/centrifuges/dmpx-070/', description: 'Extra-large: 59-72 GPM on diesel' },
+  { label: 'DMB-004 Manual-Clean (Alfa Laval MAB 103)', href: '/centrifuges/dmb-004/', description: `Small: ${gpmOn('MAB 103', 'diesel')}` },
+  { label: 'DMPX-042 Self-Cleaning (Alfa Laval MOPX 209)', href: '/centrifuges/dmpx-042/', description: `Large: ${gpmOn('MOPX 209', 'diesel')}` },
+  { label: 'DMPX-070 Self-Cleaning (Alfa Laval WHPX 513)', href: '/centrifuges/dmpx-070/', description: `Extra-large: ${gpmOn('WHPX 513', 'diesel')}` },
 ];
 ---
 
@@ -411,7 +412,7 @@ const relatedProducts = [
   </p>
 
   <p>
-    An Alfa Laval three-phase centrifuge such as the MOPX-207 can process 20 GPM of black diesel at 180 F. The resulting fuel is practically free from water and sediment contamination and ready for use in diesel engines.
+    An Alfa Laval three-phase centrifuge such as the MOPX-207 can process black diesel; capacity depends on the contamination and is quoted per application (the MOPX-207 is rated {gpmOn('MOPX 207', 'diesel')}). The resulting fuel is practically free from water and sediment contamination and ready for use in diesel engines.
   </p>
 
   {/* Bovine Serum */}
