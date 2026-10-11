@@ -5,12 +5,15 @@
  */
 import { models, type Capacity, type Numeric } from './centrifugeSpecs';
 
-export type FluidKey = 'turbine' | 'ro' | 'diesel';
+export type FluidKey = 'turbine' | 'ro' | 'diesel' | 'gas' | 'engine' | 'rated';
 
 const FLUID: Record<FluidKey, { match: (f: string) => boolean; words: string; conditions: string }> = {
   turbine: { match: (f) => /steam turbine/i.test(f), words: 'steam turbine lube oil', conditions: '60 to 70 °C' },
   ro: { match: (f) => /^R&O/i.test(f), words: 'R&O lube oil', conditions: '80 to 90 °C' },
-  diesel: { match: (f) => /^diesel fuel$/i.test(f), words: '13 cSt diesel', conditions: '40 °C' },
+  diesel: { match: (f) => /^(diesel fuel|marine diesel)$/i.test(f), words: '13 cSt diesel', conditions: '40 °C' },
+  gas: { match: (f) => /^gas oil$/i.test(f), words: 'gas oil', conditions: '40 °C' },
+  engine: { match: (f) => /^(engine lube oil|R&O \/ engine lube oil)$/i.test(f), words: 'engine lube oil', conditions: '80 to 90 °C' },
+  rated: { match: (f) => /^Rated reference capacity/i.test(f), words: 'rated reference capacity', conditions: 'fluid not specified' },
 };
 
 function find(designation: string, fluid: FluidKey): Capacity {
@@ -32,5 +35,15 @@ export function gpm(designation: string, fluid: FluidKey): string {
 /** "3.5 GPM on steam turbine lube oil at 60 to 70 °C" */
 export function gpmOn(designation: string, fluid: FluidKey): string {
   const f = FLUID[fluid];
+  if (fluid === 'rated') return `${gpm(designation, fluid)} GPM rated reference capacity (fluid not specified)`;
   return `${gpm(designation, fluid)} GPM on ${f.words} at ${f.conditions}`;
+}
+
+/** The spec's own published label for a capacity whose fluid contains `fluidPart`, e.g. "110 GPM on Water Sludge Thickening". */
+export function specLabel(designation: string, fluidPart: string): string {
+  const m = models.find((model) => model.designation === designation);
+  if (!m) throw new Error(`specLookup: no spec record for ${designation}`);
+  const cap = m.capacities.find((c) => c.fluid.toLowerCase().includes(fluidPart.toLowerCase()) && c.label);
+  if (!cap || !cap.label) throw new Error(`specLookup: ${designation} has no labelled capacity for ${fluidPart}`);
+  return cap.label;
 }

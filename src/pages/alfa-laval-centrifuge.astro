@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpm } from '../data/specLookup';
 
 const jsonLd = [
   {
@@ -815,47 +816,37 @@ const relatedApplications = [
 
     <h3 class="text-xl font-semibold text-navy mb-4">Examples</h3>
     <p class="text-gray-700 leading-relaxed mb-4">
-      The following table highlights the capacities of common Alfa Laval centrifuge models.
+      The following table highlights the capacities of common Alfa Laval centrifuge models on two reference fluids. Capacity on other fluids, such as water or coolant, is by application and quoted per unit.
     </p>
     <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
       <table class="w-full text-sm border-collapse">
         <thead>
           <tr class="bg-navy text-white">
             <th class="p-3 text-left font-semibold">Alfa Laval Centrifuge Model</th>
-            <th class="p-3 text-center font-semibold">Diesel (GPM)</th>
-            <th class="p-3 text-center font-semibold">Water (GPM)</th>
-            <th class="p-3 text-center font-semibold">Coolant (GPM)</th>
-            <th class="p-3 text-center font-semibold">ISO 32 Lube Oil @ 180 F (GPM)</th>
+            <th class="p-3 text-center font-semibold">13 cSt Diesel at 40 &deg;C (GPM)</th>
+            <th class="p-3 text-center font-semibold">Steam Turbine Lube Oil at 60 to 70 &deg;C (GPM)</th>
           </tr>
         </thead>
         <tbody>
           <tr class="bg-white border-b border-gray-100">
             <td class="p-3 font-medium text-navy">MAB-103-B-24</td>
-            <td class="p-3 text-center">2</td>
-            <td class="p-3 text-center">5</td>
-            <td class="p-3 text-center">1</td>
-            <td class="p-3 text-center">1</td>
+            <td class="p-3 text-center">{gpm('MAB 103', 'diesel')}</td>
+            <td class="p-3 text-center">{gpm('MAB 103', 'turbine')}</td>
           </tr>
           <tr class="bg-gray-50 border-b border-gray-100">
             <td class="p-3 font-medium text-navy">MOPX-207</td>
-            <td class="p-3 text-center">28</td>
-            <td class="p-3 text-center">45</td>
-            <td class="p-3 text-center">12</td>
-            <td class="p-3 text-center">18</td>
+            <td class="p-3 text-center">{gpm('MOPX 207', 'diesel')}</td>
+            <td class="p-3 text-center">{gpm('MOPX 207', 'turbine')}</td>
           </tr>
           <tr class="bg-white border-b border-gray-100">
             <td class="p-3 font-medium text-navy">MOPX-213</td>
-            <td class="p-3 text-center">62</td>
-            <td class="p-3 text-center">100</td>
-            <td class="p-3 text-center">35</td>
-            <td class="p-3 text-center">45</td>
+            <td class="p-3 text-center">{gpm('MOPX 213', 'diesel')}</td>
+            <td class="p-3 text-center">{gpm('MOPX 213', 'turbine')}</td>
           </tr>
           <tr class="bg-gray-50">
             <td class="p-3 font-medium text-navy">WHPX-510</td>
-            <td class="p-3 text-center">42</td>
-            <td class="p-3 text-center">80</td>
-            <td class="p-3 text-center">25</td>
-            <td class="p-3 text-center">32</td>
+            <td class="p-3 text-center">{gpm('WHPX 510', 'diesel')}</td>
+            <td class="p-3 text-center">{gpm('WHPX 510', 'turbine')}</td>
           </tr>
         </tbody>
       </table>

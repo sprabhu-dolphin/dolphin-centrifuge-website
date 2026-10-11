@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import { gpm, gpmOn } from '../data/specLookup';
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -157,8 +158,8 @@ const toc = [
 
     <!-- Sizes -->
     <h2 id="sizes">Sizes</h2>
-    <p>As with all centrifuges, offshore disc centrifuges are available in different sizes (capacities). A <strong>small lube oil centrifuge</strong> on a mobile cart can process <strong>1 GPM of engine lube oil</strong>. A <strong>large Alfa Laval disc stack</strong> centrifuge can process over <strong>100 GPM of diesel fuel</strong>.</p>
-    <p>It should be noted that the same centrifuge has widely varying capacities for different fluids. For example, a medium-size disc stack centrifuge that can process 20 GPM of diesel fuel will only process 8 GPM of engine lubricating oil.</p>
+    <p>As with all centrifuges, offshore disc centrifuges are available in different sizes (capacities). A small Alfa Laval MAB 103 lube oil centrifuge can process <strong>{gpmOn('MAB 103', 'engine')}</strong>. A large Alfa Laval WHPX 513 disc stack centrifuge can process <strong>{gpmOn('WHPX 513', 'diesel')}</strong>.</p>
+    <p>It should be noted that the same centrifuge has widely varying capacities for different fluids. For example, an Alfa Laval MOPX 207 processes {gpmOn('MOPX 207', 'diesel')}, but only {gpmOn('MOPX 207', 'engine')}.</p>
 
     <!-- Dimensions -->
     <h3 id="dimensions">Dimensions</h3>
@@ -173,14 +174,14 @@ const toc = [
         <thead>
           <tr>
             <th>Centrifuge Model</th>
-            <th>Diesel Capacity</th>
-            <th>Lube Oil Capacity</th>
+            <th>13 cSt Diesel at 40 &deg;C</th>
+            <th>Steam Turbine Lube Oil at 60 to 70 &deg;C</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Alfa Laval MAB-103 (Offshore)</td><td>4 GPM</td><td>1 GPM</td></tr>
-          <tr><td>Alfa Laval MOPX-207 (Offshore)</td><td>22 GPM</td><td>8 GPM</td></tr>
-          <tr><td>Alfa Laval WHPX-513 (Offshore)</td><td>72 GPM</td><td>20 GPM</td></tr>
+          <tr><td>Alfa Laval MAB-103 (Offshore)</td><td>{gpm('MAB 103', 'diesel')} GPM</td><td>{gpm('MAB 103', 'turbine')} GPM</td></tr>
+          <tr><td>Alfa Laval MOPX-207 (Offshore)</td><td>{gpm('MOPX 207', 'diesel')} GPM</td><td>{gpm('MOPX 207', 'turbine')} GPM</td></tr>
+          <tr><td>Alfa Laval WHPX-513 (Offshore)</td><td>{gpm('WHPX 513', 'diesel')} GPM</td><td>{gpm('WHPX 513', 'turbine')} GPM</td></tr>
         </tbody>
       </table>
     </div>

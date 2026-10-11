@@ -1,7 +1,16 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
-import { gpmOn } from '../data/specLookup';
+import { gpm, gpmOn } from '../data/specLookup';
 import InstallationRequirements from '../components/InstallationRequirements.astro';
+
+const opCost = (costPerHour: number, model: string) => {
+  const g = Number(gpm(model, 'diesel'));
+  const galPerHr = g * 60;
+  return { g, galPerHr, cents: (costPerHour / galPerHr) * 100 };
+};
+const opMab = opCost(0.2, 'MAB 103');
+const opMopx = opCost(1.0, 'MOPX 207');
+const opWhpx = opCost(2.2, 'WHPX 513');
 
 const faqItems = [
   {
@@ -276,10 +285,10 @@ const relatedProducts = [
       </thead>
       <tbody>
         <tr>
-          <td class="font-medium">Rated Capacity - GPM</td>
-          <td class="text-center font-mono">21</td>
-          <td class="text-center font-mono">34</td>
-          <td class="text-center font-mono">90</td>
+          <td class="font-medium">Diesel Fuel, 13 cSt at 40 &deg;C - GPM</td>
+          <td class="text-center font-mono">{gpm('MOPX 205', 'diesel')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 207', 'diesel')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 213', 'diesel')}</td>
         </tr>
         <tr>
           <td class="font-medium">Bowl Speed - RPM</td>
@@ -420,9 +429,9 @@ const relatedProducts = [
       <thead>
         <tr>
           <th>Centrifuge Model &amp; Capacity</th>
-          <th class="text-center">MAB-103 (2 GPM Diesel)</th>
-          <th class="text-center">MOPX-207 (22 GPM Diesel)</th>
-          <th class="text-center">WHPX-513 (72 GPM Diesel)</th>
+          <th class="text-center">MAB-103 ({opMab.g.toFixed(1)} GPM, 13 cSt Diesel at 40 &deg;C)</th>
+          <th class="text-center">MOPX-207 ({opMopx.g.toFixed(1)} GPM, 13 cSt Diesel at 40 &deg;C)</th>
+          <th class="text-center">WHPX-513 ({opWhpx.g.toFixed(1)} GPM, 13 cSt Diesel at 40 &deg;C)</th>
         </tr>
       </thead>
       <tbody>
@@ -440,15 +449,15 @@ const relatedProducts = [
         </tr>
         <tr>
           <td>Gallons / Hour</td>
-          <td class="text-center font-mono">120</td>
-          <td class="text-center font-mono">1,320</td>
-          <td class="text-center font-mono">3,720</td>
+          <td class="text-center font-mono">{opMab.galPerHr.toLocaleString('en-US')}</td>
+          <td class="text-center font-mono">{opMopx.galPerHr.toLocaleString('en-US')}</td>
+          <td class="text-center font-mono">{opWhpx.galPerHr.toLocaleString('en-US')}</td>
         </tr>
         <tr>
           <td class="font-bold">Electric Cost/Gal</td>
-          <td class="text-center font-bold font-mono">0.16 Cents</td>
-          <td class="text-center font-bold font-mono">0.075 Cents</td>
-          <td class="text-center font-bold font-mono">0.06 Cents</td>
+          <td class="text-center font-bold font-mono">{opMab.cents.toFixed(3)} Cents</td>
+          <td class="text-center font-bold font-mono">{opMopx.cents.toFixed(3)} Cents</td>
+          <td class="text-center font-bold font-mono">{opWhpx.cents.toFixed(3)} Cents</td>
         </tr>
       </tbody>
     </table>
@@ -589,7 +598,7 @@ const relatedProducts = [
     In other words, the same centrifuge model has different capacities for different liquids. This difference goes back to Stokes' law, wherein the centrifuge efficiency is dependent on the fluid's viscosity, amongst other factors.
   </p>
   <p>
-    The following table lists the sizing and capacity of Alfa Laval disc stack centrifuges for different fuels and oils.
+    The following table lists the capacity of Alfa Laval disc stack centrifuges for different fuels and oils, each at its stated fluid and conditions. Capacity on other fluids, such as heavier fuel oil grades, is by application and quoted per unit.
   </p>
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl">
     <table>
@@ -598,66 +607,33 @@ const relatedProducts = [
           <th>Centrifuge Type</th>
           <th class="text-center">Alfa Laval MOPX-205</th>
           <th class="text-center">Alfa Laval MOPX-207</th>
-          <th class="text-center">Alfa Laval MOPX-310</th>
           <th class="text-center">Alfa Laval MOPX-213</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="font-bold">Rated Capacity - GPM</td>
-          <td class="text-center font-bold font-mono">21</td>
-          <td class="text-center font-bold font-mono">34</td>
-          <td class="text-center font-bold font-mono">68</td>
-          <td class="text-center font-bold font-mono">90</td>
+          <td>Gas Oil at 40 &deg;C - GPM</td>
+          <td class="text-center font-mono">{gpm('MOPX 205', 'gas')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 207', 'gas')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 213', 'gas')}</td>
         </tr>
         <tr>
-          <td>Distillate (3 cSt)</td>
-          <td class="text-center font-mono">23</td>
-          <td class="text-center font-mono">31</td>
-          <td class="text-center font-mono">65</td>
-          <td class="text-center font-mono">82</td>
+          <td>Diesel Fuel, 13 cSt at 40 &deg;C - GPM</td>
+          <td class="text-center font-mono">{gpm('MOPX 205', 'diesel')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 207', 'diesel')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 213', 'diesel')}</td>
         </tr>
         <tr>
-          <td>Diesel Fuel (13 cSt)</td>
-          <td class="text-center font-mono">15</td>
-          <td class="text-center font-mono">22</td>
-          <td class="text-center font-mono">56</td>
-          <td class="text-center font-mono">62</td>
+          <td>Steam Turbine Lube Oil at 60 to 70 &deg;C - GPM</td>
+          <td class="text-center font-mono">{gpm('MOPX 205', 'turbine')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 207', 'turbine')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 213', 'turbine')}</td>
         </tr>
         <tr>
-          <td>Turbine Lube Oil (ISO 32)</td>
-          <td class="text-center font-mono">14</td>
-          <td class="text-center font-mono">20</td>
-          <td class="text-center font-mono">52</td>
-          <td class="text-center font-mono">56</td>
-        </tr>
-        <tr>
-          <td>Hydraulic Oil (ISO 15)</td>
-          <td class="text-center font-mono">14</td>
-          <td class="text-center font-mono">20</td>
-          <td class="text-center font-mono">51</td>
-          <td class="text-center font-mono">54</td>
-        </tr>
-        <tr>
-          <td>Light Fuel Oil (100 cSt)</td>
-          <td class="text-center font-mono">11</td>
-          <td class="text-center font-mono">19</td>
-          <td class="text-center font-mono">39</td>
-          <td class="text-center font-mono">41</td>
-        </tr>
-        <tr>
-          <td>Medium Fuel Oil (380 cSt)</td>
-          <td class="text-center font-mono">7</td>
-          <td class="text-center font-mono">12</td>
-          <td class="text-center font-mono">23</td>
-          <td class="text-center font-mono">24</td>
-        </tr>
-        <tr>
-          <td>Heavy Fuel Oil (600 cSt)</td>
-          <td class="text-center font-mono">5</td>
-          <td class="text-center font-mono">8</td>
-          <td class="text-center font-mono">17</td>
-          <td class="text-center font-mono">16</td>
+          <td>Engine Lube Oil at 80 to 90 &deg;C - GPM</td>
+          <td class="text-center font-mono">{gpm('MOPX 205', 'engine')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 207', 'engine')}</td>
+          <td class="text-center font-mono">{gpm('MOPX 213', 'engine')}</td>
         </tr>
       </tbody>
     </table>
@@ -1010,7 +986,7 @@ const relatedProducts = [
       <figure class="bg-gray-50 p-3 flex flex-col items-center justify-center h-48">
         <img
           src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX405-Quench-Oil-Centrifuge.webp"
-          alt="Alfa Laval WHPX-405 Self-Cleaning Disc Centrifuge - 15 GPM on Diesel Fuel"
+          alt={`Alfa Laval WHPX-405 Self-Cleaning Disc Centrifuge - ${gpmOn('WHPX 405', 'diesel')}`}
           width="600" height="600"
           loading="lazy"
           class="max-h-full max-w-full object-contain"
@@ -1021,7 +997,7 @@ const relatedProducts = [
       <div class="p-3">
         <p class="font-bold text-navy text-sm group-hover:text-gold transition-colors">Alfa Laval WHPX-405</p>
         <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-        <p class="text-xs text-gold-darker font-semibold">15 GPM on Diesel Fuel</p>
+        <p class="text-xs text-gold-darker font-semibold">{gpmOn('WHPX 405', 'diesel')}</p>
       </div>
     </a>
     <a href="/alfa-laval-mopx-207-centrifuge/" class="flex flex-col border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white group">
@@ -1046,7 +1022,7 @@ const relatedProducts = [
       <figure class="bg-gray-50 p-3 flex flex-col items-center justify-center h-48">
         <img
           src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX510-Used-Engine-Oil-Centrifuge.webp"
-          alt="Alfa Laval WHPX-510 Self-Cleaning Disc Centrifuge - 30 GPM on Waste Oil"
+          alt={`Alfa Laval WHPX-510 Self-Cleaning Disc Centrifuge - ${gpmOn('WHPX 510', 'diesel')}`}
           width="600" height="600"
           loading="lazy"
           class="max-h-full max-w-full object-contain"
@@ -1057,14 +1033,14 @@ const relatedProducts = [
       <div class="p-3">
         <p class="font-bold text-navy text-sm group-hover:text-gold transition-colors">Alfa Laval WHPX-510</p>
         <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-        <p class="text-xs text-gold-darker font-semibold">30 GPM on Waste Oil</p>
+        <p class="text-xs text-gold-darker font-semibold">{gpmOn('WHPX 510', 'diesel')}</p>
       </div>
     </a>
     <a href="/alfa-laval-whpx-513/" class="flex flex-col border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow bg-white group">
       <figure class="bg-gray-50 p-3 flex flex-col items-center justify-center h-48">
         <img
           src="/images/disc-stack-centrifuge/Alfa-Laval-WHPX513-Centrifuge-Skid-e1615228478242.webp"
-          alt="Alfa Laval WHPX-513 Self-Cleaning Disc Centrifuge - 16,400 L/h (72.21 US GPM) on diesel at 13 cSt, 40 C"
+          alt={`Alfa Laval WHPX-513 Self-Cleaning Disc Centrifuge - ${gpmOn('WHPX 513', 'diesel')}`}
           width="250" height="250"
           loading="lazy"
           class="max-h-full max-w-full object-contain"
@@ -1075,7 +1051,7 @@ const relatedProducts = [
       <div class="p-3">
         <p class="font-bold text-navy text-sm group-hover:text-gold transition-colors">Alfa Laval WHPX-513</p>
         <p class="text-xs text-gray-600">'Self-Cleaning' Disc Centrifuge</p>
-        <p class="text-xs text-gold-darker font-semibold">75 GPM on Distillate</p>
+        <p class="text-xs text-gold-darker font-semibold">{gpmOn('WHPX 513', 'diesel')}</p>
       </div>
     </a>
   </div>
