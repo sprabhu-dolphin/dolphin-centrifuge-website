@@ -8,25 +8,51 @@ export function installOpenAiAds(window, document, config) {
       const part = String(document.cookie || '').split(';').find(value => value.trimStart().startsWith(name + '='));
       return part ? part.trimStart().slice(name.length + 1) : '';
     }
-    function measurementAllowed() {
+    function suppressionReason() {
       try {
-        if (privacy.globalPrivacyControl === true || privacy.doNotTrack === '1') return false;
-        // Preserve the current SDK's persisted denial, including after a reload.
-        if (window.localStorage?.getItem('oaiq_consent') === 'false' || rawCookie('__oaiq_consent') === 'false') return false;
+        if (privacy.globalPrivacyControl === true) return 'gpc';
+        if (privacy.doNotTrack === '1') return 'dnt';
+        if (window.localStorage?.getItem('oaiq_consent') === 'false' || rawCookie('__oaiq_consent') === 'false') return 'stored_denial';
         const queued = window.oaiq?.q || [];
         let denied = false;
         for (const command of queued) if (command[0] === 'consent') denied = command[1] === false;
-        return !denied;
-      } catch { return false; }
+        return denied ? 'queued_denial' : '';
+      } catch { return 'storage_unavailable'; }
+    }
+    function measurementAllowed() { return !suppressionReason(); }
+    let landingReference = '';
+    function savedReference() {
+      try { return decodeURIComponent(rawCookie('dc_oppref')); } catch { return ''; }
     }
     window.dolphinOpenAiConversionContext = function () {
       try {
-        if (!measurementAllowed()) return { allowed: false };
+        const reason = suppressionReason();
+        if (reason) {
+          landingReference = '';
+          document.cookie = 'dc_oppref=; Path=/; Max-Age=0; Secure; SameSite=Lax';
+          return { allowed: false, reason };
+        }
         return { allowed: true, sourceUrl: window.location.origin + window.location.pathname,
-          oppref: rawCookie('__oppref'), obref: rawCookie('__obref') };
-      } catch { return { allowed: false }; }
+          oppref: landingReference || savedReference() || rawCookie('__oppref'), obref: rawCookie('__obref') };
+      } catch { return { allowed: false, reason: 'context_unavailable' }; }
     };
-    if (!measurementAllowed()) return;
+    if (!measurementAllowed()) { window.dolphinOpenAiConversionContext(); return; }
+    // Capture the actual URL value before the third-party SDK loads. Never invent an identifier.
+    try {
+      const value = new window.URLSearchParams(window.location.search || '').get('oppref');
+      if (typeof value === 'string' && value.length > 0 && value.length <= 8192) {
+        landingReference = value;
+        // Same-origin Pages Function writes the cookie after client-side consent checks.
+        // The in-memory value still reaches a form if this optional request fails.
+        window.fetch('/api/ads-attribution', {
+          method: 'POST', credentials: 'same-origin', keepalive: true,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ allowed: true, oppref: value }),
+        }).then(function () {
+          if (!measurementAllowed()) window.dolphinOpenAiConversionContext();
+        }).catch(function () {});
+      }
+    } catch { /* SDK and form completion remain independent. */ }
 
     if (!window.oaiq) {
       const queue = function () { queue.q.push(arguments); };

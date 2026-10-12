@@ -104,7 +104,7 @@ export async function submitUsedQuote(
       showMessage(form, 'error', message);
       return { status: 'unconfirmed', submitted: false, message };
     }
-    browser.dispatchEvent?.(new CustomEvent('dolphin:generate-lead', { detail: usedQuoteLeadDetail(input, channel) }));
+    browser.dispatchEvent?.(new CustomEvent('dolphin:generate-lead', { detail: usedQuoteLeadDetail(input, channel, result) }));
     form.reset();
     delete form.dataset.agentPrepared;
     const message = 'Received. An engineer will reply within one business day. This is a quote request, not an order.';

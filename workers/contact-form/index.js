@@ -1320,7 +1320,8 @@ async function pullLeadMonitorD1(env, startDate, endExclusive) {
     SELECT id, form_type,
       CASE WHEN coalesce(attribution_gclid,'') <> '' OR coalesce(attribution_gbraid,'') <> ''
         OR coalesce(attribution_wbraid,'') <> ''
-        OR lower(coalesce(attribution_medium,'')) IN ('cpc','ppc','paid','paidsearch','paid_search')
+        OR (lower(coalesce(attribution_source,'')) IN ('google','googleads','google_ads')
+          AND lower(coalesce(attribution_medium,'')) IN ('cpc','ppc','paid','paidsearch','paid_search'))
       THEN 1 ELSE 0 END AS paid
     FROM submissions
     WHERE deleted = 0
@@ -3110,6 +3111,10 @@ function normalizeAttribution(raw, defaultFormName = 'unknown_form') {
     visitorIsReturning: Number(data.visitor_is_returning) ? 1 : 0,
     sessionId: cleanText(data.session_id, 120),
     firstTouchId: cleanText(data.first_touch_id, 120),
+    firstTouchJson: safeJson(data.first_touch || {}, 8000),
+    openAiClickReference: data.openai_ads?.allowed === true && typeof data.openai_ads.oppref === 'string'
+      && data.openai_ads.oppref.length <= 8192 ? data.openai_ads.oppref : '',
+    openAiSuppressionReason: data.openai_ads?.allowed === false ? cleanText(data.openai_ads.reason || 'permission_missing', 40) : '',
     landingPage: cleanText(data.landing_page, 700),
     currentPage: cleanText(data.current_page, 700),
     referrer: cleanText(data.referrer, 700),
@@ -3844,6 +3849,7 @@ async function insertSubmission(env, row) {
         centrifuge_condition, additional_details,
         is_reconnect, reconnect_match_id,
         form_type,
+        attribution_first_touch_json, attribution_openai_click_ref, attribution_openai_suppression_reason,
         attribution_session_id, attribution_first_touch_id,
         attribution_visitor_id, attribution_visitor_first_seen_at, attribution_visitor_last_seen_at,
         attribution_visit_count, attribution_is_returning,
@@ -3864,6 +3870,7 @@ async function insertSubmission(env, row) {
         ?, ?,
         ?, ?,
         ?,
+        ?, ?, ?,
         ?, ?,
         ?, ?, ?,
         ?, ?,
@@ -3881,6 +3888,9 @@ async function insertSubmission(env, row) {
     `).bind(
       ...baseValues,
       cleanText(row.formType || attribution.formName || 'contact', 100),
+      attribution.firstTouchJson,
+      attribution.openAiClickReference,
+      attribution.openAiSuppressionReason,
       attribution.sessionId,
       attribution.firstTouchId,
       attribution.visitorId,
