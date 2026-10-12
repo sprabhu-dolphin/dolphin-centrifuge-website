@@ -13,12 +13,14 @@ const request = new Request('https://worker.example/',{headers:{'User-Agent':'te
 const attribution={openai_ads:{allowed:true,sourceUrl:'https://dolphincentrifuge.com/used-oil/?private=1#private',oppref:'opaque%2Bvalue',obref:'browser-reference'}};
 test('uses one ID, strips URL details, keeps opaque attribution and excludes form data',async()=>{
   let body;
-  const result=await sendOpenAiLead({env,request,attribution,eventId:'lead-test'},async(url,options)=>{body=JSON.parse(options.body);return new Response('{}');});
+  const result=await sendOpenAiLead({env,request,attribution,eventId:'lead-test',email:'  Buyer@Example.COM  '},async(url,options)=>{body=JSON.parse(options.body);return new Response('{}');});
   assert.equal(result.status,'accepted');
   assert.equal(body.events[0].id,'lead-test');
   assert.equal(body.events[0].source_url,'https://dolphincentrifuge.com/used-oil/');
   assert.equal(body.events[0].oppref,'opaque%2Bvalue');
   assert.equal(body.events[0].user.obref,'browser-reference');
+  assert.deepEqual(body.events[0].user.emails_sha256,['6a6c26195c3682faa816966af789717c3bfa834eee6c599d667d2b3429c27cfd']);
+  assert.equal(JSON.stringify(body).includes('Buyer@Example.COM'),false);
   assert.equal(body.events[0].opt_out,true);
 });
 test('suppresses denied or missing consent, GPC, missing saves and credentials',async()=>{

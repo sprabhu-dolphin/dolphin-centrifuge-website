@@ -44,7 +44,24 @@ export function installOpenAiAds(window, document, config) {
         if (!measurementAllowed()) return false;
         const eventId = params && params.openai_event_id;
         if (typeof eventId !== 'string' || !eventId) return false;
-        window.oaiq('measure', 'lead_created', { type: 'customer_action' }, { opt_out: true, event_id: eventId });
+        let measured = false;
+        const measure = function () {
+          if (measured || !measurementAllowed()) return;
+          measured = true;
+          window.oaiq('measure', 'lead_created', { type: 'customer_action' }, { opt_out: true, event_id: eventId });
+        };
+        const email = typeof params.openai_email === 'string' ? params.openai_email.trim().toLowerCase() : '';
+        if (email && email.length <= 254 && window.crypto?.subtle && window.TextEncoder) {
+          window.crypto.subtle.digest('SHA-256', new window.TextEncoder().encode(email)).then(function (digest) {
+            const emailSha256 = Array.from(new Uint8Array(digest), function (byte) {
+              return byte.toString(16).padStart(2, '0');
+            }).join('');
+            if (measurementAllowed()) window.oaiq('init', { user: { email_sha256: emailSha256 } });
+            measure();
+          }).catch(measure);
+        } else {
+          measure();
+        }
         return true;
       } catch (_) { return false; }
     };

@@ -4186,7 +4186,7 @@ async function handlePartsSubmit(request, env, ctx) {
         });
         scheduleLeadAutoGrade(ctx, env, insertResult);
         openaiEventId = savedLeadEventId(insertResult);
-        scheduleOpenAiLead(ctx, { env, request, attribution: body.attribution || body.dolphin_attribution, eventId: openaiEventId });
+        scheduleOpenAiLead(ctx, { env, request, attribution: body.attribution || body.dolphin_attribution, eventId: openaiEventId, email });
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'parts', name, company, email, phone, parts: cleanParts,
@@ -4467,7 +4467,7 @@ async function handleFormSubmit(request, env, ctx) {
         });
         scheduleLeadAutoGrade(ctx, env, insertResult);
         openaiEventId = savedLeadEventId(insertResult);
-        scheduleOpenAiLead(ctx, { env, request, attribution: fields.dolphin_attribution || fields.attribution, eventId: openaiEventId });
+        scheduleOpenAiLead(ctx, { env, request, attribution: fields.dolphin_attribution || fields.attribution, eventId: openaiEventId, email });
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
           form: 'contact', firstName, lastName, company, email, phone,

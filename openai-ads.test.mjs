@@ -5,9 +5,9 @@ import { readFileSync } from 'node:fs';
 import { buildOpenAiAdsBootstrap } from './src/lib/openaiAds.mjs';
 
 const config = { pixelId: 'test-pixel', allowedHosts: ['dolphincentrifuge.com', 'www.dolphincentrifuge.com'] };
-function browser(host = 'dolphincentrifuge.com', navigator = {}) {
+function browser(host = 'dolphincentrifuge.com', navigator = {}, crypto) {
   const scripts = [];
-  const window = { location: { hostname: host }, navigator };
+  const window = { location: { hostname: host }, navigator, crypto, TextEncoder };
   const document = {
     createElement: () => ({}),
     getElementsByTagName: () => [{ parentNode: { insertBefore: script => scripts.push(script) } }],
@@ -27,6 +27,18 @@ test('initializes once and measures only explicit successful leads without form 
   window.dolphinTrackOpenAiLead({ openai_event_id: 'dolphin_lead_17', email: 'private@example.invalid', fluid_type: 'private' });
   const measured = JSON.parse(JSON.stringify(Array.from(window.oaiq.q[1])));
   assert.deepEqual(measured, ['measure', 'lead_created', { type: 'customer_action' }, { opt_out: true, event_id: 'dolphin_lead_17' }]);
+});
+
+test('hashes successful-lead email before updating Pixel user data', async () => {
+  const crypto = { subtle: { digest: async () => Uint8Array.from({ length: 32 }, (_, i) => i).buffer } };
+  const { window } = browser('dolphincentrifuge.com', {}, crypto);
+  assert.equal(window.dolphinTrackOpenAiLead({ openai_event_id: 'dolphin_lead_17', openai_email: ' Buyer@Example.COM ' }), true);
+  await Promise.resolve();
+  await Promise.resolve();
+  const queued = JSON.parse(JSON.stringify(window.oaiq.q.map(args => Array.from(args))));
+  assert.deepEqual(queued[1], ['init', { user: { email_sha256: '000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f' } }]);
+  assert.deepEqual(queued[2], ['measure', 'lead_created', { type: 'customer_action' }, { opt_out: true, event_id: 'dolphin_lead_17' }]);
+  assert.equal(JSON.stringify(queued).includes('Buyer@Example.COM'), false);
 });
 
 test('suppresses previews, localhost, missing configuration, and privacy opt-outs', () => {
