@@ -18,6 +18,7 @@ import {
 } from '../../lead-reconciliation-core.mjs';
 import { gradeLead, runLeadGradeBackfill } from './grading.js';
 import { savedLeadEventId, scheduleOpenAiLead } from './openai-ads.mjs';
+import { chatgptFunnelWindow, loadChatgptFunnel } from './chatgpt-funnel.mjs';
 import { talkrouteCallRaw } from './talkroute.js';
 
 const SOURCE_TIMEOUT_MS = 8_000;
@@ -2450,6 +2451,9 @@ async function handleAdminWeeklyReport(request, env) {
   const includeFields = String(url.searchParams.get('include') || '')
     .split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
   const includeEmail = includeFields.includes('email');
+  let funnelWindow;
+  try { funnelWindow = chatgptFunnelWindow(url, new Date(), days); }
+  catch (error) { return Response.json({ error: error.message }, { status: 400, headers: CORS_HEADERS }); }
   const noCache = truthyParam(url.searchParams.get('nocache'));
   const since = new Date(Date.now() - days * 86400000).toISOString();
   const generatedAt = new Date().toISOString();
@@ -2576,7 +2580,7 @@ async function handleAdminWeeklyReport(request, env) {
       }
     } catch (e) { /* non-fatal */ }
 
-    const [leadMonitor, trafficHealth, weeklyBuckets, killPatternSpend] = await Promise.all([
+    const [leadMonitor, trafficHealth, weeklyBuckets, killPatternSpend, chatgptFunnel] = await Promise.all([
       safeRunLeadMonitor(env, { days: 14, endOffsetDays: 1, now, source: 'weekly-report', noCache }),
       buildTrafficHealthSnapshot(env, now, noCache),
       loadWeeklyReportBuckets(env, since),
@@ -2587,6 +2591,7 @@ async function handleAdminWeeklyReport(request, env) {
         spend: null,
         detail: err.message,
       })),
+      loadChatgptFunnel(env.DB, funnelWindow),
     ]);
     const overallFreshness = buildTopLevelFreshness([trafficHealth, leadMonitor], now);
 
@@ -2634,6 +2639,7 @@ async function handleAdminWeeklyReport(request, env) {
       },
       traffic_health: trafficHealth,
       lead_monitor: leadMonitor,
+      chatgpt_funnel: chatgptFunnel,
     }), { status: 200, headers: CORS_HEADERS });
   } catch (err) {
     console.error('Weekly report error:', err.message);
