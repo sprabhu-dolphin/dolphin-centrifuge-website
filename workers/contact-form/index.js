@@ -3109,6 +3109,7 @@ function normalizeAttribution(raw, defaultFormName = 'unknown_form') {
   const data = parseMaybeJson(raw) || {};
   const pages = normalizePages(data.pages);
   const attribution = {
+    internal: data.internal === true || data.openai_ads?.internal === true,
     formName: cleanText(data.form_name || defaultFormName, 100),
     visitorId: cleanText(data.visitor_id, 140),
     visitorFirstSeenAt: cleanText(data.visitor_first_seen_at, 40),
@@ -3162,6 +3163,7 @@ function firstHeaderValue(value) {
 function normalizeVisitorContext(raw) {
   const data = raw || {};
   return {
+    internal: data.internal === true,
     ip: cleanText(data.ip, 80),
     userAgent: cleanText(data.userAgent, 1000),
     acceptLanguage: cleanText(data.acceptLanguage, 300),
@@ -3175,9 +3177,10 @@ function normalizeVisitorContext(raw) {
   };
 }
 
-function getVisitorContext(request) {
+function getVisitorContext(request, internal = false) {
   const cf = request.cf || {};
   return normalizeVisitorContext({
+    internal: internal === true || String(request.headers.get('Cookie') || '').split(';').some(part => part.trim() === 'dc_internal=1'),
     ip: request.headers.get('CF-Connecting-IP')
       || firstHeaderValue(request.headers.get('X-Forwarded-For'))
       || '',
@@ -3227,7 +3230,7 @@ async function handlePageview(request, env, ctx) {
   const attribution = normalizeAttribution(body.attribution || body, 'pageview');
   delete attribution.openAiClickReference;
   const page = body.page && typeof body.page === 'object' ? body.page : {};
-  const visitorContext = getVisitorContext(request);
+  const visitorContext = getVisitorContext(request, body.internal === true || attribution.internal);
 
   if (ctx && typeof ctx.waitUntil === 'function') {
     ctx.waitUntil(recordVisitorPageview(env, attribution, visitorContext, page));
@@ -3266,7 +3269,7 @@ async function handleVisitorEvent(request, env, ctx) {
   const page = body.page && typeof body.page === 'object' ? body.page : {};
   const target = cleanText(body.target, 220);
   const linkText = cleanText(body.link_text, 220);
-  const visitorContext = getVisitorContext(request);
+  const visitorContext = getVisitorContext(request, body.internal === true || attribution.internal);
 
   if (!attribution.visitorId || !attribution.sessionId) {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
@@ -4157,7 +4160,7 @@ async function handlePartsSubmit(request, env, ctx) {
     }
 
     const attribution = normalizeAttribution(body.attribution || body.dolphin_attribution, 'parts_request_form');
-    const visitorContext = getVisitorContext(request);
+    const visitorContext = getVisitorContext(request, attribution.internal);
 
     // Build email
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
@@ -4344,7 +4347,7 @@ async function handleFormSubmit(request, env, ctx) {
     const additionalDetails = (fields['additional_details'] || '').trim();
     const countryOther      = (fields['country_other'] || '').trim();
     const attribution       = normalizeAttribution(fields['dolphin_attribution'] || fields.attribution, 'centrifuge_contact_form');
-    const visitorContext    = getVisitorContext(request);
+    const visitorContext    = getVisitorContext(request, attribution.internal);
     const countryDisplay    = country === 'Other' && countryOther ? `Other — ${countryOther}` : country;
 
     // Basic validation

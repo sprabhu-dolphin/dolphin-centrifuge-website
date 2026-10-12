@@ -1,12 +1,27 @@
 // Observed website sessions, not Ads clicks or platform-attributed conversions.
+import { D1_TEST_EXCLUSION_SQL } from '../../lead-reconciliation-core.mjs';
 const PAID = "lower(source) IN ('chatgpt','openai','chatgpt.com') AND lower(medium) IN ('paid','cpc','ppc')";
 const FORMS = ['/contact-for-alfa-laval-centrifuges/', '/used-oil/', '/alfa-laval-centrifuge-parts/', '/disc-centrifuge-parts-glossary/', '/used-alfa-laval-centrifuges-for-sale/'];
 export const CHATGPT_FUNNEL_SQL = `
-WITH window_events AS (
+WITH internal_sessions AS (
+  SELECT DISTINCT visitor_id, session_id FROM visitor_events
+  WHERE CASE WHEN json_valid(visitor_context_json) THEN json_extract(visitor_context_json,'$.internal') = 1 ELSE 0 END
+  UNION
+  SELECT attribution_visitor_id, attribution_session_id FROM submissions
+  WHERE CASE WHEN json_valid(attribution_raw_json) THEN
+    json_extract(attribution_raw_json,'$.internal') = 1 OR json_extract(attribution_raw_json,'$.openai_ads.internal') = 1
+    ELSE 0 END
+), test_visitors AS (
+  SELECT DISTINCT attribution_visitor_id AS visitor_id FROM submissions
+  WHERE coalesce(trim(attribution_visitor_id),'') <> '' AND NOT (${D1_TEST_EXCLUSION_SQL})
+), window_events AS (
   SELECT *, CASE WHEN event_type='pageview' AND (${PAID}) THEN 1 ELSE 0 END AS paid_view,
     CASE WHEN event_type='pageview' AND (${PAID}) AND json_valid(attribution_json)
       THEN coalesce(json_extract(attribution_json,'$.content'),'') ELSE '' END AS ad_tag
-  FROM visitor_events WHERE created_at >= ? AND created_at < ? AND event_type IN ('pageview','form_start')
+  FROM visitor_events AS event WHERE created_at >= ? AND created_at < ? AND event_type IN ('pageview','form_start')
+    AND NOT EXISTS (SELECT 1 FROM internal_sessions AS internal
+      WHERE internal.visitor_id IS event.visitor_id AND internal.session_id IS event.session_id)
+    AND NOT EXISTS (SELECT 1 FROM test_visitors AS test WHERE test.visitor_id = event.visitor_id)
 ), session_events AS (
   SELECT visitor_id, session_id, sum(paid_view) AS paid_pageviews,
     count(DISTINCT CASE WHEN ad_tag <> '' THEN ad_tag END) AS tag_count,
@@ -62,7 +77,7 @@ export function summarizeChatgptFunnel(rows, window) {
   const tagged = groups.filter(group => !group.ad_tag.startsWith('(')).reduce((n, group) => n + group.observed_paid_sessions, 0);
   return {
     status: 'available', window,
-    definition: 'One observed session with a ChatGPT/OpenAI paid pageview. Form-page reach is visiting one of the five inquiry pages; form start is field engagement. A form landing page can have 100% reach without engagement.',
+    definition: 'One observed session with a ChatGPT/OpenAI paid pageview, excluding internally marked sessions and visitors linked to test leads, including leads submitted after the reporting window. Form-page reach is visiting one of the five inquiry pages; form start is field engagement. A form landing page can have 100% reach without engagement.',
     coverage_note: 'Website-observed traffic only; blockers, missing session IDs, tests/bots and lost attribution may affect coverage. Counts are not Ads clicks, people, qualified leads or causal experiment results. Supply explicit account-local window bounds as UTC timestamps for comparisons.',
     coverage: { observed_paid_sessions: total('observed_paid_sessions'), tagged_sessions: tagged,
       tagged_session_rate: total('observed_paid_sessions') ? tagged / total('observed_paid_sessions') : null,

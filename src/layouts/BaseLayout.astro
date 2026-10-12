@@ -193,6 +193,20 @@ if (!window._statcounter) {
 }
 })();`
   : null;
+const dolphinInternalBootstrap = `(function() {
+  window.dolphinIsInternalVisitor = function() {
+    try { return document.cookie.split(';').some(function(part) { return part.trim() === 'dc_internal=1'; }); }
+    catch (e) { return false; }
+  };
+  try {
+    var url = new URL(window.location.href);
+    if (url.searchParams.getAll('dc_internal').indexOf('1') !== -1) {
+      document.cookie = 'dc_internal=1; Max-Age=34560000; Path=/; Secure; SameSite=Lax';
+      url.searchParams.delete('dc_internal');
+      window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+    }
+  } catch (e) {}
+})();`;
 const dolphinAttributionBootstrap = `(function() {
   var SESSION_KEY = 'dolphin_attribution_v1';
   var FIRST_TOUCH_KEY = 'dolphin_first_touch_v1';
@@ -450,6 +464,7 @@ const dolphinAttributionBootstrap = `(function() {
     try {
       var body = JSON.stringify({
         event_type: 'pageview',
+        internal: payload.internal,
         page: page,
         attribution: payload
       });
@@ -477,6 +492,7 @@ const dolphinAttributionBootstrap = `(function() {
       if (!attribution.visitor_id || !attribution.session_id) return false;
       var body = JSON.stringify({
         event_type: eventType,
+        internal: attribution.internal,
         target: trimText(target, 220),
         link_text: trimText(linkText, 220),
         page: {
@@ -550,9 +566,11 @@ const dolphinAttributionBootstrap = `(function() {
     var session = getSession();
     var visitor = getVisitorProfile(session.session_id);
     var formMeta = session.forms && session.forms[key] ? session.forms[key] : {};
+    var internal = window.dolphinIsInternalVisitor() === true;
     return {
       version: 1,
-      openai_ads: typeof window.dolphinOpenAiConversionContext === 'function' ? window.dolphinOpenAiConversionContext() : { allowed: false },
+      internal: internal,
+      openai_ads: Object.assign({}, typeof window.dolphinOpenAiConversionContext === 'function' ? window.dolphinOpenAiConversionContext() : { allowed: false }, { internal: internal }),
       form_name: key,
       visitor_id: visitor.visitor_id,
       visitor_first_seen_at: visitor.first_seen_at,
@@ -1031,6 +1049,7 @@ const normalizedSchemas = (Array.isArray(searchNormalizedSchemas)
     {webMcpOriginTrialTokens.map((token: string) => <meta http-equiv="origin-trial" content={token} />)}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline set:html={dolphinInternalBootstrap} />
     {openAiAdsBootstrap && <script is:inline set:html={openAiAdsBootstrap} />}
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />

@@ -54,7 +54,7 @@ test('real parts handler sends after a saved inquiry, never after validation or 
     return new Response('{}');
   };
   const db={prepare:(sql)=>({bind(...values){if(sql.includes('INSERT INTO submissions')) inserts.push({sql,values});return this;},all:async()=>({results:[]}),first:async()=>null,run:async()=>{if(failDb)throw Error('db_failed');return {success:true,meta:{last_row_id:123}};}})};
-  const payload={'cf-turnstile-response':'test-token',customer:{name:'Diagnostic Test',company:'TEST ONLY',email:'test@example.invalid',phone:'5550000000'},parts:[{part_number:'TEST',description:'TEST ONLY',quantity:1}],attribution:{...attribution, first_touch:{source:'chatgpt',medium:'cpc',campaign:'original'}}};
+  const payload={'cf-turnstile-response':'test-token',customer:{name:'Diagnostic Test',company:'TEST ONLY',email:'test@example.invalid',phone:'5550000000'},parts:[{part_number:'TEST',description:'TEST ONLY',quantity:1}],attribution:{...attribution, internal:true, openai_ads:{...attribution.openai_ads,internal:true}, first_touch:{source:'chatgpt',medium:'cpc',campaign:'original'}}};
   const submit=async(body)=>worker.fetch(new Request('https://worker.example/parts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),{...env,DB:db},{waitUntil:task=>tasks.push(task)});
   try{
     const valid=await submit(payload);assert.equal((await valid.json()).openai_event_id,'dolphin_lead_123');await Promise.all(tasks);
@@ -64,6 +64,7 @@ test('real parts handler sends after a saved inquiry, never after validation or 
     assert.equal(columns.length, insert.values.length);
     assert.equal((insert.sql.match(/\?/g)||[]).length, insert.values.length);
     assert.equal(insert.values[columns.indexOf('attribution_openai_click_ref')], 'opaque%2Bvalue');
+    assert.equal(JSON.parse(insert.values[columns.indexOf('attribution_raw_json')]).openai_ads.internal, true);
     assert.equal(JSON.parse(insert.values[columns.indexOf('attribution_first_touch_json')]).campaign, 'original');
     calls.length=0;const invalid=await submit({...payload,customer:{}});assert.equal(invalid.status,400);assert.equal(calls.length,0);
     failDb=true;const unsaved=await submit(payload);assert.equal((await unsaved.json()).openai_event_id,null);assert.equal(calls.filter(c=>c.url.startsWith('https://bzr.openai.com')).length,0);

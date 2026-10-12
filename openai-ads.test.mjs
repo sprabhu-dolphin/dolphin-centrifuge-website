@@ -100,7 +100,7 @@ test('captures genuine URL reference before SDK receipt, preserves it through fo
   const { window } = browser('dolphincentrifuge.com', {}, undefined, '?oppref=opaque%2B%2Fvalue');
   assert.equal(window.dolphinOpenAiConversionContext().oppref, 'opaque+/value');
   window.navigator.doNotTrack = '1';
-  assert.deepEqual(JSON.parse(JSON.stringify(window.dolphinOpenAiConversionContext())), { allowed: false, reason: 'dnt' });
+  assert.deepEqual(JSON.parse(JSON.stringify(window.dolphinOpenAiConversionContext())), { allowed: false, reason: 'dnt', internal: false });
   const blocked = browser();
   blocked.window.localStorage = { getItem() { throw Error('blocked'); } };
   assert.equal(blocked.window.dolphinOpenAiConversionContext().reason, 'storage_unavailable');
