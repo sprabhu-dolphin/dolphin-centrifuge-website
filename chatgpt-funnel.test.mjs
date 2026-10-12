@@ -5,12 +5,17 @@ import { createHash } from 'node:crypto';
 import worker from './workers/contact-form/index.js';
 import { CHATGPT_FUNNEL_SQL, chatgptFunnelWindow, summarizeChatgptFunnel, loadChatgptFunnel } from './workers/contact-form/chatgpt-funnel.mjs';
 const window = { start: '2026-10-04T04:00:00.000Z', end_exclusive: '2026-10-11T04:00:00.000Z' };
+function fixture() {
+  const db = new DatabaseSync(':memory:');
+  db.exec(`CREATE TABLE visitor_events(created_at TEXT, visitor_id TEXT, session_id TEXT, event_type TEXT, page_path TEXT, source TEXT, medium TEXT, attribution_json TEXT, visitor_context_json TEXT);
+    CREATE TABLE submissions(created_at TEXT, attribution_visitor_id TEXT, attribution_session_id TEXT, attribution_raw_json TEXT, email TEXT, first_name TEXT, last_name TEXT)`);
+  return db;
+}
 
 test('session funnel separates ad attribution, page reach and engagement without mixing organic or Google traffic', () => {
-  const db = new DatabaseSync(':memory:');
-  db.exec('CREATE TABLE visitor_events(created_at TEXT, visitor_id TEXT, session_id TEXT, event_type TEXT, page_path TEXT, source TEXT, medium TEXT, attribution_json TEXT)');
-  const insert = db.prepare('INSERT INTO visitor_events VALUES(?,?,?,?,?,?,?,?)');
-  const add = (session, options = {}) => insert.run(options.at || '2026-10-06T12:00:00.000Z', 'visitor', session, options.event || 'pageview', options.path || '/waste-oil/', options.source || 'chatgpt', options.medium || 'paid', JSON.stringify({ content: options.tag ?? 'waste_oil_a' }));
+  const db = fixture();
+  const insert = db.prepare("INSERT INTO visitor_events VALUES(?,?,?,?,?,?,?,?,'')");
+  const add = (session, options = {}) => insert.run(options.at || '2026-10-06T12:00:00.000Z', 'private-fixture-id', session, options.event || 'pageview', options.path || '/waste-oil/', options.source || 'chatgpt', options.medium || 'paid', JSON.stringify({ content: options.tag ?? 'waste_oil_a' }));
   add('one'); add('one');
   add('one', { path: 'https://dolphincentrifuge.com/contact-for-alfa-laval-centrifuges/?utm_source=chatgpt' });
   add('one', { event: 'form_start', source: 'direct', medium: 'none', tag: '' });
@@ -34,7 +39,36 @@ test('session funnel separates ad attribution, page reach and engagement without
   assert.equal(waste.form_page_reach_rate, 0.5);
   const parts = report.by_ad.find(row => row.ad_tag === 'parts_a');
   assert.equal(parts.observed_paid_sessions, 1); assert.equal(parts.form_page_reach_rate, 1); assert.equal(parts.form_start_rate, 0);
-  assert.equal(JSON.stringify(report).includes('visitor'), false);
+  assert.equal(JSON.stringify(report).includes('private-fixture-id'), false);
+  db.close();
+});
+
+test('excludes whole internal sessions and historical sessions from visitors with later test leads', () => {
+  const db = fixture();
+  const event = db.prepare('INSERT INTO visitor_events VALUES(?,?,?,?,?,?,?,?,?)');
+  const add = (visitor, session, context = '', type = 'pageview', at = '2026-10-06T12:00:00.000Z') =>
+    event.run(at, visitor, session, type, '/used-oil/', 'chatgpt', 'paid', '{"content":"oil_a"}', context);
+  add('customer', 'one'); add('customer', 'one', '{}', 'form_start');
+  add('customer', 'two', 'invalid-json'); // Legacy/malformed context is not an internal marker.
+  add('staff', 'marked'); add('staff', 'marked', '{"internal":true}', 'form_start', window.end_exclusive);
+  add('staff', 'unmarked', '{"internal":false}'); // Marker applies to the session, not every earlier visit.
+  add('staff-no-session', '', '{"internal":true}');
+  add('form-staff', 'marked-on-form');
+  add('test-email', 'before-test'); add('test-email', 'second-session');
+  add('test-name', 'before-test'); add('test-email', '', '{}');
+  add('', 'anonymous'); add('customer', '', '{}');
+  const lead = db.prepare('INSERT INTO submissions VALUES(?,?,?,?,?,?,?)');
+  lead.run('2026-10-12T12:00:00.000Z', 'test-email', 'later-session', '{}', 'tester@example.com', '', '');
+  lead.run('2026-10-12T12:00:00.000Z', 'test-name', 'later-session', '{}', 'buyer@real.invalid', 'Codex QA', '');
+  lead.run('2026-10-12T12:00:00.000Z', '', '', '{}', 'tester@example.org', '', '');
+  lead.run('2026-10-12T12:00:00.000Z', 'customer', 'one', '{}', 'buyer@real.invalid', 'Buyer', 'Person');
+  lead.run('2026-10-12T12:00:00.000Z', 'form-staff', 'marked-on-form', '{"openai_ads":{"internal":true}}', 'staff@real.invalid', '', '');
+  const report = summarizeChatgptFunnel(db.prepare(CHATGPT_FUNNEL_SQL).all(window.start, window.end_exclusive), window);
+  assert.equal(report.coverage.observed_paid_sessions, 4);
+  assert.equal(report.coverage.paid_pageviews, 5);
+  assert.equal(report.coverage.missing_session_pageviews, 1);
+  assert.equal(report.by_ad[0].form_start_sessions, 1);
+  assert.equal(report.by_ad[0].form_start_rate, 0.25);
   db.close();
 });
 
