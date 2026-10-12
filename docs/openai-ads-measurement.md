@@ -14,7 +14,7 @@ The existing attribution payload now includes `first_touch` separately from curr
 
 ## Privacy and limitations
 
-D4 was resolved by Sanjay on October 12, 2026: keep DNT suppression. GPC, stored Pixel denial, queued denial and storage-error suppression also remain unchanged. Suppressed contexts now carry bounded reason codes, and the server records only the reason in its diagnostic message. Forms continue normally. This change does not resolve D3 or change the existing hashed-email behavior. Section 8 updates matching policy documentation after the owner decision.
+D4 was resolved by Sanjay on October 12, 2026: keep DNT suppression. GPC, stored Pixel denial, queued denial and storage-error suppression also remain unchanged. Suppressed contexts now carry bounded reason codes, and the server records only the reason in its diagnostic message. Forms continue normally. D3 was also resolved by Sanjay on October 12: retain manual hashed-email matching. After successful save, the browser and Worker normalize the submitted email and send its SHA-256 hash for matching. A hash remains an identifier, not anonymous data. The server measurement guide and existing privacy page describe this practice; no account matching setting was changed.
 
 The 404 page intentionally uses its separate layout and remains outside measurement. Preview hosts and localhost do not load the Pixel. Browser blocking can still prevent Pixel receipt; form CAPI remains independently available for permitted, saved inquiries. No synthetic conversion or historical replay is part of verification.
 
