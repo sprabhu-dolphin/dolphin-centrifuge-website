@@ -80,3 +80,37 @@ test('suppression reports only a bounded reason, never arbitrary form text', asy
     assert.equal(JSON.stringify(messages).includes('untrusted text'), false);
   } finally { console.info = original; }
 });
+
+test('visitor events omit click references, including nested URL copies, while keeping campaign attribution', async () => {
+  const url = '/used-oil/?oppref=private-click&utm_source=chatgpt&utm_content=oil_a&%6Fppref=private-click#quote';
+  const metadata = {
+    visitor_id: 'test-visitor', session_id: 'test-session', source: 'chatgpt', medium: 'paid', content: 'oil_a',
+    openai_ads: { allowed: true, oppref: 'private-click', sourceUrl: 'https://dolphincentrifuge.com' + url },
+    landing_page: url, current_page: url, referrer: 'https://example.invalid/?oppref=private-click',
+    first_touch: { landing_page: url, openai_ads: { oppref: 'private-click' } },
+    pages: [{ path: url, referrer: '/?oppref=private-click', at: '2026-10-12T12:00:00Z' }],
+  };
+  for (const serialized of [false, true]) {
+    for (const event of ['pageview', 'form_start']) {
+      const writes = [];
+      const db = { prepare(sql) { return {
+        bind(...values) { this.values = values; return this; }, first: async () => null,
+        run: async function () { writes.push({ sql, values: this.values }); return { success: true }; },
+      }; } };
+      const response = await worker.fetch(new Request('https://worker.example/track/' + (event === 'pageview' ? 'pageview' : 'event'), {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event_type: event, page: { path: url }, target: url,
+          attribution: serialized ? JSON.stringify(metadata) : metadata }),
+      }), { DB: db }, {});
+      assert.equal(response.status, event === 'pageview' ? 200 : 204);
+      assert.equal(writes.filter(write => write.sql.includes('INSERT INTO visitor_events')).length, 1);
+      const stored = JSON.stringify(writes.map(write => write.values));
+      assert.equal(stored.includes('private-click'), false);
+      assert.equal(stored.includes('openAiClickReference'), false);
+      assert.equal(stored.includes('oppref'), false);
+      assert.equal(stored.includes('/used-oil/?utm_source=chatgpt&utm_content=oil_a#quote'), true);
+      assert.equal(stored.includes('chatgpt'), true);
+      if (event === 'pageview') assert.equal(stored.includes('oil_a'), true);
+    }
+  }
+});

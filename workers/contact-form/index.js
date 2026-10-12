@@ -3193,6 +3193,26 @@ function getVisitorContext(request) {
   });
 }
 
+// Click references belong to saved inquiries, not visitor browsing history.
+function withoutVisitorClickReference(value) {
+  if (Array.isArray(value)) return value.map(withoutVisitorClickReference);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value)
+      .filter(([key]) => !['oppref', 'openaiclickreference'].includes(key.toLowerCase()))
+      .map(([key, item]) => [key, withoutVisitorClickReference(item)]));
+  }
+  if (typeof value !== 'string' || !value.includes('?')) return value;
+  const queryAt = value.indexOf('?');
+  const hashAt = value.indexOf('#', queryAt);
+  const query = value.slice(queryAt + 1, hashAt < 0 ? undefined : hashAt);
+  const remaining = query.split('&').filter(part => {
+    try { return decodeURIComponent(part.split('=')[0]).toLowerCase() !== 'oppref'; }
+    catch { return true; }
+  });
+  return value.slice(0, queryAt) + (remaining.length ? '?' + remaining.join('&') : '')
+    + (hashAt < 0 ? '' : value.slice(hashAt));
+}
+
 async function handlePageview(request, env, ctx) {
   let body = {};
   try {
@@ -3203,7 +3223,9 @@ async function handlePageview(request, env, ctx) {
     });
   }
 
+  body = withoutVisitorClickReference({ ...body, attribution: parseMaybeJson(body.attribution) });
   const attribution = normalizeAttribution(body.attribution || body, 'pageview');
+  delete attribution.openAiClickReference;
   const page = body.page && typeof body.page === 'object' ? body.page : {};
   const visitorContext = getVisitorContext(request);
 
@@ -3238,7 +3260,9 @@ async function handleVisitorEvent(request, env, ctx) {
     });
   }
 
+  body = withoutVisitorClickReference({ ...body, attribution: parseMaybeJson(body.attribution) });
   const attribution = normalizeAttribution(body.attribution || {}, eventType);
+  delete attribution.openAiClickReference;
   const page = body.page && typeof body.page === 'object' ? body.page : {};
   const target = cleanText(body.target, 220);
   const linkText = cleanText(body.link_text, 220);
