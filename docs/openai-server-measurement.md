@@ -2,6 +2,10 @@
 
 The Astro forms and Cloudflare contact Worker report `lead_created` with one shared ID. The Worker derives the ID from the successful D1 insert and returns it to all four contact/parts forms. Validation failures and failed database inserts do not produce an event. A saved inquiry remains a server conversion if subsequent email notification fails.
 
+`PUBLIC_OPENAI_ADS_PIXEL_ID` in the Pages build and `OPENAI_ADS_PIXEL_ID` in the Worker must resolve to the same logical Pixel ID so browser and server events deduplicate.
+
+After a successful save, both routes normalize the submitted email address and send only its SHA-256 hash in OpenAI's documented user-data field. Raw email is never added to the conversion payload or logs. This gives either deduplicated route the same matching evidence even when an OpenAI click reference is unavailable.
+
 The existing browser helper is extended rather than initialized twice. Contact and parts handlers schedule CAPI through `waitUntil`; timeouts, serialization problems, provider failures and one retry cannot fail the inquiry. Both deliveries reuse the same pixel, event name and ID. The retry uses the original timestamp and body.
 
 Configuration: the Worker secrets `OPENAI_ADS_PIXEL_ID` and `OPENAI_ADS_CAPI_KEY`; the Pages build value `PUBLIC_OPENAI_ADS_PIXEL_ID` must match. Keys never belong in source or browser bundles. Runtime sends real events by default; the exported sender supports validation-only smoke checks.

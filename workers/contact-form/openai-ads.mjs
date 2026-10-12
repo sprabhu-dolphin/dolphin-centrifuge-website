@@ -18,8 +18,15 @@ export function savedLeadEventId(result) {
   return result?.success !== false && Number.isSafeInteger(id) && id > 0 ? `dolphin_lead_${id}` : null;
 }
 
+async function hashedEmail(email) {
+  const normalized = typeof email === 'string' ? email.trim().toLowerCase() : '';
+  if (!normalized || normalized.length > 254) return '';
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(normalized));
+  return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 // All work, including URL handling and serialization, stays inside this boundary.
-export async function sendOpenAiLead({ env, request, attribution, eventId, timestampMs = Date.now(), validateOnly = false }, transport = fetch) {
+export async function sendOpenAiLead({ env, request, attribution, eventId, email, timestampMs = Date.now(), validateOnly = false }, transport = fetch) {
   try {
     const context = contextFrom(attribution);
     if (!eventId || !env.OPENAI_ADS_CAPI_KEY || !env.OPENAI_ADS_PIXEL_ID) return { status: 'not_configured' };
@@ -43,6 +50,8 @@ export async function sendOpenAiLead({ env, request, attribution, eventId, times
     // Cloudflare supplies this header; never trust X-Forwarded-For from a form.
     const ip = request.headers.get('CF-Connecting-IP');
     const ua = request.headers.get('User-Agent');
+    const emailSha256 = await hashedEmail(email);
+    if (emailSha256) user.emails_sha256 = [emailSha256];
     if (ip) user.ip_address = ip;
     if (ua) user.user_agent = ua.slice(0, 2048);
     if (Object.keys(user).length) event.user = user;
