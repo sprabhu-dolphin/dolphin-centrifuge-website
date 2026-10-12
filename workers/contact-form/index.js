@@ -4273,6 +4273,17 @@ async function handlePartsSubmit(request, env, ctx) {
 }
 
 // ── FORM: Handle a contact form submission ───────────────────
+// True when the request carries the dolphin-mcp shared secret (constant-time compare).
+async function isMcpSubmission(request, env) {
+  const given = request.headers.get('X-Dolphin-MCP-Key');
+  if (!given || !env.MCP_SUBMIT_KEY) return false;
+  const digest = async (v) => new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)));
+  const [a, b] = await Promise.all([digest(given), digest(env.MCP_SUBMIT_KEY)]);
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+}
+
 async function handleFormSubmit(request, env, ctx) {
   try {
     // Parse form data
@@ -4302,8 +4313,11 @@ async function handleFormSubmit(request, env, ctx) {
       );
     }
 
-    // Required Turnstile verification
-    const verified = await verifyTurnstile(
+    // Required Turnstile verification. The dolphin-mcp Worker (service binding)
+    // authenticates with the shared MCP_SUBMIT_KEY secret instead.
+    const viaMcp = await isMcpSubmission(request, env);
+    let submissionId = null;
+    const verified = viaMcp || await verifyTurnstile(
       fields['cf-turnstile-response'], env.TURNSTILE_SECRET_KEY, request, 'contact'
     );
     if (!verified) {
@@ -4507,6 +4521,7 @@ async function handleFormSubmit(request, env, ctx) {
         });
         scheduleLeadAutoGrade(ctx, env, insertResult);
         openaiEventId = savedLeadEventId(insertResult);
+        submissionId = insertResult?.meta?.last_row_id ?? null;
         scheduleOpenAiLead(ctx, { env, request, attribution: fields.dolphin_attribution || fields.attribution, eventId: openaiEventId, email });
       } catch (dbErr) {
         console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
@@ -4527,7 +4542,7 @@ async function handleFormSubmit(request, env, ctx) {
         from:     `${firstName} ${lastName} <noreply@dolphincentrifuge.com>`,
         to:       ['sales@dolphincentrifuge.com'],
         reply_to: email,
-        subject:  `Centrifuge Information Request | ${firstName} ${lastName}`,
+        subject:  `Centrifuge Information Request | ${firstName} ${lastName}${viaMcp ? ' | via AI agent (MCP)' : ''}`,
         html:     emailHtml,
       }),
     });
@@ -4604,6 +4619,7 @@ async function handleFormSubmit(request, env, ctx) {
       JSON.stringify({
         success: true,
         openai_event_id: openaiEventId,
+        submission_id: submissionId,
         message: 'Your inquiry has been received! Our team will respond within a few business days.',
       }),
       { status: 200, headers: CORS_HEADERS }

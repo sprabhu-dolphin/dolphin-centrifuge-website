@@ -1,0 +1,28 @@
+# Dolphin Centrifuge remote MCP server (agent-only; no human-facing page).
+# Deploy: cd workers/dolphin-mcp && npm install && npx wrangler deploy
+# Secret (shared with dolphin-contact-form, never committed):
+#   MCP_SUBMIT_KEY - lets request_quote submit through the contact Worker without Turnstile.
+name = "dolphin-mcp"
+main = "src/index.js"
+account_id = "b421c569a13f32171251c80aa3c491a0"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Public URL https://dolphincentrifuge.com/mcp is served by the Pages Function
+# functions/mcp/[[path]].js, which proxies here (the deploy token has no zone
+# Workers Routes permission). Swap to a zone route later if that permission is added.
+
+# request_quote hands the lead to the existing contact Worker.
+[[services]]
+binding = "CONTACT"
+service = "dolphin-contact-form"
+
+# request_quote: 5 submissions per minute per client IP.
+[[ratelimits]]
+name = "QUOTE_LIMIT"
+namespace_id = "1801"
+simple = { limit = 5, period = 60 }
+
+[observability]
+enabled = true
