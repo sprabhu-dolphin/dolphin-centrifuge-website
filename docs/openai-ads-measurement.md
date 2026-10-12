@@ -31,3 +31,15 @@ C9: a read-only query found 523 ChatGPT/OpenAI-paid pageview records since Septe
 Run `node --test openai-ads.test.mjs openai-capi.test.mjs`, `npm run lead:reconcile:test`, `npm run build`, and a Worker dry run. Tests exercise SDK-blocked capture, suppression, cookie transport, fifth-form saved IDs, database payload alignment and Google-specific paid classification. The three-column `workers/contact-form/schema-openai-attribution.sql` migration precedes Worker deployment. No customer data is backfilled.
 
 Sources: [Measurement Pixel](https://developers.openai.com/ads/measurement-pixel), [Supported events](https://developers.openai.com/ads/supported-events), [Measure Results](https://help.openai.com/en/articles/20001214-measure-results). Pixel documentation confirms requested cookie lifetime can be shortened by the browser and is separate from attribution windows.
+
+## Observed paid-session funnel (audit section 4)
+
+The existing authenticated `/admin/api/weekly-report` response now includes `chatgpt_funnel`. Supply both `funnel_start` and `funnel_end` as ISO timestamps (end exclusive, at most 90 days). For October 4-10 in America/New_York use `2026-10-04T04:00:00Z` and `2026-10-11T04:00:00Z`. Without explicit bounds it uses completed UTC days, clearly labeled; that default is not an account-local comparison window. Existing report fields keep their existing windows.
+
+A denominator session must have a pageview with source `chatgpt`, `openai`, or `chatgpt.com` and medium `paid`, `cpc`, or `ppc`. Group by pageview `utm_content`, join other events by session, and count each session once. Missing/invalid/conflicting ad tags remain explicit buckets; missing session pageviews are reported separately. Unavailable D1 returns unavailable, not zeros. No customer or visitor identifiers are returned in this new aggregate.
+
+`form_page_reach_rate` counts sessions visiting one of the five inquiry page paths, including a form landing page. `form_start_rate` counts sessions with a first-field engagement event. These are different signals: parts lands on a form page, so 100% page reach is not 100% engagement. Browser restrictions, tests/bots and lost attribution limit the website-observed denominator. It is not the number of Ads clicks or unique people, nor a qualified-lead result.
+
+Read-only live query for October 4-10 account-local dates: 112 observed paid sessions, 132 paid pageviews, all 112 carrying usable ad tags; no missing-session pageviews or conflicting tags. 48 sessions reached a form page and none recorded form start. Parts accounted for 44 of those 48 because its landing page contains the form. The remaining reaches were one each for Turbine A, Turbine B, Waste Oil B and WVO B. This is descriptive funnel evidence, not a winning-ad verdict.
+
+Validation: `node --test chatgpt-funnel.test.mjs` covers multi-page deduplication, organic/Google exclusion, ad-tag gaps/conflicts, form engagement joins, exact form paths and bounded reporting windows.
