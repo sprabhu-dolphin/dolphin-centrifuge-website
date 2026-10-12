@@ -2,12 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
+import { usedQuoteLeadDetail } from './src/lib/usedQuote.mjs';
+import { onRequest } from './functions/api/ads-attribution.js';
 import { buildOpenAiAdsBootstrap } from './src/lib/openaiAds.mjs';
 
 const config = { pixelId: 'test-pixel', allowedHosts: ['dolphincentrifuge.com', 'www.dolphincentrifuge.com'] };
-function browser(host = 'dolphincentrifuge.com', navigator = {}, crypto) {
+function browser(host = 'dolphincentrifuge.com', navigator = {}, crypto, search = '') {
   const scripts = [];
-  const window = { location: { hostname: host }, navigator, crypto, TextEncoder };
+  const window = { location: { hostname: host, search, origin: 'https://' + host, pathname: '/used-oil/' }, navigator, crypto, TextEncoder, URLSearchParams, fetch: async () => new Response(null, { status: 204 }) };
   const document = {
     createElement: () => ({}),
     getElementsByTagName: () => [{ parentNode: { insertBefore: script => scripts.push(script) } }],
@@ -91,4 +93,39 @@ test('persisted consent denial suppresses server context and browser events', ()
   window.localStorage = { getItem: () => 'false' };
   assert.equal(window.dolphinOpenAiConversionContext().allowed, false);
   assert.equal(window.dolphinTrackOpenAiLead({ openai_event_id: 'dolphin_lead_17' }), false);
+});
+
+
+test('captures genuine URL reference before SDK receipt, preserves it through forms and reports the suppression reason', () => {
+  const { window } = browser('dolphincentrifuge.com', {}, undefined, '?oppref=opaque%2B%2Fvalue');
+  assert.equal(window.dolphinOpenAiConversionContext().oppref, 'opaque+/value');
+  window.navigator.doNotTrack = '1';
+  assert.deepEqual(JSON.parse(JSON.stringify(window.dolphinOpenAiConversionContext())), { allowed: false, reason: 'dnt' });
+  const blocked = browser();
+  blocked.window.localStorage = { getItem() { throw Error('blocked'); } };
+  assert.equal(blocked.window.dolphinOpenAiConversionContext().reason, 'storage_unavailable');
+});
+
+test('fifth inquiry form carries the saved server ID and cannot measure an unsaved result', () => {
+  const input = { email: 'buyer@example.invalid' };
+  const { window } = browser();
+  assert.equal(window.dolphinTrackOpenAiLead(usedQuoteLeadDetail(input, 'form')), false);
+  assert.equal(window.dolphinTrackOpenAiLead(usedQuoteLeadDetail(input, 'form', { openai_event_id: 'dolphin_lead_19' })), true);
+  assert.equal(window.oaiq.q[1][3].event_id, 'dolphin_lead_19');
+  const source = readFileSync(new URL('./src/scripts/usedQuoteForm.ts', import.meta.url), 'utf8');
+  assert.ok(source.indexOf('usedQuoteLeadDetail(input, channel, result)') > source.indexOf('if (!response.ok || !result.success)'));
+});
+
+test('first-party cookie endpoint respects denial and origin and round-trips opaque values', async () => {
+  const url = 'https://dolphincentrifuge.com/api/ads-attribution';
+  const send = (body, headers = {}) => onRequest({ request: new Request(url, { method: 'POST', headers: { Origin: 'https://dolphincentrifuge.com', 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body) }) });
+  const accepted = await send({ allowed: true, oppref: 'opaque+/=%value' });
+  assert.equal(accepted.status, 204);
+  assert.equal(decodeURIComponent(accepted.headers.get('Set-Cookie').split(';')[0].slice('dc_oppref='.length)), 'opaque+/=%value');
+  assert.match(accepted.headers.get('Set-Cookie'), /Max-Age=2592000/);
+  for (const headers of [{ DNT: '1' }, { 'Sec-GPC': '1' }, { Cookie: '__oaiq_consent=false' }]) {
+    assert.match((await send({ allowed: true, oppref: 'x' }, headers)).headers.get('Set-Cookie'), /Max-Age=0/);
+  }
+  assert.equal((await send({ allowed: false, oppref: 'x' })).status, 400);
+  assert.equal((await send({ allowed: true, oppref: 'x' }, { Origin: 'https://foreign.example' })).status, 403);
 });

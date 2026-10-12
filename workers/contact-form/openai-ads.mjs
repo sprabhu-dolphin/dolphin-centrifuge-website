@@ -30,7 +30,14 @@ export async function sendOpenAiLead({ env, request, attribution, eventId, email
   try {
     const context = contextFrom(attribution);
     if (!eventId || !env.OPENAI_ADS_CAPI_KEY || !env.OPENAI_ADS_PIXEL_ID) return { status: 'not_configured' };
-    if (context.allowed !== true || request.headers.get('Sec-GPC') === '1' || request.headers.get('DNT') === '1') return { status: 'suppressed' };
+    const reasons = new Set(['gpc', 'dnt', 'stored_denial', 'queued_denial', 'storage_unavailable', 'context_unavailable']);
+    const reason = request.headers.get('Sec-GPC') === '1' ? 'gpc'
+      : request.headers.get('DNT') === '1' ? 'dnt'
+      : context.allowed !== true ? (reasons.has(context.reason) ? context.reason : 'permission_missing') : '';
+    if (reason) {
+      console.info('OpenAI lead measurement suppressed', { reason });
+      return { status: 'suppressed', reason };
+    }
     let sourceUrl = SITE_ORIGIN + '/contact-for-alfa-laval-centrifuges/';
     try {
       const candidate = new URL(context.sourceUrl);

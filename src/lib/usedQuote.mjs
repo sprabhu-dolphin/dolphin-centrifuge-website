@@ -110,8 +110,10 @@ export function withAgentAttribution(rawJson) {
 }
 
 /** GA4 generate_lead detail, shared by both channels. */
-export function usedQuoteLeadDetail(input, channel) {
+export function usedQuoteLeadDetail(input, channel, result = {}) {
   return {
+    openai_event_id: result.openai_event_id || null,
+    openai_email: text(input.email),
     lead_form: USED_QUOTE_GA4_LEAD_FORM,
     lead_type: 'quote_request',
     form_variant: USED_QUOTE_FORM_VARIANT,

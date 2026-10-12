@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildLeadMonitorWindow, leadReconciliationVerdict, reconcileLeadSources } from './lead-reconciliation-core.mjs';
@@ -63,4 +65,18 @@ test('used-oil campaign form counts as a contact lead, not an unmonitored form',
   assert.equal(leadReconciliationVerdict(report).status, 'OK');
   assert.equal(report.perType[0].ga4, 1);
   assert.ok(!report.alerts.some((a) => /coverage/.test(a.message)));
+});
+
+test('Google monitor excludes ChatGPT paid traffic while recognizing Google click IDs and Google paid source', () => {
+  const source = readFileSync(new URL('./workers/contact-form/index.js', import.meta.url), 'utf8');
+  const sql = source.slice(source.indexOf('async function pullLeadMonitorD1')).match(/CASE WHEN([\s\S]*?)THEN 1 ELSE 0 END AS paid/)[0];
+  const db = new DatabaseSync(':memory:');
+  db.exec('CREATE TABLE submissions(attribution_gclid TEXT, attribution_gbraid TEXT, attribution_wbraid TEXT, attribution_source TEXT, attribution_medium TEXT)');
+  const insert = db.prepare('INSERT INTO submissions VALUES(?,?,?,?,?)');
+  insert.run('', '', '', 'chatgpt', 'cpc');
+  insert.run('', '', '', 'google', 'cpc');
+  insert.run('genuine-google-id', '', '', '', '');
+  insert.run('', '', '', 'google', 'organic');
+  assert.deepEqual(db.prepare('SELECT ' + sql + ' FROM submissions').all().map(row => row.paid), [0, 1, 1, 0]);
+  db.close();
 });
