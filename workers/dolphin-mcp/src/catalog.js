@@ -222,8 +222,8 @@ export function sizeCentrifuge({ bowl_diameter_m, rpm, g_force } = {}) {
   if (g < 2000) [band, guidance] = ['Low - basic separation', 'Suitable only for coarse solids settlement.'];
   else if (g < 4000) [band, guidance] = ['Decanter range', 'Typical decanter centrifuge range (2,000-4,000 x g).'];
   else if (g < 7000) [band, guidance] = ['Disc stack range', 'Suitable for lube oil and light fuel oil purification.'];
-  else if (g < 10000) [band, guidance] = ['High performance', 'HFO, beverage clarification, coolant fine solids.'];
-  else [band, guidance] = ['Ultra high g-force', 'Pharmaceutical, fine particle, sub-micron separation.'];
+  else if (g < 10000) [band, guidance] = ['High performance', 'HFO, liquid clarification, coolant fine solids.'];
+  else [band, guidance] = ['Ultra high g-force', 'Fine particle, sub-micron separation.'];
   return {
     bowlDiameterM: Number(d.toFixed(4)),
     bowlRadiusCm: Number((d * 50).toFixed(2)),

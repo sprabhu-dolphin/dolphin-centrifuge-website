@@ -919,7 +919,7 @@ export const models: ModelSpec[] = [
     skipPageAssert: ['capacity'],
   },
 
-  /* ================================== disc-stack: stainless / food / biotech */
+  /* ================================== disc-stack: stainless / biotech */
   {
     id: 'alfa-laval-afpx-213',
     designation: 'AFPX 213',
@@ -929,7 +929,7 @@ export const models: ModelSpec[] = [
     canonicalPath: '/stainless-steel-centrifuge/',
     capacities: [
       { fluid: 'Water', kind: 'maximum', value: 100, unit: 'US GPM', label: '100 GPM on Water' },
-      { fluid: 'Hemp Ethanol Polishing', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on Hemp Ethanol Polishing' },
+      { fluid: 'Ethanol Polishing', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on Ethanol Polishing' },
     ],
     bowlSpeedRpm: 4150,
     gForce: 7200,
@@ -977,7 +977,7 @@ export const models: ModelSpec[] = [
     notes: [
       'B1: the clarifier is the BRPX 213. The CBPX-213-XP designation is retired.',
       'E11: the BRPX frame develops 6,500 Gs. The "over 7,000 Gs" prose was the round-up.',
-      'No dedicated spec table is published for the BRPX 213; it appears as a named machine on the food-grade and parts pages.',
+      'No dedicated spec table is published for the BRPX 213; it appears as a named machine on the stainless steel and parts pages.',
     ],
   },
   {
@@ -988,8 +988,8 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     canonicalPath: '/stainless-steel-centrifuge/',
     capacities: [
-      { fluid: 'CBD Ethanol Clarification', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on CBD Ethanol Clarification' },
-      { fluid: 'Beer', kind: 'rated', value: 40, unit: 'US GPM', assertOnPath: '/beer-wine-centrifuge/', note: 'Published on /beer-wine-centrifuge/.' },
+      { fluid: 'Ethanol Clarification', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on Ethanol Clarification' },
+      { fluid: 'Beer (Alfa Laval OEM rating)', kind: 'rated', value: 40, unit: 'US GPM', assertOnPath: '/beer-wine-centrifuge/', note: 'Alfa Laval OEM rating, published on /beer-wine-centrifuge/.' },
     ],
     gForce: 6500,
     motorHp: 15,
@@ -1016,7 +1016,7 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     canonicalPath: '/stainless-steel-centrifuge/',
     capacities: [
-      { fluid: 'Beer, Wine, and Cider Clarification', kind: 'rated', value: 30, unit: 'US GPM', label: '30 GPM on Beer, Wine, and Cider Clarification' },
+      { fluid: 'Liquid Clarification', kind: 'rated', value: 30, unit: 'US GPM', label: '30 GPM on Liquid Clarification' },
     ],
     motorHp: 10,
     sludgeVolumeGal: 1.35,
@@ -1033,7 +1033,7 @@ export const models: ModelSpec[] = [
     aliases: ['BTPX-205', 'BTPX 205 SGD-34-CDP'],
     canonicalPath: '/alfa-laval-btpx-205-biotech-centrifuge/',
     capacities: [
-      { fluid: 'Pharma Cell Broth', kind: 'rated', value: 5, unit: 'US GPM', label: '5 GPM on Pharma Cell Broth' },
+      { fluid: 'Cell Broth', kind: 'rated', value: 5, unit: 'US GPM', label: '5 GPM on Cell Broth' },
     ],
     bowlSpeedRpm: 9650,
     gForce: 12800,
@@ -1074,8 +1074,8 @@ export const models: ModelSpec[] = [
     aliases: ['Clara 20 / LAPX-404'],
     canonicalPath: '/alfa-laval-clara-20-food-grade-centrifuge/',
     capacities: [
-      { fluid: 'Food-grade liquid, high-flow configuration', kind: 'maximum', value: 17.6, unit: 'US GPM', conditions: '4,000 l/h', label: '17.6 GPM (4,000 l/h)' },
-      { fluid: 'Food-grade liquid, low-flow configuration', kind: 'maximum', value: 4.4, unit: 'US GPM', conditions: '1,000 l/h', label: '4.4 GPM (1,000 l/h)' },
+      { fluid: 'Liquid product, high-flow configuration', kind: 'maximum', value: 17.6, unit: 'US GPM', conditions: '4,000 l/h', label: '17.6 GPM (4,000 l/h)' },
+      { fluid: 'Liquid product, low-flow configuration', kind: 'maximum', value: 4.4, unit: 'US GPM', conditions: '1,000 l/h', label: '4.4 GPM (1,000 l/h)' },
     ],
     bowlSpeedRpm: 9512,
     gForce: 11130,
@@ -1101,7 +1101,7 @@ export const models: ModelSpec[] = [
     aliases: ['NX-314'],
     canonicalPath: '/alfa-laval-nx-314-decanter-centrifuge/',
     capacities: [
-      { fluid: 'Hemp Ethanol Slurry', kind: 'rated', value: 25, unit: 'US GPM', ruling: 'A6', label: '25 GPM on Hemp Ethanol Slurry' },
+      { fluid: 'Ethanol Slurry', kind: 'rated', value: 25, unit: 'US GPM', ruling: 'A6', label: '25 GPM on Ethanol Slurry' },
     ],
     bowlSpeedRpm: 4000,
     gForce: 3157,
@@ -1118,14 +1118,14 @@ export const models: ModelSpec[] = [
       'A6: 25 GPM, always stated with the fluid.',
       'A8: 3,157 Gs is exactly what a 353 mm bowl at 4,000 RPM computes to, which is why 3,150 and 3,100 were rejected.',
       'A10: 14" (353 mm) diameter by 34" (860 mm) length. The "34 vs 40 inch" fight was length printed as diameter.',
-      'C4: the stainless food-grade decanter photo on four pages is an NX 314.',
+      'C4: the stainless steel decanter photo on four pages is an NX 314.',
       'R5-5 (ruled 2026-08-29): the /wastewater-centrifuge/ comparison table is aligned to the model pages. The NX 314 rated row is 25 GPM stated with its fluid; the 80 GPM claim is removed. The duty rows below it (40 GPM at 5% sludge, 25 GPM at 10% sludge) are fluid-labelled and stay inside A6.',
     ],
     rejectedValues: [
       // A6's ruling is "25 GPM, always stated with the fluid (... or the page's real
       // duty)". A figure printed WITH a real duty is therefore inside the ruling;
       // an unlabelled one is not. That is what `unless` encodes here.
-      { text: '40 GPM', reason: 'A6: rejected as an unlabelled NX 314 capacity. Its figure is 25 GPM on hemp ethanol slurry.', unless: DUTY_LABELLED },
+      { text: '40 GPM', reason: 'A6: rejected as an unlabelled NX 314 capacity. Its figure is 25 GPM on ethanol slurry.', unless: DUTY_LABELLED },
       { text: '50 GPM', reason: 'A6: rejected as an unlabelled NX 314 capacity.', unless: DUTY_LABELLED },
       { text: '60 GPM', reason: 'A6: rejected as an unlabelled NX 314 capacity.', unless: DUTY_LABELLED },
       { text: '3,250 RPM', reason: 'A7: rejected. The NX 314 runs at 4,000 RPM.' },
@@ -1170,7 +1170,7 @@ export const models: ModelSpec[] = [
     aliases: ['AVNX 414', 'AVNX-414', 'NX-414'],
     canonicalPath: '/alfa-laval-nx-314-decanter-centrifuge/',
     capacities: [
-      { fluid: 'Cannabis THC Solvent Biomass Separation', kind: 'rated', value: 25, unit: 'US GPM', label: '25 GPM on Cannabis THC Solvent Biomass Separation' },
+      { fluid: 'Solvent Biomass Separation', kind: 'rated', value: 25, unit: 'US GPM', label: '25 GPM on Solvent Biomass Separation' },
     ],
     bowlSpeedRpm: 4000,
     gForce: 3157,

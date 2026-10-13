@@ -40,8 +40,8 @@ export const usedApplications = [
   { key: 'machine-coolant', label: 'Machine coolant', path: '/machine-coolant-centrifuge/', families: ['wspx'] },
   { key: 'wastewater', label: 'Industrial wastewater', path: '/wastewater-centrifuge/', families: ['nx', 'whpx'] },
   { key: 'crude-oil', label: 'Crude oil and tank bottoms', path: '/crude-oil-centrifuge/', families: ['nx', 'whpx'] },
-  { key: 'beer-wine', label: 'Beer and wine', path: '/beer-wine-centrifuge/', families: ['food'] },
-  { key: 'food', label: 'Food grade and biotech', path: '/food-grade-centrifuge/', families: ['food'] },
+  { key: 'beer-wine', label: 'Stainless steel clarification', path: '/beer-wine-centrifuge/', families: ['food'] },
+  { key: 'food', label: 'Stainless steel and biotech', path: '/food-grade-centrifuge/', families: ['food'] },
 ];
 
 export const usedFamilies = [
@@ -96,9 +96,9 @@ export const usedFamilies = [
   {
     key: 'food',
     name: 'Alfa Laval BRPX, BTPX, LAPX and Clara',
-    type: 'Food-grade and biotech disc stack',
+    type: 'Stainless steel and biotech disc stack',
     cleaning: 'self-cleaning',
-    role: 'Beverage clarification, food processing and biotech separation.',
+    role: 'Stainless steel disc stack clarification and biotech separation.',
     models: ['alfa-laval-brpx-313', 'alfa-laval-btpx-205', 'alfa-laval-lapx-404', 'alfa-laval-clara-20'].map(model),
   },
 ];
