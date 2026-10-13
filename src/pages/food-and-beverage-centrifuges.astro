@@ -6,10 +6,10 @@ import { models } from '../data/centrifugeSpecs';
 import { stockList } from '../data/stockList.mjs';
 import { USED_QUOTE_ATTRIBUTION_NAME, USED_QUOTE_FORM_ID } from '../lib/usedQuote.mjs';
 
-const pageUrl = 'https://dolphincentrifuge.com/food-and-dairy-centrifuges/';
-const pageTitle = 'Food & Dairy Centrifuges | Remanufactured Alfa Laval Clara, BRPX, BTPX';
+const pageUrl = 'https://dolphincentrifuge.com/food-and-beverage-centrifuges/';
+const pageTitle = 'Food & Beverage Centrifuges | Remanufactured Alfa Laval Clara, BRPX, BTPX';
 const pageDescription =
-  'Which remanufactured Alfa Laval stainless steel disc stack centrifuges fit food, dairy, beverage, plant protein and fermentation duties: Clara 20, BRPX, BTPX and related models, with capacities tied to their fluid, stock status and a quote form.';
+  'Which remanufactured Alfa Laval stainless steel disc stack centrifuges fit food, beverage, plant protein and fermentation duties: Clara 20, BRPX, BTPX and related models, with capacities tied to their fluid, stock status and a quote form.';
 
 // Same Worker endpoint and fallback as the contact page and used-Alfa-Laval quote form.
 const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
@@ -24,14 +24,14 @@ const fmt = (n: number) => n.toLocaleString('en-US');
 
 function spec(designation: string) {
   const m = models.find((model) => model.designation === designation);
-  if (!m) throw new Error(`food and dairy page: no spec record for ${designation}`);
+  if (!m) throw new Error(`food and beverage page: no spec record for ${designation}`);
   return m;
 }
 
 function capacityText(designation: string, fluidMatch: RegExp, fluidWords?: string): string {
   const cap = spec(designation).capacities.find((c) => fluidMatch.test(c.fluid));
   if (!cap || typeof cap.value !== 'number') {
-    throw new Error(`food and dairy page: ${designation} has no capacity matching ${fluidMatch}`);
+    throw new Error(`food and beverage page: ${designation} has no capacity matching ${fluidMatch}`);
   }
   const conditions = cap.conditions ? ` (${cap.conditions})` : '';
   return `${cap.value} GPM on ${fluidWords ?? cap.fluid}${conditions}`;
@@ -49,7 +49,7 @@ function stockText(designation: string): string {
 const clara = spec('Clara 20');
 const claraHigh = clara.capacities.find((c) => /high-flow/i.test(c.fluid));
 const claraLow = clara.capacities.find((c) => /low-flow/i.test(c.fluid));
-if (!claraHigh?.label || !claraLow?.label) throw new Error('food and dairy page: Clara 20 flow labels missing');
+if (!claraHigh?.label || !claraLow?.label) throw new Error('food and beverage page: Clara 20 flow labels missing');
 
 const machineRows = [
   {
@@ -118,12 +118,12 @@ const stockedText = stockedFoodUnits.map((row) => `${row.designation} (${row.qty
 
 const faqItems = [
   {
-    question: 'Which Alfa Laval centrifuge fits a food or dairy plant?',
+    question: 'Which Alfa Laval centrifuge fits a food or beverage plant?',
     answer:
-      'It depends on the product. For beer, wine and cider clarification the BRPX 313 and BRPX 309 have published capacities. For juice, beverage and edible oil polishing at pilot scale the Clara 20 is the compact stainless module. For fermentation broth and cell harvesting the BTPX 205 is the machine. For milk, whey and cream, Dolphin has not published a rating for any model, so we size from your product, temperature, solids and flow. See the table above for each capacity and the fluid it applies to.',
+      'It depends on the product. For beer, wine and cider clarification the BRPX 313 and BRPX 309 have published capacities. For juice, beverage and edible oil polishing at pilot scale the Clara 20 is the compact stainless module. For fermentation broth and cell harvesting the BTPX 205 is the machine. For other products we size from your product, temperature, solids and flow. See the table above for each capacity and the fluid it applies to.',
   },
   {
-    question: 'Can I use a remanufactured centrifuge on food or dairy product?',
+    question: 'Can I use a remanufactured centrifuge on food or beverage product?',
     answer:
       'Only after it is reviewed for your product. Most machines Dolphin sells are rebuilt machines that may have had prior industrial use, and Dolphin cannot guarantee or certify the previous use, sanitary history or prior process exposure of any specific centrifuge. We do not represent a remanufactured centrifuge as suitable for food, beverage or other human-consumption use unless that suitability is reviewed and confirmed in writing for the specific machine and application. Tell us the product and the requirement in your inquiry.',
   },
@@ -174,7 +174,7 @@ const webPageJsonLd = {
   isPartOf: { '@type': 'WebSite', name: 'Dolphin Centrifuge', url: 'https://dolphincentrifuge.com' },
   about: [
     { '@type': 'Brand', name: 'Alfa Laval' },
-    { '@type': 'Thing', name: 'Remanufactured stainless steel disc stack centrifuges for food, dairy and beverage processing' },
+    { '@type': 'Thing', name: 'Remanufactured stainless steel disc stack centrifuges for food and beverage processing' },
   ],
   author: {
     '@type': 'Person',
@@ -192,7 +192,6 @@ const jsonLd = [webPageJsonLd, faqJsonLd];
 const toc = [
   { id: 'duties', label: 'Which Models Fit Which Duties' },
   { id: 'capacities', label: 'Capacities, Construction and Stock' },
-  { id: 'dairy', label: 'Milk, Whey and Cream' },
   { id: 'beverage', label: 'Beer, Wine, Juice and Edible Oil' },
   { id: 'protein', label: 'Plant Protein and Soy' },
   { id: 'fermentation', label: 'Biotech and Fermentation Broth' },
@@ -200,7 +199,7 @@ const toc = [
   { id: 'stainless', label: 'Stainless Steel Construction' },
   { id: 'remanufacturing', label: 'What Remanufacturing Includes' },
   { id: 'sample-testing', label: 'Sample Testing' },
-  { id: 'faq', label: 'Food and Dairy Centrifuge FAQ' },
+  { id: 'faq', label: 'Food and Beverage Centrifuge FAQ' },
   { id: 'quote', label: 'Get a Quote' },
 ];
 
@@ -225,8 +224,8 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
 ---
 
 <ApplicationLayout
-  title="Food and Dairy Centrifuges"
-  heroTitle="Food and Dairy Centrifuges: Remanufactured Alfa Laval Disc Stack Machines"
+  title="Food and Beverage Centrifuges"
+  heroTitle="Food and Beverage Centrifuges: Remanufactured Alfa Laval Disc Stack Machines"
   pageTitle={pageTitle}
   description={pageDescription}
   heroImage="/images/food-grade-centrifuge/stainless-steel-centrifuge-new-hero-2000.webp"
@@ -252,7 +251,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
     This page says which models fit which duties, what each one is rated for and on what fluid, what is in stock, and where we have no published rating. Where we have no number, we say so instead of guessing.
   </p>
 
-  <h2 id="duties">Which Alfa Laval Models Fit Which Food and Dairy Duties</h2>
+  <h2 id="duties">Which Alfa Laval Models Fit Which Food and Beverage Duties</h2>
 
   <div class="not-prose overflow-x-auto border border-gray-100 rounded-xl mb-4">
     <table class="w-full text-sm border-collapse">
@@ -265,36 +264,31 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
       </thead>
       <tbody>
         <tr class="border-b border-gray-200">
-          <td class="py-3 px-3 font-semibold text-navy">Milk, whey, cream</td>
-          <td class="py-3 px-3 text-sm">No model rated by Dolphin</td>
-          <td class="py-3 px-3 text-sm">Sized per application. See <a href="#dairy" class={linkClass}>milk, whey and cream</a>.</td>
-        </tr>
-        <tr class="border-b border-gray-200 bg-light-bg">
           <td class="py-3 px-3 font-semibold text-navy">Beer, wine and cider clarification</td>
           <td class="py-3 px-3 text-sm">BRPX 313, BRPX 309</td>
           <td class="py-3 px-3 text-sm">Published capacities in the table below</td>
         </tr>
-        <tr class="border-b border-gray-200">
+        <tr class="border-b border-gray-200 bg-light-bg">
           <td class="py-3 px-3 font-semibold text-navy">Juice, tea, coffee extract and edible oil polishing</td>
           <td class="py-3 px-3 text-sm">Clara 20</td>
           <td class="py-3 px-3 text-sm">Application list on the <a href="/alfa-laval-clara-20-food-grade-centrifuge/" class={linkClass}>Clara 20 page</a></td>
         </tr>
-        <tr class="border-b border-gray-200 bg-light-bg">
+        <tr class="border-b border-gray-200">
           <td class="py-3 px-3 font-semibold text-navy">Plant protein and soy</td>
           <td class="py-3 px-3 text-sm">Self-cleaning stainless disc stack, sized per application</td>
           <td class="py-3 px-3 text-sm">Dolphin has supplied centrifuges for soy protein recovery</td>
         </tr>
-        <tr class="border-b border-gray-200">
+        <tr class="border-b border-gray-200 bg-light-bg">
           <td class="py-3 px-3 font-semibold text-navy">Fermentation broth and cell harvesting</td>
           <td class="py-3 px-3 text-sm">BTPX 205</td>
           <td class="py-3 px-3 text-sm">Published capacity in the table below</td>
         </tr>
-        <tr class="border-b border-gray-200 bg-light-bg">
+        <tr class="border-b border-gray-200">
           <td class="py-3 px-3 font-semibold text-navy">Poultry broth, fat and rendering</td>
           <td class="py-3 px-3 text-sm">LAPX-404, AFPX 207</td>
           <td class="py-3 px-3 text-sm">Published capacities in the table below</td>
         </tr>
-        <tr class="border-b border-gray-200">
+        <tr class="border-b border-gray-200 bg-light-bg">
           <td class="py-3 px-3 font-semibold text-navy">Food plant wastewater</td>
           <td class="py-3 px-3 text-sm">NX decanters and DMPX disc stack modules</td>
           <td class="py-3 px-3 text-sm"><a href="/food-industry-wastewater-centrifuge/" class={linkClass}>Food industry wastewater centrifuge</a></td>
@@ -334,16 +328,6 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
     Capacities come from the Dolphin spec data and are tied to the fluid shown. A different product, viscosity, temperature or solids load changes the number, so final sizing comes from your product. Stock status is from the dated stock list (as of {stockList.asOf}). Lead time is 4 to 8 weeks for small machines and 12 to 20 weeks for large ones.
   </p>
 
-  <h2 id="dairy">Milk, Whey and Cream</h2>
-
-  <p>
-    Separating milk fat from milk is the classic disc stack job. The old cream separators were the first commercial disc stack centrifuges, and milk standardization, which separates the fat and returns a set amount to the milk, is still a common Alfa Laval disc stack application.
-  </p>
-
-  <p>
-    Dolphin has not published a dairy duty or capacity for any model, and the spec data holds no cream or whey rating. That is why there is no dairy number on this page. Send the product, the temperature, the solids and the flow, and an engineer will tell you which stainless machine fits, or tell you if none does. Suitability of a remanufactured machine for dairy product is reviewed in writing for the specific machine and application, as described under <a href="#stainless" class={linkClass}>stainless steel construction</a>.
-  </p>
-
   <h2 id="beverage">Beer, Wine, Juice and Edible Oil</h2>
 
   <p>
@@ -365,7 +349,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   </p>
 
   <p>
-    Other plant-based beverages follow the same pattern: almond and oat milk are clarified from the organic mass with decanters and disc stack centrifuges.
+    Other plant-based beverages follow the same pattern: almond and oat drinks are clarified from the organic mass with decanters and disc stack centrifuges.
   </p>
 
   <h2 id="fermentation">Biotech and Fermentation Broth with the BTPX 205</h2>
@@ -377,7 +361,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   <h2 id="wastewater">Food Plant Wastewater</h2>
 
   <p>
-    Food and dairy plants also have a wastewater stream with suspended solids, fats, oils and grease. Decanters and self-cleaning disc stack modules treat it, and the capacity depends on the sludge percentage. The full treatment, with duties and capacities, is on <a href="/food-industry-wastewater-centrifuge/" class={linkClass}>food industry wastewater centrifuge modules</a>.
+    Food and beverage plants also have a wastewater stream with suspended solids, fats, oils and grease. Decanters and self-cleaning disc stack modules treat it, and the capacity depends on the sludge percentage. The full treatment, with duties and capacities, is on <a href="/food-industry-wastewater-centrifuge/" class={linkClass}>food industry wastewater centrifuge modules</a>.
   </p>
 
   <h2 id="stainless">Stainless Steel Construction</h2>
@@ -389,7 +373,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
   </ul>
 
   <div class="not-prose my-6 rounded-lg border border-amber-400 bg-amber-50 p-5">
-    <p class="font-bold text-amber-900 mb-2">Suitability for food and dairy product</p>
+    <p class="font-bold text-amber-900 mb-2">Suitability for food and beverage product</p>
     <p class="text-sm text-amber-900 mb-3">Most centrifuges offered by Dolphin Centrifuge are used, rebuilt or remanufactured machines. Because they may have had prior industrial use, Dolphin cannot guarantee or certify the previous use, sanitary history or prior process exposure of any specific centrifuge.</p>
     <p class="text-sm text-amber-900">We do not represent any used or remanufactured centrifuge as suitable for food, beverage, pharmaceutical, cosmetic or human-consumption applications unless that suitability is reviewed and confirmed in writing for the specific machine and application. We do not publish a sanitary certification or a clean-in-place rating for these machines.</p>
   </div>
@@ -419,11 +403,11 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
     Send a sample of your product. We run it on a lab-scale disc stack centrifuge, about 1 gallon, and report the separation, so you can confirm performance before any commitment. Larger samples are possible on request, and Dolphin can batch process a sample of up to 10 gallons through a small industrial disc stack centrifuge. Sample testing is a chargeable service. See <a href="/industrial-centrifuge-sample-testing/" class={linkClass}>industrial centrifuge sample testing</a>.
   </p>
 
-  <FAQ items={faqItems} heading="Food and Dairy Centrifuge FAQ" />
+  <FAQ items={faqItems} heading="Food and Beverage Centrifuge FAQ" />
 
   <section id="quote" class="not-prose scroll-mt-24 my-8">
     <div class="bg-white rounded-2xl border-2 border-navy/15 shadow-sm p-5 md:p-7">
-      <h2 class="text-xl md:text-2xl font-bold text-navy font-heading mb-1">Get a quote for a food or dairy centrifuge</h2>
+      <h2 class="text-xl md:text-2xl font-bold text-navy font-heading mb-1">Get a quote for a food or beverage centrifuge</h2>
       <p class="text-sm text-text-light mb-5">Tell us the product, the flow and the temperature. An engineer replies within one business day.</p>
 
       <form
@@ -456,7 +440,7 @@ const labelClass = 'block text-xs font-bold text-navy uppercase tracking-wide mb
           </div>
           <div>
             <label for="uq-fluid" class={labelClass}>Product to process</label>
-            <input id="uq-fluid" name="fluid" type="text" required autocomplete="off" maxlength="254" placeholder="e.g. whey, beer, juice, soy protein slurry" class={inputClass} />
+            <input id="uq-fluid" name="fluid" type="text" required autocomplete="off" maxlength="254" placeholder="e.g. beer, juice, edible oil, soy protein slurry" class={inputClass} />
           </div>
           <div>
             <label for="uq-flow" class={labelClass}>Flow rate <span class="font-normal normal-case text-text-muted">(optional)</span></label>
