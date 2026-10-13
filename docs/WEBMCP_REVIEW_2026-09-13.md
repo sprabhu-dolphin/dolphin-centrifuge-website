@@ -23,6 +23,7 @@ This review does not certify every historical page claim or every installed mach
 | Large tool outputs | Paginated model, capacity and specification results, with original qualifiers and full-record links. Direct specification-field lookup reduces unnecessary calls. |
 | Application and flow selection absent | Deterministic `select_centrifuge_candidates`, with explicit flow units, cleaning preference and separate operating/viscosity-reference temperatures. |
 | Free-text fluid conditions could lose decimals or accept an unrecognized mixture | Decimal preservation and narrower matching; no diesel capacity transferred to diesel/coolant mixtures. |
+| Stock availability not queryable by agents | Read-only `find_alfa_laval_centrifuges_in_stock` filters the dated `/technical-data/stock-list.v1.json` record by model, family or type, returns only published fields and no prices, and links the stock page. |
 | Form preparation unavailable to agents | `prepare_centrifuge_inquiry` fills the visible form, preserves omitted fields and reports missing fields. It never submits or claims an order. Existing asynchronous submission now reports completion only after the Worker confirms success. |
 
 The OEM pump arrangement is not interchangeable with a separate electric feed pump on a Dolphin skid. Drive rating, auxiliary pump rating, heater load and actual power consumption are distinct quantities. OEM kW values are not silently rounded into nominal HP sizes.

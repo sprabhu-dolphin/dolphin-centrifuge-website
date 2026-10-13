@@ -40,8 +40,9 @@ test('partial registration failures recover without duplicate registrations', as
     if (tool.name === 'get_centrifuge_capacity' && n === 1) throw Error('temporary failure');
   });
   assert.equal(await h.context.runtime.registerDolphinWebMcpTools(), true);
-  assert.equal(h.tools.size, 6);
+  assert.equal(h.tools.size, 7);
   assert.ok(h.tools.has('find_used_alfa_laval_centrifuges'));
+  assert.ok(h.tools.has('find_alfa_laval_centrifuges_in_stock'));
   assert.ok(!h.tools.has('prepare_used_alfa_laval_quote'), 'quote tool registers only on the page with the quote form');
   assert.equal(attempts.get('get_centrifuge_capacity'), 2);
   assert.equal(attempts.get('find_centrifuge_models'), 1);
@@ -203,6 +204,30 @@ test('used Alfa Laval finder reports unavailable data instead of inventing an an
   assert.equal((await h.tools.get('find_used_alfa_laval_centrifuges').execute({})).status, 'unavailable');
 });
 
+const stockRecord = {schemaVersion: 'dolphin-stock-list-v1', asOf: '2026-10-11', units: [
+  {family: 'MAB', model: 'MAB 104', type: 'disc stack manual-clean', condition: 'remanufactured', status: 'in stock', quantity: 1, wettedParts: 'SS316', modelPage: null},
+  {family: 'WHPX', model: 'WHPX 513', type: 'disc stack self-cleaning', condition: 'remanufactured to order', status: 'in stock', quantity: 3, capacity: '72.2 GPM on 13 cSt diesel at 40 C'},
+  {family: 'NX', model: 'NX 418', type: 'decanter', condition: 'remanufactured', status: 'in stock', quantity: 2},
+]};
+
+test('stock list finder filters the dated record, accepts JSON strings and never invents units', async () => {
+  const h = await harness(undefined, async () => ({ok: true, json: async () => stockRecord}));
+  const find = h.tools.get('find_alfa_laval_centrifuges_in_stock');
+  const mab = await find.execute({query: 'mab104'});
+  assert.equal(mab.status, 'ok');
+  assert.equal(mab.data.matchingListings, 1);
+  assert.equal(mab.data.units[0].model, 'MAB 104');
+  assert.equal(mab.data.asOf, '2026-10-11');
+  assert.equal(mab.data.totalQuantity, 6);
+  assert.ok(mab.data.statement.includes('150+ Alfa Laval centrifuges in stock in Warren, Michigan'));
+  assert.equal((await find.execute(JSON.stringify({query: 'DECANTER'}))).data.units[0].model, 'NX 418');
+  assert.equal((await find.execute({type: 'disc stack self-cleaning', limit: 1})).data.units.length, 1);
+  assert.equal((await find.execute({query: 'zzz'})).data.matchingListings, 0);
+  for (const input of [{limit: 0}, {limit: 51}, {type: 'pump'}, {extra: 1}]) assert.equal((await find.execute(input)).status, 'invalid_input');
+  const down = await harness(undefined, async () => ({ok: false}));
+  assert.equal((await down.tools.get('find_alfa_laval_centrifuges_in_stock').execute({})).status, 'unavailable');
+});
+
 function fakeQuotePage({token = ''} = {}) {
   const fields = {};
   const field = (name, value = '') => (fields[name] ??= {name, value, dispatchEvent() {}, focus() { focused = name; }});
@@ -249,7 +274,7 @@ test('quote tool exists only with the form, fills every visible field and never 
   const page = fakeQuotePage({token: 'turnstile-token'});
   const h = await harness(undefined, page.fetcher, page.documentExtras, page.globals);
   const quote = h.tools.get('prepare_used_alfa_laval_quote');
-  assert.equal(h.tools.size, 7);
+  assert.equal(h.tools.size, 8);
   assert.ok(!h.tools.has('request_used_alfa_laval_quote'));
   assert.equal(quote.annotations.consequentialHint, false);
   assert.equal(quote.annotations.readOnlyHint, false);

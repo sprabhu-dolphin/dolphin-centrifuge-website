@@ -27,6 +27,7 @@ const WEBMCP_TOOL_NAMES = [
   'get_technical_author_identity',
   'select_centrifuge_candidates',
   'find_used_alfa_laval_centrifuges',
+  'find_alfa_laval_centrifuges_in_stock',
 ];
 
 function allCapacities() {

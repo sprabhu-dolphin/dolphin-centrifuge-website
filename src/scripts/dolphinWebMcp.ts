@@ -1,6 +1,7 @@
 import { selectCentrifugeCandidates } from '../lib/centrifugeSelection.mjs';
 import { inquiryWebMcpTools } from './inquiryWebMcp';
 import { usedEquipmentWebMcpTools } from './usedEquipmentWebMcp';
+import { stockListWebMcpTools } from './stockListWebMcp';
 import { compactToolResult } from '../lib/webMcpResponse.mjs';
 import {
   findCentrifugeModels,
@@ -326,7 +327,10 @@ export async function registerDolphinWebMcpTools(): Promise<boolean> {
     getCatalog,
     fetchJson: (url, signal) => fetchJson(url, signal, undefined),
   }) as WebMcpTool[];
-  const results = await Promise.all([...tools(), ...inquiryWebMcpTools(), ...usedTools].map((definition) => {
+  const stockTools = stockListWebMcpTools({
+    fetchJson: (url, signal) => fetchJson(url, signal, undefined),
+  }) as WebMcpTool[];
+  const results = await Promise.all([...tools(), ...inquiryWebMcpTools(), ...usedTools, ...stockTools].map((definition) => {
     const prior = state.get(definition.name);
     if (prior) return prior;
     const tool = {
