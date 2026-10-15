@@ -7,9 +7,10 @@ import { onRequest } from './functions/api/ads-attribution.js';
 import { buildOpenAiAdsBootstrap } from './src/lib/openaiAds.mjs';
 
 const config = { pixelId: 'test-pixel', allowedHosts: ['dolphincentrifuge.com', 'www.dolphincentrifuge.com'] };
-function browser(host = 'dolphincentrifuge.com', navigator = {}, crypto, search = '') {
+function browser(host = 'dolphincentrifuge.com', navigator = {}, crypto, search = '', internal = false) {
   const scripts = [];
   const window = { location: { hostname: host, search, origin: 'https://' + host, pathname: '/used-oil/' }, navigator, crypto, TextEncoder, URLSearchParams, fetch: async () => new Response(null, { status: 204 }) };
+  window.dolphinIsInternalVisitor = () => internal;
   const document = {
     createElement: () => ({}),
     getElementsByTagName: () => [{ parentNode: { insertBefore: script => scripts.push(script) } }],
@@ -51,6 +52,9 @@ test('suppresses previews, localhost, missing configuration, and privacy opt-out
   for (const privacy of [{ globalPrivacyControl: true }, { doNotTrack: '1' }]) {
     assert.equal(browser('dolphincentrifuge.com', privacy).scripts.length, 0);
   }
+  const internal = browser('dolphincentrifuge.com', {}, undefined, '', true);
+  assert.equal(internal.scripts.length, 0);
+  assert.deepEqual(JSON.parse(JSON.stringify(internal.window.dolphinOpenAiConversionContext())), { allowed: false, reason: 'internal', internal: true });
 });
 
 test('SDK failure cannot fail form completion or Google lead reporting', () => {

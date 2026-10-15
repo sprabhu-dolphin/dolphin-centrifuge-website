@@ -1072,7 +1072,7 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     dolphinModule: undefined,
     aliases: ['Clara 20 / LAPX-404'],
-    canonicalPath: '/alfa-laval-clara-20-food-grade-centrifuge/',
+    canonicalPath: undefined,
     capacities: [
       { fluid: 'Liquid product, high-flow configuration', kind: 'maximum', value: 17.6, unit: 'US GPM', conditions: '4,000 l/h', label: '17.6 GPM (4,000 l/h)' },
       { fluid: 'Liquid product, low-flow configuration', kind: 'maximum', value: 4.4, unit: 'US GPM', conditions: '1,000 l/h', label: '4.4 GPM (1,000 l/h)' },

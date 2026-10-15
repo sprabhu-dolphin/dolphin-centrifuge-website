@@ -10,6 +10,7 @@ export function installOpenAiAds(window, document, config) {
     }
     function suppressionReason() {
       try {
+        if (window.dolphinIsInternalVisitor?.() === true) return 'internal';
         if (privacy.globalPrivacyControl === true) return 'gpc';
         if (privacy.doNotTrack === '1') return 'dnt';
         if (window.localStorage?.getItem('oaiq_consent') === 'false' || rawCookie('__oaiq_consent') === 'false') return 'stored_denial';
@@ -25,8 +26,8 @@ export function installOpenAiAds(window, document, config) {
       try { return decodeURIComponent(rawCookie('dc_oppref')); } catch { return ''; }
     }
     window.dolphinOpenAiConversionContext = function () {
-      const internal = window.dolphinIsInternalVisitor?.() === true;
       try {
+        const internal = window.dolphinIsInternalVisitor?.() === true;
         const reason = suppressionReason();
         if (reason) {
           landingReference = '';
@@ -35,7 +36,7 @@ export function installOpenAiAds(window, document, config) {
         }
         return { allowed: true, internal, sourceUrl: window.location.origin + window.location.pathname,
           oppref: landingReference || savedReference() || rawCookie('__oppref'), obref: rawCookie('__obref') };
-      } catch { return { allowed: false, reason: 'context_unavailable', internal }; }
+      } catch { return { allowed: false, reason: 'context_unavailable', internal: false }; }
     };
     if (!measurementAllowed()) { window.dolphinOpenAiConversionContext(); return; }
     // Capture the actual URL value before the third-party SDK loads. Never invent an identifier.
