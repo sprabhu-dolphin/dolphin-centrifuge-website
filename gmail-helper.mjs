@@ -29,9 +29,10 @@ const saKeyPath = path.join(gcloudDir, 'dolphin-gmail-sa-key.json');
 const helperScopes = [
   'https://www.googleapis.com/auth/gmail.modify',
   'https://www.googleapis.com/auth/gmail.compose',
+  'https://www.googleapis.com/auth/gmail.settings.basic',
 ].join(' ');
 
-const WRITE_COMMANDS = new Set(['create-draft', 'update-draft', 'create-label', 'label', 'trash-thread']);
+const WRITE_COMMANDS = new Set(['create-draft', 'update-draft', 'create-label', 'label', 'trash-thread', 'create-filter']);
 
 // Least-privilege scope per command for service-account (domain-wide delegation) access.
 const COMMAND_SCOPES = {
@@ -45,6 +46,8 @@ const COMMAND_SCOPES = {
   'create-label': 'https://www.googleapis.com/auth/gmail.modify',
   label: 'https://www.googleapis.com/auth/gmail.modify',
   'trash-thread': 'https://www.googleapis.com/auth/gmail.modify',
+  'list-filters': 'https://www.googleapis.com/auth/gmail.settings.basic',
+  'create-filter': 'https://www.googleapis.com/auth/gmail.settings.basic',
   'create-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
   'update-draft': 'https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.readonly',
 };
@@ -155,6 +158,9 @@ Usage:
   node gmail-helper.mjs create-label --name "LabelName" [--mailbox EMAIL] [--json]
   node gmail-helper.mjs label --id MESSAGE_ID [--add "LabelName"] [--remove "LabelName"] [--mailbox EMAIL]
   node gmail-helper.mjs trash-thread --id THREAD_ID [--mailbox EMAIL]
+  node gmail-helper.mjs list-filters [--mailbox EMAIL] [--json]
+  node gmail-helper.mjs create-filter [--from "a,b"] [--to X] [--subject "..."] [--query "..."]
+        --add-label "Label/Name" [--skip-inbox] [--never-spam] [--mailbox EMAIL] [--json]
   node gmail-helper.mjs create-draft --to EMAIL --subject "..." (--body "text" | --body-file FILE)
         [--cc EMAIL] [--html] [--attach FILE ...] [--attach-name NAME ...]
         [--inline-attach FILE ...] [--inline-name NAME ...] [--inline-cid CID ...]
@@ -163,19 +169,21 @@ Usage:
         [--track [--tracker-previous-guid GUID]]
   node gmail-helper.mjs update-draft --draft-id DRAFT_ID --to EMAIL --subject "..."
         (--body "text" | --body-file FILE) [same attachment and reply options as create-draft]
+        [--message-id MESSAGE_ID instead of --draft-id] [--json]
   node gmail-helper.mjs self-test
 
 Access modes:
   - Default (no --mailbox): Sanjay's own mailbox via OAuth refresh tokens.
       helper (read/write): ${helperTokenPath}
       readonly (fallback): ${readonlyTokenPath}
-    Write commands (create-draft, update-draft, create-label, label, trash-thread) REQUIRE the helper token; run auth once
+    Write commands (create-draft, update-draft, create-label, label, trash-thread, create-filter) REQUIRE the helper token; run auth once
     (one browser consent click). Scopes: ${helperScopes}
   - --mailbox EMAIL: ANY dolphincentrifuge.com mailbox (jkraft@, devans@, sprabhu@, ...)
     via the domain-wide-delegated service account. Requires:
       key file: ${saKeyPath}
       one-time Admin console grant (Security > API Controls > Domain-wide delegation).
-    Uses least-privilege scopes per command (readonly for reads, modify/compose for writes).
+    Uses least-privilege scopes per command (readonly for reads, modify/compose for writes,
+    gmail.settings.basic for list-filters/create-filter).
 
 Notes:
   - There is intentionally NO send command. Drafts only.
@@ -834,6 +842,51 @@ async function label(args) {
   console.log(`Labels updated on ${json.id}: now [${(json.labelIds || []).join(', ')}]`);
 }
 
+function filterSummary(f) {
+  const c = f.criteria || {};
+  const a = f.action || {};
+  return { id: f.id, criteria: c, addLabelIds: a.addLabelIds || [], removeLabelIds: a.removeLabelIds || [] };
+}
+
+async function listFilters(args) {
+  const json = await gmailFetch(args, 'list-filters', 'https://gmail.googleapis.com/gmail/v1/users/me/settings/filters');
+  const filters = (json.filter || []).map(filterSummary);
+  if (args.json) { console.log(JSON.stringify(filters, null, 2)); return; }
+  if (!filters.length) { console.log('No filters.'); return; }
+  for (const f of filters) {
+    console.log(`${f.id} | ${JSON.stringify(f.criteria)} | add [${f.addLabelIds.join(', ')}] remove [${f.removeLabelIds.join(', ')}]`);
+  }
+}
+
+// Gmail filters only label, skip the inbox, or keep out of spam here. There is no forward action.
+async function createFilter(args) {
+  if (!args['add-label'] || args['add-label'] === true) throw new Error('create-filter requires --add-label "Label/Name"');
+  const criteria = {};
+  if (args.from && args.from !== true) {
+    criteria.from = String(args.from).split(',').map((v) => v.trim()).filter(Boolean).join(' OR ');
+  }
+  if (args.to && args.to !== true) criteria.to = String(args.to);
+  if (args.subject && args.subject !== true) criteria.subject = String(args.subject);
+  if (args.query && args.query !== true) criteria.query = String(args.query);
+  if (!Object.keys(criteria).length) throw new Error('create-filter requires --from, --to, --subject or --query');
+  const labels = await gmailFetch(args, 'labels', 'https://gmail.googleapis.com/gmail/v1/users/me/labels');
+  const wanted = String(args['add-label']);
+  const match = (labels.labels || []).find((l) => l.name.toLowerCase() === wanted.toLowerCase() || l.id === wanted);
+  if (!match) throw new Error(`Label not found: ${wanted}`);
+  const action = { addLabelIds: [match.id] };
+  if (flagEnabled(args['skip-inbox'])) action.removeLabelIds = ['INBOX'];
+  if (flagEnabled(args['never-spam'])) action.removeLabelIds = [...(action.removeLabelIds || []), 'SPAM'];
+  const created = await gmailFetch(args, 'create-filter',
+    'https://gmail.googleapis.com/gmail/v1/users/me/settings/filters', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ criteria, action }),
+    });
+  const result = filterSummary(created);
+  if (args.json) { console.log(JSON.stringify(result, null, 2)); return; }
+  console.log(`Filter created: ${result.id} | ${JSON.stringify(result.criteria)} | add [${result.addLabelIds.join(', ')}] remove [${result.removeLabelIds.join(', ')}]`);
+}
+
 // Move an entire thread to Gmail's Trash. Gmail keeps a trashed thread for 30
 // days and untrash restores it, so this is a recoverable move rather than a
 // delete - and, like everything else here, it never sends anything.
@@ -1078,7 +1131,20 @@ async function readThreadMetadata(args, command, threadId) {
 
 async function createDraft(args) {
   const command = args._[0] === 'update-draft' ? 'update-draft' : 'create-draft';
-  if (command === 'update-draft' && !args['draft-id']) throw new Error('update-draft requires --draft-id');
+  if (command === 'update-draft' && !args['draft-id']) {
+    if (!args['message-id']) throw new Error('update-draft requires --draft-id or --message-id');
+    let pageToken = '';
+    do {
+      const url = new URL('https://gmail.googleapis.com/gmail/v1/users/me/drafts');
+      url.searchParams.set('maxResults', '100');
+      if (pageToken) url.searchParams.set('pageToken', pageToken);
+      const list = await gmailFetch(args, command, url);
+      const draft = (list.drafts || []).find(item => item.message?.id === String(args['message-id']));
+      if (draft) { args['draft-id'] = draft.id; break; }
+      pageToken = String(list.nextPageToken || '');
+    } while (pageToken);
+    if (!args['draft-id']) throw new Error('The requested message is no longer a Gmail draft.');
+  }
   if (!args.to) throw new Error('create-draft requires --to');
   if (!args.subject) throw new Error('create-draft requires --subject');
   let body = args.body;
@@ -1263,7 +1329,8 @@ async function createDraft(args) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(draftBody),
     });
-  console.log(`Draft ${command === 'update-draft' ? 'updated' : 'created'} (NOT sent). Draft id: ${json.id}, message id: ${json.message?.id}`);
+  if (args.json) console.log(JSON.stringify({ action: command === 'update-draft' ? 'draft-updated' : 'draft-created', id: json.id, message: json.message }));
+  else console.log(`Draft ${command === 'update-draft' ? 'updated' : 'created'} (NOT sent). Draft id: ${json.id}, message id: ${json.message?.id}`);
   if (forceAnchorUsed) console.log('Placement override used: --force-anchor');
   if (tracked?.guid) {
     await tracker.patchMessage(tracked.guid, { status: 'draft', ...(json.message?.threadId ? { gmailThreadId: json.message.threadId } : {}) });
@@ -1600,6 +1667,8 @@ async function main() {
   if (command === 'create-label') return createLabel(args);
   if (command === 'label') return label(args);
   if (command === 'trash-thread') return trashThread(args);
+  if (command === 'list-filters') return listFilters(args);
+  if (command === 'create-filter') return createFilter(args);
   if (command === 'create-draft') return createDraft(args);
   if (command === 'update-draft') return createDraft(args);
   if (command === 'self-test') return selfTest();
