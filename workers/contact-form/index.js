@@ -4254,12 +4254,13 @@ async function handlePartsSubmit(request, env, ctx) {
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error('Resend API error (parts):', errorBody);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
-        { status: 500, headers: CORS_HEADERS }
-      );
+      console.error('Resend API error (parts):', { status: resendResponse.status });
+      if (!openaiEventId) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
+          { status: 500, headers: CORS_HEADERS }
+        );
+      }
     }
 
     return new Response(
@@ -4551,9 +4552,8 @@ async function handleFormSubmit(request, env, ctx) {
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error('Resend API error:', errorBody);
-      throw new Error('Email delivery failed. Please call us at (248) 522-2573.');
+      console.error('Resend API error:', { status: resendResponse.status });
+      if (!openaiEventId) throw new Error('Email delivery failed. Please call us at (248) 522-2573.');
     }
 
     // ── Send reconnect alert email if applicable ─────────────
