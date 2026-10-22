@@ -1592,7 +1592,7 @@ async function googleJsonFetch(url, options) {
   }
   if (!response.ok) {
     const requestId = response.headers.get('request-id') || response.headers.get('google-ads-request-id') || '';
-    throw new Error(`${label} ${response.status}${requestId ? ` request-id ${requestId}` : ''}: ${JSON.stringify(parsed).slice(0, 1200)}`);
+    throw new Error(`${label} ${response.status}${requestId ? ` request-id ${requestId}` : ''}`);
   }
   return parsed;
 }
@@ -1722,7 +1722,7 @@ async function sendLeadMonitorEmail(env, subject, text, html) {
     }),
   });
   if (!response.ok) {
-    console.error('Lead monitor alert email error:', await response.text());
+    console.error('Lead monitor alert email error:', { status: response.status });
   }
 }
 
@@ -3637,7 +3637,7 @@ async function sendVisitorReturnAlert(env, profile, attribution, visitor, pagePa
     }),
   });
   if (!response.ok) {
-    console.error('Visitor alert email error:', await response.text());
+    console.error('Visitor alert email error:', { status: response.status });
   }
 }
 
@@ -4231,10 +4231,7 @@ async function handlePartsSubmit(request, env, ctx) {
         openaiEventId = savedLeadEventId(insertResult);
         scheduleOpenAiLead(ctx, { env, request, attribution: body.attribution || body.dolphin_attribution, eventId: openaiEventId, email });
       } catch (dbErr) {
-        console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
-          form: 'parts', name, company, email, phone, parts: cleanParts,
-        }));
-        console.error('D1 insert error (parts):', dbErr.message);
+        console.error('D1 insert error (parts):', { status: 'unavailable' });
       }
     }
 
@@ -4254,12 +4251,13 @@ async function handlePartsSubmit(request, env, ctx) {
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error('Resend API error (parts):', errorBody);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
-        { status: 500, headers: CORS_HEADERS }
-      );
+      console.error('Resend API error (parts):', { status: resendResponse.status });
+      if (!openaiEventId) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Email send failed - please call (248) 522-2573' }),
+          { status: 500, headers: CORS_HEADERS }
+        );
+      }
     }
 
     return new Response(
@@ -4527,10 +4525,7 @@ async function handleFormSubmit(request, env, ctx) {
         submissionId = insertResult?.meta?.last_row_id ?? null;
         scheduleOpenAiLead(ctx, { env, request, attribution: fields.dolphin_attribution || fields.attribution, eventId: openaiEventId, email });
       } catch (dbErr) {
-        console.error('LEAD_RECOVERY_PAYLOAD', JSON.stringify({
-          form: 'contact', firstName, lastName, company, email, phone,
-        }));
-        console.error('D1 insert error:', dbErr.message);
+        console.error('D1 insert error:', { status: 'unavailable' });
       }
     }
 
@@ -4551,9 +4546,8 @@ async function handleFormSubmit(request, env, ctx) {
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error('Resend API error:', errorBody);
-      throw new Error('Email delivery failed. Please call us at (248) 522-2573.');
+      console.error('Resend API error:', { status: resendResponse.status });
+      if (!openaiEventId) throw new Error('Email delivery failed. Please call us at (248) 522-2573.');
     }
 
     // ── Send reconnect alert email if applicable ─────────────

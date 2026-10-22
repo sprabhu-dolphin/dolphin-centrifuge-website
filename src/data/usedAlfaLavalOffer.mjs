@@ -41,7 +41,7 @@ export const usedApplications = [
   { key: 'wastewater', label: 'Industrial wastewater', path: '/wastewater-centrifuge/', families: ['nx', 'whpx'] },
   { key: 'crude-oil', label: 'Crude oil and tank bottoms', path: '/crude-oil-centrifuge/', families: ['nx', 'whpx'] },
   { key: 'beer-wine', label: 'Stainless steel clarification', path: '/beer-wine-centrifuge/', families: ['food'] },
-  { key: 'food', label: 'Stainless steel and biotech', path: '/food-grade-centrifuge/', families: ['food'] },
+  { key: 'food', label: 'Stainless steel and biotech', path: '/stainless-steel-centrifuge/', families: ['food'] },
 ];
 
 export const usedFamilies = [

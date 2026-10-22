@@ -23,9 +23,9 @@ test('uses one ID, strips URL details, keeps opaque attribution and excludes for
   assert.equal(JSON.stringify(body).includes('Buyer@Example.COM'),false);
   assert.equal(body.events[0].opt_out,true);
 });
-test('suppresses denied or missing consent, GPC, missing saves and credentials',async()=>{
+test('suppresses internal traffic, denied or missing consent, GPC, missing saves and credentials',async()=>{
   let calls=0;const transport=async()=>{calls++;return new Response('{}');};
-  for(const override of [{attribution:{}},{attribution:{openai_ads:{allowed:false}}},{eventId:null},{env:{}},{request:new Request('https://worker.example/',{headers:{'Sec-GPC':'1'}})}]){
+  for(const override of [{attribution:{}},{attribution:{openai_ads:{allowed:true,internal:true}}},{attribution:{openai_ads:{allowed:false}}},{eventId:null},{env:{}},{request:new Request('https://worker.example/',{headers:{'Sec-GPC':'1'}})}]){
     await sendOpenAiLead({env,request,attribution,eventId:'lead-test',...override},transport);
   }
   assert.equal(calls,0);
@@ -44,17 +44,18 @@ test('retries transient failure with an identical payload and contains permanent
   assert.equal((await sendOpenAiLead({env,request,attribution,eventId:'lead-test'},async()=>{throw Error('offline');})).status,'failed');
 });
 
-test('real parts handler sends after a saved inquiry, never after validation or database failure',async()=>{
+test('real parts handler sends after a saved external inquiry, suppresses internal traffic, and keeps a saved inquiry successful when email notification fails',async()=>{
   const originalFetch=globalThis.fetch; const originalError=console.error;
-  const calls=[]; let failDb=false; const tasks=[]; const inserts=[];
+  const calls=[]; let failDb=false; let failEmail=false; const tasks=[]; const inserts=[];
   console.error=()=>{};
   globalThis.fetch=async(url,options)=>{
     if(String(url).includes('challenges.cloudflare.com')) return Response.json({success:true,hostname:'dolphincentrifuge.com',action:'parts_rfq'});
     calls.push({url:String(url),body:JSON.parse(options.body)});
+    if(failEmail && String(url).includes('api.resend.com')) return new Response('{}',{status:503});
     return new Response('{}');
   };
   const db={prepare:(sql)=>({bind(...values){if(sql.includes('INSERT INTO submissions')) inserts.push({sql,values});return this;},all:async()=>({results:[]}),first:async()=>null,run:async()=>{if(failDb)throw Error('db_failed');return {success:true,meta:{last_row_id:123}};}})};
-  const payload={'cf-turnstile-response':'test-token',customer:{name:'Diagnostic Test',company:'TEST ONLY',email:'test@example.invalid',phone:'5550000000'},parts:[{part_number:'TEST',description:'TEST ONLY',quantity:1}],attribution:{...attribution, internal:true, openai_ads:{...attribution.openai_ads,internal:true}, first_touch:{source:'chatgpt',medium:'cpc',campaign:'original'}}};
+  const payload={'cf-turnstile-response':'test-token',customer:{name:'Diagnostic Test',company:'TEST ONLY',email:'test@example.invalid',phone:'5550000000'},parts:[{part_number:'TEST',description:'TEST ONLY',quantity:1}],attribution:{...attribution, internal:false, openai_ads:{...attribution.openai_ads,internal:false}, first_touch:{source:'chatgpt',medium:'cpc',campaign:'original'}}};
   const submit=async(body)=>worker.fetch(new Request('https://worker.example/parts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),{...env,DB:db},{waitUntil:task=>tasks.push(task)});
   try{
     const valid=await submit(payload);assert.equal((await valid.json()).openai_event_id,'dolphin_lead_123');await Promise.all(tasks);
@@ -64,8 +65,17 @@ test('real parts handler sends after a saved inquiry, never after validation or 
     assert.equal(columns.length, insert.values.length);
     assert.equal((insert.sql.match(/\?/g)||[]).length, insert.values.length);
     assert.equal(insert.values[columns.indexOf('attribution_openai_click_ref')], 'opaque%2Bvalue');
-    assert.equal(JSON.parse(insert.values[columns.indexOf('attribution_raw_json')]).openai_ads.internal, true);
+    assert.equal(JSON.parse(insert.values[columns.indexOf('attribution_raw_json')]).openai_ads.internal, false);
     assert.equal(JSON.parse(insert.values[columns.indexOf('attribution_first_touch_json')]).campaign, 'original');
+    calls.length=0;tasks.length=0;
+    const internal=await submit({...payload,attribution:{...payload.attribution,internal:true,openai_ads:{...payload.attribution.openai_ads,internal:true}}});
+    assert.equal((await internal.json()).openai_event_id,'dolphin_lead_123');await Promise.all(tasks);
+    assert.equal(calls.filter(c=>c.url.startsWith('https://bzr.openai.com')).length,0);
+    calls.length=0;tasks.length=0;failEmail=true;
+    const savedDespiteEmail=await submit(payload);const savedBody=await savedDespiteEmail.json();await Promise.all(tasks);
+    assert.equal(savedDespiteEmail.status,200);assert.equal(savedBody.success,true);assert.equal(savedBody.openai_event_id,'dolphin_lead_123');
+    assert.equal(calls.filter(c=>c.url.startsWith('https://bzr.openai.com')).length,1);
+    failEmail=false;
     calls.length=0;const invalid=await submit({...payload,customer:{}});assert.equal(invalid.status,400);assert.equal(calls.length,0);
     failDb=true;const unsaved=await submit(payload);assert.equal((await unsaved.json()).openai_event_id,null);assert.equal(calls.filter(c=>c.url.startsWith('https://bzr.openai.com')).length,0);
   }finally{globalThis.fetch=originalFetch;console.error=originalError;}
