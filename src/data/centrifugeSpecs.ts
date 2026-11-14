@@ -1009,15 +1009,6 @@ export const models: ModelSpec[] = [
     canonicalPath: '/stainless-steel-centrifuge/',
     capacities: [
       { fluid: 'Ethanol Clarification', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on Ethanol Clarification' },
-      {
-        fluid: 'Alfa Laval rated capacity, original design duty: beer clarification',
-        kind: 'rated',
-        value: 40,
-        unit: 'US GPM',
-        assertOnPath: '/beer-wine-centrifuge/',
-        note: 'Alfa Laval design history, not a Dolphin application or suitability statement.',
-        disclaimer: NO_HUMAN_CONSUMPTION_DISCLAIMER,
-      },
     ],
     gForce: 6500,
     motorHp: 15,

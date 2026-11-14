@@ -16,7 +16,7 @@ type Deps = {
 const OFFER_URL = '/technical-data/used-alfa-laval-centrifuges.v1.json';
 const OFFER_SCHEMA = 'dolphin-used-alfa-laval-offer-v1';
 const APPLICATIONS = ['waste-oil', 'used-oil', 'diesel', 'fuel-oil', 'wvo-uco', 'lube-oil', 'hydraulic-oil', 'biodiesel',
-  'machine-coolant', 'wastewater', 'crude-oil', 'beer-wine', 'food'];
+  'machine-coolant', 'wastewater', 'crude-oil', 'food'];
 const FAMILIES = ['whpx', 'mopx', 'mapx', 'mab', 'wspx', 'nx', 'food'];
 const PAGE_SIZE = 3;
 
