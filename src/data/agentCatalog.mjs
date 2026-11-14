@@ -1,5 +1,6 @@
 import { technicalCatalog as oemCatalog, US_GPM_DIVISOR } from './centrifugeTechnicalRegistry.mjs';
-import { models as publishedModels, SPEC_SOURCE_REVIEWED } from './centrifugeSpecs.ts';
+import { SPEC_SOURCE_REVIEWED } from './centrifugeSpecs.ts';
+import { publicModels as publishedModels } from './publicSpecs.mjs';
 import { configurationSources, machineConfigurations } from './machineConfigurations.mjs';
 
 const SITE = 'https://dolphincentrifuge.com';
@@ -108,7 +109,6 @@ const models = ids.map(id => {
   return {...record,
     aliases: [...new Set([...(record.aliases ?? []), ...(published?.aliases ?? []), ...(published?.modelType ? [published.modelType] : [])])],
     ...(published ? {family: published.family, publishedSpecificationRecord: `${SITE}/specs.json`,
-      unpublishedFields: published.tbd ? published.notes : [],
       // A module is never a unique installed machine configuration.
       configurationStatus: commercial ? 'select-exact-base-machine-and-package' : 'published-model-configuration'} : {}),
     specifications: specifications(published, oem?.specifications),

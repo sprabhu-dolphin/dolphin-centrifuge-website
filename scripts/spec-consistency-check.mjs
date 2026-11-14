@@ -5,9 +5,11 @@
  * Runs after `astro build` (see the `build` script in package.json) and FAILS the
  * build if the rendered site contradicts the authoritative spec source.
  *
- * It reads the freshly built `dist/specs.json` - the same data every refactored
+ * It reads `src/data/centrifugeSpecs.ts` directly - the same data every refactored
  * spec table renders from - so the guard and the pages can never disagree about
- * what the right answer is.
+ * what the right answer is. It reads the source, not `dist/specs.json`, because
+ * the rejected values and guard switches it needs are internal and are not
+ * published.
  *
  * Two checks:
  *
@@ -27,11 +29,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
-const SPECS = path.join(DIST, 'specs.json');
+const SPECS_SOURCE = path.join(ROOT, 'src', 'data', 'centrifugeSpecs.ts');
 
 /** How far from a model mention a forbidden value still counts as "near it". */
 const PROXIMITY_CHARS = 320;
@@ -119,19 +121,15 @@ function routeToFile(route) {
 
 /* ------------------------------------------------------------- load inputs */
 
-if (!fs.existsSync(SPECS)) {
-  fail(`dist/specs.json is missing. Run the Astro build before this check.`);
+if (!fs.existsSync(DIST)) {
+  fail(`dist is missing. Run the Astro build before this check.`);
 }
 
-let specs;
-try {
-  specs = JSON.parse(fs.readFileSync(SPECS, 'utf8'));
-} catch (error) {
-  fail(`dist/specs.json is not valid JSON: ${error.message}`);
-}
-
-const { models = [], retiredDesignations = [] } = specs;
-if (!models.length) fail('dist/specs.json contains no models.');
+// The internal source, not dist/specs.json: rejectedValues, skipPageAssert and the
+// retired-designation exemptions are internal working fields that the public
+// specs.json no longer carries (see src/data/publicSpecs.mjs).
+const { models = [], retiredDesignations = [] } = await import(pathToFileURL(SPECS_SOURCE).href);
+if (!models.length) fail('src/data/centrifugeSpecs.ts contains no models.');
 
 const pages = [];
 (function walk(dir) {

@@ -1,7 +1,9 @@
 // Pure tool logic for the Dolphin MCP server. Data is bundled at build time from
 // the same source files the website renders, so the server can never disagree
 // with the published pages.
-import { models, disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSpecs.ts';
+import { disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSpecs.ts';
+// Public view only: internal ruling notes and rejected values never reach a tool answer.
+import { publicModels as models } from '../../../src/data/publicSpecs.mjs';
 import { stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
 
 export const SITE = 'https://dolphincentrifuge.com';

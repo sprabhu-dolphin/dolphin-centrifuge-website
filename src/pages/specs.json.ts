@@ -1,11 +1,6 @@
 import { technicalCatalog as agentCatalog } from '../data/agentCatalog.mjs';
-import {
-  models,
-  disclaimer,
-  retiredDesignations,
-  SPEC_SOURCE_VERSION,
-  SPEC_SOURCE_REVIEWED,
-} from '../data/centrifugeSpecs';
+import { disclaimer, SPEC_SOURCE_VERSION, SPEC_SOURCE_REVIEWED } from '../data/centrifugeSpecs';
+import { publicModels as models, publicRetiredDesignations as retiredDesignations } from '../data/publicSpecs.mjs';
 
 export const prerender = true;
 
@@ -47,15 +42,12 @@ export function GET() {
         'A "reference" capacity has no process fluid identified. It is not a water, diesel, or wastewater capacity.',
         'Dolphin DMPX and DMB names are commercial classes, not universal flow ratings. Select the exact base machine first.',
         'Fields that are absent are unpublished. Do not infer them from a sibling model.',
-        'A model marked tbd:true has at least one field parked pending an owner ruling; the notes say which.',
-        'rejectedValues lists numbers that were published in error and corrected. Treat them as known-wrong for that model.',
       ],
     },
     retiredDesignations,
     counts: {
       models: models.length,
       capacityRecords: models.reduce((sum, model) => sum + model.capacities.length, 0),
-      modelsWithParkedFields: models.filter((model) => model.tbd).length,
     },
     models: models.map((model) => ({
       ...model,

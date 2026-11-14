@@ -78,9 +78,12 @@ export interface Capacity {
    * `canonicalPath`. The build guard asserts the value against this page instead.
    */
   assertOnPath?: string;
-  /** Worksheet ruling id (A1, E21, ...) or registry provenance. */
+  /** Worksheet ruling id (A1, E21, ...) or registry provenance. Internal: never published. */
   ruling?: string;
+  /** Public qualification published with the capacity. */
   note?: string;
+  /** Internal working note (parked items, ruling history). Never published; see publicSpecs.mjs. */
+  internalNote?: string;
 }
 
 export interface Dimension {
@@ -158,6 +161,11 @@ export interface ModelSpec {
   separationType?: string;
   wettedParts?: string;
 
+  /*
+   * INTERNAL working fields below (tbd, notes, rulings, rejectedValues,
+   * skipPageAssert). The build guard reads them from this file; no public
+   * surface may emit them. Public outputs go through `publicSpecs.mjs`.
+   */
   /** Parked items: what is missing and why. Present means at least one field is unresolved. */
   tbd?: boolean;
   notes?: string[];
@@ -580,12 +588,12 @@ export const models: ModelSpec[] = [
     canonicalPath: '/disc-stack-centrifuge-rental/',
     capacities: [
       {
-        fluid: 'Fluid not stated in the ruling',
+        fluid: 'Fluid not specified',
         kind: 'rated',
         value: 42,
         unit: 'US GPM',
         ruling: 'A20',
-        note: 'PARKED: A20 ruled the number 42 GPM but did not attach a fluid. Until a fluid is ruled, publish it only as the rental machine size and never as a diesel or water capacity.',
+        internalNote: 'PARKED: A20 ruled the number 42 GPM but did not attach a fluid. Until a fluid is ruled, publish it only as the rental machine size and never as a diesel or water capacity.',
       },
     ],
     bowlType: 'Automatic self-cleaning',
@@ -1441,7 +1449,7 @@ export const models: ModelSpec[] = [
         value: 15,
         unit: 'US GPM',
         ruling: 'A18',
-        note: 'A18: the DMPX-014 owns the 15 GPM WVO rail figure, not the DMPX-028.',
+        internalNote: 'A18: the DMPX-014 owns the 15 GPM WVO rail figure, not the DMPX-028.',
       },
     ],
     motorHp: 5,

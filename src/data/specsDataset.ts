@@ -11,6 +11,7 @@
  */
 import { models, SPEC_SOURCE_REVIEWED, type Capacity, type Dimension, type ModelSpec, type Numeric } from './centrifugeSpecs';
 import { stockList } from './stockList.mjs';
+import { publicCapacity, publicModel } from './publicSpecs.mjs';
 
 const SITE = 'https://dolphincentrifuge.com';
 export const SPECS_DATASET_JSON_PATH = '/technical-data/alfa-laval-centrifuge-specs.v1.json';
@@ -54,10 +55,13 @@ const BASIS: Record<Capacity['kind'], string> = {
   reference: 'OEM rated reference, fluid not specified; not an application capacity',
 };
 
-function capacityRecord(c: Capacity, m: ModelSpec) {
+/** `source` is the internal record (its provenance picks the source label); everything emitted comes from the public view. */
+function capacityRecord(source: Capacity, m: ModelSpec) {
+  const c = publicCapacity(source) as Capacity;
+  const origin = capacitySource(source, m);
   const conditions = c.conditions ?? null;
   const gpm = c.derivedGpm !== undefined ? ` (${numText(c.derivedGpm)} US GPM derived)` : '';
-  const text = `${numText(c.value)} ${c.unit}${gpm} on ${c.fluid} (conditions: ${conditions ?? 'not stated in source'}) [${BASIS[c.kind]}; ${capacitySource(c, m)}]`;
+  const text = `${numText(c.value)} ${c.unit}${gpm} on ${c.fluid} (conditions: ${conditions ?? 'not stated in source'}) [${BASIS[c.kind]}; ${origin}]`;
   return {
     fluid: c.fluid,
     conditions,
@@ -65,7 +69,7 @@ function capacityRecord(c: Capacity, m: ModelSpec) {
     value: num(c.value),
     unit: c.unit,
     derivedUsGpm: num(c.derivedGpm),
-    source: capacitySource(c, m),
+    source: origin,
     ...(c.note ? { note: c.note } : {}),
     text,
   };
@@ -109,8 +113,9 @@ function series(m: ModelSpec): string {
 
 const NOT_AN_APPLICATION = /not specified|not stated|process duty/i;
 
-function modelRow(m: ModelSpec) {
-  const capacities = m.capacities.map((c) => capacityRecord(c, m));
+function modelRow(source: ModelSpec) {
+  const m = publicModel(source) as ModelSpec;
+  const capacities = source.capacities.map((c) => capacityRecord(c, m));
   const sources = [...new Set(capacities.map((c) => c.source))];
   const hp = m.motorHp;
   return {
