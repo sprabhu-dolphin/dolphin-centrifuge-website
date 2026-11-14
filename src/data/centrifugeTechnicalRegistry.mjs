@@ -349,7 +349,7 @@ const knownSpecs = {
     voltage: { values: [230, 460], unit: 'V', alternatives: ['110 V single-phase'], ...specSource('/alfa-laval-mab-104-centrifuge/') },
     dimensions: { width: 30, length: 38, height: 43, unit: 'in', scope: 'bare centrifuge', ...specSource('/alfa-laval-mab-104-centrifuge/') },
     bowlSpeed: { value: 7500, unit: 'RPM', ...specSource('/alfa-laval-mab-104-centrifuge/') },
-    sludgeSpace: { value: 0.25, unit: 'US gal', ...specSource('/alfa-laval-mab-104-centrifuge/') },
+    sludgeSpace: { value: 0.33, unit: 'US gal', ...specSource('/alfa-laval-mab-104-centrifuge/') },
     materialsOfConstruction: materialSet('/alfa-laval-mab-104-centrifuge/#material-of-construction'),
   },
 };
@@ -357,7 +357,7 @@ const knownSpecs = {
 const mabLargeSpecs = {
   'MAB 204': { motor: 4, sludge: 0.40 },
   'MAB 205': { motor: 5, sludge: 0.48 },
-  'MAB 206': { motor: 7.5, sludge: 0.88 },
+  'MAB 206': { motor: 7.5, sludge: 0.91 },
   'MAB 207': { motor: 10, sludge: 1.10 },
   'MAB 209': { motor: 15, sludge: 2.00 },
 };
