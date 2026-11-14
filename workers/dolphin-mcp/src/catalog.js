@@ -43,6 +43,9 @@ export function capacityText(c) {
   return `${s} [${kind}]`;
 }
 
+/** Fluids a model is offered for. Alfa Laval design history (carries a disclaimer) is not one. */
+const applicationFluids = (m) => m.capacities.filter((c) => !c.disclaimer).map((c) => c.fluid);
+
 function publicCapacity(c) {
   return {
     fluid: c.fluid,
@@ -52,6 +55,7 @@ function publicCapacity(c) {
     ...(c.derivedGpm !== undefined ? { derivedUsGpm: c.derivedGpm } : {}),
     conditions: c.conditions ?? 'not published beyond the fluid named',
     statement: capacityText(c),
+    ...(c.disclaimer ? { disclaimer: c.disclaimer } : {}),
   };
 }
 
@@ -103,7 +107,7 @@ function findModels(term) {
   const ws = words(term);
   return models.filter((m) => {
     const hay = [m.designation, m.modelType, m.dolphinModule, FAMILY_LABEL[m.family], m.bowlType, m.separationType,
-      m.capacityPolicy, ...(m.aliases ?? []), ...m.capacities.map((c) => c.fluid)].join(' ').toLowerCase();
+      m.capacityPolicy, ...(m.aliases ?? []), ...applicationFluids(m)].join(' ').toLowerCase();
     return ws.every((w) => hay.includes(w));
   });
 }
@@ -151,7 +155,7 @@ export function listCentrifugeModels({ type, application } = {}) {
   if (application) {
     const ws = words(application);
     list = list.filter((m) => {
-      const hay = [m.separationType, m.bowlType, m.capacityPolicy, ...(m.aliases ?? []), ...m.capacities.map((c) => c.fluid)]
+      const hay = [m.separationType, m.bowlType, m.capacityPolicy, ...(m.aliases ?? []), ...applicationFluids(m)]
         .join(' ').toLowerCase();
       return ws.some((w) => w.length > 2 && hay.includes(w));
     });

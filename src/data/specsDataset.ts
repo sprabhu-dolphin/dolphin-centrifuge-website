@@ -43,6 +43,7 @@ const dimText = (d: Dimension | undefined) => {
 /** Where a capacity figure comes from. */
 function capacitySource(c: Capacity, m: ModelSpec): string {
   if (c.ruling?.startsWith('technical registry')) return 'Alfa Laval published data';
+  if (c.disclaimer) return 'Alfa Laval design history, not a Dolphin application';
   if (c.kind === 'actual') return 'Dolphin measured';
   if (m.manufacturer === 'Dolphin Centrifuge') return 'Dolphin published module rating';
   return 'Dolphin published rating';
@@ -61,7 +62,7 @@ function capacityRecord(source: Capacity, m: ModelSpec) {
   const origin = capacitySource(source, m);
   const conditions = c.conditions ?? null;
   const gpm = c.derivedGpm !== undefined ? ` (${numText(c.derivedGpm)} US GPM derived)` : '';
-  const text = `${numText(c.value)} ${c.unit}${gpm} on ${c.fluid} (conditions: ${conditions ?? 'not stated in source'}) [${BASIS[c.kind]}; ${origin}]`;
+  const text = `${numText(c.value)} ${c.unit}${gpm} on ${c.fluid} (conditions: ${conditions ?? 'not stated in source'}) [${BASIS[c.kind]}; ${origin}]${c.disclaimer ? ` ${c.disclaimer}` : ''}`;
   return {
     fluid: c.fluid,
     conditions,
@@ -71,6 +72,7 @@ function capacityRecord(source: Capacity, m: ModelSpec) {
     derivedUsGpm: num(c.derivedGpm),
     source: origin,
     ...(c.note ? { note: c.note } : {}),
+    ...(c.disclaimer ? { disclaimer: c.disclaimer } : {}),
     text,
   };
 }
@@ -143,7 +145,7 @@ function modelRow(source: ModelSpec) {
     wettedParts: m.wettedParts ?? null,
     voltages: m.voltages ?? null,
     dolphinModule: m.dolphinModule ?? null,
-    typicalApplications: [...new Set(m.capacities.filter((c) => c.kind !== 'reference' && !NOT_AN_APPLICATION.test(c.fluid)).map((c) => c.fluid))],
+    typicalApplications: [...new Set(m.capacities.filter((c) => c.kind !== 'reference' && !c.disclaimer && !NOT_AN_APPLICATION.test(c.fluid)).map((c) => c.fluid))],
     dolphinPageUrl: m.canonicalPath ? `${SITE}${m.canonicalPath}` : null,
     dolphinStock: dolphinStock(m),
     source: sources.length ? sources.join('; ') : 'Dolphin spec source (no capacity published)',

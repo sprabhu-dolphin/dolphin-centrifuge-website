@@ -82,6 +82,11 @@ export interface Capacity {
   ruling?: string;
   /** Public qualification published with the capacity. */
   note?: string;
+  /**
+   * Public. Set on a capacity that is Alfa Laval design history for a food,
+   * beverage or other human-consumption duty. Always NO_HUMAN_CONSUMPTION_DISCLAIMER.
+   */
+  disclaimer?: string;
   /** Internal working note (parked items, ruling history). Never published; see publicSpecs.mjs. */
   internalNote?: string;
 }
@@ -224,6 +229,10 @@ function fromRegistry(registryId: string): Capacity[] {
 }
 
 /* --------------------------------------------------------- shared fragments */
+
+/** Owner ruling 2026-10-13, verbatim. Carried next to any Alfa Laval food or beverage design history. */
+export const NO_HUMAN_CONSUMPTION_DISCLAIMER =
+  'Dolphin Centrifuge does not represent any centrifuge it supplies as food grade, sanitary, or suitable for food, beverage, pharmaceutical or other human-consumption use.';
 
 const CARBIDE = 'Carbide Tile or Tungsten Carbide Hard-Surfacing';
 const AUGER_1_50 = '1 ~ 50 RPM';
@@ -1000,7 +1009,15 @@ export const models: ModelSpec[] = [
     canonicalPath: '/stainless-steel-centrifuge/',
     capacities: [
       { fluid: 'Ethanol Clarification', kind: 'rated', value: 50, unit: 'US GPM', label: '50 GPM on Ethanol Clarification' },
-      { fluid: 'Beer (Alfa Laval OEM rating)', kind: 'rated', value: 40, unit: 'US GPM', assertOnPath: '/beer-wine-centrifuge/', note: 'Alfa Laval OEM rating, published on /beer-wine-centrifuge/.' },
+      {
+        fluid: 'Alfa Laval rated capacity, original design duty: beer clarification',
+        kind: 'rated',
+        value: 40,
+        unit: 'US GPM',
+        assertOnPath: '/beer-wine-centrifuge/',
+        note: 'Alfa Laval design history, not a Dolphin application or suitability statement.',
+        disclaimer: NO_HUMAN_CONSUMPTION_DISCLAIMER,
+      },
     ],
     gForce: 6500,
     motorHp: 15,
@@ -1044,7 +1061,7 @@ export const models: ModelSpec[] = [
     aliases: ['BTPX-205', 'BTPX 205 SGD-34-CDP'],
     canonicalPath: '/alfa-laval-btpx-205-biotech-centrifuge/',
     capacities: [
-      { fluid: 'Cell Broth', kind: 'rated', value: 5, unit: 'US GPM', label: '5 GPM on Cell Broth' },
+      { fluid: 'Fluid not specified (machine maximum)', kind: 'maximum', value: 5, unit: 'US GPM', label: '5 GPM maximum process capacity', internalNote: 'Was "5 GPM on Cell Broth"; recast 2026-11-14 to the machine maximum the page states (no human-consumption fluid named).' },
     ],
     bowlSpeedRpm: 9650,
     gForce: 12800,
@@ -1062,7 +1079,7 @@ export const models: ModelSpec[] = [
     aliases: ['LAPX 404'],
     canonicalPath: '/alfa-laval-lapx-404-disc-centrifuge/',
     capacities: [
-      { fluid: 'Chicken Broth / Chicken Fat Separation', kind: 'rated', value: 5, unit: 'US GPM', label: '5 GPM on Chicken Broth / Chicken Fat Separation' },
+      { fluid: 'Fluid not specified (machine maximum)', kind: 'maximum', value: 5, unit: 'US GPM', label: '5 GPM maximum process capacity', internalNote: 'Was "5 GPM on Chicken Broth / Chicken Fat Separation"; recast 2026-11-14 to the machine maximum the page states (no food fluid named).' },
     ],
     bowlSpeedRpm: 8200,
     gForce: 8000,
@@ -1073,7 +1090,7 @@ export const models: ModelSpec[] = [
     rulings: ['D4'],
     notes: [
       'D4: the Clara 20 spec heading names LAPX-404 alongside it.',
-      'The bare LAPX-404 record here (8,200 RPM, 8,000 Gs, 5 GPM chicken broth) is a different scope from the Clara 20 MODULE record (9,512 RPM, 11,130 g, 17.6 GPM high flow). Both are published; they are not alternatives to each other.',
+      'The bare LAPX-404 record here (8,200 RPM, 8,000 Gs, 5 GPM machine maximum) is a different scope from the Clara 20 MODULE record (9,512 RPM, 11,130 g, 17.6 GPM high flow). Both are published; they are not alternatives to each other.',
     ],
   },
   {

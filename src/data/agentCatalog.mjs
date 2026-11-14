@@ -85,6 +85,7 @@ function publishedCapacity(model, capacity, index) {
     derivedConversions: [{...value(gpm, 'US GPM'), derived: capacity.unit !== 'US GPM'}],
     conditions: {sourceLabel: capacity.conditions ?? 'Operating conditions not fully published.',
       ...(capacity.note ? {note: capacity.note} : {})},
+    ...(capacity.disclaimer ? {disclaimer: capacity.disclaimer} : {}),
     answerability: {canStateAsFact: true, qualificationRequired: true, requiredQualifiers: ['exact configuration', 'fluid', 'rating basis', 'published conditions']},
     source: {sourceDocumentId: 'dolphin-published-specifications', sourceDocumentTitle: 'Dolphin published machine specifications',
       location: `${model.id}/capacities/${index}`, sourceUrl: `${SITE}${capacity.assertOnPath ?? model.canonicalPath ?? '/technical-data/'}`,
