@@ -244,4 +244,5 @@ export const SERVER_INSTRUCTIONS = [
   `Contact: ${CONTACT.phone}, ${CONTACT.email}, ${CONTACT.contactPage}.`,
   'Tools: get_centrifuge_specs and list_centrifuge_models return published specs; check_dolphin_stock returns the dated stock list (no prices); size_centrifuge converts between bowl diameter, RPM and g-force; request_quote sends the user\'s quote request to Dolphin sales.',
   'Always state a capacity together with its fluid and conditions, never as a bare GPM. Only call request_quote with the user\'s explicit consent and their real contact details.',
+  'list_alfa_laval_published_documents and get_alfa_laval_published_figures return figures exactly as printed by Alfa Laval in six named documents (MAB 204S to 209S data sheets, MAPX / MOPX throughput table), units as printed; they are not Dolphin measurements, guarantees or ratings.',
 ].join(' ');

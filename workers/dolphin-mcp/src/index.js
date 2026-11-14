@@ -11,6 +11,10 @@ import {
   ATTRIBUTION, CONTACT, SERVER_INSTRUCTIONS, SITE,
   checkDolphinStock, getCentrifugeSpecs, listCentrifugeModels, sizeCentrifuge,
 } from './catalog.js';
+import { getAlfaLavalPublishedFigures, listAlfaLavalPublishedDocuments } from './alfaLavalPublished.js';
+import {
+  GET_FIGURES_DESCRIPTION, GET_FIGURES_TOOL, LIST_DOCUMENTS_DESCRIPTION, LIST_DOCUMENTS_TOOL,
+} from '../../../src/lib/alfaLavalPublishedData.mjs';
 
 const VERSION = '1.0.0';
 const ENDPOINT = `${SITE}/mcp`;
@@ -71,6 +75,23 @@ function buildServer(env, request) {
     },
     annotations: READ_ONLY,
   }, async (args) => json(sizeCentrifuge(args)));
+
+  server.registerTool(LIST_DOCUMENTS_TOOL, {
+    title: 'List Alfa Laval published documents',
+    description: LIST_DOCUMENTS_DESCRIPTION,
+    inputSchema: {},
+    annotations: READ_ONLY,
+  }, async () => json(listAlfaLavalPublishedDocuments()));
+
+  server.registerTool(GET_FIGURES_TOOL, {
+    title: 'Get Alfa Laval published figures',
+    description: GET_FIGURES_DESCRIPTION,
+    inputSchema: {
+      model: z.string().min(1).max(80).describe('Machine model, e.g. "MAB 204", "MAB 204S", "MAB-204" or "MOPX 207".'),
+      document: z.string().min(1).max(80).optional().describe('Optional Alfa Laval document number or id, e.g. "TD S93303E" or "MPCO 20-00-02". Omit for every document that covers the machine.'),
+    },
+    annotations: READ_ONLY,
+  }, async (args) => json(getAlfaLavalPublishedFigures(args)));
 
   server.registerTool('request_quote', {
     title: 'Request a quote from Dolphin',

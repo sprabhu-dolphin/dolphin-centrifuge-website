@@ -40,9 +40,11 @@ test('partial registration failures recover without duplicate registrations', as
     if (tool.name === 'get_centrifuge_capacity' && n === 1) throw Error('temporary failure');
   });
   assert.equal(await h.context.runtime.registerDolphinWebMcpTools(), true);
-  assert.equal(h.tools.size, 7);
+  assert.equal(h.tools.size, 9);
   assert.ok(h.tools.has('find_used_alfa_laval_centrifuges'));
   assert.ok(h.tools.has('find_alfa_laval_centrifuges_in_stock'));
+  assert.ok(h.tools.has('list_alfa_laval_published_documents'));
+  assert.ok(h.tools.has('get_alfa_laval_published_figures'));
   assert.ok(!h.tools.has('prepare_used_alfa_laval_quote'), 'quote tool registers only on the page with the quote form');
   assert.equal(attempts.get('get_centrifuge_capacity'), 2);
   assert.equal(attempts.get('find_centrifuge_models'), 1);
@@ -274,7 +276,7 @@ test('quote tool exists only with the form, fills every visible field and never 
   const page = fakeQuotePage({token: 'turnstile-token'});
   const h = await harness(undefined, page.fetcher, page.documentExtras, page.globals);
   const quote = h.tools.get('prepare_used_alfa_laval_quote');
-  assert.equal(h.tools.size, 8);
+  assert.equal(h.tools.size, 10);
   assert.ok(!h.tools.has('request_used_alfa_laval_quote'));
   assert.equal(quote.annotations.consequentialHint, false);
   assert.equal(quote.annotations.readOnlyHint, false);
@@ -300,4 +302,105 @@ test('quote tool exists only with the form, fills every visible field and never 
   assert.equal((await quote.execute({...agentQuote, url: 'https://example.com'})).status, 'invalid_input');
   assert.equal((await quote.execute({...agentQuote, preferredContact: 'fax'})).status, 'invalid_input');
   assert.equal((await quote.execute('not json')).status, 'invalid_input');
+});
+
+const alfaLavalData = JSON.parse(await readFile('src/data/alfa-laval-published-data.v1.json', 'utf8'));
+const alfaLavalFetch = async (url) => ({ok: true, json: async () => (String(url).includes('alfa-laval-published-data') ? alfaLavalData : technicalCatalog)});
+const FORBIDDEN_OUTPUT = /\\|\.pdf|scan|unverified|confirmed|handwritten|food|beverage|dairy|sanitary/i;
+const textsOf = (value, out = []) => {
+  if (typeof value === 'string') out.push(value);
+  else if (Array.isArray(value)) value.forEach(item => textsOf(item, out));
+  else if (value && typeof value === 'object') for (const [key, item] of Object.entries(value)) { out.push(key); textsOf(item, out); }
+  return out;
+};
+const assertCleanOutput = (value, label) => { for (const text of textsOf(value)) assert.doesNotMatch(text, FORBIDDEN_OUTPUT, `${label}: ${text}`); };
+
+/** Reads every page; each page names the Alfa Laval document number and date. */
+async function allFigureSections(tool, input) {
+  const sections = [];
+  let offset = 0;
+  let first;
+  do {
+    const page = await tool.execute({...input, offset});
+    assert.equal(page.status, 'ok', input.model);
+    first ??= page;
+    for (const doc of page.data.documents) {
+      assert.ok('documentNumber' in doc && 'documentDate' in doc && doc.source.startsWith('Alfa Laval, '));
+      for (const section of doc.sections) sections.push({doc, section});
+    }
+    assertCleanOutput(page, input.model);
+    offset = page.page.nextOffset;
+  } while (offset !== null);
+  return {first, sections};
+}
+
+test('Alfa Laval published figures: tools register, accept typed models and return printed values unchanged', async () => {
+  const h = await harness(undefined, alfaLavalFetch);
+  const list = h.tools.get('list_alfa_laval_published_documents');
+  const get = h.tools.get('get_alfa_laval_published_figures');
+  for (const tool of [list, get]) {
+    assert.equal(tool.annotations.readOnlyHint, true);
+    assert.equal(tool.annotations.consequentialHint, false);
+    assert.match(tool.description, /as printed by Alfa Laval in the named document, units as printed, not Dolphin measurements, guarantees or ratings; nothing is converted or calculated/);
+    assertCleanOutput(tool.description, tool.name);
+  }
+  assert.deepEqual([...get.inputSchema.required], ['model']);
+
+  const docs = await list.execute({});
+  assert.equal(docs.status, 'ok');
+  assert.equal(docs.schemaVersion, 'dolphin.alfa-laval-published-data.v1');
+  assert.deepEqual([...docs.data.documents].map(doc => [doc.documentNumber, doc.documentDate]), alfaLavalData.documents.map(doc => [doc.document_number, doc.document_date]));
+  assert.deepEqual([...docs.data.documents[0].machines], ['MAB 204']);
+  assertCleanOutput(docs, 'list');
+
+  for (const machine of alfaLavalData.machines) {
+    const forms = [machine.name, machine.model_label, machine.name.replace(' ', '-'), machine.name.toLowerCase()];
+    if (machine.printed_type) forms.push(machine.printed_type, machine.printed_type.toLowerCase());
+    for (const model of forms) {
+      const {first, sections} = await allFigureSections(get, {model});
+      assert.equal(first.data.machine.model, machine.name, model);
+      assert.equal(first.data.basis, alfaLavalData.basis);
+      const source = machine.documents.flatMap(doc => doc.sections.map(section => ({doc, section})));
+      assert.equal(sections.length, source.length, model);
+      source.forEach(({doc, section}, i) => {
+        const got = sections[i];
+        assert.equal(got.doc.documentNumber, doc.document_number);
+        assert.equal(got.doc.documentDate, doc.document_date);
+        assert.equal(got.section.heading, section.heading);
+        assert.deepEqual(got.section.columns, section.columns);
+        assert.deepEqual(got.section.units, section.units);
+        assert.equal(got.section.withheld, section.withheld);
+        section.rows.forEach((row, r) => {
+          assert.equal(got.section.rows[r].row, row.row);
+          for (const [column, value] of Object.entries(row.values)) {
+            assert.equal(got.section.rows[r].values[column], value === null ? 'not offered' : value, `${model} ${row.row} ${column}`);
+          }
+        });
+      });
+    }
+  }
+
+  const mab205 = await allFigureSections(get, {model: 'mab 205s'});
+  const solids = mab205.sections.find(({section}) => section.heading === 'Solids space').section;
+  assert.equal(solids.withheld, 1);
+  assert.equal(solids.rows[0].values.dm3, 'not offered');
+  assert.deepEqual([...solids.rows[0].notOffered], ['dm3']);
+  const mab207 = await allFigureSections(get, {model: 'MAB 207S'});
+  const insulating = mab207.sections[0].section.rows.find(row => row.row === 'Insulating oil');
+  assert.equal(insulating.values['U.K.gal/h'], 'not offered');
+  assert.notEqual(insulating.values['l/h'], 'not offered');
+
+  const unknown = await get.execute({model: 'WHPX 513'});
+  assert.equal(unknown.status, 'not_found');
+  assert.equal(unknown.data.coveredMachines.length, 11);
+  assert.match(unknown.warnings[0], /^No Alfa Laval published figures for "WHPX 513"\. Covered machines: MAB 204, /);
+  assert.deepEqual([...unknown.sources], []);
+  assertCleanOutput(unknown, 'unknown');
+  assert.equal((await get.execute({model: 'MOPX 207', document: 'TD S93303E'})).status, 'not_found');
+  assert.equal((await get.execute(JSON.stringify({model: 'MOPX207', document: 'MPCO 20-00-02'}))).status, 'ok');
+  for (const input of [{}, {model: ' '}, {model: 'MAB 204', extra: 1}, {model: 'MAB 204', offset: 99}]) {
+    assert.equal((await get.execute(input)).status, 'invalid_input');
+  }
+  const down = await harness(undefined, async () => ({ok: false}));
+  assert.equal((await down.tools.get('get_alfa_laval_published_figures').execute({model: 'MAB 204'})).status, 'unavailable');
 });

@@ -129,7 +129,8 @@ export const technicalCatalog = {
   ],
   agentInterface: {...oemCatalog.agentInterface,
     webMcp: {...oemCatalog.agentInterface.webMcp,
-      tools: [...oemCatalog.agentInterface.webMcp.tools, 'select_centrifuge_candidates', 'find_used_alfa_laval_centrifuges', 'find_alfa_laval_centrifuges_in_stock'],
+      tools: [...oemCatalog.agentInterface.webMcp.tools, 'select_centrifuge_candidates', 'find_used_alfa_laval_centrifuges', 'find_alfa_laval_centrifuges_in_stock',
+        'list_alfa_laval_published_documents', 'get_alfa_laval_published_figures'],
       pageTools: {
         prepare_centrifuge_inquiry: `${SITE}/contact-for-alfa-laval-centrifuges/`,
         prepare_used_alfa_laval_quote: `${SITE}/used-alfa-laval-centrifuges-for-sale/`,

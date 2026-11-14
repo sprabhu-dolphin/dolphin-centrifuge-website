@@ -17,6 +17,10 @@ const calls = [
   ['list_centrifuge_models', { type: 'decanter' }],
   ['check_dolphin_stock', {}],
   ['size_centrifuge', { bowl_diameter_m: 0.4064, rpm: 6000 }],
+  ['list_alfa_laval_published_documents', {}],
+  ['get_alfa_laval_published_figures', { model: 'MAB 204' }],
+  ['get_alfa_laval_published_figures', { model: 'MOPX 207' }],
+  ['get_alfa_laval_published_figures', { model: 'WHPX 999' }],
 ];
 for (const [name, args] of calls) {
   const res = await client.callTool({ name, arguments: args });
