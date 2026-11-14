@@ -93,6 +93,19 @@ function publishedCapacity(model, capacity, index) {
   };
 }
 
+/** Registry identity of a capacity: fluid, source value and unit. A published capacity imported from the registry matches its row. */
+const capacityKey = (fluid, number, unit) => `${fluid}|${JSON.stringify(number)}|${unit}`;
+const sourceNumber = (source) => source.value ?? [source.minimum, source.maximum];
+
+/** Published capacities that are not registry rows, as catalog capacity records. */
+function publishedOnlyCapacities(published, registryCapacities) {
+  const registry = new Set(registryCapacities.map(c => capacityKey(c.fluid.name, sourceNumber(c.sourceValue), c.sourceValue.unit)));
+  return published.capacities
+    .map((capacity, index) => [capacity, index])
+    .filter(([capacity]) => !registry.has(capacityKey(capacity.fluid, capacity.value, capacity.unit)))
+    .map(([capacity, index]) => publishedCapacity(published, capacity, index));
+}
+
 const ids = [...new Set([...oemById.keys(), ...publishedById.keys()])];
 const models = ids.map(id => {
   const oem = oemById.get(id);
@@ -105,9 +118,10 @@ const models = ids.map(id => {
     aliases: [published.designation, ...(published.aliases ?? []), ...(published.modelType ? [published.modelType] : [])],
     canonicalPage: `${SITE}${published.canonicalPath ?? '/technical-data/'}`,
     machineReadableRecord: `${SITE}/technical-data/${id}.json`,
-    capacities: commercial ? [] : published.capacities.map((capacity, index) => publishedCapacity(published, capacity, index)),
+    capacities: [],
   };
   return {...record,
+    capacities: published ? [...record.capacities, ...publishedOnlyCapacities(published, record.capacities)] : record.capacities,
     aliases: [...new Set([...(record.aliases ?? []), ...(published?.aliases ?? []), ...(published?.modelType ? [published.modelType] : [])])],
     ...(published ? {family: published.family, publishedSpecificationRecord: `${SITE}/specs.json`,
       // A module is never a unique installed machine configuration.
@@ -116,6 +130,62 @@ const models = ids.map(id => {
     configurations: machineConfigurations(id),
   };
 });
+
+const catalogById = new Map(models.map(model => [model.id, model]));
+const sitePath = url => (url?.startsWith(SITE) ? url.slice(SITE.length) : undefined);
+const plainNumber = record => (!record ? undefined : record.value !== undefined ? record.value
+  : record.minimum !== undefined ? [record.minimum, record.maximum] : record.publishedNominalDrive?.value);
+
+/** A registry capacity row in the public spec shape (the same mapping centrifugeSpecs.ts uses for imported rows). */
+function publicCapacityFromRecord(capacity) {
+  const gpm = capacity.derivedConversions?.find(item => item.unit === 'US GPM');
+  return {
+    fluid: capacity.fluid.name,
+    kind: capacity.ratingBasis === 'oem-rated-reference' ? 'reference' : 'rated',
+    value: sourceNumber(capacity.sourceValue),
+    unit: capacity.sourceValue.unit,
+    ...(gpm ? {derivedGpm: sourceNumber(gpm)} : {}),
+    ...(capacity.conditions?.sourceLabel ? {conditions: capacity.conditions.sourceLabel} : {}),
+  };
+}
+
+/** A catalog-only record (registry OEM machine or Dolphin commercial class) in the public spec shape. */
+function publicRecordFromCatalog(model) {
+  const specs = model.specifications ?? {};
+  const commercial = model.recordType === 'dolphin-commercial-class';
+  const designation = model.displayName.replace(/^(Alfa Laval|Dolphin) /, '');
+  const bases = (model.baseMachineVariantIds ?? []).map(id => catalogById.get(id)?.displayName.replace(/^Alfa Laval /, '') ?? id);
+  const out = {
+    id: model.id,
+    designation,
+    manufacturer: model.manufacturer,
+    family: model.family ?? 'disc-stack',
+    ...(commercial ? {dolphinModule: designation} : {}),
+    aliases: (model.aliases ?? []).filter(alias => alias !== designation && alias !== model.id),
+    canonicalPath: sitePath(model.canonicalPage),
+    capacities: model.capacities.map(publicCapacityFromRecord),
+  };
+  if (commercial && !out.capacities.length) {
+    out.capacityPolicy = `Commercial class: capacity belongs to the exact Alfa Laval base machine (${bases.join(', ')}). Query that model.`;
+  }
+  for (const [field, key] of [['motorHp', 'motorPower'], ['bowlSpeedRpm', 'bowlSpeed'], ['sludgeVolumeGal', 'sludgeSpace'], ['netWeightLb', 'netWeight'], ['gForce', 'gForce']]) {
+    const number = plainNumber(specs[key]);
+    if (number !== undefined) out[field] = number;
+  }
+  if (specs.cleaningMethod?.value) out.bowlType = specs.cleaningMethod.value;
+  if (specs.separationType?.value) out.separationType = specs.separationType.value;
+  return out;
+}
+
+/**
+ * One dataset for both agent systems: every model in this catalog, in the public spec shape.
+ * Published models are the public view itself; catalog-only models come from their catalog record.
+ * The /mcp Worker answers from this list, so it covers exactly the models the in-page tools cover.
+ */
+export const agentModels = Object.freeze([
+  ...publishedModels,
+  ...models.filter(model => !publishedById.has(model.id)).map(publicRecordFromCatalog),
+]);
 
 export const technicalCatalog = {
   ...oemCatalog,

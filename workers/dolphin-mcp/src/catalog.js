@@ -2,8 +2,9 @@
 // the same source files the website renders, so the server can never disagree
 // with the published pages.
 import { disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSpecs.ts';
-// Public view only: internal ruling notes and rejected values never reach a tool answer.
-import { publicModels as models } from '../../../src/data/publicSpecs.mjs';
+// One dataset with the in-page WebMCP catalog: the public view plus the catalog-only models.
+// Internal ruling notes and rejected values never reach a tool answer.
+import { agentModels as models } from '../../../src/data/agentCatalog.mjs';
 import { stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
 
 export const SITE = 'https://dolphincentrifuge.com';
@@ -98,6 +99,11 @@ function findModels(term) {
   const q = norm(term);
   if (!q) return [];
   const named = models.filter((m) => [m.id, m.designation, m.modelType, ...(m.aliases ?? [])].filter(Boolean).map(norm).includes(q));
+  // A commercial class with no capacity of its own also returns its base machine(s) that carry the module name.
+  if (named.length && named.every((m) => !m.capacities.length)) {
+    const modules = new Set(named.map((m) => norm(m.dolphinModule)).filter(Boolean));
+    return [...named, ...models.filter((m) => !named.includes(m) && modules.has(norm(m.dolphinModule)))];
+  }
   if (named.length) return named;
   const exact = models.filter((m) => modelKeys(m).includes(q));
   if (exact.length) return exact;
