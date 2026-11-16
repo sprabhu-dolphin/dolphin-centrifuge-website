@@ -1,8 +1,9 @@
 // Owner ruling 2026-10-13: no food or human-consumption claim ever leaves Dolphin.
+// Owner ruling 2026-11-16: "Remove all 'Food' 'Beverage' and any other liability openers."
 // Agent tools (WebMCP and the /mcp Worker) call this before matching a free-text
 // fluid, application or query. A request that names a food, beverage, dairy,
-// edible-oil, pharmaceutical or other human-consumption duty gets no machine, no
-// capacity and no price: only the verbatim disclaimer. Waste streams (food-industry
+// edible-oil, biotech, fermentation, pharmaceutical or other human-consumption
+// duty gets no machine, no capacity and no price: only the verbatim disclaimer. Waste streams (food-industry
 // wastewater, used cooking oil, rendering, food waste) are allowed and pass.
 // This module has no imports on purpose: it is bundled into the browser WebMCP
 // script, which must never carry the spec file's internal notes.
@@ -18,6 +19,7 @@ const HUMAN_CONSUMPTION = new RegExp(String.raw`\b(?:${[
   'vegetable oil', 'cooking oil', 'olive oil', 'palm oil', 'soy(?:bean)? oil', 'canola', 'rapeseed oil', 'sunflower oil',
   'sugar', 'syrup', 'starch', 'gelatine?', 'broth', 'soup', 'sauce', 'surimi', 'seafood',
   'pharma(?:ceuticals?)?', 'drugs?', 'vaccines?', 'nutraceuticals?', 'dietary supplements?',
+  'bio-?tech(?:nology|nological)?', 'cell harvest(?:ing)?', 'cell broth', 'ferment(?:ation|ed|ing)?',
   'sanitary', 'hygienic', 'fda', 'usda', '3-a',
 ].join('|')})\b`, 'i');
 

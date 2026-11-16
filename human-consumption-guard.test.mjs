@@ -8,10 +8,14 @@ import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from './sr
 import { getCentrifugeSpecs, listCentrifugeModels } from './workers/dolphin-mcp/src/catalog.js';
 
 const FOOD_REQUESTS = ['food', 'Food grade', 'juice', 'beer', 'wine', 'milk', 'dairy', 'edible oil', 'olive oil',
-  'vegetable oil', 'cooking oil', 'beverage', 'pharmaceutical', 'drinking water', 'sugar syrup'];
-const INDUSTRIAL = ['waste oil', 'used oil', 'used cooking oil', 'waste vegetable oil', 'WVO', 'UCO',
-  'food-industry wastewater', 'food processing wastewater', 'food waste', 'rendering', 'diesel', 'lube oil',
-  'steam turbine oil', 'machine coolant', 'crude oil tank bottoms', 'biodiesel', 'MOPX 207', 'stainless'];
+  'vegetable oil', 'cooking oil', 'beverage', 'pharmaceutical', 'drinking water', 'sugar syrup', 'brewery',
+  'biotech', 'biotechnology', 'cell harvesting', 'fermentation broth'];
+const INDUSTRIAL = ['waste oil', 'used oil', 'used cooking oil', 'waste vegetable oil', 'WVO', 'UCO', 'yellow grease',
+  'grease trap', 'food-industry wastewater', 'food processing wastewater', 'food waste', 'rendering', 'rendering fat',
+  'fish oil', 'fish meal', 'diesel', 'lube oil', 'steam turbine oil', 'machine coolant', 'crude oil tank bottoms',
+  'biodiesel', 'MOPX 207', 'BTPX 205', 'BRPX 313', 'stainless', '316L stainless steel'];
+// Owner ruling 2026-11-16: no agent-facing key, label, description or value names these uses.
+const LIABILITY_WORDS = /food|beverage|edible|dairy|brew|beer|wine|juice|bio-?tech|cell harvest|ferment|pharma|sanitary|hygien/i;
 
 test('guard flags human-consumption duties and lets industrial and waste streams through', () => {
   for (const text of FOOD_REQUESTS) assert.equal(isHumanConsumptionRequest(text), true, text);
@@ -33,7 +37,22 @@ test('used-offer data carries no food key or food route', () => {
   assert.ok(!keys.some((k) => /food/i.test(k)), keys.join(','));
   const record = JSON.stringify(buildUsedOfferRecord());
   assert.doesNotMatch(record, /"key":"food"|"food"/);
-  assert.ok(usedFamilies.some((f) => f.key === 'stainless' && f.type === 'Stainless steel and biotech disc stack'));
+  assert.ok(usedFamilies.some((f) => f.key === 'stainless' && f.type === 'Stainless steel disc stack'));
+  assert.ok(usedApplications.some((a) => a.key === 'stainless' && a.label === 'Stainless steel'));
+});
+
+// Page addresses are names, not claims (the pages are renamed by the page owner, with redirects).
+const withoutPagePaths = (text) => text.replace(/\/[a-z0-9-]+-centrifuge\/|\/[a-z0-9-]+\/(?=["',\s])/g, '/');
+const withoutDisclaimer = (text) => text.split(NO_HUMAN_CONSUMPTION_DISCLAIMER).join('');
+
+test('agent-facing offer and spec data name no food, beverage, biotech or pharmaceutical use', () => {
+  const offer = withoutDisclaimer(withoutPagePaths(JSON.stringify(buildUsedOfferRecord())));
+  assert.doesNotMatch(offer, LIABILITY_WORDS);
+  for (const m of agentModels) {
+    const { canonicalPath, internalNote, ...rest } = m; // eslint-disable-line no-unused-vars
+    const text = withoutDisclaimer(withoutPagePaths(JSON.stringify(rest)));
+    assert.doesNotMatch(text, LIABILITY_WORDS, m.id);
+  }
 });
 
 test('/mcp tools return no machine for a human-consumption request', () => {

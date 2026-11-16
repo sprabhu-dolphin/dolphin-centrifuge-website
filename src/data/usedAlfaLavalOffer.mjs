@@ -40,7 +40,7 @@ export const usedApplications = [
   { key: 'machine-coolant', label: 'Machine coolant', path: '/machine-coolant-centrifuge/', families: ['wspx'] },
   { key: 'wastewater', label: 'Industrial wastewater', path: '/wastewater-centrifuge/', families: ['nx', 'whpx'] },
   { key: 'crude-oil', label: 'Crude oil and tank bottoms', path: '/crude-oil-centrifuge/', families: ['nx', 'whpx'] },
-  { key: 'stainless', label: 'Stainless steel and biotech', path: '/stainless-steel-centrifuge/', families: ['stainless'] },
+  { key: 'stainless', label: 'Stainless steel', path: '/stainless-steel-centrifuge/', families: ['stainless'] },
 ];
 
 export const usedFamilies = [
@@ -95,9 +95,9 @@ export const usedFamilies = [
   {
     key: 'stainless',
     name: 'Alfa Laval BRPX, BTPX, LAPX and Clara',
-    type: 'Stainless steel and biotech disc stack',
+    type: 'Stainless steel disc stack',
     cleaning: 'self-cleaning',
-    role: 'Stainless steel disc stack clarification and biotech separation.',
+    role: 'Stainless steel disc stack clarification.',
     models: ['alfa-laval-brpx-313', 'alfa-laval-btpx-205', 'alfa-laval-lapx-404', 'alfa-laval-clara-20'].map(model),
   },
 ];

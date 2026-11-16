@@ -212,7 +212,8 @@ test('no WebMCP tool offers a food or other human-consumption route (owner rulin
   const stainless = await find.execute({application: 'stainless'});
   assert.equal(stainless.status, 'ok');
   assert.deepEqual(stainless.data.families.map(f => f.key), ['stainless']);
-  assert.doesNotMatch(JSON.stringify(stainless), /food|beverage|dairy|sanitary/i);
+  assert.equal(stainless.data.families[0].type, 'Stainless steel disc stack');
+  assert.doesNotMatch(JSON.stringify(stainless), /food|beverage|dairy|sanitary|bio-?tech|pharma|ferment/i);
 
   const NO_CLAIM = /^Dolphin Centrifuge does not represent any centrifuge it supplies as food grade/;
   const sized = await find.execute({application: 'stainless', fluid: 'edible oil', requiredFlow: 5, flowUnit: 'US GPM'});
@@ -224,6 +225,8 @@ test('no WebMCP tool offers a food or other human-consumption route (owner rulin
     ['find_centrifuge_models', {query: 'juice'}],
     ['get_centrifuge_capacity', {model: 'MOPX 207', fluid: 'beer'}],
     ['select_centrifuge_candidates', {application: 'olive oil', requiredFlow: 5, flowUnit: 'US GPM'}],
+    ['select_centrifuge_candidates', {application: 'biotech cell harvesting', requiredFlow: 5, flowUnit: 'US GPM'}],
+    ['find_centrifuge_models', {fluid: 'fermentation broth'}],
   ]) {
     const out = await h.tools.get(name).execute(input);
     assert.equal(out.status, 'no_suitability_statement', `${name} ${JSON.stringify(input)}`);
