@@ -251,7 +251,7 @@ test('every agent stock answer says the list is not the complete stock (owner ru
   const { GET } = await import('./src/pages/technical-data/stock-list.v1.json.ts');
   const { checkDolphinStock } = await import('./workers/dolphin-mcp/src/catalog.js');
   const { stockCoverage } = await import('./src/data/stockList.mjs');
-  const COVERAGE = /^This list shows machines from Dolphin's written inventory list \(sheet dated 2025-12-09, list confirmed \d{4}-\d{2}-\d{2}\)\. It is not the complete stock; Dolphin holds more machines than are listed\.$/;
+  const COVERAGE = /^This list shows machines from Dolphin's written inventory list dated 2025-12-09\. It is not the complete stock; Dolphin holds more machines than are listed\.$/;
   assert.match(stockCoverage(), COVERAGE);
 
   const record = await GET().json();
@@ -263,6 +263,21 @@ test('every agent stock answer says the list is not the complete stock (owner ru
   const out = await h.tools.get('find_alfa_laval_centrifuges_in_stock').execute({});
   assert.equal(out.data.coverage, stockCoverage(), 'WebMCP find_alfa_laval_centrifuges_in_stock');
   assert.ok(out.data.statement.includes('150+'), '150+ stays (owner ruling)');
+});
+
+test('full stock list: public fields only, complete machines, every model resolvable', async () => {
+  const { stockList, STOCK_TYPES, STOCK_CONDITIONS, validateStockList } = await import('./src/data/stockList.mjs');
+  validateStockList();
+  const PUBLIC = new Set(['family', 'model', 'type', 'condition', 'status', 'quantity', 'modelPage', 'bowlSpeedRpm', 'motorHp',
+    'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration']);
+  for (const u of stockList.units) {
+    for (const key of Object.keys(u)) assert.ok(PUBLIC.has(key), `${u.model}: ${key} is not a public field`);
+    assert.ok(STOCK_TYPES.includes(u.type) && STOCK_CONDITIONS.includes(u.condition), u.model);
+    assert.doesNotMatch(JSON.stringify(u), /serial|asset|location|cost|price|frame only|missing|food|biotech|beverage|pharma/i, u.model);
+    assert.ok(Number.isInteger(u.quantity) && u.quantity > 0, u.model);
+  }
+  assert.equal(stockList.asOf, '2025-12-09');
+  assert.ok(stockList.units.reduce((sum, u) => sum + u.quantity, 0) >= 45, 'never fewer than the October list');
 });
 
 test('stock list finder filters the dated record, accepts JSON strings and never invents units', async () => {
