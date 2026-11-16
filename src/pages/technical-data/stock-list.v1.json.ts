@@ -1,4 +1,4 @@
-import { stockList, STOCK_PAGE_PATH, validateStockList } from '../../data/stockList.mjs';
+import { stockCoverage, stockList, STOCK_PAGE_PATH, validateStockList } from '../../data/stockList.mjs';
 
 export const prerender = true;
 
@@ -9,6 +9,7 @@ export function GET() {
   const record = {
     schemaVersion: 'dolphin-stock-list-v1',
     asOf: stockList.asOf,
+    coverage: stockCoverage(),
     page: `${SITE}${STOCK_PAGE_PATH}`,
     note: 'Dated list. Availability changes and is confirmed per quote. Prices by quote. Every unit is remanufactured to the published reconditioning standard before shipment and sold with the 12-month mechanical warranty, never as-is. Serial numbers on request to qualified buyers.',
     units: stockList.units.map((u) => ({

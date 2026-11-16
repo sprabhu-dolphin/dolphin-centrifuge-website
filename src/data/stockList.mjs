@@ -25,6 +25,17 @@
 export const STOCK_PAGE_PATH = '/alfa-laval-centrifuges-in-stock/';
 export const STOCK_JSON_PATH = '/technical-data/stock-list.v1.json';
 
+/** Date of the owner's written inventory sheet the listed units come from ("List w Capacities.xlsx"). */
+export const INVENTORY_LIST_DATE = '2025-12-09';
+
+/**
+ * Owner ruling 2026-11-16: "Not all machines are in the list, so keep it at 150 plus."
+ * Every agent surface that serves this list carries this sentence. No reason or count for the unlisted machines.
+ */
+export function stockCoverage(list = stockList) {
+  return `This list shows machines from Dolphin's written inventory list (sheet dated ${INVENTORY_LIST_DATE}, list confirmed ${list.asOf}). It is not the complete stock; Dolphin holds more machines than are listed.`;
+}
+
 export const stockList = {
   // asOf is the date the owner confirmed this list (2026-10-11). The source sheet "List w Capacities.xlsx" is dated 2025-12-09.
   asOf: '2026-10-11',

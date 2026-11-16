@@ -5,7 +5,7 @@ import { disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSp
 // One dataset with the in-page WebMCP catalog: the public view plus the catalog-only models.
 // Internal ruling notes and rejected values never reach a tool answer.
 import { agentModels as models } from '../../../src/data/agentCatalog.mjs';
-import { stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
+import { stockCoverage, stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
 import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from '../../../src/lib/humanConsumptionGuard.mjs';
 
 export const SITE = 'https://dolphincentrifuge.com';
@@ -192,6 +192,7 @@ export function checkDolphinStock({ model } = {}) {
   }
   return {
     asOf: stockList.asOf,
+    coverage: stockCoverage(),
     stockPage: `${SITE}${STOCK_PAGE_PATH}`,
     note: 'Dated published stock list. Dolphin holds 150+ Alfa Laval centrifuges in Warren, Michigan; availability of any model is confirmed per quote. Every unit ships remanufactured with a 12-month mechanical warranty. No prices are published.',
     count: units.length,

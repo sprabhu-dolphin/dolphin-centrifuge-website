@@ -71,6 +71,7 @@ async function findInStock(input: JsonObject, context: Context | undefined, deps
   return result('ok', {
     statement: STOCK_STATEMENT,
     asOf: stock.asOf,
+    ...(stock.coverage ? { coverage: stock.coverage } : {}),
     totalListings: units.length,
     totalQuantity: quantity(units),
     matchingListings: matches.length,

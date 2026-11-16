@@ -247,6 +247,24 @@ const stockRecord = {schemaVersion: 'dolphin-stock-list-v1', asOf: '2026-10-11',
   {family: 'NX', model: 'NX 418', type: 'decanter', condition: 'remanufactured', status: 'in stock', quantity: 2},
 ]};
 
+test('every agent stock answer says the list is not the complete stock (owner ruling 2026-11-16)', async () => {
+  const { GET } = await import('./src/pages/technical-data/stock-list.v1.json.ts');
+  const { checkDolphinStock } = await import('./workers/dolphin-mcp/src/catalog.js');
+  const { stockCoverage } = await import('./src/data/stockList.mjs');
+  const COVERAGE = /^This list shows machines from Dolphin's written inventory list \(sheet dated 2025-12-09, list confirmed \d{4}-\d{2}-\d{2}\)\. It is not the complete stock; Dolphin holds more machines than are listed\.$/;
+  assert.match(stockCoverage(), COVERAGE);
+
+  const record = await GET().json();
+  assert.equal(record.coverage, stockCoverage(), 'JSON record');
+  assert.equal(checkDolphinStock({}).coverage, stockCoverage(), '/mcp check_dolphin_stock');
+  assert.equal(checkDolphinStock({ model: 'MOPX 207' }).coverage, stockCoverage());
+
+  const h = await harness(undefined, async () => ({ok: true, json: async () => record}));
+  const out = await h.tools.get('find_alfa_laval_centrifuges_in_stock').execute({});
+  assert.equal(out.data.coverage, stockCoverage(), 'WebMCP find_alfa_laval_centrifuges_in_stock');
+  assert.ok(out.data.statement.includes('150+'), '150+ stays (owner ruling)');
+});
+
 test('stock list finder filters the dated record, accepts JSON strings and never invents units', async () => {
   const h = await harness(undefined, async () => ({ok: true, json: async () => stockRecord}));
   const find = h.tools.get('find_alfa_laval_centrifuges_in_stock');
