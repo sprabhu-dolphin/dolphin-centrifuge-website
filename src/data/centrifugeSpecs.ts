@@ -1050,7 +1050,7 @@ export const models: ModelSpec[] = [
     manufacturer: 'Alfa Laval',
     family: 'disc-stack',
     aliases: ['BTPX-205', 'BTPX 205 SGD-34-CDP'],
-    canonicalPath: '/alfa-laval-btpx-205-biotech-centrifuge/',
+    canonicalPath: '/alfa-laval-btpx-205-disc-centrifuge/',
     capacities: [
       { fluid: 'Fluid not specified (machine maximum)', kind: 'maximum', value: 5, unit: 'US GPM', label: '5 GPM maximum process capacity', internalNote: 'Was "5 GPM on Cell Broth"; recast 2026-11-14 to the machine maximum the page states (no human-consumption fluid named).' },
     ],
