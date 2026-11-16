@@ -1,9 +1,14 @@
 import { getCentrifugeCapacity } from './agentCatalogQuery.mjs';
+import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from './humanConsumptionGuard.mjs';
 
 const LPH_PER_US_GPM = 227.124707;
 
 /** Deterministic engineering shortlist, shared by WebMCP and future answer UIs. */
 export function selectCentrifugeCandidates(catalog, input) {
+  // Owner ruling 2026-10-13: no machine and no suitability statement for a human-consumption duty.
+  if (input && isHumanConsumptionRequest(input.application)) {
+    return {status: 'no_suitability_statement', canRecommendPurchase: false, message: NO_HUMAN_CONSUMPTION_DISCLAIMER};
+  }
   if (!input || typeof input.application !== 'string' || !input.application.trim() ||
       input.application.length > 200 || !Number.isFinite(input.requiredFlow) || input.requiredFlow <= 0 ||
       !['US GPM', 'L/h'].includes(input.flowUnit) ||

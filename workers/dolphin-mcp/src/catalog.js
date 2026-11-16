@@ -6,6 +6,7 @@ import { disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSp
 // Internal ruling notes and rejected values never reach a tool answer.
 import { agentModels as models } from '../../../src/data/agentCatalog.mjs';
 import { stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
+import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from '../../../src/lib/humanConsumptionGuard.mjs';
 
 export const SITE = 'https://dolphincentrifuge.com';
 export const CONTACT = {
@@ -121,6 +122,8 @@ function findModels(term) {
 export function getCentrifugeSpecs({ model, query }) {
   const term = model || query;
   if (!term) return { error: 'Provide model (e.g. "MOPX 207") or query (e.g. "diesel self-cleaning").' };
+  // Owner ruling 2026-10-13: no machine and no suitability statement for a human-consumption duty.
+  if (isHumanConsumptionRequest(model, query)) return { found: 0, models: [], note: NO_HUMAN_CONSUMPTION_DISCLAIMER, attribution: ATTRIBUTION };
   const hits = findModels(term);
   if (!hits.length) {
     return {
@@ -152,6 +155,7 @@ function summaryLine(m) {
 }
 
 export function listCentrifugeModels({ type, application } = {}) {
+  if (isHumanConsumptionRequest(application)) return { count: 0, models: [], note: NO_HUMAN_CONSUMPTION_DISCLAIMER, attribution: ATTRIBUTION };
   let list = models;
   if (type) {
     const fam = norm(type).includes('decanter') ? 'decanter' : norm(type).includes('disc') ? 'disc-stack' : null;

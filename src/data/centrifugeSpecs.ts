@@ -32,6 +32,7 @@
  */
 
 import { technicalCatalog } from './centrifugeTechnicalRegistry.mjs';
+import { NO_HUMAN_CONSUMPTION_DISCLAIMER } from '../lib/humanConsumptionGuard.mjs';
 
 /* ------------------------------------------------------------------ types */
 
@@ -230,9 +231,11 @@ function fromRegistry(registryId: string): Capacity[] {
 
 /* --------------------------------------------------------- shared fragments */
 
-/** Owner ruling 2026-10-13, verbatim. Carried next to any Alfa Laval food or beverage design history. */
-export const NO_HUMAN_CONSUMPTION_DISCLAIMER =
-  'Dolphin Centrifuge does not represent any centrifuge it supplies as food grade, sanitary, or suitable for food, beverage, pharmaceutical or other human-consumption use.';
+/**
+ * Owner ruling 2026-10-13, verbatim. Carried next to any Alfa Laval food or beverage design history.
+ * Defined once in src/lib/humanConsumptionGuard.mjs (also used by the agent tools) and re-exported here.
+ */
+export { NO_HUMAN_CONSUMPTION_DISCLAIMER };
 
 const CARBIDE = 'Carbide Tile or Tungsten Carbide Hard-Surfacing';
 const AUGER_1_50 = '1 ~ 50 RPM';

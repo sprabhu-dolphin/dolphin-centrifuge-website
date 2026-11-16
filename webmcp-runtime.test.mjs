@@ -201,6 +201,38 @@ test('used Alfa Laval finder filters families, pages results and adds a document
   assert.equal((await find.execute({offset: 99})).status, 'invalid_input');
 });
 
+test('no WebMCP tool offers a food or other human-consumption route (owner ruling 2026-10-13)', async () => {
+  const h = await harness(undefined, routeFetch);
+  const find = h.tools.get('find_used_alfa_laval_centrifuges');
+  const props = find.inputSchema.properties;
+  assert.ok(!props.application.enum.includes('food') && !props.family.enum.includes('food'), 'no food key in the schema');
+  assert.ok(props.application.enum.includes('stainless') && props.family.enum.includes('stainless'));
+  for (const input of [{application: 'food'}, {family: 'food'}]) assert.equal((await find.execute(input)).status, 'invalid_input');
+
+  const stainless = await find.execute({application: 'stainless'});
+  assert.equal(stainless.status, 'ok');
+  assert.deepEqual(stainless.data.families.map(f => f.key), ['stainless']);
+  assert.doesNotMatch(JSON.stringify(stainless), /food|beverage|dairy|sanitary/i);
+
+  const NO_CLAIM = /^Dolphin Centrifuge does not represent any centrifuge it supplies as food grade/;
+  const sized = await find.execute({application: 'stainless', fluid: 'edible oil', requiredFlow: 5, flowUnit: 'US GPM'});
+  assert.equal(sized.status, 'no_suitability_statement');
+  assert.equal(sized.data, null);
+  assert.match(sized.warnings[0], NO_CLAIM);
+  for (const [name, input] of [
+    ['find_centrifuge_models', {fluid: 'vegetable oil'}],
+    ['find_centrifuge_models', {query: 'juice'}],
+    ['get_centrifuge_capacity', {model: 'MOPX 207', fluid: 'beer'}],
+    ['select_centrifuge_candidates', {application: 'olive oil', requiredFlow: 5, flowUnit: 'US GPM'}],
+  ]) {
+    const out = await h.tools.get(name).execute(input);
+    assert.equal(out.status, 'no_suitability_statement', `${name} ${JSON.stringify(input)}`);
+    assert.doesNotMatch(JSON.stringify(out), /"modelId"|"capacities":\[\{|price/i, `${name} returns no machine`);
+  }
+  // Waste streams from food plants stay industrial duties.
+  assert.equal((await h.tools.get('find_centrifuge_models').execute({fluid: 'waste vegetable oil'})).status, 'ok');
+});
+
 test('used Alfa Laval finder reports unavailable data instead of inventing an answer', async () => {
   const h = await harness(undefined, async () => ({ok: false}));
   assert.equal((await h.tools.get('find_used_alfa_laval_centrifuges').execute({})).status, 'unavailable');

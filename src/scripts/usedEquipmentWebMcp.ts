@@ -3,6 +3,7 @@
 // prepare_used_alfa_laval_quote registers only on the page that carries the
 // quote form. It fills the visible form and never sends it; the visitor does.
 import { selectCentrifugeCandidates } from '../lib/centrifugeSelection.mjs';
+import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from '../lib/humanConsumptionGuard.mjs';
 import { PREFERRED_CONTACT, WEBMCP_QUOTE_TOOL } from '../lib/usedQuote.mjs';
 import { fillVisibleForm, missingFields, usedQuoteForm } from './usedQuoteForm';
 
@@ -16,8 +17,8 @@ type Deps = {
 const OFFER_URL = '/technical-data/used-alfa-laval-centrifuges.v1.json';
 const OFFER_SCHEMA = 'dolphin-used-alfa-laval-offer-v1';
 const APPLICATIONS = ['waste-oil', 'used-oil', 'diesel', 'fuel-oil', 'wvo-uco', 'lube-oil', 'hydraulic-oil', 'biodiesel',
-  'machine-coolant', 'wastewater', 'crude-oil', 'food'];
-const FAMILIES = ['whpx', 'mopx', 'mapx', 'mab', 'wspx', 'nx', 'food'];
+  'machine-coolant', 'wastewater', 'crude-oil', 'stainless'];
+const FAMILIES = ['whpx', 'mopx', 'mapx', 'mab', 'wspx', 'nx', 'stainless'];
 const PAGE_SIZE = 3;
 
 let offerCache: JsonObject | undefined;
@@ -44,6 +45,10 @@ function result(status: string, data: JsonObject | null, warnings: string[], ext
 
 async function findUsed(input: JsonObject, context: Context | undefined, deps: Deps): Promise<JsonObject> {
   const signal = context?.signal;
+  // Owner ruling 2026-10-13: a food, beverage or other human-consumption request gets no machine and no price.
+  if (isHumanConsumptionRequest(input.application, input.family, input.fluid)) {
+    return result('no_suitability_statement', null, [NO_HUMAN_CONSUMPTION_DISCLAIMER]);
+  }
   const sizing = input.requiredFlow !== undefined;
   if (sizing && (!input.flowUnit || !input.fluid)) {
     return result('invalid_input', null, ['Flow sizing needs fluid, requiredFlow and flowUnit together.']);
@@ -57,6 +62,10 @@ async function findUsed(input: JsonObject, context: Context | undefined, deps: D
   }
 
   const application = input.application ? offer.applications.find((a: JsonObject) => a.key === input.application) : undefined;
+  // An unknown application or family must not fall through to the full list.
+  if ((input.application && !application) || (input.family && !offer.families.some((f: JsonObject) => f.key === input.family))) {
+    return result('invalid_input', null, [`Unknown application or family. Applications: ${APPLICATIONS.join(', ')}. Families: ${FAMILIES.join(', ')}.`]);
+  }
   const cleaning = input.cleaning && input.cleaning !== 'any' ? input.cleaning : undefined;
   const families = offer.families.filter((family: JsonObject) =>
     (!input.family || family.key === input.family) &&

@@ -6,7 +6,25 @@
  * be narrowed to an exact variant before any numeric capacity is returned.
  */
 
+import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from './humanConsumptionGuard.mjs';
+
 const DEFAULT_SCHEMA_VERSION = 'dolphin-centrifuge-technical-v1';
+
+/**
+ * Owner ruling 2026-10-13: a food, beverage or other human-consumption request
+ * returns no model, no capacity and no suitability statement.
+ * @param {Record<string, unknown>} catalog
+ */
+function humanConsumptionEnvelope(catalog) {
+  return {
+    schemaVersion: schemaVersion(catalog),
+    status: 'no_suitability_statement',
+    data: null,
+    answerability: { canStateAsFact: false, qualificationRequired: false, missingInputs: [] },
+    warnings: [NO_HUMAN_CONSUMPTION_DISCLAIMER],
+    sources: [],
+  };
+}
 
 /** @param {unknown} value */
 function normalize(value) {
@@ -335,6 +353,7 @@ function specificationSources(specifications) {
  * @param {{query?: string, manufacturer?: string, recordType?: string, fluid?: string}} [input]
  */
 export function findCentrifugeModels(catalog, input = {}) {
+  if (isHumanConsumptionRequest(input.query, input.fluid)) return humanConsumptionEnvelope(catalog);
   const query = normalize(input.query);
   const manufacturer = normalize(input.manufacturer);
   const recordType = normalize(input.recordType);
@@ -516,6 +535,7 @@ export function getCentrifugeSpecifications(catalog, input = {}) {
  * @param {{model?: string, fluid?: string, baseMachineVariant?: string, baseMachineVariantId?: string}} input
  */
 export function getCentrifugeCapacity(catalog, input = {}) {
+  if (isHumanConsumptionRequest(input.fluid)) return humanConsumptionEnvelope(catalog);
   const resolution = resolveModel(catalog, input.model);
   if (resolution.status !== 'ok') {
     return modelResolutionEnvelope(catalog, resolution, input.model);
