@@ -101,7 +101,7 @@ function stockUnits(m: ModelSpec) {
 
 /** "in stock" when a finished or new unit is listed, "built to order" when only cores to remanufacture are listed. */
 function dolphinStock(m: ModelSpec): 'in stock' | 'built to order' | null {
-  const units = stockUnits(m).filter((u) => u.status === 'in stock');
+  const units = stockUnits(m).filter((u) => u.status !== 'reserved');
   if (units.length === 0) return null;
   return units.some((u) => u.condition !== 'remanufactured to order') ? 'in stock' : 'built to order';
 }

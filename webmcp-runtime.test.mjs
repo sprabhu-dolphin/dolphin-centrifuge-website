@@ -40,11 +40,13 @@ test('partial registration failures recover without duplicate registrations', as
     if (tool.name === 'get_centrifuge_capacity' && n === 1) throw Error('temporary failure');
   });
   assert.equal(await h.context.runtime.registerDolphinWebMcpTools(), true);
-  assert.equal(h.tools.size, 9);
+  assert.equal(h.tools.size, 11);
   assert.ok(h.tools.has('find_used_alfa_laval_centrifuges'));
   assert.ok(h.tools.has('find_alfa_laval_centrifuges_in_stock'));
   assert.ok(h.tools.has('list_alfa_laval_published_documents'));
   assert.ok(h.tools.has('get_alfa_laval_published_figures'));
+  assert.ok(h.tools.has('get_machine_datasheet'));
+  assert.ok(h.tools.has('list_machines'));
   assert.ok(!h.tools.has('prepare_used_alfa_laval_quote'), 'quote tool registers only on the page with the quote form');
   assert.equal(attempts.get('get_centrifuge_capacity'), 2);
   assert.equal(attempts.get('find_centrifuge_models'), 1);
@@ -268,7 +270,7 @@ test('every agent stock answer says the list is not the complete stock (owner ru
 test('full stock list: public fields only, complete machines, every model resolvable', async () => {
   const { stockList, STOCK_TYPES, STOCK_CONDITIONS, validateStockList } = await import('./src/data/stockList.mjs');
   validateStockList();
-  const PUBLIC = new Set(['family', 'model', 'type', 'condition', 'status', 'quantity', 'modelPage', 'bowlSpeedRpm', 'motorHp',
+  const PUBLIC = new Set(['family', 'model', 'type', 'condition', 'status', 'quantity', 'modelPage', 'bowlSpeedRpm', 'motorHp', 'motorKw',
     'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration']);
   for (const u of stockList.units) {
     for (const key of Object.keys(u)) assert.ok(PUBLIC.has(key), `${u.model}: ${key} is not a public field`);
@@ -289,7 +291,7 @@ test('stock list finder filters the dated record, accepts JSON strings and never
   assert.equal(mab.data.units[0].model, 'MAB 104');
   assert.equal(mab.data.asOf, '2026-10-11');
   assert.equal(mab.data.totalQuantity, 6);
-  assert.ok(mab.data.statement.includes('150+ Alfa Laval centrifuges in stock in Warren, Michigan'));
+  assert.ok(mab.data.statement.includes('150+ machines in stock in Warren, Michigan'));
   assert.equal((await find.execute(JSON.stringify({query: 'DECANTER'}))).data.units[0].model, 'NX 418');
   assert.equal((await find.execute({type: 'disc stack self-cleaning', limit: 1})).data.units.length, 1);
   assert.equal((await find.execute({query: 'zzz'})).data.matchingListings, 0);
@@ -344,7 +346,7 @@ test('quote tool exists only with the form, fills every visible field and never 
   const page = fakeQuotePage({token: 'turnstile-token'});
   const h = await harness(undefined, page.fetcher, page.documentExtras, page.globals);
   const quote = h.tools.get('prepare_used_alfa_laval_quote');
-  assert.equal(h.tools.size, 10);
+  assert.equal(h.tools.size, 12);
   assert.ok(!h.tools.has('request_used_alfa_laval_quote'));
   assert.equal(quote.annotations.consequentialHint, false);
   assert.equal(quote.annotations.readOnlyHint, false);

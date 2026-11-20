@@ -12,6 +12,10 @@ import {
   checkDolphinStock, getCentrifugeSpecs, listCentrifugeModels, sizeCentrifuge,
 } from './catalog.js';
 import { getAlfaLavalPublishedFigures, listAlfaLavalPublishedDocuments } from './alfaLavalPublished.js';
+import { getMachineDatasheetTool, listMachinesTool } from './machineDatasheets.js';
+import {
+  GET_DATASHEET_DESCRIPTION, GET_DATASHEET_TOOL, LIST_MACHINES_DESCRIPTION, LIST_MACHINES_TOOL,
+} from '../../../src/lib/machineDatasheets.mjs';
 import {
   GET_FIGURES_DESCRIPTION, GET_FIGURES_TOOL, LIST_DOCUMENTS_DESCRIPTION, LIST_DOCUMENTS_TOOL,
 } from '../../../src/lib/alfaLavalPublishedData.mjs';
@@ -42,9 +46,10 @@ function buildServer(env, request) {
     inputSchema: {
       model: z.string().max(80).optional().describe('Model designation, alias or Dolphin module, e.g. "MOPX 207", "WHPX 405", "DMPX-028", "NX 418".'),
       query: z.string().max(200).optional().describe('Free-text search when the exact model is unknown, e.g. "decanter 418" or "turbine oil".'),
+      offset: z.number().int().min(0).max(1000).optional().describe('Result offset for a free-text search with more than 8 matches; use the returned page.nextOffset. Defaults to 0.'),
     },
     annotations: READ_ONLY,
-  }, async ({ model, query }) => json(getCentrifugeSpecs({ model, query })));
+  }, async ({ model, query, offset }) => json(getCentrifugeSpecs({ model, query, offset })));
 
   server.registerTool('list_centrifuge_models', {
     title: 'List centrifuge models',
@@ -58,7 +63,7 @@ function buildServer(env, request) {
 
   server.registerTool('check_dolphin_stock', {
     title: 'Check Dolphin stock',
-    description: 'Dated list of Alfa Laval centrifuges in stock at Dolphin Centrifuge (Warren, Michigan): model, type, condition and whether the unit is in stock or built to order. No prices or serial numbers.',
+    description: 'Dated list of centrifuges (Alfa Laval, Sharples and ALDEC machines) from the written Dolphin Centrifuge inventory sheet (Warren, Michigan): model, maker, type, condition and availability, with counts split into ready-built units and units remanufactured to order after sale (a used unit remanufactured after an order, not a ready-built unit). The list date is the sheet date; availability is confirmed per quote. No prices or serial numbers.',
     inputSchema: {
       model: z.string().max(80).optional().describe('Optional model or family filter, e.g. "MOPX 207" or "WHPX". Omit for the full list.'),
     },
@@ -92,6 +97,25 @@ function buildServer(env, request) {
     },
     annotations: READ_ONLY,
   }, async (args) => json(getAlfaLavalPublishedFigures(args)));
+
+  server.registerTool(GET_DATASHEET_TOOL, {
+    title: 'Get machine data sheet',
+    description: GET_DATASHEET_DESCRIPTION,
+    inputSchema: {
+      model: z.string().min(1).max(200).describe('Machine model written any way, e.g. "MOPX 207", "MOPX207", "WHPX 510TGD" or "MAB 204S". A bare family such as "MOPX" returns the list of models.'),
+    },
+    annotations: READ_ONLY,
+  }, async (args) => json(getMachineDatasheetTool(args)));
+
+  server.registerTool(LIST_MACHINES_TOOL, {
+    title: 'List machines with data sheets',
+    description: LIST_MACHINES_DESCRIPTION,
+    inputSchema: {
+      type: z.string().max(80).optional().describe('Optional machine type filter, e.g. "disc stack", "self-cleaning" or "manual-clean".'),
+      maker: z.string().max(80).optional().describe('Optional maker filter, e.g. "Alfa Laval".'),
+    },
+    annotations: READ_ONLY,
+  }, async (args) => json(listMachinesTool(args)));
 
   server.registerTool('request_quote', {
     title: 'Request a quote from Dolphin',

@@ -21,6 +21,10 @@ const calls = [
   ['get_alfa_laval_published_figures', { model: 'MAB 204' }],
   ['get_alfa_laval_published_figures', { model: 'MOPX 207' }],
   ['get_alfa_laval_published_figures', { model: 'WHPX 999' }],
+  ['get_machine_datasheet', { model: 'MOPX 207' }],
+  ['get_machine_datasheet', { model: 'MOPX' }],
+  ['get_machine_datasheet', { model: 'MOPX 999' }],
+  ['list_machines', { type: 'manual-clean' }],
 ];
 for (const [name, args] of calls) {
   const res = await client.callTool({ name, arguments: args });

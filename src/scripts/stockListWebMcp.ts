@@ -1,4 +1,4 @@
-// WebMCP tool for the dated Alfa Laval stock list.
+// WebMCP tool for the dated stock list (Alfa Laval, Sharples and ALDEC machines).
 // find_alfa_laval_centrifuges_in_stock is read-only and registered sitewide
 // through registerDolphinWebMcpTools (dolphinWebMcp.ts), which supplies JSON-string
 // input parsing, schema validation and independent per-tool registration.
@@ -10,11 +10,15 @@ const STOCK_URL = '/technical-data/stock-list.v1.json';
 const STOCK_SCHEMA = 'dolphin-stock-list-v1';
 const STOCK_PAGE = 'https://dolphincentrifuge.com/alfa-laval-centrifuges-in-stock/';
 const STOCK_JSON = `https://dolphincentrifuge.com${STOCK_URL}`;
-const STOCK_STATEMENT = 'Dolphin Centrifuge keeps 150+ Alfa Laval centrifuges in stock in Warren, Michigan; capacities are quoted per application.';
+const STOCK_STATEMENT = 'Dolphin Centrifuge keeps 150+ machines in stock in Warren, Michigan; this list shows only part of that inventory. Capacities are quoted per application.';
+const BUILT_TO_ORDER = 'Remanufactured to order after sale, not a ready-built unit';
+const SHEET_NOTE = 'The list date is the date of the written Dolphin inventory sheet, not a confirmation date. Availability is confirmed per quote.';
+const isBuiltToOrder = (unit: JsonObject) => unit.condition === 'remanufactured to order';
+const availabilityOf = (unit: JsonObject) => unit.status === 'reserved' ? 'reserved' : isBuiltToOrder(unit) ? BUILT_TO_ORDER : 'in stock, ready-built';
 const TYPES = ['disc stack self-cleaning', 'disc stack manual-clean', 'decanter'];
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
-const UNIT_FIELDS = ['model', 'family', 'type', 'condition', 'status', 'quantity', 'wettedParts', 'bowlSpeedRpm', 'motorHp',
+const UNIT_FIELDS = ['model', 'family', 'maker', 'type', 'condition', 'status', 'availability', 'quantity', 'wettedParts', 'bowlSpeedRpm', 'motorHp', 'motorKw',
   'bowlDiameter', 'separationType', 'cleaningMethod', 'capacity', 'configuration', 'modelPage'];
 
 let stockCache: JsonObject | undefined;
@@ -71,14 +75,25 @@ async function findInStock(input: JsonObject, context: Context | undefined, deps
   return result('ok', {
     statement: STOCK_STATEMENT,
     asOf: stock.asOf,
+    sheetDate: stock.asOf,
+    sheetDateNote: SHEET_NOTE,
+    counts: {
+      listings: units.length,
+      units: quantity(units),
+      readyBuiltUnits: quantity(units.filter((unit) => !isBuiltToOrder(unit))),
+      builtToOrderUnits: quantity(units.filter(isBuiltToOrder)),
+      note: 'readyBuiltUnits are already remanufactured or new old stock and unused; builtToOrderUnits are used units Dolphin remanufactures after an order. Total inventory is 150+ machines.',
+    },
     ...(stock.coverage ? { coverage: stock.coverage } : {}),
     totalListings: units.length,
     totalQuantity: quantity(units),
     matchingListings: matches.length,
     matchingQuantity: quantity(matches),
     returned: Math.min(matches.length, limit),
-    units: matches.slice(0, limit).map((unit) => Object.fromEntries(
-      UNIT_FIELDS.filter((field) => unit[field] !== undefined && unit[field] !== null).map((field) => [field, unit[field]]))),
+    units: matches.slice(0, limit).map((unit) => {
+      const row = { ...unit, availability: availabilityOf(unit), maker: unit.maker ?? (unit.family === 'Sharples' ? 'Sharples (Alfa Laval)' : unit.family === 'ALDEC' ? 'Alfa Laval (ALDEC)' : 'Alfa Laval') };
+      return Object.fromEntries(UNIT_FIELDS.filter((field) => row[field] !== undefined && row[field] !== null).map((field) => [field, row[field]]));
+    }),
     page: STOCK_PAGE,
     record: STOCK_JSON,
   }, [
@@ -90,8 +105,8 @@ async function findInStock(input: JsonObject, context: Context | undefined, deps
 export function stockListWebMcpTools(deps: Deps) {
   return [{
     name: 'find_alfa_laval_centrifuges_in_stock',
-    title: 'Find Alfa Laval centrifuges in stock',
-    description: 'Search the dated list of complete Alfa Laval disc stack and decanter centrifuges Dolphin Centrifuge has in stock, by model, family or type, such as MAB 104, WHPX or decanter. Returns each matching listing with model, family, type, condition, status, quantity, wetted parts and any published specification or capacity, plus the list date and the stock page and JSON record. Prices are by quote and are never returned.',
+    title: 'Find centrifuges in stock',
+    description: 'Search the dated list of complete disc stack and decanter centrifuges (Alfa Laval, Sharples and ALDEC) on the Dolphin Centrifuge inventory sheet, by model, family or type, such as MAB 104, WHPX or decanter. Returns each matching listing with model, maker, type, condition, availability, quantity, wetted parts and any published specification or capacity, the split of ready-built units and units remanufactured to order after sale, and the inventory sheet date. A built-to-order listing is a used unit Dolphin remanufactures after an order, not a ready-built unit. Prices are by quote and are never returned.',
     inputSchema: {
       type: 'object', additionalProperties: false, properties: {
         query: { type: 'string', maxLength: 200, description: 'Model, family or type text, case-insensitive, such as "MAB 104", "decanter" or "WHPX". Omit to list the stock.' },

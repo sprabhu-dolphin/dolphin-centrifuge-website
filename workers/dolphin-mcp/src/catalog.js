@@ -5,7 +5,9 @@ import { disclaimer, SPEC_SOURCE_REVIEWED } from '../../../src/data/centrifugeSp
 // One dataset with the in-page WebMCP catalog: the public view plus the catalog-only models.
 // Internal ruling notes and rejected values never reach a tool answer.
 import { agentModels as models } from '../../../src/data/agentCatalog.mjs';
-import { stockCoverage, stockList, STOCK_PAGE_PATH } from '../../../src/data/stockList.mjs';
+import {
+  BUILT_TO_ORDER_DETAIL, SHEET_DATE_NOTE, stockAvailability, stockCounts, stockCountsSentence, stockCoverage, stockList, stockMaker, STOCK_PAGE_PATH,
+} from '../../../src/data/stockList.mjs';
 import { isHumanConsumptionRequest, NO_HUMAN_CONSUMPTION_DISCLAIMER } from '../../../src/lib/humanConsumptionGuard.mjs';
 
 export const SITE = 'https://dolphincentrifuge.com';
@@ -125,7 +127,9 @@ function findModels(term) {
   });
 }
 
-export function getCentrifugeSpecs({ model, query }) {
+const SPECS_PAGE_SIZE = 8;
+
+export function getCentrifugeSpecs({ model, query, offset = 0 }) {
   const term = model || query;
   if (!term) return { error: 'Provide model (e.g. "MOPX 207") or query (e.g. "diesel self-cleaning").' };
   // Owner ruling 2026-10-13: no machine and no suitability statement for a human-consumption duty.
@@ -138,10 +142,14 @@ export function getCentrifugeSpecs({ model, query }) {
       attribution: ATTRIBUTION,
     };
   }
-  const shown = hits.slice(0, 8);
+  const start = Number.isInteger(offset) && offset > 0 ? offset : 0;
+  if (start >= hits.length) return { found: hits.length, error: `offset ${start} is past the ${hits.length} matches. Use offset 0 to ${Math.max(0, hits.length - 1)}.`, attribution: ATTRIBUTION };
+  const shown = hits.slice(start, start + SPECS_PAGE_SIZE);
+  const nextOffset = start + shown.length < hits.length ? start + shown.length : null;
   return {
     found: hits.length,
-    ...(hits.length > shown.length ? { note: `Showing ${shown.length} of ${hits.length}. Narrow the query for the rest.` } : {}),
+    page: { offset: start, returned: shown.length, nextOffset },
+    ...(nextOffset !== null ? { note: `Showing ${start + 1} to ${start + shown.length} of ${hits.length}. Call again with the same query and offset ${nextOffset} for the rest.` } : {}),
     models: shown.map(publicSpec),
     usage: 'Quote a capacity only with its fluid and conditions. Never transfer a capacity to another fluid or machine.',
     disclaimer,
@@ -185,12 +193,6 @@ export function listCentrifugeModels({ type, application } = {}) {
   };
 }
 
-function availability(u) {
-  if (u.status === 'reserved') return 'reserved';
-  if (u.condition === 'remanufactured to order') return 'built to order (unit in stock, remanufactured after order)';
-  return 'in stock';
-}
-
 export function checkDolphinStock({ model } = {}) {
   let units = stockList.units;
   if (model) {
@@ -199,19 +201,25 @@ export function checkDolphinStock({ model } = {}) {
   }
   return {
     asOf: stockList.asOf,
+    sheetDate: stockList.asOf,
+    sheetDateNote: SHEET_DATE_NOTE,
     coverage: stockCoverage(),
+    totalCounts: { ...stockCounts(), summary: stockCountsSentence() },
+    matchingCounts: stockCounts(units),
     stockPage: `${SITE}${STOCK_PAGE_PATH}`,
-    note: 'Dated published stock list. Dolphin holds 150+ Alfa Laval centrifuges in Warren, Michigan; availability of any model is confirmed per quote. Every unit ships remanufactured with a 12-month mechanical warranty. No prices are published.',
+    note: `Dated published list of centrifuges (Alfa Laval, Sharples and ALDEC machines) from Dolphin's written inventory sheet. Dolphin holds 150+ machines in stock in Warren, Michigan in total; availability of any model is confirmed per quote. A built-to-order row is a used unit Dolphin remanufactures after an order: ${BUILT_TO_ORDER_DETAIL} Every unit ships remanufactured with a 12-month mechanical warranty. No prices are published.`,
     count: units.length,
     units: units.map((u) => {
       const out = {
         model: u.model,
+        maker: stockMaker(u),
         type: u.type,
         condition: u.condition,
-        availability: availability(u),
+        availability: stockAvailability(u),
         quantity: u.quantity,
         bowlSpeedRpm: u.bowlSpeedRpm,
         motorHp: u.motorHp,
+        motorKw: u.motorKw,
         capacity: u.capacity,
         separationType: u.separationType,
         wettedParts: u.wettedParts,
@@ -266,7 +274,7 @@ export const SERVER_INSTRUCTIONS = [
   'Dolphin Centrifuge (Warren, Michigan, USA, established 1982) is an independent remanufacturer of Alfa Laval disc stack and decanter centrifuges, with 150+ machines in stock.',
   'Every machine is remanufactured, test run, and carries a 12-month mechanical warranty. Dolphin is not affiliated with Alfa Laval.',
   `Contact: ${CONTACT.phone}, ${CONTACT.email}, ${CONTACT.contactPage}.`,
-  'Tools: get_centrifuge_specs and list_centrifuge_models return published specs; check_dolphin_stock returns the dated stock list (no prices); size_centrifuge converts between bowl diameter, RPM and g-force; request_quote sends the user\'s quote request to Dolphin sales.',
+  'Tools: get_machine_datasheet returns one whole Alfa Laval machine record (every printed figure with its document, page and quote) in one call, and list_machines is its short index; get_centrifuge_specs and list_centrifuge_models return published specs; check_dolphin_stock returns the dated stock list from the written inventory sheet (no prices; a built-to-order row is a used unit remanufactured after an order, not a ready-built unit); size_centrifuge converts between bowl diameter, RPM and g-force; request_quote sends the user\'s quote request to Dolphin sales.',
   'Always state a capacity together with its fluid and conditions, never as a bare GPM. Only call request_quote with the user\'s explicit consent and their real contact details.',
   'list_alfa_laval_published_documents and get_alfa_laval_published_figures return figures exactly as printed by Alfa Laval in six named documents (MAB 204S to 209S data sheets, MAPX / MOPX throughput table), units as printed; they are not Dolphin measurements, guarantees or ratings.',
 ].join(' ');

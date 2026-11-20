@@ -30,6 +30,8 @@ const WEBMCP_TOOL_NAMES = [
   'find_alfa_laval_centrifuges_in_stock',
   'list_alfa_laval_published_documents',
   'get_alfa_laval_published_figures',
+  'get_machine_datasheet',
+  'list_machines',
 ];
 
 function allCapacities() {

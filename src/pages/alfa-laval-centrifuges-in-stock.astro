@@ -1,7 +1,7 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
 import { ORGANIZATION_ID, PERSON_ID } from '../lib/siteSchema';
-import { hasStock, stockList, validateStockList, STOCK_JSON_PATH, STOCK_PAGE_PATH } from '../data/stockList.mjs';
+import { hasStock, stockAvailability, stockCounts, stockMaker, stockList, validateStockList, STOCK_JSON_PATH, STOCK_PAGE_PATH } from '../data/stockList.mjs';
 
 validateStockList();
 
@@ -9,13 +9,14 @@ const SITE = 'https://dolphincentrifuge.com';
 const PAGE_URL = `${SITE}${STOCK_PAGE_PATH}`;
 const live = hasStock();
 const { asOf, units } = stockList;
+const counts = stockCounts();
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const asOfLabel = live
   ? (([y, m, d]) => `${MONTHS[m - 1]} ${d}, ${y}`)(asOf.split('-').map(Number))
   : null;
 
-const description = 'Dated list of the Alfa Laval disc stack and decanter centrifuges Dolphin Centrifuge has in stock in Warren, Michigan. Every machine is remanufactured, test run and warrantied before shipment.';
+const description = 'Dated list of the disc stack and decanter centrifuges (Alfa Laval, Sharples and ALDEC machines) on the Dolphin Centrifuge inventory sheet. Ready-built machines and units remanufactured to order after sale are marked apart. Every machine is remanufactured, test run and warrantied before shipment.';
 
 const families = [...new Set(units.map((u) => u.family))].map((family) => ({
   family,
@@ -31,6 +32,8 @@ const specLines = (u: any): string[] => [
   u.wettedParts && cap(u.wettedParts),
   u.bowlSpeedRpm !== undefined && `${range(u.bowlSpeedRpm)} rpm bowl speed`,
   u.motorHp !== undefined && `${range(u.motorHp)} HP motor`,
+  u.motorKw !== undefined && `${range(u.motorKw)} kW motor`,
+  `Maker: ${stockMaker(u)}`,
   u.bowlDiameter && `${u.bowlDiameter} bowl`,
   u.capacity && `Capacity: ${u.capacity}`,
 ].filter(Boolean) as string[];
@@ -39,7 +42,7 @@ const itemListJsonLd = live ? {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   '@id': `${PAGE_URL}#stock`,
-  name: 'Alfa Laval centrifuges in stock at Dolphin Centrifuge',
+  name: 'Centrifuges in stock at Dolphin Centrifuge',
   dateModified: asOf,
   numberOfItems: units.length,
   itemListElement: units.map((u, i) => ({
@@ -54,7 +57,7 @@ const webPageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': `${PAGE_URL}#webpage`,
-  name: 'Alfa Laval Centrifuges in Stock',
+  name: 'Centrifuges in Stock',
   description,
   url: PAGE_URL,
   ...(live ? { dateModified: asOf } : {}),
@@ -68,8 +71,8 @@ const linkClass = 'text-navy font-medium underline decoration-gold underline-off
 ---
 
 <ApplicationLayout
-  title="Alfa Laval Centrifuges in Stock | Warren, Michigan"
-  heroTitle="Alfa Laval Centrifuges in Stock"
+  title="Centrifuges in Stock | Warren, Michigan"
+  heroTitle="Centrifuges in Stock"
   heroDescription={description}
   description={description}
   heroImage="/images/about-dolphin-centrifuge/Dolphin_Centrifuge_Warren_MI_Shop_Hero_1400.webp"
@@ -89,10 +92,10 @@ const linkClass = 'text-navy font-medium underline decoration-gold underline-off
   ]}
 >
 
-  {live ? <p><strong>As of {asOfLabel}</strong></p> : <p><strong>The dated stock list is being prepared.</strong></p>}
+  {live ? <p><strong>Inventory sheet dated {asOfLabel}</strong>. Availability is confirmed per quote. {counts.readyBuiltUnits} ready-built units and {counts.builtToOrderUnits} units remanufactured to order after sale are listed here, plus 150+ machines in total inventory.</p> : <p><strong>The dated stock list is being prepared.</strong></p>}
 
   <p>
-    Every unit on this list is remanufactured to the <a class={linkClass} href="/centrifuge-reconditioning-standard/">published reconditioning standard</a> before shipment, test run, and sold with the 12-month mechanical warranty, never as-is. Prices are by quote, and serial numbers are available on request to qualified buyers. Units marked remanufactured to order are complete machines in our Warren stock that are rebuilt to the standard before shipment; lead time 4 to 8 weeks for small machines, 12 to 20 weeks for larger ones. See the <a class={linkClass} href="/used-alfa-laval-centrifuges-for-sale/">used Alfa Laval centrifuges for sale</a> page for models and the process, or <a class={linkClass} href="/contact-for-alfa-laval-centrifuges/">contact Dolphin</a> for a quote.
+    Every unit on this list is remanufactured to the <a class={linkClass} href="/centrifuge-reconditioning-standard/">published reconditioning standard</a> before shipment, test run, and sold with the 12-month mechanical warranty, never as-is. Prices are by quote, and serial numbers are available on request to qualified buyers. Units marked built to order are used units Dolphin remanufactures after an order: remanufactured to order after sale, not a ready-built unit; lead time 4 to 8 weeks for small machines, 12 to 20 weeks for larger ones. See the <a class={linkClass} href="/used-alfa-laval-centrifuges-for-sale/">used Alfa Laval centrifuges for sale</a> page for models and the process, or <a class={linkClass} href="/contact-for-alfa-laval-centrifuges/">contact Dolphin</a> for a quote.
   </p>
 
   {live && families.map(({ family, rows }) => (
@@ -118,7 +121,7 @@ const linkClass = 'text-navy font-medium underline decoration-gold underline-off
                 <td class="py-2 pr-4 font-semibold">{u.model}</td>
                 <td class="py-2 pr-4">{cap(u.type)}</td>
                 <td class="py-2 pr-4">{cap(u.condition)}</td>
-                <td class="py-2 pr-4">{cap(u.status)}</td>
+                <td class="py-2 pr-4">{cap(stockAvailability(u))}</td>
                 <td class="py-2 pr-4">{u.quantity}</td>
                 <td class="py-2 pr-4">{specLines(u).map((line) => <div>{line}</div>)}</td>
                 <td class="py-2 pr-4">{u.configuration ?? ''}</td>
@@ -132,7 +135,7 @@ const linkClass = 'text-navy font-medium underline decoration-gold underline-off
   ))}
 
   <p>
-    Availability changes and is confirmed per quote. Units marked remanufactured to order are complete machines in our Warren stock that are rebuilt to the standard before shipment; lead time 4 to 8 weeks for small machines, 12 to 20 weeks for larger ones. Units marked new old stock, unused are unused machines that are also finished to the standard and test run before they ship.
+    Availability changes and is confirmed per quote. Units marked built to order are used units that Dolphin remanufactures after an order, not ready-built units; lead time 4 to 8 weeks for small machines, 12 to 20 weeks for larger ones. Units marked new old stock, unused are unused machines that are also finished to the standard and test run before they ship.
   </p>
 
   <h2 id="machine-readable">For AI assistants and software agents</h2>
