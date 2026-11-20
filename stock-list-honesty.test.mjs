@@ -111,7 +111,7 @@ test('stock figures agree with the corrected site data; no model has two answers
 
 test('public fields only: no serial, asset id, location or cost on any unit', () => {
   const ALLOWED = new Set(['family', 'model', 'type', 'condition', 'status', 'quantity', 'modelPage', 'bowlSpeedRpm', 'motorHp', 'motorKw',
-    'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration']);
+    'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration', 'alfaLavalSource']);
   for (const u of stockList.units) for (const k of Object.keys(u)) assert.ok(ALLOWED.has(k), `${u.model}: unexpected field ${k}`);
   assert.doesNotMatch(JSON.stringify(stockList), /serial|asset|location|cost|price|\$\d|bay |aisle|rack /i);
 });

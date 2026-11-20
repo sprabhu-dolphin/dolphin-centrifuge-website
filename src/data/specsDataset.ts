@@ -145,6 +145,7 @@ function modelRow(source: ModelSpec) {
     netWeightKgAlfaLaval: m.netWeightKg ?? null,
     netWeightScope: m.netWeightScope ?? null,
     alfaLavalSources: m.alfaLavalSources ?? null,
+    alfaLavalAlternatives: m.alfaLavalAlternatives ?? null,
     dimensions: m.dimensions ?? null,
     bowlDiameter: dimText(m.bowlDiameter),
     bowlLength: dimText(m.bowlLength),

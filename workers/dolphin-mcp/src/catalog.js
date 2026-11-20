@@ -89,6 +89,7 @@ function publicSpec(m) {
     netWeightKgAlfaLaval: m.netWeightKg,
     netWeightScope: m.netWeightScope,
     alfaLavalSources: m.alfaLavalSources,
+    alfaLavalAlternatives: m.alfaLavalAlternatives,
     dimensions: m.dimensions,
     bowlType: m.bowlType,
     separationType: m.separationType,
@@ -163,6 +164,8 @@ function summaryLine(m) {
   if (m.bowlSpeedRpm) bits.push(`${fmtNum(m.bowlSpeedRpm)} RPM`);
   if (m.motorKw) bits.push(`${fmtNum(m.motorKw)} kW (${fmtNum(m.motorHp)} HP converted)`);
   else if (m.motorHp) bits.push(`${fmtNum(m.motorHp)} HP`);
+  const alternatives = Object.entries(m.alfaLavalAlternatives ?? {}).filter(([, list]) => list?.length);
+  if (alternatives.length) bits.push(`Alfa Laval prints more than one ${alternatives.map(([field]) => ({ bowlSpeed: 'bowl speed', motor: 'motor', sludge: 'sludge space' })[field]).join(' and ')} figure: ${alternatives.map(([, list]) => list.join('; ')).join('; ')}`);
   if (m.dolphinModule) bits.push(`Dolphin module ${m.dolphinModule}`);
   const cap = m.capacities[0];
   bits.push(cap ? capacityText(cap) : (m.capacityPolicy ?? 'sized per application'));
@@ -220,6 +223,7 @@ export function checkDolphinStock({ model } = {}) {
         bowlSpeedRpm: u.bowlSpeedRpm,
         motorHp: u.motorHp,
         motorKw: u.motorKw,
+        alfaLavalSource: u.alfaLavalSource,
         capacity: u.capacity,
         separationType: u.separationType,
         wettedParts: u.wettedParts,

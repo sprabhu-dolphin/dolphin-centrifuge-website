@@ -35,6 +35,10 @@ function specifications(model, legacy = {}) {
   if (specs.sludgeSpace && model.sludgeVolumeL !== undefined) Object.assign(specs.sludgeSpace, {
     converted: true, alfaLavalPrinted: {value: model.sludgeVolumeL, unit: 'L', document: model.sludgeSource}});
   if (specs.bowlSpeed && model.alfaLavalSources?.bowlSpeed) specs.bowlSpeed.alfaLavalDocument = model.alfaLavalSources.bowlSpeed;
+  // Every figure Alfa Laval prints where it prints more than one (variant, 50/60 Hz, feed pump).
+  for (const [key, field] of [['bowlSpeed', 'bowlSpeed'], ['motorPower', 'motor'], ['sludgeSpace', 'sludge']]) {
+    if (specs[key] && model.alfaLavalAlternatives?.[field]?.length) specs[key].alfaLavalAlternatives = model.alfaLavalAlternatives[field];
+  }
   if (specs.motorPower) {
     Object.assign(specs.motorPower, {
       scope: model.id.startsWith('dolphin-') ? 'published module centrifuge drive' : 'published base-machine centrifuge drive',
@@ -49,8 +53,12 @@ function specifications(model, legacy = {}) {
   if (configurations.length) {
     specs.motorPower = {
       status: 'requires_configuration', configurationIds: configurations.map(c => c.id),
-      publishedNominalDrive: {value: model.motorHp, unit: 'HP', sourceUrl: source.sourceUrl,
-        qualification: 'Nominal Dolphin drive rating; OEM pump arrangement not identified by this number.'},
+      publishedNominalDrive: model.motorKw !== undefined
+        ? {value: model.motorHp, unit: 'HP', converted: true, alfaLavalPrinted: {value: model.motorKw, unit: 'kW', document: model.alfaLavalSources?.motor},
+          ...(model.alfaLavalAlternatives?.motor?.length ? {alfaLavalAlternatives: model.alfaLavalAlternatives.motor} : {}),
+          sourceUrl: source.sourceUrl, qualification: 'Alfa Laval printed motor output; the OEM pump arrangement is not identified by this number.'}
+        : {value: model.motorHp, unit: 'HP', sourceUrl: source.sourceUrl,
+          qualification: 'Nominal Dolphin drive rating; OEM pump arrangement not identified by this number.'},
       qualification: 'No universal motor power for this model. Select configurationId; published nominal HP does not identify the OEM pump arrangement.',
       sourceUrl: configurationSources[model.id].sourceUrl,
     };
@@ -59,7 +67,9 @@ function specifications(model, legacy = {}) {
   if (specs.bowlSpeed) Object.assign(specs.bowlSpeed, {
     scope: 'published model configuration; match frequency and gearing before applying to an installed machine',
     ...(configurationSources[model.id]?.bowlSpeedByFrequency ? {
-      frequencyHz: 60, sourceUrl: configurationSources[model.id].sourceUrl,
+      // The headline is tagged 60 Hz only when it is the OEM manual's 60 Hz figure.
+      ...(configurationSources[model.id].bowlSpeedByFrequency.some((r) => r.frequencyHz === 60 && r.value === specs.bowlSpeed.value) ? {frequencyHz: 60} : {}),
+      sourceUrl: configurationSources[model.id].sourceUrl,
       reviewedOn: '2026-09-13', evidenceClass: 'public-oem-manual',
       alternatives: configurationSources[model.id].bowlSpeedByFrequency,
     } : {}),

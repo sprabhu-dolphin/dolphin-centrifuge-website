@@ -19,7 +19,7 @@ const TYPES = ['disc stack self-cleaning', 'disc stack manual-clean', 'decanter'
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
 const UNIT_FIELDS = ['model', 'family', 'maker', 'type', 'condition', 'status', 'availability', 'quantity', 'wettedParts', 'bowlSpeedRpm', 'motorHp', 'motorKw',
-  'bowlDiameter', 'separationType', 'cleaningMethod', 'capacity', 'configuration', 'modelPage'];
+  'bowlDiameter', 'separationType', 'cleaningMethod', 'capacity', 'configuration', 'alfaLavalSource', 'modelPage'];
 
 let stockCache: JsonObject | undefined;
 

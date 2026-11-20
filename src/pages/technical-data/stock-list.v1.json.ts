@@ -35,6 +35,7 @@ export function GET() {
       ...(u.bowlSpeedRpm !== undefined ? { bowlSpeedRpm: u.bowlSpeedRpm } : {}),
       ...(u.motorHp !== undefined ? { motorHp: u.motorHp } : {}),
       ...(u.motorKw !== undefined ? { motorKw: u.motorKw } : {}),
+      ...(u.alfaLavalSource ? { alfaLavalSource: u.alfaLavalSource } : {}),
       ...(u.bowlDiameter ? { bowlDiameter: u.bowlDiameter } : {}),
       ...(u.wettedParts ? { wettedParts: u.wettedParts } : {}),
       ...(u.separationType ? { separationType: u.separationType } : {}),

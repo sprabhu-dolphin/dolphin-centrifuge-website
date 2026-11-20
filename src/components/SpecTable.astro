@@ -97,14 +97,19 @@ function formatField(key: keyof ModelSpec, unitLabel?: string): string {
   if (raw === undefined || raw === null) {
     throw new Error(`SpecTable: ${modelId} has no published value for "${String(key)}"`);
   }
+  // Owner ruling 2026-11-20: an Alfa Laval figure shows its document and page, and where
+  // Alfa Laval prints more than one figure (variant, 50/60 Hz, feed pump) every one is shown.
+  const printed = (text: string, alternatives?: string[], document?: string) =>
+    alternatives?.length ? `${text}. Alfa Laval prints: ${alternatives.join('; ')}` : document ? `${text} (Alfa Laval document: ${document.replace(/^Alfa Laval /, '')})` : text;
+  const alt = model.alfaLavalAlternatives ?? {};
   switch (key) {
     case 'bowlSpeedRpm':
-      return `${numeric(raw as Numeric)} ${unitLabel ?? 'RPM'}`;
+      return printed(`${numeric(raw as Numeric)} ${unitLabel ?? 'RPM'}`, alt.bowlSpeed, model.alfaLavalSources?.bowlSpeed);
     case 'motorHp':
-      if (model.motorKw !== undefined) return `${numeric(model.motorKw)} kW (${numeric(raw as Numeric)} HP converted)`;
+      if (model.motorKw !== undefined) return printed(`${numeric(model.motorKw)} kW (${numeric(raw as Numeric)} HP converted)`, alt.motor, model.alfaLavalSources?.motor);
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'HP'}`;
     case 'sludgeVolumeGal':
-      if (model.sludgeVolumeL !== undefined) return `${numeric(model.sludgeVolumeL)} L (${numeric(raw as Numeric)} US gal converted)`;
+      if (model.sludgeVolumeL !== undefined) return printed(`${numeric(model.sludgeVolumeL)} L (${numeric(raw as Numeric)} US gal converted)`, alt.sludge, model.sludgeSource);
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'Gallons'}`;
     case 'netWeightLb':
       if (model.netWeightKg !== undefined) return `${numeric(model.netWeightKg)} kg (${numeric(raw as Numeric)} lb converted)`;

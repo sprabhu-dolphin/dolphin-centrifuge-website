@@ -65,9 +65,12 @@ test('published mechanical records and agent records agree and retain assembly/f
     }
   }
   const rpm=specs(catalog,{model:'Alfa Laval MAB 104 B 24-60',field:'bowlSpeed'}).data.specifications.bowlSpeed;
-  assert.equal(rpm.value,7350);
-  assert.equal(rpm.frequencyHz,60);
+  // Owner ruling 2026-11-20 ("Use Alfa Laval's"): headline 7,500 rpm (MAB 104B-20); the
+  // MAB 104B-14/24 manual's 50/60 Hz figures stay visible as printed alternatives.
+  assert.equal(rpm.value,7500);
+  assert.equal(rpm.frequencyHz,undefined);
   assert.deepEqual(rpm.alternatives.map(r=>[r.frequencyHz,r.value]),[[50,7500],[60,7350]]);
+  assert.ok(rpm.alfaLavalAlternatives.some(t=>/7,350 rpm at 60 Hz/.test(t)));
 });
 test('decimal viscosity in a natural-language request is not silently truncated', () => {
   assert.equal(capacity(catalog,{model:'MAB 204',fluid:'diesel 13.5 cSt'}).status,'not_found');

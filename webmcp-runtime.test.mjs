@@ -271,7 +271,7 @@ test('full stock list: public fields only, complete machines, every model resolv
   const { stockList, STOCK_TYPES, STOCK_CONDITIONS, validateStockList } = await import('./src/data/stockList.mjs');
   validateStockList();
   const PUBLIC = new Set(['family', 'model', 'type', 'condition', 'status', 'quantity', 'modelPage', 'bowlSpeedRpm', 'motorHp', 'motorKw',
-    'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration']);
+    'bowlDiameter', 'wettedParts', 'separationType', 'cleaningMethod', 'capacity', 'configuration', 'alfaLavalSource']);
   for (const u of stockList.units) {
     for (const key of Object.keys(u)) assert.ok(PUBLIC.has(key), `${u.model}: ${key} is not a public field`);
     assert.ok(STOCK_TYPES.includes(u.type) && STOCK_CONDITIONS.includes(u.condition), u.model);

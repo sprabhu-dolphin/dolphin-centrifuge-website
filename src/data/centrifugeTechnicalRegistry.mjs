@@ -350,16 +350,16 @@ const knownSpecs = {
     motorPower: { value: 1, unit: 'HP', ...specSource('/alfa-laval-mab-103-centrifuge/') },
     voltage: { values: [230, 460], unit: 'V', alternatives: ['110 V single-phase'], ...specSource('/alfa-laval-mab-103-centrifuge/') },
     dimensions: { width: 24, length: 30, height: 26, unit: 'in', scope: 'bare centrifuge', ...specSource('/alfa-laval-mab-103-centrifuge/') },
-    bowlSpeed: { value: 8600, unit: 'RPM', ...specSource('/alfa-laval-mab-103-centrifuge/') },
-    sludgeSpace: { value: 0.14, unit: 'US gal', ...specSource('/alfa-laval-mab-103-centrifuge/') },
+    bowlSpeed: { value: 8600, unit: 'RPM', alfaLavalPrinted: { value: 8600, unit: 'RPM', condition: '60 Hz (8,570 rpm at 50 Hz)', variant: 'MAB 103B-24', document: 'Alfa Laval 1270118-02 V5, p. 117' }, ...specSource('/alfa-laval-mab-103-centrifuge/') },
+    sludgeSpace: { value: 0.15, unit: 'US gal', converted: true, alfaLavalPrinted: { value: 0.56, unit: 'L', variant: 'MAB 103B-24', document: 'Alfa Laval 1270118-02 V5, p. 118' }, ...specSource('/alfa-laval-mab-103-centrifuge/') },
     materialsOfConstruction: materialSet('/alfa-laval-mab-103-centrifuge/#material-of-construction'),
   },
   'alfa-laval-mab-104': {
     cleaningMethod: { value: 'manual-clean / solid-retaining', ...specSource('/alfa-laval-mab-104-centrifuge/') },
-    motorPower: { value: 2, unit: 'HP', ...specSource('/alfa-laval-mab-104-centrifuge/') },
+    motorPower: { value: 1.5, unit: 'HP', converted: true, alfaLavalPrinted: { value: 1.12, unit: 'kW', document: 'Alfa Laval S83470E, p. 8 (also printed as 1.5 HP)' }, alfaLavalAlternatives: ['1.1 kW without OEM pump, MAB 104B-14/24 (Alfa Laval ref. 558168 rev. 2, p. 136)', '1.5 kW with OEM pump, MAB 104B-14/24 (Alfa Laval ref. 558168 rev. 2, p. 136)'], ...specSource('/alfa-laval-mab-104-centrifuge/') },
     voltage: { values: [230, 460], unit: 'V', alternatives: ['110 V single-phase'], ...specSource('/alfa-laval-mab-104-centrifuge/') },
     dimensions: { width: 30, length: 38, height: 43, unit: 'in', scope: 'bare centrifuge', ...specSource('/alfa-laval-mab-104-centrifuge/') },
-    bowlSpeed: { value: 7500, unit: 'RPM', ...specSource('/alfa-laval-mab-104-centrifuge/') },
+    bowlSpeed: { value: 7500, unit: 'RPM', alfaLavalPrinted: { value: 7500, unit: 'RPM', variant: 'MAB 104B-20', document: 'Alfa Laval Mineral Oil Separators: solids-retaining types, p. 1' }, alfaLavalAlternatives: ['7,500 rpm at 50 Hz, MAB 104B-14/24 (Alfa Laval ref. 558168 rev. 2, p. 136)', '7,350 rpm at 60 Hz, MAB 104B-14/24 (Alfa Laval ref. 558168 rev. 2, p. 136)'], ...specSource('/alfa-laval-mab-104-centrifuge/') },
     sludgeSpace: { value: 0.33, unit: 'US gal', ...specSource('/alfa-laval-mab-104-centrifuge/') },
     materialsOfConstruction: materialSet('/alfa-laval-mab-104-centrifuge/#material-of-construction'),
   },
@@ -428,6 +428,7 @@ function motorPower(published) {
     value: published.motor,
     unit: 'HP',
     ...(published.motorKw ? { converted: true, alfaLavalPrinted: { value: published.motorKw, unit: 'kW', document: published.motorDocument } } : {}),
+    ...(published.motorAlternatives ? { alfaLavalAlternatives: published.motorAlternatives } : {}),
     ...specSource(published.page),
   };
 }
@@ -436,15 +437,15 @@ function bowlSpeed(published) {
   return {
     value: published.rpm,
     unit: 'RPM',
-    ...(published.rpmDocument ? { alfaLavalPrinted: { value: published.rpm, unit: 'RPM', condition: 'max., 50 Hz and 60 Hz', document: published.rpmDocument } } : {}),
+    ...(published.rpmDocument ? { alfaLavalPrinted: { value: published.rpm, unit: 'RPM', condition: published.rpmCondition ?? 'max., 50 Hz and 60 Hz', document: published.rpmDocument } } : {}),
     ...specSource(published.page),
   };
 }
 
 const mopxSpecByModel = {
   'MOPX 205': { motor: 5.4, motorKw: 4, motorDocument: 'Alfa Laval MR SO 2800E, p. 90', sludge: 0.34, sludgeL: 1.3, voltage: [230, 460], page: '/alfa-laval-whpx-405/#mopx-205' },
-  'MOPX 207': { motor: 10.1, motorKw: 7.5, motorDocument: 'Alfa Laval MR SO 2800E, p. 92', sludge: 1.00, voltage: [230, 460], rpm: 6325, dimensions: [30, 38, 43], netWeightKg: 785, netWeightDocument: 'Alfa Laval MR SO 2800E, p. 92', page: '/alfa-laval-mopx-207-centrifuge/' },
-  'MOPX 209': { motor: 15, sludge: 1.48, sludgeL: 5.6, voltage: [230, 460], rpm: 5175, rpmDocument: 'Alfa Laval MR SO 2800E, p. 94', page: '/alfa-laval-mopx-209-centrifuge/' },
+  'MOPX 207': { motor: 10.1, motorKw: 7.5, motorDocument: 'Alfa Laval MR SO 2800E, p. 92', sludge: 1.03, sludgeL: 3.9, voltage: [230, 460], rpm: 6400, rpmDocument: 'Alfa Laval MR SO 2800E, p. 92; 160-OSM-1E, p. 241', dimensions: [30, 38, 43], netWeightKg: 785, netWeightDocument: 'Alfa Laval MR SO 2800E, p. 92', page: '/alfa-laval-mopx-207-centrifuge/' },
+  'MOPX 209': { motor: 15, motorKw: 11.2, motorDocument: 'Alfa Laval PX types, p. 1 (MOPX 209TGT-20)', motorAlternatives: ['11.2 kW, MOPX 209TGT-20 (Alfa Laval PX types, p. 1)', '11 kW, MOPX 209TGT (Alfa Laval MR SO 2800E, p. 94)'], sludge: 1.48, sludgeL: 5.6, voltage: [230, 460], rpm: 5175, rpmDocument: 'Alfa Laval MR SO 2800E, p. 94', page: '/alfa-laval-mopx-209-centrifuge/' },
 };
 
 const mopxCanonicalPages = {
@@ -469,10 +470,10 @@ const mopxModels = mopxRows.map((row) => {
 });
 
 const whpxSpecByModel = {
-  'WHPX 405': { motor: 5, sludge: 0.32, sludgeL: 1.2, rpm: 7600, page: '/alfa-laval-whpx-405/' },
-  'WHPX 407': { motor: 10, sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 174', page: '/alfa-laval-mopx-207-centrifuge/#whpx-407' },
+  'WHPX 405': { motor: 5.4, motorKw: 4, motorDocument: 'Alfa Laval MPCO 31-05-01, p. 66 (with separate feed pump); 170 OH/E, p. 25', motorAlternatives: ['4 kW with separate feed pump (Alfa Laval MPCO 31-05-01, p. 66; 170 OH/E, p. 25)', '5.5 kW with built-on feed pump (Alfa Laval MPCO 31-05-01, p. 66)'], sludge: 0.32, sludgeL: 1.2, rpm: 7605, rpmDocument: 'Alfa Laval MPCO 31-05-01, p. 66', page: '/alfa-laval-whpx-405/' },
+  'WHPX 407': { motor: 14.8, motorKw: 11, motorDocument: 'Alfa Laval 170-OSM2-2E, p. 174; 170 OH/E, p. 25', motorAlternatives: ['11 kW (Alfa Laval 170-OSM2-2E, p. 174; 170 OH/E, p. 25)', '10 kW, WHPX 407TGD-20 (Alfa Laval PX types, p. 1)'], sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 174', page: '/alfa-laval-mopx-207-centrifuge/#whpx-407' },
   'WHPX 409': { motor: 14.8, motorKw: 11, motorDocument: 'Alfa Laval 170-OSM2-2E, p. 175', sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 175', page: '/alfa-laval-mopx-209-centrifuge/#whpx-409' },
-  'WHPX 510': { motor: 10, sludge: 1.62, rpm: 5180, page: '/alfa-laval-whpx-510-centrifuge/' },
+  'WHPX 510': { motor: 15, motorKw: 11.2, motorDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', sludge: 1.62, rpm: 5180, rpmDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', rpmCondition: 'as printed for the WHPX 510TGD-20', page: '/alfa-laval-whpx-510-centrifuge/' },
   'WHPX 513': { motor: 15, sludge: 3.87, page: '/alfa-laval-whpx-513/' },
 };
 

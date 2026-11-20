@@ -291,7 +291,9 @@ test('selected commercial specifications retain separate module and base-machine
   assert.equal(result.data.selectedModel.id, 'alfa-laval-whpx-405');
   assert.ok(result.data.specifications.commercialClass.skidDimensions);
   assert.ok(result.data.specifications.commercialClass.bowlConstruction);
-  assert.equal(result.data.specifications.baseMachine.motorPower.value, 5);
+  // Owner ruling 2026-11-20: WHPX 405 motor is Alfa Laval's printed 4 kW (5.4 HP converted), MPCO 31-05-01 p. 66.
+  assert.equal(result.data.specifications.baseMachine.motorPower.value, 5.4);
+  assert.equal(result.data.specifications.baseMachine.motorPower.alfaLavalPrinted.value, 4);
   assert.equal(result.data.specifications.baseMachine.cleaningMethod.value, 'automatic partial-discharge / self-cleaning');
 });
 
