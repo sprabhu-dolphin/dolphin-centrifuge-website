@@ -74,13 +74,19 @@ function publicSpec(m) {
     bowlSpeedRpm: m.bowlSpeedRpm,
     gForce: m.gForce,
     motorHp: m.motorHp,
+    motorKwAlfaLaval: m.motorKw,
     motorNote: m.motorNote,
     bowlDiameter: m.bowlDiameter,
     bowlLength: m.bowlLength,
     sludgeVolumeUsGal: m.sludgeVolumeGal,
+    sludgeVolumeLitresAlfaLaval: m.sludgeVolumeL,
+    sludgeSource: m.sludgeSource,
     voltages: m.voltages,
     micronRating: m.micronRating,
     netWeightLb: m.netWeightLb,
+    netWeightKgAlfaLaval: m.netWeightKg,
+    netWeightScope: m.netWeightScope,
+    alfaLavalSources: m.alfaLavalSources,
     dimensions: m.dimensions,
     bowlType: m.bowlType,
     separationType: m.separationType,
@@ -147,7 +153,8 @@ function summaryLine(m) {
   const bits = [`${m.designation}${m.modelType && m.modelType !== m.designation ? ` (${m.modelType})` : ''}`, FAMILY_LABEL[m.family]];
   if (m.bowlType) bits.push(m.bowlType.toLowerCase());
   if (m.bowlSpeedRpm) bits.push(`${fmtNum(m.bowlSpeedRpm)} RPM`);
-  if (m.motorHp) bits.push(`${fmtNum(m.motorHp)} HP`);
+  if (m.motorKw) bits.push(`${fmtNum(m.motorKw)} kW (${fmtNum(m.motorHp)} HP converted)`);
+  else if (m.motorHp) bits.push(`${fmtNum(m.motorHp)} HP`);
   if (m.dolphinModule) bits.push(`Dolphin module ${m.dolphinModule}`);
   const cap = m.capacities[0];
   bits.push(cap ? capacityText(cap) : (m.capacityPolicy ?? 'sized per application'));

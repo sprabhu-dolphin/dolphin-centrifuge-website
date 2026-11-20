@@ -28,6 +28,13 @@ function specifications(model, legacy = {}) {
     delete specs[key];
     if (model[field] !== undefined) specs[key] = {...value(model[field], unit), ...source};
   }
+  if (specs.motorPower && model.motorKw !== undefined) Object.assign(specs.motorPower, {
+    converted: true, alfaLavalPrinted: {value: model.motorKw, unit: 'kW', document: model.alfaLavalSources?.motor}});
+  if (specs.netWeight && model.netWeightKg !== undefined) Object.assign(specs.netWeight, {
+    converted: true, alfaLavalPrinted: {value: model.netWeightKg, unit: 'kg', scope: model.netWeightScope, document: model.alfaLavalSources?.netWeight}});
+  if (specs.sludgeSpace && model.sludgeVolumeL !== undefined) Object.assign(specs.sludgeSpace, {
+    converted: true, alfaLavalPrinted: {value: model.sludgeVolumeL, unit: 'L', document: model.sludgeSource}});
+  if (specs.bowlSpeed && model.alfaLavalSources?.bowlSpeed) specs.bowlSpeed.alfaLavalDocument = model.alfaLavalSources.bowlSpeed;
   if (specs.motorPower) {
     Object.assign(specs.motorPower, {
       scope: model.id.startsWith('dolphin-') ? 'published module centrifuge drive' : 'published base-machine centrifuge drive',

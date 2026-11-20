@@ -143,15 +143,30 @@ export interface ModelSpec {
   /** Number of Gs, or a published qualified string such as "6,500+". */
   gForce?: Numeric | string;
   motorHp?: Numeric;
+  /**
+   * Motor power exactly as Alfa Laval prints it, in kW. When set, motorHp is the
+   * converted value (kW x 1.341, one decimal) and every surface marks HP as converted.
+   */
+  motorKw?: number;
   /** Use when the motor cannot be reduced to a number. */
   motorNote?: string;
   bowlDiameter?: Dimension;
   bowlLength?: Dimension;
   sludgeVolumeGal?: Numeric;
+  /** Sludge (solids) space exactly as Alfa Laval prints it, in litres. When set, sludgeVolumeGal is converted (L / 3.785, two decimals). */
+  sludgeVolumeL?: number;
+  /** The Alfa Laval document and page behind sludgeVolumeL. */
+  sludgeSource?: string;
   /** As published, e.g. "230 / 460 V, 3 phase". */
   voltages?: string;
   micronRating?: number;
   netWeightLb?: Numeric;
+  /** Net weight exactly as Alfa Laval prints it, in kg. When set, netWeightLb is the converted value (kg x 2.20462, whole lb). */
+  netWeightKg?: number;
+  /** What the printed net weight covers, e.g. "separator with tools, excluding motor". */
+  netWeightScope?: string;
+  /** The Alfa Laval document and page behind each printed figure on this record. */
+  alfaLavalSources?: { bowlSpeed?: string; motor?: string; netWeight?: string; capacity?: string };
   /** As published, e.g. `30" x 38" x 43" (Bare Centrifuge)`. */
   dimensions?: string;
 
@@ -274,7 +289,9 @@ export const models: ModelSpec[] = [
     bowlSpeedRpm: 7600,
     gForce: 7200,
     motorHp: 5,
-    sludgeVolumeGal: 0.36,
+    sludgeVolumeL: 1.2,
+    sludgeVolumeGal: 0.32,
+    sludgeSource: 'Alfa Laval MPCO 31-05-01, p. 66',
     voltages: V_230_460,
     micronRating: 0.5,
     bowlType: 'Automatic partial-discharge / self-cleaning',
@@ -286,6 +303,7 @@ export const models: ModelSpec[] = [
       'F7: ATEX Zone 2 hazardous-area configurations are available and are backed by a photographed DMPX-014 skid.',
     ],
     rejectedValues: [
+      { text: '0.36 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (1.2 L = 0.32 US gal, MPCO 31-05-01 p. 66).' },
       { text: '8,500 RPM', reason: 'A3: 8,500 RPM is a MAB-frame figure, not the WHPX 405 frame.' },
       { text: '12,000 Gs', reason: 'A5/E4: no machine on the site develops 12,000 Gs. The WHPX 405 frame is 7,200 Gs.' },
       { text: '10,000 Gs', reason: 'E4: class-wide G-force claims removed. Quote per model.' },
@@ -300,9 +318,12 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-028',
     canonicalPath: '/alfa-laval-mopx-207-centrifuge/',
     capacities: fromRegistry('alfa-laval-whpx-407'),
-    bowlSpeedRpm: 7125,
+    bowlSpeedRpm: 5175,
+    alfaLavalSources: { bowlSpeed: 'Alfa Laval 170-OSM2-2E, p. 174 (max., 50 Hz and 60 Hz)' },
     motorHp: 10,
-    sludgeVolumeGal: 1.3,
+    sludgeVolumeL: 6.3,
+    sludgeVolumeGal: 1.66,
+    sludgeSource: 'Alfa Laval 170-OSM2-2E, p. 174',
     voltages: V_230_460,
     bowlType: 'Automatic partial-discharge / self-cleaning',
     rulings: ['B5', 'B7', 'B8'],
@@ -311,6 +332,11 @@ export const models: ModelSpec[] = [
       'B7: the DMPX-028 photo caption legitimately says WHPX-407 because that is the machine in the photo.',
     ],
     skipPageAssert: ['rpm'],
+    rejectedValues: [
+      { text: '7,125 RPM', reason: '2026-11-20: differs from the Alfa Laval printed figure (max. 5,175 rpm, 170-OSM2-2E p. 174).' },
+      { text: '1.30 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (6.3 L = 1.66 US gal, 170-OSM2-2E p. 174).' },
+      { text: '1.3 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (6.3 L = 1.66 US gal).' },
+    ],
   },
   {
     id: 'alfa-laval-whpx-409',
@@ -321,11 +347,21 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-042',
     canonicalPath: '/alfa-laval-mopx-209-centrifuge/',
     capacities: fromRegistry('alfa-laval-whpx-409'),
-    bowlSpeedRpm: 7125,
-    motorHp: 12.5,
-    sludgeVolumeGal: 1.3,
+    bowlSpeedRpm: 5175,
+    motorKw: 11,
+    motorHp: 14.8,
+    alfaLavalSources: { bowlSpeed: 'Alfa Laval 170-OSM2-2E, p. 175 (max., 50 Hz and 60 Hz)', motor: 'Alfa Laval 170-OSM2-2E, p. 175; 170 OH/E, p. 25' },
+    sludgeVolumeL: 6.3,
+    sludgeVolumeGal: 1.66,
+    sludgeSource: 'Alfa Laval 170-OSM2-2E, p. 175',
     voltages: V_230_460,
     bowlType: 'Automatic partial-discharge / self-cleaning',
+    rejectedValues: [
+      { text: '7,125 RPM', reason: '2026-11-20: differs from the Alfa Laval printed figure (max. 5,175 rpm, 170-OSM2-2E p. 175).' },
+      { text: '12.5 HP', reason: '2026-11-20: differs from the Alfa Laval printed figure (11 kW = 14.8 HP, 170-OSM2-2E p. 175).' },
+      { text: '1.30 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (6.3 L = 1.66 US gal, 170-OSM2-2E p. 175).' },
+      { text: '1.3 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (6.3 L = 1.66 US gal).' },
+    ],
   },
   {
     id: 'alfa-laval-whpx-510',
@@ -413,15 +449,21 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-014',
     canonicalPath: '/alfa-laval-whpx-405/',
     capacities: fromRegistry('alfa-laval-mopx-205'),
-    motorHp: 4,
-    sludgeVolumeGal: 0.38,
+    motorKw: 4,
+    motorHp: 5.4,
+    alfaLavalSources: { capacity: 'Alfa Laval MPCO 20-00-02, p. 1', motor: 'Alfa Laval MR SO 2800E, p. 90; 160-OSM-1E, p. 240' },
+    sludgeVolumeL: 1.3,
+    sludgeVolumeGal: 0.34,
+    sludgeSource: 'Alfa Laval MR SO 2800E, p. 90',
     voltages: V_230_460,
     bowlType: 'Total-discharge',
     rulings: ['E1'],
     notes: [
-      'E1 ruled 21 GPM against a 25 GPM alternative. The 2026-08-28 capacity pass replaced the single rounded figure with the fluid-labelled OEM records (gas oil 4,900 L/h, diesel 3,300 L/h, R&O / engine lube 1,700 L/h, steam turbine 3,200 L/h). Those are canonical.',
+      'E1 ruled 21 GPM against a 25 GPM alternative. The 2026-08-28 capacity pass replaced the single rounded figure with the fluid-labelled OEM records (diesel 3,300 L/h, R&O 1,500-1,700 L/h, steam turbine 3,200 L/h; rated 4,900 L/h with no fluid). Those are canonical.',
     ],
     rejectedValues: [
+      { text: '0.38 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (1.3 L = 0.34 US gal, MR SO 2800E p. 90).' },
+      { text: '4 HP', reason: '2026-11-20: differs from the Alfa Laval printed figure (4 kW = 5.4 HP, MR SO 2800E p. 90).', unless: 'kW' },
       { text: '25 GPM', reason: 'E1: rejected for the MOPX 205. Its published records are fluid-labelled L/h values.' },
     ],
     skipPageAssert: ['rpm', 'hp'],
@@ -436,20 +478,26 @@ export const models: ModelSpec[] = [
     canonicalPath: '/alfa-laval-mopx-207-centrifuge/',
     capacities: fromRegistry('alfa-laval-mopx-207'),
     bowlSpeedRpm: 6325,
-    motorHp: 7.5,
+    motorKw: 7.5,
+    motorHp: 10.1,
     sludgeVolumeGal: 1.0,
     voltages: '230 / 460 V; 3-Phase',
-    netWeightLb: 1800,
+    netWeightKg: 785,
+    netWeightLb: 1731,
+    netWeightScope: 'separator complete with set of tools, excluding motor',
+    alfaLavalSources: { capacity: 'Alfa Laval MPCO 20-00-02, p. 1', motor: 'Alfa Laval MR SO 2800E, p. 92; 160-OSM-1E, p. 241', netWeight: 'Alfa Laval MR SO 2800E, p. 92' },
     dimensions: '30" x 38" x 43" (Bare Centrifuge)',
     bowlType: 'Automatic self-cleaning',
     separationType: 'Three-phase (oil / water / solids)',
     rulings: ['E2', 'B5', 'C7', 'E10', 'R5-4'],
     notes: [
-      'E2 ruled 34 GPM against 30 GPM. The 2026-08-28 pass replaced it with the fluid-labelled OEM records; diesel is 5,000 L/h (22.01 US GPM derived) and gas oil 7,400 L/h (32.58 US GPM derived).',
+      'E2 ruled 34 GPM against 30 GPM. The 2026-08-28 pass replaced it with the fluid-labelled OEM records; diesel (marine diesel oil, 13 cSt/40 C) is 5,000 L/h (22.01 US GPM derived). 7,400 L/h is the Alfa Laval rated capacity with no fluid; it was mislabelled "gas oil" until 2026-11-20 (owner ruling: gas oil is diesel fuel; use the printed diesel figure).',
+      '2026-11-20: motor 7.5 kW and net weight 785 kg are the Alfa Laval printed figures (MR SO 2800E p. 92). The site earlier said 7.5 HP (a kW figure labelled HP) and 1,800 lb (no source).',
       'C7/A17: the 28 GPM quench-oil and coolant figure belongs to this machine (DMPX-028), not to the DMPX-014 skid photographed on the quench page, and not to the WHPX 510.',
       'R5-4 (ruled 2026-08-29): the MOPX 207 bowl speed is 6,325 RPM. The 8,000 RPM in the DMPX-028 case study was the error and was corrected. 8,000 RPM stays legitimate for other frames, so the rejection below is scoped to this record only.',
     ],
     rejectedValues: [
+      { text: '1,800 Lbs', reason: '2026-11-20: differs from the Alfa Laval printed figure (net 785 kg = 1,731 lb, MR SO 2800E p. 92).', unless: 'skid' },
       { text: '30 GPM', reason: 'E2: rejected for the MOPX 207.' },
       { text: '8,000 RPM', reason: 'R5-4: rejected for the MOPX 207. Its bowl speed is 6,325 RPM.' },
     ],
@@ -463,14 +511,22 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-042',
     canonicalPath: '/alfa-laval-mopx-209-centrifuge/',
     capacities: fromRegistry('alfa-laval-mopx-209'),
-    bowlSpeedRpm: 5180,
+    bowlSpeedRpm: 5175,
+    alfaLavalSources: { capacity: 'Alfa Laval MPCO 20-00-02, p. 1', bowlSpeed: 'Alfa Laval MR SO 2800E, p. 94 (max., 50 Hz and 60 Hz)' },
     motorHp: 15,
-    sludgeVolumeGal: 2.0,
+    sludgeVolumeL: 5.6,
+    sludgeVolumeGal: 1.48,
+    sludgeSource: 'Alfa Laval MR SO 2800E, p. 94',
     voltages: V_230_460,
     bowlType: 'Automatic self-cleaning',
     rulings: ['B4', 'C2'],
     notes: ['C2: the DMPX-042 skid photo is confirmed by eye to be a MOPX 209.'],
     skipPageAssert: ['rpm'],
+    rejectedValues: [
+      { text: '5,180 RPM', reason: '2026-11-20: differs from the Alfa Laval printed figure (max. 5,175 rpm, MR SO 2800E p. 94).', unless: 'WHPX 510|MOPX 210' },
+      { text: '2.00 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (5.6 L = 1.48 US gal, MR SO 2800E p. 94).' },
+      { text: '2.0 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (5.6 L = 1.48 US gal).', unless: 'MAB 209' },
+    ],
   },
   {
     id: 'alfa-laval-mopx-210',
@@ -481,6 +537,7 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-042',
     canonicalPath: '/centrifuges/dmpx-042/',
     capacities: fromRegistry('alfa-laval-mopx-210'),
+    alfaLavalSources: { capacity: 'Alfa Laval MPCO 20-00-02, p. 1' },
     bowlType: 'Automatic self-cleaning',
     rulings: ['B4', 'R5-6'],
     notes: [
@@ -514,7 +571,9 @@ export const models: ModelSpec[] = [
         note: 'Dolphin application figure, not an OEM record. Published on /alfa-laval-whpx-513/.',
       },
     ],
-    motorHp: 15,
+    motorKw: 15,
+    motorHp: 20.1,
+    alfaLavalSources: { capacity: 'Alfa Laval MPCO 20-00-02, p. 1', motor: 'Alfa Laval MR SO 2800E, p. 98; PX types, p. 1' },
     sludgeVolumeGal: 3.7,
     voltages: V_230_460,
     bowlType: 'Automatic self-cleaning',
@@ -735,7 +794,9 @@ export const models: ModelSpec[] = [
     canonicalPath: '/alfa-laval-mab-centrifuge/',
     capacities: fromRegistry('alfa-laval-mab-205'),
     motorHp: 5,
-    sludgeVolumeGal: 0.48,
+    sludgeVolumeL: 2.1,
+    sludgeVolumeGal: 0.55,
+    sludgeSource: 'Alfa Laval TD S93304E, p. 1',
     voltages: V_230_460,
     bowlType: 'Manual-clean / solid-retaining',
     rulings: ['E6'],
@@ -743,6 +804,7 @@ export const models: ModelSpec[] = [
       'E6 ruled 19 GPM diesel / 29 GPM rated / 10 GPM lube R&O, each printed with its fluid. The 2026-08-28 pass states the same three duties as source values: diesel 4,400 L/h (19.37 US GPM), rated reference 6,500 L/h (28.62 US GPM), R&O lube 2,000-2,300 L/h (8.81-10.13 US GPM).',
     ],
     rejectedValues: [
+      { text: '0.48 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (2.1 dm3 = 0.55 US gal, TD S93304E p. 1).' },
       { text: '18 GPM', reason: 'E6: an unlabelled MAB 205 figure. Each duty is now printed with its fluid.' },
     ],
     skipPageAssert: ['rpm'],
@@ -781,10 +843,15 @@ export const models: ModelSpec[] = [
     canonicalPath: '/alfa-laval-mab-centrifuge/',
     capacities: fromRegistry('alfa-laval-mab-207'),
     motorHp: 10,
-    sludgeVolumeGal: 1.1,
+    sludgeVolumeL: 4.5,
+    sludgeVolumeGal: 1.19,
+    sludgeSource: 'Alfa Laval TD S93306E, p. 1',
     voltages: V_230_460,
     bowlType: 'Manual-clean / solid-retaining',
     skipPageAssert: ['rpm'],
+    rejectedValues: [
+      { text: '1.10 Gal', reason: '2026-11-20: differs from the Alfa Laval printed figure (4.5 dm3 = 1.19 US gal, TD S93306E p. 1).' },
+    ],
   },
   {
     id: 'alfa-laval-mab-209',
@@ -1512,7 +1579,7 @@ export const models: ModelSpec[] = [
     dolphinModule: 'DMPX-042',
     canonicalPath: '/centrifuges/dmpx-042/',
     capacities: [],
-    bowlSpeedRpm: [5180, 7125],
+    bowlSpeedRpm: [5175, 5180],
     gForce: '7,000-8,000',
     motorHp: [10, 15],
     sludgeVolumeGal: [1.64, 1.66],

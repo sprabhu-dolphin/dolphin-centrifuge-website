@@ -51,7 +51,7 @@ function convertSourceValue(sourceValue) {
   return [{ ...shared, minimum: roundGpm(sourceValue.minimum), maximum: roundGpm(sourceValue.maximum) }];
 }
 
-function capacity({ modelId, key, fluid, category, sourceValue, conditions, ratingBasis, sourceDocumentId, sourceLocation, searchTerms = [] }) {
+function capacity({ modelId, key, fluid, category, sourceValue, conditions, ratingBasis, sourceDocumentId, sourceLocation, searchTerms = [], alfaLavalDocument }) {
   const sourceDocument = sourceDocuments.find((document) => document.id === sourceDocumentId);
   return {
     id: `${modelId}-${key}`,
@@ -70,6 +70,7 @@ function capacity({ modelId, key, fluid, category, sourceValue, conditions, rati
       sourceDocumentTitle: sourceDocument?.title,
       sourceFileSha256: sourceDocument?.sourceFileSha256,
       location: sourceLocation,
+      ...(alfaLavalDocument ? { alfaLavalDocument } : {}),
       valueField: 'L/h',
       reviewedOn: REVIEWED_ON,
       reviewedBy: `${SITE_URL}/authors/sanjay-prabhu/#person`,
@@ -129,22 +130,32 @@ function mabCapacities(modelId, row) {
   ];
 }
 
+/*
+ * MAPX / MOPX values as Alfa Laval prints them in MPCO 20-00-02 (M 8112-07), p. 1,
+ * "Recommended maximum throughput capacities, MAPX / MOPX series" (checked against the
+ * Dolphin library export 2026-11-20). Alfa Laval prints the first number only as the
+ * machine's rated capacity with no fluid; it was once mislabelled "Gas oil" here.
+ * Gas oil is diesel fuel (owner ruling 2026-11-20): the diesel figure is the printed
+ * marine diesel oil row, 13 cSt/40 C, centrifuge temperature 40 C. R&O is the printed
+ * range at 80-90 C; steam turbine is the printed 60-70 C row.
+ */
+const MPCO_20_00_02 = 'Alfa Laval MPCO 20-00-02 (M 8112-07), p. 1';
 const mopxRows = [
-  { model: 'MAPX 204', row: 15, gasOil: 2700, diesel: 1800, engineLube: 900, steamTurbine: 1800 },
-  { model: 'MOPX 205', row: 16, gasOil: 4900, diesel: 3300, engineLube: 1700, steamTurbine: 3200 },
-  { model: 'MOPX 207', row: 17, gasOil: 7400, diesel: 5000, engineLube: 2600, steamTurbine: 4800 },
-  { model: 'MOPX 209', row: 18, gasOil: 11800, diesel: 7900, engineLube: 4100, steamTurbine: 7700 },
-  { model: 'MOPX 210', row: 19, gasOil: 14000, diesel: 9400, engineLube: 4900, steamTurbine: 9100 },
-  { model: 'MOPX 213', row: 20, gasOil: 21500, diesel: 14400, engineLube: 7500, steamTurbine: 14000 },
+  { model: 'MAPX 204', row: 15, rated: 2700, diesel: 1800, ro: [800, 900], steamTurbine: 1800 },
+  { model: 'MOPX 205', row: 16, rated: 4900, diesel: 3300, ro: [1500, 1700], steamTurbine: 3200 },
+  { model: 'MOPX 207', row: 17, rated: 7400, diesel: 5000, ro: [2200, 2600], steamTurbine: 4800 },
+  { model: 'MOPX 209', row: 18, rated: 11800, diesel: 7900, ro: [3500, 4100], steamTurbine: 7700 },
+  { model: 'MOPX 210', row: 19, rated: 14000, diesel: 9400, ro: [4200, 4900], steamTurbine: 9100 },
+  { model: 'MOPX 213', row: 20, rated: 21500, diesel: 14400, ro: [6500, 7500], steamTurbine: 14000 },
 ];
 
 function mopxCapacities(modelId, row) {
   const sourceDocumentId = 'alfa-laval-mab-capacity-chart';
   return [
-    capacity({ modelId, key: 'gas-oil', fluid: 'Gas oil', category: 'fuel-oil', searchTerms: ['light fuel oil', 'lfo'], sourceValue: exact(row.gasOil), conditions: capacityConditions.gasOil, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!C${row.row}` }),
-    capacity({ modelId, key: 'diesel', fluid: 'Diesel fuel', category: 'diesel', searchTerms: ['marine diesel', 'number 2 diesel', '#2 diesel'], sourceValue: exact(row.diesel), conditions: capacityConditions.diesel, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!E${row.row}` }),
-    capacity({ modelId, key: 'engine-lube-oil', fluid: 'R&O / engine lube oil', category: 'lube-oil', searchTerms: ['hydraulic oil'], sourceValue: exact(row.engineLube), conditions: capacityConditions.engineLube, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!G${row.row}` }),
-    capacity({ modelId, key: 'steam-turbine-lube-oil', fluid: 'Steam turbine lube oil', category: 'lube-oil', searchTerms: ['turbine oil'], sourceValue: exact(row.steamTurbine), conditions: capacityConditions.steamTurbine, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!J${row.row}` }),
+    capacity({ modelId, key: 'rated-reference', fluid: 'Rated reference capacity (fluid not specified)', category: 'reference', sourceValue: exact(row.rated), conditions: capacityConditions.ratedReference, ratingBasis: 'oem-rated-reference', sourceDocumentId, sourceLocation: `Sheet1!C${row.row}`, alfaLavalDocument: MPCO_20_00_02 }),
+    capacity({ modelId, key: 'diesel', fluid: 'Diesel fuel (marine diesel oil)', category: 'diesel', searchTerms: ['marine diesel', 'gas oil', 'number 2 diesel', '#2 diesel', 'light fuel oil'], sourceValue: exact(row.diesel), conditions: { ...capacityConditions.diesel, sourceLabel: 'Marine diesel oil, 13 cSt/40 C, centrifuge temp. 40 C' }, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!E${row.row}`, alfaLavalDocument: MPCO_20_00_02 }),
+    capacity({ modelId, key: 'ro-lube-oil', fluid: 'R&O lube oil', category: 'lube-oil', searchTerms: ['rust and oxidation oil', 'hydraulic oil', 'engine lube oil'], sourceValue: range(...row.ro), conditions: { ...capacityConditions.mabLubeRange, sourceLabel: 'R&O lube oil, 80-90 C' }, ratingBasis: 'oem-application-range', sourceDocumentId, sourceLocation: `Sheet1!G${row.row}`, alfaLavalDocument: MPCO_20_00_02 }),
+    capacity({ modelId, key: 'steam-turbine-lube-oil', fluid: 'Steam turbine lube oil', category: 'lube-oil', searchTerms: ['turbine oil'], sourceValue: exact(row.steamTurbine), conditions: capacityConditions.steamTurbine, ratingBasis: 'oem-application', sourceDocumentId, sourceLocation: `Sheet1!J${row.row}`, alfaLavalDocument: MPCO_20_00_02 }),
   ];
 }
 
@@ -356,9 +367,9 @@ const knownSpecs = {
 
 const mabLargeSpecs = {
   'MAB 204': { motor: 4, sludge: 0.40 },
-  'MAB 205': { motor: 5, sludge: 0.48 },
+  'MAB 205': { motor: 5, sludge: 0.55, sludgeL: 2.1 },
   'MAB 206': { motor: 7.5, sludge: 0.91 },
-  'MAB 207': { motor: 10, sludge: 1.10 },
+  'MAB 207': { motor: 10, sludge: 1.19, sludgeL: 4.5 },
   'MAB 209': { motor: 15, sludge: 2.00 },
 };
 
@@ -405,15 +416,35 @@ const mabModels = mabRows.map((row) => {
     cleaningMethod: { value: 'manual-clean / solid-retaining', ...specSource(page) },
     motorPower: { value: large.motor, unit: 'HP', ...specSource(page) },
     voltage: { values: [230, 460], unit: 'V', ...specSource(page) },
-    sludgeSpace: { value: large.sludge, unit: 'US gal', ...specSource(page) },
+    sludgeSpace: { value: large.sludge, unit: 'US gal', ...(large.sludgeL ? { converted: true, alfaLavalPrinted: { value: large.sludgeL, unit: 'L' } } : {}), ...specSource(page) },
   } : {});
   return oemModel({ model: row.model, canonicalPage: `${SITE_URL}${page}`, specifications, capacities: mabCapacities(id, row) });
 });
 
+// Motor and bowl speed records. Where Alfa Laval prints the figure, the printed kW and the
+// document travel with it and HP is marked converted (kW x 1.341, one decimal).
+function motorPower(published) {
+  return {
+    value: published.motor,
+    unit: 'HP',
+    ...(published.motorKw ? { converted: true, alfaLavalPrinted: { value: published.motorKw, unit: 'kW', document: published.motorDocument } } : {}),
+    ...specSource(published.page),
+  };
+}
+
+function bowlSpeed(published) {
+  return {
+    value: published.rpm,
+    unit: 'RPM',
+    ...(published.rpmDocument ? { alfaLavalPrinted: { value: published.rpm, unit: 'RPM', condition: 'max., 50 Hz and 60 Hz', document: published.rpmDocument } } : {}),
+    ...specSource(published.page),
+  };
+}
+
 const mopxSpecByModel = {
-  'MOPX 205': { motor: 4, sludge: 0.38, voltage: [230, 460], page: '/alfa-laval-whpx-405/#mopx-205' },
-  'MOPX 207': { motor: 7.5, sludge: 1.00, voltage: [230, 460], rpm: 6325, dimensions: [30, 38, 43], page: '/alfa-laval-mopx-207-centrifuge/' },
-  'MOPX 209': { motor: 15, sludge: 2.00, voltage: [230, 460], rpm: 5180, page: '/alfa-laval-mopx-209-centrifuge/' },
+  'MOPX 205': { motor: 5.4, motorKw: 4, motorDocument: 'Alfa Laval MR SO 2800E, p. 90', sludge: 0.34, sludgeL: 1.3, voltage: [230, 460], page: '/alfa-laval-whpx-405/#mopx-205' },
+  'MOPX 207': { motor: 10.1, motorKw: 7.5, motorDocument: 'Alfa Laval MR SO 2800E, p. 92', sludge: 1.00, voltage: [230, 460], rpm: 6325, dimensions: [30, 38, 43], netWeightKg: 785, netWeightDocument: 'Alfa Laval MR SO 2800E, p. 92', page: '/alfa-laval-mopx-207-centrifuge/' },
+  'MOPX 209': { motor: 15, sludge: 1.48, sludgeL: 5.6, voltage: [230, 460], rpm: 5175, rpmDocument: 'Alfa Laval MR SO 2800E, p. 94', page: '/alfa-laval-mopx-209-centrifuge/' },
 };
 
 const mopxCanonicalPages = {
@@ -426,10 +457,11 @@ const mopxModels = mopxRows.map((row) => {
   const published = mopxSpecByModel[row.model];
   const specifications = published ? {
     cleaningMethod: { value: 'automatic self-cleaning', ...specSource(published.page) },
-    motorPower: { value: published.motor, unit: 'HP', ...specSource(published.page) },
+    motorPower: motorPower(published),
     voltage: { values: published.voltage, unit: 'V', phases: 3, ...specSource(published.page) },
-    sludgeSpace: { value: published.sludge, unit: 'US gal', ...specSource(published.page) },
-    ...(published.rpm ? { bowlSpeed: { value: published.rpm, unit: 'RPM', ...specSource(published.page) } } : {}),
+    sludgeSpace: { value: published.sludge, unit: 'US gal', ...(published.sludgeL ? { converted: true, alfaLavalPrinted: { value: published.sludgeL, unit: 'L' } } : {}), ...specSource(published.page) },
+    ...(published.rpm ? { bowlSpeed: bowlSpeed(published) } : {}),
+    ...(published.netWeightKg ? { netWeight: { value: published.netWeightKg, unit: 'kg', convertedLb: Math.round(published.netWeightKg * 2.20462), scope: 'separator complete with set of tools, excluding motor', alfaLavalDocument: published.netWeightDocument, ...specSource(published.page) } } : {}),
     ...(published.dimensions ? { dimensions: { width: published.dimensions[0], length: published.dimensions[1], height: published.dimensions[2], unit: 'in', scope: 'bare centrifuge', ...specSource(published.page) } } : {}),
     ...(row.model === 'MOPX 207' ? { materialsOfConstruction: materialSet('/alfa-laval-mopx-207-centrifuge/#material') } : {}),
   } : {};
@@ -437,9 +469,9 @@ const mopxModels = mopxRows.map((row) => {
 });
 
 const whpxSpecByModel = {
-  'WHPX 405': { motor: 5, sludge: 0.36, rpm: 7600, page: '/alfa-laval-whpx-405/' },
-  'WHPX 407': { motor: 10, sludge: 1.30, rpm: 7125, page: '/alfa-laval-mopx-207-centrifuge/#whpx-407' },
-  'WHPX 409': { motor: 12.5, sludge: 1.30, rpm: 7125, page: '/alfa-laval-mopx-209-centrifuge/#whpx-409' },
+  'WHPX 405': { motor: 5, sludge: 0.32, sludgeL: 1.2, rpm: 7600, page: '/alfa-laval-whpx-405/' },
+  'WHPX 407': { motor: 10, sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 174', page: '/alfa-laval-mopx-207-centrifuge/#whpx-407' },
+  'WHPX 409': { motor: 14.8, motorKw: 11, motorDocument: 'Alfa Laval 170-OSM2-2E, p. 175', sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 175', page: '/alfa-laval-mopx-209-centrifuge/#whpx-409' },
   'WHPX 510': { motor: 10, sludge: 1.62, rpm: 5180, page: '/alfa-laval-whpx-510-centrifuge/' },
   'WHPX 513': { motor: 15, sludge: 3.87, page: '/alfa-laval-whpx-513/' },
 };
@@ -449,10 +481,10 @@ const whpxModels = whpxRows.map((row) => {
   const published = whpxSpecByModel[row.model];
   const specifications = {
     cleaningMethod: { value: 'automatic partial-discharge / self-cleaning', ...specSource(published.page) },
-    motorPower: { value: published.motor, unit: 'HP', ...specSource(published.page) },
+    motorPower: motorPower(published),
     voltage: { values: [230, 460], unit: 'V', phases: 3, ...specSource(published.page) },
-    sludgeSpace: { value: published.sludge, unit: 'US gal', ...specSource(published.page) },
-    ...(published.rpm ? { bowlSpeed: { value: published.rpm, unit: 'RPM', ...specSource(published.page) } } : {}),
+    sludgeSpace: { value: published.sludge, unit: 'US gal', ...(published.sludgeL ? { converted: true, alfaLavalPrinted: { value: published.sludgeL, unit: 'L' } } : {}), ...specSource(published.page) },
+    ...(published.rpm ? { bowlSpeed: bowlSpeed(published) } : {}),
   };
   return oemModel({ model: row.model, canonicalPage: `${SITE_URL}${published.page}`, specifications, capacities: whpxCapacities(id, row) });
 });

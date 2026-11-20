@@ -101,10 +101,13 @@ function formatField(key: keyof ModelSpec, unitLabel?: string): string {
     case 'bowlSpeedRpm':
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'RPM'}`;
     case 'motorHp':
+      if (model.motorKw !== undefined) return `${numeric(model.motorKw)} kW (${numeric(raw as Numeric)} HP converted)`;
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'HP'}`;
     case 'sludgeVolumeGal':
+      if (model.sludgeVolumeL !== undefined) return `${numeric(model.sludgeVolumeL)} L (${numeric(raw as Numeric)} US gal converted)`;
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'Gallons'}`;
     case 'netWeightLb':
+      if (model.netWeightKg !== undefined) return `${numeric(model.netWeightKg)} kg (${numeric(raw as Numeric)} lb converted)`;
       return `${numeric(raw as Numeric)} ${unitLabel ?? 'Lbs'}`;
     case 'gForce':
       return typeof raw === 'string' ? raw : `${numeric(raw as Numeric)} ${unitLabel ?? 'Gs'}`;
