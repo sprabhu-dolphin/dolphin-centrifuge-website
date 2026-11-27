@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -42,8 +43,8 @@ const articleSchema = {
     }
   },
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com", "logo": { "@type": "ImageObject", "url": "https://dolphincentrifuge.com/images/homepage/dolphin-centrifuge-logo.png" } },
-  "datePublished": "2021-01-01",
-  "dateModified": "2026-05-13",
+  "datePublished": "2021-04-14",
+  "dateModified": "2026-11-27",
   "url": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/",
   "mainEntityOfPage": { "@id": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/#webpage" }
 };
@@ -66,7 +67,41 @@ const webPageSchema = {
     { "@type": "Thing", "name": "Alfa Laval WHPX Series Disc Stack Centrifuge" },
     { "@type": "Thing", "name": "Alfa Laval MOPX Series Disc Stack Centrifuge" }
   ],
-  "dateModified": "2026-05-13"
+  "dateModified": "2026-11-27"
+};
+
+const faqItems = [
+  {
+    question: "Which one do I need for my fluid, a decanter or a disc stack?",
+    answer: "There are two primary selection criteria between a decanter and a disc stack centrifuge. One is particle size. The other is the percentage of solids by volume. Read the section <a href=\"#selection-criteria\">Primary Selection Criteria Between a Decanter and a Disc Stack Centrifuge</a> above."
+  },
+  {
+    question: "What is the basic difference between a decanter and a disc stack centrifuge?",
+    answer: "Decanter centrifuges can handle fluids with high sludge content with large particle sizes. Disc Centrifuges can separate fluids with two immiscible liquids continuously. With a higher centrifugal force, a disc centrifuge is ideal for removing fine particles as well."
+  },
+  {
+    question: "How much solids can each machine take in the feed?",
+    answer: "Alfa Laval states that its decanter units can handle slurries with a solids content from as low as 0.1% w/w to more than 65% w/w. In practice, the maximum solids a decanter can handle depends on the percentage of solids and, most specifically, on the density and the size of the particles. For example, a decanter may handle up to 50% concentration of light solids but not more than 15% concentration of very heavy solids. Alfa Laval states that the solids content in the feed of its disc stack separators is \u201Cnormally in the range of 0.1-10 % by volume, but can vary between different duties\u201D. In the real world, 10% solids is really high; it is more for nozzle bowl machines, which discharge the solids continuously. For an intermittent discharge disc stack centrifuge, the frequency of dumps is directly proportional to the percentage of solids, and in practice the feed is not more than 5%, closer to 3% for maximum efficiency."
+  },
+  {
+    question: "How small a particle can each one take out?",
+    answer: "Particle separation efficiency for a decanter centrifuge is in the range of 50 microns and above. A disc centrifuge can separate metal particles down to a 0.5-micron level and Organic and inorganic particles down to a 1-micron level based on OEM data."
+  },
+  {
+    question: "Which one separates two liquids, like oil and water?",
+    answer: "A decanter centrifuge has limited applicability in liquid-liquid separation due to its lower centrifugal force. Especially if there are no solids or minimal solids, a disc centrifuge would be the obvious choice."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer.replace(/<[^>]*>/g, '') }
+  }))
 };
 ---
 
@@ -83,13 +118,15 @@ const webPageSchema = {
   categoryHref="/knowledge-center/"
   canonicalUrl="https://dolphincentrifuge.com/difference-between-decanter-centrifuge-disc-centrifuge/"
   toc={[
-    { id: "summary-takeaway", label: "30 Second Summary Takeaway" },
+    { id: "summary-takeaway", label: "30-Second Take-Away" },
+    { id: "selection-criteria", label: "Primary Selection Criteria Between a Decanter and a Disc Stack Centrifuge" },
     { id: "overview", label: "Overview of Decanter and Disc Centrifuge Operation" },
     { id: "physical", label: "Physical Characteristics (Orientation, Dimensions, Power, MOC)" },
     { id: "separation", label: "Separation Features and Capabilities" },
     { id: "operating", label: "Operating Considerations (Solids Discharge, Design, Controls)" },
     { id: "maintenance", label: "Operation and Maintenance Factors" },
     { id: "summary", label: "Summary" },
+    { id: "faq", label: "Questions and Answers" },
   ]}
   relatedApplications={[
     { label: "Disc Stack Centrifuge FAQ", href: "/disc-stack-centrifuge-faq/" },
@@ -101,15 +138,64 @@ const webPageSchema = {
     { label: "Alfa Laval Decanter Centrifuge (NX-314 / NX-418)", href: "/decanter-centrifuge/", description: "Up to 4,000 Gs - high-solids sludge dewatering" },
     { label: "Alfa Laval Disc Stack Centrifuges (WHPX and MOPX Series)", href: "/disc-stack-centrifuge/", description: "Up to 8,500 Gs depending on model - fine particle & liquid-liquid separation" },
   ]}
-  jsonLd={[articleSchema, webPageSchema]}
+  jsonLd={[articleSchema, webPageSchema, faqSchema]}
 >
 
-  <!-- 30 Second Summary Takeaway -->
-  <h2 id="summary-takeaway">30 Second Summary Takeaway</h2>
+  <!-- 30-Second Take-Away (Sanjay's original block, restored 2026-11-27) -->
+  <h2 id="summary-takeaway">30-Second Take-Away</h2>
 
-  <p>Decanter centrifuges and disc stack centrifuges differ mainly in orientation, g-force, sludge-handling capacity, particle separation, and operating style. A decanter centrifuge has a horizontal bowl, typically produces about 3,000 Gs, handles high-solids streams (Alfa Laval states that decanter units can handle slurries from as low as 0.1% w/w to more than 65% w/w), and is best for bulk solids and dewatering. A disc stack centrifuge has a vertical bowl, generates up to 8,500 Gs depending on model, takes feed solids in the range of 0.1-10 % by volume according to Alfa Laval and, in practice, not more than 5%, closer to 3% for maximum efficiency, and is best for fine-particle removal and liquid-liquid separation down to about 0.5 micron.</p>
+  <p>The main differences between a decanter and disc-stack centrifuge are:</p>
+
+  <ul>
+    <li>A decanter centrifuge’s axis of rotation is horizontal, whereas a disc-stack centrifuge bowl rotates around a vertical axis.</li>
+    <li>Decanter centrifuges typically exert around 3,000 Gs compared to up to 8,500 Gs depending on model for disc-stack centrifuges.</li>
+    <li>Sludge handling capacity is much higher for a decanter centrifuge compared to a disc-stack centrifuge. A decanter centrifuge can handle slurries with a solids content from as low as 0.1% w/w to more than 65% w/w (Alfa Laval), while a disc-stack centrifuge takes feed solids in the range of 0.1-10 % by volume (Alfa Laval), in practice not more than 5%, closer to 3% for maximum efficiency.</li>
+    <li>With a higher G-force, a disc-stack centrifuge can separate particles down to a 0.5-micron level. A decanter centrifuge typically separates particles, which are 50 microns or larger.</li>
+  </ul>
+
+  <p>This article compares the different technical aspects of decanter centrifuges and disc centrifuges. We will compare all the factors important to the end-user. These will include physical, operational, performance, and maintenance factors between these centrifuge types.</p>
 
   <p>Both machine types on this page are Alfa Laval. On the decanter side that means the NX-314 and NX-418; on the disc stack side the MOPX 207, MOPX 209, WHPX 407, WHPX 410, and WHPX 513. Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges, with remanufactured machines, turnkey systems, parts, and service built on the Alfa Laval experience of its founder, Sanjay Prabhu, since 1986, and the selection advice below comes from Sanjay Prabhu, M.S.M.E., drawing on his experience since 1986 of specifying both types. Dolphin is an independent remanufacturer and is not affiliated with Alfa Laval.</p>
+
+
+  <!-- Primary Selection Criteria (Sanjay's dictation, tidied, approved 2026-11-27) -->
+  <h2 id="selection-criteria">Primary Selection Criteria Between a Decanter and a Disc Stack Centrifuge</h2>
+
+  <p>There are two primary selection criteria between a decanter and a disc stack centrifuge. One is particle size. The other is the percentage of solids by volume.</p>
+
+  <h3>Particle Size</h3>
+
+  <p>The disc stack centrifuge has an inter-disc spacing of maximum 1 millimeter. So the particle size is limited to 500 microns or 300 microns, depending on the type of particles, for the disc stack.</p>
+
+  <h3>Percentage of Solids by Volume</h3>
+
+  <p>Secondly, the disc stack is an intermittently ejecting, self-ejecting, self-cleaning centrifuge. It has a limitation on the upper percentage of solids it can handle. This is typically, by experience and rule of thumb, approximately 3 to 5%.</p>
+
+  <p>Above that, the disc stack centrifuge has to eject the solids very frequently, which affects the separation efficiency negatively.</p>
+
+  <p>On the decanter side, the decanter is able to continuously eject the solids from the fluid. So the percentage of solids it can handle is much higher, upwards of 40 to 50% thereabouts.</p>
+
+  <p>Again, this depends on the type of solids, the specific gravity of the solids, the percentage of solids, the particle size, etc. Other parameters also define the max on the decanter centrifuge. But what I would like to say is that it is on the higher side.</p>
+
+  <h3>What Happens to Fluids That Sit in Between</h3>
+
+  <p>If you are talking about in between, that is, above the 3% max for the disc stack centrifuge, the decanter has no minimum. So ideally, in the ideal world, the decanter would fit both sides.</p>
+
+  <p>But the decanter is a low G-force centrifuge, meaning the decanter exerts only about 3,000 Gs, whereas a disc stack exerts up to 8,500 Gs depending on model. The higher G-force is much more desirable to separate small particles to the 1 micron level or less sometimes.</p>
+
+  <p>That is why the rating on the decanter centrifuge is 50 microns or higher. The G-force is lower, but it can handle much higher solids. Whereas the disc stack centrifuge, being much higher G-force, has a much higher separation efficiency and goes down to 1 or 2% solids.</p>
+
+  <h3>Two-Step Process: Decanter Upstream, Disc Stack Downstream as a Polisher</h3>
+
+  <p>So ideally, if you have a requirement for high cleaning efficiency, but the solids are high, we recommend a two-step process. The decanter takes care of the bulk solids, whereas the disc stack downstream works as a polisher to remove the remaining suspended particles, the small suspended particles, which the decanter could not separate.</p>
+
+  <p>So you would have a decanter upstream handling the bulk solids, followed by a disc stack centrifuge downstream with a higher G-force. That is why it is known as a polisher, to polish off the remaining solids.</p>
+
+  <p>And typically the disc stack would be a 3-phase centrifuge, which can also simultaneously separate any and all free water, as well as any emulsion rag layer.</p>
+
+  <p>The centrifuge can, to a certain extent, break mechanical emulsions. If it is a mechanical emulsion or rag layer, the centrifuge is able to break it at the right temperature, a high temperature to drop the viscosity, and at a lower flow rate, which equals a higher residence time. It is possible, not guaranteed, but field results have proven that limited emulsion breakage is possible just by centrifugation under the right conditions. If it is a chemically bonded emulsion, it is hard for the centrifuge to break it without some chemical assistance, like a demulsifier or acid.</p>
+
+  <p>You can adjust it to eject the rag layer or the emulsion layer with the heavy phase, the water side. For more details, please read our article on <a href="/waste-oil-emulsion-centrifuge/">Waste Oil Emulsion Breaking with an Industrial Centrifuge</a>.</p>
 
 
   <!-- Overview Section -->
@@ -597,8 +683,8 @@ const webPageSchema = {
   </div>
 
   <div class="bg-gold/10 border-l-4 border-gold rounded-r-xl p-6 my-8 not-prose">
-    <p class="text-navy font-semibold text-lg mb-2">Not sure whether a decanter or disc centrifuge is right for your application?</p>
-    <p class="text-text-light mb-4">Send us a sample of your process fluid - we'll run a test on our pilot centrifuge and give you real separation data before you commit to any equipment.</p>
+    <p class="text-navy font-semibold text-lg mb-2">Can I send you my sample so you can tell me which machine works?</p>
+    <p class="text-text-light mb-4">Yes, you may send us a sample. It is a paid service we provide where we can run a small sample of your fluid through a pilot scale disc stack centrifuge. The lab scale disc centrifuge is a solid bowl, manual cleaning centrifuge. It has solids holding space in the bowl, so we can run a sample with up to 8% solids. If you have a heavy sludge fluid, we can run a simulated decanter evaluation. Unfortunately, we do not run a pilot scale decanter. They can read the whole process and details on our website on the <a href="/industrial-centrifuge-sample-testing/" class="underline">sample testing page</a>.</p>
     <div class="flex flex-wrap gap-3">
       <a href="/industrial-centrifuge-sample-testing/" class="bg-gold hover:bg-gold/90 text-navy font-bold px-5 py-2 rounded-lg transition-colors">Sample Testing</a>
       <a href="/contact-for-alfa-laval-centrifuges/" class="border border-navy text-navy font-semibold px-5 py-2 rounded-lg hover:bg-navy hover:text-white transition-colors">Get a Quote</a>
@@ -707,6 +793,8 @@ const webPageSchema = {
   <p>We should also mention that a decanter centrifuge can separate fine solids given enough retention time. In other words, a low flow rate. But the flow rate to achieve that level of separation defeats the purpose of the decanter centrifuge.</p>
 
   <p><a href="/contact-for-alfa-laval-centrifuges/">Contact Dolphin Centrifuge</a> to consult with our centrifuge experts to discuss your application. You can always call <a href="tel:+12485222573">(248) 522-2573</a> to reach us.</p>
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
   <div class="bg-navy rounded-xl p-6 md:p-8 mt-8 mb-6 text-white text-center not-prose">
     <h2 class="text-xl font-bold mb-2 text-white">Need expert guidance on centrifuge selection for your application?</h2>
