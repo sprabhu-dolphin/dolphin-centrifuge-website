@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 import { gpm } from '../data/specLookup';
 
 
@@ -34,7 +35,7 @@ const articleJsonLd = {
   "@type": "Article",
   "headline": "Oil Centrifuge | Working, Benefits, Size, Types, Examples, Cost",
   "description": "Oil Centrifuges are designed to separate Oil from Water and Sludge on large scale. Also known as Centrifugal Filtration System or Centrifugal Separator.",
-  "dateModified": "2026-05-13",
+  "dateModified": "2026-11-27",
   "author": {
     "@type": "Person",
     "name": "Sanjay Prabhu",
@@ -84,10 +85,67 @@ const webPageJsonLd = {
   "description": "Oil Centrifuges are designed to separate Oil from Water and Sludge on large scale. Also known as Centrifugal Filtration System or Centrifugal Separator.",
   "isPartOf": { "@type": "WebSite", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "about": { "@type": "Thing", "name": "Oil Centrifuge" },
-  "dateModified": "2026-05-13"
+  "dateModified": "2026-11-27"
 };
 
-const jsonLd = [productJsonLd, articleJsonLd, webPageJsonLd];
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is an oil centrifuge?",
+    answer: "An Oil Centrifuge is a continuous process centrifuge machine capable of continuously separating Water and Sludge from any oil. An Industrial Oil Water Centrifuge uses discs in the bowl to magnify the effective g-force, making them highly efficient at separating small traces of water and sludge from oil or the other way around."
+  },
+  {
+    question: "How does an oil centrifuge work?",
+    answer: "An oil centrifuge works on the principle of differential settling using a high centrifugal force to separate oil from solid and liquid contaminants."
+  },
+  {
+    question: "How small a particle can an oil centrifuge remove?",
+    answer: "With a centrifugal force above 7,000 Gs, the oil centrifuge can separate small particles (0.5 microns) and all free water in a single pass."
+  },
+  {
+    question: "Do I stop buying filter media with an oil centrifuge?",
+    answer: "Unlike filters, centrifuges do not need filter media and the related labor and material cost, resulting in considerable savings."
+  },
+  {
+    question: "Does the flow hold up as the oil gets dirty?",
+    answer: "Unlike filters whose flow capacity diminishes as the pores get blocked, a centrifuge capacity is consistent due to its mechanical separation."
+  },
+  {
+    question: "What is a manual clean oil centrifuge?",
+    answer: "Manual clean oil centrifuges incorporate a design where the liquid phases continuously discharge from the centrifuge. After stopping the centrifuge, the centrifuge retains the separated solids in the bowl for manual extraction."
+  },
+  {
+    question: "What is a self-cleaning oil centrifuge?",
+    answer: "An oil centrifuge with an automatic self-clean feature does not require manual extraction of the separated sludge. The centrifuge bowl design allows the centrifuge to eject the separated sludge while still rotating automatically. The separated oil and water exit the centrifuge continuously while the separated solids intermittently self-eject."
+  },
+  {
+    question: "What kinds of lube oil can an oil centrifuge clean?",
+    answer: "All types of lube oil, from steam turbine oil to engine lubricating oil, need purification from fine metal contaminants and occasionally moisture. An oil centrifuge is ideal for processing large volumes of lube oil to a high purity level without filters. Simultaneous removal of water is an added advantage."
+  },
+  {
+    question: "Can an oil centrifuge clean cutting oil?",
+    answer: "A wide variety of industries use cutting oil for various metal-forming applications. This oil picks up solid metal particles during processing. It is essential to remove these particles from the oil for its reuse. An oil centrifuge can separate 0.5-micron metal particles from the oil, thus making the oil reusable and reducing replacement costs."
+  },
+  {
+    question: "What does it cost to run an oil centrifuge?",
+    answer: "The only operating cost of an oil centrifuge is the cost of electricity to drive the motor. Since the centrifuge is a mechanical separator, it does not use any media or replaceable elements that add to operating costs."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/oil-centrifuge/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+
+const jsonLd = [productJsonLd, articleJsonLd, webPageJsonLd, faqSchema];
 
 const toc = [
   { id: 'working-principle', label: 'Working Principle' },
@@ -100,6 +158,7 @@ const toc = [
   { id: 'examples', label: 'Examples of Applications' },
   { id: 'costs', label: 'Costs' },
   { id: 'plant-layout', label: 'Plant Layout Configuration' },
+  { id: 'faq', label: 'Questions and Answers' },
 
 ];
 
@@ -557,5 +616,7 @@ const relatedProducts = [
       </a>
     </div>
   </div>
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
