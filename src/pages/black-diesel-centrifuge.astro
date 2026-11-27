@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 import { gpm, gpmOn } from '../data/specLookup';
 
 const sanjayPrabhuAuthorJsonLd = {
@@ -68,10 +69,68 @@ const webPageJsonLd = {
   "url": "https://dolphincentrifuge.com/black-diesel-centrifuge/",
   "name": "Black Diesel Centrifuge | Applications, Benefits, Specifications",
   "description": "A black diesel centrifuge continuously separates the water and fine solids from black diesel. This disc stack centrifuge exerts over 7,000 Gs to separate all free water and small particles down to 0.5-micron simultaneously.",
+  "dateModified": "2026-11-27",
   "author": sanjayPrabhuAuthorJsonLd
 };
 
-const jsonLd = [productJsonLd, webPageJsonLd];
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is black diesel?",
+    answer: "Black diesel is an alternative fuel for diesel engines made from used motor oil, transmission fluid, or any mineral oil with calorific value. Often, a diesel fuel mixture with any used oils is also known as black diesel."
+  },
+  {
+    question: "Can black diesel be cleaned without a centrifuge?",
+    answer: "Heating and settling the black diesel allows the water to settle out. This step is followed by decanting the fuel to separate it from the settled water. In the next stage, the black diesel passes through micron-level filters to remove sediment and particle contamination."
+  },
+  {
+    question: "Can a filter take the black color out?",
+    answer: "It is important to note that the filters cannot remove the black color of the fuel because the black color is due to the presence of sub-micron carbon particles that are hard to separate."
+  },
+  {
+    question: "How does a black diesel centrifuge work?",
+    answer: "A black diesel centrifuge continuously separates the water and fine solids from black diesel. This disc stack centrifuge exerts over 7,000 Gs to simultaneously separate all free water and small particles down to 0.5-micron. The self-ejecting feature of the centrifuge allows it to eject out the separated sludge automatically. The separated water exits the centrifuge through a discrete port."
+  },
+  {
+    question: "How small a particle can a black diesel centrifuge remove?",
+    answer: "A high-speed black diesel centrifuge has enough centrifugal (7,000 G-force) to separate particles to the 0.5-micron level. This separation capability is a distinct advantage over conventional filters and gravity settling."
+  },
+  {
+    question: "Does a centrifuge remove water from black diesel?",
+    answer: "Unlike filters, disc centrifuges can separate free water and sediment simultaneously from black diesel. This water separation ability is a considerable benefit over conventional filters that only separate solids."
+  },
+  {
+    question: "What does a centrifuge do about ash in black diesel?",
+    answer: "Ash particles in black diesel are sub-micron size carbon that is a product of fuel combustion. It is not practical to remove these particles with filters due to the size and cost of replacing filters frequently. A disc centrifuge can remove some of these ash particles (not all) and considerably reduce the ash content in black diesel."
+  },
+  {
+    question: "Can a centrifuge separate emulsion in black diesel?",
+    answer: "Disc stack centrifuges can separate some of the oil in water emulsion present in black diesel. If the emulsion is chemically bonded, the user may need the addition of some demulsifier. Emulsion breaking leads to the recovery of black diesel, usually lost."
+  },
+  {
+    question: "Why remove metal from black diesel before using it in a generator?",
+    answer: "Also, it is critical to remove metal particles (from used engine oil) before using black diesel in commercial diesel generators. The presence of metals can void the manufacturer's warranty on the generators."
+  },
+  {
+    question: "What does it cost to run a black diesel centrifuge?",
+    answer: "Centrifuges do not use filter media or require media replated labor. They separate the black diesel from the impurities using mechanical separation, and the only operating cost is that of electricity."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/black-diesel-centrifuge/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+
+const jsonLd = [productJsonLd, webPageJsonLd, faqSchema];
 
 const toc = [
   { id: 'what-is-black-diesel', label: 'What is Black Diesel' },
@@ -80,6 +139,7 @@ const toc = [
   { id: 'benefits', label: 'Benefits' },
   { id: 'limitations', label: 'Disadvantages' },
   { id: 'specifications', label: 'Specifications' },
+  { id: 'faq', label: 'Questions and Answers' },
 ];
 
 const relatedApplications = [
@@ -316,5 +376,7 @@ const relatedProducts = [
   </div>
 
 
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
