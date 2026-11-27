@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const pageDescription = "The primary difference between purifier and clarifier centrifuge is that a purifier separates a liquid from another liquid and solids simultaneously.";
 
@@ -73,7 +74,7 @@ const jsonLd = [
       { "@type": "Product", "name": "Alfa Laval WSPX 213 Concentrator Centrifuge", "brand": { "@type": "Brand", "name": "Alfa Laval" } }
     ],
     "datePublished": "2021-01-01",
-    "dateModified": "2026-05-13",
+    "dateModified": "2026-11-27",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://dolphincentrifuge.com/disc-centrifuge-purifier-clarifier-difference/#webpage"
@@ -101,9 +102,58 @@ const jsonLd = [
       { "@type": "Thing", "name": "Alfa Laval WSPX concentrator centrifuges" },
       { "@type": "Thing", "name": "Alfa Laval MOPX disc stack centrifuges" }
     ],
-    "dateModified": "2026-05-13"
+    "dateModified": "2026-11-27"
   }
 ];
+
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is the difference between a purifier and a clarifier centrifuge?",
+    answer: "The primary difference between a purifier and a clarifier centrifuge is that a purifier separates one liquid from another liquid and solids simultaneously. Therefore, a purifier is a three-phase separator. A clarifier centrifuge separates a liquid from solids, which is also known as two-phase separation."
+  },
+  {
+    question: "How does a purifier centrifuge work?",
+    answer: "A purifier is a disc-stack centrifuge that separates one liquid from another liquid and solid particles (if any). A purifier centrifuge can continuously separate two liquid phases and one solid phase."
+  },
+  {
+    question: "How does a clarifier centrifuge work?",
+    answer: "A clarifier centrifuge separates a liquid phase from the solids in the fluid. In other words, it is a liquid-solid separation device. Therefore a clarifier continuously separates the solids from liquid-carrying solids."
+  },
+  {
+    question: "How is a purifier converted into a clarifier?",
+    answer: "A standard purifier has a gravity disc installed in it, which regulates the bowl's oil-water interface location. A seal ring, which is a gravity disc with the smallest opening, replaces the gravity disc. The second component that needs to be replaced is the bottom bowl disc in the disc stack. A blind disc replaces the bottom disc. This replacement closes out the rising fluid pathway through the disc stack."
+  },
+  {
+    question: "Can a clarifier be converted into a purifier?",
+    answer: "It is important to note that though it is possible to convert all purifiers to a clarifier, switching a clarifier to a purifier centrifuge is not always possible. This inability to modify is because some centrifuges designed as clarifiers do not have a water chamber. They may also lack the water-paring disc pump and not have a provision to install a gravity disc."
+  },
+  {
+    question: "Does a purifier need sealing liquid?",
+    answer: "In a purifier, sealing liquid is needed before feeding the process fluid to the bowl. This liquid is also known as the priming fluid and typically consists of the fluid's heavy phase. The priming liquid prevents the incoming process fluid from escaping the bowl through the heavy phase outlet."
+  },
+  {
+    question: "What is a liquid seal break?",
+    answer: "When the heavy phase or sealing liquid is not present in the bowl or escapes the bowl during operation, the light phase exits the bowl through the heavy phase outlet. This issue is known as a \"liquid seal break\" condition. Since there is no sealing liquid in a clarifier, this problem does not occur in clarifiers."
+  },
+  {
+    question: "What is a concentrator centrifuge?",
+    answer: "A concentrator centrifuge is a purifier centrifuge specially configured to separate fluids with a large proportion of the heavy phase (water) from a smaller percentage of the light liquid (oil). It is also a three-phase centrifuge, which implies it simultaneously separates the solid particles as well."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/disc-centrifuge-purifier-clarifier-difference/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+jsonLd.push(faqSchema);
 
 const toc = [
   { id: "synopsis", label: "Synopsis" },
@@ -115,6 +165,7 @@ const toc = [
   { id: "operational-differences", label: "Operational Differences Between Purifier and Clarifier Centrifuges" },
   { id: "concentrator", label: "What is a Concentrator Centrifuge?" },
   { id: "summary", label: "Summary" },
+  { id: "faq", label: "Questions and Answers" },
 ];
 
 const relatedApplications = [
@@ -295,5 +346,7 @@ const relatedProducts = [
 
 
 
+
+<FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
