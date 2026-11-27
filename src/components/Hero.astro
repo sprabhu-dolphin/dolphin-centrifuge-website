@@ -1,4 +1,5 @@
 ---
+import { heroPictureIsWhole } from '../utils/heroPictureShape.mjs';
 // Hero section with optional background image slider
 // Slider mode: shows initialImage first, then rotates sliderImages right-to-left
 // Static mode: shows single imageSrc as background
@@ -58,6 +59,9 @@ const overlayClass = {
    card, the picture sits as a strip above the card instead of behind it, so the
    card no longer covers the machines. From md up nothing changes. */
 const stackOnPhone = isFrost && !isSlider && !!imageSrc;
+/* A diagram, or a machine cut out on white, is shown whole on phones instead of
+   as a cropped strip (see src/utils/heroPictureShape.mjs). Photographs keep the strip. */
+const wholeOnPhone = stackOnPhone && (await heroPictureIsWhole(imageSrc));
 
 const heightClass = compact
   ? 'min-h-[240px] md:min-h-[300px]'
@@ -91,6 +95,19 @@ const heightClass = compact
           data-slider-img
         />
       </div>
+    </div>
+  ) : wholeOnPhone ? (
+    <div class="flex justify-center bg-white md:contents">
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        class="block w-auto max-w-full max-h-[300px] object-contain md:absolute md:inset-0 md:w-full md:max-w-none md:h-full md:max-h-none md:object-cover md:object-center"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        width={imageWidth}
+        height={imageHeight}
+      />
     </div>
   ) : (
     <img
