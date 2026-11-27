@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const jsonLd = [
   {
@@ -58,7 +59,7 @@ const jsonLd = [
     },
     "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge" },
     "datePublished": "2020-04-01",
-    "dateModified": "2026-05-13",
+    "dateModified": "2026-11-27",
     "mainEntityOfPage": "https://dolphincentrifuge.com/alfa-laval-centrifugal-separator/"
   },
   {
@@ -70,7 +71,7 @@ const jsonLd = [
     "description": "How an Alfa Laval centrifugal separator works as a purifier and clarifier - the disc stack, when each setup is used, and how it separates liquids from solids. Uses, types, sizing.",
     "isPartOf": { "@type": "WebSite", "@id": "https://dolphincentrifuge.com/#website" },
     "about": { "@type": "Thing", "name": "Alfa Laval Centrifugal Separator" },
-    "dateModified": "2026-05-13"
+    "dateModified": "2026-11-27"
   },
   {
     "@context": "https://schema.org",
@@ -102,6 +103,64 @@ const jsonLd = [
   }
 ];
 
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is an Alfa Laval centrifugal separator?",
+    answer: "An Alfa Laval centrifugal separator is a mechanical device that leverages high centrifugal force to separate liquids from solids. This separating machine's design allows it to separate large volumes of fluids from sludge continuously. These centrifugal separators find various applications in all industries that use fluids."
+  },
+  {
+    question: "What is an Alfa Laval decanter?",
+    answer: "Alfa Laval decanters are horizontal separators that generate around 3,000 Gs of centrifugal force. These separators have an internal auger (conveyor) that rotates at a differential speed to the bowl."
+  },
+  {
+    question: "How does an Alfa Laval decanter work?",
+    answer: "The centrifugal force causes sedimentation of the sludge along the bowl wall. The rotating auger pushes this separated sludge towards and out of the sludge discharge ports. The lighter fluid floats on top of the sludge layer and escapes through a liquid outlet on the other side of the rotating bowl."
+  },
+  {
+    question: "Can a centrifugal separator run continuously?",
+    answer: "Filtration and other media-based separation equipment require periodic media replacement once the media saturates with solids. A centrifugal separator has a 'self-ejection' feature that ejects out the separated solids intermittently. Thus, there is no need for a stoppage related to media replacement with industrial filtration, allowing for continuous processing."
+  },
+  {
+    question: "What does it cost to run an Alfa Laval centrifugal separator?",
+    answer: "Alfa Laval centrifugal separators eliminate the cost of filter media and associated labor to replace the same. The only cost related to these centrifugal machines is the power required to drive the electric motor. Therefore, centrifugal separators offer tremendous savings in operating costs."
+  },
+  {
+    question: "Are Alfa Laval centrifugal separators compact?",
+    answer: "A centrifugal separator, by design, amplifies the force of gravity several folds. In the case of disc-stack separators, the discs, in conjunction with the high centrifugal force, are equivalent to several football fields' settling areas. This amplification of separation effectiveness results in the centrifugal separator size being minimized for high throughput flow rates."
+  },
+  {
+    question: "Can a centrifugal separator clean fuel?",
+    answer: "Alfa Laval centrifugal separators are the most common type of separation device used to purify fuels. Stored diesel gets contaminated with water from condensation and sludge from storage tanks. A centrifugal separator easily separates the water and sludge to ensure access to clean diesel for emergency generators."
+  },
+  {
+    question: "Can a centrifugal separator clean lube oil?",
+    answer: "Lubricating oils used in engines and turbines need to be clean for engines and turbines' reliable performance. Engine oil accumulates metal particles that affect engine performance. A disc-stack type separator removes these tiny particles to ensure reliable engine operation."
+  },
+  {
+    question: "Does a centrifugal separator need a trained operator?",
+    answer: "Centrifugal separation systems, in general, have precisely balanced bowls and other components with high tolerances. These separators are more sophisticated than static separation systems such as gravity tanks, filters, or API separators. More complexity of the equipment implies regular maintenance and trained operators."
+  },
+  {
+    question: "Is a centrifugal separator an absolute separation device?",
+    answer: "Unlike filters or filter presses, centrifugal separators use the amplified force of gravity to affect the separation of liquids and solids. Therefore, these separators are mechanical in nature, meaning they do not offer absolute separation to a specific particle grade."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/alfa-laval-centrifugal-separator/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+jsonLd.push(faqSchema);
+
 const toc = [
   { id: "working-principle", label: "Working Principle" },
   { id: "efficiency", label: "Efficiency" },
@@ -119,6 +178,7 @@ const toc = [
   { id: "disadvantages", label: "Disadvantages" },
   { id: "types-of-centrifugal-separators", label: "Types of Centrifugal Separators" },
   { id: "specifications", label: "Specifications" },
+  { id: "faq", label: "Questions and Answers" },
 ];
 
 const relatedProducts = [
@@ -867,5 +927,7 @@ const relatedApplications = [
     </div>
   </div>
 
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
