@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import WebMcpCheck from '../../components/WebMcpCheck.astro';
 import { technicalCatalog } from '../../data/agentCatalog.mjs';
 
-type NumericValue = { value: number } | { minimum: number; maximum: number };
+type NumericValue = ({ value: number } | { minimum: number; maximum: number }) & { unit?: string };
 type CapacityRecord = {
   fluid: { name: string };
   ratingBasis: string;
@@ -37,9 +37,10 @@ const commercialModels = technicalCatalog.models.filter(
 
 function sourceValueText(capacity: CapacityRecord) {
   const value = capacity.sourceValue;
+  const unit = value.unit || 'L/h';
   return 'value' in value
-    ? `${value.value.toLocaleString()} L/h`
-    : `${value.minimum.toLocaleString()}–${value.maximum.toLocaleString()} L/h`;
+    ? `${value.value.toLocaleString()} ${unit}`
+    : `${value.minimum.toLocaleString()}–${value.maximum.toLocaleString()} ${unit}`;
 }
 
 function gpmText(capacity: CapacityRecord) {
