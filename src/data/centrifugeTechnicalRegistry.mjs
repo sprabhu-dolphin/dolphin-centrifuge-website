@@ -159,15 +159,24 @@ function mopxCapacities(modelId, row) {
   ];
 }
 
+/*
+ * WHPX 405: Alfa Laval's own WHPX 405 documents print rated 4,700 l/h, marine diesel oil 3,100 l/h
+ * (13 cSt/40 C), HFO 2,900 / 2,900 / 2,200 / 2,100 / 1,500 / 1,200 (30 to 380 cSt), cross-head R&O 1,400-1,600,
+ * cross-head detergent 1,200-1,400, trunk detergent 800-1,000 and steam turbine 3,100 (MPCO 31-05-01 p. 66,
+ * spec no. 881071-01 dated 84.05.01; 170-OSM2-2E p. 173; same values in OM SO 4562E 3/8405 p. 22 and the 1987
+ * WHPX operator's handbook p. 26). The earlier 5,500 / 3,700 / 3,400 ... row is the row Alfa Laval's WHPX table
+ * MPCO 30-00-02 (M 8112-06) prints for the WHPX 505, not the WHPX 405.
+ */
+const WHPX_405_PRINTED = 'Alfa Laval MPCO 31-05-01 (spec no. 881071-01, dated 84.05.01), p. 66; Alfa Laval 170-OSM2-2E, p. 173';
 const whpxRows = [
   {
-    model: 'WHPX 405', row: 9, rated: 5500, diesel: 3700,
-    hfo: { 30: 3400, 40: 3400, 60: 2600, 100: 2500, 180: 1700, 380: 1400 },
+    model: 'WHPX 405', row: 9, rated: 4700, diesel: 3100, alfaLavalDocument: WHPX_405_PRINTED,
+    hfo: { 30: 2900, 40: 2900, 60: 2200, 100: 2100, 180: 1500, 380: 1200 },
     lube: {
-      crossHeadRo: { minimum: 1700, maximum: 1900, originalCellText: '1700-1900' },
-      crossHeadDetergent: { minimum: 1400, maximum: 1700, originalCellText: '1400-1700' },
-      trunkDetergent: { minimum: 1000, maximum: 1200, originalCellText: '1000-1200' },
-      steamTurbine: { value: 3600, originalCellText: '3600' },
+      crossHeadRo: { minimum: 1400, maximum: 1600, originalCellText: '1,400 - 1,600' },
+      crossHeadDetergent: { minimum: 1200, maximum: 1400, originalCellText: '1,200 - 1,400' },
+      trunkDetergent: { minimum: 800, maximum: 1000, originalCellText: '800 - 1,000' },
+      steamTurbine: { value: 3100, originalCellText: '3,100' },
     },
   },
   {
@@ -186,8 +195,8 @@ const whpxRows = [
     lube: {
       crossHeadRo: { minimum: 3800, maximum: 4400, originalCellText: '3800-4400' },
       crossHeadDetergent: { minimum: 3100, maximum: 3800, originalCellText: '3100-3800' },
-      trunkDetergent: { minimum: 2300, maximum: 2500, originalCellText: '2300-2500' },
-      steamTurbine: { value: 8000, originalCellText: '8000' },
+      trunkDetergent: { minimum: 2300, maximum: 2800, originalCellText: '2300-2800' },
+      steamTurbine: { value: 8100, originalCellText: '8100' },
     },
   },
   {
@@ -205,16 +214,7 @@ const whpxRows = [
     hfo: { 30: 15200, 40: 15200, 60: 11500, 100: 11000, 180: 7600, 380: 6400, 460: 5400, 600: 4400 },
     lube: {
       crossHeadRo: { minimum: 7400, maximum: 8600, originalCellText: '7400-8600' },
-      crossHeadDetergent: {
-        minimum: 7400,
-        maximum: 8100,
-        originalCellText: '8100-7400',
-        normalization: {
-          applied: true,
-          anomaly: 'The source cell lists the two range endpoints in descending order.',
-          note: 'The queryable minimum and maximum are normalized to ascending order (7400-8100 L/h); originalCellText preserves the exact source text.',
-        },
-      },
+      crossHeadDetergent: { minimum: 6100, maximum: 7400, originalCellText: '6100-7400' },
       trunkDetergent: { minimum: 4400, maximum: 5400, originalCellText: '4400-5400' },
       steamTurbine: { value: 15900, originalCellText: '15900' },
     },
@@ -321,6 +321,9 @@ function whpxCapacities(modelId, row) {
       sourceLocation: `Sheet1!P${row.row}`,
     }),
   );
+  if (row.alfaLavalDocument) {
+    return records.map((record) => ({ ...record, source: { ...record.source, location: row.alfaLavalDocument, alfaLavalDocument: row.alfaLavalDocument } }));
+  }
   return records;
 }
 
@@ -473,8 +476,8 @@ const whpxSpecByModel = {
   'WHPX 405': { motor: 5.4, motorKw: 4, motorDocument: 'Alfa Laval MPCO 31-05-01, p. 66 (with separate feed pump); 170 OH/E, p. 25', motorAlternatives: ['4 kW with separate feed pump (Alfa Laval MPCO 31-05-01, p. 66; 170 OH/E, p. 25)', '5.5 kW with built-on feed pump (Alfa Laval MPCO 31-05-01, p. 66)'], sludge: 0.32, sludgeL: 1.2, rpm: 7605, rpmDocument: 'Alfa Laval MPCO 31-05-01, p. 66', page: '/alfa-laval-whpx-405/' },
   'WHPX 407': { motor: 14.8, motorKw: 11, motorDocument: 'Alfa Laval 170-OSM2-2E, p. 174; 170 OH/E, p. 25', motorAlternatives: ['11 kW (Alfa Laval 170-OSM2-2E, p. 174; 170 OH/E, p. 25)', '10 kW, WHPX 407TGD-20 (Alfa Laval PX types, p. 1)'], sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 174', page: '/alfa-laval-mopx-207-centrifuge/#whpx-407' },
   'WHPX 409': { motor: 14.8, motorKw: 11, motorDocument: 'Alfa Laval 170-OSM2-2E, p. 175', sludge: 1.66, sludgeL: 6.3, rpm: 5175, rpmDocument: 'Alfa Laval 170-OSM2-2E, p. 175', page: '/alfa-laval-mopx-209-centrifuge/#whpx-409' },
-  'WHPX 510': { motor: 15, motorKw: 11.2, motorDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', sludge: 1.62, rpm: 5180, rpmDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', rpmCondition: 'as printed for the WHPX 510TGD-20', page: '/alfa-laval-whpx-510-centrifuge/' },
-  'WHPX 513': { motor: 15, sludge: 3.87, page: '/alfa-laval-whpx-513/' },
+  'WHPX 510': { motor: 15, motorKw: 11.2, motorDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', sludge: 1.66, sludgeL: 6.3, rpm: 5180, rpmDocument: 'Alfa Laval PX types, p. 1 (WHPX 510TGD-20)', rpmCondition: 'as printed for the WHPX 510TGD-20', page: '/alfa-laval-whpx-510-centrifuge/' },
+  'WHPX 513': { motor: 20.1, motorKw: 15, motorDocument: 'Alfa Laval MR SO 1763 E 6/8309 (WHPX 513 TGD-20 maintenance manual), p. 62 (also p. 64)', sludge: 3.96, sludgeL: 15, page: '/alfa-laval-whpx-513/' },
 };
 
 const whpxModels = whpxRows.map((row) => {

@@ -246,7 +246,7 @@ export function sizeCentrifuge({ bowl_diameter_m, rpm, g_force } = {}) {
     return {
       error: 'Give any two of bowl_diameter_m, rpm, g_force and the third is calculated.',
       formula: 'RCF = 1.118 x 10^-5 x r(cm) x RPM^2, r = bowl radius = diameter / 2',
-      typical: 'Disc stack: 4,000-8,000 RPM, roughly 4,000-10,000 x g. Decanter: 2,000-4,000 x g.',
+      typical: 'Disc stack: 4,000-8,000 RPM, up to 8,500 Gs depending on model. Decanter: 2,000-4,000 x g.',
       calculator: RCF_PAGE,
     };
   }
@@ -259,7 +259,7 @@ export function sizeCentrifuge({ bowl_diameter_m, rpm, g_force } = {}) {
   else if (g < 4000) [band, guidance] = ['Decanter range', 'Typical decanter centrifuge range (2,000-4,000 x g).'];
   else if (g < 7000) [band, guidance] = ['Disc stack range', 'Suitable for lube oil and light fuel oil purification.'];
   else if (g < 10000) [band, guidance] = ['High performance', 'HFO, liquid clarification, coolant fine solids.'];
-  else [band, guidance] = ['Ultra high g-force', 'Fine particle, sub-micron separation.'];
+  else [band, guidance] = ['Ultra high g-force', 'Fine particle separation.'];
   return {
     bowlDiameterM: Number(d.toFixed(4)),
     bowlRadiusCm: Number((d * 50).toFixed(2)),

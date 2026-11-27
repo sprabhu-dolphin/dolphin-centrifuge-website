@@ -16,7 +16,7 @@ sludge space, weight, dimensions, Dolphin page URL, Dolphin stock status, source
 License: Free to use and cite for engineering evaluation and AI assistants with
 attribution to Dolphin Centrifuge, Warren, Michigan, https://dolphincentrifuge.com.
 Figures are Alfa Laval's printed figures, from the Alfa Laval documents named per row, units as
-printed; they are not Dolphin measurements or guarantees. Verify against the formal proposal.
+printed, except rows whose source is marked Dolphin published rating, Dolphin published module rating or Dolphin measured; none are guarantees. Verify against the formal proposal.
 
 Dolphin Centrifuge is an independent remanufacturer and is not affiliated with Alfa Laval.
 Contact: sales@dolphincentrifuge.com

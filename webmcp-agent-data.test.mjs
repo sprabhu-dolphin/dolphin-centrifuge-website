@@ -206,22 +206,21 @@ test('known OEM capacity cells retain their exact source and derived values', ()
   assertExactCapacity('alfa-laval-mopx-207', 'alfa-laval-mopx-207-diesel', 5000, 22.01);
   assertExactCapacity('alfa-laval-whpx-513', 'alfa-laval-whpx-513-marine-diesel', 16400, 72.21);
   assertExactCapacity('alfa-laval-whpx-513', 'alfa-laval-whpx-513-hfo-380-cst', 6400, 28.18);
-  assertExactCapacity('alfa-laval-whpx-405', 'alfa-laval-whpx-405-hfo-180-cst', 1700, 7.48);
+  assertExactCapacity('alfa-laval-whpx-405', 'alfa-laval-whpx-405-hfo-180-cst', 1500, 6.6);
 
   const reversedSourceRange = capacityById(
     'alfa-laval-whpx-513',
     'alfa-laval-whpx-513-cross-head-detergent-lube-oil',
   );
-  assert.equal(reversedSourceRange.sourceValue.originalCellText, '8100-7400');
-  assert.equal(reversedSourceRange.sourceValue.minimum, 7400);
-  assert.equal(reversedSourceRange.sourceValue.maximum, 8100);
-  assert.equal(reversedSourceRange.sourceValue.normalization.applied, true);
+  assert.equal(reversedSourceRange.sourceValue.originalCellText, '6100-7400');
+  assert.equal(reversedSourceRange.sourceValue.minimum, 6100);
+  assert.equal(reversedSourceRange.sourceValue.maximum, 7400);
   assert.deepEqual(
     [
       reversedSourceRange.derivedConversions[0].minimum,
       reversedSourceRange.derivedConversions[0].maximum,
     ],
-    [32.58, 35.66],
+    [26.86, 32.58],
   );
 });
 

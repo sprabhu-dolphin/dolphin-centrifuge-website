@@ -6,7 +6,7 @@ import {selectCentrifugeCandidates as select} from './src/lib/centrifugeSelectio
 import {getCentrifugeSpecifications as specs, getCentrifugeCapacity as capacity} from './src/lib/agentCatalogQuery.mjs';
 
 test('10 US GPM diesel yields separate manual and self-cleaning candidates with conditions', () => {
-  for (const [cleaning,id,lph] of [['manual','alfa-laval-mab-204',2900],['self-cleaning','alfa-laval-mopx-205',3300]]) {
+  for (const [cleaning,id,lph] of [['manual','alfa-laval-mab-204',2900],['self-cleaning','alfa-laval-whpx-405',3100]]) {
     const result = select(catalog,{application:'diesel',requiredFlow:10,flowUnit:'US GPM',cleaning});
     assert.equal(result.candidate.modelId,id);
     assert.equal(result.candidate.capacity.value,lph);
