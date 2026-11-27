@@ -113,7 +113,7 @@ export const usedOffer = {
     telephone: '+1-248-522-2573',
     email: 'sales@dolphincentrifuge.com',
     address: '24248 Gibson Dr, Warren, MI 48089, USA',
-    established: 1982,
+    established: 2002,
     independence: 'Independent remanufacturer of Alfa Laval centrifuges. Not affiliated with Alfa Laval and not an authorized Alfa Laval distributor.',
     sources: [`${SITE}/about-dolphin-centrifuge/`, CONTACT],
   },

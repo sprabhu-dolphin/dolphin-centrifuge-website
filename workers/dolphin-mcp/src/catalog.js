@@ -275,7 +275,7 @@ export function sizeCentrifuge({ bowl_diameter_m, rpm, g_force } = {}) {
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Dolphin Centrifuge (Warren, Michigan, USA, established 1982) is an independent remanufacturer of Alfa Laval disc stack and decanter centrifuges, with 150+ machines in stock.',
+  'Dolphin Centrifuge (Warren, Michigan, USA, established 2002) is an independent remanufacturer of Alfa Laval disc stack and decanter centrifuges, with 150+ machines in stock.',
   'Every machine is remanufactured, test run, and carries a 6-month mechanical warranty. A 12-month warranty is available as an optional add-on. Dolphin is not affiliated with Alfa Laval.',
   `Contact: ${CONTACT.phone}, ${CONTACT.email}, ${CONTACT.contactPage}.`,
   'Tools: get_machine_datasheet returns one whole Alfa Laval machine record (every printed figure with its document, page and quote) in one call, and list_machines is its short index; get_centrifuge_specs and list_centrifuge_models return published specs; check_dolphin_stock returns the dated stock list from the written inventory sheet (no prices; a built-to-order row is a used unit remanufactured after an order, not a ready-built unit); size_centrifuge converts between bowl diameter, RPM and g-force; request_quote sends the user\'s quote request to Dolphin sales.',

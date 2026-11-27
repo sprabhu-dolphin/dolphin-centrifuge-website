@@ -36,7 +36,7 @@ export const UARK_SENIOR_WALK_DATA_URL =
 
 /** Canonical positioning line (docs/DAYLIGHT_PLAN.md, "The message"). */
 export const ORG_POSITIONING =
-  'Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service, built on 40+ years of Alfa Laval experience.';
+  'Dolphin Centrifuge is the independent specialist in Alfa Laval centrifuges: remanufactured machines, turnkey systems, parts, and service, built on the Alfa Laval experience of its founder, Sanjay Prabhu, since 1986.';
 
 /** Independence statement. Dolphin is never described as authorized or affiliated. */
 export const ORG_NON_AFFILIATION =
@@ -114,7 +114,7 @@ export const sanjayPrabhuPersonJsonLd = {
   honorificSuffix: 'M.S.M.E.',
   jobTitle: 'Owner and Chief Engineer',
   description:
-    'Mechanical engineer with an M.S.M.E. from the University of Arkansas who leads centrifuge application engineering, Alfa Laval centrifuge remanufacturing, and turnkey separation-system design at Dolphin Centrifuge.',
+    'Mechanical engineer with an M.S.M.E. from the University of Arkansas who leads centrifuge application engineering, Alfa Laval centrifuge remanufacturing, and turnkey separation-system design at Dolphin Centrifuge, with centrifuge experience since 1986.',
   url: PERSON_PROFILE_URL,
   mainEntityOfPage: { '@id': PERSON_PROFILE_PAGE_ID },
   worksFor: { '@id': ORGANIZATION_ID },
@@ -185,7 +185,7 @@ export const dolphinOrganizationJsonLd = {
   description: ORG_POSITIONING,
   slogan: ORG_POSITIONING,
   disambiguatingDescription: ORG_NON_AFFILIATION,
-  foundingDate: '1982',
+  foundingDate: '2002',
   telephone: '+1-248-522-2573',
   email: 'sales@dolphincentrifuge.com',
   address: {
