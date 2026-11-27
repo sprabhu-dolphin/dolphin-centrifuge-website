@@ -1101,7 +1101,7 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     canonicalPath: '/alfa-laval-wspx-303-centrifuge/',
     capacities: [],
-    capacityPolicy: 'Sized per application on water-based coolant',
+    capacityPolicy: 'Sized per application on water-based coolant. Alfa Laval prints a maximum hydraulic capacity of 2,000 L/h (8.8 US GPM) for the WSPX 303TGP-71 (SO 13432E, p. 151).',
     bowlSpeedRpm: 9510,
     gForce: '8,000+',
     motorKw: 2.2,
@@ -1121,12 +1121,12 @@ export const models: ModelSpec[] = [
     rulings: ['A21', 'A23', 'B9'],
     notes: [
       'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): bowl speed 9,510 rpm (50 Hz) / 9,305 rpm (60 Hz), motor 2.2 kW and sediment space 0.63 L are Alfa Laval\'s printed figures for the WSPX 303TGP-71 (SO 13432E p. 151), the only WSPX 303 variant in the library. The site earlier said 9,200 RPM, 4 HP and 0.14 gal (no source). The 8,000+ Gs figure is a Dolphin figure, not printed by Alfa Laval; both printed speeds are above the 9,200 RPM it was stated at, so it still holds as a lower bound.',
-      'A21/A23: WSPX 303 publishes NO capacity number. Every GPM claim reads "sized per application".',
+      'A21/A23 (WSPX 303 publishes no capacity number) are refined 2026-11-27 under the owner rule of 2026-11-20 and 2026-11-27: Alfa Laval prints a maximum hydraulic capacity of 2,000 l/h (8.81 US GPM) for the WSPX 303TGP-71 (SO 13432E p. 151); every application capacity still reads "sized per application".',
       'The "303 mid at 8 GPM" claim was removed.',
       'B9: no Dolphin house code maps to the WSPX series. That did not block A21-A23.',
     ],
     rejectedValues: [
-      { text: '8 GPM', reason: 'A23: rejected. The WSPX 303 publishes no capacity number.' },
+      { text: '8 GPM', reason: 'A23: an unlabelled 8 GPM is rejected. Alfa Laval prints a maximum hydraulic capacity of 2,000 l/h (8.8 US GPM, SO 13432E p. 151); it may appear only with that label.', unless: 'hydraulic|SO 13432E' },
       { text: '9,200 RPM', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (9,510 rpm at 50 Hz / 9,305 rpm at 60 Hz, SO 13432E p. 151).' },
       { text: '4 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (2.2 kW = 3.0 HP, SO 13432E p. 151).', unless: 'kW' },
     ],
@@ -1140,7 +1140,8 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     canonicalPath: '/alfa-laval-wspx-307/',
     capacities: [
-      { fluid: 'Water-based machining coolant', kind: 'rated', value: 28, unit: 'US GPM', ruling: 'A22', label: '28 GPM' },
+      { fluid: 'Hydraulic capacity, max. (Alfa Laval; not an application capacity)', kind: 'maximum', value: 6.5, unit: 'm3/hr', derivedGpm: 28.6, ruling: 'Alfa Laval WSPX 307TGD-71G manual p. 170 (replaces A22)', label: '6.5 m3/hr (28.6 GPM) maximum hydraulic capacity' },
+      { fluid: 'Process capacity, max. (Alfa Laval)', kind: 'maximum', value: 4.5, unit: 'm3/hr', derivedGpm: 19.8, ruling: 'Alfa Laval WSPX 307TGD-71G manual p. 170', label: '4.5 m3/hr (19.8 GPM) maximum process capacity' },
     ],
     bowlSpeedRpm: 8375,
     motorKw: 7.5,
@@ -1163,7 +1164,7 @@ export const models: ModelSpec[] = [
     bowlType: 'Self-Cleaning (Automatic Discharge)',
     rulings: ['A22', 'A23'],
     notes: [
-      'A22/A23: WSPX 307 = 28 GPM, sitting above the 207 in the series.',
+      'A22/A23 (WSPX 307 = 28 GPM) are replaced 2026-11-27 under the owner rule of 2026-11-20 and 2026-11-27: Alfa Laval prints a maximum hydraulic capacity of 6.5 m3/h (28.6 US GPM) and a maximum process capacity of 4.5 m3/h (19.8 US GPM) for the WSPX 307TGD-71G (manual p. 170). The old 28 GPM was a rounded hydraulic figure published as a coolant capacity.',
       'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): bowl speed 8,375 rpm (50 Hz) / 8,400 rpm (60 Hz), motor 7.5 kW (50 Hz) / 8.5 kW (60 Hz) and sludge space 2.9 L are Alfa Laval\'s printed figures for the WSPX 307TGD-71G (instruction manual p. 170), the only WSPX 307 variant in the library. The site earlier said 8,600 RPM, 10 HP and 0.87 gal (no source). The "7,000+ Gs" Dolphin figure was stated at 8,600 RPM; with no bowl diameter in the data it cannot be recomputed at the printed speed, so it was dropped.',
     ],
     rejectedValues: [
@@ -1182,7 +1183,7 @@ export const models: ModelSpec[] = [
     family: 'disc-stack',
     canonicalPath: '/alfa-laval-wspx-407/',
     capacities: [],
-    capacityPolicy: 'Sized per application',
+    capacityPolicy: 'Sized per application. Alfa Laval prints a capacity of 5,000-7,000 L/h (22-31 US GPM) for coolants and wash liquids on its AlfaPure S7 module, which consists of a WSPX 407 separator (document 200001566-1-EN-GB).',
     bowlSpeedRpm: 8500,
     gForce: '7,000+',
     motorHp: 10,
@@ -1192,7 +1193,7 @@ export const models: ModelSpec[] = [
     separationType: '3-Phase (Liquid-Liquid-Solid)',
     tbd: true,
     rulings: ['A21', 'A23'],
-    notes: ['A21/A23: WSPX 407 publishes NO capacity number. It is the top of the series and is sized per application.'],
+    notes: ['A21/A23 (WSPX 407 publishes no capacity number) are refined 2026-11-27 under the owner rule of 2026-11-20 and 2026-11-27: Alfa Laval prints 5,000-7,000 l/h (22-31 US gpm) for coolants and wash liquids on its AlfaPure S7 module, which consists of a WSPX 407 separator (200001566-1-EN-GB). It is the top of the series and is otherwise sized per application.'],
     skipPageAssert: ['capacity'],
   },
 
@@ -1347,7 +1348,7 @@ export const models: ModelSpec[] = [
     aliases: ['BTPX-205', 'BTPX 205 SGD-34-CDP'],
     canonicalPath: '/alfa-laval-btpx-205-disc-centrifuge/',
     capacities: [
-      { fluid: 'Fluid not specified (machine maximum)', kind: 'maximum', value: 5, unit: 'US GPM', label: '5 GPM maximum process capacity', internalNote: 'Was "5 GPM on Cell Broth"; recast 2026-11-14 to the machine maximum the page states (no human-consumption fluid named).' },
+      { fluid: 'Fluid not specified (Alfa Laval maximum hydraulic capacity)', kind: 'maximum', value: 1.2, unit: 'm3/hr', derivedGpm: 5.3, label: '1.2 m3/hr (5.3 GPM) maximum hydraulic capacity', ruling: 'Alfa Laval LS00018EN 0409; ref. 556661 p. 152', internalNote: 'Was "5 GPM maximum process capacity" (a Dolphin rounding); replaced 2026-11-27 by the Alfa Laval printed maximum hydraulic capacity 1.2 m3/h = 5.28 US GPM.' },
     ],
     bowlSpeedRpm: 9631,
     motorKw: 6.5,
@@ -1374,6 +1375,7 @@ export const models: ModelSpec[] = [
       { text: '9,650', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figures (max. 9,631 rpm at 50 Hz / 9,655 rpm at 60 Hz, ref. 556661 p. 152).', unless: 'L/h|l/h' },
       { text: '7.5 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (6.5 kW = 8.7 HP, ref. 556661 p. 152).' },
       { text: '12,800', reason: 'Owner ruling 2026-11-20: Dolphin G-force stated at 9,650 RPM; dropped because it cannot be recomputed at the printed speeds without a bowl diameter.' },
+      { text: '5 GPM maximum process capacity', reason: 'Owner rule 2026-11-20 and 2026-11-27: Alfa Laval prints a maximum hydraulic capacity of 1.2 m3/h (5.3 US GPM), LS00018EN 0409 and ref. 556661 p. 152.' },
     ],
   },
   {
@@ -1385,7 +1387,7 @@ export const models: ModelSpec[] = [
     aliases: ['LAPX 404'],
     canonicalPath: '/alfa-laval-lapx-404-disc-centrifuge/',
     capacities: [
-      { fluid: 'Fluid not specified (machine maximum)', kind: 'maximum', value: 5, unit: 'US GPM', label: '5 GPM maximum process capacity', internalNote: 'Was "5 GPM on Chicken Broth / Chicken Fat Separation"; recast 2026-11-14 to the machine maximum the page states (no food fluid named).' },
+      { fluid: 'Fluid not specified (Alfa Laval maximum hydraulic capacity)', kind: 'maximum', value: 4, unit: 'm3/hr', derivedGpm: 17.6, label: '4 m3/hr (17.6 GPM) maximum hydraulic capacity', ruling: 'Alfa Laval ref. 568384 rev. 4 p. 172; PD 41483 EN2 / 0112', internalNote: 'Was "5 GPM maximum process capacity" (a Dolphin figure); replaced 2026-11-27 by the Alfa Laval printed hydraulic capacity 4 m3/h = 17.6 US GPM.' },
     ],
     bowlSpeedRpm: 9512,
     motorKw: 3,
@@ -1409,11 +1411,12 @@ export const models: ModelSpec[] = [
     rulings: ['D4'],
     notes: [
       'D4: the Clara 20 spec heading names LAPX-404 alongside it.',
-      'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): bowl speed 9,512 rpm (50 Hz) / 9,307 rpm (60 Hz), motor 3 kW and sludge volume 1.11 L (0.57 L efficient for the purifier) are Alfa Laval\'s printed figures for the LAPX 404SGP-31G/TGP-61G (ref. 568384 rev. 4 p. 173). The site earlier said 8,200 RPM, 5 HP and 0.25 gal (no source). The 8,000 Gs Dolphin figure was stated at 8,200 RPM and cannot be recomputed without a bowl diameter, so it was dropped. The 5 GPM machine maximum is a Dolphin figure and stays.',
+      'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): bowl speed 9,512 rpm (50 Hz) / 9,307 rpm (60 Hz), motor 3 kW and sludge volume 1.11 L (0.57 L efficient for the purifier) are Alfa Laval\'s printed figures for the LAPX 404SGP-31G/TGP-61G (ref. 568384 rev. 4 p. 173). The site earlier said 8,200 RPM, 5 HP and 0.25 gal (no source). The 8,000 Gs Dolphin figure was stated at 8,200 RPM and cannot be recomputed without a bowl diameter, so it was dropped. The 5 GPM machine maximum (a Dolphin figure) was replaced 2026-11-27 under the owner rule of 2026-11-20 and 2026-11-27 by Alfa Laval\'s printed hydraulic capacity, 4 m3/h = 17.6 US GPM (ref. 568384 rev. 4 p. 172; leaflet PD 41483 EN2 / 0112 prints max. throughput capacity 4 m3/h). The Clara 20 is Alfa Laval\'s module built on the LAPX 404 centrifuge (PCHS00013EN 1601).',
     ],
     rejectedValues: [
       { text: '8,000 Gs', reason: 'Owner ruling 2026-11-20: Dolphin G-force stated at 8,200 RPM; dropped because it cannot be recomputed at the printed speeds without a bowl diameter.', unless: 'Clara|WSPX' },
       { text: '8,200 RPM', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (9,512 rpm at 50 Hz / 9,307 rpm at 60 Hz, ref. 568384 rev. 4 p. 173).' },
+      { text: '5 GPM maximum process capacity', reason: 'Owner rule 2026-11-20 and 2026-11-27: Alfa Laval prints a hydraulic capacity of 4 m3/h (17.6 US GPM), ref. 568384 rev. 4 p. 172.' },
       { text: '5 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (3 kW = 4.0 HP, ref. 568384 rev. 4 p. 173).', unless: 'Clara 20|kW' },
     ],
   },
@@ -1427,7 +1430,7 @@ export const models: ModelSpec[] = [
     canonicalPath: undefined,
     capacities: [
       { fluid: 'Liquid product, high-flow configuration', kind: 'maximum', value: 17.6, unit: 'US GPM', conditions: '4,000 l/h', label: '17.6 GPM (4,000 l/h)' },
-      { fluid: 'Liquid product, low-flow configuration', kind: 'maximum', value: 4.4, unit: 'US GPM', conditions: '1,000 l/h', label: '4.4 GPM (1,000 l/h)' },
+      { fluid: 'Liquid product, low-flow configuration', kind: 'maximum', value: 2.2, unit: 'US GPM', conditions: '500 l/h', label: '2.2 GPM (500 l/h)' },
     ],
     bowlSpeedRpm: 9512,
     gForce: 11130,
@@ -1440,6 +1443,10 @@ export const models: ModelSpec[] = [
     notes: [
       'Clara 20 is the module built on the LAPX-404 platform. Its figures are module figures and are not interchangeable with the bare LAPX-404 record.',
       'Bowl liquid volume 0.6 Gal (2.2 L); sludge space ~0.3 Gal (1.1 L).',
+      '2026-11-27 (owner rule 2026-11-20 and 2026-11-27): the Clara 20 is Alfa Laval\'s module built on the LAPX 404 centrifuge (PCHS00013EN 1601). Printed hydraulic capacity, newest edition PCHS00013EN 1601: high flow 4 m3/h (17.6 US GPM), low flow 0.5 m3/h (2.2 US GPM). The older edition PCHS00013EN 0701 printed low flow up to 1,000 l/h (4.4 US GPM); it is superseded.',
+    ],
+    rejectedValues: [
+      { text: '4.4 GPM', reason: 'Owner rule 2026-11-20 and 2026-11-27: the newest Alfa Laval Clara 20 leaflet (PCHS00013EN 1601) prints 0.5 m3/h (2.2 US GPM) for the low-flow version; 4.4 GPM was the older edition PCHS00013EN 0701.' },
     ],
   },
 
@@ -1643,13 +1650,13 @@ export const models: ModelSpec[] = [
     canonicalPath: '/alfa-laval-chnx-418-decanter/',
     capacities: [
       {
-        fluid: 'Process duty (band; depends on duty)',
+        fluid: 'Normal dewatering duties (Alfa Laval average capacity, CHNX 400 series)',
         kind: 'rated',
-        value: [5, 20],
+        value: [3, 15],
         unit: 'm3/hr',
-        derivedGpm: [22, 88],
-        ruling: 'E21',
-        label: '5-20 m3/hr (22-88 GPM) depending on duty',
+        derivedGpm: [13, 66],
+        ruling: 'Alfa Laval PD67245 EN 0203 p. 1 (replaces E21)',
+        label: '3-15 m3/hr (13-66 GPM) average capacity for normal dewatering duties',
       },
     ],
     bowlSpeedRpm: 4000,
@@ -1662,13 +1669,15 @@ export const models: ModelSpec[] = [
     conveyorProtection: CARBIDE,
     rulings: ['E21', 'E13', 'F1', 'F2', 'F3'],
     notes: [
-      'E21: 5-20 m3/hr (22-88 GPM depending on duty). All 100 GPM claims were removed.',
+      'E21 (ruled 2026-08-24: 5-20 m3/hr, 22-88 GPM depending on duty) is replaced 2026-11-27 under the owner rule of 2026-11-20 and 2026-11-27 (Alfa Laval printed information wins): Alfa Laval prints "Average capacity for normal dewatering duties 3 - 15 m3/h" for the CHNX 400 series (CHNX 414, 416, 418), sheet PD67245 EN 0203, p. 1 (3 m3/h = 13.2 GPM, 15 m3/h = 66.0 GPM). All 100 GPM claims were removed.',
       'Alfa Laval prints for the CHNX 418: bowl diameter 353 mm, total bowl length 1460 mm, max. speed 4000 rpm, G-force 3157 G (CHNX 400 Series leaflet PD67245 EN 0203); this replaces E13 (3,740 Gs for an assumed 418 mm bowl).',
       'F1/F3: built on an Alfa Laval CHNX 418 originally manufactured for ATEX service. Dolphin remanufactures it and verifies nitrogen purge function in Warren MI. Dolphin holds NO original certification documents, so no documentation promise is made.',
       'F2: the hazardous-area row reads "ATEX (original Alfa Laval build)" with no TBD marker.',
     ],
     rejectedValues: [
-      { text: '100 GPM', reason: 'E21: rejected. The CHNX 418 band is 5-20 m3/hr (22-88 GPM).' },
+      { text: '100 GPM', reason: 'E21: rejected. Alfa Laval prints 3-15 m3/hr (13-66 GPM) for the CHNX 400 series.' },
+      { text: '5-20 m3/hr', reason: 'Owner rule 2026-11-20 and 2026-11-27: replaced by the Alfa Laval printed average capacity for normal dewatering duties, 3-15 m3/h (PD67245 EN 0203 p. 1).' },
+      { text: '22-88 GPM', reason: 'Owner rule 2026-11-20 and 2026-11-27: replaced by the Alfa Laval printed 3-15 m3/h = 13-66 GPM (PD67245 EN 0203 p. 1).' },
       { text: '3,150 RCF', reason: 'Alfa Laval prints 3157 G for the CHNX 418 (PD67245 EN 0203); 3,150 is a rounding of it.' },
       { text: '3,150 G-Force', reason: 'Alfa Laval prints 3157 G for the CHNX 418 (PD67245 EN 0203); 3,150 is a rounding of it.' },
       { text: '3,740 G-Force', reason: 'Alfa Laval prints 3157 G and a 353 mm bowl for the CHNX 418; 3,740 assumed a 418 mm bowl.' },

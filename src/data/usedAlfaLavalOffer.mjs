@@ -57,7 +57,7 @@ export const usedFamilies = [
     name: 'Alfa Laval MOPX',
     type: 'Self-cleaning disc stack, full discharge',
     cleaning: 'self-cleaning',
-    role: 'Full-discharge design and our default recommendation for oils and fuels (MOPX 207 and 209). Also a good fit for heavy sludge loads and for matching an existing installation.',
+    role: 'Total-discharge design (Alfa Laval\'s term) and our default recommendation for oils and fuels (MOPX 207 and 209). Also a good fit for heavy sludge loads and for matching an existing installation.',
     models: ['alfa-laval-mopx-205', 'alfa-laval-mopx-207', 'alfa-laval-mopx-209', 'alfa-laval-mopx-213'].map(model),
   },
   {
