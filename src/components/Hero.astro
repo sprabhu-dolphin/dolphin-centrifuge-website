@@ -54,13 +54,18 @@ const overlayClass = {
   frost: 'bg-navy/55',
 }[overlay];
 
+/* Phones (below the md breakpoint): with a single hero picture and the frosted
+   card, the picture sits as a strip above the card instead of behind it, so the
+   card no longer covers the machines. From md up nothing changes. */
+const stackOnPhone = isFrost && !isSlider && !!imageSrc;
+
 const heightClass = compact
   ? 'min-h-[240px] md:min-h-[300px]'
   : 'min-h-[320px] md:min-h-[380px] lg:min-h-[420px]';
 ---
 
 <section
-  class={`relative ${heightClass} flex items-center overflow-hidden`}
+  class={`relative ${heightClass} flex ${stackOnPhone ? 'flex-col items-stretch bg-navy md:flex-row md:items-center md:bg-transparent' : 'items-center'} overflow-hidden`}
   data-hero-slider={isSlider ? 'true' : undefined}
 >
   {/* ── Background: either slider or static ── */}
@@ -91,7 +96,9 @@ const heightClass = compact
     <img
       src={imageSrc}
       alt={imageAlt}
-      class="absolute inset-0 w-full h-full object-cover object-center"
+      class={stackOnPhone
+        ? 'relative w-full aspect-[2/1] sm:aspect-[5/2] object-cover object-center md:absolute md:inset-0 md:aspect-auto md:h-full'
+        : 'absolute inset-0 w-full h-full object-cover object-center'}
       loading="eager"
       fetchpriority="high"
       decoding="async"
@@ -101,7 +108,7 @@ const heightClass = compact
   )}
 
   {/* ── Overlay ── */}
-  <div class={`absolute inset-0 ${overlayClass} z-[1]`}></div>
+  <div class={`${stackOnPhone ? 'hidden md:block ' : ''}absolute inset-0 ${overlayClass} z-[1]`}></div>
 
   {/* ── Subtle texture ── */}
   <div
