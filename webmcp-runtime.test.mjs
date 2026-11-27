@@ -178,8 +178,8 @@ test('used Alfa Laval finder filters families, pages results and adds a document
   assert.equal(diesel.data.families[0].models, 'WHPX 405, WHPX 407, WHPX 409, WHPX 510, WHPX 513');
   assert.equal(diesel.sources[0], '/technical-data/used-alfa-laval-centrifuges.v1.json', 'links the full offer data');
   assert.equal(diesel.data.quote.tool, 'prepare_used_alfa_laval_quote');
-  assert.ok(JSON.stringify(diesel).length <= 1500, `default output is ${JSON.stringify(diesel).length} chars`);
-  assert.ok(JSON.stringify(await find.execute({})).length <= 1500);
+  assert.ok(JSON.stringify(diesel).length <= 1600, `default output is ${JSON.stringify(diesel).length} chars`);
+  assert.ok(JSON.stringify(await find.execute({})).length <= 1600);
 
   const all = [];
   let offset = 0;

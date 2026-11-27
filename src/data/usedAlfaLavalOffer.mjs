@@ -3,8 +3,8 @@
 // all read this file, so they cannot drift apart.
 //
 // Every statement here is already published elsewhere on the site; `sources`
-// names the page. Do not add inventory counts per model, prices, warranty terms
-// or certifications that are not published. Model names and pages come from
+// names the page. Do not add inventory counts per model, warranty terms or
+// certifications that are not published. Starting-price anchors are published (owner ruling 2026-11-27). Model names and pages come from
 // the technical catalog, never retyped.
 import { technicalCatalog } from './agentCatalog.mjs';
 
@@ -155,7 +155,8 @@ export const usedOffer = {
     basis: 'Quoted per unit and application. Exact prices are not published.',
     anchors: [
       { item: 'Smallest manual-clean skid (Alfa Laval MAB 103, Dolphin DMB-004), with controls and pumps', from: 'starts around the mid $30Ks', source: `${SITE}/diesel-centrifuge/` },
-      { item: 'Complete plug-and-play self-cleaning module', from: 'starts around $50K, EXW Warren MI', source: `${SITE}/waste-oil-centrifuge/` },
+      { item: 'Complete plug-and-play self-cleaning module', from: 'starts in the low $40Ks, EXW Warren MI', source: `${SITE}/waste-oil-centrifuge/` },
+      { item: 'Decanter system', from: 'starts in the mid to upper $40Ks, EXW Warren MI', source: `${SITE}/used-alfa-laval-centrifuges-for-sale/` },
       { item: 'System with full stainless steel wetted parts', from: 'starts around the mid $60Ks, EXW Warren MI', source: `${SITE}/wastewater-centrifuge/` },
     ],
   },
