@@ -338,14 +338,21 @@ const specSource = (page, extra = {}) => ({
   ...extra,
 });
 
-const materialSet = (page) => [
-  { component: 'Bowl body and bowl hood', material: 'stainless steel (exact grade requires component/configuration verification)', ...specSource(page) },
-  { component: 'Disc stack', material: 'stainless steel (exact grade requires component/configuration verification)', ...specSource(page) },
-  { component: 'Distributor / disc carrier', material: 'Marine-grade bronze; 316 stainless steel special-order option', ...specSource(page) },
-  { component: 'Top disc', material: 'Marine-grade bronze; 316 stainless steel special-order option', ...specSource(page) },
-  { component: 'Collecting covers', material: 'Silium aluminum alloy', ...specSource(page) },
-  { component: 'Frame', material: 'Nodular cast iron', ...specSource(page) },
-];
+const materialSet = (page, machine = 'mab') => {
+  // Alfa Laval's own words: MAB manuals print "tinned bronze" for the distributor and top disc, "silumin cast-aluminium alloy" covers and "cast iron" frame;
+  // the MOPX 207 manuals print "bronze and brass" for the other bowl parts, a "silumin" frame hood and a "cast iron" frame.
+  // The 316 special-order option is a Dolphin option (not printed by Alfa Laval) and is labelled as such.
+  const mopx = machine === 'mopx';
+  const bowlParts = (mopx ? 'bronze and brass' : 'tinned bronze') + '; Dolphin special order: 316 stainless steel';
+  return [
+    { component: 'Bowl body and bowl hood', material: 'stainless steel', ...specSource(page) },
+    { component: 'Disc stack', material: 'stainless steel', ...specSource(page) },
+    { component: 'Distributor / disc carrier', material: bowlParts, ...specSource(page) },
+    { component: 'Top disc', material: bowlParts, ...specSource(page) },
+    { component: 'Collecting covers', material: mopx ? 'silumin (frame hood)' : 'silumin cast-aluminium alloy', ...specSource(page) },
+    { component: 'Frame', material: 'cast iron', ...specSource(page) },
+  ];
+};
 
 const knownSpecs = {
   'alfa-laval-mab-103': {
@@ -467,7 +474,7 @@ const mopxModels = mopxRows.map((row) => {
     ...(published.rpm ? { bowlSpeed: bowlSpeed(published) } : {}),
     ...(published.netWeightKg ? { netWeight: { value: published.netWeightKg, unit: 'kg', convertedLb: Math.round(published.netWeightKg * 2.20462), scope: 'separator complete with set of tools, excluding motor', alfaLavalDocument: published.netWeightDocument, ...specSource(published.page) } } : {}),
     ...(published.dimensions ? { dimensions: { width: published.dimensions[0], length: published.dimensions[1], height: published.dimensions[2], unit: 'in', scope: 'bare centrifuge', ...specSource(published.page) } } : {}),
-    ...(row.model === 'MOPX 207' ? { materialsOfConstruction: materialSet('/alfa-laval-mopx-207-centrifuge/#material') } : {}),
+    ...(row.model === 'MOPX 207' ? { materialsOfConstruction: materialSet('/alfa-laval-mopx-207-centrifuge/#material', 'mopx') } : {}),
   } : {};
   return oemModel({ model: row.model, canonicalPage: mopxCanonicalPages[row.model] ? `${SITE_URL}${mopxCanonicalPages[row.model]}` : undefined, specifications, capacities: mopxCapacities(id, row) });
 });
@@ -562,7 +569,7 @@ const dmpxModels = [
       motorPower: { value: 5, unit: 'HP', standard: true, ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
       voltage: { values: [230, 460], unit: 'V', phases: 3, frequencyHz: 60, alternativesAvailable: true, ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
       skidDimensions: { width: 36, length: 60, height: 60, unit: 'in', approximate: true, ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
-      bowlConstruction: { standard: 'Carbon steel', option: '316L stainless steel', ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
+      bowlConstruction: { standard: 'Carbon steel', option: 'stainless steel', ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
       sludgeSpace: { minimum: 0.32, maximum: 0.34, unit: 'US gal', ...specSource('/dmpx-014-self-cleaning-3-phase-disc-stack-centrifuge/') },
     },
   }),
@@ -576,7 +583,7 @@ const dmpxModels = [
       voltage: { values: [230, 460], unit: 'V', phases: 3, ...specSource('/centrifuges/dmpx-028/') },
       dimensions: { width: 30, length: 38, height: 43, unit: 'in', scope: 'bare centrifuge', approximate: true, variantDependent: true, ...specSource('/centrifuges/dmpx-028/') },
       sludgeSpace: { value: 1.03, unit: 'US gal', ...specSource('/centrifuges/dmpx-028/') },
-      materialsOfConstruction: materialSet('/centrifuges/dmpx-028/#technical-specifications'),
+      materialsOfConstruction: materialSet('/centrifuges/dmpx-028/#technical-specifications', 'mopx'),
     },
   }),
   commercialModel({

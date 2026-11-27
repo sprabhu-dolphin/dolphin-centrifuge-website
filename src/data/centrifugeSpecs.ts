@@ -1057,7 +1057,7 @@ export const models: ModelSpec[] = [
       ],
     },
     voltages: V_230_460,
-    wettedParts: 'Stainless steel',
+    wettedParts: 'High-grade stainless steel',
     notes: [
       'Stainless-steel variant of the MAB 104 frame.',
       'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): motor 1.1 kW (separate feed pump) or 1.5 kW (built-on feed pump), SO 11064E p. 39. The site earlier said 2 HP (no source).',
@@ -1222,13 +1222,13 @@ export const models: ModelSpec[] = [
     sludgeVolumeGal: 3.87,
     voltages: V_230_460,
     dimensions: "5' x 7' x 7' (H)",
-    wettedParts: '316L stainless steel',
     rulings: ['E8'],
     notes: [
       'E8: 4,150 RPM. Prose, spec table and schema are aligned on it. No bowl speed for the AFPX 213 is printed in the library.',
       'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): motor 15 kW or 18.5 kW, the two alternatives Alfa Laval prints in S88317E (4181-1) p. 33. The site earlier said 15 HP (no source).',
     ],
     rejectedValues: [
+      { text: '316L stainless steel', reason: 'Owner ruling 2026-11-27 (use Alfa Laval\'s printed information): Alfa Laval prints no material for the AFPX 213.' },
       { text: '15 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figures (15 kW or 18.5 kW, S88317E (4181-1) p. 33).', unless: 'kW' },
       { text: '4,600 RPM', reason: 'E8: rejected. The AFPX 213 runs at 4,150 RPM.' },
     ],
@@ -1247,9 +1247,11 @@ export const models: ModelSpec[] = [
     motorHp: 10,
     sludgeVolumeGal: 1.12,
     voltages: V_230_460,
-    wettedParts: '316L stainless steel',
     separationType: 'Three-phase',
     skipPageAssert: ['rpm'],
+    rejectedValues: [
+      { text: '316L stainless steel', reason: 'Owner ruling 2026-11-27 (use Alfa Laval\'s printed information): Alfa Laval prints no material for the AFPX 207.' },
+    ],
   },
   {
     id: 'alfa-laval-brpx-213',
@@ -1260,13 +1262,15 @@ export const models: ModelSpec[] = [
     capacities: [],
     gForce: 6500,
     micronRating: 0.5,
-    wettedParts: 'Stainless steel',
     tbd: true,
     rulings: ['B1', 'E11'],
     notes: [
       'B1: the clarifier is the BRPX 213. The CBPX-213-XP designation is retired.',
       'E11: the BRPX frame develops 6,500 Gs. The "over 7,000 Gs" prose was the round-up.',
       'No dedicated spec table is published for the BRPX 213; it appears as a named machine on the stainless steel and parts pages.',
+    ],
+    rejectedValues: [
+      { text: '316 L Stainless Steel (Duplex)', reason: 'Owner ruling 2026-11-27: Alfa Laval prints no material for the BRPX 213 and never pairs 316 with duplex.' },
     ],
   },
   {
@@ -1288,13 +1292,14 @@ export const models: ModelSpec[] = [
     sludgeSource: 'Alfa Laval S93494E-2 (4267-1), p. 23 (printed 16.4 dm3)',
     voltages: V_230_460,
     micronRating: 0.5,
-    wettedParts: '316L stainless steel',
+    wettedParts: 'Stainless steel',
     rulings: ['E11'],
     notes: [
       'E11: 6,500 Gs. The page spec table is the specific source; the "over 7,000 Gs" prose was a round-up and is rejected.',
       'Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): motor 22 kW and sludge space 16.4 dm3 (= 16.4 L), S93494E-2 (4267-1) p. 23. The site earlier said 15 HP and 3.87 gal (no source).',
     ],
     rejectedValues: [
+      { text: '316L stainless steel', reason: 'Owner ruling 2026-11-27 (use Alfa Laval\'s printed information): Alfa Laval prints stainless steel for the BRPX 313, no grade.' },
       { text: '15 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (22 kW = 29.5 HP, S93494E-2 (4267-1) p. 23).', unless: 'kW' },
       { text: '3.87 Gal', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figure (16.4 dm3 = 4.33 US gal, S93494E-2 (4267-1) p. 23).', unless: 'AFPX|WHPX 513' },
       {
@@ -1326,10 +1331,10 @@ export const models: ModelSpec[] = [
     },
     sludgeVolumeGal: 1.35,
     voltages: V_230_460,
-    wettedParts: '316L stainless steel',
     notes: ['Owner ruling 2026-11-20 ("Use Alfa Laval\'s"): motor 11 kW (throughflow up to 10 m3/h) or 15 kW (above 10 m3/h), S88310E-2 (4182-1) p. 31. The site earlier said 10 HP (no source). Sludge space 1.35 gal: no printed figure in the library.'],
     skipPageAssert: ['rpm'],
     rejectedValues: [
+      { text: '316L stainless steel', reason: 'Owner ruling 2026-11-27 (use Alfa Laval\'s printed information): Alfa Laval prints no material for the BRPX 309.' },
       { text: '10 HP', reason: 'Owner ruling 2026-11-20: differs from the Alfa Laval printed figures (11 kW up to 10 m3/h, 15 kW above, S88310E-2 (4182-1) p. 31).', unless: 'kW' },
     ],
   },
