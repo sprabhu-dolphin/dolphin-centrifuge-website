@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -33,7 +34,7 @@ const articleJsonLd = {
   "@type": "Article",
   "headline": "Wastewater Centrifuge: Sludge Dewatering Systems Explained",
   "description": "How wastewater centrifuges dewater sludge: decanter systems with continuous solids discharge, high throughput, and cleaner centrate for industrial and municipal plants.",
-  "dateModified": "2026-05-13",
+  "dateModified": "2026-11-27",
   "mainEntityOfPage": "https://dolphincentrifuge.com/wastewater-centrifuge/",
   "author": {
     "@type": "Person",
@@ -88,7 +89,7 @@ const webPageJsonLd = {
   "url": "https://dolphincentrifuge.com/wastewater-centrifuge/",
   "name": "Wastewater Centrifuge: Sludge Dewatering Systems Explained",
   "description": "How wastewater centrifuges dewater sludge: decanter systems with continuous solids discharge, high throughput, and cleaner centrate for industrial and municipal plants.",
-  "dateModified": "2026-05-13",
+  "dateModified": "2026-11-27",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Dolphin Centrifuge",
@@ -100,7 +101,55 @@ const webPageJsonLd = {
   }
 };
 
-const jsonLd = [articleJsonLd, webPageJsonLd, productJsonLd];
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is a sludge dewatering or sludge thickening centrifuge?",
+    answer: "A sludge dewatering or sludge thickening centrifuge is a decanter-type horizontal de-sludger that can remove water from slurries to thicken the sludge. In other words, a heavy-duty industrial centrifuge dewaters and concentrates (thickens) the sludge, also known as a sludge thickening machine. These machines are available in different sizes to continuously process large quantities of sludge-laden water."
+  },
+  {
+    question: "How does a wastewater centrifuge work?",
+    answer: "The sludge accumulates on the bowl periphery, and the internal auger scrapes towards the sludge discharge ports."
+  },
+  {
+    question: "What kind of centrifuge handles wastewater from mines?",
+    answer: "Wastewater from mining applications is one such example. This stream contains minute silt and clay particles that are difficult to separate with a wastewater decanter. A high-speed disc centrifuge has sufficient g-force to pull out these particles and clarify the water."
+  },
+  {
+    question: "How is oily wastewater separated?",
+    answer: "Industrial wastewater often carries oil in addition to sludge. This oily water is challenging because it cannot be disposed of in standard drains. A three-phase industrial centrifuge separates the oil from the water, making it disposable."
+  },
+  {
+    question: "What are the running costs of a wastewater decanter?",
+    answer: "The only operational expense associated with centrifuges is maintenance. The only parts that need occasional replacement are the bearings because a decanter has fewer moving parts than filter presses."
+  },
+  {
+    question: "What does dry sludge do to disposal costs?",
+    answer: "Dry sludge also reduces disposal costs because the disposal volume is a fraction of the wet sludge."
+  },
+  {
+    question: "Does a wastewater centrifuge need an operator?",
+    answer: "Most sludge-thickening and dewatering centrifuges are fully automatic. The control systems have built-in sensors with self-correcting features to allow operator-free processing."
+  },
+  {
+    question: "How much space does a wastewater decanter take?",
+    answer: "Centrifuges are compact when compared to other dewatering equipment. For equivalent capacity, a decanter footprint is often a fraction of other comparable machines. This small size makes them a viable option for wastewater de-sludging in confined areas in treatment plants."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/wastewater-centrifuge/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const jsonLd = [articleJsonLd, webPageJsonLd, productJsonLd, faqSchema];
 
 const toc = [
   { id: 'types-of-wastewater', label: 'Types of Wastewater' },
@@ -111,6 +160,7 @@ const toc = [
   { id: 'specifications', label: 'Specifications and Sizing' },
   { id: 'applications', label: 'Applications' },
   { id: 'models-for-sale', label: 'Models for Sale' },
+  { id: 'faq', label: 'Questions and Answers' },
 ];
 
 const relatedApplications = [
@@ -599,6 +649,8 @@ const relatedProducts = [
       </table>
     </div>
   </div>
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
   <hr class="border-gray-200 my-12" />
 
