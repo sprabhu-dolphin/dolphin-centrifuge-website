@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -70,7 +71,51 @@ const webPageJsonLd = {
   "dateModified": "2026-11-27"
 };
 
-const jsonLd = [articleJsonLd, webPageJsonLd];
+// Questions and answers. The answers are Sanjay's own sentences, word for word, taken from this page.
+// The visible list and the FAQPage data are made from this one array, so they are identical.
+const faqItems = [
+  {
+    question: "What is differential speed on a decanter centrifuge?",
+    answer: "The differential speed of a decanter centrifuge is the difference between the bowl's rotational speed and the scroll. Therefore the differential speed is a measure of the scroll speed in relation to the decanter bowl."
+  },
+  {
+    question: "How is differential speed calculated?",
+    answer: "Three decanter parameters determine the differential speed of the scroll versus the bowl. These are (1) Bowl Speed, (2) Sun-Wheel Shaft Speed, and (3) Gearbox Ratio. Differential Speed = (Bowl Speed - Sun Wheel Shaft Speed) / Gear-Box Ratio."
+  },
+  {
+    question: "What happens when the differential speed is higher?",
+    answer: "Higher differential speed reduces the retention time of solids in the decanter bowl. This reduced residence time leads to:<ul><li>Higher Solids Output Capacity</li><li>Lower Torque Load On Scroll</li><li>Reduction in Cake Drying Capacity (Wetter Solids)</li></ul>"
+  },
+  {
+    question: "How does differential speed protect the scroll from overload?",
+    answer: "In case of a sudden solids increase, the scroll can be subjected to excessive torque. Increasing the differential speed with increasing load can push the solids out faster, reducing the scroll load. This variation of scroll speed is essential for overload protection."
+  },
+  {
+    question: "Can differential speed adjust itself while the decanter runs?",
+    answer: "A back-drive motor driven by an inverter or Variable Frequency Drive (VFD) automatically controls the decanter differential speed."
+  },
+  {
+    question: "What is zero differential speed?",
+    answer: "Zero differential speed essentially means the bowl and the auger, or the conveyor, are rotating at the same speed. There is no relative motion between the bowl and the conveyor. Therefore the conveyor is not able to push out the separated solids."
+  },
+  {
+    question: "How do you avoid zero differential speed?",
+    answer: "The way to avoid it is to have it detected electronically, by checking the torque, the amps on the main drive and on the back drive. You could have sensors and alarms set up for that. Most importantly, the over-torque trip alarm should be monitored and should never be bypassed or overridden. That is the main way to pick up when the GS coupling, or the torque coupling, has disengaged from the gearbox."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/decanter-centrifuge-differential-speed/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+const jsonLd = [articleJsonLd, webPageJsonLd, faqSchema];
 
 const toc = [
   { id: "summary", label: "30-Second Summary Takeaway" },
@@ -82,6 +127,7 @@ const toc = [
   { id: "auto-control", label: "Automatic Control Of Scroll Speed" },
   { id: "zero-differential-speed", label: "Zero Differential Speed" },
   { id: "conclusion", label: "Summary" },
+  { id: "faq", label: "Questions and Answers" },
 ];
 
 const relatedApplications = [
@@ -405,6 +451,8 @@ const relatedProducts = [
   <h2 id="conclusion">Summary</h2>
   <p>The differential speed between the decanter bowl and scroll is the key to the function of a decanter centrifuge. The differential speed has important functional benefits to the equipment user. In advance decanter control, the differential speed is key to fine-tuning the decanter operation and safety features.</p>
 
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
   <!-- CTA -->
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mt-8 mb-4">
