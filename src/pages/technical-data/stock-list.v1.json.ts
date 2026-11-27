@@ -22,7 +22,7 @@ export function GET() {
       'Remanufactured to order after sale, not a ready-built unit': BUILT_TO_ORDER_DETAIL,
     },
     page: `${SITE}${STOCK_PAGE_PATH}`,
-    note: 'Dated list. Availability changes and is confirmed per quote. Prices by quote. Every unit is remanufactured to the published reconditioning standard before shipment and sold with the 12-month mechanical warranty, never as-is. Serial numbers on request to qualified buyers.',
+    note: 'Dated list. Availability changes and is confirmed per quote. Prices by quote. Every unit is remanufactured to the published reconditioning standard before shipment and sold with the 6-month mechanical warranty, never as-is. Serial numbers on request to qualified buyers.',
     units: stockList.units.map((u) => ({
       family: u.family,
       maker: stockMaker(u),

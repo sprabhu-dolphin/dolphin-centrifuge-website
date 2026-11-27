@@ -162,3 +162,9 @@ enforced by `scripts/spec-consistency-check.mjs`.
 - [x] **R5-6.** Homepage disc-stack card carried a class-wide "12,000 x g" badge - RULING: **"Up to 8,500 Gs depending on model"** (8,500 Gs = MAB-102, the highest disc-stack figure the site publishes). 12,000 is rejected as a disc-stack class G-force claim.
 - [x] **R5-7.** G2-40 G-force 3,150 RCF and AE 1,565, both cloned from the pre-correction NX 418 - RULING: **remove both from the page. No replacement invented.** The data record now carries TBD markers for G-force and AE, and 3,150 RCF / 3,150 G / 1,565 are rejected for the G2-40.
 - [x] **R5-8.** DMPX-070 G-force, frozen and parked since A16 - RULING: **officially NOT PUBLISHED.** The placeholder row and TBD comment are removed from `/centrifuges/dmpx-070/`, the data record marks `gForce` intentionally unpublished, and A16's leftover is closed.
+
+---
+
+## 2026-11-27 rulings (owner, relayed by the Chief of staff; consistency sweep)
+
+- **Warranty (supersedes the owner decision of 2026-10-11 for 12 months, commit f210ed48).** Sanjay, 2026-11-27: "we do give 12-month warranty as an optional add-on, but standard warranty is 6 months. So you know, but make it consistent now that you know the real truth." RULING: **the standard warranty is 6 months (mechanical); a 12-month warranty is available as an optional add-on.** No price is stated for the add-on. Applied to every page, FAQ and its structured-data copy, `llms.txt`, the used-centrifuge offer data, the MCP catalog text and the badges. The old 12-month figure is rejected as the standard warranty.

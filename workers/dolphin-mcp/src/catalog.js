@@ -210,7 +210,7 @@ export function checkDolphinStock({ model } = {}) {
     totalCounts: { ...stockCounts(), summary: stockCountsSentence() },
     matchingCounts: stockCounts(units),
     stockPage: `${SITE}${STOCK_PAGE_PATH}`,
-    note: `Dated published list of centrifuges (Alfa Laval, Sharples and ALDEC machines) from Dolphin's written inventory sheet. Dolphin holds 150+ machines in stock in Warren, Michigan in total; availability of any model is confirmed per quote. A built-to-order row is a used unit Dolphin remanufactures after an order: ${BUILT_TO_ORDER_DETAIL} Every unit ships remanufactured with a 12-month mechanical warranty. No prices are published.`,
+    note: `Dated published list of centrifuges (Alfa Laval, Sharples and ALDEC machines) from Dolphin's written inventory sheet. Dolphin holds 150+ machines in stock in Warren, Michigan in total; availability of any model is confirmed per quote. A built-to-order row is a used unit Dolphin remanufactures after an order: ${BUILT_TO_ORDER_DETAIL} Every unit ships remanufactured with a 6-month mechanical warranty. A 12-month warranty is available as an optional add-on. No prices are published.`,
     count: units.length,
     units: units.map((u) => {
       const out = {
@@ -276,7 +276,7 @@ export function sizeCentrifuge({ bowl_diameter_m, rpm, g_force } = {}) {
 
 export const SERVER_INSTRUCTIONS = [
   'Dolphin Centrifuge (Warren, Michigan, USA, established 1982) is an independent remanufacturer of Alfa Laval disc stack and decanter centrifuges, with 150+ machines in stock.',
-  'Every machine is remanufactured, test run, and carries a 12-month mechanical warranty. Dolphin is not affiliated with Alfa Laval.',
+  'Every machine is remanufactured, test run, and carries a 6-month mechanical warranty. A 12-month warranty is available as an optional add-on. Dolphin is not affiliated with Alfa Laval.',
   `Contact: ${CONTACT.phone}, ${CONTACT.email}, ${CONTACT.contactPage}.`,
   'Tools: get_machine_datasheet returns one whole Alfa Laval machine record (every printed figure with its document, page and quote) in one call, and list_machines is its short index; get_centrifuge_specs and list_centrifuge_models return published specs; check_dolphin_stock returns the dated stock list from the written inventory sheet (no prices; a built-to-order row is a used unit remanufactured after an order, not a ready-built unit); size_centrifuge converts between bowl diameter, RPM and g-force; request_quote sends the user\'s quote request to Dolphin sales.',
   'Always state a capacity together with its fluid and conditions, never as a bare GPM. Only call request_quote with the user\'s explicit consent and their real contact details.',
