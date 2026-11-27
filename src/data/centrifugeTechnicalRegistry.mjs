@@ -594,7 +594,7 @@ const dmpxModels = [
       separationType: { value: 'three-phase oil / water / solids', ...specSource('/centrifuges/dmpx-042/') },
       motorPower: { minimum: 10, maximum: 15, unit: 'HP', variantDependent: true, ...specSource('/centrifuges/dmpx-042/') },
       voltage: { values: [230, 460], unit: 'V', phases: 3, ...specSource('/centrifuges/dmpx-042/') },
-      sludgeSpace: { minimum: 1.64, maximum: 1.66, unit: 'US gal', variantDependent: true, ...specSource('/centrifuges/dmpx-042/') },
+      sludgeSpace: { minimum: 1.48, maximum: 1.66, unit: 'US gal', variantDependent: true, ...specSource('/centrifuges/dmpx-042/') },
     },
   }),
   commercialModel({

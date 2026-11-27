@@ -77,7 +77,7 @@ test('corrected motor, bowl speed and weight figures carry the Alfa Laval printe
   assert.equal(m207.netWeightLb, 1731);
   assert.match(m207.alfaLavalSources.netWeight, /MR SO 2800E, p\. 92/);
   assert.equal(spec('MOPX 205').motorKw, 4);
-  assert.equal(spec('MOPX 213').motorKw, 15);
+  assert.equal(spec('MOPX 213').motorKw, 16);
   assert.equal(spec('WHPX 409').motorKw, 11);
   for (const d of ['WHPX 407', 'WHPX 409', 'MOPX 209']) assert.equal(spec(d).bowlSpeedRpm, 5175, `${d} bowl speed`);
   for (const m of models) if (m.motorKw !== undefined) {
