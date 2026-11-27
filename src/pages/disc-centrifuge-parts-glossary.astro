@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 
 const contactWorkerBaseUrl = (import.meta.env.PUBLIC_CONTACT_WORKER_URL || (
   import.meta.env.DEV
@@ -77,7 +78,7 @@ const jsonLd = [
       "telephone": "+12485222573"
     },
     "datePublished": "2020-08-05",
-    "dateModified": "2026-05-13",
+    "dateModified": "2026-11-27",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://dolphincentrifuge.com/disc-centrifuge-parts-glossary/#webpage"
@@ -109,9 +110,58 @@ const jsonLd = [
       { "@type": "Product", "name": "Alfa Laval MOPX 207 / WHPX 407 Disc Centrifuge", "brand": { "@type": "Brand", "name": "Alfa Laval" } },
       { "@type": "Product", "name": "Alfa Laval MOPX 209 / WHPX 410 Disc Centrifuge", "brand": { "@type": "Brand", "name": "Alfa Laval" } }
     ],
-    "dateModified": "2026-05-13"
+    "dateModified": "2026-11-27"
   }
 ];
+
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is a bowl disc?",
+    answer: "A bowl disc is a conical-shaped plate inside the rotating bowl assembly of the disc centrifuge. A stack of these discs is the heart of disc-type industrial centrifuges. The purpose of these discs is to increase the surface area of settling available to the rotating fluids inside the bowl. This added surface area increases the efficiency of the centrifuge multi-fold. In other words, the discs reduce the settling distance of the process liquid."
+  },
+  {
+    question: "What does the distributor do?",
+    answer: "As the alternate name 'disc carrier' implies, the centrifuge distributor has mounted all the discs (stack). The distributor is the fixture for the conical plates within the centrifuge bowl. It aligns the cones correctly using an alignment key and corresponding slots on all discs."
+  },
+  {
+    question: "What does the gravity disc do?",
+    answer: "The gravity disc is a stamped steel part on top of the disc centrifuge bowl hood. The gravity disc has a controlled inside diameter hole, which controls the position of the interface between the two liquid phases in the case of a liquid-liquid separation centrifuge."
+  },
+  {
+    question: "What is a paring disc?",
+    answer: "The paring disc is a static impeller device that is internal to the bowl. Though this part is inside the bowl assembly, it does not rotate. It is suspended inside the upper chamber of the bowl, which revolves around it. The paring disc is a centripetal pump, which converts the fluid's rotational energy inside the bowl into pressure. It performs this pumping action through internal spiral vanes."
+  },
+  {
+    question: "What does the large lock ring do?",
+    answer: "As the name suggests, this is a steel ring that locks the bowl hood to the bowl body. This ring has external threads with matching female threads in the bowl body. The purpose of this ring is to compress the bowl hood to the bowl body. The compression of the bowl hood also compresses the other parts inside the rotating bowl assembly. This tightening squeezes all the bowl parts together, forming a rigid and integral bowl assembly."
+  },
+  {
+    question: "What is the nylon seal ring?",
+    answer: "The sliding piston lip (described below) and the nylon seal ring form the primary seal in the self-cleaning centrifuge bowl. This seal ring fits into a groove in the bowl hood. Its location matches the location of the lip on the sliding piston. The nylon seal ring is a consumable part. It is essential to periodically replace this part to prevent wear on the bowl's sliding piston (non-replaceable part)."
+  },
+  {
+    question: "What is a port liner?",
+    answer: "The exposure of the sludge ejection ports in the bowl body to wear is a cause for concern. Port liners are stamped steel clips that are crimped over the exposed sludge ports. They protect the centrifuge bowl body ports from wear. The port liner is a sacrificial part that is easily replaced at a minimal cost."
+  },
+  {
+    question: "What is the top disc?",
+    answer: "The top disc is a dome-shaped part positioned at the top of the disc stack. It acts as a collection cover, which funnels the separated light phase towards the center of the bowl top. The light-phase paring disc (stationary) is housed within the top disc and pumps out this clean light phase."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/disc-centrifuge-parts-glossary/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+jsonLd.push(faqSchema);
 ---
 
 <ApplicationLayout
@@ -130,6 +180,7 @@ const jsonLd = [
     { id: "parts-quote-request", label: "Request Parts Quote" },
     { id: "unique-terms", label: "Unique Terms Specific to Disc Centrifuges" },
     { id: "summary", label: "Summary" },
+    { id: "faq", label: "Questions and Answers" },
   ]}
   relatedApplications={[
     { label: "Waste Oil Centrifuge", href: "/waste-oil-centrifuge/" },
@@ -1039,5 +1090,7 @@ const jsonLd = [
       Feel free to <a href="/contact-for-alfa-laval-centrifuges/" target="_blank" rel="noreferrer noopener">contact Dolphin Centrifuge</a> if you have questions or need some application consulting. You can also reach us by calling (248) 522-2573.
     </p>
   </section>
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
