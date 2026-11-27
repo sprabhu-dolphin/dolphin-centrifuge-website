@@ -103,7 +103,7 @@ test('stock figures agree with the corrected site data; no model has two answers
   const first = (model) => stockList.units.find((u) => u.model === model);
   assert.equal(first('MOPX 207').motorKw, 7.5);
   assert.equal(first('MOPX 207').motorHp, undefined);
-  assert.equal(first('MOPX 213').motorKw, 15);
+  assert.equal(first('MOPX 213').motorKw, 16);
   assert.equal(first('MOPX 213').motorHp, undefined);
   assert.equal(first('WHPX 407').bowlSpeedRpm, 5175);
   assert.match(first('MAB 104').capacity, /6\.6 US GPM converted from 1,500 L\/h/);

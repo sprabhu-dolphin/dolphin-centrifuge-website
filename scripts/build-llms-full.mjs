@@ -27,7 +27,6 @@ const PAGES = [
   '/alfa-laval-centrifuge-parts/',
   '/disc-stack-centrifuge/',
   '/decanter-centrifuge/',
-  '/decanter-centrifuge-differential-speed/',
   '/difference-between-decanter-centrifuge-disc-centrifuge/',
   '/industrial-centrifuges-faq/',
   '/contact-for-alfa-laval-centrifuges/',
