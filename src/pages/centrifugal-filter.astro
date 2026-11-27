@@ -1,5 +1,6 @@
 ---
 import ApplicationLayout from '../layouts/ApplicationLayout.astro';
+import FAQ from '../components/FAQ.astro';
 import { gpmOn } from '../data/specLookup';
 
 
@@ -45,7 +46,7 @@ const articleJsonLd = {
     }
   },
   "datePublished": "2020-12-01",
-  "dateModified": "2026-05-13",
+  "dateModified": "2026-11-27",
   "mainEntityOfPage": { "@id": "https://dolphincentrifuge.com/centrifugal-filter/#webpage" },
   "publisher": { "@type": "Organization", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "url": "https://dolphincentrifuge.com/centrifugal-filter/"
@@ -60,10 +61,67 @@ const webPageJsonLd = {
   "description": "A centrifugal filter separates a range of particles based on their density, whereas a conventional filter separates particles based on their size.",
   "isPartOf": { "@type": "WebSite", "name": "Dolphin Centrifuge", "url": "https://dolphincentrifuge.com" },
   "about": { "@type": "Thing", "name": "Centrifugal Filter" },
-  "dateModified": "2026-05-13"
+  "dateModified": "2026-11-27"
 };
 
-const jsonLd = [articleJsonLd, webPageJsonLd];
+// Questions and answers. The answers are Sanjay's own sentences, word for word, from this page (checked
+// against the old WordPress copies). The visible list and the FAQPage data come from this one array.
+const faqItems = [
+  {
+    question: "What is centrifugal filtration?",
+    answer: "The process of using centrifugal force to separate solids from liquids is called centrifugal filtration."
+  },
+  {
+    question: "How is a centrifugal filter different from a conventional filter?",
+    answer: "A centrifugal filter separates a range of particles based on their density, whereas a conventional filter separates particles based on their size."
+  },
+  {
+    question: "How does a centrifugal filter work?",
+    answer: "A centrifuge filter works on the principle of differential settling of immiscible phases, i.e., solids and liquids settling at different rates based on their respective densities. The denser or heavier phase settles out quicker than the lighter phase under the high centrifugal force. Thus the two phases are separated or filtered."
+  },
+  {
+    question: "What is a sedimentation-type centrifugal filter?",
+    answer: "A separation device that uses centrifugal force to cause separation is known as a sedimentation-type centrifugal filter. This type of separation uses differential settling of solids and liquids that are based on their densities. The centrifugal force causes the heavier solids to collect on the rotating bowl wall while the lighter liquid flows away from the solids through a liquid outlet in the centrifuge bowl. Since this centrifugal filter separates and discharges solids and liquids continuously, it is considered a flow-through type separation."
+  },
+  {
+    question: "Does a centrifugal filter slow down as it fills with solids?",
+    answer: "The solid particles collecting on the surface of filter media block the passage of fluids over time. This accumulation of sediment reduces the flow passing through the filter. The separated particles collect in a separate sludge space in centrifugal filters without causing any impediment to the fluid flow."
+  },
+  {
+    question: "Will a centrifugal filter take water out of oil as well as solids?",
+    answer: "A centrifugal filter separates both water and solids from the oil by using the principle of differential settling. This water separation occurs concurrently with solids removal. Conventional filters only separate the solids but not the water that passes through the filter and the oil."
+  },
+  {
+    question: "How small a particle does a centrifugal filter remove?",
+    answer: "A centrifugal filter separates all the particles from 0.5-micron size to over 200 microns, depending on the density of the particles."
+  },
+  {
+    question: "Is a centrifugal filter an absolute separation device?",
+    answer: "Centrifugal filters are mechanical separation devices that use centrifugal force to affect the separation of particles. The actual separation depends on certain operating factors such as flow rate, fluid temperature, particle size, density, etc. Therefore, a centrifugal filter is not an absolute separation device, and particles can pass through the device."
+  },
+  {
+    question: "What does a centrifugal filter need to run?",
+    answer: "Electric power, water, and compressed air are the typical utilities needed by a centrifugal filter. In comparison, a conventional filter does not require any of these utilities to function."
+  },
+  {
+    question: "Does a centrifugal filter need an operator?",
+    answer: "Though most centrifugal filters operate automatically, an operator is essential to oversee the operation."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://dolphincentrifuge.com/centrifugal-filter/#faq",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+  }))
+};
+
+
+const jsonLd = [articleJsonLd, webPageJsonLd, faqSchema];
 
 const toc = [
   { id: 'what-is', label: 'What is a centrifuge or centrifugal filter?' },
@@ -72,6 +130,7 @@ const toc = [
   { id: 'comparison', label: 'Media vs. Centrifugal Filtration' },
   { id: 'advantages-disadvantages', label: 'Advantages and Disadvantages' },
   { id: 'applications', label: 'Applications' },
+  { id: 'faq', label: 'Questions and Answers' },
 ];
 
 const relatedApplications = [
@@ -308,5 +367,7 @@ const relatedProducts = [
 
 
 
+
+  <FAQ items={faqItems} heading="Questions and Answers" />
 
 </ApplicationLayout>
