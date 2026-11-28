@@ -143,7 +143,7 @@ export const STOCK_STATUSES = ['in stock', 'built to order', 'reserved'];
 
 /** Owner ruling 2026-11-20: a remanufactured-to-order row is never presented as sitting in stock. */
 export const BUILT_TO_ORDER_STATEMENT = 'Remanufactured to order after sale, not a ready-built unit';
-export const BUILT_TO_ORDER_DETAIL = 'A used unit Dolphin remanufactures after an order. Remanufactured to order after sale, not a ready-built unit. Lead time 4 to 8 weeks for small machines, 12 to 20 weeks for larger ones.';
+export const BUILT_TO_ORDER_DETAIL = 'A used unit Dolphin remanufactures after an order. Remanufactured to order after sale, not a ready-built unit. A bare reconditioned centrifuge of the very small sizes, such as the MAB 103 or MAB 104, takes 4 to 8 weeks. A module involves fabrication, painting, controls and pumps, so a module takes 8 weeks and over. A self-cleaning module such as the DMPX-014 takes 12 to 20 weeks.';
 export const READY_BUILT_STATEMENT = 'Ready-built: already remanufactured, or new old stock and unused.';
 export const SHEET_DATE_NOTE = `Sheet date ${INVENTORY_LIST_DATE} is the date of Dolphin's written inventory sheet, not a confirmation date. Availability is confirmed per quote.`;
 
